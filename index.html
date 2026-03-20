@@ -1134,6 +1134,10 @@ h1, h2, h3, h4,
 .hm-lang-btn:hover{border-color:rgba(214,169,78,0.4);color:var(--gold);}
 .hm-lang-btn.active{border-color:var(--gold);color:var(--gold);background:rgba(214,169,78,0.08);}
 </style>
+  <style>
+    body { visibility:hidden; }
+    #ageGate { visibility:visible; position:fixed;inset:0;z-index:99999;background:#0a0805;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px; }
+  </style>
 </head>
 <body>
 
@@ -1492,7 +1496,7 @@ h1, h2, h3, h4,
       <button class="mc-item" onclick="navTo('landing','landing-models-anchor');toggleMenu();">
         <div class="mc-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke="rgba(214,169,78,0.5)" stroke-width="1.5"/><polyline points="9 22 9 12 15 12 15 22" stroke="rgba(214,169,78,0.5)" stroke-width="1.5"/></svg></div>
         <div class="mc-text">
-          <span class="mc-eye">· Accéder aux Lives</span>
+          <span class="mc-eye">· Join the Lives</span>
           <span class="mc-label">La Galerie</span>
         </div>
         <svg class="mc-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1573,7 +1577,7 @@ h1, h2, h3, h4,
         <div class="mc-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="rgba(214,169,78,0.5)" stroke-width="1.5"/><path d="M12 8v4m0 4h.01" stroke="rgba(214,169,78,0.5)" stroke-width="1.5" stroke-linecap="round"/></svg></div>
         <div class="mc-text">
           <span class="mc-eye">· L'Agence</span>
-          <span class="mc-label">Qui sommes-nous</span>
+          <span class="mc-label">About us</span>
         </div>
         <svg class="mc-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
@@ -1612,14 +1616,6 @@ h1, h2, h3, h4,
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
           <button onclick="hmSetLang('fr')" class="hm-lang-btn" data-lang="fr">🇫🇷 Français</button>
           <button onclick="hmSetLang('en')" class="hm-lang-btn" data-lang="en">🇬🇧 English</button>
-          <button onclick="hmSetLang('es')" class="hm-lang-btn" data-lang="es">🇪🇸 Español</button>
-          <button onclick="hmSetLang('pt')" class="hm-lang-btn" data-lang="pt">🇧🇷 Português</button>
-          <button onclick="hmSetLang('it')" class="hm-lang-btn" data-lang="it">🇮🇹 Italiano</button>
-          <button onclick="hmSetLang('ru')" class="hm-lang-btn" data-lang="ru">🇷🇺 Русский</button>
-          <button onclick="hmSetLang('zh')" class="hm-lang-btn" data-lang="zh">🇨🇳 中文</button>
-          <button onclick="hmSetLang('ja')" class="hm-lang-btn" data-lang="ja">🇯🇵 日本語</button>
-          <button onclick="hmSetLang('ln')" class="hm-lang-btn" data-lang="ln">🇨🇩 Lingála</button>
-          <button onclick="hmSetLang('sw')" class="hm-lang-btn" data-lang="sw">🌍 Kiswahili</button>
         </div>
       </div>
 
@@ -1690,8 +1686,8 @@ h1, h2, h3, h4,
           <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" stroke="currentColor" stroke-width="1.4"/>
           <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
         </svg>
-        Abonnement
-        <span class="qb-sub">· par créatrice</span>
+        Subscription
+        <span class="qb-sub">· per creator</span>
       </button>
 
       <!-- 5. CARTE INVITATION -->
@@ -1709,7 +1705,7 @@ h1, h2, h3, h4,
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;opacity:0.7;">
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
         </svg>
-        Luna · Cercle Privé
+        Luna · Private Circle
       </a>
 
       <!-- 7. SOUTENIR -->
@@ -1718,12 +1714,6 @@ h1, h2, h3, h4,
           <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
         </svg>
         Soutenir
-      </button>
-
-      <!-- 8. COULEURS -->
-      <button class="qb-btn" onclick="toggleThemePicker()" style="border-right:none;">
-        <div class="qb-wheel"></div>
-        Couleurs
       </button>
 
       <!-- 9. LANGUE -->
@@ -1744,14 +1734,6 @@ h1, h2, h3, h4,
   <div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:480px;margin:0 auto;">
     <button onclick="hmSetLang('fr');toggleQbLangPicker();" class="hm-lang-btn" data-lang="fr" style="flex:0 0 auto;width:auto;padding:7px 14px;">🇫🇷 Français</button>
     <button onclick="hmSetLang('en');toggleQbLangPicker();" class="hm-lang-btn" data-lang="en" style="flex:0 0 auto;width:auto;padding:7px 14px;">🇬🇧 English</button>
-    <button onclick="hmSetLang('es');toggleQbLangPicker();" class="hm-lang-btn" data-lang="es" style="flex:0 0 auto;width:auto;padding:7px 14px;">🇪🇸 Español</button>
-    <button onclick="hmSetLang('pt');toggleQbLangPicker();" class="hm-lang-btn" data-lang="pt" style="flex:0 0 auto;width:auto;padding:7px 14px;">🇧🇷 Português</button>
-    <button onclick="hmSetLang('it');toggleQbLangPicker();" class="hm-lang-btn" data-lang="it" style="flex:0 0 auto;width:auto;padding:7px 14px;">🇮🇹 Italiano</button>
-    <button onclick="hmSetLang('ru');toggleQbLangPicker();" class="hm-lang-btn" data-lang="ru" style="flex:0 0 auto;width:auto;padding:7px 14px;">🇷🇺 Русский</button>
-    <button onclick="hmSetLang('zh');toggleQbLangPicker();" class="hm-lang-btn" data-lang="zh" style="flex:0 0 auto;width:auto;padding:7px 14px;">🇨🇳 中文</button>
-    <button onclick="hmSetLang('ja');toggleQbLangPicker();" class="hm-lang-btn" data-lang="ja" style="flex:0 0 auto;width:auto;padding:7px 14px;">🇯🇵 日本語</button>
-    <button onclick="hmSetLang('ln');toggleQbLangPicker();" class="hm-lang-btn" data-lang="ln" style="flex:0 0 auto;width:auto;padding:7px 14px;">🇨🇩 Lingála</button>
-    <button onclick="hmSetLang('sw');toggleQbLangPicker();" class="hm-lang-btn" data-lang="sw" style="flex:0 0 auto;width:auto;padding:7px 14px;">🌍 Kiswahili</button>
   </div>
 </div>
 
@@ -1814,7 +1796,7 @@ h1, h2, h3, h4,
     max-width:520px;
     margin:24px auto 0;
   ">
-    Elle veut partager avec toi ses contenus intimes.<br>
+    She wants to share her intimate content with you.<br>
     <em style="color:#f2d270;">Abonne-toi — elle t'attend de l'autre côté.</em>
   </p>
 
@@ -2000,7 +1982,7 @@ h1, h2, h3, h4,
           <p style="font-size:11px;color:var(--muted);">Rejoins le canal privé — tu seras averti avant chaque live.</p>
         </div>
         <a href="https://t.me/TON_BOT_TELEGRAM" target="_blank" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 28px;width:100%;background:transparent;border:1px solid rgba(214,169,78,0.4);color:#d6a94e;font-size:9px;font-weight:600;letter-spacing:0.28em;text-transform:uppercase;text-decoration:none;font-family:'Montserrat',sans-serif;" onmouseover="this.style.background='rgba(214,169,78,0.08)'" onmouseout="this.style.background='transparent'">
-          Rejoindre le Canal →
+          Join the Channel →
         </a>
       </div>
 
@@ -2016,42 +1998,20 @@ h1, h2, h3, h4,
     <!-- NAV HORIZONTALE SLIDE -->
     <div style="border-top:1px solid rgba(214,169,78,0.12);border-bottom:1px solid rgba(214,169,78,0.08);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;">
       <div style="display:flex;gap:0;min-width:max-content;padding:0 var(--pad-x);">
-        <button onclick="showPage('about')" style="flex-shrink:0;padding:18px 28px;background:none;border:none;border-right:1px solid rgba(214,169,78,0.08);font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:color 0.25s;font-family:'Montserrat',sans-serif;white-space:nowrap;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">Qui sommes‑nous</button>
+        <button onclick="showPage('about')" style="flex-shrink:0;padding:18px 28px;background:none;border:none;border-right:1px solid rgba(214,169,78,0.08);font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:color 0.25s;font-family:'Montserrat',sans-serif;white-space:nowrap;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">About us</button>
         <button onclick="showPage('access')" style="flex-shrink:0;padding:18px 28px;background:none;border:none;border-right:1px solid rgba(214,169,78,0.08);font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:color 0.25s;font-family:'Montserrat',sans-serif;white-space:nowrap;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">Accès Officiel</button>
         <button onclick="showPage('invitation')" style="flex-shrink:0;padding:18px 28px;background:none;border:none;border-right:1px solid rgba(214,169,78,0.08);font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:color 0.25s;font-family:'Montserrat',sans-serif;white-space:nowrap;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">Carte d'Invitation</button>
         <button id="tip-bar-btn" onclick="openTipModal()" style="flex-shrink:0;padding:18px 28px;background:none;border:none;border-right:1px solid rgba(214,169,78,0.08);font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:all 0.25s;font-family:'Montserrat',sans-serif;white-space:nowrap;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">💛 Nous soutenir</button>
         <button onclick="showPage('contact')" style="flex-shrink:0;padding:18px 28px;background:none;border:none;border-right:1px solid rgba(214,169,78,0.08);font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:color 0.25s;font-family:'Montserrat',sans-serif;white-space:nowrap;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">Contact</button>
-        <button onclick="toggleThemePicker()" style="flex-shrink:0;padding:18px 28px;background:none;border:none;font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:color 0.25s;font-family:'Montserrat',sans-serif;white-space:nowrap;display:flex;align-items:center;gap:8px;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">
-          <span id="themeIconDisplay" style="width:16px;height:16px;border-radius:50%;background:conic-gradient(#ff0000,#ff8800,#ffff00,#00ff00,#0088ff,#8800ff,#ff0000);display:inline-block;box-shadow:0 0 6px rgba(214,169,78,0.4);flex-shrink:0;"></span>
-          Couleurs
-        </button>
-      </div>
-    </div>
 
-    <!-- SÉLECTEUR DE THÈME -->
-    <div id="themePicker" style="display:none;padding:24px var(--pad-x);border-bottom:1px solid rgba(214,169,78,0.08);background:#0d0b08;">
-      <p style="font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(214,169,78,0.4);margin-bottom:16px;text-align:center;">Personnaliser les couleurs</p>
-      <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:16px;">
-        <button onclick="applyTheme('gold')" class="theme-swatch" data-theme="gold" style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#d6a94e,#f2d270);border:2px solid rgba(214,169,78,0.6);cursor:pointer;transition:transform 0.2s;box-shadow:0 0 10px rgba(214,169,78,0.5);" title="Or — Défaut" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'"></button>
-        <button onclick="applyTheme('rose')" class="theme-swatch" data-theme="rose" style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#c9748a,#f0a0b5);border:2px solid rgba(201,116,138,0.5);cursor:pointer;transition:transform 0.2s;" title="Rose Poudré" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'"></button>
-        <button onclick="applyTheme('bordeaux')" class="theme-swatch" data-theme="bordeaux" style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#8b2635,#c4415a);border:2px solid rgba(139,38,53,0.5);cursor:pointer;transition:transform 0.2s;" title="Bordeaux" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'"></button>
-        <button onclick="applyTheme('bleu')" class="theme-swatch" data-theme="bleu" style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#2a5298,#4a90d9);border:2px solid rgba(42,82,152,0.5);cursor:pointer;transition:transform 0.2s;" title="Bleu Nuit" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'"></button>
-        <button onclick="applyTheme('vert')" class="theme-swatch" data-theme="vert" style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#1a6b4a,#2db87a);border:2px solid rgba(26,107,74,0.5);cursor:pointer;transition:transform 0.2s;" title="Émeraude" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'"></button>
-        <button onclick="applyTheme('argent')" class="theme-swatch" data-theme="argent" style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#8a8a9a,#c8c8d8);border:2px solid rgba(138,138,154,0.5);cursor:pointer;transition:transform 0.2s;" title="Argent" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'"></button>
-        <button onclick="applyTheme('violet')" class="theme-swatch" data-theme="violet" style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#6a2f8a,#b06ad4);border:2px solid rgba(106,47,138,0.5);cursor:pointer;transition:transform 0.2s;" title="Violet" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'"></button>
-        <button onclick="applyTheme('cuivre')" class="theme-swatch" data-theme="cuivre" style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#a05a2c,#e08040);border:2px solid rgba(160,90,44,0.5);cursor:pointer;transition:transform 0.2s;" title="Cuivre" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'"></button>
-        <label style="width:32px;height:32px;border-radius:50%;background:conic-gradient(#ff0000,#ff8800,#ffff00,#00ff00,#0088ff,#8800ff,#ff0088,#ff0000);border:2px solid rgba(255,255,255,0.2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;transition:transform 0.2s;overflow:hidden;" title="Couleur personnalisée" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'">
-          <input type="color" id="customColorPicker" value="#d6a94e" style="width:0;height:0;opacity:0;position:absolute;" onchange="applyCustomColor(this.value)">
-        </label>
       </div>
-      <p style="font-size:8px;letter-spacing:0.2em;text-align:center;color:rgba(214,169,78,0.2);">Cliquez sur la roue pour une couleur personnalisée</p>
     </div>
 
     <!-- FOOTER BAS -->
     <div style="padding:44px var(--pad-x) 28px;">
       <div class="footer-divider"></div>
       <div class="f-logo led-text" onclick="goHome()" style="margin-bottom:20px;">Honeymoon</div>
-      <p class="f-text">Agence digitale de contenu privé · +18 · Contenu légal · Créatrices majeures et consentantes</p>
+      <p class="f-text">Digital agency for private content · +18 · Legal content · Adult consenting creators</p>
       <p class="f-copy">© 2025 HONEYMOON · Portail d'affiliation · Ne stocke aucun contenu · +18</p>
     </div>
   </footer>
@@ -2176,7 +2136,7 @@ h1, h2, h3, h4,
                     <span style="position:absolute;right:-2px;top:-10px;font-size:8px;color:rgba(214,169,78,0.4);">20%</span>
                   </div>
                 </div>
-                <p style="font-size:8px;color:rgba(214,169,78,0.3);margin-top:8px;letter-spacing:0.05em;">🔒 Créatrice · 80% &nbsp;|&nbsp; Honeymoon · 20%</p>
+                <p style="font-size:8px;color:rgba(214,169,78,0.3);margin-top:8px;letter-spacing:0.05em;">🔒 Creator · 80% &nbsp;|&nbsp; Honeymoon · 20%</p>
               </div>
             </div>
           </div>
@@ -2245,7 +2205,7 @@ h1, h2, h3, h4,
       <a href="#" onclick="showPage('contact');return false;" style="font-size:var(--fs-xs);letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.3s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">Contact</a>
       <a href="#" onclick="showPage('legal');return false;" style="font-size:var(--fs-xs);letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);text-decoration:none;">Mentions légales</a>
     </div>
-    <p class="f-copy">© 2025 HONEYMOON · +18 · Contenu adulte légal et consenti</p>
+    <p class="f-copy">© 2025 HONEYMOON · +18 · Legal and consented adult content</p>
   </footer>
 </div>
 
@@ -2259,7 +2219,7 @@ h1, h2, h3, h4,
     <div class="hero-line" style="animation-delay:0s;"></div>
     <span class="hero-eye">Support · Partenariats · Recrutement Créatrices</span>
     <h1 class="hero-title">Nous <em>Contacter</em></h1>
-    <p style="font-size:var(--fs-xs);letter-spacing:0.3em;color:var(--muted);text-transform:uppercase;margin-top:16px;">L'agence répond sous 24h · Support Telegram · Recrutement ouvert</p>
+    <p style="font-size:var(--fs-xs);letter-spacing:0.3em;color:var(--muted);text-transform:uppercase;margin-top:16px;">The agency responds within 24h · Telegram Support · Open recruitment</p>
     <div style="display:flex;gap:12px;margin-top:36px;flex-wrap:wrap;justify-content:center;">
       <button class="btn-ghost" onclick="showPage('landing')" style="font-size:var(--fs-xs);">← Retour au cercle</button>
       <button class="btn-ghost" onclick="showPage('landing')" style="font-size:var(--fs-xs);">Accueil</button>
@@ -2285,11 +2245,11 @@ h1, h2, h3, h4,
       <span class="contact-card-icon">🎁</span>
       <span class="contact-card-label">Validation Parrainage</span>
       <div class="contact-card-title">Bonus <em style="font-style:italic;color:var(--gold-light)">Parrainage</em></div>
-      <p class="contact-card-desc">Vous avez parrainé un ami ? Envoyez-nous votre code parrainage + le pseudo de votre filleul via Telegram pour valider votre bonus contenu exclusif.</p>
+      <p class="contact-card-desc">Referred a friend? Send us your referral code + referral username via Telegram to validate your bonus.</p>
       <button class="btn-gold" onclick="openReferralModal()" style="font-size:var(--fs-xs);">
         Générer mon code →
       </button>
-      <div class="contact-card-note">Validation sous 24h après confirmation · 1 bonus par filleul actif</div>
+      <div class="contact-card-note">Validation within 24h · 1 bonus per active referral</div>
     </div>
 
     <!-- DEVENIR MODÈLE -->
@@ -2297,7 +2257,7 @@ h1, h2, h3, h4,
       <span class="contact-card-icon">💫</span>
       <span class="contact-card-label">Créatrices · Recrutement</span>
       <div class="contact-card-title">Rejoindre <em style="font-style:italic;color:var(--gold-light)">le Cercle</em></div>
-      <p class="contact-card-desc">Vous êtes créatrice de contenu et souhaitez rejoindre l'agence Honeymoon ? Présentez votre profil via Telegram. Toutes les candidatures sérieuses sont étudiées par notre équipe.</p>
+      <p class="contact-card-desc">Are you a content creator and want to join Honeymoon agency? Submit your profile via Telegram. Toutes les candidatures sérieuses sont étudiées par notre équipe.</p>
       <a href="#" onclick="this.href=CONFIG.TELEGRAM_SUPPORT;return true;" class="btn-ghost" style="font-size:var(--fs-xs);" target="_blank">
         Nous écrire →
       </a>
@@ -2309,7 +2269,7 @@ h1, h2, h3, h4,
       <span class="contact-card-icon">🔐</span>
       <span class="contact-card-label">Accès & Technique</span>
       <div class="contact-card-title">Problème <em style="font-style:italic;color:var(--gold-light)">d'accès</em></div>
-      <p class="contact-card-desc">Lien qui ne fonctionne pas, problème d'abonnement, accès bloqué ? Contactez notre support Telegram avec votre pseudo et une description du problème.</p>
+      <p class="contact-card-desc">Link not working, subscription issue, blocked access? Contact our Telegram support with your username and a description.</p>
       <a href="#" onclick="this.href=CONFIG.TELEGRAM_SUPPORT;return true;" class="btn-ghost" style="font-size:var(--fs-xs);" target="_blank">
         Support Technique →
       </a>
@@ -2371,7 +2331,7 @@ h1, h2, h3, h4,
         </ul>
       </div>
     </div>
-    <p class="f-copy">© 2025 HONEYMOON · Portail d'affiliation · Ne stocke aucun contenu · +18 · Tous droits réservés</p>
+    <p class="f-copy">© 2025 HONEYMOON · Affiliate portal · Stores no content · +18 · All rights reserved</p>
   </footer>
 </div>
 
@@ -2380,7 +2340,7 @@ h1, h2, h3, h4,
   <div class="modal-box">
     <button class="modal-close" onclick="closeReferralModal()">✕</button>
     <h2 class="modal-title led-text">Code <em>Parrainage</em></h2>
-    <p class="modal-sub">Générez votre code personnel et partagez-le. Quand votre filleul devient membre actif, vous recevez tous les deux un contenu bonus exclusif.</p>
+    <p class="modal-sub">Generate your personal code and share it. When your referral becomes an active member, you both receive exclusive bonus content.</p>
     <span class="modal-input-label">Votre pseudo Honeymoon</span>
     <input type="text" class="modal-input" id="referralInput" placeholder="ex: mon_pseudo" oninput="resetReferralResult()">
     <button class="btn-gold" onclick="generateCode()" style="width:100%;justify-content:center;margin-bottom:16px;">
@@ -2393,9 +2353,9 @@ h1, h2, h3, h4,
         <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
         Copier
       </button>
-      <p class="modal-result-note">Partagez ce code + le lien Honeymoon ensemble. Votre filleul doit entrer dans le cercle via notre lien officiel. Envoyez la confirmation à notre Telegram pour recevoir votre bonus.</p>
+      <p class="modal-result-note">Share this code + the Honeymoon link together. Your referral must join via our official link. Send confirmation to our Telegram to receive your bonus.</p>
     </div>
-    <p style="font-size:var(--fs-xs);line-height:1.8;color:rgba(122,106,85,0.5);margin-top:12px;">Bonus valable uniquement pour les inscriptions via le lien officiel Honeymoon. Toute inscription directe sur une plateforme ne sera pas comptabilisée.</p>
+    <p style="font-size:var(--fs-xs);line-height:1.8;color:rgba(122,106,85,0.5);margin-top:12px;">Bonus valid only for registrations via the official Honeymoon link. Toute inscription directe sur une plateforme ne sera pas comptabilisée.</p>
   </div>
 </div>
 
@@ -2403,7 +2363,7 @@ h1, h2, h3, h4,
 <div id="customChat">
   <div id="chatBubble">
     <p style="margin-bottom:10px;color:var(--cream);font-size:var(--fs-sm);">Une question ?</p>
-    <p style="font-size:var(--fs-xs);color:var(--muted);margin-bottom:14px;">Notre équipe vous guide vers le bon accès.</p>
+    <p style="font-size:var(--fs-xs);color:var(--muted);margin-bottom:14px;">Our team guides you to the right access.</p>
     <a href="#" id="chatCTALink" style="display:block;text-align:center;padding:10px 16px;background:var(--gold);color:var(--black);font-size:var(--fs-xs);letter-spacing:0.2em;text-transform:uppercase;font-weight:700;text-decoration:none;">
       Accès Officiel →
     </a>
@@ -3062,6 +3022,8 @@ function applyCustomColor(hex) {
 
 function toggleThemePicker() {
   const p = document.getElementById('themePicker');
+  const qbLang = document.getElementById('qbLangPicker');
+  if (qbLang && qbLang.style.display !== 'none') qbLang.style.display = 'none';
   p.style.display = p.style.display === 'none' ? 'block' : 'none';
 }
 
@@ -3122,7 +3084,7 @@ function closeTipModal() {
       <div style="width:32px;height:1px;background:var(--gold);margin:0 auto 24px;"></div>
 
       <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(16px,2.5vw,20px);font-style:italic;font-weight:300;color:var(--cream);line-height:1.7;margin-bottom:32px;">
-        Tu n'as pas encore de compte.<br>
+        You don't have an account yet.<br>
         <em style="color:var(--gold-light);">C'est par là que tout commence.</em>
       </p>
 
@@ -3146,7 +3108,7 @@ function closeTipModal() {
           <span style="font-family:'Cormorant Garamond',serif;font-size:22px;color:rgba(214,169,78,0.4);flex-shrink:0;width:24px;line-height:1;">3</span>
           <div>
             <p style="font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">Vis l'expérience</p>
-            <p style="font-size:12px;line-height:1.7;color:var(--muted);">Live, contenu exclusif, interaction directe. Tu es maintenant dans le cercle.</p>
+            <p style="font-size:12px;line-height:1.7;color:var(--muted);">Live, exclusive content, direct interaction. You are now in the circle.</p>
           </div>
         </div>
       </div>
@@ -3301,7 +3263,7 @@ function closeTipModal() {
           </div>
           <div>
             <p style="font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;font-weight:600;">Sélection Exclusive</p>
-            <p style="font-size:12px;line-height:1.8;color:var(--muted);">Nos créatrices ne sont pas choisies au hasard. Chaque profil est validé sur des critères d'authenticité, de présence et de qualité. Pas de masse — uniquement des connexions vraies.</p>
+            <p style="font-size:12px;line-height:1.8;color:var(--muted);" data-fr="Our creators are not chosen at random. Every profile is validated on authenticity, presence and quality. No mass — only real connections." data-en="Our creators are not chosen at random. Every profile is validated on authenticity, presence and quality. No mass — only real connections.">Our creators are not chosen at random. Every profile is validated on authenticity, presence and quality. No mass — only real connections.</p>
           </div>
         </div>
 
@@ -3311,7 +3273,7 @@ function closeTipModal() {
           </div>
           <div>
             <p style="font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;font-weight:600;">Paiement Sécurisé</p>
-            <p style="font-size:12px;line-height:1.8;color:var(--muted);">Chaque transaction est traitée via Stripchat — plateforme certifiée, cryptée, discrète. Aucune mention explicite sur vos relevés bancaires.</p>
+            <p style="font-size:12px;line-height:1.8;color:var(--muted);">Every transaction is processed via Stripchat — certified, encrypted, discreet. No explicit mention on your bank statements.</p>
           </div>
         </div>
 
@@ -3321,7 +3283,7 @@ function closeTipModal() {
           </div>
           <div>
             <p style="font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;font-weight:600;">Confidentialité Totale</p>
-            <p style="font-size:12px;line-height:1.8;color:var(--muted);">Portail privé. Votre identité reste protégée à chaque étape. Aucun contenu explicite n'est hébergé ici. Honeymoon est un espace de confiance.</p>
+            <p style="font-size:12px;line-height:1.8;color:var(--muted);">Private portal. Your identity remains protected at every step. No explicit content is hosted here. Honeymoon is a trusted space.</p>
           </div>
         </div>
 
@@ -3331,7 +3293,7 @@ function closeTipModal() {
           </div>
           <div>
             <p style="font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;font-weight:600;">Lives en Direct</p>
-            <p style="font-size:12px;line-height:1.8;color:var(--muted);">Accès direct aux chambres live de nos créatrices via Stripchat. Inscription gratuite — tu interagis en temps réel, directement avec elle.</p>
+            <p style="font-size:12px;line-height:1.8;color:var(--muted);">Direct access to our creators live rooms via Stripchat. Free registration — you interact in real time, directly with her.</p>
           </div>
         </div>
 
@@ -3345,7 +3307,7 @@ function closeTipModal() {
 </div>
 
 <!-- ═══════════════════════════════════════
-     PAGE QUI SOMMES-NOUS
+     PAGE ABOUT US
 ═══════════════════════════════════════ -->
 <div class="page" id="page-about">
   <section style="min-height:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px var(--pad-x) 40px;text-align:center;background:var(--black);position:relative;">
@@ -3355,7 +3317,7 @@ function closeTipModal() {
       <h1 style="font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:300;color:var(--cream);line-height:1.1;margin-bottom:24px;">Qui sommes<br><em style="font-style:italic;color:var(--gold-light)">nous</em></h1>
       <div style="width:40px;height:1px;background:var(--gold);margin:0 auto 40px;"></div>
       <p style="font-size:13px;line-height:2.1;color:var(--muted);margin-bottom:32px;">Honeymoon est une agence digitale de contenu privé. Nous sélectionnons des créatrices authentiques, talentueuses et passionnées pour offrir à nos membres une expérience unique — intime, sécurisée et exclusive.</p>
-      <p style="font-size:13px;line-height:2.1;color:var(--muted);margin-bottom:40px;">Notre mission : créer un espace de confiance où chaque connexion est vraie, chaque contenu est soigneusement produit, et chaque membre est traité avec respect et discrétion absolue.</p>
+      <p style="font-size:13px;line-height:2.1;color:var(--muted);margin-bottom:40px;">Our mission: to create a trusted space where every connection is real, every content is carefully produced, and every member is treated with absolute respect and discretion.</p>
       <div style="display:flex;gap:40px;justify-content:center;flex-wrap:wrap;margin-bottom:44px;">
         <div style="text-align:center;">
           <p style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--gold-light);">100%</p>
@@ -3381,7 +3343,7 @@ function closeTipModal() {
     <button onclick="closeTipModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:var(--muted);cursor:pointer;font-size:20px;">×</button>
     <span style="font-size:28px;display:block;margin-bottom:16px;">💛</span>
     <h3 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--cream);margin-bottom:12px;">Nous soutenir</h3>
-    <p style="font-size:12px;line-height:1.8;color:var(--muted);margin-bottom:28px;">Vous aimez Honeymoon ? Un pourboire libre nous aide à continuer à créer du contenu de qualité et à faire grandir notre communauté.</p>
+    <p style="font-size:12px;line-height:1.8;color:var(--muted);margin-bottom:28px;">Do you like Honeymoon? A free tip helps us continue creating quality content and grow our community.</p>
     <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:20px;">
       <a href="#" onclick="this.href=CONFIG.LIEN_STRIPCHAT;return true;" style="padding:12px 20px;border:1px solid rgba(214,169,78,0.3);color:var(--gold);font-size:11px;font-weight:600;text-decoration:none;transition:all 0.25s;font-family:'Montserrat',sans-serif;" onmouseover="this.style.background='rgba(214,169,78,0.1)'" onmouseout="this.style.background='transparent'">2€</a>
       <a href="#" onclick="this.href=CONFIG.LIEN_STRIPCHAT;return true;" style="padding:12px 20px;border:1px solid rgba(214,169,78,0.3);color:var(--gold);font-size:11px;font-weight:600;text-decoration:none;transition:all 0.25s;font-family:'Montserrat',sans-serif;" onmouseover="this.style.background='rgba(214,169,78,0.1)'" onmouseout="this.style.background='transparent'">5€</a>
@@ -3405,7 +3367,7 @@ function closeTipModal() {
       <div style="width:32px;height:1px;background:var(--gold);margin:0 auto 28px;"></div>
 
       <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(15px,2.2vw,19px);font-style:italic;font-weight:300;color:var(--cream);line-height:1.75;margin-bottom:32px;">
-        Pas encore prêt à t'abonner ?<br>
+        Not ready to subscribe yet?<br>
         <em style="color:var(--gold-light);">Un pourboire suffit pour lui montrer.</em>
       </p>
 
@@ -3987,7 +3949,7 @@ function closeTipModal() {
         <p style="font-size:12px;line-height:1.8;color:var(--muted);margin-bottom:18px;">Envoyez votre code + le pseudo de votre filleul à notre support pour valider votre bonus.</p>
         <a href="#" onclick="this.href=CONFIG.TELEGRAM_SUPPORT;return true;" class="btn-ghost" style="font-size:10px;padding:12px 32px;display:inline-block;text-decoration:none;" target="_blank">Valider sur Telegram →</a>
       </div>
-      <p style="font-size:8px;letter-spacing:0.12em;color:rgba(214,169,78,0.18);line-height:1.9;margin-bottom:26px;">1 contenu bonus par parrainage validé &middot; Inscription via lien officiel obligatoire &middot; Non cumulable &middot; Usage personnel</p>
+      <p style="font-size:8px;letter-spacing:0.12em;color:rgba(214,169,78,0.18);line-height:1.9;margin-bottom:26px;">1 bonus content per validated referral &middot; Registration via official link required &middot; Non-cumulative &middot; Personal use</p>
       <button onclick="goHome()" style="background:none;border:none;cursor:pointer;font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--muted);font-family:'Montserrat',sans-serif;transition:color 0.25s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">← Retour à l'accueil</button>
     </div>
   </section>
@@ -4550,15 +4512,15 @@ document.addEventListener('DOMContentLoaded', function(){
   <div class="amb-hero">
     <span style="font-size:9px;letter-spacing:0.55em;text-transform:uppercase;color:rgba(214,169,78,0.4);display:block;margin-bottom:14px;">· Le Cercle ·</span>
     <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(32px,6vw,52px);font-weight:300;color:var(--cream);line-height:1.05;margin-bottom:16px;">Nos <em style="font-style:italic;color:var(--gold-light)">Ambassadrices</em></h1>
-    <p style="font-size:12px;color:var(--muted);max-width:420px;margin:0 auto 28px;line-height:1.8;">Chaque ambassadrice a son univers. Explore les profils et entre dans leur monde.</p>
+    <p style="font-size:12px;color:var(--muted);max-width:420px;margin:0 auto 28px;line-height:1.8;">Each ambassadress has her own universe. Explore the profiles and enter their world.</p>
     <button onclick="showPage('inscription')" class="btn-gold" style="font-size:9px;letter-spacing:0.3em;">Devenir Ambassadrice →</button>
   </div>
 
   <div style="max-width:1080px;margin:0 auto;padding:24px var(--pad-x) 80px;">
     <div class="amb-grid" id="ambGrid">
       <div class="amb-empty" id="ambEmpty" style="grid-column:1/-1;">
-        <p style="font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--cream);margin-bottom:12px;">Aucune ambassadrice pour l'instant</p>
-        <p style="font-size:11px;color:var(--muted);margin-bottom:24px;">Sois la première à rejoindre le cercle.</p>
+        <p style="font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--cream);margin-bottom:12px;">No ambassadress yet</p>
+        <p style="font-size:11px;color:var(--muted);margin-bottom:24px;">Be the first to join the circle.</p>
         <button onclick="showPage('inscription')" class="btn-gold" style="font-size:9px;">Rejoindre →</button>
       </div>
     </div>
@@ -4571,7 +4533,7 @@ document.addEventListener('DOMContentLoaded', function(){
       <a href="#" onclick="showPage('legal');setTimeout(function(){document.getElementById('legal-cgu').scrollIntoView({behavior:'smooth'})},200);return false;" style="font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.25s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">CGU · +18</a>
       <a href="#" onclick="showPage('legal');setTimeout(function(){document.getElementById('legal-confidentialite').scrollIntoView({behavior:'smooth'})},200);return false;" style="font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.25s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">Confidentialité</a>
     </div>
-    <p class="f-copy">© 2025 HONEYMOON · Portail d'affiliation · Ne stocke aucun contenu · +18 · Tous droits réservés</p>
+    <p class="f-copy">© 2025 HONEYMOON · Affiliate portal · Stores no content · +18 · All rights reserved</p>
   </footer>
 </div>
 
@@ -4599,7 +4561,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
     <span style="font-size:9px;letter-spacing:0.55em;text-transform:uppercase;color:rgba(214,169,78,0.4);display:block;margin-bottom:14px;">· Rejoindre le Cercle ·</span>
     <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(28px,5vw,44px);font-weight:300;color:var(--cream);line-height:1.05;margin-bottom:10px;">Devenir <em style="font-style:italic;color:var(--gold-light)">Ambassadrice</em></h1>
-    <p style="font-size:11px;color:var(--muted);margin-bottom:36px;line-height:1.8;">Crée ton profil Honeymoon et partage ton lien personnel pour rediriger tes fans vers ta room.</p>
+    <p style="font-size:11px;color:var(--muted);margin-bottom:36px;line-height:1.8;">Create your Honeymoon profile and share your personal link to redirect your fans to your room.</p>
 
     <!-- FORMULAIRE -->
     <div id="inscriptionForm">
@@ -4663,7 +4625,7 @@ document.addEventListener('DOMContentLoaded', function(){
         <span class="ins-link-text" id="ins-generated-link"></span>
         <button class="ins-copy-btn" onclick="copyInsLink()">Copier</button>
       </div>
-      <p style="font-size:9px;color:rgba(214,169,78,0.3);margin-bottom:24px;">Partage ce lien avec tes fans pour qu'ils accèdent à ton profil Honeymoon.</p>
+      <p style="font-size:9px;color:rgba(214,169,78,0.3);margin-bottom:24px;">Share this link with your fans so they can access your Honeymoon profile.</p>
       <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
         <button onclick="voirMonProfil()" class="btn-gold" style="font-size:9px;">Voir mon profil →</button>
         <button onclick="showPage('ambassadrices')" style="background:none;border:1px solid rgba(214,169,78,0.3);color:var(--gold);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;padding:12px 24px;cursor:pointer;font-family:'Montserrat',sans-serif;">La Galerie</button>
@@ -4718,7 +4680,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
     <!-- Modifier profil -->
     <div style="border-top:1px solid rgba(214,169,78,0.08);padding-top:28px;text-align:center;">
-      <p style="font-size:10px;color:rgba(214,169,78,0.3);margin-bottom:12px;letter-spacing:0.1em;">Tu es <span id="profamb-pseudo-small"></span> ?</p>
+      <p style="font-size:10px;color:rgba(214,169,78,0.3);margin-bottom:12px;letter-spacing:0.1em;">Are you <span id="profamb-pseudo-small"></span>?</p>
       <button onclick="ouvrirEdition()" style="background:none;border:none;cursor:pointer;font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(214,169,78,0.35);font-family:'Montserrat',sans-serif;transition:color 0.25s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='rgba(214,169,78,0.35)'">Modifier mon profil →</button>
     </div>
   </div>
@@ -5050,7 +5012,7 @@ renderGalerie();
         <div style="position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);"></div>
         <p style="font-size:9px;letter-spacing:0.35em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Important · Nature du site</p>
         <p style="font-size:12px;line-height:1.9;color:var(--muted);">
-          <strong style="color:var(--cream);">HoneyMoon est un portail d'affiliation et non un hébergeur de contenu.</strong>
+          <strong style="color:var(--cream);">HoneyMoon is an affiliate portal and not a content host.</strong>
           Ce site ne stocke, n'héberge ni ne diffuse aucun live, aucune vidéo ni aucun contenu explicite.
           Il sert exclusivement de vitrine promotionnelle et d'interface de redirection vers des plateformes partenaires tierces
           (Stripchat, Chaturbate, BongaCams). Tout contenu audiovisuel est hébergé et modéré exclusivement par ces plateformes,
@@ -5153,7 +5115,7 @@ renderGalerie();
           <div>
             <p style="font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">Nature du service</p>
             <p style="font-size:12px;line-height:1.9;color:var(--muted);">
-              HoneyMoon <strong style="color:var(--cream);">ne produit, n'héberge et ne diffuse aucun contenu à caractère sexuel explicite.</strong>
+              HoneyMoon <strong style="color:var(--cream);">does not produce, host or distribute any explicit sexual content.</strong>
               Ce site est exclusivement un portail d'orientation vers des plateformes tierces légalement opérantes.
               L'accès aux contenus des créatrices s'effectue sur lesdites plateformes, sous leur responsabilité éditoriale.
             </p>
@@ -5190,7 +5152,7 @@ renderGalerie();
         <div style="background:rgba(214,169,78,0.06);border:1px solid rgba(214,169,78,0.3);padding:24px;position:relative;margin-bottom:20px;">
           <div style="position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);"></div>
           <p style="font-size:12px;line-height:2;color:var(--muted);">
-            <strong style="color:var(--cream);font-size:14px;">Ce site est strictement réservé aux personnes majeures (18 ans et plus).</strong><br><br>
+            <strong style="color:var(--cream);font-size:14px;">This site is strictly reserved for adults (18 years and older).</strong><br><br>
             Il contient des liens vers des plateformes diffusant du contenu pour adultes à caractère érotique et sexuel.
             En accédant à ce portail, vous confirmez expressément :
           </p>
@@ -5210,7 +5172,7 @@ renderGalerie();
 
       <!-- Footer legal -->
       <div style="border-top:1px solid rgba(214,169,78,0.1);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
-        <p style="font-size:9px;letter-spacing:0.15em;color:rgba(184,164,132,0.35);">© 2025 HONEYMOON AGENCY · Tous droits réservés</p>
+        <p style="font-size:9px;letter-spacing:0.15em;color:rgba(184,164,132,0.35);">© 2025 HONEYMOON AGENCY · All rights reserved</p>
         <button onclick="goHome()" style="background:none;border:none;cursor:pointer;font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(214,169,78,0.35);font-family:'Montserrat',sans-serif;transition:color 0.25s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='rgba(214,169,78,0.35)'">← Retour à l'accueil</button>
       </div>
 
@@ -5221,7 +5183,7 @@ renderGalerie();
 <!-- ═══════════════════════════════════════════════════════════════
      BANDEAU 18+ — Affiché à chaque chargement (1 fois)
 ═══════════════════════════════════════════════════════════════ -->
-<div id="ageGate" style="position:fixed;inset:0;z-index:9999;background:rgba(10,8,5,0.97);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px;backdrop-filter:blur(4px);">
+<div id="ageGate" style="position:fixed;inset:0;z-index:9999;background:rgba(10,8,5,0.97);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px;">
   <div style="position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(214,169,78,0.08) 0%,transparent 70%);pointer-events:none;"></div>
   <div style="position:relative;z-index:1;max-width:420px;">
     <div style="width:64px;height:64px;border:1px solid rgba(214,169,78,0.4);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;">
@@ -5231,7 +5193,7 @@ renderGalerie();
     <h2 style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--cream);line-height:1.1;margin-bottom:16px;">Contenu réservé<br><em style="font-style:italic;color:var(--gold-light)">aux adultes</em></h2>
     <div style="width:32px;height:1px;background:var(--gold);margin:0 auto 20px;"></div>
     <p style="font-size:12px;line-height:1.9;color:var(--muted);margin-bottom:28px;">
-      Ce portail contient des liens vers des plateformes de divertissement pour adultes.<br>
+      This portal contains links to adult entertainment platforms.<br>
       <strong style="color:var(--cream);">Vous devez avoir 18 ans ou plus pour accéder à ce site.</strong>
     </p>
     <div style="display:flex;flex-direction:column;gap:10px;">
@@ -5246,10 +5208,11 @@ renderGalerie();
   </div>
 </div>
 <script>
-// ── BANDEAU ÂGE — affiché une seule fois par session ──
+// ── BANDEAU ÂGE ──
 (function(){
   try {
     if (sessionStorage.getItem('hm_age_ok') === '1') {
+      document.body.style.visibility = 'visible';
       var g = document.getElementById('ageGate');
       if (g) g.style.display = 'none';
     }
@@ -5257,6 +5220,7 @@ renderGalerie();
 })();
 function closeAgeGate() {
   try { sessionStorage.setItem('hm_age_ok', '1'); } catch(e) {}
+  document.body.style.visibility = 'visible';
   var g = document.getElementById('ageGate');
   if (g) {
     g.style.transition = 'opacity 0.5s ease';
@@ -5282,449 +5246,782 @@ function toggleMenuLang() {
 
 function toggleQbLangPicker() {
   var p = document.getElementById('qbLangPicker');
-  var t = document.getElementById('themePicker');
   if (!p) return;
-  if (t && t.style.display !== 'none') t.style.display = 'none';
   p.style.display = (p.style.display === 'none' ? 'block' : 'none');
 }
 
-// Dictionnaire complet — 9 langues
+// ══════════════════════════════════════════════════
+// SYSTÈME DE TRADUCTION — DICTIONNAIRE HARDCODÉ
+// ══════════════════════════════════════════════════
+
+var HM_CURRENT_LANG = 'fr';
+
 var HM_DICT = {
   fr: {
-    flag:'🇫🇷',
-    translations: {}  // langue de référence, pas de remplacement
+    flag:'🇫🇷', name:'Français',
+    t: {}
   },
   en: {
-    flag:'🇬🇧',
-    translations: {
+    flag:'🇬🇧', name:'English',
+    t: {
+      // Navigation
+      'HONEYMOON · Portail Adulte +18 — Cercle Privé': 'HONEYMOON · Adult Portal +18 — Private Circle',
+      'Accueil': 'Home',
+      'La Galerie': 'The Gallery',
+      'Le Chemin': 'The Path',
+      'Ambassadrices': 'Ambassadresses',
+      'Abonnement Premium': 'Premium Subscription',
+      "Carte d'Invitation": 'Invitation Card',
+      'Soutenir': 'Support',
+      'Accès Officiel': 'Official Access',
+      "L'Expérience": 'The Experience',
+      "· L'Agence": '· The Agency',
+      'Qui sommes-nous': 'About us',
+      '· Nous écrire': '· Write to us',
+      'Contact': 'Contact',
+      'Mentions légales': 'Legal notice',
+      'Choisir une langue': 'Choose a language',
+      'Choisir un thème': 'Choose a theme',
+      'Couleurs': 'Colors',
+      'Langue': 'Language',
+      '💛 Nous soutenir': '💛 Support us',
+      'Personnaliser les couleurs': 'Customize colors',
+      'Cliquez sur la roue pour une couleur personnalisée': 'Click the wheel for a custom color',
       // Hero
       'Cercle Privé · Sélection Exclusive': 'Private Circle · Exclusive Selection',
-      'Des créatrices d\'exception · Un accès unique': 'Exceptional creators · Unique access',
-      'Entrer dans le Cercle →': 'Enter the Circle →',
-      'Découvrir le Premium': 'Discover Premium',
-      '+18 · Contenu adulte · Sur inscription': '+18 · Adult content · By registration',
-      'Découvrir': 'Discover',
+      "Abonne-toi — elle t'attend de l'autre côté.": "Subscribe — she's waiting on the other side.",
       'Accès Officiel →': 'Official Access →',
+      '+18 · Contenu adulte · Créatrices majeures et consentantes': '+18 · Adult content · Adult consenting creators',
+      'Découvrir': 'Discover',
+      "L'une d'elles est faite pour toi.": 'One of them is made for you.',
+      'Entrer →': 'Enter →',
+      '· La Galerie ·': '· The Gallery ·',
+      '· Ton Chemin ·': '· Your Path ·',
+      'Populaire': 'Popular',
       // Sections
-      '· Pourquoi HoneyMoon': '· Why HoneyMoon',
-      'Un Cercle d\'Exception': 'A Circle of Excellence',
-      'Un accès privilégié à des créatrices soigneusement sélectionnées.': 'Privileged access to carefully selected creators.',
-      '· Mode d\'emploi': '· How it works',
+      '· Pourquoi Honeymoon': '· Why Honeymoon',
+      "Un Cercle d'Exception": 'A Circle of Excellence',
+      "Un accès privilégié à des créatrices soigneusement sélectionnées.": 'Privileged access to carefully selected creators.',
+      '· Comment ça marche': '· How it works',
       'Comment ça marche': 'How it works',
       'Quatre étapes simples pour rejoindre le cercle.': 'Four simple steps to join the circle.',
       '· Prêt à rejoindre ?': '· Ready to join?',
       'Rejoignez le Cercle': 'Join the Circle',
       'Voir les Ambassadrices →': 'See Ambassadresses →',
       'Accès Premium': 'Premium Access',
-      // Menu
-      '· Pourquoi Honeymoon': '· Why Honeymoon',
-      'L\'Expérience': 'The Experience',
-      '· L\'Agence': '· The Agency',
-      'Qui sommes-nous': 'About us',
-      '· Nous écrire': '· Write to us',
-      'Contact': 'Contact',
-      'Couleurs': 'Colors',
-      'Langue': 'Language',
-      'Mentions légales': 'Legal notice',
-      // Quick bar
-      'Accéder aux Lives': 'Join the Lives',
-      'Le Chemin': 'The Path',
-      'Ambassadrices': 'Ambassadresses',
-      'Soutenir': 'Support',
+      '· par créatrice': '· per creator',
+      '· 19€ / mois · par créatrice': '· €19 / month · per creator',
+      '· Ton Parcours · Offres': '· Your Journey · Offers',
+      '· Rejoindre le Cercle · Gratuit': '· Join the Circle · Free',
+      '· Parrainage · Bonus Exclusif': '· Referral · Exclusive Bonus',
+      '· Pourboire libre · Sans engagement': '· Free tip · No commitment',
+      '· Inscription gratuite · Comment ça marche': '· Free registration · How it works',
+      "Aperçu de l'offre": 'Offer preview',
+      "Aperçu de l'offre →": 'Offer preview →',
+      'Tu as choisi une créatrice.': 'You have chosen a creator.',
+      'Tu veux accéder à': 'You want to access',
+      'son contenu exclusif': 'her exclusive content',
+      '— photos, vidéos, audio — chaque mois.': '— photos, videos, audio — every month.',
+      'Un abonnement = une créatrice. Tu choisis elle, pas toutes. Résiliable à tout moment.': 'One subscription = one creator. You choose her, not all. Cancel anytime.',
+      'Tu veux la voir en live': 'You want to see her live',
+      'Entre dans sa chambre live.': 'Enter her live room.',
+      'Inscription gratuite': 'Free registration',
+      '— tokens de bienvenue offerts.': '— welcome tokens included.',
+      'Inscription gratuite · Tokens de bienvenue offerts · Aucune carte requise.': 'Free registration · Welcome tokens included · No card required.',
+      'Choisir ta Modèle →': 'Choose your Model →',
+      'Si elle est offline, tu peux consulter son programme dans son profil Stripchat.': 'If she is offline, you can check her schedule on her Stripchat profile.',
+      'Tu veux lui montrer ton appréciation': 'You want to show your appreciation',
+      'Un geste sincère.': 'A sincere gesture.',
+      'Pour': 'For',
+      'la créatrice que tu apprécies': 'the creator you appreciate',
+      '— ou pour soutenir Honeymoon directement.': '— or to support Honeymoon directly.',
+      "2€, 5€, 10€ ou libre. Pas d'engagement. Juste de la générosité.": '€2, €5, €10 or free. No commitment. Just generosity.',
+      'Une Créatrice': 'A Creator',
+      'Soutenir 💛': 'Support 💛',
+      'Tu veux faire partie du cercle': 'You want to be part of the circle',
+      "Tu connais quelqu'un qui mérite d'entrer.": 'You know someone who deserves to enter.',
+      "Invite-le dans le cercle.": 'Invite them into the circle.',
+      "Chaque parrainage validé t'offre un bonus exclusif. Tu grandis avec Honeymoon.": 'Every validated referral gives you an exclusive bonus. You grow with Honeymoon.',
+      'Obtenir ma Carte →': 'Get my Card →',
+      'Luna · Assistante du Cercle': 'Luna · Circle Assistant',
+      "Tu hésites encore ? Je suis là pour t'orienter.": "Still hesitating? I'm here to guide you.",
+      'Rejoins le canal privé — tu seras averti avant chaque live.': 'Join the private channel — you will be notified before each live.',
+      // Footer
+      '+18 · Contenu Adulte · Honeymoon © 2025  · ': '+18 · Adult Content · Honeymoon © 2025  · ',
+      'Digital agency for private content · +18 · Legal content · Adult consenting creators': 'Digital agency for private content · +18 · Legal content · Adult consenting creators',
+      "© 2025 HONEYMOON · Portail d'affiliation · Ne stocke aucun contenu · +18": "© 2025 HONEYMOON · Affiliate portal · Stores no content · +18",
+      '← Retour': '← Back',
+      // Profile
+      'Profil Exclusif · Honeymoon': 'Exclusive Profile · Honeymoon',
+      'Accès Officiel · Honeymoon': 'Official Access · Honeymoon',
+      'Lives & Shows': 'Lives & Shows',
+      'Via le bouton officiel ↓': 'Via the official button ↓',
+      'Contenu Exclusif': 'Exclusive Content',
+      'Abonnement Premium · 19€/mois': 'Premium Subscription · €19/month',
+      'Plateforme': 'Platform',
+      'Contact Privé': 'Private Contact',
+      'Via Telegram': 'Via Telegram',
+      'Accès Officiel · Lives & Tokens →': 'Official Access · Lives & Tokens →',
+      '⭐ Abonnement Premium — 19€/mois': '⭐ Premium Subscription — €19/month',
+      'Soutenir la créatrice': 'Support the creator',
+      'Offrir un pourboire': 'Give a tip',
+      'Comment envoyer un pourboire': 'How to send a tip',
+      'Choisissez un montant': 'Choose an amount',
+      'ci-dessous': 'below',
+      'Cliquez sur': 'Click on',
+      'Envoyer le pourboire': 'Send the tip',
+      '→ vous êtes redirigé vers la page de paiement sécurisé': '→ you are redirected to the secure payment page',
+      'Paiement sécurisé ·': 'Secure payment ·',
+      '80% remis à la créatrice': '80% given to the creator',
+      'directement': 'directly',
+      '🔒 Créatrice · 80%  |  Honeymoon · 20%': '🔒 Creator · 80%  |  Honeymoon · 20%',
+      "Un geste direct vers la créatrice, géré via l'agence. 80% lui revient. Choisissez un montant.": "A direct gesture to the creator, managed by the agency. 80% goes to her. Choose an amount.",
+      '💛 80% va directement à la créatrice · 20% soutient Honeymoon': '💛 80% goes directly to the creator · 20% supports Honeymoon',
+      'Retrouver sur': 'Find on',
+      'Aperçu Contenu': 'Content Preview',
+      'Contenu': 'Content',
+      'Exclusif': 'Exclusive',
+      "Aperçu limité. Cliquez sur une vignette pour accéder directement à la galerie complète sur sa plateforme.": 'Limited preview. Click on a thumbnail to access the full gallery on her platform.',
+      'Aperçu': 'Preview',
+      'Vidéo': 'Video',
+      'Show': 'Show',
+      'Audio': 'Audio',
+      'Story': 'Story',
+      'Photos': 'Photos',
+      "Cliquez sur n'importe quelle vignette pour accéder à sa galerie · Inscrivez-vous gratuitement sur sa plateforme et scrollez vers": "Click on any thumbnail to access her gallery · Register for free on her platform and scroll to",
+      'Médias': 'Media',
+      'pour tout voir.': 'to see everything.',
+      '← Tous les profils': '← All profiles',
+      '© 2025 HONEYMOON · +18 · Legal and consented adult content': '© 2025 HONEYMOON · +18 · Legal and consented adult content',
+      'Support · Partenariats · Recrutement Créatrices': 'Support · Partnerships · Creator Recruitment',
+      'Nous': 'Us',
+      'Contacter': 'Contact',
+      "The agency responds within 24h · Telegram Support · Open recruitment": 'The agency responds within 24h · Telegram Support · Open recruitment',
+      '← Retour au cercle': '← Back to the circle',
+      'Contact Principal': 'Main Contact',
+      'Support': 'Support',
+      'Réponse moyenne : moins de 2h · 7j/7': 'Average response: under 2h · 7 days/7',
+      'Validation Parrainage': 'Referral Validation',
+      'Bonus': 'Bonus',
+      'Parrainage': 'Referral',
+      'Referred a friend? Send us your referral code + referral username via Telegram to validate your bonus.': 'Have you referred a friend? Send us your referral code + referral username via Telegram to validate your exclusive content bonus.',
+      'Validation within 24h · 1 bonus per active referral': 'Validation within 24h after confirmation · 1 bonus per active referral',
+      'Créatrices · Recrutement': 'Creators · Recruitment',
+      'Rejoindre': 'Join',
+      'le Cercle': 'the Circle',
+      "Contrat clair · Accompagnement inclus · Revenus partagés · Visibilité assurée par l'agence": 'Clear contract · Full support · Shared revenue · Visibility guaranteed by the agency',
+      'Accès & Technique': 'Access & Technical',
+      'Problème': 'Issue',
+      "d'accès": 'with access',
+      "Link not working, subscription issue, blocked access? Contact our Telegram support with your username and a description.": "Link not working, subscription issue, blocked access? Contact our Telegram support with your username and a description of the problem.",
+      'Réponse prioritaire pour les membres actifs': 'Priority response for active members',
+      'FAQ': 'FAQ',
+      'Questions': 'Questions',
+      'fréquentes': 'frequently asked',
+      'Comment accéder au contenu des modèles ?': 'How to access the models content?',
+      "Est-ce que l'inscription est gratuite ?": 'Is registration free?',
+      'Comment fonctionne le parrainage ?': 'How does referral work?',
+      "Comment résilier l'abonnement Premium ?": 'How to cancel the Premium subscription?',
+      'En un clic depuis votre espace de paiement Stripe. Aucun engagement, aucune question posée. La résiliation prend effet immédiatement.': 'One click from your Stripe payment area. No commitment, no questions asked. Cancellation takes effect immediately.',
+      'Le contenu est-il sécurisé et discret ?': 'Is the content secure and discreet?',
+      'Comment contacter une modèle en privé ?': 'How to contact a model privately?',
+      'Via le lien Telegram affiché sur son profil, ou directement sur sa plateforme live. Le contact privé est géré par la créatrice elle-même.': 'Via the Telegram link shown on her profile, or directly on her live platform. Private contact is managed by the creator herself.',
+      'Navigation': 'Navigation',
+      'Premium': 'Premium',
+      'Légal': 'Legal',
+      'Confidentialité': 'Privacy',
+      'CGU · +18': 'Terms · +18',
+      "© 2025 HONEYMOON · Affiliate portal · Stores no content · +18 · All rights reserved": "© 2025 HONEYMOON · Affiliate portal · Stores no content · +18 · All rights reserved",
+      'Code': 'Code',
+      'Generate your personal code and share it. When your referral becomes an active member, you both receive exclusive bonus content.': 'Generate your personal code and share it. When your referral becomes an active member, you both receive exclusive bonus content.',
+      'Votre pseudo Honeymoon': 'Your Honeymoon username',
+      'Votre code parrainage': 'Your referral code',
+      'Bonus valid only for registrations via the official Honeymoon link. Toute inscription directe sur une plateforme ne sera pas comptabilisée.': 'Bonus valid only for registrations via the official Honeymoon link. Any direct registration on a platform will not be counted.',
+      'Une question ?': 'A question?',
+      'Our team guides you to the right access.': 'Our team guides you to the right access.',
+      '· Le Cercle ·': '· The Circle ·',
+      "C'est par là que tout commence.": 'This is where everything begins.',
+      'Crée ton compte via notre lien partenaire Stripchat. Rapide, sécurisé, sans engagement.': 'Create your account via our Stripchat partner link. Fast, secure, no commitment.',
+      'Choisis ta créatrice': 'Choose your creator',
+      "Reviens dans la Galerie Honeymoon. Chaque profil t'amène directement dans sa chambre.": 'Come back to the Honeymoon Gallery. Each profile takes you directly into her room.',
+      "Vis l'expérience": 'Live the experience',
+      'Live, exclusive content, direct interaction. You are now in the circle.': 'Live, exclusive content, direct interaction. You are now in the circle.',
+      'Créer mon compte gratuit →': 'Create my free account →',
+      '+18 · Gratuit · Confidentiel': '+18 · Free · Confidential',
+      'Accès': 'Access',
+      'Membre': 'Member',
+      'Comment ça fonctionne': 'How it works',
+      'Choisissez votre créatrice': 'Choose your creator',
+      'Parcourez la Galerie et cliquez sur le profil qui vous attire. Chaque abonnement est lié à': 'Browse the Gallery and click on the profile that attracts you. Each subscription is linked to',
+      'une créatrice unique': 'one unique creator',
+      'Paiement sécurisé — 19€/mois': 'Secure payment — €19/month',
+      'Vous êtes redirigé vers': 'You are redirected to',
+      '— paiement crypté, discret sur vos relevés. Résiliable à tout moment en un clic. Aucun engagement.': '— encrypted payment, discreet on your statements. Cancel anytime in one click. No commitment.',
+      'Accès au canal Telegram privé ✈️': 'Access to the private Telegram channel ✈️',
+      'Après confirmation du paiement, vous recevez le': 'After payment confirmation, you receive the',
+      "lien d'invitation Telegram privé": 'private Telegram invitation link',
+      'de votre créatrice. Vous rejoignez son canal exclusif — photos, vidéos, stories, behind the scenes.': 'from your creator. You join her exclusive channel — photos, videos, stories, behind the scenes.',
+      'Le lien Telegram est envoyé sous': 'The Telegram link is sent within',
+      'après validation du paiement. Conservez-le précieusement — il est personnel et non partageable.': 'after payment validation. Keep it carefully — it is personal and non-shareable.',
+      'Paiement': 'Payment',
+      'Accès exclusif': 'Exclusive access',
+      'par mois · par créatrice · résiliable à tout moment': 'per month · per creator · cancel anytime',
+      'Canal Telegram privé ·': 'Private Telegram channel ·',
+      'accès immédiat après paiement': 'immediate access after payment',
+      'Photos, vidéos, stories, audio ·': 'Photos, videos, stories, audio ·',
+      'mis à jour chaque mois': 'updated every month',
+      'Notification avant les lives ·': 'Notification before lives ·',
+      'accès prioritaire': 'priority access',
+      'Résiliation en 1 clic ·': 'Cancel in 1 click ·',
+      'aucun engagement': 'no commitment',
+      "Choisissez d'abord votre créatrice dans la Galerie, puis abonnez-vous depuis son profil.": 'First choose your creator in the Gallery, then subscribe from her profile.',
+      'Choisir ma Créatrice →': 'Choose my Creator →',
+      'Questions fréquentes': 'Frequently asked questions',
+      'Quand est-ce que je reçois le lien Telegram ?': 'When do I receive the Telegram link?',
+      'Sous 24h après la confirmation du paiement Stripe. Pour toute urgence, contactez le support Telegram.': 'Within 24h after Stripe payment confirmation. For any urgency, contact Telegram support.',
+      'Comment résilier ?': 'How to cancel?',
+      'Directement depuis votre espace Stripe (lien reçu par email). La résiliation prend effet immédiatement. Aucune question posée.': 'Directly from your Stripe area (link received by email). Cancellation takes effect immediately. No questions asked.',
+      "Puis-je m'abonner à plusieurs créatrices ?": 'Can I subscribe to multiple creators?',
+      "Oui. Chaque abonnement est indépendant et donne accès au canal Telegram d'une créatrice spécifique.": 'Yes. Each subscription is independent and gives access to one specific creator Telegram channel.',
+      "← Retour à l'accueil": '← Back to home',
+      "· L'Expérience ·": '· The Experience ·',
+      'Pourquoi': 'Why',
+      'Sélection Exclusive': 'Exclusive Selection',
+      'Paiement Sécurisé': 'Secure Payment',
+      'Every transaction is processed via Stripchat — certified, encrypted, discreet. No explicit mention on your bank statements.': 'Every transaction is processed via Stripchat — certified, encrypted, discreet platform. No explicit mention on your bank statements.',
+      'Confidentialité Totale': 'Total Confidentiality',
+      "Private portal. Your identity remains protected at every step. No explicit content is hosted here. Honeymoon is a trusted space.": "Private portal. Your identity remains protected at every step. No explicit content is hosted here. Honeymoon is a trusted space.",
+      'Lives en Direct': 'Live Streams',
+      'Direct access to our creators live rooms via Stripchat. Free registration — you interact in real time, directly with her.': 'Direct access to our creators live rooms via Stripchat. Free registration — you interact in real time, directly with her.',
+      'Accéder aux Lives →': 'Join the Lives →',
+      "L'Agence": 'The Agency',
+      'Qui sommes': 'Who are',
+      'nous': 'we',
+      'Légal & Sécurisé': 'Legal & Secure',
+      'Uniquement': 'Only',
+      'Nous soutenir': 'Support us',
+      'Do you like Honeymoon? A free tip helps us continue creating quality content and grow our community.': 'Do you like Honeymoon? A free tip helps us continue creating quality content and grow our community.',
+      'Libre': 'Free amount',
+      'Merci pour votre soutien 💛': 'Thank you for your support 💛',
+      '· Soutenir ·': '· Support ·',
+      'Un geste': 'A gesture',
+      'sincère': 'sincere',
+      'Un pourboire suffit pour lui montrer.': 'A tip is enough to show her.',
+      'Pour une Créatrice': 'For a Creator',
+      "Tu l'apprécies. Dis-lui avec un geste. Directement sur son profil Stripchat via notre lien.": "You appreciate her. Tell her with a gesture. Directly on her Stripchat profile via our link.",
+      'Pour Honeymoon': 'For Honeymoon',
+      "Tu aimes le cercle. Tu veux qu'il grandisse. Ton soutien nous aide à sélectionner de nouvelles créatrices.": "You love the circle. You want it to grow. Your support helps us select new creators.",
+      'Montant libre — Honeymoon': 'Free amount — Honeymoon',
+      'Merci. Chaque geste compte.': 'Thank you. Every gesture counts.',
+      'Aperçu Exclusif': 'Exclusive Preview',
+      'Entrez dans': 'Enter',
+      'sa chambre': 'her room',
+      'Touchez pour découvrir': 'Tap to discover',
+      'Photo à venir': 'Photo coming soon',
+      'Créatrice · Honeymoon': 'Creator · Honeymoon',
+      '← Galerie': '← Gallery',
+      'Accéder à sa Chambre Live →': 'Enter her Live Room →',
+      'Inscription Gratuite →': 'Free Registration →',
+      'Comment rejoindre sa chambre live': 'How to join her live room',
+      'Clique sur': 'Click on',
+      'Accéder à sa Chambre Live': 'Enter her Live Room',
+      "— tu arrives sur notre espace Stripchat en marque blanche.": '— you land on our Stripchat white-label space.',
+      'Crée ton compte': 'Create your account',
+      'gratuitement en 30 secondes': 'for free in 30 seconds',
+      "— email uniquement, aucune carte bancaire à l'inscription.": '— email only, no credit card required.',
+      'Reçois tes': 'Receive your',
+      'tokens de bienvenue offerts': 'welcome tokens',
+      'et entre directement dans sa chambre.': 'and enter her room directly.',
+      'Achète des': 'Buy',
+      'tokens': 'tokens',
+      'pour interagir — messages privés, pourboires, shows exclusifs.': 'to interact — private messages, tips, exclusive shows.',
+      'Stripchat · Inscription 100% gratuite · Paiement sécurisé · Discret': 'Stripchat · 100% free registration · Secure payment · Discreet',
+      'À propos': 'About',
+      'Live ce soir': 'Live tonight',
+      'Vidéos': 'Videos',
+      'Stories': 'Stories',
+      'Contenu réservé aux membres abonnés': 'Content reserved for subscribed members',
+      "S'abonner — 19€/mois · Accès Telegram →": 'Subscribe — €19/month · Telegram Access →',
+      'Un geste pour montrer votre appréciation': 'A gesture to show your appreciation',
+      'Message': 'Message',
+      'Si je suis hors ligne, tu peux consulter mes horaires de live indiqués sur mon profil et revenir me voir au prochain live.': 'If I am offline, you can check my live schedule on my profile and come back for the next live.',
+      'Rejoindre ma chambre live': 'Join my live room',
+      'Stripchat · Inscription 100% gratuite · Discret': 'Stripchat · 100% free registration · Discreet',
+      'Passionnée · Directe': 'Passionate · Direct',
+      'Chaturbate · Inscription 100% gratuite · Discret': 'Chaturbate · 100% free registration · Discreet',
+      'Naturelle · Authentique': 'Natural · Authentic',
+      'BongaCams · Inscription 100% gratuite · Discret': 'BongaCams · 100% free registration · Discreet',
+      'Programme Exclusif': 'Exclusive Schedule',
+      "Carte d'": 'Invitation',
+      'Invitation': 'Card',
+      "Invitez un proche dans le cercle. Chaque invitation validée vous offre un contenu bonus exclusif de l'agence.": 'Invite someone close into the circle. Each validated invitation gives you an exclusive bonus content from the agency.',
+      'Programme actif': 'Active program',
+      'Votre Code Exclusif': 'Your Exclusive Code',
+      'Générer ma Carte →': 'Generate my Card →',
+      'Code unique · Valide 30 jours · Personnel': 'Unique code · Valid 30 days · Personal',
+      'Ce que vous obtenez': 'What you get',
+      'Pour Vous': 'For You',
+      "1 contenu exclusif offert — photo ou vidéo — de la créatrice de votre choix.": '1 exclusive content offered — photo or video — from the creator of your choice.',
+      'Pour votre Filleul': 'For your Referral',
+      'Un contenu de bienvenue offert dès sa première activation dans le cercle.': 'A welcome content offered upon their first activation in the circle.',
+      'Livraison Telegram': 'Telegram Delivery',
+      "Bonus livré via Telegram dans les 24h après validation de l'agence.": 'Bonus delivered via Telegram within 24h after agency validation.',
+      '4 étapes': '4 steps',
+      'simples': 'simple',
+      'Générez votre code': 'Generate your code',
+      'Cliquez sur le bouton ci-dessus. Entrez votre pseudo pour obtenir votre code unique.': 'Click the button above. Enter your username to get your unique code.',
+      'Partagez code + lien Honeymoon': 'Share code + Honeymoon link',
+      'Envoyez les deux à votre contact. Il doit utiliser votre code lors de son inscription.': 'Send both to your contact. They must use your code when registering.',
+      'Votre filleul rejoint le cercle': 'Your referral joins the circle',
+      "Il s'inscrit via notre lien officiel et active son accès Honeymoon.": 'They register via our official link and activate their Honeymoon access.',
+      'Confirmez via Telegram': 'Confirm via Telegram',
+      'Envoyez votre code + pseudo de votre filleul à notre support pour validation.': 'Send your code + your referral username to our support for validation.',
+      'Bonus livré dans les 24h': 'Bonus delivered within 24h',
+      'Après validation, vous recevez tous les deux votre contenu exclusif via Telegram.': 'After validation, you both receive your exclusive content via Telegram.',
+      'Parrainage déjà effectué ?': 'Already made a referral?',
+      'Envoyez votre code + le pseudo de votre filleul à notre support pour valider votre bonus.': "Send your code + your referral's username to our support to validate your bonus.",
+      'Valider sur Telegram →': 'Validate on Telegram →',
+      '1 contenu bonus par parrainage validé · Inscription via lien officiel obligatoire · Non cumulable · Usage personnel': '1 bonus content per validated referral · Registration via official link required · Non-cumulative · Personal use',
+      'Agence Digitale · +18 · Contenu Légal': 'Digital Agency · +18 · Legal Content',
+      'CGU': 'Terms',
+      'Audacieuse · Provocatrice': 'Bold · Provocative',
+      'Message Privé': 'Private Message',
+      "— message d'accroche à renseigner —": '— hook message to fill in —',
+      'Envoyer': 'Send',
+      'Indépendante · Libre': 'Independent · Free',
+      'Douce · Attentionnée': 'Gentle · Caring',
+      'Nos': 'Our',
+      'Each ambassadress has her own universe. Explore the profiles and enter their world.': 'Each ambassadress has her own universe. Explore the profiles and enter their world.',
+      'Devenir Ambassadrice →': 'Become an Ambassadress →',
+      "No ambassadress yet": 'No ambassadress yet',
+      'Be the first to join the circle.': 'Be the first to join the circle.',
+      'Rejoindre →': 'Join →',
+      '← Retour aux Ambassadrices': '← Back to Ambassadresses',
+      '· Rejoindre le Cercle ·': '· Join the Circle ·',
+      'Devenir': 'Become',
+      'Ambassadrice': 'Ambassadress',
+      'Create your Honeymoon profile and share your personal link to redirect your fans to your room.': 'Create your Honeymoon profile and share your personal link to redirect your fans to your room.',
+      'Pseudo *': 'Username *',
+      'Ton URL sera : honeymoon.com/?model=ton_pseudo': 'Your URL will be: honeymoon.com/?model=your_username',
+      'Photo de profil (URL) *': 'Profile photo (URL) *',
+      'Colle le lien direct vers ta photo (Instagram, Imgur, etc.)': 'Paste the direct link to your photo (Instagram, Imgur, etc.)',
+      'Bio *': 'Bio *',
+      'Lien de ta Room *': 'Your Room Link *',
+      'Stripchat, Fanvue, Mym, OnlyFans, etc.': 'Stripchat, Fanvue, Mym, OnlyFans, etc.',
+      'Réseaux sociaux (optionnel)': 'Social media (optional)',
+      'Twitter / X': 'Twitter / X',
+      'Créer mon Profil →': 'Create my Profile →',
+      '+18 · Contenu adulte · Inscription gratuite': '+18 · Adult content · Free registration',
+      'Bienvenue dans le Cercle': 'Welcome to the Circle',
+      'Ton profil est': 'Your profile is',
+      'en ligne !': 'online!',
+      'Voici ton lien personnel à partager sur Instagram, Telegram, Twitter…': 'Here is your personal link to share on Instagram, Telegram, Twitter…',
+      'Copier': 'Copy',
+      "Share this link with your fans so they can access your Honeymoon profile.": 'Share this link with your fans so they can access your Honeymoon profile.',
+      'Voir mon profil →': 'View my profile →',
+      'Ambassadrice · Honeymoon': 'Ambassadress · Honeymoon',
+      'Entrer dans sa Room →': 'Enter her Room →',
+      'Partager ce profil 🔗': 'Share this profile 🔗',
+      'Modifier mon profil →': 'Edit my profile →',
+      '← Retour à mon profil': '← Back to my profile',
+      '· Mon Profil ·': '· My Profile ·',
+      'Modifier mon': 'Edit my',
+      'profil': 'profile',
+      'Pseudo (identifiant unique)': 'Username (unique identifier)',
+      'Photo de profil (URL)': 'Profile photo (URL)',
+      'Bio': 'Bio',
+      'Lien de ta Room': 'Your Room Link',
+      'Sauvegarder →': 'Save →',
+      'Supprimer': 'Delete',
+      // Légal
+      'Informations Légales': 'Legal Information',
+      'Mentions': 'Legal',
+      'Légales': 'Notice',
+      '+18 · Accès adultes': '+18 · Adult access',
+      "HoneyMoon is an affiliate portal and not a content host.": 'HoneyMoon is an affiliate portal and not a content host.',
+      "1. Mentions": '1. Legal',
+      "Éditeur du site": 'Site editor',
+      'Hébergement': 'Hosting',
+      'Plateformes partenaires (affiliation)': 'Partner platforms (affiliation)',
+      'Propriété intellectuelle': 'Intellectual property',
+      "2. Politique de": '2. Privacy',
+      'Données collectées': 'Data collected',
+      'Stockage local (ambassadrices)': 'Local storage (ambassadresses)',
+      'Paiements (Stripe)': 'Payments (Stripe)',
+      'Droits RGPD': 'GDPR rights',
+      "3. Conditions Générales": '3. General Terms',
+      "d'Utilisation": 'of Use',
+      'Objet': 'Purpose',
+      'Nature du service': 'Nature of service',
+      "does not produce, host or distribute any explicit sexual content.": 'does not produce, host or distribute any explicit sexual content.',
+      'Abonnements et remboursements': 'Subscriptions and refunds',
+      'Responsabilité': 'Liability',
+      'Loi applicable': 'Applicable law',
+      '4. Contenu': '4. Content',
+      'Adulte · +18': 'Adult · +18',
+      'This site is strictly reserved for adults (18 years and older).': 'This site is strictly reserved for adults (18 years and older).',
+      "Avoir 18 ans ou plus (ou l'âge légal de majorité dans votre pays de résidence, si supérieur).": 'Be 18 years or older (or the legal age of majority in your country of residence, if higher).',
+      "Accéder à ce contenu de manière volontaire et sans contrainte.": 'Access this content voluntarily and without constraint.',
+      "Ne pas être soumis à une loi nationale interdisant l'accès à ce type de contenu.": 'Not be subject to a national law prohibiting access to this type of content.',
+      'Avoir pris connaissance et accepté les présentes CGU.': 'Have read and accepted these Terms of Use.',
+      '© 2025 HONEYMOON AGENCY · All rights reserved': '© 2025 HONEYMOON AGENCY · All rights reserved',
       // Age gate
       'Avertissement': 'Warning',
-      'J\'ai 18 ans ou plus — Entrer →': 'I am 18 or older — Enter →',
+      'Contenu réservé': 'Content reserved',
+      'aux adultes': 'for adults',
+      'Vous devez avoir 18 ans ou plus pour accéder à ce site.': 'You must be 18 years or older to access this site.',
+      "En entrant, vous acceptez nos CGU et confirmez être majeur.": 'By entering, you accept our Terms and confirm you are of legal age.',
+      "J'ai 18 ans ou plus — Entrer →": 'I am 18 or older — Enter →',
       'Je suis mineur — Quitter': 'I am a minor — Leave',
-      'En entrant, vous acceptez nos CGU et confirmez être majeur.': 'By entering, you accept our Terms and confirm you are of legal age.',
-      // Footer
-      'Agence digitale de contenu privé · +18 · Contenu légal · Créatrices majeures et consentantes': 'Digital agency for private content · +18 · Legal content · Adult consenting creators',
-      'Choisir une langue': 'Choose a language',
-      'Choisir un thème': 'Choose a theme',
+      // Boutons
+      "S'abonner — 19€/mois · Accès Telegram →": 'Subscribe — €19/month · Telegram Access →',
+      'Accéder aux Lives': 'Join the Lives',
+      'Teaser vidéo à insérer': 'Video teaser to insert',
+      'Teaser': 'Teaser',
+      // Textes longs page about
+      'Honeymoon est une agence digitale de contenu privé. Nous sélectionnons des créatrices authentiques, talentueuses et passionnées pour offrir à nos membres une expérience unique — intime, sécurisée et exclusive.': 'Honeymoon is a digital agency for private content. We select authentic, talented and passionate creators to offer our members a unique experience — intimate, secure and exclusive.',
+      'Our mission: to create a trusted space where every connection is real, every content is carefully produced, and every member is treated with absolute respect and discretion.': 'Our mission: to create a trusted space where every connection is real, every content is carefully produced, and every member is treated with absolute respect and discretion.',
+      'Nous ne sommes pas une simple plateforme. Nous sommes un cercle.': 'We are not just a platform. We are a circle.',
+      // Textes légaux
+      'Important · Nature du site': 'Important · Nature of the site',
+      "HoneyMoon is an affiliate portal and not a content host. Tout le contenu accessible via ce site est hébergé sur des plateformes tierces (Stripchat, Chaturbate, BongaCams). HoneyMoon agit en qualité d'apporteur d'affaires.": "HoneyMoon is an affiliate portal and not a content host. All content accessible via this site is hosted on third-party platforms (Stripchat, Chaturbate, BongaCams). HoneyMoon acts as a business referrer.",
+      // FAQ réponses
+      "Cliquez sur le profil d'une créatrice dans la Galerie, puis sur le bouton d'accès officiel. Vous serez redirigé vers sa plateforme live (Stripchat, Chaturbate ou BongaCams). L'inscription est gratuite.": "Click on a creator profile in the Gallery, then on the official access button. You will be redirected to her live platform (Stripchat, Chaturbate or BongaCams). Registration is free.",
+      "Oui. L'inscription sur les plateformes partenaires (Stripchat, Chaturbate, BongaCams) est totalement gratuite. Seul l'abonnement Premium Honeymoon (19€/mois) est payant, et uniquement si vous choisissez de vous abonner au canal Telegram privé d'une créatrice.": "Yes. Registration on partner platforms (Stripchat, Chaturbate, BongaCams) is completely free. Only the Honeymoon Premium subscription (€19/month) is paid, and only if you choose to subscribe to a creator's private Telegram channel.",
+      "Partagez votre lien ou code de parrainage avec un proche. Quand il s'inscrit via votre lien et devient membre actif, vous recevez tous les deux un contenu bonus exclusif via Telegram.": "Share your referral link or code with a friend. When they register via your link and become an active member, you both receive exclusive bonus content via Telegram.",
+      "Oui, votre activité sur les plateformes partenaires est totalement confidentielle. Aucun contenu explicite n'est hébergé sur honeymoon-agency.com. Les paiements Stripe apparaissent de manière discrète sur vos relevés.": "Yes, your activity on partner platforms is completely confidential. No explicit content is hosted on honeymoon-agency.com. Stripe payments appear discreetly on your statements.",
+      // Message automatique chambre modèle
+      'Merci pour ton message.': 'Thank you for your message.',
+      'Pour me rejoindre, utilise mon lien officiel ci-dessous et viens visiter ma chambre live.': 'To join me, use my official link below and come visit my live room.',
+      'Clique sur le bouton pour accéder directement à mon profil.': 'Click the button to access my profile directly.',
+      'Accéder à ma chambre →': 'Access my room →',
+      'Message': 'Message',
+      'Soutenir': 'Support',
+      'Un geste pour montrer votre appréciation': 'A gesture to show your appreciation',
+      'Libre': 'Free amount',
+      // Chat bulle
+      'Une question ?': 'A question?',
     }
   },
   es: {
-    flag:'🇪🇸',
-    translations: {
+    flag:'🇪🇸', name:'Español',
+    t: {
+      'Accueil': 'Inicio',
+      'La Galerie': 'La Galería',
+      'Le Chemin': 'El Camino',
+      'Ambassadrices': 'Embajadoras',
+      'Abonnement Premium': 'Suscripción Premium',
+      "Carte d'Invitation": 'Tarjeta de Invitación',
+      'Soutenir': 'Apoyar',
+      'Accès Officiel': 'Acceso Oficial',
+      "L'Expérience": 'La Experiencia',
+      "· L'Agence": '· La Agencia',
+      'Qui sommes-nous': 'Quiénes somos',
+      '· Nous écrire': '· Escríbenos',
+      'Contact': 'Contacto',
+      'Mentions légales': 'Aviso legal',
+      'Choisir une langue': 'Elegir idioma',
+      'Choisir un thème': 'Elegir tema',
+      'Couleurs': 'Colores',
+      'Langue': 'Idioma',
       'Cercle Privé · Sélection Exclusive': 'Círculo Privado · Selección Exclusiva',
-      'Entrer dans le Cercle →': 'Entrar al Círculo →',
-      'Découvrir le Premium': 'Descubrir Premium',
-      '+18 · Contenu adulte · Sur inscription': '+18 · Contenido adulto · Con registro',
-      'Découvrir': 'Descubrir',
+      "Abonne-toi — elle t'attend de l'autre côté.": 'Suscríbete — ella te espera al otro lado.',
       'Accès Officiel →': 'Acceso Oficial →',
-      '· Pourquoi HoneyMoon': '· Por qué HoneyMoon',
-      'Un Cercle d\'Exception': 'Un Círculo de Excepción',
-      '· Mode d\'emploi': '· Cómo funciona',
+      '+18 · Contenu adulte · Créatrices majeures et consentantes': '+18 · Contenido adulto · Creadoras mayores y consintientes',
+      'Découvrir': 'Descubrir',
+      "L'une d'elles est faite pour toi.": 'Una de ellas está hecha para ti.',
+      'Entrer →': 'Entrar →',
+      '· Pourquoi Honeymoon': '· Por qué Honeymoon',
+      "Un Cercle d'Exception": 'Un Círculo de Excepción',
+      '· Comment ça marche': '· Cómo funciona',
       'Comment ça marche': 'Cómo funciona',
       '· Prêt à rejoindre ?': '· ¿Listo para unirte?',
       'Rejoignez le Cercle': 'Únete al Círculo',
       'Voir les Ambassadrices →': 'Ver las Embajadoras →',
       'Accès Premium': 'Acceso Premium',
-      '· Pourquoi Honeymoon': '· Por qué Honeymoon',
-      'L\'Expérience': 'La Experiencia',
-      '· L\'Agence': '· La Agencia',
-      'Qui sommes-nous': 'Quiénes somos',
-      '· Nous écrire': '· Escríbenos',
-      'Couleurs': 'Colores',
-      'Langue': 'Idioma',
-      'Mentions légales': 'Aviso legal',
-      'Accéder aux Lives': 'Acceder a los Lives',
-      'Le Chemin': 'El Camino',
-      'Ambassadrices': 'Embajadoras',
-      'Soutenir': 'Apoyar',
+      'Populaire': 'Popular',
       'Avertissement': 'Advertencia',
-      'J\'ai 18 ans ou plus — Entrer →': 'Tengo 18 años o más — Entrar →',
+      "J'ai 18 ans ou plus — Entrer →": 'Tengo 18 años o más — Entrar →',
       'Je suis mineur — Quitter': 'Soy menor — Salir',
-      'En entrant, vous acceptez nos CGU et confirmez être majeur.': 'Al entrar, aceptas nuestros Términos y confirmas que eres mayor de edad.',
-      'Choisir une langue': 'Elegir idioma',
-      'Choisir un thème': 'Elegir tema',
+      'Contenu réservé aux membres abonnés': 'Contenido reservado para miembros suscritos',
+      'Accéder aux Lives': 'Acceder a los Lives',
     }
   },
   pt: {
-    flag:'🇧🇷',
-    translations: {
-      'Cercle Privé · Sélection Exclusive': 'Círculo Privado · Seleção Exclusiva',
-      'Entrer dans le Cercle →': 'Entrar no Círculo →',
-      'Découvrir le Premium': 'Descobrir o Premium',
-      '+18 · Contenu adulte · Sur inscription': '+18 · Conteúdo adulto · Com cadastro',
-      'Découvrir': 'Descobrir',
-      'Accès Officiel →': 'Acesso Oficial →',
-      '· Pourquoi HoneyMoon': '· Por que HoneyMoon',
-      'Un Cercle d\'Exception': 'Um Círculo de Exceção',
-      '· Mode d\'emploi': '· Como funciona',
-      'Comment ça marche': 'Como funciona',
-      '· Prêt à rejoindre ?': '· Pronto para entrar?',
-      'Rejoignez le Cercle': 'Entre no Círculo',
-      'Voir les Ambassadrices →': 'Ver as Embaixadoras →',
-      'Accès Premium': 'Acesso Premium',
-      'L\'Expérience': 'A Experiência',
-      '· L\'Agence': '· A Agência',
-      'Qui sommes-nous': 'Quem somos',
-      '· Nous écrire': '· Fale conosco',
-      'Couleurs': 'Cores',
-      'Langue': 'Idioma',
-      'Mentions légales': 'Aviso legal',
-      'Accéder aux Lives': 'Acessar as Lives',
+    flag:'🇧🇷', name:'Português',
+    t: {
+      'Accueil': 'Início',
+      'La Galerie': 'A Galeria',
       'Le Chemin': 'O Caminho',
       'Ambassadrices': 'Embaixadoras',
+      'Abonnement Premium': 'Assinatura Premium',
+      "Carte d'Invitation": 'Cartão de Convite',
       'Soutenir': 'Apoiar',
-      'Avertissement': 'Aviso',
-      'J\'ai 18 ans ou plus — Entrer →': 'Tenho 18 anos ou mais — Entrar →',
-      'Je suis mineur — Quitter': 'Sou menor — Sair',
-      'En entrant, vous acceptez nos CGU et confirmez être majeur.': 'Ao entrar, você aceita nossos Termos e confirma ser maior de idade.',
+      'Accès Officiel': 'Acesso Oficial',
+      "L'Expérience": 'A Experiência',
+      "· L'Agence": '· A Agência',
+      'Qui sommes-nous': 'Quem somos',
+      '· Nous écrire': '· Escreva-nos',
+      'Contact': 'Contato',
+      'Mentions légales': 'Aviso legal',
       'Choisir une langue': 'Escolher idioma',
       'Choisir un thème': 'Escolher tema',
+      'Couleurs': 'Cores',
+      'Langue': 'Idioma',
+      'Cercle Privé · Sélection Exclusive': 'Círculo Privado · Seleção Exclusiva',
+      "Abonne-toi — elle t'attend de l'autre côté.": 'Assine — ela está esperando do outro lado.',
+      'Accès Officiel →': 'Acesso Oficial →',
+      '+18 · Contenu adulte · Créatrices majeures et consentantes': '+18 · Conteúdo adulto · Criadoras adultas e consentidas',
+      'Découvrir': 'Descobrir',
+      "L'une d'elles est faite pour toi.": 'Uma delas foi feita para você.',
+      'Entrer →': 'Entrar →',
+      '· Pourquoi Honeymoon': '· Por que Honeymoon',
+      "Un Cercle d'Exception": 'Um Círculo de Exceção',
+      '· Comment ça marche': '· Como funciona',
+      'Comment ça marche': 'Como funciona',
+      '· Prêt à rejoindre ?': '· Pronto para entrar?',
+      'Rejoignez le Cercle': 'Junte-se ao Círculo',
+      'Voir les Ambassadrices →': 'Ver as Embaixadoras →',
+      'Accès Premium': 'Acesso Premium',
+      'Populaire': 'Popular',
+      'Avertissement': 'Aviso',
+      "J'ai 18 ans ou plus — Entrer →": 'Tenho 18 anos ou mais — Entrar →',
+      'Je suis mineur — Quitter': 'Sou menor — Sair',
+      'Contenu réservé aux membres abonnés': 'Conteúdo reservado para membros assinantes',
+      'Accéder aux Lives': 'Acessar as Lives',
     }
   },
   it: {
-    flag:'🇮🇹',
-    translations: {
-      'Cercle Privé · Sélection Exclusive': 'Cerchio Privato · Selezione Esclusiva',
-      'Entrer dans le Cercle →': 'Entra nel Cerchio →',
-      'Découvrir le Premium': 'Scopri il Premium',
-      '+18 · Contenu adulte · Sur inscription': '+18 · Contenuto adulto · Su registrazione',
-      'Découvrir': 'Scopri',
-      'Accès Officiel →': 'Accesso Ufficiale →',
-      '· Pourquoi HoneyMoon': '· Perché HoneyMoon',
-      'Un Cercle d\'Exception': 'Un Cerchio d\'Eccezione',
-      '· Mode d\'emploi': '· Come funziona',
-      'Comment ça marche': 'Come funziona',
-      '· Prêt à rejoindre ?': '· Pronto a unirti?',
-      'Rejoignez le Cercle': 'Unisciti al Cerchio',
-      'Voir les Ambassadrices →': 'Vedi le Ambasciatrici →',
-      'Accès Premium': 'Accesso Premium',
-      'L\'Expérience': 'L\'Esperienza',
-      '· L\'Agence': '· L\'Agenzia',
-      'Qui sommes-nous': 'Chi siamo',
-      '· Nous écrire': '· Scrivici',
-      'Couleurs': 'Colori',
-      'Langue': 'Lingua',
-      'Mentions légales': 'Note legali',
-      'Accéder aux Lives': 'Accedi ai Live',
+    flag:'🇮🇹', name:'Italiano',
+    t: {
+      'Accueil': 'Home',
+      'La Galerie': 'La Galleria',
       'Le Chemin': 'Il Percorso',
       'Ambassadrices': 'Ambasciatrici',
-      'Soutenir': 'Supporta',
-      'Avertissement': 'Avviso',
-      'J\'ai 18 ans ou plus — Entrer →': 'Ho 18 anni o più — Entra →',
-      'Je suis mineur — Quitter': 'Sono minorenne — Esci',
-      'En entrant, vous acceptez nos CGU et confirmez être majeur.': 'Entrando, accetti i nostri Termini e confermi di essere maggiorenne.',
+      'Abonnement Premium': 'Abbonamento Premium',
+      "Carte d'Invitation": 'Carta di Invito',
+      'Soutenir': 'Supportare',
+      'Accès Officiel': 'Accesso Ufficiale',
+      "L'Expérience": "L'Esperienza",
+      "· L'Agence": "· L'Agenzia",
+      'Qui sommes-nous': 'Chi siamo',
+      '· Nous écrire': '· Scrivici',
+      'Contact': 'Contatto',
+      'Mentions légales': 'Note legali',
       'Choisir une langue': 'Scegli lingua',
       'Choisir un thème': 'Scegli tema',
+      'Couleurs': 'Colori',
+      'Langue': 'Lingua',
+      'Cercle Privé · Sélection Exclusive': 'Cerchio Privato · Selezione Esclusiva',
+      "Abonne-toi — elle t'attend de l'autre côté.": "Abbonati — ti aspetta dall'altro lato.",
+      'Accès Officiel →': 'Accesso Ufficiale →',
+      'Découvrir': 'Scopri',
+      "L'une d'elles est faite pour toi.": 'Una di loro è fatta per te.',
+      'Entrer →': 'Entra →',
+      "Un Cercle d'Exception": 'Un Cerchio di Eccezione',
+      'Comment ça marche': 'Come funziona',
+      'Rejoignez le Cercle': 'Unisciti al Cerchio',
+      'Accès Premium': 'Accesso Premium',
+      'Populaire': 'Popolare',
+      'Avertissement': 'Avviso',
+      "J'ai 18 ans ou plus — Entrer →": 'Ho 18 anni o più — Entra →',
+      'Je suis mineur — Quitter': 'Sono minorenne — Esci',
+      'Accéder aux Lives': 'Accedi ai Live',
     }
   },
   ru: {
-    flag:'🇷🇺',
-    translations: {
-      'Cercle Privé · Sélection Exclusive': 'Частный Круг · Эксклюзивный Отбор',
-      'Entrer dans le Cercle →': 'Войти в Круг →',
-      'Découvrir le Premium': 'Узнать о Премиум',
-      '+18 · Contenu adulte · Sur inscription': '+18 · Контент 18+ · По регистрации',
-      'Découvrir': 'Открыть',
-      'Accès Officiel →': 'Официальный Доступ →',
-      '· Pourquoi HoneyMoon': '· Почему HoneyMoon',
-      'Un Cercle d\'Exception': 'Исключительный Круг',
-      '· Mode d\'emploi': '· Как это работает',
-      'Comment ça marche': 'Как это работает',
-      '· Prêt à rejoindre ?': '· Готовы вступить?',
-      'Rejoignez le Cercle': 'Вступите в Круг',
-      'Voir les Ambassadrices →': 'Посмотреть Амбассадоров →',
-      'Accès Premium': 'Премиум Доступ',
-      'L\'Expérience': 'Опыт',
-      '· L\'Agence': '· Агентство',
-      'Qui sommes-nous': 'О нас',
-      '· Nous écrire': '· Написать нам',
-      'Couleurs': 'Цвета',
-      'Langue': 'Язык',
-      'Mentions légales': 'Правовая информация',
-      'Accéder aux Lives': 'Смотреть Прямые',
+    flag:'🇷🇺', name:'Русский',
+    t: {
+      'Accueil': 'Главная',
+      'La Galerie': 'Галерея',
       'Le Chemin': 'Путь',
       'Ambassadrices': 'Амбассадоры',
+      'Abonnement Premium': 'Премиум подписка',
       'Soutenir': 'Поддержать',
-      'Avertissement': 'Предупреждение',
-      'J\'ai 18 ans ou plus — Entrer →': 'Мне 18+ — Войти →',
-      'Je suis mineur — Quitter': 'Я несовершеннолетний — Выйти',
-      'En entrant, vous acceptez nos CGU et confirmez être majeur.': 'Входя, вы принимаете Условия и подтверждаете совершеннолетие.',
+      'Accès Officiel': 'Официальный доступ',
+      'Contact': 'Контакт',
+      'Mentions légales': 'Правовая информация',
       'Choisir une langue': 'Выбрать язык',
       'Choisir un thème': 'Выбрать тему',
+      'Couleurs': 'Цвета',
+      'Langue': 'Язык',
+      'Cercle Privé · Sélection Exclusive': 'Частный круг · Эксклюзивный выбор',
+      "Abonne-toi — elle t'attend de l'autre côté.": 'Подпишись — она ждёт тебя по ту сторону.',
+      'Accès Officiel →': 'Официальный доступ →',
+      'Découvrir': 'Открыть',
+      'Entrer →': 'Войти →',
+      'Rejoignez le Cercle': 'Присоединиться к Кругу',
+      'Accès Premium': 'Премиум доступ',
+      'Populaire': 'Популярно',
+      'Avertissement': 'Предупреждение',
+      "J'ai 18 ans ou plus — Entrer →": 'Мне 18 лет или больше — Войти →',
+      'Je suis mineur — Quitter': 'Я несовершеннолетний — Выйти',
+      'Accéder aux Lives': 'Перейти к прямым трансляциям',
     }
   },
   zh: {
-    flag:'🇨🇳',
-    translations: {
-      'Cercle Privé · Sélection Exclusive': '私密圈子 · 专属甄选',
-      'Entrer dans le Cercle →': '进入圈子 →',
-      'Découvrir le Premium': '了解高级会员',
-      '+18 · Contenu adulte · Sur inscription': '+18 · 成人内容 · 注册后访问',
-      'Découvrir': '探索',
-      'Accès Officiel →': '官方访问 →',
-      '· Pourquoi HoneyMoon': '· 为什么选择 HoneyMoon',
-      'Un Cercle d\'Exception': '卓越圈子',
-      '· Mode d\'emploi': '· 如何运作',
-      'Comment ça marche': '如何运作',
-      '· Prêt à rejoindre ?': '· 准备好加入了吗？',
-      'Rejoignez le Cercle': '加入圈子',
-      'Voir les Ambassadrices →': '查看大使 →',
-      'Accès Premium': '高级会员访问',
-      'L\'Expérience': '体验',
-      '· L\'Agence': '· 机构',
-      'Qui sommes-nous': '关于我们',
-      '· Nous écrire': '· 联系我们',
-      'Couleurs': '颜色',
-      'Langue': '语言',
-      'Mentions légales': '法律声明',
-      'Accéder aux Lives': '观看直播',
+    flag:'🇨🇳', name:'中文',
+    t: {
+      'Accueil': '首页',
+      'La Galerie': '画廊',
       'Le Chemin': '路径',
       'Ambassadrices': '大使',
+      'Abonnement Premium': '高级订阅',
       'Soutenir': '支持',
-      'Avertissement': '警告',
-      'J\'ai 18 ans ou plus — Entrer →': '我已满18岁 — 进入 →',
-      'Je suis mineur — Quitter': '我未成年 — 离开',
-      'En entrant, vous acceptez nos CGU et confirmez être majeur.': '进入即表示您接受条款并确认已成年。',
+      'Accès Officiel': '官方访问',
+      'Contact': '联系',
       'Choisir une langue': '选择语言',
       'Choisir un thème': '选择主题',
+      'Couleurs': '颜色',
+      'Langue': '语言',
+      'Cercle Privé · Sélection Exclusive': '私人圈子 · 独家精选',
+      "Abonne-toi — elle t'attend de l'autre côté.": '订阅吧 — 她在另一边等你。',
+      'Accès Officiel →': '官方访问 →',
+      'Découvrir': '探索',
+      'Entrer →': '进入 →',
+      'Rejoignez le Cercle': '加入圈子',
+      'Accès Premium': '高级访问',
+      'Populaire': '热门',
+      'Avertissement': '警告',
+      "J'ai 18 ans ou plus — Entrer →": '我已满18岁 — 进入 →',
+      'Je suis mineur — Quitter': '我未成年 — 离开',
+      'Accéder aux Lives': '进入直播',
     }
   },
   ja: {
-    flag:'🇯🇵',
-    translations: {
-      'Cercle Privé · Sélection Exclusive': 'プライベートサークル · 限定セレクション',
-      'Entrer dans le Cercle →': 'サークルへ入る →',
-      'Découvrir le Premium': 'プレミアムを知る',
-      '+18 · Contenu adulte · Sur inscription': '+18 · 成人向けコンテンツ · 登録制',
-      'Découvrir': '探索',
-      'Accès Officiel →': '公式アクセス →',
-      '· Pourquoi HoneyMoon': '· なぜ HoneyMoon',
-      'Un Cercle d\'Exception': '卓越したサークル',
-      '· Mode d\'emploi': '· 使い方',
-      'Comment ça marche': '使い方',
-      '· Prêt à rejoindre ?': '· 参加の準備はできていますか？',
-      'Rejoignez le Cercle': 'サークルに参加',
-      'Voir les Ambassadrices →': 'アンバサダーを見る →',
-      'Accès Premium': 'プレミアムアクセス',
-      'L\'Expérience': '体験',
-      '· L\'Agence': '· エージェンシー',
-      'Qui sommes-nous': '私たちについて',
-      '· Nous écrire': '· お問い合わせ',
-      'Couleurs': 'カラー',
-      'Langue': '言語',
-      'Mentions légales': '法的通知',
-      'Accéder aux Lives': 'ライブを見る',
+    flag:'🇯🇵', name:'日本語',
+    t: {
+      'Accueil': 'ホーム',
+      'La Galerie': 'ギャラリー',
       'Le Chemin': 'パス',
       'Ambassadrices': 'アンバサダー',
+      'Abonnement Premium': 'プレミアム会員',
       'Soutenir': 'サポート',
+      'Accès Officiel': '公式アクセス',
+      'Contact': '連絡',
+      'Choisir une langue': '言語を選ぶ',
+      'Choisir un thème': 'テーマを選ぶ',
+      'Couleurs': 'カラー',
+      'Langue': '言語',
+      'Cercle Privé · Sélection Exclusive': 'プライベートサークル · 独占セレクション',
+      "Abonne-toi — elle t'attend de l'autre côté.": '登録しよう — 彼女が向こうで待っている。',
+      'Accès Officiel →': '公式アクセス →',
+      'Découvrir': '発見する',
+      'Entrer →': '入る →',
+      'Rejoignez le Cercle': 'サークルに参加',
+      'Accès Premium': 'プレミアムアクセス',
+      'Populaire': '人気',
       'Avertissement': '警告',
-      'J\'ai 18 ans ou plus — Entrer →': '18歳以上です — 入場 →',
-      'Je suis mineur — Quitter': '未成年です — 退場',
-      'En entrant, vous acceptez nos CGU et confirmez être majeur.': '入場することで、利用規約に同意し成年であることを確認します。',
-      'Choisir une langue': '言語を選択',
-      'Choisir un thème': 'テーマを選択',
+      "J'ai 18 ans ou plus — Entrer →": '18歳以上です — 入る →',
+      'Je suis mineur — Quitter': '未成年です — 退出',
+      'Accéder aux Lives': 'ライブに参加',
     }
   },
   ln: {
-    flag:'🇨🇩',
-    translations: {
-      'Cercle Privé · Sélection Exclusive': 'Cercle ya Bapesi · Koponela Kopekola',
-      'Entrer dans le Cercle →': 'Kokota na Cercle →',
-      'Découvrir le Premium': 'Komona Premium',
-      '+18 · Contenu adulte · Sur inscription': '+18 · Makambo ya bakeli · Na ko-inscription',
-      'Découvrir': 'Komona',
-      'Accès Officiel →': 'Kokota ya Official →',
-      '· Pourquoi HoneyMoon': '· Mpo na nini HoneyMoon',
-      'Un Cercle d\'Exception': 'Cercle ya Ntalo',
-      '· Mode d\'emploi': '· Ndenge esalemaka',
-      'Comment ça marche': 'Ndenge esalemaka',
-      '· Prêt à rejoindre ?': '· Oyeli kokota?',
-      'Rejoignez le Cercle': 'Kokota na Cercle',
-      'Voir les Ambassadrices →': 'Komona Baambassadeur →',
-      'Accès Premium': 'Kokota Premium',
-      'L\'Expérience': 'Lisusu',
-      '· L\'Agence': '· Agence',
-      'Qui sommes-nous': 'Biso nani',
-      '· Nous écrire': '· Kobeta nsango',
-      'Couleurs': 'Langi',
-      'Langue': 'Monoko',
-      'Mentions légales': 'Makambo ya mobeko',
-      'Accéder aux Lives': 'Kotala Lives',
+    flag:'🇨🇩', name:'Lingála',
+    t: {
+      'Accueil': 'Mboka',
+      'La Galerie': 'Galerie',
       'Le Chemin': 'Nzela',
-      'Ambassadrices': 'Baambassadeur',
+      'Ambassadrices': 'Baambassadeurs',
+      'Abonnement Premium': 'Abonnement ya Likolo',
       'Soutenir': 'Kosalisa',
-      'Avertissement': 'Likatisi',
-      'J\'ai 18 ans ou plus — Entrer →': 'Nazali na mbula 18+ — Kokota →',
+      'Accès Officiel': 'Kokota Officiel',
+      'Contact': 'Boyokani',
+      'Choisir une langue': 'Poná monóko',
+      'Couleurs': 'Barva',
+      'Langue': 'Monóko',
+      'Cercle Privé · Sélection Exclusive': 'Cercle ya Biso · Pokwa ya Malamu',
+      "Abonne-toi — elle t'attend de l'autre côté.": 'Kokota — azali kosenga yo.',
+      'Accès Officiel →': 'Kokota Officiel →',
+      'Découvrir': 'Koluka',
+      'Entrer →': 'Kokota →',
+      'Rejoignez le Cercle': 'Kokota na Cercle',
+      'Populaire': 'Elamu mingi',
+      'Avertissement': 'Lilembo',
+      "J'ai 18 ans ou plus — Entrer →": 'Nazali na mbula 18 to koleka — Kokota →',
       'Je suis mineur — Quitter': 'Nazali mwana — Kobima',
-      'En entrant, vous acceptez nos CGU et confirmez être majeur.': 'Na kokota, ozali pona Conditions mpe okomi bolenge.',
-      'Choisir une langue': 'Pona monoko',
-      'Choisir un thème': 'Pona thème',
     }
   },
   sw: {
-    flag:'🌍',
-    translations: {
-      'Cercle Privé · Sélection Exclusive': 'Duara la Faragha · Uchaguzi wa Kipekee',
-      'Entrer dans le Cercle →': 'Ingia Duarani →',
-      'Découvrir le Premium': 'Gundua Premium',
-      '+18 · Contenu adulte · Sur inscription': '+18 · Maudhui ya watu wazima · Kwa usajili',
-      'Découvrir': 'Gundua',
-      'Accès Officiel →': 'Ufikiaji Rasmi →',
-      '· Pourquoi HoneyMoon': '· Kwa nini HoneyMoon',
-      'Un Cercle d\'Exception': 'Duara la Ubora',
-      '· Mode d\'emploi': '· Inavyofanya kazi',
-      'Comment ça marche': 'Inavyofanya kazi',
-      '· Prêt à rejoindre ?': '· Uko tayari kujiunga?',
-      'Rejoignez le Cercle': 'Jiunge na Duara',
-      'Voir les Ambassadrices →': 'Tazama Mabalozi →',
-      'Accès Premium': 'Ufikiaji wa Premium',
-      'L\'Expérience': 'Uzoefu',
-      '· L\'Agence': '· Wakala',
-      'Qui sommes-nous': 'Kuhusu sisi',
-      '· Nous écrire': '· Tuandikia',
-      'Couleurs': 'Rangi',
-      'Langue': 'Lugha',
-      'Mentions légales': 'Maelezo ya kisheria',
-      'Accéder aux Lives': 'Tazama Matangazo',
+    flag:'🌍', name:'Kiswahili',
+    t: {
+      'Accueil': 'Nyumbani',
+      'La Galerie': 'Ukumbi',
       'Le Chemin': 'Njia',
       'Ambassadrices': 'Mabalozi',
+      'Abonnement Premium': 'Usajili wa Juu',
       'Soutenir': 'Kusaidia',
-      'Avertissement': 'Onyo',
-      'J\'ai 18 ans ou plus — Entrer →': 'Nina miaka 18+ — Ingia →',
-      'Je suis mineur — Quitter': 'Mimi ni mdogo — Toka',
-      'En entrant, vous acceptez nos CGU et confirmez être majeur.': 'Kwa kuingia, unakubali Masharti na kuthibitisha umri wa kisheria.',
+      'Accès Officiel': 'Ufikiaji Rasmi',
+      'Contact': 'Mawasiliano',
       'Choisir une langue': 'Chagua lugha',
-      'Choisir un thème': 'Chagua mandhari',
+      'Couleurs': 'Rangi',
+      'Langue': 'Lugha',
+      'Cercle Privé · Sélection Exclusive': 'Duara la Faragha · Uchaguzi Maalum',
+      "Abonne-toi — elle t'attend de l'autre côté.": 'Jiandikishe — anakungoja upande wa pili.',
+      'Accès Officiel →': 'Ufikiaji Rasmi →',
+      'Découvrir': 'Gundua',
+      'Entrer →': 'Ingia →',
+      'Rejoignez le Cercle': 'Jiunge na Duara',
+      'Populaire': 'Maarufu',
+      'Avertissement': 'Onyo',
+      "J'ai 18 ans ou plus — Entrer →": 'Nina miaka 18 au zaidi — Ingia →',
+      'Je suis mineur — Quitter': 'Mimi ni mdogo — Toka',
     }
   }
 };
 
-// ── Codes langue MyMemory ──
-var HM_API_CODES = {
-  fr: 'fr', en: 'en', es: 'es', pt: 'pt',
-  it: 'it', ru: 'ru', zh: 'zh-CN', ja: 'ja',
-  ln: 'ln', sw: 'sw'
-};
-
-// ── Cache des traductions API (évite de re-appeler) ──
-var HM_CACHE = {};
-
-// ── Stockage des noeuds texte originaux ──
-var HM_ORIG = null;
-var HM_CURRENT_LANG = 'fr';
-
-function hmCollectNodes(root) {
-  var nodes = [];
-  var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
-    acceptNode: function(n) {
-      var p = n.parentElement;
-      if (!p) return NodeFilter.FILTER_REJECT;
-      var tag = p.tagName;
-      if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'NOSCRIPT') return NodeFilter.FILTER_REJECT;
-      var txt = n.textContent.trim();
-      if (txt === '' || txt.length < 2) return NodeFilter.FILTER_REJECT;
-      // Exclure les URLs, chiffres seuls, symboles seuls
-      if (/^[\d\s€$%+\-×·•→←↑↓\/\\@#]+$/.test(txt)) return NodeFilter.FILTER_REJECT;
-      return NodeFilter.FILTER_ACCEPT;
-    }
-  });
-  var n;
-  while ((n = walker.nextNode())) nodes.push(n);
-  return nodes;
-}
-
-// Traduction via MyMemory API (avec cache)
-function hmTranslateAPI(text, targetLang, callback) {
-  var cacheKey = targetLang + '|' + text;
-  if (HM_CACHE[cacheKey]) { callback(HM_CACHE[cacheKey]); return; }
-  var url = 'https://api.mymemory.translated.net/get?q='
-    + encodeURIComponent(text)
-    + '&langpair=fr|' + (HM_API_CODES[targetLang] || targetLang)
-    + '&de=honeymoon@agency.fr';
-  fetch(url)
-    .then(function(r){ return r.json(); })
-    .then(function(data){
-      var translated = data && data.responseData && data.responseData.translatedText;
-      if (translated && translated !== text) {
-        HM_CACHE[cacheKey] = translated;
-        callback(translated);
-      }
-    })
-    .catch(function(){});
-}
-
-// Afficher un indicateur de chargement
-function hmShowLoading(show) {
-  var el = document.getElementById('hm-translate-loading');
-  if (!el) {
-    el = document.createElement('div');
-    el.id = 'hm-translate-loading';
-    el.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:rgba(214,169,78,0.9);color:#100e0b;font-family:Montserrat,sans-serif;font-size:9px;letter-spacing:0.25em;text-transform:uppercase;padding:8px 20px;z-index:9000;display:none;';
-    el.textContent = 'Traduction en cours…';
-    document.body.appendChild(el);
-  }
-  el.style.display = show ? 'block' : 'none';
-}
+// ── Langue courante et nœuds originaux ──
+var HM_ORIG_NODES = null;
 
 function hmSetLang(code) {
   var lang = HM_DICT[code];
   if (!lang) return;
   HM_CURRENT_LANG = code;
 
-  // Sauvegarder les noeuds originaux (français) au premier appel
-  if (!HM_ORIG) {
-    HM_ORIG = {};
-    var nodes = hmCollectNodes(document.body);
-    nodes.forEach(function(n, i) {
-      n._hmId = i;
-      HM_ORIG[i] = n.textContent;
-    });
-  }
-
-  // Remettre le français d'abord
-  var allNodes = hmCollectNodes(document.body);
-  allNodes.forEach(function(n) {
-    if (n._hmId !== undefined && HM_ORIG[n._hmId] !== undefined) {
-      n.textContent = HM_ORIG[n._hmId];
-    }
+  // Gérer les éléments avec data-fr / data-en
+  document.querySelectorAll('[data-fr][data-en]').forEach(function(el) {
+    el.textContent = code === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-fr');
   });
 
-  // Mettre à jour drapeaux et boutons actifs
-  ['hm-lang-flag','qb-lang-flag'].forEach(function(id){
+  // Sauvegarder les nœuds originaux (fr) au premier appel
+  if (!HM_ORIG_NODES) {
+    HM_ORIG_NODES = {};
+    var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+      acceptNode: function(n) {
+        var p = n.parentElement;
+        if (!p) return NodeFilter.FILTER_REJECT;
+        if (['SCRIPT','STYLE','NOSCRIPT'].indexOf(p.tagName) > -1) return NodeFilter.FILTER_REJECT;
+        if (n.textContent.trim().length < 2) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var n; var i = 0;
+    while ((n = walker.nextNode())) {
+      n._hmId = i;
+      HM_ORIG_NODES[i] = n.textContent;
+      i++;
+    }
+  }
+
+  // Remettre le français
+  var walker2 = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+    acceptNode: function(n) {
+      var p = n.parentElement;
+      if (!p) return NodeFilter.FILTER_REJECT;
+      if (['SCRIPT','STYLE','NOSCRIPT'].indexOf(p.tagName) > -1) return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }
+  });
+  var n2;
+  while ((n2 = walker2.nextNode())) {
+    if (n2._hmId !== undefined && HM_ORIG_NODES[n2._hmId] !== undefined) {
+      n2.textContent = HM_ORIG_NODES[n2._hmId];
+    }
+  }
+
+  // Mettre à jour drapeaux
+  ['hm-lang-flag','qb-lang-flag'].forEach(function(id) {
     var el = document.getElementById(id);
     if (el) el.textContent = lang.flag;
   });
@@ -5736,41 +6033,72 @@ function hmSetLang(code) {
 
   if (code === 'fr') return;
 
-  var dict = lang.translations;
-
-  // Passe 1 : dictionnaire statique (immédiat)
-  allNodes = hmCollectNodes(document.body);
-  var toTranslateViaAPI = []; // noeuds non couverts par le dict
-  allNodes.forEach(function(n) {
-    var trimmed = n.textContent.trim();
-    if (dict[trimmed] !== undefined) {
-      n.textContent = n.textContent.replace(trimmed, dict[trimmed]);
-    } else {
-      // Candidat pour l'API si texte réel (pas un chiffre, pas trop court)
-      if (trimmed.length > 3 && /[a-zA-ZÀ-ÿ]/.test(trimmed)) {
-        toTranslateViaAPI.push(n);
-      }
+  // Appliquer le dictionnaire
+  var dict = lang.t;
+  var LT_LANG = { en:'en', es:'es', pt:'pt', it:'it', ru:'ru', zh:'zh', ja:'ja', ln:'fr', sw:'sw' };
+  var LT_CACHE = window._HM_LT_CACHE || (window._HM_LT_CACHE = {});
+  var walker3 = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+    acceptNode: function(n) {
+      var p = n.parentElement;
+      if (!p) return NodeFilter.FILTER_REJECT;
+      if (['SCRIPT','STYLE','NOSCRIPT'].indexOf(p.tagName) > -1) return NodeFilter.FILTER_REJECT;
+      if (n.textContent.trim().length < 2) return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
     }
   });
-
-  // Passe 2 : API MyMemory pour les textes restants
-  if (toTranslateViaAPI.length > 0) {
-    hmShowLoading(true);
-    var done = 0;
-    var total = toTranslateViaAPI.length;
-    // Limiter à 80 requêtes max pour ne pas saturer l'API gratuite
-    var limit = Math.min(total, 80);
-    toTranslateViaAPI.slice(0, limit).forEach(function(n) {
-      var origText = n.textContent.trim();
-      hmTranslateAPI(origText, code, function(translated) {
-        // Vérifier que le noeud appartient toujours à la langue courante
-        if (HM_CURRENT_LANG === code) {
-          n.textContent = n.textContent.replace(origText, translated);
+  var n3;
+  var toAPI = [];
+  while ((n3 = walker3.nextNode())) {
+    var trimmed = n3.textContent.trim();
+    if (dict[trimmed] !== undefined) {
+      n3.textContent = dict[trimmed];
+    } else if (trimmed.length > 4 && /[a-zA-ZÀ-ÿ]{3,}/.test(trimmed) && code !== 'fr') {
+      toAPI.push({ node: n3, text: trimmed });
+    }
+  }
+  // LibreTranslate pour les textes non couverts
+  if (toAPI.length > 0 && LT_LANG[code]) {
+    var ltCode = LT_LANG[code];
+    var SERVERS = [
+      'https://libretranslate.com/translate',
+      'https://translate.argosopentech.com/translate',
+      'https://translate.terraprint.co/translate'
+    ];
+    // Grouper par batch de 5 pour éviter trop de requêtes
+    var batches = [];
+    for (var bi = 0; bi < Math.min(toAPI.length, 60); bi += 5) {
+      batches.push(toAPI.slice(bi, bi + 5));
+    }
+    var serverIdx = 0;
+    function translateBatch(batch, serverI) {
+      if (serverI >= SERVERS.length) return;
+      var texts = batch.map(function(i){ return i.text; });
+      // Requête individuelle par texte (plus fiable)
+      texts.forEach(function(txt, idx) {
+        var cacheKey = ltCode + '|' + txt;
+        if (LT_CACHE[cacheKey]) {
+          if (HM_CURRENT_LANG === code) batch[idx].node.textContent = LT_CACHE[cacheKey];
+          return;
         }
-        done++;
-        if (done >= limit) hmShowLoading(false);
+        fetch(SERVERS[serverI], {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ q: txt, source: 'fr', target: ltCode, format: 'text' })
+        })
+        .then(function(r){ return r.json(); })
+        .then(function(data){
+          var tr = data && data.translatedText;
+          if (tr && tr !== txt && HM_CURRENT_LANG === code) {
+            LT_CACHE[cacheKey] = tr;
+            batch[idx].node.textContent = tr;
+          }
+        })
+        .catch(function(){
+          // Essayer le serveur suivant silencieusement
+        });
       });
-    });
+    }
+    batches.forEach(function(batch){ translateBatch(batch, 0); });
   }
 }
 
@@ -5787,6 +6115,7 @@ function hmSetLang(code) {
     }
   } catch(e) {}
 })();
+
 </script>
 
 </html>
