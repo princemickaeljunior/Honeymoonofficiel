@@ -18765,288 +18765,670 @@ document.addEventListener('DOMContentLoaded', function() {
 ═══════════════════════════════════════════════════ -->
 <div class="page" id="page-creator-dashboard">
 <style>
-.cd-wrap { min-height:100vh; background:radial-gradient(ellipse 80% 55% at 20% 10%,rgba(214,169,78,0.10) 0%,transparent 55%),#1e1245; padding-bottom:80px; }
-.cd-header { padding:60px 24px 24px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid rgba(214,169,78,0.10); }
-.cd-logo { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:300; color:#f2d270; letter-spacing:0.15em; }
-.cd-signout { background:none; border:1px solid rgba(214,169,78,0.25); color:rgba(214,169,78,0.6); font-family:'Montserrat',sans-serif; font-size:9px; letter-spacing:0.25em; text-transform:uppercase; padding:8px 16px; cursor:pointer; transition:all 0.2s; }
-.cd-signout:hover { border-color:rgba(214,169,78,0.6); color:#f2d270; }
-.cd-body { padding:24px; max-width:600px; margin:0 auto; }
-.cd-section { margin-bottom:28px; }
-.cd-section-title { font-family:'Montserrat',sans-serif; font-size:9px; letter-spacing:0.4em; text-transform:uppercase; color:rgba(214,169,78,0.5); margin-bottom:14px; }
-.cd-card { background:rgba(255,255,255,0.03); border:1px solid rgba(214,169,78,0.14); padding:20px; margin-bottom:8px; }
-.cd-stat-row { display:flex; gap:8px; margin-bottom:8px; }
-.cd-stat { flex:1; background:rgba(214,169,78,0.06); border:1px solid rgba(214,169,78,0.12); padding:14px 12px; text-align:center; }
-.cd-stat-num { font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:300; color:#f2d270; display:block; }
-.cd-stat-lbl { font-family:'Montserrat',sans-serif; font-size:8px; letter-spacing:0.3em; text-transform:uppercase; color:rgba(214,169,78,0.45); }
-.cd-btn { width:100%; padding:14px; background:linear-gradient(135deg,#c8962a,#f2d270); color:#1e1245; font-family:'Montserrat',sans-serif; font-size:10px; font-weight:700; letter-spacing:0.3em; text-transform:uppercase; border:none; cursor:pointer; margin-bottom:8px; transition:all 0.2s; }
-.cd-btn:hover { background:linear-gradient(135deg,#d6a94e,#fff0a0); }
-.cd-btn-ghost { width:100%; padding:13px; background:none; border:1px solid rgba(214,169,78,0.28); color:rgba(214,169,78,0.75); font-family:'Montserrat',sans-serif; font-size:9px; font-weight:600; letter-spacing:0.25em; text-transform:uppercase; cursor:pointer; margin-bottom:8px; transition:all 0.2s; }
-.cd-btn-ghost:hover { border-color:rgba(214,169,78,0.6); color:#f2d270; }
-.cd-status-row { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px; }
-.cd-status-btn { flex:1; min-width:80px; padding:10px 6px; background:none; border:1px solid rgba(214,169,78,0.18); color:rgba(214,169,78,0.55); font-family:'Montserrat',sans-serif; font-size:8px; letter-spacing:0.2em; text-transform:uppercase; cursor:pointer; transition:all 0.2s; text-align:center; }
-.cd-status-btn.active-green { border-color:#22c55e; color:#22c55e; background:rgba(34,197,94,0.08); }
-.cd-status-btn.active-yellow { border-color:#f2d270; color:#f2d270; background:rgba(242,210,112,0.08); }
-.cd-status-btn.active-red { border-color:#ff4820; color:#ff4820; background:rgba(255,72,32,0.08); }
-.cd-upload-area { border:1px dashed rgba(214,169,78,0.3); padding:28px; text-align:center; cursor:pointer; transition:all 0.2s; margin-bottom:8px; }
-.cd-upload-area:hover { border-color:rgba(214,169,78,0.6); background:rgba(214,169,78,0.04); }
-.cd-upload-label { font-family:'Montserrat',sans-serif; font-size:9px; letter-spacing:0.3em; text-transform:uppercase; color:rgba(214,169,78,0.5); }
-.cd-progress { display:none; width:100%; height:3px; background:rgba(214,169,78,0.1); margin-bottom:8px; }
-.cd-progress-bar { height:100%; background:linear-gradient(to right,#c8962a,#f2d270); width:0%; transition:width 0.3s; }
-.cd-toast { display:none; padding:10px 14px; background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.25); color:rgba(100,220,100,0.85); font-family:'Montserrat',sans-serif; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; text-align:center; margin-bottom:8px; }
-.cd-creator-name { font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:300; color:#faf6f0; margin-bottom:4px; }
-.cd-creator-email { font-family:'Montserrat',sans-serif; font-size:10px; color:rgba(214,169,78,0.5); letter-spacing:0.1em; }
-.cd-content-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:4px; }
-.cd-content-thumb { aspect-ratio:1; background:rgba(214,169,78,0.06); border:1px solid rgba(214,169,78,0.10); overflow:hidden; position:relative; }
-.cd-content-thumb img { width:100%; height:100%; object-fit:cover; }
-.cd-content-empty { font-family:'Montserrat',sans-serif; font-size:9px; color:rgba(214,169,78,0.3); text-align:center; padding:20px; letter-spacing:0.2em; }
+.cd-wrap{min-height:100vh;background:#18103a;padding-bottom:80px;}
+.cd-wrap::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse 60% 45% at 5% 10%,rgba(214,169,78,0.08) 0%,transparent 55%),
+             radial-gradient(ellipse 50% 40% at 95% 85%,rgba(124,58,237,0.07) 0%,transparent 50%);}
+.cd-inner{max-width:560px;margin:0 auto;padding:0 20px 40px;position:relative;z-index:1;}
+.cd-header{padding:52px 20px 28px;display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid rgba(214,169,78,0.10);position:relative;z-index:1;max-width:600px;margin:0 auto;}
+.cd-avatar{width:48px;height:48px;border:1px solid rgba(214,169,78,0.25);background:rgba(214,169,78,0.07);
+  display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;
+  font-size:20px;color:#f2d270;overflow:hidden;flex-shrink:0;}
+.cd-avatar img{width:100%;height:100%;object-fit:cover;}
+.cd-hname{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:#faf6f0;}
+.cd-hemail{font-family:'Montserrat',sans-serif;font-size:9px;color:rgba(214,169,78,0.45);letter-spacing:0.1em;}
+.cd-hbadge{display:inline-block;padding:3px 10px;font-family:'Montserrat',sans-serif;font-size:7px;
+  letter-spacing:0.3em;text-transform:uppercase;margin-top:4px;}
+.cd-badge-hg{background:rgba(214,169,78,0.08);border:1px solid rgba(214,169,78,0.2);color:rgba(214,169,78,0.7);}
+.cd-badge-or{background:rgba(255,72,32,0.08);border:1px solid rgba(255,72,32,0.2);color:rgba(255,100,60,0.8);}
+.cd-badge-am{background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.2);color:rgba(150,100,240,0.8);}
+.cd-badge-st{background:rgba(255,215,0,0.08);border:1px solid rgba(255,215,0,0.2);color:rgba(255,215,0,0.8);}
+.cd-signout{background:none;border:1px solid rgba(214,169,78,0.2);color:rgba(214,169,78,0.5);
+  font-family:'Montserrat',sans-serif;font-size:8px;letter-spacing:0.25em;text-transform:uppercase;
+  padding:8px 14px;cursor:pointer;transition:all 0.2s;}
+.cd-signout:hover{border-color:rgba(214,169,78,0.5);color:#f2d270;}
+.cd-nav{display:flex;border-bottom:1px solid rgba(214,169,78,0.08);margin-bottom:28px;overflow-x:auto;}
+.cd-nav::-webkit-scrollbar{display:none;}
+.cd-nav-btn{padding:12px 14px;background:none;border:none;border-bottom:2px solid transparent;
+  font-family:'Montserrat',sans-serif;font-size:8px;letter-spacing:0.22em;text-transform:uppercase;
+  color:rgba(214,169,78,0.35);cursor:pointer;transition:all 0.2s;white-space:nowrap;}
+.cd-nav-btn.active{border-bottom-color:#d6a94e;color:#f2d270;}
+.cd-section{display:none;animation:cdFade 0.3s ease;}
+.cd-section.active{display:block;}
+@keyframes cdFade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.cd-stitle{font-family:'Montserrat',sans-serif;font-size:8px;letter-spacing:0.45em;text-transform:uppercase;
+  color:rgba(214,169,78,0.35);border-bottom:1px solid rgba(214,169,78,0.07);padding-bottom:8px;margin:0 0 16px;}
+.cd-card{background:rgba(255,255,255,0.02);border:1px solid rgba(214,169,78,0.10);padding:18px;margin-bottom:12px;}
+.cd-field{margin-bottom:10px;}
+.cd-label{font-family:'Montserrat',sans-serif;font-size:8px;letter-spacing:0.25em;text-transform:uppercase;
+  color:rgba(245,240,232,0.35);display:block;margin-bottom:5px;}
+.cd-input,.cd-textarea,.cd-select{width:100%;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);
+  color:#faf6f0;font-family:'Montserrat',sans-serif;font-size:12px;padding:10px 12px;outline:none;
+  transition:border-color 0.2s;box-sizing:border-box;}
+.cd-input:focus,.cd-textarea:focus,.cd-select:focus{border-color:rgba(214,169,78,0.4);}
+.cd-input::placeholder,.cd-textarea::placeholder{color:rgba(245,240,232,0.18);}
+.cd-textarea{resize:vertical;min-height:68px;line-height:1.6;}
+.cd-select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(214,169,78,0.4)'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;-webkit-appearance:none;cursor:pointer;}
+.cd-select option{background:#261550;color:#faf6f0;}
+.cd-2col{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.cd-stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;}
+.cd-stat{background:rgba(214,169,78,0.04);border:1px solid rgba(214,169,78,0.10);padding:16px 8px;text-align:center;}
+.cd-stat-num{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;color:#f2d270;display:block;}
+.cd-stat-lbl{font-family:'Montserrat',sans-serif;font-size:7px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(214,169,78,0.4);}
+.cd-stat-big{background:rgba(255,72,32,0.05);border:1px solid rgba(255,72,32,0.12);}
+.cd-stat-big .cd-stat-num{color:rgba(255,120,80,0.9);}
+.cd-status-row{display:flex;gap:6px;margin-bottom:10px;}
+.cd-status-btn{flex:1;padding:10px 4px;background:none;border:1px solid rgba(214,169,78,0.15);
+  color:rgba(214,169,78,0.45);font-family:'Montserrat',sans-serif;font-size:8px;letter-spacing:0.15em;
+  text-transform:uppercase;cursor:pointer;transition:all 0.2s;text-align:center;}
+.cd-status-btn.s-active{border-color:#22c55e;color:#22c55e;background:rgba(34,197,94,0.07);}
+.cd-status-btn.s-soon{border-color:#f2d270;color:#f2d270;background:rgba(242,210,112,0.07);}
+.cd-status-btn.s-away{border-color:#ff4820;color:#ff4820;background:rgba(255,72,32,0.07);}
+.cd-type-row{display:flex;gap:5px;margin-bottom:12px;flex-wrap:wrap;}
+.cd-type-btn{flex:1;min-width:70px;padding:9px 4px;background:none;border:1px solid rgba(214,169,78,0.15);
+  color:rgba(214,169,78,0.4);font-family:'Montserrat',sans-serif;font-size:8px;letter-spacing:0.15em;
+  text-transform:uppercase;cursor:pointer;transition:all 0.2s;text-align:center;}
+.cd-type-btn.sel{border-color:rgba(214,169,78,0.6);color:#f2d270;}
+.cd-upload-zone{border:1px dashed rgba(214,169,78,0.22);padding:24px;text-align:center;
+  cursor:pointer;transition:all 0.2s;margin-bottom:10px;position:relative;}
+.cd-upload-zone:hover{border-color:rgba(214,169,78,0.5);background:rgba(214,169,78,0.03);}
+.cd-upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.cd-upload-lbl{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(214,169,78,0.45);}
+.cd-btn{width:100%;padding:13px;background:linear-gradient(135deg,#c8962a,#f2d270);color:#18103a;
+  font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:0.3em;
+  text-transform:uppercase;border:none;cursor:pointer;transition:all 0.2s;margin-bottom:8px;}
+.cd-btn:hover{background:linear-gradient(135deg,#d6a94e,#fff0a0);}
+.cd-btn-ghost{width:100%;padding:12px;background:none;border:1px solid rgba(214,169,78,0.22);
+  color:rgba(214,169,78,0.65);font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:0.25em;
+  text-transform:uppercase;cursor:pointer;transition:all 0.2s;margin-bottom:8px;}
+.cd-btn-ghost:hover{border-color:rgba(214,169,78,0.55);color:#f2d270;}
+.cd-btn-save{background:rgba(214,169,78,0.08);border:1px solid rgba(214,169,78,0.28);color:rgba(214,169,78,0.85);
+  font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:0.25em;text-transform:uppercase;cursor:pointer;
+  width:100%;padding:12px;transition:all 0.2s;margin-bottom:8px;}
+.cd-btn-save:hover{background:rgba(214,169,78,0.15);}
+.cd-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:8px;}
+.cd-thumb{aspect-ratio:1;background:rgba(214,169,78,0.04);border:1px solid rgba(214,169,78,0.08);overflow:hidden;position:relative;}
+.cd-thumb img,.cd-thumb video{width:100%;height:100%;object-fit:cover;}
+.cd-no-content{font-family:'Montserrat',sans-serif;font-size:9px;color:rgba(214,169,78,0.25);
+  text-align:center;padding:24px;letter-spacing:0.2em;grid-column:1/-1;}
+.cd-progress{display:none;width:100%;height:2px;background:rgba(214,169,78,0.08);margin:8px 0;}
+.cd-progress-bar{height:100%;background:linear-gradient(to right,#c8962a,#f2d270);width:0%;transition:width 0.3s;}
+.cd-toast{display:none;padding:10px 14px;background:rgba(34,197,94,0.07);border:1px solid rgba(34,197,94,0.2);
+  color:rgba(100,220,100,0.8);font-family:'Montserrat',sans-serif;font-size:8px;letter-spacing:0.2em;
+  text-transform:uppercase;text-align:center;margin:8px 0;}
+.cd-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;}
+.cd-tag{padding:4px 10px;background:rgba(214,169,78,0.07);border:1px solid rgba(214,169,78,0.18);
+  font-family:'Montserrat',sans-serif;font-size:8px;letter-spacing:0.15em;color:rgba(214,169,78,0.65);cursor:pointer;}
+.cd-tag.sel{background:rgba(214,169,78,0.18);border-color:rgba(214,169,78,0.5);color:#f2d270;}
+.cd-motivation{background:linear-gradient(135deg,rgba(214,169,78,0.06),rgba(255,72,32,0.04));
+  border:1px solid rgba(214,169,78,0.12);padding:16px;margin-bottom:12px;text-align:center;}
+.cd-motivation-num{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:300;color:#f2d270;}
+.cd-motivation-lbl{font-family:'Montserrat',sans-serif;font-size:8px;letter-spacing:0.3em;
+  text-transform:uppercase;color:rgba(214,169,78,0.5);margin-top:2px;}
+.cd-social-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.cd-cat-title{font-family:'Montserrat',sans-serif;font-size:8px;letter-spacing:0.35em;text-transform:uppercase;
+  color:rgba(255,72,32,0.5);margin:16px 0 12px;padding-top:14px;border-top:1px solid rgba(214,169,78,0.07);}
 </style>
 
 <div class="cd-wrap">
   <div class="cd-header">
-    <span class="cd-logo">Creator Space</span>
+    <div style="display:flex;align-items:center;gap:14px;">
+      <div class="cd-avatar" id="cd-avatar">✦</div>
+      <div>
+        <div class="cd-hname" id="cd-hname">—</div>
+        <div class="cd-hemail" id="cd-hemail">—</div>
+        <div class="cd-hbadge cd-badge-hg" id="cd-hbadge">Honey Girl</div>
+      </div>
+    </div>
     <button class="cd-signout" onclick="hmSignOut && hmSignOut()">Sign out</button>
   </div>
 
-  <div class="cd-body">
+  <div class="cd-inner">
+    <nav class="cd-nav">
+      <button class="cd-nav-btn active" onclick="cdTab('stats',this)">✦ Stats</button>
+      <button class="cd-nav-btn" onclick="cdTab('profile',this)">Profile</button>
+      <button class="cd-nav-btn" onclick="cdTab('content',this)">Content</button>
+      <button class="cd-nav-btn" onclick="cdTab('links',this)">Links</button>
+      <button class="cd-nav-btn" id="cd-tab-formula" onclick="cdTab('formula',this)">Formula</button>
+    </nav>
 
-    <!-- Profil -->
-    <div class="cd-section">
-      <div class="cd-section-title">· Your profile ·</div>
-      <div class="cd-card">
-        <div class="cd-creator-name" id="cd-creator-name">—</div>
-        <div class="cd-creator-email" id="cd-creator-email">—</div>
+    <!-- ══ TAB STATS ══ -->
+    <div class="cd-section active" id="cd-sec-stats">
+      <div class="cd-stitle">· Your performance ·</div>
+
+      <!-- Grande stat followers -->
+      <div class="cd-motivation">
+        <div class="cd-motivation-num" id="cd-big-followers">0</div>
+        <div class="cd-motivation-lbl">Total followers</div>
       </div>
-    </div>
 
-    <!-- Stats -->
-    <div class="cd-section">
-      <div class="cd-section-title">· Stats ·</div>
-      <div class="cd-stat-row">
+      <div class="cd-stats-grid">
+        <div class="cd-stat"><span class="cd-stat-num" id="cd-stat-views">0</span><span class="cd-stat-lbl">Views</span></div>
         <div class="cd-stat"><span class="cd-stat-num" id="cd-stat-photos">0</span><span class="cd-stat-lbl">Photos</span></div>
         <div class="cd-stat"><span class="cd-stat-num" id="cd-stat-videos">0</span><span class="cd-stat-lbl">Videos</span></div>
-        <div class="cd-stat"><span class="cd-stat-num" id="cd-stat-members">—</span><span class="cd-stat-lbl">Members</span></div>
       </div>
-    </div>
+      <div class="cd-stats-grid">
+        <div class="cd-stat cd-stat-big"><span class="cd-stat-num" id="cd-stat-revenue">—</span><span class="cd-stat-lbl">Revenue</span></div>
+        <div class="cd-stat"><span class="cd-stat-num" id="cd-stat-likes">0</span><span class="cd-stat-lbl">Likes</span></div>
+        <div class="cd-stat"><span class="cd-stat-num" id="cd-stat-reels">0</span><span class="cd-stat-lbl">Reels</span></div>
+      </div>
 
-    <!-- Statut -->
-    <div class="cd-section">
-      <div class="cd-section-title">· My status ·</div>
+      <div class="cd-stitle" style="margin-top:20px;">· Update my followers ·</div>
+      <div class="cd-card">
+        <div class="cd-2col">
+          <div class="cd-field">
+            <label class="cd-label">OnlyFans followers</label>
+            <input class="cd-input" id="cd-stat-of" type="number" min="0" placeholder="0">
+          </div>
+          <div class="cd-field">
+            <label class="cd-label">Stripchat followers</label>
+            <input class="cd-input" id="cd-stat-sc" type="number" min="0" placeholder="0">
+          </div>
+          <div class="cd-field">
+            <label class="cd-label">BongaCams followers</label>
+            <input class="cd-input" id="cd-stat-bc" type="number" min="0" placeholder="0">
+          </div>
+          <div class="cd-field">
+            <label class="cd-label">Instagram followers</label>
+            <input class="cd-input" id="cd-stat-ig" type="number" min="0" placeholder="0">
+          </div>
+          <div class="cd-field">
+            <label class="cd-label">TikTok followers</label>
+            <input class="cd-input" id="cd-stat-tk" type="number" min="0" placeholder="0">
+          </div>
+          <div class="cd-field">
+            <label class="cd-label">Twitter / X followers</label>
+            <input class="cd-input" id="cd-stat-tw" type="number" min="0" placeholder="0">
+          </div>
+        </div>
+        <button class="cd-btn-save" onclick="cdSaveStats()">✦ Update followers →</button>
+        <div class="cd-toast" id="cd-toast-stats">✦ Stats updated</div>
+      </div>
+
+      <!-- Status -->
+      <div class="cd-stitle">· My status ·</div>
       <div class="cd-card">
         <div class="cd-status-row">
           <button class="cd-status-btn" id="cd-s-active" onclick="cdSetStatus('active')">🟢 Active</button>
           <button class="cd-status-btn" id="cd-s-soon"   onclick="cdSetStatus('soon')">🟡 Soon</button>
           <button class="cd-status-btn" id="cd-s-away"   onclick="cdSetStatus('away')">🔴 Away</button>
         </div>
-        <button class="cd-btn" onclick="cdConfirmStatus()">Update my status →</button>
-        <div class="cd-toast" id="cd-status-toast">✦ Status updated</div>
+        <button class="cd-btn" onclick="cdConfirmStatus()">Update status →</button>
+        <div class="cd-toast" id="cd-toast-status">✦ Status updated</div>
       </div>
     </div>
 
-    <!-- Upload contenu -->
-    <div class="cd-section">
-      <div class="cd-section-title">· Upload content ·</div>
+    <!-- ══ TAB PROFILE ══ -->
+    <div class="cd-section" id="cd-sec-profile">
+      <div class="cd-stitle">· Identity ·</div>
       <div class="cd-card">
-        <!-- Type selector -->
-        <div class="cd-status-row" style="margin-bottom:14px;">
-          <button class="cd-status-btn" id="cd-t-photo"  onclick="cdSelectType('photo')"  style="border-color:rgba(214,169,78,0.4);color:#f2d270;">Photo</button>
-          <button class="cd-status-btn" id="cd-t-video"  onclick="cdSelectType('video')">Video</button>
-          <button class="cd-status-btn" id="cd-t-reels"  onclick="cdSelectType('reels')">Reels</button>
-          <button class="cd-status-btn" id="cd-t-teaser" onclick="cdSelectType('teaser')">Teaser</button>
+        <div class="cd-field">
+          <label class="cd-label">Stage name</label>
+          <input class="cd-input" id="cd-f-name" type="text" placeholder="Your stage name">
         </div>
-        <!-- Tokens price -->
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
-          <span style="font-family:Montserrat,sans-serif;font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(214,169,78,0.5);">Tokens</span>
-          <input id="cd-tokens" type="number" min="0" value="0" style="width:80px;padding:8px;background:rgba(255,255,255,0.04);border:1px solid rgba(214,169,78,0.22);color:#faf6f0;font-family:Montserrat,sans-serif;font-size:13px;text-align:center;">
-          <span style="font-family:Montserrat,sans-serif;font-size:9px;color:rgba(214,169,78,0.35);">0 = free</span>
+        <div class="cd-field">
+          <label class="cd-label">Tagline</label>
+          <input class="cd-input" id="cd-f-tagline" type="text" placeholder="One line that defines you…">
         </div>
-        <!-- Upload zone -->
-        <label class="cd-upload-area" for="cd-file-input">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(214,169,78,0.5)" stroke-width="1.5" style="margin:0 auto 8px;display:block;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-          <span class="cd-upload-label">Tap to select file</span>
-          <input type="file" id="cd-file-input" accept="image/*,video/*" style="display:none;" onchange="cdHandleUpload(event)">
-        </label>
+        <div class="cd-field">
+          <label class="cd-label">Bio</label>
+          <textarea class="cd-textarea" id="cd-f-bio" placeholder="Tell your story…"></textarea>
+        </div>
+        <div class="cd-field">
+          <label class="cd-label">Profile photo URL</label>
+          <input class="cd-input" id="cd-f-photo" type="url" placeholder="https://…">
+        </div>
+      </div>
+
+      <div class="cd-stitle">· About you ·</div>
+      <div class="cd-card">
+        <div class="cd-2col">
+          <div class="cd-field">
+            <label class="cd-label">Country</label>
+            <input class="cd-input" id="cd-f-country" type="text" placeholder="e.g. France">
+          </div>
+          <div class="cd-field">
+            <label class="cd-label">Languages spoken</label>
+            <input class="cd-input" id="cd-f-languages" type="text" placeholder="FR, EN, ES…">
+          </div>
+          <div class="cd-field">
+            <label class="cd-label">Age</label>
+            <input class="cd-input" id="cd-f-age" type="number" min="18" placeholder="18+">
+          </div>
+          <div class="cd-field">
+            <label class="cd-label">Sexual orientation</label>
+            <select class="cd-select" id="cd-f-orientation">
+              <option value="">— Select —</option>
+              <option value="straight">Straight</option>
+              <option value="bisexual">Bisexual</option>
+              <option value="lesbian">Lesbian</option>
+              <option value="prefer_not">Prefer not to say</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="cd-stitle">· Physical ·</div>
+      <div class="cd-card">
+        <div class="cd-2col">
+          <div class="cd-field">
+            <label class="cd-label">Height (cm)</label>
+            <input class="cd-input" id="cd-f-height" type="number" placeholder="e.g. 168">
+          </div>
+          <div class="cd-field">
+            <label class="cd-label">Hair color</label>
+            <input class="cd-input" id="cd-f-hair" type="text" placeholder="Blonde, Brown…">
+          </div>
+          <div class="cd-field">
+            <label class="cd-label">Eye color</label>
+            <input class="cd-input" id="cd-f-eyes" type="text" placeholder="Blue, Green…">
+          </div>
+          <div class="cd-field">
+            <label class="cd-label">Body type</label>
+            <select class="cd-select" id="cd-f-body">
+              <option value="">— Select —</option>
+              <option value="slim">Slim</option>
+              <option value="athletic">Athletic</option>
+              <option value="curvy">Curvy</option>
+              <option value="petite">Petite</option>
+              <option value="plus_size">Plus size</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="cd-stitle">· Personality & style ·</div>
+      <div class="cd-card">
+        <div class="cd-field">
+          <label class="cd-label">Hobbies</label>
+          <input class="cd-input" id="cd-f-hobbies" type="text" placeholder="Travel, Music, Fitness…">
+        </div>
+        <div class="cd-field">
+          <label class="cd-label">Passions</label>
+          <input class="cd-input" id="cd-f-passions" type="text" placeholder="Photography, Art, Dance…">
+        </div>
+        <div class="cd-field">
+          <label class="cd-label">Leisure activities</label>
+          <input class="cd-input" id="cd-f-leisure" type="text" placeholder="Reading, Cinema, Cooking…">
+        </div>
+        <div class="cd-field">
+          <label class="cd-label">Style (content)</label>
+          <select class="cd-select" id="cd-f-style">
+            <option value="">— Select —</option>
+            <option value="sensual">Sensual & intimate</option>
+            <option value="glamour">Glamour & luxury</option>
+            <option value="natural">Natural & authentic</option>
+            <option value="fetish">Fetish & niche</option>
+            <option value="artistic">Artistic & creative</option>
+            <option value="live">Lives & interaction</option>
+          </select>
+        </div>
+        <div class="cd-field">
+          <label class="cd-label">Preferences (what you enjoy creating)</label>
+          <textarea class="cd-textarea" id="cd-f-preferences" placeholder="Solo, duo, cosplay, POV, outdoor…"></textarea>
+        </div>
+      </div>
+
+      <div class="cd-stitle">· Dreams & goals ·</div>
+      <div class="cd-card">
+        <div class="cd-field">
+          <label class="cd-label">Your dreams</label>
+          <textarea class="cd-textarea" id="cd-f-dreams" placeholder="Travel the world, build a brand…"></textarea>
+        </div>
+        <div class="cd-field">
+          <label class="cd-label">Your goals on Honeymoon</label>
+          <textarea class="cd-textarea" id="cd-f-goals" placeholder="Grow my community, earn €X/month…"></textarea>
+        </div>
+      </div>
+
+      <button class="cd-btn-save" onclick="cdSaveProfile()">✦ Save full profile →</button>
+      <div class="cd-toast" id="cd-toast-profile">✦ Profile saved</div>
+    </div>
+
+    <!-- ══ TAB CONTENT ══ -->
+    <div class="cd-section" id="cd-sec-content">
+      <div class="cd-stitle">· Upload content ·</div>
+      <div class="cd-card">
+        <div class="cd-type-row">
+          <button class="cd-type-btn sel" id="cd-t-photo"  onclick="cdSelectType('photo')">Photo</button>
+          <button class="cd-type-btn"     id="cd-t-video"  onclick="cdSelectType('video')">Video</button>
+          <button class="cd-type-btn"     id="cd-t-reels"  onclick="cdSelectType('reels')">Reels</button>
+          <button class="cd-type-btn"     id="cd-t-teaser" onclick="cdSelectType('teaser')">Teaser</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+          <span style="font-family:Montserrat,sans-serif;font-size:8px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(214,169,78,0.45);">Tokens</span>
+          <input id="cd-tokens" type="number" min="0" value="0" style="width:76px;padding:8px;background:rgba(255,255,255,0.03);border:1px solid rgba(214,169,78,0.2);color:#faf6f0;font-family:Montserrat,sans-serif;font-size:13px;text-align:center;outline:none;">
+          <span style="font-family:Montserrat,sans-serif;font-size:8px;color:rgba(214,169,78,0.3);">0 = free</span>
+        </div>
+        <div class="cd-upload-zone">
+          <input type="file" id="cd-file-input" accept="image/*,video/*" onchange="cdHandleUpload(event)">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(214,169,78,0.45)" stroke-width="1.5" style="margin:0 auto 7px;display:block;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <span class="cd-upload-lbl">Tap to select file</span>
+        </div>
         <div class="cd-progress" id="cd-progress"><div class="cd-progress-bar" id="cd-progress-bar"></div></div>
-        <div class="cd-toast" id="cd-upload-toast">✦ Content uploaded successfully</div>
+        <div class="cd-toast" id="cd-toast-upload">✦ Content uploaded</div>
+      </div>
+      <div class="cd-stitle">· Recent uploads ·</div>
+      <div class="cd-grid" id="cd-recent-grid">
+        <div class="cd-no-content">No content yet</div>
       </div>
     </div>
 
-    <!-- Galerie récente -->
-    <div class="cd-section">
-      <div class="cd-section-title">· Recent uploads ·</div>
-      <div class="cd-content-grid" id="cd-recent-grid">
-        <div class="cd-content-empty" style="grid-column:1/-1;">No content yet</div>
+    <!-- ══ TAB LINKS ══ -->
+    <div class="cd-section" id="cd-sec-links">
+      <div class="cd-stitle">· Your platforms ·</div>
+      <div class="cd-card">
+        <div class="cd-field"><label class="cd-label">OnlyFans</label><input class="cd-input" id="cd-l-of" type="url" placeholder="https://onlyfans.com/…"></div>
+        <div class="cd-field"><label class="cd-label">Stripchat</label><input class="cd-input" id="cd-l-sc" type="url" placeholder="https://stripchat.com/…"></div>
+        <div class="cd-field"><label class="cd-label">BongaCams</label><input class="cd-input" id="cd-l-bc" type="url" placeholder="https://bongacams.com/…"></div>
+        <div class="cd-field"><label class="cd-label">Telegram</label><input class="cd-input" id="cd-l-tg" type="url" placeholder="https://t.me/…"></div>
+        <div class="cd-field"><label class="cd-label">Instagram</label><input class="cd-input" id="cd-l-ig" type="url" placeholder="https://instagram.com/…"></div>
+        <div class="cd-field"><label class="cd-label">Twitter / X</label><input class="cd-input" id="cd-l-tw" type="url" placeholder="https://x.com/…"></div>
+        <button class="cd-btn-save" onclick="cdSaveLinks()">✦ Save links →</button>
+        <div class="cd-toast" id="cd-toast-links">✦ Links saved</div>
+      </div>
+      <div class="cd-stitle">· My Honeymoon affiliate link ·</div>
+      <div class="cd-card">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:15px;color:#f2d270;margin-bottom:10px;" id="cd-affiliate-link">—</div>
+        <button class="cd-btn-ghost" onclick="cdCopyAffiliate()">Copy my link</button>
+        <div class="cd-toast" id="cd-toast-copy">✦ Copied!</div>
       </div>
     </div>
 
-    <!-- Actions rapides -->
-    <div class="cd-section">
-      <div class="cd-section-title">· Quick actions ·</div>
+    <!-- ══ TAB FORMULA ══ -->
+    <div class="cd-section" id="cd-sec-formula">
+      <!-- Honey Girl -->
+      <div id="cd-cat-hg" style="display:none;">
+        <div class="cd-card" style="border-color:rgba(214,169,78,0.2);">
+          <div style="font-family:'Montserrat',sans-serif;font-size:8px;letter-spacing:0.4em;text-transform:uppercase;color:rgba(214,169,78,0.6);margin-bottom:6px;">✦ Honey Girl — Light Contract</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:15px;color:#faf6f0;line-height:1.5;">Zero exclusivity. You keep all your platforms. Honeymoon adds a revenue channel.</div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:10px;color:#f2d270;margin-top:10px;">60% of every subscription</div>
+        </div>
+        <div class="cd-cat-title">· Honey Girl specifics ·</div>
+        <div class="cd-card">
+          <div class="cd-field"><label class="cd-label">Content volume agreed (per week)</label><input class="cd-input" id="cd-hg-volume" type="text" placeholder="e.g. 3 photos / week"></div>
+          <div class="cd-field"><label class="cd-label">Preferred content type</label><input class="cd-input" id="cd-hg-type" type="text" placeholder="Photos, Lives, Mixed…"></div>
+          <button class="cd-btn-save" onclick="cdSaveFormula()">✦ Save →</button>
+          <div class="cd-toast" id="cd-toast-formula">✦ Saved</div>
+        </div>
+      </div>
+      <!-- Original -->
+      <div id="cd-cat-or" style="display:none;">
+        <div class="cd-card" style="border-color:rgba(255,72,32,0.2);">
+          <div style="font-family:'Montserrat',sans-serif;font-size:8px;letter-spacing:0.4em;text-transform:uppercase;color:rgba(255,72,32,0.6);margin-bottom:6px;">✦ Honeymoon Original — Main Platform</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:15px;color:#faf6f0;line-height:1.5;">Honeymoon is your main income. More content, more PPV, more tips.</div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:10px;color:rgba(255,100,60,0.8);margin-top:10px;">70% subscriptions · 80% PPV</div>
+        </div>
+        <div class="cd-cat-title" style="color:rgba(255,72,32,0.5);">· Original specifics ·</div>
+        <div class="cd-card">
+          <div class="cd-field"><label class="cd-label">Content schedule</label><textarea class="cd-textarea" id="cd-or-schedule" placeholder="Mon/Wed/Fri — 2 photos + 1 reel…"></textarea></div>
+          <div class="cd-field"><label class="cd-label">PPV content planned</label><input class="cd-input" id="cd-or-ppv" type="text" placeholder="2 exclusive videos per month…"></div>
+          <div class="cd-field"><label class="cd-label">Private channel link</label><input class="cd-input" id="cd-or-private" type="url" placeholder="https://t.me/…"></div>
+          <button class="cd-btn-save" onclick="cdSaveFormula()">✦ Save →</button>
+          <div class="cd-toast" id="cd-toast-formula">✦ Saved</div>
+        </div>
+      </div>
+      <!-- Ambassadrice -->
+      <div id="cd-cat-am" style="display:none;">
+        <div class="cd-card" style="border-color:rgba(124,58,237,0.2);">
+          <div style="font-family:'Montserrat',sans-serif;font-size:8px;letter-spacing:0.4em;text-transform:uppercase;color:rgba(124,58,237,0.7);margin-bottom:6px;">👑 Ambassadrice — VIP Table</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:15px;color:#faf6f0;line-height:1.5;">Share your link. Wear the badge. See everything first.</div>
+        </div>
+        <div class="cd-cat-title" style="color:rgba(124,58,237,0.6);">· Ambassador specifics ·</div>
+        <div class="cd-card">
+          <div class="cd-social-grid">
+            <div class="cd-field"><label class="cd-label">Reddit</label><input class="cd-input" id="cd-am-reddit" type="url" placeholder="https://reddit.com/u/…"></div>
+            <div class="cd-field"><label class="cd-label">Twitter / X</label><input class="cd-input" id="cd-am-twitter" type="url" placeholder="https://x.com/…"></div>
+            <div class="cd-field"><label class="cd-label">Telegram</label><input class="cd-input" id="cd-am-telegram" type="url" placeholder="https://t.me/…"></div>
+            <div class="cd-field"><label class="cd-label">Discord</label><input class="cd-input" id="cd-am-discord" type="url" placeholder="https://discord.gg/…"></div>
+            <div class="cd-field"><label class="cd-label">Instagram</label><input class="cd-input" id="cd-am-instagram" type="url" placeholder="https://instagram.com/…"></div>
+            <div class="cd-field"><label class="cd-label">TikTok</label><input class="cd-input" id="cd-am-tiktok" type="url" placeholder="https://tiktok.com/@…"></div>
+          </div>
+          <button class="cd-btn-save" style="margin-top:8px;" onclick="cdSaveFormula()">✦ Save →</button>
+          <div class="cd-toast" id="cd-toast-formula">✦ Saved</div>
+        </div>
+      </div>
+      <!-- Star -->
+      <div id="cd-cat-st" style="display:none;">
+        <div class="cd-card" style="border-color:rgba(255,215,0,0.2);">
+          <div style="font-family:'Montserrat',sans-serif;font-size:8px;letter-spacing:0.4em;text-transform:uppercase;color:rgba(255,215,0,0.7);margin-bottom:6px;">★ Honeymoon Star — Honor Table</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:15px;color:#faf6f0;line-height:1.5;">You have a community. Bring it here. Keep everything.</div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:10px;color:rgba(255,215,0,0.7);margin-top:10px;">75% Fan Club · Existing revenue 100% untouched</div>
+        </div>
+        <div class="cd-cat-title" style="color:rgba(255,215,0,0.5);">· Star specifics ·</div>
+        <div class="cd-card">
+          <div class="cd-field"><label class="cd-label">Your OnlyFans</label><input class="cd-input" id="cd-st-of" type="url" placeholder="https://onlyfans.com/…"></div>
+          <div class="cd-field"><label class="cd-label">Fan Club price (default 39.99€)</label><input class="cd-input" id="cd-st-price" type="text" placeholder="39.99"></div>
+          <div class="cd-field"><label class="cd-label">Current subscriber count</label><input class="cd-input" id="cd-st-subs" type="text" placeholder="e.g. 2500"></div>
+          <div class="cd-field"><label class="cd-label">PPV strategy</label><textarea class="cd-textarea" id="cd-st-ppv" placeholder="Describe your PPV content…"></textarea></div>
+          <button class="cd-btn-save" onclick="cdSaveFormula()">✦ Save →</button>
+          <div class="cd-toast" id="cd-toast-formula">✦ Saved</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:20px;">
       <button class="cd-btn-ghost" onclick="showPage('landing')">← Back to site</button>
     </div>
-
   </div>
 </div>
 
 <script>
 (function(){
   var cdCreatorId = null;
+  var cdData = {};
   var cdSelectedType = 'photo';
   var cdSelectedStatus = 'away';
 
-  // ── Init au chargement de la page ──
+  window.cdTab = function(tab, btn) {
+    document.querySelectorAll('.cd-section').forEach(function(s){ s.classList.remove('active'); });
+    document.querySelectorAll('.cd-nav-btn').forEach(function(b){ b.classList.remove('active'); });
+    var sec = document.getElementById('cd-sec-' + tab);
+    if (sec) sec.classList.add('active');
+    if (btn) btn.classList.add('active');
+  };
+
   window.cdInit = function() {
     if (!window.hmCurrentUser) return;
-    var uid = window.hmCurrentUser.uid;
     var email = window.hmCurrentUser.email || '';
-
-    // Charger profil depuis Firestore
-    import("https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js").then(function(dbMod) {
-      dbMod.getDoc(dbMod.doc(window.hmDB, "creators", uid)).then(function(snap) {
-        if (snap.exists()) {
-          var d = snap.data();
-          cdCreatorId = uid;
-          document.getElementById('cd-creator-name').textContent  = d.name || 'Creator';
-          document.getElementById('cd-creator-email').textContent = d.email || email;
-          cdSelectedStatus = d.status || 'away';
-          cdHighlightStatus(cdSelectedStatus);
-
-          // Charger stats contenu
-          cdLoadStats();
-          cdLoadRecentContent();
-        }
-      });
-    });
-  };
-
-  // ── Sélection type contenu ──
-  window.cdSelectType = function(type) {
-    cdSelectedType = type;
-    ['photo','video','reels','teaser'].forEach(function(t) {
-      var btn = document.getElementById('cd-t-' + t);
-      if (btn) {
-        btn.style.borderColor = t === type ? 'rgba(214,169,78,0.7)' : 'rgba(214,169,78,0.18)';
-        btn.style.color       = t === type ? '#f2d270' : 'rgba(214,169,78,0.45)';
-      }
-    });
-  };
-
-  // ── Sélection statut ──
-  window.cdSetStatus = function(status) {
-    cdSelectedStatus = status;
-    cdHighlightStatus(status);
-  };
-
-  function cdHighlightStatus(status) {
-    var map = { active:'active-green', soon:'active-yellow', away:'active-red' };
-    ['active','soon','away'].forEach(function(s) {
-      var btn = document.getElementById('cd-s-' + s);
-      if (btn) { btn.className = 'cd-status-btn' + (s === status ? ' ' + map[s] : ''); }
-    });
-  }
-
-  // ── Confirmer statut ──
-  window.cdConfirmStatus = function() {
-    if (!cdCreatorId || !window.hmDB) return;
-    import("https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js").then(function(dbMod) {
-      dbMod.updateDoc(dbMod.doc(window.hmDB, "creators", cdCreatorId), {
-        status:     cdSelectedStatus,
-        updated_at: dbMod.serverTimestamp()
-      }).then(function() {
-        // Notifier directeur
-        if (typeof window.hmNotifyStatusChange === 'function') {
-          window.hmNotifyStatusChange(cdCreatorId, cdSelectedStatus, cdSelectedStatus);
-        }
-        var toast = document.getElementById('cd-status-toast');
-        if (toast) { toast.style.display = 'block'; setTimeout(function(){ toast.style.display = 'none'; }, 2500); }
-      });
-    });
-  };
-
-  // ── Upload fichier ──
-  window.cdHandleUpload = function(e) {
-    var file = e.target.files[0];
-    if (!file || !cdCreatorId) return;
-    var tokens = parseInt(document.getElementById('cd-tokens').value) || 0;
-    var progress = document.getElementById('cd-progress');
-    var bar = document.getElementById('cd-progress-bar');
-    if (progress) progress.style.display = 'block';
-
-    window.hmUploadCreatorContent(cdCreatorId, cdSelectedType, file, tokens, function(pct) {
-      if (bar) bar.style.width = pct + '%';
-    }).then(function(result) {
-      if (progress) progress.style.display = 'none';
-      if (bar) bar.style.width = '0%';
-      var toast = document.getElementById('cd-upload-toast');
-      if (toast) { toast.style.display = 'block'; setTimeout(function(){ toast.style.display = 'none'; }, 2500); }
-      cdLoadRecentContent();
-      cdLoadStats();
-      e.target.value = '';
-    }).catch(function(err) {
-      if (progress) progress.style.display = 'none';
-      console.warn('Upload error:', err);
-    });
-  };
-
-  // ── Charger stats ──
-  function cdLoadStats() {
-    if (!cdCreatorId || !window.hmDB) return;
-    import("https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js").then(function(dbMod) {
-      ['photo','video'].forEach(function(type) {
-        var q = dbMod.query(
-          dbMod.collection(window.hmDB, "content"),
-          dbMod.where("creator_id", "==", cdCreatorId),
-          dbMod.where("type", "==", type)
-        );
-        dbMod.getDocs(q).then(function(snap) {
-          var el = document.getElementById('cd-stat-' + type + 's');
-          if (el) el.textContent = snap.size;
-        });
-      });
-    });
-  }
-
-  // ── Charger contenu récent ──
-  function cdLoadRecentContent() {
-    if (!cdCreatorId || !window.hmDB) return;
-    import("https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js").then(function(dbMod) {
-      var q = dbMod.query(
-        dbMod.collection(window.hmDB, "content"),
-        dbMod.where("creator_id", "==", cdCreatorId),
-        dbMod.orderBy("created_at", "desc"),
-        dbMod.limit(9)
-      );
+    import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod) {
+      var q = dbMod.query(dbMod.collection(window.hmDB, 'creators'), dbMod.where('email', '==', email));
       dbMod.getDocs(q).then(function(snap) {
-        var grid = document.getElementById('cd-recent-grid');
-        if (!grid) return;
-        if (snap.empty) { grid.innerHTML = '<div class="cd-content-empty" style="grid-column:1/-1;">No content yet</div>'; return; }
-        var html = '';
-        snap.forEach(function(d) {
-          var data = d.data();
-          html += '<div class="cd-content-thumb">';
-          if (data.format === 'mp4' || data.type === 'video' || data.type === 'reels') {
-            html += '<video src="' + data.url + '" style="width:100%;height:100%;object-fit:cover;" muted></video>';
-          } else {
-            html += '<img src="' + data.url + '" style="width:100%;height:100%;object-fit:cover;" loading="lazy"/>';
-          }
-          if (data.locked) {
-            html += '<div style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.6);padding:2px 5px;font-family:Montserrat,sans-serif;font-size:7px;color:#f2d270;">' + data.price_tokens + 'tk</div>';
-          }
-          html += '</div>';
-        });
-        grid.innerHTML = html;
+        var doc = snap.empty ? null : snap.docs[0];
+        if (!doc) {
+          dbMod.getDoc(dbMod.doc(window.hmDB, 'creators', window.hmCurrentUser.uid)).then(function(s2) {
+            if (s2.exists()) { cdCreatorId = s2.id; cdData = s2.data(); cdRender(); }
+          });
+        } else { cdCreatorId = doc.id; cdData = doc.data(); cdRender(); }
+      });
+    });
+  };
+
+  function cdRender() {
+    var d = cdData;
+    // Header
+    var n = document.getElementById('cd-hname');
+    var e = document.getElementById('cd-hemail');
+    var b = document.getElementById('cd-hbadge');
+    var a = document.getElementById('cd-avatar');
+    if (n) n.textContent = d.name || 'Creator';
+    if (e) e.textContent = d.email || '';
+    if (a) { if (d.photo) a.innerHTML = '<img src="' + d.photo + '">'; else a.textContent = (d.name||'C')[0].toUpperCase(); }
+    var cat = d.category || d.formula || 'honey_girl';
+    var badges = {honey_girl:{cls:'cd-badge-hg',txt:'Honey Girl'},original:{cls:'cd-badge-or',txt:'Original'},ambassadrice:{cls:'cd-badge-am',txt:'Ambassadrice'},star:{cls:'cd-badge-st',txt:'★ Star'}};
+    var bInfo = badges[cat] || badges.honey_girl;
+    if (b) { b.className = 'cd-hbadge ' + bInfo.cls; b.textContent = bInfo.txt; }
+    var tabF = document.getElementById('cd-tab-formula');
+    if (tabF) tabF.textContent = bInfo.txt;
+
+    // Category panels
+    ['hg','or','am','st'].forEach(function(c){ var el=document.getElementById('cd-cat-'+c); if(el) el.style.display='none'; });
+    var catMap = {honey_girl:'hg',original:'or',ambassadrice:'am',star:'st'};
+    var panel = document.getElementById('cd-cat-'+(catMap[cat]||'hg'));
+    if (panel) panel.style.display = 'block';
+
+    // Stats
+    var followers = (parseInt(d.followers_of)||0)+(parseInt(d.followers_sc)||0)+(parseInt(d.followers_bc)||0)+(parseInt(d.followers_ig)||0)+(parseInt(d.followers_tk)||0)+(parseInt(d.followers_tw)||0);
+    var bigF = document.getElementById('cd-big-followers');
+    if (bigF) bigF.textContent = followers.toLocaleString();
+
+    // Follower inputs
+    var fMap = {'cd-stat-of':'followers_of','cd-stat-sc':'followers_sc','cd-stat-bc':'followers_bc','cd-stat-ig':'followers_ig','cd-stat-tk':'followers_tk','cd-stat-tw':'followers_tw'};
+    Object.keys(fMap).forEach(function(id){ var el=document.getElementById(id); if(el&&d[fMap[id]]) el.value=d[fMap[id]]; });
+
+    // Profile fields
+    var pMap = {'cd-f-name':'name','cd-f-tagline':'tagline','cd-f-bio':'bio','cd-f-photo':'photo','cd-f-country':'country','cd-f-languages':'languages','cd-f-age':'age','cd-f-height':'height','cd-f-hair':'hair','cd-f-eyes':'eyes','cd-f-hobbies':'hobbies','cd-f-passions':'passions','cd-f-leisure':'leisure','cd-f-preferences':'preferences','cd-f-dreams':'dreams','cd-f-goals':'goals'};
+    Object.keys(pMap).forEach(function(id){ var el=document.getElementById(id); if(el&&d[pMap[id]]) el.value=d[pMap[id]]; });
+    var ori = document.getElementById('cd-f-orientation'); if(ori&&d.orientation) ori.value=d.orientation;
+    var body = document.getElementById('cd-f-body'); if(body&&d.body) body.value=d.body;
+    var style = document.getElementById('cd-f-style'); if(style&&d.style) style.value=d.style;
+
+    // Links
+    var lMap = {'cd-l-of':'link_onlyfans','cd-l-sc':'link_stripchat','cd-l-bc':'link_bongacams','cd-l-tg':'link_telegram','cd-l-ig':'link_instagram','cd-l-tw':'link_twitter'};
+    Object.keys(lMap).forEach(function(id){ var el=document.getElementById(id); if(el&&d[lMap[id]]) el.value=d[lMap[id]]; });
+
+    // Affiliate
+    var aff = document.getElementById('cd-affiliate-link');
+    if (aff) aff.textContent = 'honeymoonofficiel.vercel.app/?ref=' + (d.name||'creator').toLowerCase();
+
+    // Status
+    cdSelectedStatus = d.status || 'away';
+    cdHighlightStatus(cdSelectedStatus);
+
+    // Formula fields
+    var fFields = {'cd-hg-volume':'hg_volume','cd-hg-type':'hg_type','cd-or-schedule':'or_schedule','cd-or-ppv':'or_ppv','cd-or-private':'or_private','cd-am-reddit':'am_reddit','cd-am-twitter':'am_twitter','cd-am-telegram':'am_telegram','cd-am-discord':'am_discord','cd-am-instagram':'am_instagram','cd-am-tiktok':'am_tiktok','cd-st-of':'st_of','cd-st-price':'st_price','cd-st-subs':'st_subs','cd-st-ppv':'st_ppv'};
+    Object.keys(fFields).forEach(function(id){ var el=document.getElementById(id); if(el&&d[fFields[id]]) el.value=d[fFields[id]]; });
+
+    cdLoadStats();
+    cdLoadRecentContent();
+  }
+
+  window.cdSaveStats = function() {
+    if (!cdCreatorId||!window.hmDB) return;
+    import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod) {
+      var data = {
+        followers_of: parseInt(document.getElementById('cd-stat-of').value)||0,
+        followers_sc: parseInt(document.getElementById('cd-stat-sc').value)||0,
+        followers_bc: parseInt(document.getElementById('cd-stat-bc').value)||0,
+        followers_ig: parseInt(document.getElementById('cd-stat-ig').value)||0,
+        followers_tk: parseInt(document.getElementById('cd-stat-tk').value)||0,
+        followers_tw: parseInt(document.getElementById('cd-stat-tw').value)||0,
+        updated_at: dbMod.serverTimestamp()
+      };
+      dbMod.updateDoc(dbMod.doc(window.hmDB,'creators',cdCreatorId), data).then(function() {
+        cdShowToast('cd-toast-stats');
+        var total = Object.values(data).filter(function(v){return typeof v==='number';}).reduce(function(a,b){return a+b;},0);
+        var bigF = document.getElementById('cd-big-followers');
+        if (bigF) bigF.textContent = total.toLocaleString();
+      });
+    });
+  };
+
+  window.cdSaveProfile = function() {
+    if (!cdCreatorId||!window.hmDB) return;
+    import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod) {
+      var g = function(id){ var el=document.getElementById(id); return el?el.value:''; };
+      var data = {
+        name:g('cd-f-name'), tagline:g('cd-f-tagline'), bio:g('cd-f-bio'), photo:g('cd-f-photo'),
+        country:g('cd-f-country'), languages:g('cd-f-languages'), age:parseInt(g('cd-f-age'))||0,
+        orientation:g('cd-f-orientation'), height:parseInt(g('cd-f-height'))||0,
+        hair:g('cd-f-hair'), eyes:g('cd-f-eyes'), body:g('cd-f-body'),
+        hobbies:g('cd-f-hobbies'), passions:g('cd-f-passions'), leisure:g('cd-f-leisure'),
+        style:g('cd-f-style'), preferences:g('cd-f-preferences'),
+        dreams:g('cd-f-dreams'), goals:g('cd-f-goals'),
+        updated_at: dbMod.serverTimestamp()
+      };
+      dbMod.updateDoc(dbMod.doc(window.hmDB,'creators',cdCreatorId), data).then(function() {
+        cdShowToast('cd-toast-profile');
+        var n=document.getElementById('cd-hname'); if(n) n.textContent=data.name||'Creator';
+        var a=document.getElementById('cd-avatar');
+        if(a&&data.photo) a.innerHTML='<img src="'+data.photo+'">';
+        else if(a) a.textContent=(data.name||'C')[0].toUpperCase();
+      });
+    });
+  };
+
+  window.cdSaveLinks = function() {
+    if (!cdCreatorId||!window.hmDB) return;
+    import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod) {
+      var g=function(id){var el=document.getElementById(id);return el?el.value:'';};
+      var data={link_onlyfans:g('cd-l-of'),link_stripchat:g('cd-l-sc'),link_bongacams:g('cd-l-bc'),link_telegram:g('cd-l-tg'),link_instagram:g('cd-l-ig'),link_twitter:g('cd-l-tw'),updated_at:dbMod.serverTimestamp()};
+      dbMod.updateDoc(dbMod.doc(window.hmDB,'creators',cdCreatorId),data).then(function(){ cdShowToast('cd-toast-links'); });
+    });
+  };
+
+  window.cdSaveFormula = function() {
+    if (!cdCreatorId||!window.hmDB) return;
+    var cat = cdData.category||cdData.formula||'honey_girl';
+    var ids={honey_girl:['cd-hg-volume','cd-hg-type'],original:['cd-or-schedule','cd-or-ppv','cd-or-private'],ambassadrice:['cd-am-reddit','cd-am-twitter','cd-am-telegram','cd-am-discord','cd-am-instagram','cd-am-tiktok'],star:['cd-st-of','cd-st-price','cd-st-subs','cd-st-ppv']};
+    var keys={'cd-hg-volume':'hg_volume','cd-hg-type':'hg_type','cd-or-schedule':'or_schedule','cd-or-ppv':'or_ppv','cd-or-private':'or_private','cd-am-reddit':'am_reddit','cd-am-twitter':'am_twitter','cd-am-telegram':'am_telegram','cd-am-discord':'am_discord','cd-am-instagram':'am_instagram','cd-am-tiktok':'am_tiktok','cd-st-of':'st_of','cd-st-price':'st_price','cd-st-subs':'st_subs','cd-st-ppv':'st_ppv'};
+    var data={};
+    (ids[cat]||[]).forEach(function(id){var el=document.getElementById(id);if(el) data[keys[id]]=el.value;});
+    import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod){
+      data.updated_at=dbMod.serverTimestamp();
+      dbMod.updateDoc(dbMod.doc(window.hmDB,'creators',cdCreatorId),data).then(function(){ cdShowToast('cd-toast-formula'); });
+    });
+  };
+
+  window.cdSetStatus = function(s){ cdSelectedStatus=s; cdHighlightStatus(s); };
+  function cdHighlightStatus(s){
+    var map={active:'s-active',soon:'s-soon',away:'s-away'};
+    ['active','soon','away'].forEach(function(k){ var btn=document.getElementById('cd-s-'+k); if(btn) btn.className='cd-status-btn'+(k===s?' '+map[k]:''); });
+  }
+  window.cdConfirmStatus = function(){
+    if(!cdCreatorId||!window.hmDB) return;
+    import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod){
+      dbMod.updateDoc(dbMod.doc(window.hmDB,'creators',cdCreatorId),{status:cdSelectedStatus,updated_at:dbMod.serverTimestamp()}).then(function(){ cdShowToast('cd-toast-status'); });
+    });
+  };
+
+  window.cdSelectType = function(type){
+    cdSelectedType=type;
+    ['photo','video','reels','teaser'].forEach(function(t){ var btn=document.getElementById('cd-t-'+t); if(btn) btn.className='cd-type-btn'+(t===type?' sel':''); });
+  };
+
+  window.cdHandleUpload = function(e){
+    var file=e.target.files[0];
+    if(!file||!cdCreatorId) return;
+    var tokens=parseInt(document.getElementById('cd-tokens').value)||0;
+    var progress=document.getElementById('cd-progress');
+    var bar=document.getElementById('cd-progress-bar');
+    if(progress) progress.style.display='block';
+    window.hmUploadCreatorContent(cdCreatorId,cdSelectedType,file,tokens,function(pct){ if(bar) bar.style.width=pct+'%'; }).then(function(){ if(progress) progress.style.display='none'; cdShowToast('cd-toast-upload'); cdLoadRecentContent(); cdLoadStats(); e.target.value=''; }).catch(function(){ if(progress) progress.style.display='none'; });
+  };
+
+  function cdLoadStats(){
+    if(!cdCreatorId||!window.hmDB) return;
+    import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod){
+      ['photo','video','reels'].forEach(function(type){
+        var q=dbMod.query(dbMod.collection(window.hmDB,'content'),dbMod.where('creator_id','==',cdCreatorId),dbMod.where('type','==',type));
+        dbMod.getDocs(q).then(function(snap){ var el=document.getElementById('cd-stat-'+type+'s'); if(el) el.textContent=snap.size; });
       });
     });
   }
 
-  // ── Déclencher init quand la page devient active ──
-  var _origShowPage = window.showPage;
-  window.showPage = function(pid) {
-    if (_origShowPage) _origShowPage.apply(this, arguments);
-    if (pid === 'creator-dashboard') {
-      setTimeout(window.cdInit, 300);
-    }
-  };
+  function cdLoadRecentContent(){
+    if(!cdCreatorId||!window.hmDB) return;
+    import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod){
+      var q=dbMod.query(dbMod.collection(window.hmDB,'content'),dbMod.where('creator_id','==',cdCreatorId),dbMod.orderBy('created_at','desc'),dbMod.limit(9));
+      dbMod.getDocs(q).then(function(snap){
+        var grid=document.getElementById('cd-recent-grid');
+        if(!grid) return;
+        if(snap.empty){grid.innerHTML='<div class="cd-no-content">No content yet</div>';return;}
+        var html='';
+        snap.forEach(function(d){ var data=d.data(); html+='<div class="cd-thumb">'; if(data.type==='video'||data.type==='reels') html+='<video src="'+data.url+'" muted style="width:100%;height:100%;object-fit:cover;"></video>'; else html+='<img src="'+data.url+'" loading="lazy"/>'; if(data.locked) html+='<div style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.6);padding:2px 5px;font-family:Montserrat,sans-serif;font-size:7px;color:#f2d270;">'+data.price_tokens+'tk</div>'; html+='</div>'; });
+        grid.innerHTML=html;
+      });
+    });
+  }
 
+  window.cdCopyAffiliate=function(){ var el=document.getElementById('cd-affiliate-link'); if(el&&navigator.clipboard) navigator.clipboard.writeText(el.textContent); cdShowToast('cd-toast-copy'); };
+  function cdShowToast(id){ var el=document.getElementById(id); if(!el) return; el.style.display='block'; setTimeout(function(){ el.style.display='none'; },2500); }
+
+  var _orig=window.showPage;
+  window.showPage=function(pid){ if(_orig) _orig.apply(this,arguments); if(pid==='creator-dashboard') setTimeout(window.cdInit,300); };
 })();
 </script>
 </div>
@@ -19154,6 +19536,14 @@ document.addEventListener('DOMContentLoaded', function() {
         <div style="margin-bottom:6px;display:flex;gap:6px;align-items:center;">
           <input class="ad-input" id="ad-cr-pwd" type="text" placeholder="Password" style="flex:1;">
           <button class="ad-btn" style="width:auto;padding:11px 14px;margin:0;white-space:nowrap;" onclick="adGenPwd()">Generate</button>
+        </div>
+        <div style="margin-bottom:6px;">
+          <select class="ad-input" id="ad-cr-category" style="cursor:pointer;background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2210%22 height=%226%22%3E%3Cpath d=%22M0 0l5 6 5-6z%22 fill=%22rgba(214,169,78,0.4)%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 12px center;-webkit-appearance:none;">
+            <option value="honey_girl">✦ Honey Girl — Light Contract (60%)</option>
+            <option value="original">✦ Honeymoon Original — Main Platform (70%+PPV80%)</option>
+            <option value="ambassadrice">👑 Ambassadrice — VIP Table</option>
+            <option value="star">★ Honeymoon Star — Honor Table (75%)</option>
+          </select>
         </div>
         <div id="ad-cr-msg" style="font-family:Montserrat,sans-serif;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;padding:10px;margin-top:6px;display:none;"></div>
         <button class="ad-btn" style="background:rgba(214,169,78,0.12);border-color:rgba(214,169,78,0.3);color:rgba(214,169,78,0.85);margin-top:8px;" onclick="adCreateCreator()">✦ Create account →</button>
@@ -19273,8 +19663,10 @@ document.addEventListener('DOMContentLoaded', function() {
       var cred = await authMod.createUserWithEmailAndPassword(window.hmAuth, email, pwd);
       var dbMod = await import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js');
       var slug = name.toLowerCase().replace(/[^a-z0-9]/g,'');
+      var category = (document.getElementById('ad-cr-category')||{}).value || 'honey_girl';
       await dbMod.setDoc(dbMod.doc(window.hmDB, 'creators', slug), {
         name: name, email: email, uid: cred.user.uid,
+        category: category, formula: category,
         status: 'soon', bio: '', created_at: dbMod.serverTimestamp()
       });
       if (msg) { msg.style.display='block'; msg.style.color='#22c55e'; msg.textContent='✓ Account created — send credentials to creator'; }
