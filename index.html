@@ -2239,7 +2239,7 @@ h1, h2, h3, h4,
 (function() {
 
   // ── Config notifications ──
-  var HM_DIRECTOR_EMAIL  = "jellyjollly@outlook.com";
+  var HM_DIRECTOR_EMAIL  = "jellyjolly@outlook.com";
   var HM_TELEGRAM_BOT    = "";  // à remplir : token bot Telegram director
   var HM_TELEGRAM_CHATID = "";  // à remplir : chat_id du directeur
 
@@ -17433,7 +17433,7 @@ function crNotifNo(pid){
             dbMod.getDoc(dbMod.doc(window.hmDB, "creators", cred.user.uid))
               .then(function(snap) {
                 if (snap.exists()) {
-                  var isDirector = (cred.user.email === "jellyjollly@outlook.com");
+                  var isDirector = (cred.user.email === "jellyjolly@outlook.com");
                   if (typeof window.hmNotifyCreatorLogin === "function") {
                     window.hmNotifyCreatorLogin(cred.user.uid, cred.user.email);
                   }
@@ -19050,7 +19050,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <!-- ═══════════════════════════════════════════════════
      PAGE — ADMIN DASHBOARD (Directeur)
-     Accès : jellyjollly@outlook.com uniquement
+     Accès : jellyjolly@outlook.com uniquement
 ═══════════════════════════════════════════════════ -->
 <div class="page" id="page-admin-dashboard">
 <style>
