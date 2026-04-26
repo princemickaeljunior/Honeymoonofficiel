@@ -19497,150 +19497,312 @@ document.addEventListener('DOMContentLoaded', function() {
 ═══════════════════════════════════════════════════ -->
 <div class="page" id="page-admin-dashboard">
 <style>
-.ad-wrap { min-height:100vh; background:radial-gradient(ellipse 80% 55% at 80% 10%,rgba(255,72,32,0.10) 0%,transparent 55%),#1e1245; padding-bottom:80px; }
-.ad-header { padding:60px 24px 24px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid rgba(255,72,32,0.15); }
-.ad-logo { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:300; color:#ff4820; letter-spacing:0.15em; }
-.ad-body { padding:24px; max-width:700px; margin:0 auto; }
-.ad-section { margin-bottom:28px; }
-.ad-section-title { font-family:'Montserrat',sans-serif; font-size:9px; letter-spacing:0.4em; text-transform:uppercase; color:rgba(255,72,32,0.55); margin-bottom:14px; padding-bottom:8px; border-bottom:1px solid rgba(255,72,32,0.10); }
-.ad-stat-row { display:flex; gap:8px; margin-bottom:8px; }
-.ad-stat { flex:1; background:rgba(255,72,32,0.05); border:1px solid rgba(255,72,32,0.15); padding:14px 12px; text-align:center; }
-.ad-stat-num { font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:300; color:#ff4820; display:block; }
-.ad-stat-lbl { font-family:'Montserrat',sans-serif; font-size:8px; letter-spacing:0.3em; text-transform:uppercase; color:rgba(255,72,32,0.45); }
-.ad-card { background:rgba(255,255,255,0.02); border:1px solid rgba(255,72,32,0.12); padding:16px; margin-bottom:6px; }
-.ad-notif-item { padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.04); display:flex; align-items:flex-start; gap:12px; }
-.ad-notif-type { font-family:'Montserrat',sans-serif; font-size:8px; letter-spacing:0.2em; text-transform:uppercase; color:rgba(255,72,32,0.7); min-width:80px; padding-top:2px; }
-.ad-notif-text { font-family:'Montserrat',sans-serif; font-size:11px; color:rgba(245,240,232,0.75); line-height:1.5; flex:1; }
-.ad-notif-time { font-family:'Montserrat',sans-serif; font-size:8px; color:rgba(245,240,232,0.25); min-width:50px; text-align:right; }
-.ad-member-row { padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.04); display:flex; align-items:center; gap:12px; }
-.ad-member-email { font-family:'Montserrat',sans-serif; font-size:11px; color:rgba(245,240,232,0.75); flex:1; }
-.ad-member-badge { font-family:'Montserrat',sans-serif; font-size:8px; letter-spacing:0.2em; text-transform:uppercase; color:rgba(214,169,78,0.6); }
-.ad-member-pts { font-family:'Cormorant Garamond',serif; font-size:18px; color:#f2d270; min-width:50px; text-align:right; }
-.ad-creator-status { display:flex; align-items:center; gap:8px; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.04); }
-.ad-creator-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
-.ad-creator-dot.active { background:#22c55e; box-shadow:0 0 8px #22c55e; }
-.ad-creator-dot.away { background:#ff4820; }
-.ad-creator-dot.soon { background:#f2d270; }
-.ad-creator-name-txt { font-family:'Cormorant Garamond',serif; font-size:18px; color:#faf6f0; flex:1; }
-.ad-creator-status-txt { font-family:'Montserrat',sans-serif; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:rgba(245,240,232,0.4); }
-.ad-btn { width:100%; padding:13px; background:rgba(255,72,32,0.10); border:1px solid rgba(255,72,32,0.3); color:rgba(255,120,80,0.85); font-family:'Montserrat',sans-serif; font-size:9px; font-weight:600; letter-spacing:0.25em; text-transform:uppercase; cursor:pointer; margin-bottom:6px; transition:all 0.2s; }
-.ad-btn:hover { background:rgba(255,72,32,0.18); }
-.ad-empty { font-family:'Montserrat',sans-serif; font-size:9px; color:rgba(245,240,232,0.25); text-align:center; padding:20px; letter-spacing:0.2em; }
-.ad-input { width:100%; background:rgba(255,255,255,0.03); border:1px solid rgba(255,72,32,0.15); color:#faf6f0; font-family:'Montserrat',sans-serif; font-size:11px; padding:10px 12px; outline:none; transition:border-color 0.2s; box-sizing:border-box; }
-.ad-input:focus { border-color:rgba(214,169,78,0.4); }
-.ad-input::placeholder { color:rgba(245,240,232,0.2); }
+/* ══════════════════════════════════════
+   DASHBOARD DIRECTEUR — LUXURY PREMIUM
+══════════════════════════════════════ */
+.dir-wrap{min-height:100vh;background:#1e1545;font-family:'Montserrat',sans-serif;padding-bottom:80px;}
+.dir-wrap::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse 70% 50% at 100% 0%,rgba(255,72,32,0.10) 0%,transparent 60%),
+             radial-gradient(ellipse 50% 40% at 0% 100%,rgba(214,169,78,0.08) 0%,transparent 55%);}
+.dir-header{position:relative;z-index:2;padding:0 24px;background:linear-gradient(180deg,rgba(30,21,69,0.98) 0%,rgba(30,21,69,0.85) 100%);border-bottom:1px solid rgba(255,72,32,0.15);}
+.dir-header-top{display:flex;justify-content:space-between;align-items:center;padding:20px 0 16px;}
+.dir-logo{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:#ff4820;letter-spacing:0.25em;}
+.dir-signout{background:none;border:1px solid rgba(255,72,32,0.2);color:rgba(255,72,32,0.5);font-family:'Montserrat',sans-serif;font-size:7px;letter-spacing:0.3em;text-transform:uppercase;padding:7px 14px;cursor:pointer;transition:all 0.2s;}
+.dir-signout:hover{border-color:rgba(255,72,32,0.5);color:#ff4820;}
+.dir-hero{padding:24px;border-bottom:1px solid rgba(255,72,32,0.08);position:relative;z-index:1;}
+.dir-hero-name{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:#faf6f0;}
+.dir-hero-sub{font-size:8px;letter-spacing:0.35em;text-transform:uppercase;color:rgba(255,72,32,0.5);margin-top:4px;}
+.dir-nav{display:flex;overflow-x:auto;border-bottom:1px solid rgba(255,72,32,0.08);position:sticky;top:0;z-index:10;background:#1e1545;}
+.dir-nav::-webkit-scrollbar{display:none;}
+.dir-nav-btn{padding:14px 15px;background:none;border:none;border-bottom:2px solid transparent;font-size:7px;letter-spacing:0.28em;text-transform:uppercase;color:rgba(255,72,32,0.35);cursor:pointer;transition:all 0.2s;white-space:nowrap;font-family:'Montserrat',sans-serif;}
+.dir-nav-btn.on{border-bottom-color:#ff4820;color:#ff4820;}
+.dir-sec{display:none;padding:28px 24px;position:relative;z-index:1;animation:dirIn 0.3s ease;max-width:700px;margin:0 auto;}
+.dir-sec.on{display:block;}
+@keyframes dirIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.dir-stitle{font-size:8px;letter-spacing:0.5em;text-transform:uppercase;color:rgba(255,72,32,0.45);border-bottom:1px solid rgba(255,72,32,0.08);padding-bottom:10px;margin:0 0 20px;}
+.dir-card{background:rgba(255,255,255,0.025);border:1px solid rgba(255,72,32,0.10);padding:18px;margin-bottom:12px;}
+.dir-card-gold{background:rgba(255,255,255,0.025);border:1px solid rgba(214,169,78,0.15);padding:18px;margin-bottom:12px;}
+
+/* Stats globales */
+.dir-big-stat{text-align:center;padding:24px 16px;background:linear-gradient(135deg,rgba(255,72,32,0.08),rgba(214,169,78,0.04));border:1px solid rgba(255,72,32,0.15);margin-bottom:12px;}
+.dir-big-num{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;color:#ff4820;display:block;line-height:1;}
+.dir-big-lbl{font-size:8px;letter-spacing:0.4em;text-transform:uppercase;color:rgba(255,72,32,0.4);margin-top:6px;display:block;}
+.dir-stats-g{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;}
+.dir-stat{background:rgba(255,72,32,0.04);border:1px solid rgba(255,72,32,0.10);padding:14px 8px;text-align:center;}
+.dir-stat-n{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:#ff4820;display:block;}
+.dir-stat-l{font-size:7px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,72,32,0.35);}
+.dir-stat-gold{background:rgba(214,169,78,0.04);border-color:rgba(214,169,78,0.12);}
+.dir-stat-gold .dir-stat-n{color:#f2d270;}
+.dir-stat-gold .dir-stat-l{color:rgba(214,169,78,0.35);}
+
+/* Créatrices */
+.dir-creator-row{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
+.dir-creator-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.dir-creator-dot.active{background:#22c55e;box-shadow:0 0 8px #22c55e;}
+.dir-creator-dot.soon{background:#f2d270;}
+.dir-creator-dot.away{background:#ff4820;}
+.dir-creator-name{font-family:'Cormorant Garamond',serif;font-size:18px;color:#faf6f0;flex:1;}
+.dir-creator-badge{font-size:7px;letter-spacing:0.25em;text-transform:uppercase;padding:3px 8px;border:1px solid rgba(214,169,78,0.2);color:rgba(214,169,78,0.6);}
+.dir-creator-status{font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(245,240,232,0.3);min-width:50px;text-align:right;}
+.dir-creator-followers{font-family:'Cormorant Garamond',serif;font-size:16px;color:#f2d270;min-width:60px;text-align:right;}
+
+/* Notifications */
+.dir-notif-row{padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.04);display:flex;align-items:flex-start;gap:12px;}
+.dir-notif-icon{font-size:14px;flex-shrink:0;margin-top:1px;}
+.dir-notif-txt{font-size:11px;color:rgba(245,240,232,0.7);line-height:1.5;flex:1;}
+.dir-notif-time{font-size:8px;color:rgba(245,240,232,0.2);min-width:45px;text-align:right;}
+.dir-notif-badge{font-size:7px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,72,32,0.7);display:block;margin-bottom:2px;}
+
+/* Membres */
+.dir-member-row{padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);display:flex;align-items:center;gap:10px;}
+.dir-member-email{font-size:11px;color:rgba(245,240,232,0.7);flex:1;}
+.dir-member-badge{font-size:7px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(214,169,78,0.55);}
+.dir-member-pts{font-family:'Cormorant Garamond',serif;font-size:18px;color:#f2d270;min-width:50px;text-align:right;}
+
+/* Problèmes */
+.dir-issue-row{padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.04);display:flex;gap:10px;align-items:flex-start;}
+.dir-issue-dot{width:6px;height:6px;border-radius:50%;background:#ff4820;flex-shrink:0;margin-top:5px;box-shadow:0 0 6px #ff4820;}
+.dir-issue-dot.warn{background:#f2d270;box-shadow:0 0 6px #f2d270;}
+.dir-issue-txt{font-size:10px;color:rgba(245,240,232,0.65);line-height:1.5;flex:1;}
+.dir-issue-time{font-size:8px;color:rgba(245,240,232,0.2);min-width:45px;text-align:right;}
+
+/* Candidatures */
+.dir-app-row{padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
+.dir-app-name{font-family:'Cormorant Garamond',serif;font-size:17px;color:#faf6f0;margin-bottom:4px;}
+.dir-app-email{font-size:9px;color:rgba(214,169,78,0.5);letter-spacing:0.1em;margin-bottom:6px;}
+.dir-app-formula{font-size:7px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,72,32,0.6);}
+
+/* Buttons */
+.dir-btn{width:100%;padding:13px;background:rgba(255,72,32,0.08);border:1px solid rgba(255,72,32,0.25);color:rgba(255,100,60,0.85);font-family:'Montserrat',sans-serif;font-size:8px;font-weight:600;letter-spacing:0.28em;text-transform:uppercase;cursor:pointer;margin-bottom:8px;transition:all 0.2s;}
+.dir-btn:hover{background:rgba(255,72,32,0.15);}
+.dir-btn-gold{background:linear-gradient(135deg,#b8840a,#f2d270,#b8840a);background-size:200%;color:#1e1545;border:none;font-weight:700;}
+.dir-btn-gold:hover{background-position:right;}
+.dir-input{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,72,32,0.15);color:#faf6f0;font-family:'Montserrat',sans-serif;font-size:11px;padding:10px 12px;outline:none;transition:border-color 0.2s;box-sizing:border-box;}
+.dir-input:focus{border-color:rgba(214,169,78,0.4);}
+.dir-input::placeholder{color:rgba(245,240,232,0.18);}
+.dir-select{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,72,32,0.15);color:#faf6f0;font-family:'Montserrat',sans-serif;font-size:11px;padding:10px 12px;outline:none;box-sizing:border-box;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(255,72,32,0.4)'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;cursor:pointer;}
+.dir-select option{background:#1e1545;color:#faf6f0;}
+.dir-field{margin-bottom:8px;}
+.dir-label{font-size:8px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(245,240,232,0.35);display:block;margin-bottom:5px;}
+.dir-empty{font-size:9px;color:rgba(245,240,232,0.2);text-align:center;padding:20px;letter-spacing:0.2em;}
+.dir-toast{display:none;padding:10px 14px;background:rgba(34,197,94,0.07);border:1px solid rgba(34,197,94,0.18);color:rgba(100,220,100,0.8);font-size:8px;letter-spacing:0.2em;text-transform:uppercase;text-align:center;margin:8px 0;}
+.dir-2col{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 </style>
 
-<div class="ad-wrap">
-  <div class="ad-header">
-    <span class="ad-logo">✦ Admin — Director</span>
-    <button class="cd-signout" onclick="hmSignOut && hmSignOut()" style="border-color:rgba(255,72,32,0.3);color:rgba(255,72,32,0.6);">Sign out</button>
+<div class="dir-wrap">
+
+  <!-- Header -->
+  <div class="dir-header">
+    <div class="dir-header-top">
+      <span class="dir-logo">✦ Directeur — Honeymoon</span>
+      <button class="dir-signout" onclick="hmSignOut && hmSignOut()">Déconnexion</button>
+    </div>
   </div>
 
-  <div class="ad-body">
+  <!-- Hero -->
+  <div class="dir-hero">
+    <div class="dir-hero-name">Tableau de bord</div>
+    <div class="dir-hero-sub">· Vue globale du site en temps réel ·</div>
+  </div>
 
-    <!-- Stats globales -->
-    <div class="ad-section">
-      <div class="ad-section-title">· Overview ·</div>
-      <div class="ad-stat-row">
-        <div class="ad-stat"><span class="ad-stat-num" id="ad-stat-members">—</span><span class="ad-stat-lbl">Members</span></div>
-        <div class="ad-stat"><span class="ad-stat-num" id="ad-stat-content">—</span><span class="ad-stat-lbl">Content</span></div>
-        <div class="ad-stat"><span class="ad-stat-num" id="ad-stat-notifs">—</span><span class="ad-stat-lbl">Alerts</span></div>
-      </div>
+  <!-- Nav -->
+  <nav class="dir-nav">
+    <button class="dir-nav-btn on"  onclick="dirTab('apercu',this)">Aperçu</button>
+    <button class="dir-nav-btn"     onclick="dirTab('creatrices',this)">Créatrices</button>
+    <button class="dir-nav-btn"     onclick="dirTab('membres',this)">Membres</button>
+    <button class="dir-nav-btn"     onclick="dirTab('contenu',this)">Contenu</button>
+    <button class="dir-nav-btn"     onclick="dirTab('candidatures',this)">Candidatures</button>
+    <button class="dir-nav-btn"     onclick="dirTab('problemes',this)">Problèmes</button>
+    <button class="dir-nav-btn"     onclick="dirTab('gestion',this)">Gestion</button>
+  </nav>
+
+  <!-- ══ TAB APERÇU ══ -->
+  <div class="dir-sec on" id="dir-sec-apercu">
+    <div class="dir-stitle">· Chiffres clés du site ·</div>
+
+    <div class="dir-stats-g">
+      <div class="dir-stat"><span class="dir-stat-n" id="dir-total-creatrices">0</span><span class="dir-stat-l">Créatrices</span></div>
+      <div class="dir-stat"><span class="dir-stat-n" id="dir-total-membres">0</span><span class="dir-stat-l">Membres</span></div>
+      <div class="dir-stat"><span class="dir-stat-n" id="dir-total-contenu">0</span><span class="dir-stat-l">Contenus</span></div>
+    </div>
+    <div class="dir-stats-g">
+      <div class="dir-stat dir-stat-gold"><span class="dir-stat-n" id="dir-creatrices-actives">0</span><span class="dir-stat-l">Actives</span></div>
+      <div class="dir-stat dir-stat-gold"><span class="dir-stat-n" id="dir-total-followers">0</span><span class="dir-stat-l">Followers total</span></div>
+      <div class="dir-stat"><span class="dir-stat-n" id="dir-alertes">0</span><span class="dir-stat-l">Alertes</span></div>
     </div>
 
-    <!-- Statuts créatrices -->
-    <div class="ad-section">
-      <div class="ad-section-title">· Creator statuses ·</div>
-      <div class="ad-card" id="ad-creators-list">
-        <div class="ad-empty">Loading...</div>
-      </div>
+    <div class="dir-stitle" style="margin-top:24px;">· Statut des créatrices ·</div>
+    <div class="dir-card" id="dir-apercu-creators">
+      <div class="dir-empty">Chargement…</div>
     </div>
 
-    <!-- Notifications récentes -->
-    <div class="ad-section">
-      <div class="ad-section-title">· Recent notifications ·</div>
-      <div class="ad-card" id="ad-notifs-list">
-        <div class="ad-empty">No notifications yet</div>
-      </div>
-      <button class="ad-btn" onclick="adMarkAllRead()">Mark all as read</button>
+    <div class="dir-stitle" style="margin-top:20px;">· Dernières notifications ·</div>
+    <div class="dir-card" id="dir-apercu-notifs">
+      <div class="dir-empty">Aucune notification</div>
     </div>
+  </div>
 
-    <!-- Membres récents -->
-    <div class="ad-section">
-      <div class="ad-section-title">· Recent members ·</div>
-      <div class="ad-card" id="ad-members-list">
-        <div class="ad-empty">No members yet</div>
-      </div>
+  <!-- ══ TAB CRÉATRICES ══ -->
+  <div class="dir-sec" id="dir-sec-creatrices">
+    <div class="dir-stitle">· Toutes les créatrices ·</div>
+    <div id="dir-creatrices-liste">
+      <div class="dir-empty">Chargement…</div>
     </div>
+  </div>
 
-    <!-- Actions rapides -->
-    <div class="ad-section">
-      <div class="ad-section-title">· Quick actions ·</div>
-      <button class="ad-btn" onclick="showPage('landing')">← Back to site</button>
+  <!-- ══ TAB MEMBRES ══ -->
+  <div class="dir-sec" id="dir-sec-membres">
+    <div class="dir-stitle">· Membres inscrits ·</div>
+    <div class="dir-stats-g" style="margin-bottom:20px;">
+      <div class="dir-stat"><span class="dir-stat-n" id="dir-m-total">0</span><span class="dir-stat-l">Total</span></div>
+      <div class="dir-stat dir-stat-gold"><span class="dir-stat-n" id="dir-m-nouveaux">0</span><span class="dir-stat-l">Ce mois</span></div>
+      <div class="dir-stat"><span class="dir-stat-n" id="dir-m-actifs">0</span><span class="dir-stat-l">Actifs</span></div>
     </div>
+    <div class="dir-card" id="dir-membres-liste">
+      <div class="dir-empty">Aucun membre</div>
+    </div>
+  </div>
+
+  <!-- ══ TAB CONTENU ══ -->
+  <div class="dir-sec" id="dir-sec-contenu">
+    <div class="dir-stitle">· Contenu publié ·</div>
+    <div class="dir-stats-g" style="margin-bottom:20px;">
+      <div class="dir-stat"><span class="dir-stat-n" id="dir-c-photos">0</span><span class="dir-stat-l">Photos</span></div>
+      <div class="dir-stat"><span class="dir-stat-n" id="dir-c-videos">0</span><span class="dir-stat-l">Vidéos</span></div>
+      <div class="dir-stat"><span class="dir-stat-n" id="dir-c-reels">0</span><span class="dir-stat-l">Reels</span></div>
+    </div>
+    <div class="dir-stitle">· Contenu récent ·</div>
+    <div class="dir-card" id="dir-contenu-liste">
+      <div class="dir-empty">Aucun contenu</div>
+    </div>
+  </div>
+
+  <!-- ══ TAB CANDIDATURES ══ -->
+  <div class="dir-sec" id="dir-sec-candidatures">
+    <div class="dir-stitle">· Candidatures reçues ·</div>
+    <div id="dir-candidatures-liste">
+      <div class="dir-empty">Aucune candidature</div>
+    </div>
+  </div>
+
+  <!-- ══ TAB PROBLÈMES ══ -->
+  <div class="dir-sec" id="dir-sec-problemes">
+    <div class="dir-stitle">· Problèmes détectés en live ·</div>
+    <div class="dir-card" id="dir-problemes-liste">
+      <div class="dir-empty">Aucun problème détecté ✓</div>
+    </div>
+    <div class="dir-stitle" style="margin-top:20px;">· Journal des erreurs ·</div>
+    <div class="dir-card" id="dir-errors-liste">
+      <div class="dir-empty">Journal vide</div>
+    </div>
+    <button class="dir-btn" onclick="dirRefreshProblemes()" style="margin-top:8px;">↻ Actualiser</button>
+  </div>
+
+  <!-- ══ TAB GESTION ══ -->
+  <div class="dir-sec" id="dir-sec-gestion">
 
     <!-- Créer compte créatrice -->
-    <div class="ad-section">
-      <div class="ad-section-title">· Create creator account ·</div>
-      <div class="ad-card">
-        <div style="margin-bottom:6px;">
-          <input class="ad-input" id="ad-cr-name" type="text" placeholder="Stage name (e.g. Luna)">
+    <div class="dir-stitle">· Créer un compte créatrice ·</div>
+    <div class="dir-card-gold">
+      <div class="dir-field"><label class="dir-label">Nom de scène</label><input class="dir-input" id="dir-cr-name" type="text" placeholder="ex. Luna"></div>
+      <div class="dir-field"><label class="dir-label">Email</label><input class="dir-input" id="dir-cr-email" type="email" placeholder="email@exemple.com"></div>
+      <div class="dir-field">
+        <label class="dir-label">Mot de passe</label>
+        <div style="display:flex;gap:6px;">
+          <input class="dir-input" id="dir-cr-pwd" type="text" placeholder="Mot de passe" style="flex:1;">
+          <button class="dir-btn" style="width:auto;padding:10px 14px;margin:0;white-space:nowrap;" onclick="dirGenPwd()">Générer</button>
         </div>
-        <div style="margin-bottom:6px;">
-          <input class="ad-input" id="ad-cr-email" type="email" placeholder="Creator email">
-        </div>
-        <div style="margin-bottom:6px;display:flex;gap:6px;align-items:center;">
-          <input class="ad-input" id="ad-cr-pwd" type="text" placeholder="Password" style="flex:1;">
-          <button class="ad-btn" style="width:auto;padding:11px 14px;margin:0;white-space:nowrap;" onclick="adGenPwd()">Generate</button>
-        </div>
-        <div style="margin-bottom:6px;">
-          <select class="ad-input" id="ad-cr-category" style="cursor:pointer;background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2210%22 height=%226%22%3E%3Cpath d=%22M0 0l5 6 5-6z%22 fill=%22rgba(214,169,78,0.4)%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 12px center;-webkit-appearance:none;">
-            <option value="honey_girl">✦ Honey Girl — Light Contract (60%)</option>
-            <option value="original">✦ Honeymoon Original — Main Platform (70%+PPV80%)</option>
-            <option value="ambassadrice">👑 Ambassadrice — VIP Table</option>
-            <option value="star">★ Honeymoon Star — Honor Table (75%)</option>
-          </select>
-        </div>
-        <div id="ad-cr-msg" style="font-family:Montserrat,sans-serif;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;padding:10px;margin-top:6px;display:none;"></div>
-        <button class="ad-btn" style="background:rgba(214,169,78,0.12);border-color:rgba(214,169,78,0.3);color:rgba(214,169,78,0.85);margin-top:8px;" onclick="adCreateCreator()">✦ Create account →</button>
       </div>
+      <div class="dir-field">
+        <label class="dir-label">Formule</label>
+        <select class="dir-select" id="dir-cr-category">
+          <option value="honey_girl">✦ Honey Girl — Contrat léger (60%)</option>
+          <option value="original">✦ Honeymoon Original — Plateforme principale (70%+PPV80%)</option>
+          <option value="ambassadrice">👑 Ambassadrice — Table VIP</option>
+          <option value="star">★ Honeymoon Star — Table d'honneur (75%)</option>
+        </select>
+      </div>
+      <div id="dir-cr-msg" style="font-family:Montserrat,sans-serif;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;padding:10px;margin-top:6px;display:none;"></div>
+      <button class="dir-btn dir-btn-gold" style="margin-top:10px;" onclick="dirCreateCreator()">✦ Créer le compte →</button>
     </div>
 
+    <!-- Notifications -->
+    <div class="dir-stitle" style="margin-top:24px;">· Notifications ·</div>
+    <button class="dir-btn" onclick="dirMarkAllRead()">✓ Tout marquer comme lu</button>
+
+    <!-- Retour site -->
+    <div class="dir-stitle" style="margin-top:24px;">· Navigation ·</div>
+    <button class="dir-btn" onclick="showPage('landing')">← Retour au site</button>
   </div>
+
 </div>
 
 <script>
 (function(){
 
+  // ── Tab navigation ──
+  window.dirTab = function(tab, btn) {
+    document.querySelectorAll('.dir-sec').forEach(function(s){ s.classList.remove('on'); });
+    document.querySelectorAll('.dir-nav-btn').forEach(function(b){ b.classList.remove('on'); });
+    var sec = document.getElementById('dir-sec-' + tab);
+    if (sec) sec.classList.add('on');
+    if (btn) btn.classList.add('on');
+    // Charger les données à la demande
+    if (tab === 'creatrices') dirLoadCreatrices();
+    if (tab === 'membres') dirLoadMembres();
+    if (tab === 'contenu') dirLoadContenu();
+    if (tab === 'candidatures') dirLoadCandidatures();
+    if (tab === 'problemes') dirRefreshProblemes();
+  };
+
+  // ── Init principal ──
   window.adInit = function() {
     if (!window.hmDB) return;
-    import("https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js").then(function(dbMod) {
+    import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod) {
 
-      // ── Charger créatrices ──
-      var creatorsRef = dbMod.collection(window.hmDB, "creators");
-      dbMod.getDocs(creatorsRef).then(function(snap) {
+      // Créatrices — stats + aperçu
+      dbMod.getDocs(dbMod.collection(window.hmDB, 'creators')).then(function(snap) {
+        var total = snap.size;
+        var actives = 0;
+        var totalFollowers = 0;
         var html = '';
-        var count = 0;
         snap.forEach(function(d) {
           var data = d.data();
-          count++;
+          if (data.status === 'active') actives++;
+          var fl = (['followers_of','followers_sc','followers_bc','followers_ig','followers_tk','followers_tw']).reduce(function(a,k){ return a+(parseInt(data[k])||0); }, 0);
+          totalFollowers += fl;
           var dot = data.status === 'active' ? 'active' : data.status === 'soon' ? 'soon' : 'away';
-          html += '<div class="ad-creator-status">'
-                + '<div class="ad-creator-dot ' + dot + '"></div>'
-                + '<span class="ad-creator-name-txt">' + (data.name || d.id) + '</span>'
-                + '<span class="ad-creator-status-txt">' + (data.status || 'away') + '</span>'
+          var catLabel = {honey_girl:'Honey Girl',original:'Original',ambassadrice:'Ambassadrice',star:'★ Star'}[data.category||data.formula||'honey_girl']||'—';
+          html += '<div class="dir-creator-row">'
+                + '<div class="dir-creator-dot ' + dot + '"></div>'
+                + '<span class="dir-creator-name">' + (data.name||d.id) + '</span>'
+                + '<span class="dir-creator-badge">' + catLabel + '</span>'
+                + '<span class="dir-creator-status">' + (data.status||'away') + '</span>'
                 + '</div>';
         });
-        var el = document.getElementById('ad-creators-list');
-        if (el) el.innerHTML = html || '<div class="ad-empty">No creators yet</div>';
+        var el = document.getElementById('dir-apercu-creators');
+        if (el) el.innerHTML = html || '<div class="dir-empty">Aucune créatrice</div>';
+        var tc = document.getElementById('dir-total-creatrices'); if (tc) tc.textContent = total;
+        var ac = document.getElementById('dir-creatrices-actives'); if (ac) ac.textContent = actives;
+        var tf = document.getElementById('dir-total-followers'); if (tf) tf.textContent = totalFollowers.toLocaleString('fr-FR');
       });
 
-      // ── Charger notifications ──
+      // Membres
+      dbMod.getDocs(dbMod.collection(window.hmDB, 'members')).then(function(snap) {
+        var el = document.getElementById('dir-total-membres'); if (el) el.textContent = snap.size;
+        var ml = document.getElementById('dir-m-total'); if (ml) ml.textContent = snap.size;
+      });
+
+      // Contenu
+      dbMod.getDocs(dbMod.collection(window.hmDB, 'content')).then(function(snap) {
+        var el = document.getElementById('dir-total-contenu'); if (el) el.textContent = snap.size;
+      });
+
+      // Notifications — temps réel
       var nq = dbMod.query(
-        dbMod.collection(window.hmDB, "notifications"),
-        dbMod.orderBy("created_at", "desc"),
-        dbMod.limit(20)
+        dbMod.collection(window.hmDB, 'notifications'),
+        dbMod.orderBy('created_at', 'desc'),
+        dbMod.limit(15)
       );
       dbMod.onSnapshot(nq, function(snap) {
         var html = '';
@@ -19648,113 +19810,243 @@ document.addEventListener('DOMContentLoaded', function() {
         snap.forEach(function(d) {
           var data = d.data();
           if (data.status === 'pending') pending++;
-          var icons = { new_member:'👤', creator_login:'🔑', status_change:'📡', new_content:'📸' };
+          var icons = {new_member:'👤',creator_login:'🔑',status_change:'📡',new_content:'📸',new_application:'📋',error:'⚠️'};
           var icon = icons[data.type] || '•';
-          var time = data.created_at ? new Date(data.created_at.seconds * 1000).toLocaleTimeString('fr-FR', {hour:'2-digit',minute:'2-digit'}) : '';
-          html += '<div class="ad-notif-item">'
-                + '<span class="ad-notif-type">' + icon + ' ' + (data.type || '').replace('_',' ') + '</span>'
-                + '<span class="ad-notif-text">' + (data.payload ? (data.payload.email || data.payload.creator_id || '') : '') + '</span>'
-                + '<span class="ad-notif-time">' + time + '</span>'
+          var labels = {new_member:'Nouveau membre',creator_login:'Connexion créatrice',status_change:'Changement statut',new_content:'Nouveau contenu',new_application:'Candidature',error:'Erreur'};
+          var label = labels[data.type] || data.type || '';
+          var time = data.created_at ? new Date(data.created_at.seconds*1000).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}) : '';
+          var payload = data.payload || {};
+          var txt = payload.email || payload.creator_id || payload.username || '';
+          html += '<div class="dir-notif-row">'
+                + '<span class="dir-notif-icon">' + icon + '</span>'
+                + '<span class="dir-notif-txt"><span class="dir-notif-badge">' + label + '</span>' + txt + '</span>'
+                + '<span class="dir-notif-time">' + time + '</span>'
                 + '</div>';
         });
-        var el = document.getElementById('ad-notifs-list');
-        if (el) el.innerHTML = html || '<div class="ad-empty">No notifications yet</div>';
-        var statEl = document.getElementById('ad-stat-notifs');
-        if (statEl) statEl.textContent = pending;
+        var el = document.getElementById('dir-apercu-notifs');
+        if (el) el.innerHTML = html || '<div class="dir-empty">Aucune notification</div>';
+        var al = document.getElementById('dir-alertes'); if (al) al.textContent = pending;
       });
+    });
+  };
 
-      // ── Charger membres ──
-      var mq = dbMod.query(
-        dbMod.collection(window.hmDB, "members"),
-        dbMod.orderBy("created_at", "desc"),
-        dbMod.limit(20)
-      );
-      dbMod.getDocs(mq).then(function(snap) {
+  // ── Charger créatrices (tab dédié) ──
+  function dirLoadCreatrices() {
+    if (!window.hmDB) return;
+    import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod) {
+      dbMod.getDocs(dbMod.collection(window.hmDB, 'creators')).then(function(snap) {
         var html = '';
         snap.forEach(function(d) {
           var data = d.data();
-          html += '<div class="ad-member-row">'
-                + '<span class="ad-member-email">' + (data.email || '—') + '</span>'
-                + '<span class="ad-member-badge">' + (data.badge || 'honey') + '</span>'
-                + '<span class="ad-member-pts">' + (data.points || 0) + '</span>'
+          var dot = data.status==='active'?'active':data.status==='soon'?'soon':'away';
+          var catLabel = {honey_girl:'✦ Honey Girl',original:'✦ Original',ambassadrice:'👑 Ambassadrice',star:'★ Star'}[data.category||data.formula||'honey_girl']||'—';
+          var fl = (['followers_of','followers_sc','followers_bc','followers_ig','followers_tk','followers_tw']).reduce(function(a,k){return a+(parseInt(data[k])||0);},0);
+          html += '<div class="dir-card" style="margin-bottom:10px;">'
+                + '<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">'
+                + '<div class="dir-creator-dot ' + dot + '"></div>'
+                + '<span style="font-family:\'Cormorant Garamond\',serif;font-size:20px;color:#faf6f0;flex:1;">' + (data.name||d.id) + '</span>'
+                + '<span class="dir-creator-badge">' + catLabel + '</span>'
+                + '</div>'
+                + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:9px;color:rgba(245,240,232,0.45);letter-spacing:0.1em;">'
+                + '<span>Email : ' + (data.email||'—') + '</span>'
+                + '<span>Statut : ' + (data.status||'away') + '</span>'
+                + '<span>Pays : ' + (data.country||'—') + '</span>'
+                + '<span>Followers : ' + fl.toLocaleString('fr-FR') + '</span>'
+                + '<span>Bio : ' + (data.bio ? data.bio.substring(0,30)+'…' : '—') + '</span>'
+                + '<span>Créé : ' + (data.created_at ? new Date(data.created_at.seconds*1000).toLocaleDateString('fr-FR') : '—') + '</span>'
+                + '</div>'
                 + '</div>';
         });
-        var el = document.getElementById('ad-members-list');
-        if (el) el.innerHTML = html || '<div class="ad-empty">No members yet</div>';
-        var statEl = document.getElementById('ad-stat-members');
-        if (statEl) statEl.textContent = snap.size;
+        var el = document.getElementById('dir-creatrices-liste');
+        if (el) el.innerHTML = html || '<div class="dir-empty">Aucune créatrice enregistrée</div>';
       });
+    });
+  }
 
-      // ── Stats contenu ──
-      dbMod.getDocs(dbMod.collection(window.hmDB, "content")).then(function(snap) {
-        var el = document.getElementById('ad-stat-content');
-        if (el) el.textContent = snap.size;
+  // ── Charger membres ──
+  function dirLoadMembres() {
+    if (!window.hmDB) return;
+    import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod) {
+      var q = dbMod.query(dbMod.collection(window.hmDB,'members'),dbMod.orderBy('created_at','desc'),dbMod.limit(50));
+      dbMod.getDocs(q).then(function(snap) {
+        var html = '';
+        snap.forEach(function(d) {
+          var data = d.data();
+          html += '<div class="dir-member-row">'
+                + '<span class="dir-member-email">' + (data.email||'—') + '</span>'
+                + '<span class="dir-member-badge">' + (data.badge||'honey') + '</span>'
+                + '<span class="dir-member-pts">' + (data.points||0) + '</span>'
+                + '</div>';
+        });
+        var el = document.getElementById('dir-membres-liste');
+        if (el) el.innerHTML = html || '<div class="dir-empty">Aucun membre</div>';
+        var mt = document.getElementById('dir-m-total'); if (mt) mt.textContent = snap.size;
+      });
+    });
+  }
+
+  // ── Charger contenu ──
+  function dirLoadContenu() {
+    if (!window.hmDB) return;
+    import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod) {
+      ['photo','video','reels'].forEach(function(type) {
+        var q = dbMod.query(dbMod.collection(window.hmDB,'content'),dbMod.where('type','==',type));
+        dbMod.getDocs(q).then(function(snap) {
+          var el = document.getElementById('dir-c-'+type+'s'); if(el) el.textContent=snap.size;
+        });
+      });
+      var q = dbMod.query(dbMod.collection(window.hmDB,'content'),dbMod.orderBy('created_at','desc'),dbMod.limit(20));
+      dbMod.getDocs(q).then(function(snap) {
+        var html = '';
+        snap.forEach(function(d) {
+          var data = d.data();
+          var time = data.created_at ? new Date(data.created_at.seconds*1000).toLocaleDateString('fr-FR') : '—';
+          html += '<div class="dir-notif-row">'
+                + '<span class="dir-notif-icon">' + (data.type==='video'||data.type==='reels'?'🎬':'📸') + '</span>'
+                + '<span class="dir-notif-txt"><span class="dir-notif-badge">' + (data.type||'—') + '</span>' + (data.creator_id||'—') + (data.locked?' · '+data.price_tokens+'tk':' · Gratuit') + '</span>'
+                + '<span class="dir-notif-time">' + time + '</span>'
+                + '</div>';
+        });
+        var el = document.getElementById('dir-contenu-liste');
+        if (el) el.innerHTML = html || '<div class="dir-empty">Aucun contenu</div>';
+      });
+    });
+  }
+
+  // ── Charger candidatures ──
+  function dirLoadCandidatures() {
+    if (!window.hmDB) return;
+    import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod) {
+      var q = dbMod.query(dbMod.collection(window.hmDB,'applications'),dbMod.orderBy('created_at','desc'));
+      dbMod.getDocs(q).then(function(snap) {
+        var html = '';
+        snap.forEach(function(d) {
+          var data = d.data();
+          var time = data.created_at ? new Date(data.created_at.seconds*1000).toLocaleDateString('fr-FR') : '—';
+          html += '<div class="dir-card" style="margin-bottom:10px;">'
+                + '<div class="dir-app-name">' + (data.username||'—') + '</div>'
+                + '<div class="dir-app-email">' + (data.email||'—') + '</div>'
+                + '<div class="dir-app-formula">' + (data.formula||'—') + ' · ' + (data.country||'—') + ' · ' + time + '</div>'
+                + (data.platforms ? '<div style="font-size:9px;color:rgba(245,240,232,0.4);margin-top:6px;">' + data.platforms.substring(0,80) + '</div>' : '')
+                + '<div style="display:flex;gap:6px;margin-top:10px;">'
+                + '<button class="dir-btn" style="padding:8px;font-size:7px;" onclick="dirAcceptApp(\'' + d.id + '\',\'' + (data.email||'') + '\')">✓ Accepter</button>'
+                + '<button class="dir-btn" style="padding:8px;font-size:7px;border-color:rgba(255,72,32,0.3);color:rgba(255,72,32,0.6);" onclick="dirRejectApp(\'' + d.id + '\')">✗ Refuser</button>'
+                + '</div>'
+                + '</div>';
+        });
+        var el = document.getElementById('dir-candidatures-liste');
+        if (el) el.innerHTML = html || '<div class="dir-empty">Aucune candidature reçue</div>';
+      });
+    });
+  }
+
+  // ── Problèmes en live ──
+  window.dirRefreshProblemes = function() {
+    if (!window.hmDB) return;
+    import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod) {
+      var problemes = [];
+      // Vérifier créatrices sans photo
+      dbMod.getDocs(dbMod.collection(window.hmDB,'creators')).then(function(snap) {
+        snap.forEach(function(d) {
+          var data = d.data();
+          if (!data.photo) problemes.push({type:'warn',txt:'Créatrice <b>' + (data.name||d.id) + '</b> — photo de profil manquante'});
+          if (!data.bio) problemes.push({type:'warn',txt:'Créatrice <b>' + (data.name||d.id) + '</b> — bio non remplie'});
+          if (!data.email) problemes.push({type:'error',txt:'Créatrice <b>' + (data.name||d.id) + '</b> — email manquant dans Firestore'});
+        });
+        // Erreurs dans notifications
+        var eq = dbMod.query(dbMod.collection(window.hmDB,'notifications'),dbMod.where('type','==','error'),dbMod.limit(10));
+        dbMod.getDocs(eq).then(function(eSnap) {
+          eSnap.forEach(function(d) {
+            var data = d.data();
+            problemes.push({type:'error',txt:data.payload ? JSON.stringify(data.payload).substring(0,80) : 'Erreur inconnue'});
+          });
+          var html = '';
+          problemes.forEach(function(p) {
+            html += '<div class="dir-issue-row">'
+                  + '<div class="dir-issue-dot' + (p.type==='warn'?' warn':'') + '"></div>'
+                  + '<span class="dir-issue-txt">' + p.txt + '</span>'
+                  + '</div>';
+          });
+          var el = document.getElementById('dir-problemes-liste');
+          if (el) el.innerHTML = html || '<div class="dir-empty">Aucun problème détecté ✓</div>';
+        });
+      });
+    });
+  };
+
+  // ── Accepter candidature ──
+  window.dirAcceptApp = function(id, email) {
+    if (!window.hmDB) return;
+    import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod) {
+      dbMod.updateDoc(dbMod.doc(window.hmDB,'applications',id),{status:'accepted',updated_at:dbMod.serverTimestamp()}).then(function() {
+        dirLoadCandidatures();
+        alert('Candidature acceptée — créez maintenant le compte dans "Gestion"');
+      });
+    });
+  };
+  window.dirRejectApp = function(id) {
+    if (!window.hmDB) return;
+    import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod) {
+      dbMod.updateDoc(dbMod.doc(window.hmDB,'applications',id),{status:'rejected',updated_at:dbMod.serverTimestamp()}).then(function() {
+        dirLoadCandidatures();
       });
     });
   };
 
   // ── Générer mot de passe ──
-  window.adGenPwd = function() {
+  window.dirGenPwd = function() {
     var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789!@#';
     var pwd = '';
-    for (var i = 0; i < 12; i++) pwd += chars[Math.floor(Math.random() * chars.length)];
-    var el = document.getElementById('ad-cr-pwd');
-    if (el) el.value = pwd;
+    for (var i=0; i<12; i++) pwd += chars[Math.floor(Math.random()*chars.length)];
+    var el = document.getElementById('dir-cr-pwd'); if (el) el.value = pwd;
   };
 
   // ── Créer compte créatrice ──
-  window.adCreateCreator = async function() {
-    var name  = (document.getElementById('ad-cr-name')||{}).value||'';
-    var email = (document.getElementById('ad-cr-email')||{}).value||'';
-    var pwd   = (document.getElementById('ad-cr-pwd')||{}).value||'';
-    var msg   = document.getElementById('ad-cr-msg');
-
-    if (!name || !email || !pwd) {
-      if (msg) { msg.style.display='block'; msg.style.color='#ff4820'; msg.textContent='Fill in all fields'; }
-      return;
-    }
-    if (msg) { msg.style.display='block'; msg.style.color='rgba(214,169,78,0.7)'; msg.textContent='Creating account…'; }
-
+  window.dirCreateCreator = async function() {
+    var name  = (document.getElementById('dir-cr-name')||{}).value||'';
+    var email = (document.getElementById('dir-cr-email')||{}).value||'';
+    var pwd   = (document.getElementById('dir-cr-pwd')||{}).value||'';
+    var cat   = (document.getElementById('dir-cr-category')||{}).value||'honey_girl';
+    var msg   = document.getElementById('dir-cr-msg');
+    if (!name||!email||!pwd) { if(msg){msg.style.display='block';msg.style.color='#ff4820';msg.textContent='Remplissez tous les champs';} return; }
+    if (msg){msg.style.display='block';msg.style.color='rgba(214,169,78,0.7)';msg.textContent='Création en cours…';}
     try {
       var authMod = await import('https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js');
       var cred = await authMod.createUserWithEmailAndPassword(window.hmAuth, email, pwd);
       var dbMod = await import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js');
       var slug = name.toLowerCase().replace(/[^a-z0-9]/g,'');
-      var category = (document.getElementById('ad-cr-category')||{}).value || 'honey_girl';
-      await dbMod.setDoc(dbMod.doc(window.hmDB, 'creators', slug), {
-        name: name, email: email, uid: cred.user.uid,
-        category: category, formula: category,
-        status: 'soon', bio: '', created_at: dbMod.serverTimestamp()
+      await dbMod.setDoc(dbMod.doc(window.hmDB,'creators',slug),{
+        name:name, email:email, uid:cred.user.uid,
+        category:cat, formula:cat,
+        status:'soon', bio:'', created_at:dbMod.serverTimestamp()
       });
-      if (msg) { msg.style.display='block'; msg.style.color='#22c55e'; msg.textContent='✓ Account created — send credentials to creator'; }
-      ['ad-cr-name','ad-cr-email','ad-cr-pwd'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
+      if(msg){msg.style.display='block';msg.style.color='#22c55e';msg.textContent='✓ Compte créé — envoyez les identifiants à la créatrice';}
+      ['dir-cr-name','dir-cr-email','dir-cr-pwd'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
     } catch(err) {
-      var e = err.code==='auth/email-already-in-use' ? 'Email already used' :
-              err.code==='auth/weak-password' ? 'Password too weak (min 6 chars)' : err.message;
-      if (msg) { msg.style.display='block'; msg.style.color='#ff4820'; msg.textContent=e; }
+      var e = err.code==='auth/email-already-in-use'?'Email déjà utilisé':err.code==='auth/weak-password'?'Mot de passe trop faible':err.message;
+      if(msg){msg.style.display='block';msg.style.color='#ff4820';msg.textContent=e;}
     }
   };
 
-  // ── Marquer notifications lues ──
-  window.adMarkAllRead = function() {
+  // ── Marquer tout lu ──
+  window.dirMarkAllRead = function() {
     if (!window.hmDB) return;
-    import("https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js").then(function(dbMod) {
-      var q = dbMod.query(
-        dbMod.collection(window.hmDB, "notifications"),
-        dbMod.where("status", "==", "pending")
-      );
+    import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod) {
+      var q = dbMod.query(dbMod.collection(window.hmDB,'notifications'),dbMod.where('status','==','pending'));
       dbMod.getDocs(q).then(function(snap) {
-        snap.forEach(function(d) {
-          dbMod.updateDoc(d.ref, { status: "read" });
-        });
+        snap.forEach(function(d){ dbMod.updateDoc(d.ref,{status:'read'}); });
       });
     });
   };
+  // Compat ancienne version
+  window.adMarkAllRead = window.dirMarkAllRead;
+  window.adGenPwd = window.dirGenPwd;
+  window.adCreateCreator = window.dirCreateCreator;
 
   // ── Hook showPage ──
-  var _origShowPage2 = window.showPage;
+  var _origAd = window.showPage;
   window.showPage = function(pid) {
-    if (_origShowPage2) _origShowPage2.apply(this, arguments);
+    if (_origAd) _origAd.apply(this, arguments);
     if (pid === 'admin-dashboard') setTimeout(window.adInit, 300);
   };
 
