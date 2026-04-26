@@ -19248,5 +19248,381 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 <!-- ═══ FIN PAGE ADMIN DASHBOARD ═══ -->
 
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE APPLY — FORMULAIRE CANDIDATURE CRÉATRICE
+════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-apply">
+<style>
+.apl-wrap{min-height:100vh;background:#1c1045;position:relative;overflow:hidden;padding-bottom:60px;}
+.apl-wrap::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse 70% 55% at 10% 15%,rgba(255,72,32,0.12) 0%,transparent 55%),
+             radial-gradient(ellipse 50% 40% at 90% 80%,rgba(124,58,237,0.09) 0%,transparent 50%);}
+.apl-inner{max-width:540px;margin:0 auto;padding:88px 24px 40px;position:relative;z-index:1;}
+.apl-back{background:none;border:1px solid rgba(214,169,78,0.2);padding:8px 16px;font-size:9px;
+  letter-spacing:0.25em;text-transform:uppercase;color:var(--muted);cursor:pointer;
+  font-family:'Montserrat',sans-serif;transition:all 0.2s;margin-bottom:32px;display:inline-block;}
+.apl-back:hover{border-color:rgba(214,169,78,0.5);color:var(--gold);}
+.apl-eye{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:0.5em;
+  text-transform:uppercase;color:rgba(255,72,32,0.5);display:block;margin-bottom:12px;}
+.apl-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,7vw,42px);
+  font-weight:300;color:#faf6f0;margin-bottom:6px;line-height:1.1;}
+.apl-subtitle{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:0.22em;
+  text-transform:uppercase;color:rgba(214,169,78,0.5);margin-bottom:32px;display:block;}
+.apl-formula-badge{display:inline-block;padding:5px 14px;border:1px solid rgba(255,72,32,0.3);
+  background:rgba(255,72,32,0.07);font-family:'Montserrat',sans-serif;font-size:9px;
+  letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,120,80,0.9);margin-bottom:28px;}
+.apl-section{font-family:'Montserrat',sans-serif;font-size:8px;letter-spacing:0.4em;
+  text-transform:uppercase;color:rgba(214,169,78,0.35);border-bottom:1px solid rgba(214,169,78,0.08);
+  padding-bottom:8px;margin:28px 0 16px;}
+.apl-field{margin-bottom:14px;}
+.apl-label{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:0.22em;
+  text-transform:uppercase;color:rgba(245,240,232,0.45);display:block;margin-bottom:6px;}
+.apl-input,.apl-select,.apl-textarea{width:100%;background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.08);color:#faf6f0;font-family:'Montserrat',sans-serif;
+  font-size:12px;padding:11px 14px;outline:none;transition:border-color 0.2s;
+  -webkit-appearance:none;appearance:none;}
+.apl-input:focus,.apl-select:focus,.apl-textarea:focus{border-color:rgba(214,169,78,0.4);}
+.apl-textarea{resize:vertical;min-height:80px;line-height:1.6;}
+.apl-select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(214,169,78,0.4)'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;padding-right:34px;cursor:pointer;}
+.apl-select option{background:#261550;color:#faf6f0;}
+.apl-upload-zone{border:1px dashed rgba(214,169,78,0.2);padding:20px;text-align:center;
+  cursor:pointer;transition:border-color 0.2s;background:rgba(214,169,78,0.02);position:relative;}
+.apl-upload-zone:hover{border-color:rgba(214,169,78,0.45);}
+.apl-upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.apl-upload-icon{font-size:22px;margin-bottom:6px;display:block;}
+.apl-upload-label{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:0.22em;
+  text-transform:uppercase;color:rgba(214,169,78,0.5);}
+.apl-upload-name{font-family:'Montserrat',sans-serif;font-size:10px;color:rgba(214,169,78,0.8);
+  margin-top:6px;display:block;min-height:14px;}
+.apl-preview{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
+.apl-preview img{width:80px;height:56px;object-fit:cover;border:1px solid rgba(214,169,78,0.2);}
+.apl-consent{display:flex;align-items:flex-start;gap:10px;margin:20px 0;}
+.apl-consent input[type=checkbox]{margin-top:3px;flex-shrink:0;accent-color:#d6a94e;width:14px;height:14px;}
+.apl-consent-txt{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:0.1em;
+  color:rgba(245,240,232,0.4);line-height:1.6;}
+.apl-submit{width:100%;padding:15px;background:#d6a94e;border:none;color:#1c1045;
+  font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.3em;
+  text-transform:uppercase;cursor:pointer;transition:background 0.2s;margin-top:8px;}
+.apl-submit:hover{background:#f2d270;}
+.apl-submit:disabled{background:rgba(214,169,78,0.3);cursor:not-allowed;color:rgba(28,16,69,0.5);}
+.apl-msg{padding:14px;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:0.15em;
+  text-transform:uppercase;text-align:center;margin-top:12px;display:none;}
+.apl-msg.success{background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.25);color:#22c55e;}
+.apl-msg.error{background:rgba(255,72,32,0.08);border:1px solid rgba(255,72,32,0.25);color:#ff4820;}
+.apl-progress{width:100%;height:2px;background:rgba(255,255,255,0.05);margin-top:12px;display:none;}
+.apl-progress-bar{height:100%;background:linear-gradient(to right,#ff4820,#d6a94e);width:0%;transition:width 0.3s;}
+</style>
+
+<div class="apl-wrap">
+  <div class="apl-inner">
+    <button class="apl-back" onclick="showPage('inscription')">← Back</button>
+
+    <span class="apl-eye">✦ Creator Application</span>
+    <h1 class="apl-title">Join Honeymoon</h1>
+    <span class="apl-subtitle">Confidential · Reviewed within 48h</span>
+
+    <div class="apl-formula-badge" id="apl-formula-display">— Formula —</div>
+
+    <!-- Section 1 : Identité -->
+    <div class="apl-section">· Your identity ·</div>
+
+    <div class="apl-field">
+      <label class="apl-label">Stage name (desired username) *</label>
+      <input class="apl-input" id="apl-username" type="text" placeholder="e.g. Luna, Zara…" autocomplete="off">
+    </div>
+    <div class="apl-field">
+      <label class="apl-label">Real first name *</label>
+      <input class="apl-input" id="apl-firstname" type="text" placeholder="For our records only — never published" autocomplete="off">
+    </div>
+    <div class="apl-field">
+      <label class="apl-label">Email address *</label>
+      <input class="apl-input" id="apl-email" type="email" placeholder="Your contact email">
+    </div>
+    <div class="apl-field">
+      <label class="apl-label">Age *</label>
+      <input class="apl-input" id="apl-age" type="number" min="18" max="99" placeholder="Must be 18+">
+    </div>
+    <div class="apl-field">
+      <label class="apl-label">Country of residence *</label>
+      <input class="apl-input" id="apl-country" type="text" placeholder="e.g. France, Belgium…">
+    </div>
+
+    <!-- Section 2 : Plateformes -->
+    <div class="apl-section">· Your platforms ·</div>
+
+    <div class="apl-field">
+      <label class="apl-label">Current platforms (links)</label>
+      <textarea class="apl-textarea" id="apl-platforms" placeholder="OnlyFans, Stripchat, Fansly… paste your links"></textarea>
+    </div>
+    <div class="apl-field">
+      <label class="apl-label">Approximate subscriber count</label>
+      <select class="apl-select" id="apl-subscribers">
+        <option value="">— Select —</option>
+        <option value="0-100">0 – 100</option>
+        <option value="100-500">100 – 500</option>
+        <option value="500-2000">500 – 2 000</option>
+        <option value="2000-10000">2 000 – 10 000</option>
+        <option value="10000+">10 000+</option>
+      </select>
+    </div>
+    <div class="apl-field">
+      <label class="apl-label">Content type</label>
+      <select class="apl-select" id="apl-content-type">
+        <option value="">— Select —</option>
+        <option value="photos">Photos</option>
+        <option value="videos">Videos</option>
+        <option value="lives">Lives / Cam</option>
+        <option value="mixed">Mixed</option>
+      </select>
+    </div>
+    <div class="apl-field">
+      <label class="apl-label">Why Honeymoon? (optional)</label>
+      <textarea class="apl-textarea" id="apl-why" placeholder="Tell us what you're looking for…"></textarea>
+    </div>
+
+    <!-- Section 3 : ID recto / verso -->
+    <div class="apl-section">· Identity document ·</div>
+    <p style="font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:0.12em;color:rgba(245,240,232,0.35);line-height:1.7;margin-bottom:16px;">Your ID is encrypted and stored securely. It is used solely to verify your age and identity. It will never be shared or published.</p>
+
+    <div class="apl-field">
+      <label class="apl-label">ID — Front *</label>
+      <div class="apl-upload-zone" id="zone-front">
+        <input type="file" id="apl-id-front" accept="image/*,.pdf" onchange="aplPreview(this,'prev-front','name-front')">
+        <span class="apl-upload-icon">📄</span>
+        <span class="apl-upload-label">Tap to upload — front side</span>
+        <span class="apl-upload-name" id="name-front"></span>
+      </div>
+      <div class="apl-preview" id="prev-front"></div>
+    </div>
+
+    <div class="apl-field">
+      <label class="apl-label">ID — Back *</label>
+      <div class="apl-upload-zone" id="zone-back">
+        <input type="file" id="apl-id-back" accept="image/*,.pdf" onchange="aplPreview(this,'prev-back','name-back')">
+        <span class="apl-upload-icon">📄</span>
+        <span class="apl-upload-label">Tap to upload — back side</span>
+        <span class="apl-upload-name" id="name-back"></span>
+      </div>
+      <div class="apl-preview" id="prev-back"></div>
+    </div>
+
+    <!-- Consentement -->
+    <div class="apl-consent">
+      <input type="checkbox" id="apl-consent">
+      <span class="apl-consent-txt">I confirm I am 18+ and I consent to Honeymoon storing my application data and identity documents for verification purposes. I understand this information is confidential and will never be published.</span>
+    </div>
+
+    <button class="apl-submit" id="apl-submit-btn" onclick="aplSubmit()">Send my application →</button>
+    <div class="apl-progress" id="apl-progress"><div class="apl-progress-bar" id="apl-progress-bar"></div></div>
+    <div class="apl-msg" id="apl-msg"></div>
+
+  </div>
+</div>
+
+<script>
+(function(){
+
+  // ── Formule sélectionnée ──
+  window._aplFormula = '';
+
+  // ── Prévisualisation upload ──
+  window.aplPreview = function(input, previewId, nameId) {
+    var f = input.files[0];
+    if (!f) return;
+    document.getElementById(nameId).textContent = f.name;
+    if (f.type.startsWith('image/')) {
+      var r = new FileReader();
+      r.onload = function(e) {
+        var prev = document.getElementById(previewId);
+        prev.innerHTML = '<img src="' + e.target.result + '">';
+      };
+      r.readAsDataURL(f);
+    }
+  };
+
+  // ── Upload Cloudinary ──
+  function aplUploadCloud(file, folder) {
+    return new Promise(function(resolve, reject) {
+      var fd = new FormData();
+      fd.append('file', file);
+      fd.append('upload_preset', 'honeymoon_ids'); // preset unsigned Cloudinary
+      fd.append('folder', 'honeymoon/ids/' + folder);
+      fetch('https://api.cloudinary.com/v1_1/honeymoon-agency/image/upload', {
+        method: 'POST',
+        body: fd
+      })
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        if (d.secure_url) resolve(d.secure_url);
+        else reject(d);
+      })
+      .catch(reject);
+    });
+  }
+
+  // ── Progress helper ──
+  function aplProgress(pct) {
+    var bar = document.getElementById('apl-progress-bar');
+    var wrap = document.getElementById('apl-progress');
+    if (wrap) wrap.style.display = 'block';
+    if (bar) bar.style.width = pct + '%';
+  }
+
+  // ── Message ──
+  function aplShowMsg(type, txt) {
+    var el = document.getElementById('apl-msg');
+    if (!el) return;
+    el.textContent = txt;
+    el.className = 'apl-msg ' + type;
+    el.style.display = 'block';
+  }
+
+  // ── Submit principal ──
+  window.aplSubmit = async function() {
+    var username  = (document.getElementById('apl-username')||{}).value||'';
+    var firstname = (document.getElementById('apl-firstname')||{}).value||'';
+    var email     = (document.getElementById('apl-email')||{}).value||'';
+    var age       = (document.getElementById('apl-age')||{}).value||'';
+    var country   = (document.getElementById('apl-country')||{}).value||'';
+    var platforms = (document.getElementById('apl-platforms')||{}).value||'';
+    var subs      = (document.getElementById('apl-subscribers')||{}).value||'';
+    var ctype     = (document.getElementById('apl-content-type')||{}).value||'';
+    var why       = (document.getElementById('apl-why')||{}).value||'';
+    var consent   = document.getElementById('apl-consent');
+    var frontFile = (document.getElementById('apl-id-front')||{}).files;
+    var backFile  = (document.getElementById('apl-id-back')||{}).files;
+
+    // Validation
+    if (!username || !firstname || !email || !age || !country) {
+      aplShowMsg('error', 'Please fill in all required fields');
+      return;
+    }
+    if (parseInt(age) < 18) {
+      aplShowMsg('error', 'You must be 18 or older');
+      return;
+    }
+    if (!frontFile || !frontFile[0]) {
+      aplShowMsg('error', 'ID front side is required');
+      return;
+    }
+    if (!backFile || !backFile[0]) {
+      aplShowMsg('error', 'ID back side is required');
+      return;
+    }
+    if (!consent || !consent.checked) {
+      aplShowMsg('error', 'Please accept the consent');
+      return;
+    }
+
+    var btn = document.getElementById('apl-submit-btn');
+    if (btn) btn.disabled = true;
+    aplProgress(10);
+
+    try {
+      // Upload ID recto
+      aplProgress(25);
+      var frontUrl = await aplUploadCloud(frontFile[0], username + '_front');
+      aplProgress(55);
+
+      // Upload ID verso
+      var backUrl = await aplUploadCloud(backFile[0], username + '_back');
+      aplProgress(75);
+
+      // Save Firestore
+      var dbMod = await import("https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js");
+      if (!window.hmDB) throw new Error('Firebase not ready');
+
+      var docData = {
+        formula:    window._aplFormula || '',
+        username:   username,
+        firstname:  firstname,
+        email:      email,
+        age:        parseInt(age),
+        country:    country,
+        platforms:  platforms,
+        subscribers: subs,
+        content_type: ctype,
+        why:        why,
+        id_front:   frontUrl,
+        id_back:    backUrl,
+        status:     'pending',
+        created_at: dbMod.serverTimestamp()
+      };
+
+      await dbMod.addDoc(dbMod.collection(window.hmDB, 'applications'), docData);
+      aplProgress(100);
+
+      aplShowMsg('success', '✓ Application received — we will review it within 48h');
+      if (btn) btn.style.display = 'none';
+
+      // Notification admin
+      await dbMod.addDoc(dbMod.collection(window.hmDB, 'notifications'), {
+        type: 'new_application',
+        payload: { email: email, username: username, formula: window._aplFormula || '' },
+        status: 'pending',
+        created_at: dbMod.serverTimestamp()
+      });
+
+    } catch(err) {
+      console.error(err);
+      aplShowMsg('error', 'Error — please try again or contact us');
+      if (btn) btn.disabled = false;
+      aplProgress(0);
+    }
+  };
+
+  // ── Hook showPage pour injecter la formule ──
+  var _origApply = window.showPage;
+  window.showPage = function(id) {
+    if (_origApply) _origApply.apply(this, arguments);
+    if (id === 'apply') {
+      var badge = document.getElementById('apl-formula-display');
+      if (badge) badge.textContent = window._aplFormula || '— Formula —';
+      // Reset form
+      ['apl-username','apl-firstname','apl-email','apl-age','apl-country',
+       'apl-platforms','apl-why'].forEach(function(f){
+        var el = document.getElementById(f);
+        if (el) el.value = '';
+      });
+      ['apl-subscribers','apl-content-type'].forEach(function(f){
+        var el = document.getElementById(f);
+        if (el) el.selectedIndex = 0;
+      });
+      ['prev-front','prev-back'].forEach(function(f){
+        var el = document.getElementById(f);
+        if (el) el.innerHTML = '';
+      });
+      ['name-front','name-back'].forEach(function(f){
+        var el = document.getElementById(f);
+        if (el) el.textContent = '';
+      });
+      var consent = document.getElementById('apl-consent');
+      if (consent) consent.checked = false;
+      var btn = document.getElementById('apl-submit-btn');
+      if (btn) { btn.disabled = false; btn.style.display = 'block'; }
+      var msg = document.getElementById('apl-msg');
+      if (msg) msg.style.display = 'none';
+      var prog = document.getElementById('apl-progress');
+      if (prog) prog.style.display = 'none';
+    }
+  };
+
+})();
+</script>
+</div>
+<!-- ═══ FIN PAGE APPLY ═══ -->
+
+<script>
+// ── Rediriger hmCfEmail vers page-apply au lieu du modal mailto ──
+(function(){
+  window.hmCfEmail = function(e, formula) {
+    if (e && e.stopPropagation) e.stopPropagation();
+    window._aplFormula = formula;
+    showPage('apply');
+  };
+})();
+</script>
+
 </body>
 </html>
