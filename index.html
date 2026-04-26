@@ -19087,6 +19087,9 @@ document.addEventListener('DOMContentLoaded', function() {
 .ad-btn { width:100%; padding:13px; background:rgba(255,72,32,0.10); border:1px solid rgba(255,72,32,0.3); color:rgba(255,120,80,0.85); font-family:'Montserrat',sans-serif; font-size:9px; font-weight:600; letter-spacing:0.25em; text-transform:uppercase; cursor:pointer; margin-bottom:6px; transition:all 0.2s; }
 .ad-btn:hover { background:rgba(255,72,32,0.18); }
 .ad-empty { font-family:'Montserrat',sans-serif; font-size:9px; color:rgba(245,240,232,0.25); text-align:center; padding:20px; letter-spacing:0.2em; }
+.ad-input { width:100%; background:rgba(255,255,255,0.03); border:1px solid rgba(255,72,32,0.15); color:#faf6f0; font-family:'Montserrat',sans-serif; font-size:11px; padding:10px 12px; outline:none; transition:border-color 0.2s; box-sizing:border-box; }
+.ad-input:focus { border-color:rgba(214,169,78,0.4); }
+.ad-input::placeholder { color:rgba(245,240,232,0.2); }
 </style>
 
 <div class="ad-wrap">
@@ -19136,6 +19139,25 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="ad-section">
       <div class="ad-section-title">· Quick actions ·</div>
       <button class="ad-btn" onclick="showPage('landing')">← Back to site</button>
+    </div>
+
+    <!-- Créer compte créatrice -->
+    <div class="ad-section">
+      <div class="ad-section-title">· Create creator account ·</div>
+      <div class="ad-card">
+        <div style="margin-bottom:6px;">
+          <input class="ad-input" id="ad-cr-name" type="text" placeholder="Stage name (e.g. Luna)">
+        </div>
+        <div style="margin-bottom:6px;">
+          <input class="ad-input" id="ad-cr-email" type="email" placeholder="Creator email">
+        </div>
+        <div style="margin-bottom:6px;display:flex;gap:6px;align-items:center;">
+          <input class="ad-input" id="ad-cr-pwd" type="text" placeholder="Password" style="flex:1;">
+          <button class="ad-btn" style="width:auto;padding:11px 14px;margin:0;white-space:nowrap;" onclick="adGenPwd()">Generate</button>
+        </div>
+        <div id="ad-cr-msg" style="font-family:Montserrat,sans-serif;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;padding:10px;margin-top:6px;display:none;"></div>
+        <button class="ad-btn" style="background:rgba(214,169,78,0.12);border-color:rgba(214,169,78,0.3);color:rgba(214,169,78,0.85);margin-top:8px;" onclick="adCreateCreator()">✦ Create account →</button>
+      </div>
     </div>
 
   </div>
@@ -19222,6 +19244,46 @@ document.addEventListener('DOMContentLoaded', function() {
         if (el) el.textContent = snap.size;
       });
     });
+  };
+
+  // ── Générer mot de passe ──
+  window.adGenPwd = function() {
+    var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789!@#';
+    var pwd = '';
+    for (var i = 0; i < 12; i++) pwd += chars[Math.floor(Math.random() * chars.length)];
+    var el = document.getElementById('ad-cr-pwd');
+    if (el) el.value = pwd;
+  };
+
+  // ── Créer compte créatrice ──
+  window.adCreateCreator = async function() {
+    var name  = (document.getElementById('ad-cr-name')||{}).value||'';
+    var email = (document.getElementById('ad-cr-email')||{}).value||'';
+    var pwd   = (document.getElementById('ad-cr-pwd')||{}).value||'';
+    var msg   = document.getElementById('ad-cr-msg');
+
+    if (!name || !email || !pwd) {
+      if (msg) { msg.style.display='block'; msg.style.color='#ff4820'; msg.textContent='Fill in all fields'; }
+      return;
+    }
+    if (msg) { msg.style.display='block'; msg.style.color='rgba(214,169,78,0.7)'; msg.textContent='Creating account…'; }
+
+    try {
+      var authMod = await import('https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js');
+      var cred = await authMod.createUserWithEmailAndPassword(window.hmAuth, email, pwd);
+      var dbMod = await import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js');
+      var slug = name.toLowerCase().replace(/[^a-z0-9]/g,'');
+      await dbMod.setDoc(dbMod.doc(window.hmDB, 'creators', slug), {
+        name: name, email: email, uid: cred.user.uid,
+        status: 'soon', bio: '', created_at: dbMod.serverTimestamp()
+      });
+      if (msg) { msg.style.display='block'; msg.style.color='#22c55e'; msg.textContent='✓ Account created — send credentials to creator'; }
+      ['ad-cr-name','ad-cr-email','ad-cr-pwd'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
+    } catch(err) {
+      var e = err.code==='auth/email-already-in-use' ? 'Email already used' :
+              err.code==='auth/weak-password' ? 'Password too weak (min 6 chars)' : err.message;
+      if (msg) { msg.style.display='block'; msg.style.color='#ff4820'; msg.textContent=e; }
+    }
   };
 
   // ── Marquer notifications lues ──
