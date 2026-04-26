@@ -17429,25 +17429,29 @@ function crNotifNo(pid){
     import("https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js").then(function(authMod) {
       authMod.signInWithEmailAndPassword(window.hmAuth, email, pwd)
         .then(function(cred) {
+          // ADMIN — bypass direct sans Firestore
+          if (cred.user.email === "jellyjolly@outlook.com") {
+            clShowSuccess("Welcome Director!");
+            setTimeout(function() { showPage("admin-dashboard"); }, 800);
+            return;
+          }
           import("https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js").then(function(dbMod) {
-            dbMod.getDoc(dbMod.doc(window.hmDB, "creators", cred.user.uid))
-              .then(function(snap) {
-                if (snap.exists()) {
-                  var isDirector = (cred.user.email === "jellyjolly@outlook.com");
-                  if (typeof window.hmNotifyCreatorLogin === "function") {
-                    window.hmNotifyCreatorLogin(cred.user.uid, cred.user.email);
-                  }
-                  clShowSuccess("Welcome — your space is ready!");
-                  setTimeout(function() {
-                    showPage(isDirector ? "admin-dashboard" : "creator-dashboard");
-                  }, 800);
-                } else {
-                  clShowError("No creator account found. Apply to join the agency.");
-                  authMod.signOut(window.hmAuth);
-                  btn.textContent = "✦  Access my creator space →";
-                  btn.disabled = false;
-                }
-              });
+            var q = dbMod.query(
+              dbMod.collection(window.hmDB, "creators"),
+              dbMod.where("email", "==", cred.user.email)
+            );
+            dbMod.getDocs(q).then(function(snap) {
+              if (!snap.empty) {
+                window.hmCurrentCreator = { id: snap.docs[0].id, data: snap.docs[0].data() };
+                clShowSuccess("Welcome — your space is ready!");
+                setTimeout(function() { showPage("creator-dashboard"); }, 800);
+              } else {
+                clShowError("No creator account found. Contact the agency.");
+                authMod.signOut(window.hmAuth);
+                btn.textContent = "✦  Access my creator space →";
+                btn.disabled = false;
+              }
+            });
           });
         })
         .catch(function(err) {
