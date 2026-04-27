@@ -19497,944 +19497,919 @@ document.addEventListener('DOMContentLoaded', function() {
 ═══════════════════════════════════════════════════ -->
 <div class="page" id="page-admin-dashboard">
 <style>
-/* ═══════════════════════════════════════════════
-   DASHBOARD DIRECTEUR — GRAND HÔTEL DE LUXE
-   Design : fond clair · or · bordeaux · premium
-═══════════════════════════════════════════════ */
-.dir-wrap{min-height:100vh;background:#f5f0e8;font-family:'Montserrat',sans-serif;padding-bottom:80px;}
-.dir-wrap::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
-  background:radial-gradient(ellipse 80% 40% at 100% 0%,rgba(214,169,78,0.08) 0%,transparent 60%),
-             radial-gradient(ellipse 60% 30% at 0% 100%,rgba(139,0,0,0.04) 0%,transparent 55%);}
+/* ═══════════════════════════════════════════
+   HONEYMOON DIRECTOR — LUXURY DASHBOARD
+   Fond blanc cassé · Or · Bordeaux · Premium
+═══════════════════════════════════════════ */
+:root{--gold:#c8960a;--gold-light:#f2d270;--dark:#1a0f35;--red:#8b0000;--cream:#faf8f2;--border:rgba(200,150,10,0.15);}
+.xd-wrap{min-height:100vh;background:var(--cream);font-family:'Montserrat',sans-serif;padding-bottom:60px;box-sizing:border-box;}
 
-/* ── Header ── */
-.dir-header{background:#1a0f35;position:relative;z-index:20;padding:0 28px;}
-.dir-header-top{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid rgba(214,169,78,0.15);}
-.dir-logo-wrap{display:flex;align-items:center;gap:14px;}
-.dir-logo-hm{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:#f2d270;letter-spacing:0.3em;}
-.dir-logo-sep{width:1px;height:24px;background:rgba(214,169,78,0.25);}
-.dir-logo-sub{font-size:7px;letter-spacing:0.5em;text-transform:uppercase;color:rgba(214,169,78,0.5);}
-.dir-header-right{display:flex;align-items:center;gap:12px;}
-.dir-alert-badge{background:#8b0000;color:#fff;font-size:7px;letter-spacing:0.2em;padding:4px 10px;border-radius:0;}
-.dir-signout{background:none;border:1px solid rgba(214,169,78,0.25);color:rgba(214,169,78,0.6);font-family:'Montserrat',sans-serif;font-size:7px;letter-spacing:0.3em;text-transform:uppercase;padding:7px 14px;cursor:pointer;transition:all 0.2s;}
-.dir-signout:hover{border-color:rgba(214,169,78,0.6);color:#f2d270;}
+/* ── HEADER ── */
+.xd-hdr{background:var(--dark);padding:0 20px;position:relative;z-index:20;}
+.xd-hdr-row{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid rgba(200,150,10,0.15);}
+.xd-brand{display:flex;align-items:center;gap:10px;}
+.xd-brand-hm{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold-light);letter-spacing:0.35em;}
+.xd-brand-pipe{width:1px;height:20px;background:rgba(200,150,10,0.25);}
+.xd-brand-lbl{font-size:6px;letter-spacing:0.55em;text-transform:uppercase;color:rgba(200,150,10,0.45);}
+.xd-hdr-right{display:flex;align-items:center;gap:8px;}
+.xd-alert-pill{background:var(--red);color:#fff;font-size:6px;letter-spacing:0.2em;padding:4px 10px;text-transform:uppercase;}
+.xd-signout{background:none;border:1px solid rgba(200,150,10,0.22);color:rgba(200,150,10,0.55);font-size:6px;letter-spacing:0.3em;text-transform:uppercase;padding:6px 12px;cursor:pointer;font-family:'Montserrat',sans-serif;transition:all 0.2s;}
+.xd-signout:hover{border-color:rgba(200,150,10,0.5);color:var(--gold-light);}
 
-/* ── Hero banner ── */
-.dir-hero{background:linear-gradient(135deg,#1a0f35 0%,#2d1f5e 50%,#1a0f35 100%);padding:32px 28px;position:relative;overflow:hidden;}
-.dir-hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(214,169,78,0.4),transparent);}
-.dir-hero-eyebrow{font-size:7px;letter-spacing:0.55em;text-transform:uppercase;color:rgba(214,169,78,0.5);margin-bottom:8px;}
-.dir-hero-title{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:#faf6f0;line-height:1;margin-bottom:6px;}
-.dir-hero-sub{font-size:8px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(214,169,78,0.4);}
-.dir-hero-date{position:absolute;top:32px;right:28px;text-align:right;}
-.dir-hero-date-day{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:300;color:rgba(214,169,78,0.2);line-height:1;}
-.dir-hero-date-txt{font-size:7px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(214,169,78,0.25);}
+/* ── HERO ── */
+.xd-hero{background:linear-gradient(135deg,var(--dark) 0%,#2d1f5e 100%);padding:28px 20px 24px;position:relative;overflow:hidden;}
+.xd-hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(200,150,10,0.35),transparent);}
+.xd-hero-eye{font-size:6px;letter-spacing:0.55em;text-transform:uppercase;color:rgba(200,150,10,0.45);margin-bottom:6px;}
+.xd-hero-title{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;color:#faf6f0;line-height:1.1;}
+.xd-hero-sub{font-size:7px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(200,150,10,0.35);margin-top:4px;}
+.xd-hero-date{position:absolute;top:28px;right:20px;text-align:right;}
+.xd-date-num{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:300;color:rgba(200,150,10,0.18);line-height:1;}
+.xd-date-txt{font-size:6px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(200,150,10,0.2);}
 
-/* ── KPI Bar ── */
-.dir-kpi-bar{background:#fff;border-bottom:1px solid rgba(214,169,78,0.15);display:flex;overflow-x:auto;position:relative;z-index:5;}
-.dir-kpi-bar::-webkit-scrollbar{display:none;}
-.dir-kpi{flex:1;min-width:100px;padding:16px 12px;text-align:center;border-right:1px solid rgba(214,169,78,0.10);transition:background 0.2s;cursor:default;}
-.dir-kpi:hover{background:rgba(214,169,78,0.04);}
-.dir-kpi-num{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:#1a0f35;display:block;line-height:1;}
-.dir-kpi-num.gold{color:#c8960a;}
-.dir-kpi-num.red{color:#8b0000;}
-.dir-kpi-lbl{font-size:6px;letter-spacing:0.35em;text-transform:uppercase;color:rgba(26,15,53,0.4);margin-top:3px;display:block;}
-.dir-kpi-trend{font-size:7px;color:#22c55e;margin-top:2px;display:block;}
+/* ── KPI BAR ── */
+.xd-kpi-bar{background:#fff;border-bottom:1px solid var(--border);display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.xd-kpi-bar::-webkit-scrollbar{display:none;}
+.xd-kpi{flex:0 0 auto;width:110px;padding:14px 10px;text-align:center;border-right:1px solid var(--border);cursor:default;}
+.xd-kpi-n{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:var(--dark);display:block;line-height:1;}
+.xd-kpi-n.g{color:var(--gold);}
+.xd-kpi-n.r{color:var(--red);}
+.xd-kpi-l{font-size:6px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(26,15,53,0.35);display:block;margin-top:3px;}
 
-/* ── Navigation ── */
-.dir-nav{background:#fff;border-bottom:2px solid rgba(214,169,78,0.12);display:flex;overflow-x:auto;position:sticky;top:0;z-index:15;}
-.dir-nav::-webkit-scrollbar{display:none;}
-.dir-nav-btn{padding:14px 18px;background:none;border:none;border-bottom:3px solid transparent;font-size:7px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(26,15,53,0.4);cursor:pointer;transition:all 0.2s;white-space:nowrap;font-family:'Montserrat',sans-serif;margin-bottom:-2px;}
-.dir-nav-btn.on{border-bottom-color:#c8960a;color:#1a0f35;font-weight:600;}
-.dir-nav-btn:hover:not(.on){color:#1a0f35;border-bottom-color:rgba(214,169,78,0.3);}
+/* ── NAV ── */
+.xd-nav{background:#fff;border-bottom:2px solid var(--border);display:flex;overflow-x:auto;position:sticky;top:0;z-index:15;-webkit-overflow-scrolling:touch;}
+.xd-nav::-webkit-scrollbar{display:none;}
+.xd-nav-btn{flex:0 0 auto;padding:13px 14px;background:none;border:none;border-bottom:2px solid transparent;font-size:6px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(26,15,53,0.35);cursor:pointer;font-family:'Montserrat',sans-serif;white-space:nowrap;margin-bottom:-2px;transition:all 0.2s;}
+.xd-nav-btn.on{border-bottom-color:var(--gold);color:var(--dark);font-weight:700;}
+.xd-nav-btn:hover:not(.on){color:var(--dark);}
 
-/* ── Sections ── */
-.dir-sec{display:none;padding:32px 28px;position:relative;z-index:1;max-width:900px;margin:0 auto;animation:dirIn 0.3s ease;}
-.dir-sec.on{display:block;}
-@keyframes dirIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+/* ── SECTIONS ── */
+.xd-sec{display:none;padding:24px 20px;max-width:800px;margin:0 auto;animation:xdIn 0.25s ease;}
+.xd-sec.on{display:block;}
+@keyframes xdIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
 
-/* ── Titres ── */
-.dir-stitle{font-size:7px;letter-spacing:0.55em;text-transform:uppercase;color:rgba(26,15,53,0.35);border-bottom:1px solid rgba(214,169,78,0.2);padding-bottom:10px;margin:0 0 20px;}
-.dir-stitle-red{color:rgba(139,0,0,0.5);border-color:rgba(139,0,0,0.15);}
-.dir-stitle2{font-size:7px;letter-spacing:0.45em;text-transform:uppercase;color:rgba(26,15,53,0.25);margin:24px 0 14px;padding-top:18px;border-top:1px solid rgba(214,169,78,0.10);}
+/* ── TITRES ── */
+.xd-t1{font-size:7px;letter-spacing:0.5em;text-transform:uppercase;color:rgba(26,15,53,0.3);border-bottom:1px solid rgba(200,150,10,0.15);padding-bottom:8px;margin:0 0 18px;}
+.xd-t1.red{color:rgba(139,0,0,0.4);border-color:rgba(139,0,0,0.12);}
+.xd-t2{font-size:7px;letter-spacing:0.4em;text-transform:uppercase;color:rgba(26,15,53,0.22);margin:20px 0 12px;padding-top:16px;border-top:1px solid rgba(200,150,10,0.08);}
 
-/* ── Cards ── */
-.dir-card{background:#fff;border:1px solid rgba(214,169,78,0.15);padding:20px;margin-bottom:12px;box-shadow:0 1px 8px rgba(26,15,53,0.04);}
-.dir-card-dark{background:#1a0f35;border:1px solid rgba(214,169,78,0.15);padding:20px;margin-bottom:12px;}
-.dir-card-red{background:#fff;border-left:3px solid #8b0000;padding:16px 20px;margin-bottom:10px;box-shadow:0 1px 6px rgba(139,0,0,0.06);}
-.dir-card-gold{background:linear-gradient(135deg,rgba(214,169,78,0.06),rgba(214,169,78,0.02));border:1px solid rgba(214,169,78,0.25);padding:20px;margin-bottom:12px;}
+/* ── GRILLES STATS ── */
+.xd-g3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;}
+.xd-g2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+.xd-g4{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px;}
+.xd-box{background:#fff;border:1px solid var(--border);padding:14px 8px;text-align:center;box-shadow:0 1px 5px rgba(26,15,53,0.04);}
+.xd-box-n{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--dark);display:block;line-height:1;}
+.xd-box-n.g{color:var(--gold);}
+.xd-box-n.r{color:var(--red);}
+.xd-box-l{font-size:6px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(26,15,53,0.32);margin-top:3px;display:block;}
 
-/* ── Stats grille ── */
-.dir-stats-g3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
-.dir-stats-g2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px;}
-.dir-stat{background:#fff;border:1px solid rgba(214,169,78,0.15);padding:18px 12px;text-align:center;box-shadow:0 1px 6px rgba(26,15,53,0.04);}
-.dir-stat-n{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:#1a0f35;display:block;line-height:1;}
-.dir-stat-n.gold{color:#c8960a;}
-.dir-stat-n.red{color:#8b0000;}
-.dir-stat-l{font-size:6px;letter-spacing:0.35em;text-transform:uppercase;color:rgba(26,15,53,0.35);margin-top:4px;display:block;}
+/* ── CARDS ── */
+.xd-card{background:#fff;border:1px solid var(--border);padding:16px;margin-bottom:10px;box-shadow:0 1px 6px rgba(26,15,53,0.04);}
+.xd-card-gold{background:linear-gradient(135deg,rgba(200,150,10,0.05),rgba(200,150,10,0.02));border:1px solid rgba(200,150,10,0.2);padding:16px;margin-bottom:10px;}
+.xd-card-dark{background:var(--dark);border:1px solid rgba(200,150,10,0.15);padding:16px;margin-bottom:10px;}
+.xd-card-red{background:#fff;border-left:3px solid var(--red);padding:14px 16px;margin-bottom:8px;box-shadow:0 1px 5px rgba(139,0,0,0.05);}
+.xd-card-warn{background:#fff;border-left:3px solid var(--gold);padding:14px 16px;margin-bottom:8px;box-shadow:0 1px 5px rgba(200,150,10,0.05);}
 
-/* ── Créatrices ── */
-.dir-cr-card{background:#fff;border:1px solid rgba(214,169,78,0.15);padding:18px;margin-bottom:10px;box-shadow:0 1px 6px rgba(26,15,53,0.04);}
-.dir-cr-top{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
-.dir-cr-avatar{width:44px;height:44px;border:1px solid rgba(214,169,78,0.25);background:rgba(214,169,78,0.07);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:18px;color:#c8960a;overflow:hidden;flex-shrink:0;}
-.dir-cr-avatar img{width:100%;height:100%;object-fit:cover;}
-.dir-cr-name{font-family:'Cormorant Garamond',serif;font-size:20px;color:#1a0f35;flex:1;}
-.dir-cr-formula{font-size:7px;letter-spacing:0.3em;text-transform:uppercase;padding:3px 10px;border:1px solid rgba(214,169,78,0.25);color:#c8960a;display:inline-block;margin-top:2px;}
-.dir-cr-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.dir-cr-dot.active{background:#22c55e;box-shadow:0 0 6px #22c55e;}
-.dir-cr-dot.soon{background:#f2d270;}
-.dir-cr-dot.away{background:#cc3311;}
-.dir-cr-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px 16px;}
-.dir-cr-info{font-size:9px;color:rgba(26,15,53,0.5);line-height:1.8;}
-.dir-cr-info span{color:#1a0f35;font-weight:500;}
-.dir-cr-followers{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;padding-top:10px;border-top:1px solid rgba(214,169,78,0.10);}
-.dir-cr-fl-item{font-size:8px;color:rgba(26,15,53,0.4);letter-spacing:0.1em;}
-.dir-cr-fl-item strong{color:#c8960a;font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:300;}
+/* ── ROWS ── */
+.xd-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(200,150,10,0.07);}
+.xd-row:last-child{border:none;}
+.xd-row-lbl{font-size:10px;color:rgba(26,15,53,0.65);flex:1;line-height:1.4;}
+.xd-row-val{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--dark);}
+.xd-row-badge{font-size:6px;letter-spacing:0.22em;text-transform:uppercase;padding:2px 8px;border:1px solid var(--border);color:var(--gold);}
+.xd-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.xd-dot.active{background:#22c55e;box-shadow:0 0 5px #22c55e;}
+.xd-dot.soon{background:var(--gold);}
+.xd-dot.away{background:#cc3311;}
 
-/* ── Notifications ── */
-.dir-notif-row{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid rgba(214,169,78,0.08);}
-.dir-notif-icon{font-size:16px;flex-shrink:0;}
-.dir-notif-content{flex:1;}
-.dir-notif-type{font-size:6px;letter-spacing:0.3em;text-transform:uppercase;color:#8b0000;margin-bottom:2px;}
-.dir-notif-txt{font-size:11px;color:rgba(26,15,53,0.75);line-height:1.4;}
-.dir-notif-time{font-size:8px;color:rgba(26,15,53,0.25);white-space:nowrap;}
+/* ── CRÉATRICE CARD ── */
+.xd-cr{background:#fff;border:1px solid var(--border);padding:16px;margin-bottom:10px;box-shadow:0 1px 6px rgba(26,15,53,0.04);}
+.xd-cr-head{display:flex;align-items:center;gap:12px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid rgba(200,150,10,0.08);}
+.xd-cr-av{width:42px;height:42px;border:1px solid rgba(200,150,10,0.2);background:rgba(200,150,10,0.06);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--gold);overflow:hidden;flex-shrink:0;}
+.xd-cr-av img{width:100%;height:100%;object-fit:cover;}
+.xd-cr-nm{font-family:'Cormorant Garamond',serif;font-size:19px;color:var(--dark);line-height:1;}
+.xd-cr-fm{font-size:6px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-top:3px;}
+.xd-cr-info{display:grid;grid-template-columns:1fr 1fr;gap:3px 12px;}
+.xd-cr-kv{font-size:9px;color:rgba(26,15,53,0.5);line-height:1.7;}
+.xd-cr-kv b{color:var(--dark);font-weight:500;}
+.xd-cr-fl{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;padding-top:10px;border-top:1px solid rgba(200,150,10,0.07);}
+.xd-cr-fl-item{font-size:8px;color:rgba(26,15,53,0.4);}
+.xd-cr-fl-item strong{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:300;color:var(--gold);}
 
-/* ── Membres ── */
-.dir-member-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(214,169,78,0.07);}
-.dir-member-email{font-size:11px;color:rgba(26,15,53,0.7);flex:1;}
-.dir-member-badge{font-size:6px;letter-spacing:0.25em;text-transform:uppercase;padding:2px 8px;border:1px solid rgba(214,169,78,0.2);color:#c8960a;}
-.dir-member-pts{font-family:'Cormorant Garamond',serif;font-size:18px;color:#1a0f35;}
+/* ── CANDIDATURE ── */
+.xd-cand{background:#fff;border:1px solid var(--border);padding:16px;margin-bottom:10px;box-shadow:0 1px 5px rgba(26,15,53,0.04);}
+.xd-cand-nm{font-family:'Cormorant Garamond',serif;font-size:19px;color:var(--dark);}
+.xd-cand-info{font-size:9px;color:rgba(26,15,53,0.5);line-height:1.9;margin:6px 0;}
+.xd-cand-fm{font-size:6px;letter-spacing:0.3em;text-transform:uppercase;color:var(--red);margin-bottom:8px;}
+.xd-act-row{display:flex;gap:8px;margin-top:10px;}
+.xd-btn-accept{flex:1;padding:10px;background:#14532d;border:none;color:#fff;font-family:'Montserrat',sans-serif;font-size:6px;letter-spacing:0.25em;text-transform:uppercase;cursor:pointer;}
+.xd-btn-refuse{flex:1;padding:10px;background:rgba(139,0,0,0.06);border:1px solid rgba(139,0,0,0.18);color:var(--red);font-family:'Montserrat',sans-serif;font-size:6px;letter-spacing:0.25em;text-transform:uppercase;cursor:pointer;}
 
-/* ── Problèmes ── */
-.dir-issue{display:flex;gap:12px;padding:14px;margin-bottom:8px;border-left:3px solid #8b0000;background:#fff;box-shadow:0 1px 4px rgba(139,0,0,0.06);}
-.dir-issue.warn{border-color:#c8960a;box-shadow:0 1px 4px rgba(200,150,10,0.06);}
-.dir-issue-dot{width:8px;height:8px;border-radius:50%;background:#8b0000;flex-shrink:0;margin-top:4px;}
-.dir-issue.warn .dir-issue-dot{background:#c8960a;}
-.dir-issue-txt{font-size:10px;color:rgba(26,15,53,0.7);line-height:1.6;flex:1;}
-.dir-issue-time{font-size:8px;color:rgba(26,15,53,0.25);white-space:nowrap;}
+/* ── NOTIF ROW ── */
+.xd-notif{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid rgba(200,150,10,0.07);align-items:flex-start;}
+.xd-notif:last-child{border:none;}
+.xd-notif-icon{font-size:14px;flex-shrink:0;}
+.xd-notif-body{flex:1;}
+.xd-notif-type{font-size:6px;letter-spacing:0.28em;text-transform:uppercase;color:var(--red);}
+.xd-notif-txt{font-size:10px;color:rgba(26,15,53,0.65);line-height:1.4;margin-top:1px;}
+.xd-notif-time{font-size:7px;color:rgba(26,15,53,0.22);white-space:nowrap;padding-top:2px;}
 
-/* ── Agenda ── */
-.dir-agenda-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:14px;}
-.dir-agenda-day{background:#fff;border:1px solid rgba(214,169,78,0.12);padding:8px 4px;text-align:center;cursor:pointer;transition:all 0.2s;min-height:44px;position:relative;}
-.dir-agenda-day:hover{border-color:rgba(214,169,78,0.4);background:rgba(214,169,78,0.04);}
-.dir-agenda-day.today{border-color:#c8960a;background:rgba(200,150,10,0.06);}
-.dir-agenda-day.has-note::after{content:'';position:absolute;top:4px;right:4px;width:5px;height:5px;border-radius:50%;background:#c8960a;}
-.dir-agenda-day-num{font-family:'Cormorant Garamond',serif;font-size:16px;color:#1a0f35;display:block;}
-.dir-agenda-day-lbl{font-size:6px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(26,15,53,0.3);}
-.dir-agenda-weekday{font-size:6px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(26,15,53,0.3);text-align:center;padding:4px 0;border-bottom:1px solid rgba(214,169,78,0.10);margin-bottom:4px;}
+/* ── STRIPE ROW ── */
+.xd-stripe-row{display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid rgba(200,150,10,0.07);}
+.xd-stripe-row:last-child{border:none;}
+.xd-stripe-lbl{font-size:10px;color:rgba(26,15,53,0.7);flex:1;}
+.xd-stripe-link{font-size:7px;letter-spacing:0.15em;color:var(--gold);text-decoration:none;background:rgba(200,150,10,0.06);border:1px solid rgba(200,150,10,0.18);padding:4px 10px;cursor:pointer;font-family:'Montserrat',sans-serif;}
 
-/* ── Notes ── */
-.dir-note-area{width:100%;background:#faf8f2;border:1px solid rgba(214,169,78,0.2);color:#1a0f35;font-family:'Montserrat',sans-serif;font-size:12px;padding:16px;resize:vertical;min-height:140px;outline:none;line-height:1.7;box-sizing:border-box;}
-.dir-note-area:focus{border-color:rgba(214,169,78,0.45);}
-.dir-note-area::placeholder{color:rgba(26,15,53,0.2);}
+/* ── AGENDA ── */
+.xd-ag-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+.xd-ag-titre{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--dark);}
+.xd-ag-btn{background:none;border:1px solid var(--border);color:rgba(26,15,53,0.5);font-family:'Montserrat',sans-serif;font-size:7px;letter-spacing:0.2em;padding:7px 12px;cursor:pointer;}
+.xd-ag-wdays{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:3px;}
+.xd-ag-wday{font-size:6px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(26,15,53,0.28);text-align:center;padding:4px 0;}
+.xd-ag-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;}
+.xd-ag-day{background:#fff;border:1px solid rgba(200,150,10,0.10);padding:6px 4px;text-align:center;cursor:pointer;transition:all 0.15s;min-height:38px;position:relative;}
+.xd-ag-day:hover{border-color:rgba(200,150,10,0.35);background:rgba(200,150,10,0.03);}
+.xd-ag-day.today{border-color:var(--gold);background:rgba(200,150,10,0.05);}
+.xd-ag-day.has-note::after{content:'';position:absolute;top:3px;right:3px;width:4px;height:4px;border-radius:50%;background:var(--gold);}
+.xd-ag-dn{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--dark);display:block;line-height:1;}
 
-/* ── IA Chat ── */
-.dir-ai-messages{background:#faf8f2;border:1px solid rgba(214,169,78,0.15);padding:16px;min-height:200px;max-height:320px;overflow-y:auto;margin-bottom:10px;}
-.dir-ai-msg{margin-bottom:12px;animation:dirIn 0.2s ease;}
-.dir-ai-msg-dir{text-align:right;}
-.dir-ai-bubble{display:inline-block;max-width:85%;padding:10px 14px;font-size:11px;line-height:1.6;}
-.dir-ai-bubble-dir{background:#1a0f35;color:#faf6f0;text-align:left;}
-.dir-ai-bubble-ia{background:#fff;border:1px solid rgba(214,169,78,0.2);color:rgba(26,15,53,0.8);}
-.dir-ai-who{font-size:7px;letter-spacing:0.25em;text-transform:uppercase;margin-bottom:4px;}
-.dir-ai-who-dir{color:rgba(214,169,78,0.5);text-align:right;}
-.dir-ai-who-ia{color:rgba(139,0,0,0.5);}
-.dir-ai-input-row{display:flex;gap:8px;}
-.dir-ai-input{flex:1;background:#fff;border:1px solid rgba(214,169,78,0.2);color:#1a0f35;font-family:'Montserrat',sans-serif;font-size:11px;padding:11px 14px;outline:none;transition:border-color 0.2s;}
-.dir-ai-input:focus{border-color:rgba(214,169,78,0.45);}
-.dir-ai-input::placeholder{color:rgba(26,15,53,0.2);}
-.dir-ai-send{padding:11px 18px;background:#1a0f35;border:none;color:#f2d270;font-family:'Montserrat',sans-serif;font-size:8px;letter-spacing:0.25em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
-.dir-ai-send:hover{background:#2d1f5e;}
+/* ── IA CHAT ── */
+.xd-ai-box{background:rgba(200,150,10,0.03);border:1px solid rgba(200,150,10,0.12);padding:14px;min-height:180px;max-height:300px;overflow-y:auto;margin-bottom:8px;}
+.xd-ai-msg{margin-bottom:10px;}
+.xd-ai-dir{text-align:right;}
+.xd-ai-bbl{display:inline-block;max-width:88%;padding:9px 13px;font-size:11px;line-height:1.55;text-align:left;}
+.xd-ai-bbl-dir{background:var(--dark);color:#faf6f0;}
+.xd-ai-bbl-ia{background:#fff;border:1px solid rgba(200,150,10,0.15);color:rgba(26,15,53,0.75);}
+.xd-ai-who{font-size:6px;letter-spacing:0.25em;text-transform:uppercase;margin-bottom:3px;}
+.xd-ai-who-dir{color:rgba(200,150,10,0.4);text-align:right;}
+.xd-ai-who-ia{color:rgba(139,0,0,0.45);}
+.xd-ai-row{display:flex;gap:6px;}
+.xd-ai-inp{flex:1;background:#fff;border:1px solid rgba(200,150,10,0.18);color:var(--dark);font-family:'Montserrat',sans-serif;font-size:11px;padding:10px 12px;outline:none;}
+.xd-ai-inp:focus{border-color:rgba(200,150,10,0.4);}
+.xd-ai-inp::placeholder{color:rgba(26,15,53,0.2);}
+.xd-ai-send{padding:10px 16px;background:var(--dark);border:none;color:var(--gold-light);font-family:'Montserrat',sans-serif;font-size:6px;letter-spacing:0.25em;text-transform:uppercase;cursor:pointer;white-space:nowrap;}
 
-/* ── Buttons ── */
-.dir-btn-dark{width:100%;padding:13px;background:#1a0f35;border:none;color:#f2d270;font-family:'Montserrat',sans-serif;font-size:8px;font-weight:600;letter-spacing:0.3em;text-transform:uppercase;cursor:pointer;margin-bottom:8px;transition:all 0.2s;}
-.dir-btn-dark:hover{background:#2d1f5e;}
-.dir-btn-gold{width:100%;padding:13px;background:linear-gradient(135deg,#b8840a,#f2d270,#b8840a);background-size:200%;color:#1a0f35;font-family:'Montserrat',sans-serif;font-size:8px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;border:none;cursor:pointer;margin-bottom:8px;transition:all 0.3s;}
-.dir-btn-gold:hover{background-position:right;}
-.dir-btn-outline{width:100%;padding:12px;background:none;border:1px solid rgba(26,15,53,0.2);color:rgba(26,15,53,0.6);font-family:'Montserrat',sans-serif;font-size:8px;letter-spacing:0.25em;text-transform:uppercase;cursor:pointer;margin-bottom:8px;transition:all 0.2s;}
-.dir-btn-outline:hover{border-color:#1a0f35;color:#1a0f35;}
-.dir-btn-red{width:100%;padding:12px;background:rgba(139,0,0,0.06);border:1px solid rgba(139,0,0,0.2);color:#8b0000;font-family:'Montserrat',sans-serif;font-size:8px;letter-spacing:0.25em;text-transform:uppercase;cursor:pointer;margin-bottom:8px;transition:all 0.2s;}
+/* ── BUTTONS ── */
+.xd-btn-dark{width:100%;padding:12px;background:var(--dark);border:none;color:var(--gold-light);font-family:'Montserrat',sans-serif;font-size:7px;font-weight:600;letter-spacing:0.3em;text-transform:uppercase;cursor:pointer;margin-bottom:8px;transition:background 0.2s;}
+.xd-btn-dark:hover{background:#2d1f5e;}
+.xd-btn-gold{width:100%;padding:12px;background:linear-gradient(135deg,#b8840a,#f2d270,#b8840a);background-size:200%;color:var(--dark);font-family:'Montserrat',sans-serif;font-size:7px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;border:none;cursor:pointer;margin-bottom:8px;transition:background-position 0.3s;}
+.xd-btn-gold:hover{background-position:right;}
+.xd-btn-out{width:100%;padding:11px;background:none;border:1px solid rgba(26,15,53,0.18);color:rgba(26,15,53,0.55);font-family:'Montserrat',sans-serif;font-size:7px;letter-spacing:0.25em;text-transform:uppercase;cursor:pointer;margin-bottom:8px;transition:all 0.2s;}
+.xd-btn-out:hover{border-color:var(--dark);color:var(--dark);}
 
-/* ── Fields ── */
-.dir-field{margin-bottom:10px;}
-.dir-label{font-size:7px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(26,15,53,0.4);display:block;margin-bottom:5px;}
-.dir-input{width:100%;background:#faf8f2;border:1px solid rgba(214,169,78,0.2);color:#1a0f35;font-family:'Montserrat',sans-serif;font-size:11px;padding:10px 13px;outline:none;transition:border-color 0.2s;box-sizing:border-box;}
-.dir-input:focus{border-color:rgba(214,169,78,0.5);}
-.dir-input::placeholder{color:rgba(26,15,53,0.2);}
-.dir-select{width:100%;background:#faf8f2;border:1px solid rgba(214,169,78,0.2);color:#1a0f35;font-family:'Montserrat',sans-serif;font-size:11px;padding:10px 34px 10px 13px;outline:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(200,150,10,0.5)'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;cursor:pointer;box-sizing:border-box;}
-.dir-select option{background:#faf8f2;color:#1a0f35;}
-.dir-2col{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.dir-toast{display:none;padding:10px 14px;background:rgba(34,197,94,0.07);border:1px solid rgba(34,197,94,0.2);color:#166534;font-size:8px;letter-spacing:0.2em;text-transform:uppercase;text-align:center;margin:8px 0;}
-.dir-empty{font-size:9px;color:rgba(26,15,53,0.25);text-align:center;padding:24px;letter-spacing:0.2em;}
-.dir-candidature-card{background:#fff;border:1px solid rgba(214,169,78,0.15);padding:18px;margin-bottom:10px;box-shadow:0 1px 6px rgba(26,15,53,0.04);}
-.dir-cand-name{font-family:'Cormorant Garamond',serif;font-size:20px;color:#1a0f35;margin-bottom:4px;}
-.dir-cand-info{font-size:9px;color:rgba(26,15,53,0.5);line-height:1.8;}
-.dir-cand-formula{font-size:7px;letter-spacing:0.3em;text-transform:uppercase;color:#8b0000;margin:6px 0;}
-.dir-action-row{display:flex;gap:8px;margin-top:12px;}
-.dir-btn-accept{flex:1;padding:10px;background:#166534;border:none;color:#fff;font-family:'Montserrat',sans-serif;font-size:7px;letter-spacing:0.25em;text-transform:uppercase;cursor:pointer;}
-.dir-btn-refuse{flex:1;padding:10px;background:rgba(139,0,0,0.07);border:1px solid rgba(139,0,0,0.2);color:#8b0000;font-family:'Montserrat',sans-serif;font-size:7px;letter-spacing:0.25em;text-transform:uppercase;cursor:pointer;}
+/* ── FORM ── */
+.xd-field{margin-bottom:9px;}
+.xd-lbl{font-size:7px;letter-spacing:0.28em;text-transform:uppercase;color:rgba(26,15,53,0.38);display:block;margin-bottom:4px;}
+.xd-inp{width:100%;background:var(--cream);border:1px solid rgba(200,150,10,0.18);color:var(--dark);font-family:'Montserrat',sans-serif;font-size:11px;padding:10px 12px;outline:none;transition:border-color 0.2s;box-sizing:border-box;}
+.xd-inp:focus{border-color:rgba(200,150,10,0.45);}
+.xd-inp::placeholder{color:rgba(26,15,53,0.18);}
+.xd-sel{width:100%;background:var(--cream);border:1px solid rgba(200,150,10,0.18);color:var(--dark);font-family:'Montserrat',sans-serif;font-size:11px;padding:10px 30px 10px 12px;outline:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(200,150,10,0.45)'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;cursor:pointer;box-sizing:border-box;}
+.xd-sel option{background:var(--cream);color:var(--dark);}
+.xd-2col{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.xd-toast{display:none;padding:9px 12px;background:rgba(20,83,45,0.07);border:1px solid rgba(20,83,45,0.18);color:#14532d;font-size:7px;letter-spacing:0.2em;text-transform:uppercase;text-align:center;margin:6px 0;}
+.xd-empty{font-size:8px;color:rgba(26,15,53,0.22);text-align:center;padding:22px;letter-spacing:0.18em;}
+.xd-note-area{width:100%;background:var(--cream);border:1px solid rgba(200,150,10,0.18);color:var(--dark);font-family:'Montserrat',sans-serif;font-size:12px;padding:14px;resize:vertical;min-height:120px;outline:none;line-height:1.7;box-sizing:border-box;}
+.xd-note-area:focus{border-color:rgba(200,150,10,0.4);}
+.xd-note-area::placeholder{color:rgba(26,15,53,0.18);}
+
+/* ── SECTION OK ── */
+.xd-ok{padding:18px;text-align:center;font-size:9px;color:#14532d;letter-spacing:0.2em;background:rgba(20,83,45,0.04);border:1px solid rgba(20,83,45,0.12);}
 </style>
 
-<div class="dir-wrap">
+<div class="xd-wrap">
 
-  <!-- ══ HEADER ══ -->
-  <div class="dir-header">
-    <div class="dir-header-top">
-      <div class="dir-logo-wrap">
-        <span class="dir-logo-hm">HM</span>
-        <div class="dir-logo-sep"></div>
-        <span class="dir-logo-sub">Espace Directeur</span>
+<!-- ══ HEADER ══ -->
+<div class="xd-hdr">
+  <div class="xd-hdr-row">
+    <div class="xd-brand">
+      <span class="xd-brand-hm">HM</span>
+      <div class="xd-brand-pipe"></div>
+      <span class="xd-brand-lbl">Espace Directeur</span>
+    </div>
+    <div class="xd-hdr-right">
+      <span class="xd-alert-pill" id="xd-alert-pill">— alertes</span>
+      <button class="xd-signout" onclick="hmSignOut&&hmSignOut()">Déconnexion</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ HERO ══ -->
+<div class="xd-hero">
+  <div class="xd-hero-eye">✦ Honeymoon Agency · Tableau de bord Directeur</div>
+  <div class="xd-hero-title">Bonjour, Directeur</div>
+  <div class="xd-hero-sub">· Vue complète · Temps réel · Tout le site ·</div>
+  <div class="xd-hero-date">
+    <div class="xd-date-num" id="xd-date-num">—</div>
+    <div class="xd-date-txt" id="xd-date-txt">—</div>
+  </div>
+</div>
+
+<!-- ══ KPI BAR ══ -->
+<div class="xd-kpi-bar">
+  <div class="xd-kpi"><span class="xd-kpi-n g" id="xk-cr">—</span><span class="xd-kpi-l">Créatrices</span></div>
+  <div class="xd-kpi"><span class="xd-kpi-n g" id="xk-ac">—</span><span class="xd-kpi-l">Actives</span></div>
+  <div class="xd-kpi"><span class="xd-kpi-n" id="xk-mb">—</span><span class="xd-kpi-l">Membres</span></div>
+  <div class="xd-kpi"><span class="xd-kpi-n" id="xk-ct">—</span><span class="xd-kpi-l">Contenus</span></div>
+  <div class="xd-kpi"><span class="xd-kpi-n g" id="xk-fl">—</span><span class="xd-kpi-l">Followers</span></div>
+  <div class="xd-kpi"><span class="xd-kpi-n r" id="xk-al">—</span><span class="xd-kpi-l">Alertes</span></div>
+  <div class="xd-kpi"><span class="xd-kpi-n r" id="xk-ca">—</span><span class="xd-kpi-l">Candidatures</span></div>
+</div>
+
+<!-- ══ NAV ══ -->
+<nav class="xd-nav">
+  <button class="xd-nav-btn on" onclick="xdTab('apercu',this)">Aperçu</button>
+  <button class="xd-nav-btn" onclick="xdTab('creatrices',this)">Créatrices</button>
+  <button class="xd-nav-btn" onclick="xdTab('membres',this)">Membres</button>
+  <button class="xd-nav-btn" onclick="xdTab('contenu',this)">Contenu</button>
+  <button class="xd-nav-btn" onclick="xdTab('revenus',this)">Revenus</button>
+  <button class="xd-nav-btn" onclick="xdTab('telegram',this)">Telegram</button>
+  <button class="xd-nav-btn" onclick="xdTab('candidatures',this)">Candidatures</button>
+  <button class="xd-nav-btn" onclick="xdTab('problemes',this)">Problèmes</button>
+  <button class="xd-nav-btn" onclick="xdTab('ia',this)">Assistant IA</button>
+  <button class="xd-nav-btn" onclick="xdTab('agenda',this)">Agenda</button>
+  <button class="xd-nav-btn" onclick="xdTab('gestion',this)">Gestion</button>
+</nav>
+
+<!-- ══ APERÇU ══ -->
+<div class="xd-sec on" id="xd-sec-apercu">
+  <div class="xd-t1">· Chiffres clés du site ·</div>
+  <div class="xd-g3">
+    <div class="xd-box"><span class="xd-box-n g" id="ap-cr">—</span><span class="xd-box-l">Créatrices</span></div>
+    <div class="xd-box"><span class="xd-box-n g" id="ap-ac">—</span><span class="xd-box-l">Actives</span></div>
+    <div class="xd-box"><span class="xd-box-n" id="ap-mb">—</span><span class="xd-box-l">Membres</span></div>
+  </div>
+  <div class="xd-g3">
+    <div class="xd-box"><span class="xd-box-n" id="ap-ct">—</span><span class="xd-box-l">Contenus publiés</span></div>
+    <div class="xd-box"><span class="xd-box-n g" id="ap-fl">—</span><span class="xd-box-l">Followers cumulés</span></div>
+    <div class="xd-box"><span class="xd-box-n r" id="ap-al">—</span><span class="xd-box-l">Alertes</span></div>
+  </div>
+  <div class="xd-g4" style="margin-top:4px;">
+    <div class="xd-box"><span class="xd-box-n r" id="ap-ca">—</span><span class="xd-box-l">Candidatures</span></div>
+    <div class="xd-box"><span class="xd-box-n" id="ap-pages">52</span><span class="xd-box-l">Pages du site</span></div>
+    <div class="xd-box"><span class="xd-box-n g" id="ap-stripe">6</span><span class="xd-box-l">Liens Stripe</span></div>
+    <div class="xd-box"><span class="xd-box-n" id="ap-tg">12</span><span class="xd-box-l">Canaux Telegram</span></div>
+  </div>
+
+  <div class="xd-t2">· Statut créatrices en temps réel ·</div>
+  <div id="ap-creatrices"><div class="xd-empty">Chargement…</div></div>
+
+  <div class="xd-t2">· Dernières activités ·</div>
+  <div class="xd-card" id="ap-notifs"><div class="xd-empty">Aucune activité</div></div>
+</div>
+
+<!-- ══ CRÉATRICES ══ -->
+<div class="xd-sec" id="xd-sec-creatrices">
+  <div class="xd-t1">· Fiches complètes — 4 créatrices · 36 pages ·</div>
+  <div id="xd-creatrices-list"><div class="xd-empty">Chargement…</div></div>
+</div>
+
+<!-- ══ MEMBRES ══ -->
+<div class="xd-sec" id="xd-sec-membres">
+  <div class="xd-t1">· Membres inscrits ·</div>
+  <div class="xd-g3" style="margin-bottom:20px;">
+    <div class="xd-box"><span class="xd-box-n" id="mb-tot">—</span><span class="xd-box-l">Total</span></div>
+    <div class="xd-box"><span class="xd-box-n g" id="mb-pts">—</span><span class="xd-box-l">Points distribués</span></div>
+    <div class="xd-box"><span class="xd-box-n" id="mb-badge">—</span><span class="xd-box-l">Avec badge</span></div>
+  </div>
+  <div class="xd-card" id="xd-membres-list"><div class="xd-empty">Aucun membre</div></div>
+</div>
+
+<!-- ══ CONTENU ══ -->
+<div class="xd-sec" id="xd-sec-contenu">
+  <div class="xd-t1">· Contenu publié sur le site ·</div>
+  <div class="xd-g4">
+    <div class="xd-box"><span class="xd-box-n" id="ct-ph">—</span><span class="xd-box-l">Photos</span></div>
+    <div class="xd-box"><span class="xd-box-n" id="ct-vi">—</span><span class="xd-box-l">Vidéos</span></div>
+    <div class="xd-box"><span class="xd-box-n" id="ct-re">—</span><span class="xd-box-l">Reels</span></div>
+    <div class="xd-box"><span class="xd-box-n" id="ct-te">—</span><span class="xd-box-l">Teasers</span></div>
+  </div>
+  <div class="xd-g2">
+    <div class="xd-box"><span class="xd-box-n g" id="ct-free">—</span><span class="xd-box-l">Gratuit</span></div>
+    <div class="xd-box"><span class="xd-box-n" id="ct-paid">—</span><span class="xd-box-l">Payant (tokens)</span></div>
+  </div>
+  <div class="xd-t2">· Derniers uploads ·</div>
+  <div class="xd-card" id="xd-contenu-list"><div class="xd-empty">Aucun contenu</div></div>
+</div>
+
+<!-- ══ REVENUS ══ -->
+<div class="xd-sec" id="xd-sec-revenus">
+  <div class="xd-t1">· Liens Stripe actifs ·</div>
+  <div class="xd-card">
+    <div class="xd-stripe-row">
+      <span class="xd-stripe-lbl">✦ Abonnement Premium membre — <strong>19,99€/mois</strong></span>
+      <a class="xd-stripe-link" href="https://buy.stripe.com/6oUaEQ3gOcXR6vCcfVgA80t" target="_blank">Ouvrir →</a>
+    </div>
+    <div class="xd-stripe-row">
+      <span class="xd-stripe-lbl">✦ Abonnement Ambassadrice — <strong>29,99€/mois</strong></span>
+      <a class="xd-stripe-link" href="https://buy.stripe.com/9B67sE04C0b5aLS0xdgA80x" target="_blank">Ouvrir →</a>
+    </div>
+    <div class="xd-stripe-row">
+      <span class="xd-stripe-lbl">Pourboire 5€ — WinCash</span>
+      <a class="xd-stripe-link" href="https://buy.stripe.com/4gMfZa9Fc5vpcU02FlgA80B" target="_blank">Ouvrir →</a>
+    </div>
+    <div class="xd-stripe-row">
+      <span class="xd-stripe-lbl">Pourboire 10€ — WinCash</span>
+      <a class="xd-stripe-link" href="https://buy.stripe.com/28EaEQbNk6ztdY45RxgA80C" target="_blank">Ouvrir →</a>
+    </div>
+    <div class="xd-stripe-row">
+      <span class="xd-stripe-lbl">Pourboire 20€ — WinCash</span>
+      <a class="xd-stripe-link" href="https://buy.stripe.com/14AfZacRoaPJf283JpgA80D" target="_blank">Ouvrir →</a>
+    </div>
+    <div class="xd-stripe-row">
+      <span class="xd-stripe-lbl">Tokens WinCash — Pack 10</span>
+      <a class="xd-stripe-link" href="https://buy.stripe.com/6oUfZag3Af5Z3jq4NtgA80s" target="_blank">Ouvrir →</a>
+    </div>
+  </div>
+
+  <div class="xd-t2">· Liens affiliés actifs ·</div>
+  <div class="xd-card">
+    <div class="xd-stripe-row">
+      <span class="xd-stripe-lbl">StripCash — Stripchat (RevShare)</span>
+      <a class="xd-stripe-link" href="https://go.mavrtracktor.com?userId=b28eb6e93f8035147f3b9a235e64c41f736ebe098e7a4f768c86b328c5549de1" target="_blank">Voir →</a>
+    </div>
+    <div class="xd-stripe-row">
+      <span class="xd-stripe-lbl">BongaCash — BongaCams (RevShare)</span>
+      <a class="xd-stripe-link" href="https://bongacams11.com/track?a=285786&p=2&camp=RevShare%20par%20d%C3%A9faut" target="_blank">Voir →</a>
+    </div>
+  </div>
+
+  <div class="xd-t2">· Formules créatrices — taux de commission ·</div>
+  <div class="xd-card">
+    <div class="xd-stripe-row"><span class="xd-stripe-lbl">✦ Honey Girl — Contrat léger</span><span class="xd-row-badge">60%</span></div>
+    <div class="xd-stripe-row"><span class="xd-stripe-lbl">✦ Honeymoon Original — Plateforme principale</span><span class="xd-row-badge">70% + PPV 80%</span></div>
+    <div class="xd-stripe-row"><span class="xd-stripe-lbl">👑 Ambassadrice — Table VIP</span><span class="xd-row-badge">Commission partage</span></div>
+    <div class="xd-stripe-row"><span class="xd-stripe-lbl">★ Honeymoon Star — Table d'honneur</span><span class="xd-row-badge">75% Fan Club</span></div>
+  </div>
+</div>
+
+<!-- ══ TELEGRAM ══ -->
+<div class="xd-sec" id="xd-sec-telegram">
+  <div class="xd-t1">· Canaux Telegram — 12 créatrices + support ·</div>
+  <div class="xd-card">
+    <div class="xd-stripe-row"><span class="xd-stripe-lbl">✦ Support Honeymoon (général)</span><a class="xd-stripe-link" href="https://t.me/+QX9U6UiyuH9hMTM0" target="_blank">Ouvrir →</a></div>
+    <div class="xd-stripe-row"><span class="xd-stripe-lbl">Créatrice 1</span><a class="xd-stripe-link" href="https://t.me/+mA7eld-EyQM0ZmM8" target="_blank">Ouvrir →</a></div>
+    <div class="xd-stripe-row"><span class="xd-stripe-lbl">Créatrice 2</span><a class="xd-stripe-link" href="https://t.me/+8FO1vn3Os_w3YjQ0" target="_blank">Ouvrir →</a></div>
+    <div class="xd-stripe-row"><span class="xd-stripe-lbl">Créatrice 3</span><a class="xd-stripe-link" href="https://t.me/+yfN6b6Ok9802OTU0" target="_blank">Ouvrir →</a></div>
+    <div class="xd-stripe-row"><span class="xd-stripe-lbl">Créatrice 4</span><a class="xd-stripe-link" href="https://t.me/+8SvFQFnXzuc4MjBk" target="_blank">Ouvrir →</a></div>
+    <div class="xd-stripe-row"><span class="xd-stripe-lbl">Créatrice 5</span><a class="xd-stripe-link" href="https://t.me/+pOCFpCL_juUyMDhk" target="_blank">Ouvrir →</a></div>
+    <div class="xd-stripe-row"><span class="xd-stripe-lbl">Créatrice 6</span><a class="xd-stripe-link" href="https://t.me/+AbBjVyAuyBIwMDQ0" target="_blank">Ouvrir →</a></div>
+    <div class="xd-stripe-row"><span class="xd-stripe-lbl">Créatrice 7</span><a class="xd-stripe-link" href="https://t.me/+Le6F4eCaujRiYzk0" target="_blank">Ouvrir →</a></div>
+    <div class="xd-stripe-row"><span class="xd-stripe-lbl">Créatrice 8</span><a class="xd-stripe-link" href="https://t.me/+72nw3eS6TPJlNzJk" target="_blank">Ouvrir →</a></div>
+    <div class="xd-stripe-row"><span class="xd-stripe-lbl">Créatrice 9</span><a class="xd-stripe-link" href="https://t.me/+UxoqT9XCFhYyYWE0" target="_blank">Ouvrir →</a></div>
+    <div class="xd-stripe-row"><span class="xd-stripe-lbl">Créatrice 10</span><a class="xd-stripe-link" href="https://t.me/+99I_q4DyFKpmMTRk" target="_blank">Ouvrir →</a></div>
+    <div class="xd-stripe-row"><span class="xd-stripe-lbl">Créatrice 11</span><a class="xd-stripe-link" href="https://t.me/+D0p6o5__XhlmZTdk" target="_blank">Ouvrir →</a></div>
+    <div class="xd-stripe-row"><span class="xd-stripe-lbl">Créatrice 12</span><a class="xd-stripe-link" href="https://t.me/+TJY6o4MKcR04NTE8" target="_blank">Ouvrir →</a></div>
+  </div>
+
+  <div class="xd-t2">· Pages du site par catégorie ·</div>
+  <div class="xd-card">
+    <div class="xd-stripe-row"><span class="xd-stripe-lbl">Landing · TopModels · Official Access · About · Contact · Legal</span><span class="xd-row-badge">6 pages</span></div>
+    <div class="xd-stripe-row"><span class="xd-stripe-lbl">Profils publics Luna · Zara · Nova · Dream (3 galeries × 3 cartes)</span><span class="xd-row-badge">28 pages</span></div>
+    <div class="xd-stripe-row"><span class="xd-stripe-lbl">Espace membre · Inscription · Win Cash · Généreux · Invitation · Premium</span><span class="xd-row-badge">6 pages</span></div>
+    <div class="xd-stripe-row"><span class="xd-stripe-lbl">Creator Login · Dashboard créatrice · Dashboard directeur</span><span class="xd-row-badge">3 pages</span></div>
+    <div class="xd-stripe-row"><span class="xd-stripe-lbl">Apply · Legal · Member Login</span><span class="xd-row-badge">3 pages</span></div>
+  </div>
+</div>
+
+<!-- ══ CANDIDATURES ══ -->
+<div class="xd-sec" id="xd-sec-candidatures">
+  <div class="xd-t1">· Candidatures reçues ·</div>
+  <div id="xd-cand-list"><div class="xd-empty">Aucune candidature</div></div>
+</div>
+
+<!-- ══ PROBLÈMES ══ -->
+<div class="xd-sec" id="xd-sec-problemes">
+  <div class="xd-t1 red">· Problèmes détectés en temps réel ·</div>
+  <div id="xd-prob-list"><div class="xd-empty">Analyse…</div></div>
+  <div class="xd-t2">· Journal des erreurs Firebase ·</div>
+  <div class="xd-card" id="xd-err-list"><div class="xd-empty">Aucune erreur ✓</div></div>
+  <button class="xd-btn-out" onclick="xdLoadProblemes()" style="margin-top:8px;">↻ Actualiser</button>
+</div>
+
+<!-- ══ ASSISTANT IA ══ -->
+<div class="xd-sec" id="xd-sec-ia">
+  <div class="xd-t1">· Assistant IA — Honeymoon Intelligence ·</div>
+  <div class="xd-card-gold" style="margin-bottom:14px;">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--dark);margin-bottom:4px;">Votre assistant IA personnel</div>
+    <div style="font-size:9px;color:rgba(26,15,53,0.45);line-height:1.7;">Posez vos questions sur le site, les créatrices, les membres, les revenus ou les problèmes. Réponses en temps réel basées sur les données actuelles du site.</div>
+  </div>
+  <div class="xd-ai-box" id="xd-ai-msgs">
+    <div class="xd-ai-msg">
+      <div class="xd-ai-who xd-ai-who-ia">✦ Assistant Honeymoon</div>
+      <div class="xd-ai-bbl xd-ai-bbl-ia">Bonjour Directeur. Je suis votre assistant IA personnel. Je connais tout le site Honeymoon — créatrices, membres, contenu, revenus, problèmes. Que souhaitez-vous savoir ?</div>
+    </div>
+  </div>
+  <div class="xd-ai-row">
+    <input class="xd-ai-inp" id="xd-ai-inp" type="text" placeholder="Combien de créatrices actives ? Quels problèmes ?" onkeydown="if(event.key==='Enter')xdAiSend()">
+    <button class="xd-ai-send" onclick="xdAiSend()">Envoyer →</button>
+  </div>
+  <div style="font-size:6px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(26,15,53,0.2);margin-top:6px;">Suggestions : "Quelles créatrices ont un profil incomplet ?" · "Combien de membres ?" · "Problèmes urgents ?"</div>
+</div>
+
+<!-- ══ AGENDA ══ -->
+<div class="xd-sec" id="xd-sec-agenda">
+  <div class="xd-t1">· Mon agenda ·</div>
+  <div class="xd-ag-nav">
+    <button class="xd-ag-btn" onclick="xdAgMois(-1)">← Précédent</button>
+    <span class="xd-ag-titre" id="xd-ag-titre">—</span>
+    <button class="xd-ag-btn" onclick="xdAgMois(1)">Suivant →</button>
+  </div>
+  <div class="xd-ag-wdays">
+    <div class="xd-ag-wday">Lun</div><div class="xd-ag-wday">Mar</div>
+    <div class="xd-ag-wday">Mer</div><div class="xd-ag-wday">Jeu</div>
+    <div class="xd-ag-wday">Ven</div><div class="xd-ag-wday">Sam</div><div class="xd-ag-wday">Dim</div>
+  </div>
+  <div class="xd-ag-grid" id="xd-ag-grid"></div>
+  <div id="xd-ag-note-sec" style="display:none;margin-top:16px;">
+    <div class="xd-t2">· Note du <span id="xd-ag-note-date"></span> ·</div>
+    <textarea class="xd-note-area" id="xd-ag-note-txt" placeholder="Note pour ce jour…"></textarea>
+    <button class="xd-btn-gold" onclick="xdAgSaveNote()" style="margin-top:4px;">✦ Sauvegarder →</button>
+    <div class="xd-toast" id="xd-toast-ag">✓ Note sauvegardée</div>
+  </div>
+  <div class="xd-t2">· Mémo libre ·</div>
+  <textarea class="xd-note-area" id="xd-memo" placeholder="Idées, projets, instructions pour les créatrices…" oninput="xdSaveMemo()"></textarea>
+  <div class="xd-t2">· Alertes personnelles ·</div>
+  <div class="xd-card">
+    <div class="xd-field"><label class="xd-lbl">Message</label><input class="xd-inp" id="xd-al-msg" type="text" placeholder="ex. Contacter Luna cette semaine"></div>
+    <div class="xd-2col">
+      <div class="xd-field"><label class="xd-lbl">Date</label><input class="xd-inp" id="xd-al-date" type="date"></div>
+      <div class="xd-field"><label class="xd-lbl">Heure</label><input class="xd-inp" id="xd-al-heure" type="time"></div>
+    </div>
+    <button class="xd-btn-dark" onclick="xdAddAlerte()">+ Ajouter l'alerte</button>
+    <div id="xd-al-list" style="margin-top:8px;"></div>
+  </div>
+</div>
+
+<!-- ══ GESTION ══ -->
+<div class="xd-sec" id="xd-sec-gestion">
+  <div class="xd-t1">· Créer un compte créatrice ·</div>
+  <div class="xd-card-gold">
+    <div class="xd-field"><label class="xd-lbl">Nom de scène</label><input class="xd-inp" id="xd-cr-name" type="text" placeholder="ex. Luna"></div>
+    <div class="xd-field"><label class="xd-lbl">Email</label><input class="xd-inp" id="xd-cr-email" type="email" placeholder="email@exemple.com"></div>
+    <div class="xd-field">
+      <label class="xd-lbl">Mot de passe</label>
+      <div style="display:flex;gap:6px;">
+        <input class="xd-inp" id="xd-cr-pwd" type="text" placeholder="Mot de passe" style="flex:1;">
+        <button class="xd-btn-dark" style="width:auto;padding:10px 14px;margin:0;white-space:nowrap;" onclick="xdGenPwd()">Générer</button>
       </div>
-      <div class="dir-header-right">
-        <span class="dir-alert-badge" id="dir-alert-badge">0 alerte</span>
-        <button class="dir-signout" onclick="hmSignOut && hmSignOut()">Déconnexion</button>
-      </div>
     </div>
+    <div class="xd-field"><label class="xd-lbl">Formule</label>
+      <select class="xd-sel" id="xd-cr-cat">
+        <option value="honey_girl">✦ Honey Girl — Contrat léger (60%)</option>
+        <option value="original">✦ Original — Plateforme principale (70%+PPV80%)</option>
+        <option value="ambassadrice">👑 Ambassadrice — Table VIP</option>
+        <option value="star">★ Star — Table d'honneur (75%)</option>
+      </select>
+    </div>
+    <div id="xd-cr-msg" style="font-size:8px;letter-spacing:0.15em;text-transform:uppercase;padding:8px;margin-top:4px;display:none;"></div>
+    <button class="xd-btn-gold" style="margin-top:10px;" onclick="xdCreateCreator()">✦ Créer le compte →</button>
   </div>
+  <div class="xd-t2">· Notifications ·</div>
+  <button class="xd-btn-out" onclick="xdMarkAllRead()">✓ Tout marquer comme lu</button>
+  <div class="xd-t2">· Navigation ·</div>
+  <button class="xd-btn-out" onclick="showPage('landing')">← Retour au site public</button>
+</div>
 
-  <!-- ══ HERO ══ -->
-  <div class="dir-hero">
-    <div class="dir-hero-eyebrow">✦ Honeymoon Agency · Tableau de bord</div>
-    <div class="dir-hero-title">Bonjour, Directeur</div>
-    <div class="dir-hero-sub">· Vue complète du site en temps réel ·</div>
-    <div class="dir-hero-date">
-      <div class="dir-hero-date-day" id="dir-date-day">—</div>
-      <div class="dir-hero-date-txt" id="dir-date-txt">—</div>
-    </div>
-  </div>
-
-  <!-- ══ KPI BAR ══ -->
-  <div class="dir-kpi-bar">
-    <div class="dir-kpi"><span class="dir-kpi-num gold" id="kpi-creatrices">—</span><span class="dir-kpi-lbl">Créatrices</span></div>
-    <div class="dir-kpi"><span class="dir-kpi-num gold" id="kpi-actives">—</span><span class="dir-kpi-lbl">Actives</span></div>
-    <div class="dir-kpi"><span class="dir-kpi-num" id="kpi-membres">—</span><span class="dir-kpi-lbl">Membres</span></div>
-    <div class="dir-kpi"><span class="dir-kpi-num" id="kpi-contenu">—</span><span class="dir-kpi-lbl">Contenus</span></div>
-    <div class="dir-kpi"><span class="dir-kpi-num gold" id="kpi-followers">—</span><span class="dir-kpi-lbl">Followers</span></div>
-    <div class="dir-kpi"><span class="dir-kpi-num red" id="kpi-alertes">—</span><span class="dir-kpi-lbl">Alertes</span></div>
-    <div class="dir-kpi"><span class="dir-kpi-num red" id="kpi-candidatures">—</span><span class="dir-kpi-lbl">Candidatures</span></div>
-  </div>
-
-  <!-- ══ NAVIGATION ══ -->
-  <nav class="dir-nav">
-    <button class="dir-nav-btn on" onclick="dirTab('apercu',this)">Aperçu</button>
-    <button class="dir-nav-btn" onclick="dirTab('creatrices',this)">Créatrices</button>
-    <button class="dir-nav-btn" onclick="dirTab('membres',this)">Membres</button>
-    <button class="dir-nav-btn" onclick="dirTab('contenu',this)">Contenu</button>
-    <button class="dir-nav-btn" onclick="dirTab('candidatures',this)">Candidatures</button>
-    <button class="dir-nav-btn" onclick="dirTab('problemes',this)">Problèmes</button>
-    <button class="dir-nav-btn" onclick="dirTab('ia',this)">Assistant IA</button>
-    <button class="dir-nav-btn" onclick="dirTab('agenda',this)">Agenda</button>
-    <button class="dir-nav-btn" onclick="dirTab('gestion',this)">Gestion</button>
-  </nav>
-
-  <!-- ══════════════════════
-       TAB — APERÇU
-  ══════════════════════ -->
-  <div class="dir-sec on" id="dir-sec-apercu">
-
-    <div class="dir-stitle">· Chiffres clés du site ·</div>
-    <div class="dir-stats-g3">
-      <div class="dir-stat"><span class="dir-stat-n gold" id="ap-creatrices">—</span><span class="dir-stat-l">Créatrices total</span></div>
-      <div class="dir-stat"><span class="dir-stat-n gold" id="ap-actives">—</span><span class="dir-stat-l">Actives en ce moment</span></div>
-      <div class="dir-stat"><span class="dir-stat-n" id="ap-membres">—</span><span class="dir-stat-l">Membres inscrits</span></div>
-    </div>
-    <div class="dir-stats-g3">
-      <div class="dir-stat"><span class="dir-stat-n" id="ap-contenu">—</span><span class="dir-stat-l">Contenus publiés</span></div>
-      <div class="dir-stat"><span class="dir-stat-n gold" id="ap-followers">—</span><span class="dir-stat-l">Followers cumulés</span></div>
-      <div class="dir-stat"><span class="dir-stat-n red" id="ap-alertes">—</span><span class="dir-stat-l">Alertes en attente</span></div>
-    </div>
-
-    <div class="dir-stitle2">· Statut des créatrices ·</div>
-    <div id="ap-creators-list"><div class="dir-empty">Chargement…</div></div>
-
-    <div class="dir-stitle2">· Dernières activités ·</div>
-    <div class="dir-card" id="ap-notifs-list">
-      <div class="dir-empty">Aucune activité récente</div>
-    </div>
-
-  </div>
-
-  <!-- ══════════════════════
-       TAB — CRÉATRICES
-  ══════════════════════ -->
-  <div class="dir-sec" id="dir-sec-creatrices">
-    <div class="dir-stitle">· Toutes les créatrices — fiches complètes ·</div>
-    <div id="dir-creatrices-liste"><div class="dir-empty">Chargement…</div></div>
-  </div>
-
-  <!-- ══════════════════════
-       TAB — MEMBRES
-  ══════════════════════ -->
-  <div class="dir-sec" id="dir-sec-membres">
-    <div class="dir-stitle">· Membres inscrits ·</div>
-    <div class="dir-stats-g3" style="margin-bottom:20px;">
-      <div class="dir-stat"><span class="dir-stat-n" id="mb-total">—</span><span class="dir-stat-l">Total membres</span></div>
-      <div class="dir-stat"><span class="dir-stat-n gold" id="mb-nouveaux">—</span><span class="dir-stat-l">Ce mois</span></div>
-      <div class="dir-stat"><span class="dir-stat-n" id="mb-points">—</span><span class="dir-stat-l">Points distribués</span></div>
-    </div>
-    <div class="dir-card" id="dir-membres-liste">
-      <div class="dir-empty">Aucun membre</div>
-    </div>
-  </div>
-
-  <!-- ══════════════════════
-       TAB — CONTENU
-  ══════════════════════ -->
-  <div class="dir-sec" id="dir-sec-contenu">
-    <div class="dir-stitle">· Contenu publié sur le site ·</div>
-    <div class="dir-stats-g3" style="margin-bottom:16px;">
-      <div class="dir-stat"><span class="dir-stat-n" id="ct-photos">—</span><span class="dir-stat-l">Photos</span></div>
-      <div class="dir-stat"><span class="dir-stat-n" id="ct-videos">—</span><span class="dir-stat-l">Vidéos</span></div>
-      <div class="dir-stat"><span class="dir-stat-n" id="ct-reels">—</span><span class="dir-stat-l">Reels</span></div>
-    </div>
-    <div class="dir-stats-g2">
-      <div class="dir-stat"><span class="dir-stat-n gold" id="ct-gratuit">—</span><span class="dir-stat-l">Gratuit</span></div>
-      <div class="dir-stat"><span class="dir-stat-n" id="ct-payant">—</span><span class="dir-stat-l">Payant (tokens)</span></div>
-    </div>
-    <div class="dir-stitle2">· Derniers contenus uploadés ·</div>
-    <div class="dir-card" id="dir-contenu-liste">
-      <div class="dir-empty">Aucun contenu</div>
-    </div>
-  </div>
-
-  <!-- ══════════════════════
-       TAB — CANDIDATURES
-  ══════════════════════ -->
-  <div class="dir-sec" id="dir-sec-candidatures">
-    <div class="dir-stitle">· Candidatures reçues ·</div>
-    <div id="dir-candidatures-liste">
-      <div class="dir-empty">Aucune candidature reçue</div>
-    </div>
-  </div>
-
-  <!-- ══════════════════════
-       TAB — PROBLÈMES
-  ══════════════════════ -->
-  <div class="dir-sec" id="dir-sec-problemes">
-    <div class="dir-stitle dir-stitle-red">· Problèmes détectés en temps réel ·</div>
-    <div id="dir-problemes-liste">
-      <div class="dir-empty">Analyse en cours…</div>
-    </div>
-    <div class="dir-stitle2">· Journal des erreurs Firebase ·</div>
-    <div class="dir-card" id="dir-errors-liste">
-      <div class="dir-empty">Aucune erreur enregistrée ✓</div>
-    </div>
-    <button class="dir-btn-outline" onclick="dirRefreshProblemes()" style="margin-top:8px;">↻ Actualiser l'analyse</button>
-  </div>
-
-  <!-- ══════════════════════
-       TAB — ASSISTANT IA
-  ══════════════════════ -->
-  <div class="dir-sec" id="dir-sec-ia">
-    <div class="dir-stitle">· Assistant IA — Honeymoon Intelligence ·</div>
-    <div class="dir-card-gold" style="margin-bottom:16px;">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:16px;color:#1a0f35;margin-bottom:6px;">Votre assistant personnel du site</div>
-      <div style="font-size:9px;color:rgba(26,15,53,0.5);line-height:1.7;">Posez-moi des questions sur vos créatrices, vos membres, votre contenu ou les problèmes du site. Je vous réponds en temps réel avec les données actuelles.</div>
-    </div>
-    <div class="dir-ai-messages" id="dir-ai-messages">
-      <div class="dir-ai-msg">
-        <div class="dir-ai-who dir-ai-who-ia">✦ Assistant Honeymoon</div>
-        <div class="dir-ai-bubble dir-ai-bubble-ia">Bonjour Directeur. Je suis votre assistant IA personnel. Je connais tout le site Honeymoon — créatrices, membres, contenu, problèmes. Que souhaitez-vous savoir ?</div>
-      </div>
-    </div>
-    <div class="dir-ai-input-row">
-      <input class="dir-ai-input" id="dir-ai-input" type="text" placeholder="Combien de créatrices actives ? Quels problèmes ce soir ?" onkeydown="if(event.key==='Enter') dirAiSend()">
-      <button class="dir-ai-send" onclick="dirAiSend()">Envoyer →</button>
-    </div>
-    <div style="font-size:7px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(26,15,53,0.25);margin-top:8px;">Suggestions : "Quelles créatrices ont un profil incomplet ?" · "Combien de membres ce mois ?" · "Y a-t-il des problèmes urgents ?"</div>
-  </div>
-
-  <!-- ══════════════════════
-       TAB — AGENDA
-  ══════════════════════ -->
-  <div class="dir-sec" id="dir-sec-agenda">
-    <div class="dir-stitle">· Mon agenda · <span id="dir-agenda-mois" style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#c8960a;margin-left:10px;"></span></div>
-
-    <!-- Navigation mois -->
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-      <button class="dir-btn-outline" style="width:auto;padding:8px 16px;margin:0;" onclick="dirAgendaMois(-1)">← Mois précédent</button>
-      <span style="font-family:'Cormorant Garamond',serif;font-size:18px;color:#1a0f35;" id="dir-agenda-titre">—</span>
-      <button class="dir-btn-outline" style="width:auto;padding:8px 16px;margin:0;" onclick="dirAgendaMois(1)">Mois suivant →</button>
-    </div>
-
-    <!-- Jours de la semaine -->
-    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:4px;">
-      <div class="dir-agenda-weekday">Lun</div>
-      <div class="dir-agenda-weekday">Mar</div>
-      <div class="dir-agenda-weekday">Mer</div>
-      <div class="dir-agenda-weekday">Jeu</div>
-      <div class="dir-agenda-weekday">Ven</div>
-      <div class="dir-agenda-weekday">Sam</div>
-      <div class="dir-agenda-weekday">Dim</div>
-    </div>
-    <div class="dir-agenda-grid" id="dir-agenda-grid"></div>
-
-    <!-- Note du jour sélectionné -->
-    <div id="dir-agenda-note-section" style="display:none;">
-      <div class="dir-stitle2">· Note du <span id="dir-agenda-note-date"></span> ·</div>
-      <textarea class="dir-note-area" id="dir-agenda-note-txt" placeholder="Votre note pour cette journée…"></textarea>
-      <button class="dir-btn-gold" onclick="dirSaveAgendaNote()" style="margin-top:4px;">✦ Sauvegarder la note →</button>
-      <div class="dir-toast" id="dir-toast-agenda">✓ Note sauvegardée</div>
-    </div>
-
-    <!-- Notes libres -->
-    <div class="dir-stitle2">· Mémo libre · <span style="font-size:7px;color:rgba(26,15,53,0.3);">Sauvegardé automatiquement</span></div>
-    <textarea class="dir-note-area" id="dir-memo-libre" placeholder="Idées, rappels, projets en cours, instructions pour les créatrices…" oninput="dirSaveMemo()"></textarea>
-
-    <!-- Alertes personnelles -->
-    <div class="dir-stitle2">· Alertes personnelles ·</div>
-    <div class="dir-card">
-      <div class="dir-field"><label class="dir-label">Message de l'alerte</label><input class="dir-input" id="dir-alerte-msg" type="text" placeholder="ex. Contacter Luna cette semaine"></div>
-      <div class="dir-2col">
-        <div class="dir-field"><label class="dir-label">Date</label><input class="dir-input" id="dir-alerte-date" type="date"></div>
-        <div class="dir-field"><label class="dir-label">Heure</label><input class="dir-input" id="dir-alerte-heure" type="time"></div>
-      </div>
-      <button class="dir-btn-dark" onclick="dirAddAlerte()">+ Ajouter l'alerte</button>
-      <div id="dir-alertes-liste" style="margin-top:10px;"></div>
-    </div>
-  </div>
-
-  <!-- ══════════════════════
-       TAB — GESTION
-  ══════════════════════ -->
-  <div class="dir-sec" id="dir-sec-gestion">
-
-    <div class="dir-stitle">· Créer un compte créatrice ·</div>
-    <div class="dir-card-gold">
-      <div class="dir-field"><label class="dir-label">Nom de scène</label><input class="dir-input" id="dir-cr-name" type="text" placeholder="ex. Luna"></div>
-      <div class="dir-field"><label class="dir-label">Adresse email</label><input class="dir-input" id="dir-cr-email" type="email" placeholder="email@exemple.com"></div>
-      <div class="dir-field">
-        <label class="dir-label">Mot de passe</label>
-        <div style="display:flex;gap:8px;">
-          <input class="dir-input" id="dir-cr-pwd" type="text" placeholder="Mot de passe" style="flex:1;">
-          <button class="dir-btn-dark" style="width:auto;padding:10px 16px;margin:0;white-space:nowrap;" onclick="dirGenPwd()">Générer</button>
-        </div>
-      </div>
-      <div class="dir-field">
-        <label class="dir-label">Formule contractuelle</label>
-        <select class="dir-select" id="dir-cr-category">
-          <option value="honey_girl">✦ Honey Girl — Contrat léger (60%)</option>
-          <option value="original">✦ Honeymoon Original — Plateforme principale (70% + PPV 80%)</option>
-          <option value="ambassadrice">👑 Ambassadrice — Table VIP</option>
-          <option value="star">★ Honeymoon Star — Table d'honneur (75%)</option>
-        </select>
-      </div>
-      <div id="dir-cr-msg" style="font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;padding:10px;margin-top:6px;display:none;"></div>
-      <button class="dir-btn-gold" style="margin-top:12px;" onclick="dirCreateCreator()">✦ Créer le compte →</button>
-    </div>
-
-    <div class="dir-stitle2">· Notifications ·</div>
-    <button class="dir-btn-outline" onclick="dirMarkAllRead()">✓ Tout marquer comme lu</button>
-
-    <div class="dir-stitle2">· Navigation ·</div>
-    <button class="dir-btn-outline" onclick="showPage('landing')">← Retour au site public</button>
-
-  </div>
-
-</div><!-- /.dir-wrap -->
+</div><!-- /.xd-wrap -->
 
 <script>
 (function(){
 
-  /* ══ Date ══ */
-  (function() {
-    var now = new Date();
-    var jours = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
-    var moisN = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-    var dd = document.getElementById('dir-date-day');
-    var dt = document.getElementById('dir-date-txt');
-    if (dd) dd.textContent = now.getDate();
-    if (dt) dt.textContent = jours[now.getDay()] + ' ' + moisN[now.getMonth()] + ' ' + now.getFullYear();
-  })();
+/* ── Date ── */
+(function(){
+  var now=new Date();
+  var j=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+  var m=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+  var dn=document.getElementById('xd-date-num'); if(dn) dn.textContent=now.getDate();
+  var dt=document.getElementById('xd-date-txt'); if(dt) dt.textContent=j[now.getDay()]+' '+m[now.getMonth()]+' '+now.getFullYear();
+})();
 
-  /* ══ Tab ══ */
-  window.dirTab = function(tab, btn) {
-    document.querySelectorAll('.dir-sec').forEach(function(s){ s.classList.remove('on'); });
-    document.querySelectorAll('.dir-nav-btn').forEach(function(b){ b.classList.remove('on'); });
-    var sec = document.getElementById('dir-sec-' + tab);
-    if (sec) sec.classList.add('on');
-    if (btn) btn.classList.add('on');
-    if (tab === 'creatrices') dirLoadCreatrices();
-    if (tab === 'membres') dirLoadMembres();
-    if (tab === 'contenu') dirLoadContenu();
-    if (tab === 'candidatures') dirLoadCandidatures();
-    if (tab === 'problemes') dirRefreshProblemes();
-    if (tab === 'agenda') dirInitAgenda();
-  };
+/* ── Tab ── */
+window.xdTab=function(tab,btn){
+  document.querySelectorAll('.xd-sec').forEach(function(s){s.classList.remove('on');});
+  document.querySelectorAll('.xd-nav-btn').forEach(function(b){b.classList.remove('on');});
+  var sec=document.getElementById('xd-sec-'+tab); if(sec) sec.classList.add('on');
+  if(btn) btn.classList.add('on');
+  if(tab==='creatrices') xdLoadCreatrices();
+  if(tab==='membres') xdLoadMembres();
+  if(tab==='contenu') xdLoadContenu();
+  if(tab==='candidatures') xdLoadCandidatures();
+  if(tab==='problemes') xdLoadProblemes();
+  if(tab==='agenda') xdInitAgenda();
+};
 
-  /* ══ Init principal ══ */
-  window.adInit = function() {
-    if (!window.hmDB) return;
-    import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod) {
+/* ── Init ── */
+window.adInit=function(){
+  if(!window.hmDB) return;
+  import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod){
 
-      // Créatrices
-      dbMod.getDocs(dbMod.collection(window.hmDB, 'creators')).then(function(snap) {
-        var total = snap.size, actives = 0, followers = 0;
-        var html = '';
-        snap.forEach(function(d) {
-          var data = d.data();
-          if (data.status === 'active') actives++;
-          var fl = ['followers_of','followers_sc','followers_bc','followers_ig','followers_tk','followers_tw'].reduce(function(a,k){return a+(parseInt(data[k])||0);},0);
-          followers += fl;
-          var dot = data.status==='active'?'active':data.status==='soon'?'soon':'away';
-          var cat = {honey_girl:'✦ Honey Girl',original:'✦ Original',ambassadrice:'👑 Ambassadrice',star:'★ Star'}[data.category||data.formula||'honey_girl']||'—';
-          html += '<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(214,169,78,0.08);">'
-                + '<div class="dir-cr-dot ' + dot + '"></div>'
-                + '<span style="font-family:\'Cormorant Garamond\',serif;font-size:18px;color:#1a0f35;flex:1;">' + (data.name||d.id) + '</span>'
-                + '<span style="font-size:7px;letter-spacing:0.25em;text-transform:uppercase;color:#c8960a;">' + cat + '</span>'
-                + '<span style="font-size:8px;color:rgba(26,15,53,0.35);">' + (data.status||'away') + '</span>'
-                + '</div>';
-        });
-        var el = document.getElementById('ap-creators-list');
-        if (el) el.innerHTML = '<div class="dir-card">' + (html||'<div class="dir-empty">Aucune créatrice</div>') + '</div>';
-        ['kpi-creatrices','ap-creatrices'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=total;});
-        ['kpi-actives','ap-actives'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=actives;});
-        ['kpi-followers','ap-followers'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=followers.toLocaleString('fr-FR');});
+    // Créatrices
+    dbMod.getDocs(dbMod.collection(window.hmDB,'creators')).then(function(snap){
+      var tot=snap.size,ac=0,fl=0;
+      var html='';
+      snap.forEach(function(d){
+        var data=d.data();
+        if(data.status==='active') ac++;
+        fl+=(['followers_of','followers_sc','followers_bc','followers_ig','followers_tk','followers_tw']).reduce(function(a,k){return a+(parseInt(data[k])||0);},0);
+        var dot=data.status==='active'?'active':data.status==='soon'?'soon':'away';
+        var cat={honey_girl:'✦ Honey Girl',original:'✦ Original',ambassadrice:'👑 Ambassadrice',star:'★ Star'}[data.category||data.formula||'honey_girl']||'—';
+        html+='<div class="xd-row"><div class="xd-dot '+dot+'"></div>'
+          +'<span class="xd-row-lbl"><b style="font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--dark);">'+( data.name||d.id)+'</b></span>'
+          +'<span class="xd-row-badge">'+cat+'</span>'
+          +'<span style="font-size:7px;color:rgba(26,15,53,0.3);">'+(data.status||'away')+'</span>'
+          +'</div>';
       });
+      var el=document.getElementById('ap-creatrices');
+      if(el) el.innerHTML='<div class="xd-card">'+(html||'<div class="xd-empty">Aucune créatrice</div>')+'</div>';
+      ['xk-cr','ap-cr'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=tot;});
+      ['xk-ac','ap-ac'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=ac;});
+      ['xk-fl','ap-fl'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=fl.toLocaleString('fr-FR');});
+    });
 
-      // Membres
-      dbMod.getDocs(dbMod.collection(window.hmDB, 'members')).then(function(snap) {
-        ['kpi-membres','ap-membres','mb-total'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=snap.size;});
+    // Membres
+    dbMod.getDocs(dbMod.collection(window.hmDB,'members')).then(function(snap){
+      ['xk-mb','ap-mb','mb-tot'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=snap.size;});
+    });
+
+    // Contenu
+    dbMod.getDocs(dbMod.collection(window.hmDB,'content')).then(function(snap){
+      ['xk-ct','ap-ct'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=snap.size;});
+    });
+
+    // Candidatures
+    dbMod.getDocs(dbMod.collection(window.hmDB,'applications')).then(function(snap){
+      ['xk-ca','ap-ca'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=snap.size;});
+    });
+
+    // Notifications temps réel
+    var nq=dbMod.query(dbMod.collection(window.hmDB,'notifications'),dbMod.orderBy('created_at','desc'),dbMod.limit(15));
+    dbMod.onSnapshot(nq,function(snap){
+      var html='',pending=0;
+      snap.forEach(function(d){
+        var data=d.data();
+        if(data.status==='pending') pending++;
+        var icons={new_member:'👤',creator_login:'🔑',status_change:'📡',new_content:'📸',new_application:'📋',error:'⚠️'};
+        var labels={new_member:'Nouveau membre',creator_login:'Connexion',status_change:'Statut',new_content:'Contenu',new_application:'Candidature',error:'Erreur'};
+        var time=data.created_at?new Date(data.created_at.seconds*1000).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}):'';
+        var payload=data.payload||{};
+        var txt=payload.email||payload.creator_id||payload.username||'';
+        html+='<div class="xd-notif">'
+          +'<span class="xd-notif-icon">'+(icons[data.type]||'•')+'</span>'
+          +'<div class="xd-notif-body"><div class="xd-notif-type">'+(labels[data.type]||data.type||'')+'</div>'
+          +'<div class="xd-notif-txt">'+txt+'</div></div>'
+          +'<span class="xd-notif-time">'+time+'</span></div>';
       });
+      var el=document.getElementById('ap-notifs'); if(el) el.innerHTML=html||'<div class="xd-empty">Aucune activité</div>';
+      ['xk-al','ap-al'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=pending;});
+      var ap=document.getElementById('xd-alert-pill'); if(ap) ap.textContent=pending+(pending>1?' alertes':' alerte');
+    });
+  });
+};
 
-      // Contenu
-      dbMod.getDocs(dbMod.collection(window.hmDB, 'content')).then(function(snap) {
-        ['kpi-contenu','ap-contenu'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=snap.size;});
+/* ── Créatrices fiche complète ── */
+function xdLoadCreatrices(){
+  if(!window.hmDB) return;
+  import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod){
+    dbMod.getDocs(dbMod.collection(window.hmDB,'creators')).then(function(snap){
+      var html='';
+      snap.forEach(function(d){
+        var data=d.data();
+        var dot=data.status==='active'?'active':data.status==='soon'?'soon':'away';
+        var cat={honey_girl:'✦ Honey Girl',original:'✦ Original',ambassadrice:'👑 Ambassadrice',star:'★ Star'}[data.category||data.formula||'honey_girl']||'—';
+        var fl=(['followers_of','followers_sc','followers_bc','followers_ig','followers_tk','followers_tw']).reduce(function(a,k){return a+(parseInt(data[k])||0);},0);
+        var created=data.created_at?new Date(data.created_at.seconds*1000).toLocaleDateString('fr-FR'):'—';
+        html+='<div class="xd-cr">'
+          +'<div class="xd-cr-head">'
+          +'<div class="xd-cr-av">'+(data.photo?'<img src="'+data.photo+'">':(data.name||'C')[0].toUpperCase())+'</div>'
+          +'<div style="flex:1;"><div class="xd-cr-nm">'+(data.name||d.id)+'</div><div class="xd-cr-fm">'+cat+'</div></div>'
+          +'<div class="xd-dot '+dot+'" style="margin-right:4px;"></div>'
+          +'<span style="font-size:7px;color:rgba(26,15,53,0.3);">'+(data.status||'away')+'</span>'
+          +'</div>'
+          +'<div class="xd-cr-info">'
+          +'<div class="xd-cr-kv">Email : <b>'+(data.email||'—')+'</b></div>'
+          +'<div class="xd-cr-kv">Pays : <b>'+(data.country||'—')+'</b></div>'
+          +'<div class="xd-cr-kv">Langues : <b>'+(data.languages||'—')+'</b></div>'
+          +'<div class="xd-cr-kv">Âge : <b>'+(data.age||'—')+'</b></div>'
+          +'<div class="xd-cr-kv">Style : <b>'+(data.style||'—')+'</b></div>'
+          +'<div class="xd-cr-kv">Inscrite : <b>'+created+'</b></div>'
+          +'<div class="xd-cr-kv">Bio : <b>'+(data.bio?(data.bio.length>45?data.bio.substring(0,45)+'…':data.bio):'⚠ Manquante')+'</b></div>'
+          +'<div class="xd-cr-kv">Photo : <b>'+(data.photo?'✓ Présente':'⚠ Manquante')+'</b></div>'
+          +'<div class="xd-cr-kv">Hobbies : <b>'+(data.hobbies||'—')+'</b></div>'
+          +'<div class="xd-cr-kv">Orientation : <b>'+(data.orientation||'—')+'</b></div>'
+          +'</div>'
+          +'<div class="xd-cr-fl">'
+          +'<div class="xd-cr-fl-item"><strong>'+fl.toLocaleString('fr-FR')+'</strong> total</div>'
+          +(data.followers_of?'<div class="xd-cr-fl-item"><strong>'+parseInt(data.followers_of).toLocaleString('fr-FR')+'</strong> OF</div>':'')
+          +(data.followers_sc?'<div class="xd-cr-fl-item"><strong>'+parseInt(data.followers_sc).toLocaleString('fr-FR')+'</strong> Strip</div>':'')
+          +(data.followers_ig?'<div class="xd-cr-fl-item"><strong>'+parseInt(data.followers_ig).toLocaleString('fr-FR')+'</strong> IG</div>':'')
+          +(data.followers_tk?'<div class="xd-cr-fl-item"><strong>'+parseInt(data.followers_tk).toLocaleString('fr-FR')+'</strong> TK</div>':'')
+          +'</div></div>';
       });
+      var el=document.getElementById('xd-creatrices-list');
+      if(el) el.innerHTML=html||'<div class="xd-empty">Aucune créatrice</div>';
+    });
+  });
+}
 
-      // Candidatures
-      dbMod.getDocs(dbMod.collection(window.hmDB, 'applications')).then(function(snap) {
-        var e = document.getElementById('kpi-candidatures'); if(e) e.textContent = snap.size;
+/* ── Membres ── */
+function xdLoadMembres(){
+  if(!window.hmDB) return;
+  import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod){
+    var q=dbMod.query(dbMod.collection(window.hmDB,'members'),dbMod.orderBy('created_at','desc'),dbMod.limit(50));
+    dbMod.getDocs(q).then(function(snap){
+      var html='',pts=0,badges=0;
+      snap.forEach(function(d){
+        var data=d.data();
+        pts+=parseInt(data.points)||0;
+        if(data.badge&&data.badge!=='honey') badges++;
+        html+='<div class="xd-row">'
+          +'<span class="xd-row-lbl">'+( data.email||'—')+'</span>'
+          +'<span class="xd-row-badge">'+(data.badge||'honey')+'</span>'
+          +'<span class="xd-row-val">'+(data.points||0)+' pts</span>'
+          +'</div>';
       });
+      var el=document.getElementById('xd-membres-list'); if(el) el.innerHTML='<div class="xd-card">'+(html||'<div class="xd-empty">Aucun membre</div>')+'</div>';
+      var mt=document.getElementById('mb-tot'); if(mt) mt.textContent=snap.size;
+      var mp=document.getElementById('mb-pts'); if(mp) mp.textContent=pts.toLocaleString('fr-FR');
+      var mb=document.getElementById('mb-badge'); if(mb) mb.textContent=badges;
+    });
+  });
+}
 
-      // Notifications temps réel
-      var nq = dbMod.query(dbMod.collection(window.hmDB,'notifications'),dbMod.orderBy('created_at','desc'),dbMod.limit(15));
-      dbMod.onSnapshot(nq, function(snap) {
-        var html = '', pending = 0;
-        snap.forEach(function(d) {
-          var data = d.data();
-          if (data.status === 'pending') pending++;
-          var icons = {new_member:'👤',creator_login:'🔑',status_change:'📡',new_content:'📸',new_application:'📋',error:'⚠️'};
-          var labels = {new_member:'Nouveau membre',creator_login:'Connexion',status_change:'Statut modifié',new_content:'Nouveau contenu',new_application:'Candidature',error:'Erreur'};
-          var icon = icons[data.type]||'•';
-          var label = labels[data.type]||data.type||'';
-          var time = data.created_at ? new Date(data.created_at.seconds*1000).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}) : '';
-          var payload = data.payload||{};
-          var txt = payload.email||payload.creator_id||payload.username||'';
-          html += '<div class="dir-notif-row">'
-                + '<span class="dir-notif-icon">' + icon + '</span>'
-                + '<div class="dir-notif-content"><div class="dir-notif-type">' + label + '</div><div class="dir-notif-txt">' + txt + '</div></div>'
-                + '<span class="dir-notif-time">' + time + '</span>'
-                + '</div>';
-        });
-        var el = document.getElementById('ap-notifs-list');
-        if (el) el.innerHTML = html || '<div class="dir-empty">Aucune activité récente</div>';
-        ['kpi-alertes','ap-alertes'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=pending;});
-        var ab = document.getElementById('dir-alert-badge');
-        if (ab) ab.textContent = pending + (pending > 1 ? ' alertes' : ' alerte');
+/* ── Contenu ── */
+function xdLoadContenu(){
+  if(!window.hmDB) return;
+  import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod){
+    ['photo','video','reels','teaser'].forEach(function(type){
+      var q=dbMod.query(dbMod.collection(window.hmDB,'content'),dbMod.where('type','==',type));
+      dbMod.getDocs(q).then(function(snap){
+        var ids={photo:'ct-ph',video:'ct-vi',reels:'ct-re',teaser:'ct-te'};
+        var e=document.getElementById(ids[type]); if(e) e.textContent=snap.size;
       });
     });
-  };
+    var qF=dbMod.query(dbMod.collection(window.hmDB,'content'),dbMod.where('locked','==',false));
+    dbMod.getDocs(qF).then(function(snap){var e=document.getElementById('ct-free');if(e)e.textContent=snap.size;});
+    var qP=dbMod.query(dbMod.collection(window.hmDB,'content'),dbMod.where('locked','==',true));
+    dbMod.getDocs(qP).then(function(snap){var e=document.getElementById('ct-paid');if(e)e.textContent=snap.size;});
+    var q2=dbMod.query(dbMod.collection(window.hmDB,'content'),dbMod.orderBy('created_at','desc'),dbMod.limit(20));
+    dbMod.getDocs(q2).then(function(snap){
+      var html='';
+      snap.forEach(function(d){
+        var data=d.data();
+        var time=data.created_at?new Date(data.created_at.seconds*1000).toLocaleDateString('fr-FR'):'—';
+        html+='<div class="xd-notif">'
+          +'<span class="xd-notif-icon">'+(data.type==='video'||data.type==='reels'?'🎬':'📸')+'</span>'
+          +'<div class="xd-notif-body"><div class="xd-notif-type">'+(data.type||'—')+'</div>'
+          +'<div class="xd-notif-txt">'+(data.creator_id||'—')+' · '+(data.locked?data.price_tokens+'tk':'Gratuit')+'</div></div>'
+          +'<span class="xd-notif-time">'+time+'</span></div>';
+      });
+      var el=document.getElementById('xd-contenu-list'); if(el) el.innerHTML=html||'<div class="xd-empty">Aucun contenu</div>';
+    });
+  });
+}
 
-  /* ══ Créatrices — fiche complète ══ */
-  function dirLoadCreatrices() {
-    if (!window.hmDB) return;
-    import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod) {
-      dbMod.getDocs(dbMod.collection(window.hmDB, 'creators')).then(function(snap) {
-        var html = '';
-        snap.forEach(function(d) {
-          var data = d.data();
-          var dot = data.status==='active'?'active':data.status==='soon'?'soon':'away';
-          var cat = {honey_girl:'✦ Honey Girl',original:'✦ Original',ambassadrice:'👑 Ambassadrice',star:'★ Star'}[data.category||data.formula||'honey_girl']||'—';
-          var fl = ['followers_of','followers_sc','followers_bc','followers_ig','followers_tk','followers_tw'].reduce(function(a,k){return a+(parseInt(data[k])||0);},0);
-          var created = data.created_at ? new Date(data.created_at.seconds*1000).toLocaleDateString('fr-FR') : '—';
-          html += '<div class="dir-cr-card">'
-                + '<div class="dir-cr-top">'
-                + '<div class="dir-cr-avatar">' + (data.photo ? '<img src="'+data.photo+'">' : (data.name||'C')[0].toUpperCase()) + '</div>'
-                + '<div style="flex:1;">'
-                + '<div class="dir-cr-name">' + (data.name||d.id) + '</div>'
-                + '<div class="dir-cr-formula">' + cat + '</div>'
-                + '</div>'
-                + '<div class="dir-cr-dot ' + dot + '"></div>'
-                + '<span style="font-size:8px;color:rgba(26,15,53,0.35);margin-left:4px;">' + (data.status||'away') + '</span>'
-                + '</div>'
-                + '<div class="dir-cr-grid">'
-                + '<div class="dir-cr-info">Email : <span>' + (data.email||'—') + '</span></div>'
-                + '<div class="dir-cr-info">Pays : <span>' + (data.country||'—') + '</span></div>'
-                + '<div class="dir-cr-info">Langues : <span>' + (data.languages||'—') + '</span></div>'
-                + '<div class="dir-cr-info">Âge : <span>' + (data.age||'—') + '</span></div>'
-                + '<div class="dir-cr-info">Style : <span>' + (data.style||'—') + '</span></div>'
-                + '<div class="dir-cr-info">Inscrite le : <span>' + created + '</span></div>'
-                + '<div class="dir-cr-info">Bio : <span>' + (data.bio ? (data.bio.length > 40 ? data.bio.substring(0,40)+'…' : data.bio) : '⚠ Non remplie') + '</span></div>'
-                + '<div class="dir-cr-info">Photo : <span>' + (data.photo ? '✓ Présente' : '⚠ Manquante') + '</span></div>'
-                + '</div>'
-                + '<div class="dir-cr-followers">'
-                + '<div class="dir-cr-fl-item"><strong>' + fl.toLocaleString('fr-FR') + '</strong> total</div>'
-                + (data.followers_of ? '<div class="dir-cr-fl-item"><strong>' + parseInt(data.followers_of).toLocaleString('fr-FR') + '</strong> OF</div>' : '')
-                + (data.followers_sc ? '<div class="dir-cr-fl-item"><strong>' + parseInt(data.followers_sc).toLocaleString('fr-FR') + '</strong> Stripchat</div>' : '')
-                + (data.followers_ig ? '<div class="dir-cr-fl-item"><strong>' + parseInt(data.followers_ig).toLocaleString('fr-FR') + '</strong> Instagram</div>' : '')
-                + '</div>'
-                + '</div>';
+/* ── Candidatures ── */
+function xdLoadCandidatures(){
+  if(!window.hmDB) return;
+  import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod){
+    dbMod.getDocs(dbMod.collection(window.hmDB,'applications')).then(function(snap){
+      var html='';
+      snap.forEach(function(d){
+        var data=d.data();
+        var time=data.created_at?new Date(data.created_at.seconds*1000).toLocaleDateString('fr-FR'):'—';
+        var st=data.status||'pending';
+        var stColor=st==='accepted'?'#14532d':st==='rejected'?'var(--red)':'var(--gold)';
+        html+='<div class="xd-cand">'
+          +'<div style="display:flex;justify-content:space-between;align-items:flex-start;">'
+          +'<div class="xd-cand-nm">'+(data.username||'—')+'</div>'
+          +'<span style="font-size:6px;letter-spacing:0.25em;text-transform:uppercase;color:'+stColor+';">'+st+'</span>'
+          +'</div>'
+          +'<div class="xd-cand-fm">'+(data.formula||'—')+'</div>'
+          +'<div class="xd-cand-info">'
+          +'Email : '+(data.email||'—')+' · Pays : '+(data.country||'—')+' · Reçue le '+time
+          +(data.platforms?'<br>Plateformes : '+data.platforms.substring(0,60):'')
+          +(data.why?'<br>Motivation : '+data.why.substring(0,80):'')
+          +'</div>'
+          +(st==='pending'?'<div class="xd-act-row">'
+          +'<button class="xd-btn-accept" onclick="xdAcceptApp(''+d.id+'')">✓ Accepter</button>'
+          +'<button class="xd-btn-refuse" onclick="xdRejectApp(''+d.id+'')">✗ Refuser</button>'
+          +'</div>':'')
+          +'</div>';
+      });
+      var el=document.getElementById('xd-cand-list');
+      if(el) el.innerHTML=html||'<div class="xd-empty">Aucune candidature reçue</div>';
+    });
+  });
+}
+
+/* ── Problèmes ── */
+function xdLoadProblemes(){
+  if(!window.hmDB) return;
+  import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod){
+    var probs=[];
+    dbMod.getDocs(dbMod.collection(window.hmDB,'creators')).then(function(snap){
+      snap.forEach(function(d){
+        var data=d.data(),nom=data.name||d.id;
+        if(!data.photo) probs.push({t:'warn',msg:'Créatrice <b>'+nom+'</b> — photo manquante'});
+        if(!data.bio||data.bio.length<10) probs.push({t:'warn',msg:'Créatrice <b>'+nom+'</b> — bio vide ou trop courte'});
+        if(!data.email) probs.push({t:'red',msg:'Créatrice <b>'+nom+'</b> — email absent dans Firestore'});
+        if(!data.link_onlyfans&&!data.link_stripchat) probs.push({t:'warn',msg:'Créatrice <b>'+nom+'</b> — aucun lien de plateforme'});
+      });
+      var eq=dbMod.query(dbMod.collection(window.hmDB,'notifications'),dbMod.where('type','==','error'),dbMod.limit(10));
+      dbMod.getDocs(eq).then(function(eSnap){
+        eSnap.forEach(function(d){
+          var data=d.data();
+          probs.push({t:'red',msg:'Erreur Firebase : '+(data.payload?JSON.stringify(data.payload).substring(0,70):'inconnue')});
         });
-        var el = document.getElementById('dir-creatrices-liste');
-        if (el) el.innerHTML = html || '<div class="dir-empty">Aucune créatrice enregistrée</div>';
+        var html='';
+        probs.forEach(function(p){
+          html+='<div class="'+(p.t==='red'?'xd-card-red':'xd-card-warn')+'">'
+            +'<span style="font-size:10px;color:rgba(26,15,53,0.65);line-height:1.6;">'+p.msg+'</span>'
+            +'</div>';
+        });
+        var el=document.getElementById('xd-prob-list');
+        if(el) el.innerHTML=html||'<div class="xd-ok">✓ Aucun problème détecté — site opérationnel</div>';
       });
     });
+  });
+}
+window.xdLoadProblemes=xdLoadProblemes;
+
+/* ── Assistant IA ── */
+window.xdAiSend=async function(){
+  var inp=document.getElementById('xd-ai-inp');
+  var q=inp?inp.value.trim():''; if(!q) return;
+  if(inp) inp.value='';
+  var msgs=document.getElementById('xd-ai-msgs');
+  if(msgs){
+    msgs.innerHTML+='<div class="xd-ai-msg xd-ai-dir"><div class="xd-ai-who xd-ai-who-dir">Directeur</div><div class="xd-ai-bbl xd-ai-bbl-dir">'+q+'</div></div>';
+    msgs.scrollTop=msgs.scrollHeight;
   }
-
-  /* ══ Membres ══ */
-  function dirLoadMembres() {
-    if (!window.hmDB) return;
-    import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod) {
-      var q = dbMod.query(dbMod.collection(window.hmDB,'members'),dbMod.orderBy('created_at','desc'),dbMod.limit(50));
-      dbMod.getDocs(q).then(function(snap) {
-        var html = '', totalPts = 0;
-        snap.forEach(function(d) {
-          var data = d.data();
-          totalPts += parseInt(data.points)||0;
-          html += '<div class="dir-member-row">'
-                + '<span class="dir-member-email">' + (data.email||'—') + '</span>'
-                + '<span class="dir-member-badge">' + (data.badge||'honey') + '</span>'
-                + '<span class="dir-member-pts">' + (data.points||0) + ' pts</span>'
-                + '</div>';
-        });
-        var el = document.getElementById('dir-membres-liste');
-        if (el) el.innerHTML = html || '<div class="dir-empty">Aucun membre</div>';
-        var mt = document.getElementById('mb-total'); if (mt) mt.textContent = snap.size;
-        var mp = document.getElementById('mb-points'); if (mp) mp.textContent = totalPts.toLocaleString('fr-FR');
-      });
-    });
-  }
-
-  /* ══ Contenu ══ */
-  function dirLoadContenu() {
-    if (!window.hmDB) return;
-    import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod) {
-      ['photo','video','reels'].forEach(function(type) {
-        var q = dbMod.query(dbMod.collection(window.hmDB,'content'),dbMod.where('type','==',type));
-        dbMod.getDocs(q).then(function(snap) {
-          var el = document.getElementById('ct-'+type+'s'); if(el) el.textContent=snap.size;
-        });
-      });
-      var qFree = dbMod.query(dbMod.collection(window.hmDB,'content'),dbMod.where('locked','==',false));
-      dbMod.getDocs(qFree).then(function(snap){ var e=document.getElementById('ct-gratuit');if(e)e.textContent=snap.size; });
-      var qPaid = dbMod.query(dbMod.collection(window.hmDB,'content'),dbMod.where('locked','==',true));
-      dbMod.getDocs(qPaid).then(function(snap){ var e=document.getElementById('ct-payant');if(e)e.textContent=snap.size; });
-      var q2 = dbMod.query(dbMod.collection(window.hmDB,'content'),dbMod.orderBy('created_at','desc'),dbMod.limit(20));
-      dbMod.getDocs(q2).then(function(snap) {
-        var html = '';
-        snap.forEach(function(d) {
-          var data = d.data();
-          var time = data.created_at ? new Date(data.created_at.seconds*1000).toLocaleDateString('fr-FR') : '—';
-          html += '<div class="dir-notif-row">'
-                + '<span class="dir-notif-icon">' + (data.type==='video'||data.type==='reels'?'🎬':'📸') + '</span>'
-                + '<div class="dir-notif-content"><div class="dir-notif-type">' + (data.type||'—') + '</div>'
-                + '<div class="dir-notif-txt">' + (data.creator_id||'—') + ' · ' + (data.locked?data.price_tokens+'tk':'Gratuit') + '</div></div>'
-                + '<span class="dir-notif-time">' + time + '</span>'
-                + '</div>';
-        });
-        var el = document.getElementById('dir-contenu-liste');
-        if (el) el.innerHTML = html || '<div class="dir-empty">Aucun contenu</div>';
-      });
-    });
-  }
-
-  /* ══ Candidatures ══ */
-  function dirLoadCandidatures() {
-    if (!window.hmDB) return;
-    import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod) {
-      dbMod.getDocs(dbMod.collection(window.hmDB,'applications')).then(function(snap) {
-        var html = '';
-        snap.forEach(function(d) {
-          var data = d.data();
-          var time = data.created_at ? new Date(data.created_at.seconds*1000).toLocaleDateString('fr-FR') : '—';
-          var status = data.status || 'pending';
-          var statusColor = status==='accepted'?'#166534':status==='rejected'?'#8b0000':'#c8960a';
-          html += '<div class="dir-candidature-card">'
-                + '<div style="display:flex;justify-content:space-between;align-items:flex-start;">'
-                + '<div><div class="dir-cand-name">' + (data.username||'—') + '</div>'
-                + '<div class="dir-cand-formula">' + (data.formula||'—') + '</div></div>'
-                + '<span style="font-size:7px;letter-spacing:0.25em;text-transform:uppercase;color:'+statusColor+';">' + status + '</span>'
-                + '</div>'
-                + '<div class="dir-cand-info">'
-                + 'Email : ' + (data.email||'—') + ' · Pays : ' + (data.country||'—') + ' · Reçue le ' + time + '<br>'
-                + (data.platforms ? 'Plateformes : ' + data.platforms.substring(0,60) : '')
-                + (data.why ? '<br>Motivation : ' + data.why.substring(0,80)+'…' : '')
-                + '</div>'
-                + (status==='pending' ? '<div class="dir-action-row">'
-                + '<button class="dir-btn-accept" onclick="dirAcceptApp(\''+d.id+'\')">✓ Accepter</button>'
-                + '<button class="dir-btn-refuse" onclick="dirRejectApp(\''+d.id+'\')">✗ Refuser</button>'
-                + '</div>' : '')
-                + '</div>';
-        });
-        var el = document.getElementById('dir-candidatures-liste');
-        if (el) el.innerHTML = html || '<div class="dir-empty">Aucune candidature reçue</div>';
-      });
-    });
-  }
-
-  /* ══ Problèmes ══ */
-  window.dirRefreshProblemes = function() {
-    if (!window.hmDB) return;
-    import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod) {
-      var problemes = [];
-      dbMod.getDocs(dbMod.collection(window.hmDB,'creators')).then(function(snap) {
-        snap.forEach(function(d) {
-          var data = d.data();
-          var nom = data.name||d.id;
-          if (!data.photo) problemes.push({type:'warn',txt:'Créatrice <strong>'+nom+'</strong> — photo de profil manquante'});
-          if (!data.bio||data.bio.length<10) problemes.push({type:'warn',txt:'Créatrice <strong>'+nom+'</strong> — bio non remplie ou trop courte'});
-          if (!data.email) problemes.push({type:'error',txt:'Créatrice <strong>'+nom+'</strong> — email manquant dans Firestore'});
-          if (!data.link_onlyfans && !data.link_stripchat) problemes.push({type:'warn',txt:'Créatrice <strong>'+nom+'</strong> — aucun lien de plateforme renseigné'});
-        });
-        var errQ = dbMod.query(dbMod.collection(window.hmDB,'notifications'),dbMod.where('type','==','error'),dbMod.limit(10));
-        dbMod.getDocs(errQ).then(function(eSnap) {
-          eSnap.forEach(function(d) {
-            var data = d.data();
-            problemes.push({type:'error',txt:'Erreur Firebase : '+(data.payload?JSON.stringify(data.payload).substring(0,80):'inconnue')});
-          });
-          var html = '';
-          problemes.forEach(function(p) {
-            html += '<div class="dir-issue' + (p.type==='warn'?' warn':'') + '">'
-                  + '<div class="dir-issue-dot"></div>'
-                  + '<span class="dir-issue-txt">' + p.txt + '</span>'
-                  + '</div>';
-          });
-          var el = document.getElementById('dir-problemes-liste');
-          if (el) el.innerHTML = html || '<div style="padding:20px;text-align:center;font-size:9px;color:#166534;letter-spacing:0.2em;">✓ AUCUN PROBLÈME DÉTECTÉ — SITE OPÉRATIONNEL</div>';
-        });
-      });
-    });
-  };
-
-  /* ══ Assistant IA ══ */
-  window.dirAiSend = async function() {
-    var input = document.getElementById('dir-ai-input');
-    var question = input ? input.value.trim() : '';
-    if (!question) return;
-    if (input) input.value = '';
-
-    var messages = document.getElementById('dir-ai-messages');
-    if (messages) {
-      messages.innerHTML += '<div class="dir-ai-msg dir-ai-msg-dir">'
-        + '<div class="dir-ai-who dir-ai-who-dir">Directeur</div>'
-        + '<div class="dir-ai-bubble dir-ai-bubble-dir">' + question + '</div></div>';
-      messages.scrollTop = messages.scrollHeight;
-    }
-
-    // Collecter les données du site pour le contexte
-    var siteContext = 'Site Honeymoon Agency. ';
-    try {
-      if (window.hmDB) {
-        var dbMod = await import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js');
-        var crSnap = await dbMod.getDocs(dbMod.collection(window.hmDB,'creators'));
-        var actives = 0; var creatricesInfo = [];
-        crSnap.forEach(function(d){ var data=d.data(); if(data.status==='active') actives++; creatricesInfo.push((data.name||d.id)+' ('+( data.status||'away')+', '+(data.category||'honey_girl')+')'); });
-        siteContext += 'Créatrices : ' + crSnap.size + ' total, ' + actives + ' actives. ';
-        siteContext += 'Liste : ' + creatricesInfo.join(', ') + '. ';
-        var mbSnap = await dbMod.getDocs(dbMod.collection(window.hmDB,'members'));
-        siteContext += 'Membres : ' + mbSnap.size + '. ';
-        var ctSnap = await dbMod.getDocs(dbMod.collection(window.hmDB,'content'));
-        siteContext += 'Contenus publiés : ' + ctSnap.size + '. ';
-        var appSnap = await dbMod.getDocs(dbMod.collection(window.hmDB,'applications'));
-        siteContext += 'Candidatures reçues : ' + appSnap.size + '. ';
-      }
-    } catch(e) { siteContext += 'Données partiellement disponibles. '; }
-
-    try {
-      var response = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 1000,
-          system: 'Tu es l\'assistant IA personnel du Directeur de Honeymoon Agency, une agence de créatrices de contenu adulte premium. Tu connais tout le site. Données actuelles : ' + siteContext + ' Réponds toujours en français, de façon concise, professionnelle et utile. Tu es au service du Directeur.',
-          messages: [{role:'user', content: question}]
-        })
-      });
-      var data = await response.json();
-      var answer = data.content && data.content[0] ? data.content[0].text : 'Je n\'ai pas pu traiter votre demande.';
-      if (messages) {
-        messages.innerHTML += '<div class="dir-ai-msg">'
-          + '<div class="dir-ai-who dir-ai-who-ia">✦ Assistant Honeymoon</div>'
-          + '<div class="dir-ai-bubble dir-ai-bubble-ia">' + answer + '</div></div>';
-        messages.scrollTop = messages.scrollHeight;
-      }
-    } catch(e) {
-      if (messages) {
-        messages.innerHTML += '<div class="dir-ai-msg"><div class="dir-ai-who dir-ai-who-ia">✦ Assistant</div><div class="dir-ai-bubble dir-ai-bubble-ia">Connexion à l\'IA indisponible pour le moment. Vérifiez votre connexion.</div></div>';
-        messages.scrollTop = messages.scrollHeight;
-      }
-    }
-  };
-
-  /* ══ Agenda ══ */
-  var _agendaMois = new Date().getMonth();
-  var _agendaAnnee = new Date().getFullYear();
-  var _agendaSelected = null;
-  var _agendaNotes = JSON.parse(localStorage.getItem('hm_agenda_notes')||'{}');
-
-  function dirInitAgenda() {
-    dirRenderAgenda();
-    var memo = localStorage.getItem('hm_memo_libre')||'';
-    var el = document.getElementById('dir-memo-libre'); if(el) el.value = memo;
-    dirRenderAlertes();
-  }
-
-  window.dirAgendaMois = function(dir) {
-    _agendaMois += dir;
-    if (_agendaMois > 11) { _agendaMois = 0; _agendaAnnee++; }
-    if (_agendaMois < 0)  { _agendaMois = 11; _agendaAnnee--; }
-    dirRenderAgenda();
-  };
-
-  function dirRenderAgenda() {
-    var moisN = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-    var titre = document.getElementById('dir-agenda-titre');
-    if (titre) titre.textContent = moisN[_agendaMois] + ' ' + _agendaAnnee;
-    var grid = document.getElementById('dir-agenda-grid');
-    if (!grid) return;
-    var today = new Date();
-    var firstDay = new Date(_agendaAnnee, _agendaMois, 1);
-    var lastDay = new Date(_agendaAnnee, _agendaMois+1, 0);
-    var startDow = (firstDay.getDay() + 6) % 7; // lundi = 0
-    var html = '';
-    for (var i=0; i<startDow; i++) html += '<div></div>';
-    for (var d=1; d<=lastDay.getDate(); d++) {
-      var key = _agendaAnnee + '-' + String(_agendaMois+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
-      var isToday = (d===today.getDate() && _agendaMois===today.getMonth() && _agendaAnnee===today.getFullYear());
-      var hasNote = !!_agendaNotes[key];
-      html += '<div class="dir-agenda-day' + (isToday?' today':'') + (hasNote?' has-note':'') + '" onclick="dirSelectDay('+d+')">'
-            + '<span class="dir-agenda-day-num">' + d + '</span>'
-            + '</div>';
-    }
-    grid.innerHTML = html;
-  }
-
-  window.dirSelectDay = function(d) {
-    _agendaSelected = _agendaAnnee + '-' + String(_agendaMois+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
-    var moisN = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-    var sec = document.getElementById('dir-agenda-note-section');
-    var dateEl = document.getElementById('dir-agenda-note-date');
-    var txt = document.getElementById('dir-agenda-note-txt');
-    if (sec) sec.style.display = 'block';
-    if (dateEl) dateEl.textContent = d + ' ' + moisN[_agendaMois] + ' ' + _agendaAnnee;
-    if (txt) txt.value = _agendaNotes[_agendaSelected] || '';
-  };
-
-  window.dirSaveAgendaNote = function() {
-    if (!_agendaSelected) return;
-    var txt = document.getElementById('dir-agenda-note-txt');
-    if (txt) { _agendaNotes[_agendaSelected] = txt.value; localStorage.setItem('hm_agenda_notes', JSON.stringify(_agendaNotes)); }
-    dirRenderAgenda();
-    var t = document.getElementById('dir-toast-agenda'); if(t){t.style.display='block';setTimeout(function(){t.style.display='none';},2000);}
-  };
-
-  window.dirSaveMemo = function() {
-    var el = document.getElementById('dir-memo-libre'); if(el) localStorage.setItem('hm_memo_libre', el.value);
-  };
-
-  /* ══ Alertes ══ */
-  var _alertes = JSON.parse(localStorage.getItem('hm_alertes')||'[]');
-
-  window.dirAddAlerte = function() {
-    var msg = document.getElementById('dir-alerte-msg');
-    var date = document.getElementById('dir-alerte-date');
-    var heure = document.getElementById('dir-alerte-heure');
-    if (!msg||!msg.value) return;
-    _alertes.push({msg:msg.value, date:date?date.value:'', heure:heure?heure.value:'', id:Date.now()});
-    localStorage.setItem('hm_alertes', JSON.stringify(_alertes));
-    if(msg) msg.value=''; if(date) date.value=''; if(heure) heure.value='';
-    dirRenderAlertes();
-  };
-
-  function dirRenderAlertes() {
-    var el = document.getElementById('dir-alertes-liste'); if(!el) return;
-    if (!_alertes.length) { el.innerHTML = '<div class="dir-empty">Aucune alerte programmée</div>'; return; }
-    var html = '';
-    _alertes.forEach(function(a) {
-      html += '<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(214,169,78,0.08);">'
-            + '<span style="flex:1;font-size:10px;color:rgba(26,15,53,0.7);">' + a.msg + '</span>'
-            + '<span style="font-size:8px;color:#c8960a;">' + (a.date?a.date+' ':'') + (a.heure||'') + '</span>'
-            + '<button onclick="dirDeleteAlerte('+a.id+')" style="background:none;border:none;color:rgba(139,0,0,0.5);cursor:pointer;font-size:12px;">✕</button>'
-            + '</div>';
-    });
-    el.innerHTML = html;
-  }
-
-  window.dirDeleteAlerte = function(id) {
-    _alertes = _alertes.filter(function(a){ return a.id !== id; });
-    localStorage.setItem('hm_alertes', JSON.stringify(_alertes));
-    dirRenderAlertes();
-  };
-
-  /* ══ Candidatures actions ══ */
-  window.dirAcceptApp = function(id) {
-    if (!window.hmDB) return;
-    import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod) {
-      dbMod.updateDoc(dbMod.doc(window.hmDB,'applications',id),{status:'accepted',updated_at:dbMod.serverTimestamp()}).then(function(){
-        dirLoadCandidatures();
-        alert('Candidature acceptée — créez maintenant le compte dans l\'onglet Gestion');
-      });
-    });
-  };
-  window.dirRejectApp = function(id) {
-    if (!window.hmDB) return;
-    import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod) {
-      dbMod.updateDoc(dbMod.doc(window.hmDB,'applications',id),{status:'rejected',updated_at:dbMod.serverTimestamp()}).then(dirLoadCandidatures);
-    });
-  };
-
-  /* ══ Gestion créatrice ══ */
-  window.dirGenPwd = function() {
-    var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789!@#';
-    var pwd = ''; for(var i=0;i<12;i++) pwd+=chars[Math.floor(Math.random()*chars.length)];
-    var el=document.getElementById('dir-cr-pwd'); if(el) el.value=pwd;
-  };
-
-  window.dirCreateCreator = async function() {
-    var name=(document.getElementById('dir-cr-name')||{}).value||'';
-    var email=(document.getElementById('dir-cr-email')||{}).value||'';
-    var pwd=(document.getElementById('dir-cr-pwd')||{}).value||'';
-    var cat=(document.getElementById('dir-cr-category')||{}).value||'honey_girl';
-    var msg=document.getElementById('dir-cr-msg');
-    if(!name||!email||!pwd){if(msg){msg.style.display='block';msg.style.color='#8b0000';msg.textContent='Remplissez tous les champs';}return;}
-    if(msg){msg.style.display='block';msg.style.color='#c8960a';msg.textContent='Création en cours…';}
-    try {
-      var authMod=await import('https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js');
-      var cred=await authMod.createUserWithEmailAndPassword(window.hmAuth,email,pwd);
+  var ctx='Site Honeymoon Agency — plateforme adulte premium. ';
+  try{
+    if(window.hmDB){
       var dbMod=await import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js');
-      var slug=name.toLowerCase().replace(/[^a-z0-9]/g,'');
-      await dbMod.setDoc(dbMod.doc(window.hmDB,'creators',slug),{
-        name:name,email:email,uid:cred.user.uid,
-        category:cat,formula:cat,
-        status:'soon',bio:'',created_at:dbMod.serverTimestamp()
-      });
-      if(msg){msg.style.display='block';msg.style.color='#166534';msg.textContent='✓ Compte créé — envoyez les identifiants à la créatrice';}
-      ['dir-cr-name','dir-cr-email','dir-cr-pwd'].forEach(function(id){var e=document.getElementById(id);if(e)e.value='';});
-    } catch(err) {
-      var e=err.code==='auth/email-already-in-use'?'Email déjà utilisé':err.code==='auth/weak-password'?'Mot de passe trop faible':err.message;
-      if(msg){msg.style.display='block';msg.style.color='#8b0000';msg.textContent=e;}
+      var crSnap=await dbMod.getDocs(dbMod.collection(window.hmDB,'creators'));
+      var ac=0,crInfo=[];
+      crSnap.forEach(function(d){var data=d.data();if(data.status==='active')ac++;crInfo.push((data.name||d.id)+' ('+( data.status||'away')+', '+(data.category||'honey_girl')+')');});
+      ctx+='Créatrices : '+crSnap.size+' total, '+ac+' actives. Liste : '+crInfo.join(', ')+'. ';
+      var mbSnap=await dbMod.getDocs(dbMod.collection(window.hmDB,'members'));
+      ctx+='Membres : '+mbSnap.size+'. ';
+      var ctSnap=await dbMod.getDocs(dbMod.collection(window.hmDB,'content'));
+      ctx+='Contenus : '+ctSnap.size+'. ';
     }
-  };
-
-  /* ══ Notifications ══ */
-  window.dirMarkAllRead = function() {
-    if(!window.hmDB) return;
-    import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod){
-      var q=dbMod.query(dbMod.collection(window.hmDB,'notifications'),dbMod.where('status','==','pending'));
-      dbMod.getDocs(q).then(function(snap){ snap.forEach(function(d){dbMod.updateDoc(d.ref,{status:'read'});}); });
+  }catch(e){}
+  try{
+    var res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:800,
+        system:'Tu es l'assistant IA personnel du Directeur de Honeymoon Agency. Données actuelles : '+ctx+' Réponds en français, de façon concise et professionnelle.',
+        messages:[{role:'user',content:q}]
+      })
     });
-  };
+    var data=await res.json();
+    var answer=data.content&&data.content[0]?data.content[0].text:'Je n'ai pas pu traiter votre demande.';
+    if(msgs){msgs.innerHTML+='<div class="xd-ai-msg"><div class="xd-ai-who xd-ai-who-ia">✦ Assistant</div><div class="xd-ai-bbl xd-ai-bbl-ia">'+answer+'</div></div>';msgs.scrollTop=msgs.scrollHeight;}
+  }catch(e){
+    if(msgs){msgs.innerHTML+='<div class="xd-ai-msg"><div class="xd-ai-who xd-ai-who-ia">✦ Assistant</div><div class="xd-ai-bbl xd-ai-bbl-ia">Connexion IA indisponible pour le moment.</div></div>';msgs.scrollTop=msgs.scrollHeight;}
+  }
+};
 
-  /* ══ Compat ancienne version ══ */
-  window.adMarkAllRead = window.dirMarkAllRead;
-  window.adGenPwd = window.dirGenPwd;
-  window.adCreateCreator = window.dirCreateCreator;
+/* ── Agenda ── */
+var _agM=new Date().getMonth(),_agY=new Date().getFullYear(),_agSel=null;
+var _agNotes=JSON.parse(localStorage.getItem('hm_ag_notes')||'{}');
+function xdInitAgenda(){
+  xdRenderAg();
+  var m=document.getElementById('xd-memo'); if(m) m.value=localStorage.getItem('hm_memo')||'';
+  xdRenderAlertes();
+}
+window.xdAgMois=function(d){_agM+=d;if(_agM>11){_agM=0;_agY++;}if(_agM<0){_agM=11;_agY--;}xdRenderAg();};
+function xdRenderAg(){
+  var mn=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+  var t=document.getElementById('xd-ag-titre'); if(t) t.textContent=mn[_agM]+' '+_agY;
+  var grid=document.getElementById('xd-ag-grid'); if(!grid) return;
+  var today=new Date();
+  var first=new Date(_agY,_agM,1);
+  var last=new Date(_agY,_agM+1,0);
+  var startDow=(first.getDay()+6)%7;
+  var html='';
+  for(var i=0;i<startDow;i++) html+='<div></div>';
+  for(var d=1;d<=last.getDate();d++){
+    var key=_agY+'-'+String(_agM+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    var isToday=(d===today.getDate()&&_agM===today.getMonth()&&_agY===today.getFullYear());
+    var hasNote=!!_agNotes[key];
+    html+='<div class="xd-ag-day'+(isToday?' today':'')+(hasNote?' has-note':'')+'" onclick="xdSelDay('+d+')">'
+      +'<span class="xd-ag-dn">'+d+'</span></div>';
+  }
+  grid.innerHTML=html;
+}
+window.xdSelDay=function(d){
+  var mn=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+  _agSel=_agY+'-'+String(_agM+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+  var sec=document.getElementById('xd-ag-note-sec'); if(sec) sec.style.display='block';
+  var nd=document.getElementById('xd-ag-note-date'); if(nd) nd.textContent=d+' '+mn[_agM]+' '+_agY;
+  var nt=document.getElementById('xd-ag-note-txt'); if(nt) nt.value=_agNotes[_agSel]||'';
+};
+window.xdAgSaveNote=function(){
+  if(!_agSel) return;
+  var nt=document.getElementById('xd-ag-note-txt'); if(nt){_agNotes[_agSel]=nt.value;localStorage.setItem('hm_ag_notes',JSON.stringify(_agNotes));}
+  xdRenderAg();
+  var t=document.getElementById('xd-toast-ag'); if(t){t.style.display='block';setTimeout(function(){t.style.display='none';},2000);}
+};
+window.xdSaveMemo=function(){var m=document.getElementById('xd-memo');if(m)localStorage.setItem('hm_memo',m.value);};
 
-  /* ══ Hook showPage ══ */
-  var _origAd = window.showPage;
-  window.showPage = function(pid) {
-    if (_origAd) _origAd.apply(this, arguments);
-    if (pid === 'admin-dashboard') setTimeout(window.adInit, 300);
-  };
+/* ── Alertes ── */
+var _alertes=JSON.parse(localStorage.getItem('hm_alertes')||'[]');
+window.xdAddAlerte=function(){
+  var msg=document.getElementById('xd-al-msg');
+  var date=document.getElementById('xd-al-date');
+  var heure=document.getElementById('xd-al-heure');
+  if(!msg||!msg.value) return;
+  _alertes.push({msg:msg.value,date:date?date.value:'',heure:heure?heure.value:'',id:Date.now()});
+  localStorage.setItem('hm_alertes',JSON.stringify(_alertes));
+  if(msg)msg.value='';if(date)date.value='';if(heure)heure.value='';
+  xdRenderAlertes();
+};
+function xdRenderAlertes(){
+  var el=document.getElementById('xd-al-list'); if(!el) return;
+  if(!_alertes.length){el.innerHTML='<div class="xd-empty">Aucune alerte</div>';return;}
+  var html='';
+  _alertes.forEach(function(a){
+    html+='<div class="xd-row">'
+      +'<span class="xd-row-lbl">'+a.msg+'</span>'
+      +'<span style="font-size:7px;color:var(--gold);">'+(a.date?a.date+' ':'')+( a.heure||'')+'</span>'
+      +'<button onclick="xdDelAlerte('+a.id+')" style="background:none;border:none;color:rgba(139,0,0,0.4);cursor:pointer;font-size:13px;padding:0 4px;">✕</button>'
+      +'</div>';
+  });
+  el.innerHTML=html;
+}
+window.xdDelAlerte=function(id){_alertes=_alertes.filter(function(a){return a.id!==id;});localStorage.setItem('hm_alertes',JSON.stringify(_alertes));xdRenderAlertes();};
+
+/* ── Candidatures actions ── */
+window.xdAcceptApp=function(id){
+  if(!window.hmDB) return;
+  import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod){
+    dbMod.updateDoc(dbMod.doc(window.hmDB,'applications',id),{status:'accepted',updated_at:dbMod.serverTimestamp()}).then(function(){xdLoadCandidatures();alert('Candidature acceptée — créez le compte dans l'onglet Gestion');});
+  });
+};
+window.xdRejectApp=function(id){
+  if(!window.hmDB) return;
+  import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod){
+    dbMod.updateDoc(dbMod.doc(window.hmDB,'applications',id),{status:'rejected',updated_at:dbMod.serverTimestamp()}).then(xdLoadCandidatures);
+  });
+};
+
+/* ── Gestion ── */
+window.xdGenPwd=function(){
+  var chars='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789!@#';
+  var pwd='';for(var i=0;i<12;i++)pwd+=chars[Math.floor(Math.random()*chars.length)];
+  var e=document.getElementById('xd-cr-pwd');if(e)e.value=pwd;
+};
+window.xdCreateCreator=async function(){
+  var name=(document.getElementById('xd-cr-name')||{}).value||'';
+  var email=(document.getElementById('xd-cr-email')||{}).value||'';
+  var pwd=(document.getElementById('xd-cr-pwd')||{}).value||'';
+  var cat=(document.getElementById('xd-cr-cat')||{}).value||'honey_girl';
+  var msg=document.getElementById('xd-cr-msg');
+  if(!name||!email||!pwd){if(msg){msg.style.display='block';msg.style.color='var(--red)';msg.textContent='Remplissez tous les champs';}return;}
+  if(msg){msg.style.display='block';msg.style.color='var(--gold)';msg.textContent='Création en cours…';}
+  try{
+    var authMod=await import('https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js');
+    var cred=await authMod.createUserWithEmailAndPassword(window.hmAuth,email,pwd);
+    var dbMod=await import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js');
+    var slug=name.toLowerCase().replace(/[^a-z0-9]/g,'');
+    await dbMod.setDoc(dbMod.doc(window.hmDB,'creators',slug),{
+      name:name,email:email,uid:cred.user.uid,
+      category:cat,formula:cat,
+      status:'soon',bio:'',created_at:dbMod.serverTimestamp()
+    });
+    if(msg){msg.style.display='block';msg.style.color='#14532d';msg.textContent='✓ Compte créé — envoyez les identifiants à la créatrice';}
+    ['xd-cr-name','xd-cr-email','xd-cr-pwd'].forEach(function(id){var e=document.getElementById(id);if(e)e.value='';});
+  }catch(err){
+    var e=err.code==='auth/email-already-in-use'?'Email déjà utilisé':err.code==='auth/weak-password'?'Mot de passe trop faible (min 6 car.)':err.message;
+    if(msg){msg.style.display='block';msg.style.color='var(--red)';msg.textContent=e;}
+  }
+};
+window.xdMarkAllRead=function(){
+  if(!window.hmDB) return;
+  import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod){
+    var q=dbMod.query(dbMod.collection(window.hmDB,'notifications'),dbMod.where('status','==','pending'));
+    dbMod.getDocs(q).then(function(snap){snap.forEach(function(d){dbMod.updateDoc(d.ref,{status:'read'});});});
+  });
+};
+
+/* ── Compat ── */
+window.adMarkAllRead=window.xdMarkAllRead;
+window.adGenPwd=window.xdGenPwd;
+window.adCreateCreator=window.xdCreateCreator;
+window.dirMarkAllRead=window.xdMarkAllRead;
+window.dirGenPwd=window.xdGenPwd;
+window.dirCreateCreator=window.xdCreateCreator;
+
+/* ── Hook showPage ── */
+var _orig=window.showPage;
+window.showPage=function(pid){if(_orig)_orig.apply(this,arguments);if(pid==='admin-dashboard')setTimeout(window.adInit,300);};
 
 })();
 </script>
