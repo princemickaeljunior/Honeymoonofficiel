@@ -18877,67 +18877,73 @@ document.addEventListener('DOMContentLoaded', function() {
 .crd-contact-email{font-family:'Cormorant Garamond',serif;font-size:15px;color:rgba(214,169,78,0.7);display:block;margin-bottom:12px;}
 
 /* ── BURGER ── */
-.crd-burger-bar{display:flex;justify-content:space-between;align-items:center;padding:12px 24px;background:#110b2e;border-bottom:1px solid rgba(214,169,78,0.12);position:sticky;top:0;z-index:10;}
-.crd-burger-left{font-size:8px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(214,169,78,0.6);}
-.crd-burger-btn{background:rgba(214,169,78,0.08);border:1px solid rgba(214,169,78,0.25);color:#f2d270;font-family:'Montserrat',sans-serif;font-size:8px;letter-spacing:0.25em;text-transform:uppercase;padding:9px 16px;cursor:pointer;}
-.crd-burger-menu{background:#110b2e;border-bottom:1px solid rgba(214,169,78,0.12);position:sticky;top:45px;z-index:9;padding:8px 16px 16px;}
-.crd-burger-menu .crd-nav-btn{display:block;width:100%;text-align:left;padding:13px 16px;margin-bottom:3px;border:1px solid rgba(214,169,78,0.08);font-size:9px;letter-spacing:0.25em;}
-.crd-burger-menu .crd-nav-btn.on{border-color:rgba(214,169,78,0.4);color:#f2d270;background:rgba(214,169,78,0.06);}
-.crd-burger-menu .crd-nav-btn:hover{border-color:rgba(214,169,78,0.25);color:rgba(214,169,78,0.8);}
-/* ── TIPS ── */
-.crd-tip-box{background:rgba(214,169,78,0.04);border:1px solid rgba(214,169,78,0.12);border-left:3px solid rgba(214,169,78,0.4);padding:14px 16px;margin-bottom:10px;}
-.crd-tip-title{font-size:7px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(214,169,78,0.55);margin-bottom:6px;}
-.crd-tip-body{font-size:11px;color:rgba(245,240,232,0.6);line-height:1.75;}
-.crd-tip-body b{color:rgba(245,240,232,0.9);}
+.crd-burger-bar{display:flex;justify-content:space-between;align-items:center;padding:14px 24px;background:#0d0820;border-bottom:1px solid rgba(214,169,78,0.15);position:sticky;top:0;z-index:10;}
+.crd-burger-left{font-size:9px;letter-spacing:0.28em;text-transform:uppercase;color:rgba(214,169,78,0.7);font-weight:600;}
+.crd-burger-btn{background:rgba(214,169,78,0.10);border:1px solid rgba(214,169,78,0.3);color:#f2d270;font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:0.25em;text-transform:uppercase;padding:10px 20px;cursor:pointer;transition:background 0.2s;}
+.crd-burger-btn:hover{background:rgba(214,169,78,0.18);}
+.crd-burger-menu{background:#0d0820;border-bottom:2px solid rgba(214,169,78,0.15);position:sticky;top:49px;z-index:9;padding:12px 20px 16px;}
+.crd-burger-menu .crd-nav-btn{display:block;width:100%;text-align:left;padding:13px 18px;margin-bottom:4px;border:1px solid rgba(214,169,78,0.10);font-size:10px;letter-spacing:0.22em;text-transform:uppercase;background:none;cursor:pointer;color:rgba(214,169,78,0.45);font-family:'Montserrat',sans-serif;transition:all 0.15s;}
+.crd-burger-menu .crd-nav-btn.on{border-color:rgba(214,169,78,0.5);color:#f2d270;background:rgba(214,169,78,0.07);}
+.crd-burger-menu .crd-nav-btn:hover{color:rgba(214,169,78,0.85);border-color:rgba(214,169,78,0.25);background:rgba(214,169,78,0.04);}
+/* ── TIPS (Social/Create/Growth) ── */
+.crd-tip-box{background:rgba(214,169,78,0.03);border:1px solid rgba(214,169,78,0.10);border-left:3px solid rgba(214,169,78,0.45);padding:16px 18px;margin-bottom:12px;border-radius:1px;}
+.crd-tip-title{font-size:7px;letter-spacing:0.35em;text-transform:uppercase;color:rgba(214,169,78,0.6);margin-bottom:8px;display:block;}
+.crd-tip-body{font-size:12px;color:rgba(245,240,232,0.65);line-height:1.85;}
+.crd-tip-body b{color:#faf6f0;font-weight:600;}
 /* ── TOOLS ── */
-.crd-tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;}
-.crd-tool-card{background:rgba(255,255,255,0.03);border:1px solid rgba(214,169,78,0.12);border-left:2px solid rgba(214,169,78,0.35);padding:12px;text-decoration:none;display:block;}
-.crd-tool-name{font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(214,169,78,0.6);margin-bottom:4px;}
-.crd-tool-desc{font-size:9px;color:rgba(245,240,232,0.4);line-height:1.5;}
-.crd-aff-block{background:rgba(214,169,78,0.03);border:1px solid rgba(214,169,78,0.18);border-left:3px solid rgba(214,169,78,0.45);padding:14px 16px;margin-top:4px;}
-.crd-aff-title{font-size:7px;letter-spacing:0.35em;text-transform:uppercase;color:rgba(214,169,78,0.5);margin-bottom:10px;}
-.crd-aff-row{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;font-size:9px;color:rgba(214,169,78,0.6);border:1px solid rgba(214,169,78,0.10);background:rgba(255,255,255,0.03);text-decoration:none;margin-bottom:6px;}
-.crd-aff-row-gold{background:rgba(214,169,78,0.06);border:1px solid rgba(214,169,78,0.25);color:#f2d270;}
-.crd-aff-badge{font-size:7px;color:rgba(214,169,78,0.3);letter-spacing:0.15em;}
+.crd-tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.crd-tool-card{background:rgba(255,255,255,0.04);border:1px solid rgba(214,169,78,0.12);border-left:3px solid rgba(214,169,78,0.4);padding:14px;text-decoration:none;display:block;transition:border-color 0.2s;}
+.crd-tool-card:hover{border-left-color:rgba(214,169,78,0.8);}
+.crd-tool-name{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#f2d270;margin-bottom:5px;display:block;}
+.crd-tool-desc{font-size:10px;color:rgba(245,240,232,0.45);line-height:1.5;}
+.crd-aff-block{background:rgba(214,169,78,0.03);border:1px solid rgba(214,169,78,0.20);border-left:4px solid rgba(214,169,78,0.5);padding:16px 18px;margin-top:8px;}
+.crd-aff-title{font-size:7px;letter-spacing:0.35em;text-transform:uppercase;color:rgba(214,169,78,0.55);margin-bottom:12px;display:block;}
+.crd-aff-row{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;font-size:10px;color:rgba(214,169,78,0.65);border:1px solid rgba(214,169,78,0.10);background:rgba(255,255,255,0.03);text-decoration:none;margin-bottom:6px;transition:background 0.2s;}
+.crd-aff-row:hover{background:rgba(214,169,78,0.06);}
+.crd-aff-row-gold{background:rgba(214,169,78,0.07);border:1px solid rgba(214,169,78,0.28);color:#f2d270;font-weight:600;}
+.crd-aff-badge{font-size:7px;color:rgba(214,169,78,0.35);letter-spacing:0.18em;white-space:nowrap;margin-left:8px;}
 /* ── AGENDA ── */
-.crd-ag-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
-.crd-ag-titre{font-family:'Cormorant Garamond',serif;font-size:18px;color:#f2d270;}
-.crd-ag-btn{background:none;border:1px solid rgba(214,169,78,0.18);color:rgba(214,169,78,0.5);font-family:'Montserrat',sans-serif;font-size:6px;letter-spacing:0.2em;text-transform:uppercase;padding:7px 12px;cursor:pointer;}
-.crd-ag-wdays{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:3px;}
-.crd-ag-wd{font-size:6px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(214,169,78,0.22);text-align:center;padding:4px 0;}
-.crd-ag-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;}
-.crd-ag-day{background:rgba(255,255,255,0.02);border:1px solid rgba(214,169,78,0.08);padding:5px 3px;text-align:center;cursor:pointer;min-height:34px;position:relative;}
-.crd-ag-day:hover{border-color:rgba(214,169,78,0.3);}
-.crd-ag-day.today{border-color:rgba(214,169,78,0.5);background:rgba(214,169,78,0.06);}
-.crd-ag-day.has-note::after{content:'';position:absolute;top:3px;right:3px;width:4px;height:4px;border-radius:50%;background:#f2d270;}
-.crd-ag-day.has-alert::before{content:'';position:absolute;top:3px;left:3px;width:4px;height:4px;border-radius:50%;background:#ff4820;}
-.crd-ag-dn{font-family:'Cormorant Garamond',serif;font-size:14px;color:#faf6f0;display:block;line-height:1;}
-.crd-al-item{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid rgba(214,169,78,0.06);font-size:10px;color:rgba(245,240,232,0.55);}
-.crd-al-del{background:none;border:none;color:rgba(252,165,165,0.4);cursor:pointer;font-size:14px;padding:0 4px;}
-.crd-al-time{font-size:7px;color:rgba(214,169,78,0.45);white-space:nowrap;}
+.crd-ag-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+.crd-ag-titre{font-family:'Cormorant Garamond',serif;font-size:20px;color:#f2d270;}
+.crd-ag-btn{background:none;border:1px solid rgba(214,169,78,0.2);color:rgba(214,169,78,0.55);font-family:'Montserrat',sans-serif;font-size:7px;letter-spacing:0.2em;text-transform:uppercase;padding:8px 14px;cursor:pointer;}
+.crd-ag-btn:hover{border-color:rgba(214,169,78,0.5);color:#f2d270;}
+.crd-ag-wdays{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:4px;}
+.crd-ag-wd{font-size:7px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(214,169,78,0.25);text-align:center;padding:5px 0;}
+.crd-ag-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
+.crd-ag-day{background:rgba(255,255,255,0.02);border:1px solid rgba(214,169,78,0.08);padding:6px 3px;text-align:center;cursor:pointer;min-height:38px;position:relative;transition:border-color 0.15s;}
+.crd-ag-day:hover{border-color:rgba(214,169,78,0.35);background:rgba(214,169,78,0.04);}
+.crd-ag-day.today{border-color:rgba(214,169,78,0.6);background:rgba(214,169,78,0.08);}
+.crd-ag-day.has-note::after{content:'';position:absolute;top:3px;right:3px;width:5px;height:5px;border-radius:50%;background:#f2d270;}
+.crd-ag-day.has-alert::before{content:'';position:absolute;top:3px;left:3px;width:5px;height:5px;border-radius:50%;background:#ff4820;}
+.crd-ag-dn{font-family:'Cormorant Garamond',serif;font-size:15px;color:#faf6f0;display:block;line-height:1;}
+.crd-al-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(214,169,78,0.06);font-size:11px;color:rgba(245,240,232,0.6);}
+.crd-al-item:last-child{border:none;}
+.crd-al-del{background:none;border:none;color:rgba(252,165,165,0.45);cursor:pointer;font-size:16px;padding:0 4px;}
+.crd-al-time{font-size:8px;color:rgba(214,169,78,0.5);white-space:nowrap;}
 /* ── NOTES ── */
-.crd-note-area{width:100%;background:rgba(255,255,255,0.03);border:1px solid rgba(214,169,78,0.12);color:#faf6f0;font-family:'Montserrat',sans-serif;font-size:12px;padding:14px;resize:vertical;min-height:120px;outline:none;line-height:1.7;box-sizing:border-box;}
-.crd-note-area:focus{border-color:rgba(214,169,78,0.35);}
-.crd-note-area::placeholder{color:rgba(245,240,232,0.12);}
+.crd-note-area{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(214,169,78,0.14);color:#faf6f0;font-family:'Montserrat',sans-serif;font-size:12px;padding:16px;resize:vertical;min-height:130px;outline:none;line-height:1.75;box-sizing:border-box;transition:border-color 0.2s;}
+.crd-note-area:focus{border-color:rgba(214,169,78,0.4);}
+.crd-note-area::placeholder{color:rgba(245,240,232,0.15);}
 /* ── AI ── */
-.crd-ia-counter{font-size:7px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(214,169,78,0.35);text-align:right;margin-bottom:8px;}
-.crd-ia-counter span{color:#f2d270;}
-.crd-ia-box{background:rgba(0,0,0,0.2);border:1px solid rgba(214,169,78,0.10);padding:14px;min-height:200px;max-height:340px;overflow-y:auto;margin-bottom:8px;}
-.crd-ia-msg{margin-bottom:10px;}
+.crd-ia-counter{font-size:8px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(214,169,78,0.4);text-align:right;margin-bottom:10px;}
+.crd-ia-counter span{color:#f2d270;font-weight:600;}
+.crd-ia-box{background:rgba(0,0,0,0.25);border:1px solid rgba(214,169,78,0.12);padding:16px;min-height:220px;max-height:360px;overflow-y:auto;margin-bottom:10px;}
+.crd-ia-msg{margin-bottom:12px;}
 .crd-ia-dir{text-align:right;}
-.crd-ia-bbl{display:inline-block;max-width:88%;padding:9px 13px;font-size:11px;line-height:1.55;text-align:left;}
-.crd-ia-bbl-dir{background:rgba(214,169,78,0.10);color:#faf6f0;border:1px solid rgba(214,169,78,0.18);}
-.crd-ia-bbl-ia{background:rgba(255,255,255,0.04);border:1px solid rgba(214,169,78,0.08);color:rgba(245,240,232,0.72);}
-.crd-ia-who{font-size:6px;letter-spacing:0.22em;text-transform:uppercase;margin-bottom:3px;color:rgba(214,169,78,0.35);}
+.crd-ia-bbl{display:inline-block;max-width:88%;padding:10px 14px;font-size:12px;line-height:1.6;text-align:left;}
+.crd-ia-bbl-dir{background:rgba(214,169,78,0.12);color:#faf6f0;border:1px solid rgba(214,169,78,0.22);}
+.crd-ia-bbl-ia{background:rgba(255,255,255,0.05);border:1px solid rgba(214,169,78,0.10);color:rgba(245,240,232,0.75);}
+.crd-ia-who{font-size:7px;letter-spacing:0.22em;text-transform:uppercase;margin-bottom:4px;color:rgba(214,169,78,0.4);display:block;}
 .crd-ia-who-dir{text-align:right;}
-.crd-ia-row{display:flex;gap:6px;}
-.crd-ia-inp{flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(214,169,78,0.15);color:#faf6f0;font-family:'Montserrat',sans-serif;font-size:11px;padding:10px 12px;outline:none;}
-.crd-ia-inp:focus{border-color:rgba(214,169,78,0.4);}
-.crd-ia-inp::placeholder{color:rgba(245,240,232,0.12);}
-.crd-ia-inp:disabled{opacity:0.4;cursor:not-allowed;}
-.crd-ia-send{padding:10px 16px;background:rgba(214,169,78,0.10);border:1px solid rgba(214,169,78,0.22);color:#f2d270;font-family:'Montserrat',sans-serif;font-size:6px;letter-spacing:0.22em;text-transform:uppercase;cursor:pointer;}
-.crd-ia-send:disabled{opacity:0.4;cursor:not-allowed;}
-.crd-ia-limit{padding:12px;background:rgba(127,29,29,0.08);border:1px solid rgba(252,165,165,0.15);text-align:center;font-size:9px;color:rgba(252,165,165,0.7);letter-spacing:0.15em;display:none;}
+.crd-ia-row{display:flex;gap:8px;}
+.crd-ia-inp{flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(214,169,78,0.18);color:#faf6f0;font-family:'Montserrat',sans-serif;font-size:12px;padding:12px 14px;outline:none;}
+.crd-ia-inp:focus{border-color:rgba(214,169,78,0.45);}
+.crd-ia-inp::placeholder{color:rgba(245,240,232,0.15);}
+.crd-ia-inp:disabled{opacity:0.35;cursor:not-allowed;}
+.crd-ia-send{padding:12px 18px;background:rgba(214,169,78,0.12);border:1px solid rgba(214,169,78,0.28);color:#f2d270;font-family:'Montserrat',sans-serif;font-size:7px;letter-spacing:0.22em;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:background 0.2s;}
+.crd-ia-send:hover{background:rgba(214,169,78,0.22);}
+.crd-ia-send:disabled{opacity:0.35;cursor:not-allowed;}
+.crd-ia-limit{padding:14px;background:rgba(127,29,29,0.10);border:1px solid rgba(252,165,165,0.18);text-align:center;font-size:10px;color:rgba(252,165,165,0.75);letter-spacing:0.15em;display:none;margin-bottom:8px;}
 </style>
 
 <div class="crd-wrap">
@@ -18974,8 +18980,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
   <!-- ── Nav ── -->
   <div class="crd-burger-bar">
-    <div class="crd-burger-left" id="crd-current-tab">● Profile</div>
-    <button class="crd-burger-btn" onclick="crdToggleBurger()" id="crd-burger-toggle">☰ Menu</button>
+    <span class="crd-burger-left" id="crd-current-tab">● Profile</span>
+    <button class="crd-burger-btn" onclick="crdToggleBurger()">☰ Menu</button>
   </div>
   <div class="crd-burger-menu" id="crd-burger-menu" style="display:none;">
     <button class="crd-nav-btn on" onclick="crdTab('profile',this)">01 · Profile</button>
@@ -19312,10 +19318,13 @@ document.addEventListener('DOMContentLoaded', function() {
     var sec = document.getElementById('crd-sec-' + tab);
     if (sec) sec.classList.add('on');
     if (btn) btn.classList.add('on');
-    document.getElementById('crd-burger-menu') && (document.getElementById('crd-burger-menu').style.display='none');
-    if(tab==='agenda'){crdAgRender();crdAlRender();}
-    if(tab==='notes'){crdLoadNotes();}
-    if(tab==='ai'){crdIaUpdateUI();}
+    var m = document.getElementById('crd-burger-menu');
+    if (m) m.style.display = 'none';
+    var lbl = document.getElementById('crd-current-tab');
+    if (lbl && btn) lbl.textContent = '● ' + btn.textContent.replace(/^\d+ · /, '');
+    if (tab === 'agenda') { crdAgRender(); crdAlRender(); }
+    if (tab === 'notes')  { crdLoadNotes(); }
+    if (tab === 'ai')     { crdIaUpdateUI(); }
   };
 
   // ── Init ──
@@ -19442,7 +19451,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // ── Save profile ──
   window.crdSaveProfile = function() {
-    if (!_crdId||!window.hmDB) return;
+    if (!window.hmDB) { alert('Not connected. Please log in again.'); return; }
+    if (!_crdId) { alert('Profile not loaded yet. Wait a moment and try again.'); return; }
     import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod) {
       var g = function(id){ var el=document.getElementById(id); return el?el.value:''; };
       var data = {
@@ -19569,57 +19579,210 @@ document.addEventListener('DOMContentLoaded', function() {
 })();
 </script>
 
-  <!-- ══ 6. SOCIAL ══ -->
+  <!-- ══════════════ 06 · SOCIAL ══════════════ -->
   <div class="crd-sec" id="crd-sec-social">
     <div class="crd-stitle">· Social Media · Grow your audience ·</div>
-    <div class="crd-tip-box"><div class="crd-tip-title">🎵 TikTok — Discovery engine</div><div class="crd-tip-body"><b>Best format to reach new fans for free.</b> Never mention OnlyFans directly — send to Instagram or Linktree.<br><br>— GRWM : your world, your energy<br>— Mysterious lifestyle + "Link in bio for more…"<br>— Use viral sounds — adapt to YOUR style<br>— Behind-the-scenes shoots (SFW only)</div></div>
-    <div class="crd-tip-box"><div class="crd-tip-title">📸 Instagram Reels — Your portfolio</div><div class="crd-tip-body"><b>Reels get the most reach.</b> First <b>3 seconds are critical.</b><br><br>— Use trending sounds (check "Trending" in the app)<br>— No TikTok watermark — re-export via CapCut<br>— Post between <b>6–9 PM</b> weekdays<br>— Caption CTA : "Want to see more? 👀 Link in bio"</div></div>
-    <div class="crd-tip-box"><div class="crd-tip-title">🐦 Twitter / X — Most freedom</div><div class="crd-tip-body">X allows adult content (mark "sensitive"). Only platform to promote directly.<br><br>— 2–3 posts/day : teaser + intriguing text<br>— Niche hashtags : #OnlyFans #SpicyCreators<br>— Storytelling threads → strong engagement</div></div>
-    <div class="crd-tip-box"><div class="crd-tip-title">🔴 Reddit — Highest converting traffic</div><div class="crd-tip-body">Reddit is the <b>#1 source of subscribers who actually pay.</b><br><br>— Find subreddits in your niche<br>— Read rules BEFORE posting<br>— Never spam — 1 post per subreddit per day max</div></div>
+
+    <div class="crd-tip-box">
+      <span class="crd-tip-title">🎵 TikTok — Discovery engine</span>
+      <div class="crd-tip-body">
+        <b>Best format to reach new fans for free.</b> Never mention OnlyFans directly — send to Instagram or Linktree.<br><br>
+        — GRWM (Get Ready With Me) : show your world, your energy<br>
+        — Mysterious lifestyle + text "Link in bio for more…"<br>
+        — Use viral sounds — adapt the trend to YOUR style<br>
+        — Behind-the-scenes shoots (SFW only)<br><br>
+        <b>Rule :</b> Always drive to Instagram or Linktree. Never name OnlyFans on TikTok.
+      </div>
+    </div>
+
+    <div class="crd-tip-box">
+      <span class="crd-tip-title">📸 Instagram Reels — Your portfolio</span>
+      <div class="crd-tip-body">
+        <b>Reels get the most organic reach</b> on Instagram. This is your shop window.<br><br>
+        — First <b>3 seconds are critical</b> — start with your strongest shot<br>
+        — Use trending sounds (check "Trending" in the app)<br>
+        — No TikTok watermark on IG Reels — re-export clean via CapCut<br>
+        — Post between <b>6–9 PM</b> weekdays for best reach<br>
+        — Caption CTA : "Want to see more? 👀 Link in bio"
+      </div>
+    </div>
+
+    <div class="crd-tip-box">
+      <span class="crd-tip-title">🐦 Twitter / X — Most freedom</span>
+      <div class="crd-tip-body">
+        X allows adult content (mark as "sensitive"). The only mainstream platform where you can promote directly.<br><br>
+        — 2–3 posts/day : teaser photo/video + intriguing text<br>
+        — Niche hashtags : #OnlyFans #SpicyCreators #[YourNiche]<br>
+        — Storytelling threads : "Why I started creating content…" → strong engagement<br>
+        — Polls : "What should I post tonight? 🔥 or 💋 — vote"
+      </div>
+    </div>
+
+    <div class="crd-tip-box">
+      <span class="crd-tip-title">🔴 Reddit — Highest converting traffic</span>
+      <div class="crd-tip-body">
+        Reddit is the <b>#1 source of subscribers who actually pay.</b><br><br>
+        — Find subreddits in your niche (r/onlyfansgirls, etc.)<br>
+        — Read each subreddit rules BEFORE posting<br>
+        — Post quality teasers with "Check bio for more"<br>
+        — Never spam — 1 post per subreddit per day max<br>
+        — Engage authentically on other posts before posting yours
+      </div>
+    </div>
   </div>
 
-  <!-- ══ 7. CREATE ══ -->
+  <!-- ══════════════ 07 · CREATE ══════════════ -->
   <div class="crd-sec" id="crd-sec-create">
     <div class="crd-stitle">· Content Creation · Photo · Video · Teaser ·</div>
-    <div class="crd-tip-box"><div class="crd-tip-title">📸 Photos — Stop the scroll</div><div class="crd-tip-body"><b>Lighting is everything.</b> Natural light from a side window beats any filter.<br><br>— <b>Visual hook :</b> direct eye contact, strong expression, unexpected pose<br>— <b>Edit :</b> Lightroom Mobile (free) — warm preset<br>— <b>Batch shoot :</b> 1 session/week (2h) → 7–10 pieces of content</div></div>
-    <div class="crd-tip-box"><div class="crd-tip-title">🎬 Reels & Videos — King format 2025</div><div class="crd-tip-body"><b>3-second rule :</b> start with your strongest moment.<br><br>1. <b>Hook</b> (0–3s) : close-up + bold text or viral sound<br>2. <b>Body</b> (3–12s) : strong moment, smooth transitions<br>3. <b>End :</b> visual CTA or natural loop<br><br>Tools : <b>CapCut · InShot · Canva</b></div></div>
-    <div class="crd-tip-box"><div class="crd-tip-title">✨ Teasers — Controlled frustration</div><div class="crd-tip-body">Cut at <b>70% of the interesting moment.</b><br><br>— Text : "Full version on Honeymoon 👉 link in bio"<br>— Ideal length : 8–15 seconds<br>— Funnel : TikTok/IG → Twitter teaser → Honeymoon</div></div>
+
+    <div class="crd-tip-box">
+      <span class="crd-tip-title">📸 Photos — Stop the scroll</span>
+      <div class="crd-tip-body">
+        <b>Lighting is everything.</b> Natural light from a side window beats any filter.<br><br>
+        — <b>Visual hook :</b> direct eye contact, strong expression, unexpected pose<br>
+        — <b>Composition :</b> rule of thirds, clean or very textured background<br>
+        — <b>Edit :</b> Lightroom Mobile (free) — warm preset (+temperature, -highlights)<br>
+        — <b>Caption :</b> question, mystery or CTA — never descriptive<br><br>
+        <b>Batch shoot :</b> 1 session/week (2h) → 7–10 pieces of content. Post daily without working daily.
+      </div>
+    </div>
+
+    <div class="crd-tip-box">
+      <span class="crd-tip-title">🎬 Reels & Videos — King format 2025</span>
+      <div class="crd-tip-body">
+        <b>3-second rule :</b> your audience decides in 3 seconds. Start with your strongest moment.<br><br>
+        1. <b>Hook</b> (0–3s) : close-up shot + bold text or viral sound<br>
+        2. <b>Body</b> (3–12s) : strong moment, smooth transitions, musical rhythm<br>
+        3. <b>End</b> : visual CTA or natural loop<br><br>
+        Tools : <b>CapCut</b> (templates + autocut) · <b>InShot</b> (vertical format) · <b>Canva</b> (thumbnails)
+      </div>
+    </div>
+
+    <div class="crd-tip-box">
+      <span class="crd-tip-title">✨ Teasers — Controlled frustration</span>
+      <div class="crd-tip-body">
+        A great teaser gives desire without giving everything. <b>Cut at 70% of the interesting moment.</b><br><br>
+        — Text overlay : "Full version on Honeymoon 👉 link in bio"<br>
+        — Suggestive sound or mood atmosphere<br>
+        — Ideal length : 8–15 seconds<br><br>
+        <b>Conversion funnel :</b> TikTok/IG lifestyle → Twitter teaser → Honeymoon full content
+      </div>
+    </div>
   </div>
 
-  <!-- ══ 8. GROWTH ══ -->
+  <!-- ══════════════ 08 · GROWTH ══════════════ -->
   <div class="crd-sec" id="crd-sec-growth">
     <div class="crd-stitle">· Growth Strategy · Consistency · Convert ·</div>
-    <div class="crd-tip-box"><div class="crd-tip-title">📅 Consistency — The absolute key</div><div class="crd-tip-body"><b>Consistency beats talent.</b><br><br>— TikTok : 1 video/day or 5/week<br>— Instagram : 1 Reel + 2–3 Stories/day<br>— Twitter/X : 2–3 posts/day<br>— Honeymoon : per your contract</div></div>
-    <div class="crd-tip-box"><div class="crd-tip-title">🤝 S4S — Shoutout for Shoutout</div><div class="crd-tip-body"><b>Fastest way to double your audience</b> without spending money.<br><br>— Target creators with similar audience size and niche<br>— Co-Reels on Instagram : both audiences see the content<br>— Engage genuinely BEFORE proposing (cold DM = ignored)</div></div>
-    <div class="crd-tip-box"><div class="crd-tip-title">💰 Sales funnel — Free → Paid</div><div class="crd-tip-body"><b>Step 1 :</b> TikTok / IG lifestyle → curiosity<br><b>Step 2 :</b> Twitter / Reddit teasers → desire<br><b>Step 3 :</b> Honeymoon exclusive + PPV → subscription<br><b>Step 4 :</b> Telegram VIP, personal messages → loyal fan</div></div>
-    <div class="crd-tip-box"><div class="crd-tip-title">💡 Creator mindset</div><div class="crd-tip-body">Top earners treat their work like <b>a real business.</b><br>— Analyze stats weekly — Invest progressively — 1 day off/week<br>— <b>Your fans subscribe to YOU.</b> Authenticity is your edge.</div></div>
+
+    <div class="crd-tip-box">
+      <span class="crd-tip-title">📅 Consistency — The absolute key</span>
+      <div class="crd-tip-body">
+        <b>Consistency beats talent.</b> A regular creator who isn't perfect will always beat one who posts sporadically.<br><br>
+        — TikTok : 1 video/day or at least 5/week<br>
+        — Instagram : 1 Reel + 2–3 Stories/day<br>
+        — Twitter/X : 2–3 posts/day<br>
+        — Honeymoon : per your contract (see My Formula)<br><br>
+        <b>Batch tip :</b> 1 creation day/week, schedule everything with Buffer.
+      </div>
+    </div>
+
+    <div class="crd-tip-box">
+      <span class="crd-tip-title">🤝 S4S — Shoutout for Shoutout</span>
+      <div class="crd-tip-body">
+        <b>Fastest way to double your audience</b> without spending money.<br><br>
+        — Target creators with a similar audience size and niche<br>
+        — Co-Reels on Instagram : both audiences see the content<br>
+        — Engage genuinely on their posts BEFORE proposing (cold DM = ignored)<br><br>
+        <b>Rule :</b> Quality over quantity. Choose partners whose audience matches your ideal fans.
+      </div>
+    </div>
+
+    <div class="crd-tip-box">
+      <span class="crd-tip-title">💰 Sales funnel — Free → Paid</span>
+      <div class="crd-tip-body">
+        <b>Step 1 — Discovery (Free) :</b> TikTok / IG lifestyle → curiosity<br>
+        <b>Step 2 — Interest :</b> Twitter / Reddit teasers → desire<br>
+        <b>Step 3 — Conversion :</b> Honeymoon exclusive + PPV → subscription<br>
+        <b>Step 4 — Retention :</b> Telegram VIP, personal messages → loyal fan who refers others
+      </div>
+    </div>
+
+    <div class="crd-tip-box">
+      <span class="crd-tip-title">💡 Creator mindset</span>
+      <div class="crd-tip-body">
+        Top earners treat their work like <b>a real business.</b><br><br>
+        — Analyze your stats every week : which posts perform? Why?<br>
+        — Invest progressively : ring light → good phone → mic<br>
+        — 1 day off/week minimum — burnout kills consistency<br>
+        — <b>Your fans subscribe to YOU,</b> not just to content. Authenticity is your competitive edge.
+      </div>
+    </div>
   </div>
 
-  <!-- ══ 9. TOOLS ══ -->
+  <!-- ══════════════ 09 · TOOLS ══════════════ -->
   <div class="crd-sec" id="crd-sec-tools">
     <div class="crd-stitle">· Tools & Resources · All free ·</div>
+
     <div class="crd-tool-grid">
-      <a href="https://www.capcut.com" target="_blank" rel="noopener" class="crd-tool-card"><div class="crd-tool-name">🎬 CapCut</div><div class="crd-tool-desc">Video, Reels, TikTok. Templates, autocut.</div></a>
-      <a href="https://lightroom.adobe.com" target="_blank" rel="noopener" class="crd-tool-card"><div class="crd-tool-name">📸 Lightroom</div><div class="crd-tool-desc">Pro photo editing. Presets, light, color.</div></a>
-      <a href="https://www.canva.com" target="_blank" rel="noopener" class="crd-tool-card"><div class="crd-tool-name">🎨 Canva</div><div class="crd-tool-desc">Visuals, thumbnails, Stories.</div></a>
-      <a href="https://linktr.ee" target="_blank" rel="noopener" class="crd-tool-card"><div class="crd-tool-name">🔗 Linktree</div><div class="crd-tool-desc">1 bio link for all your profiles.</div></a>
-      <a href="https://www.inshot.com" target="_blank" rel="noopener" class="crd-tool-card"><div class="crd-tool-name">✂️ InShot</div><div class="crd-tool-desc">Perfect vertical video editing.</div></a>
-      <a href="https://buffer.com" target="_blank" rel="noopener" class="crd-tool-card"><div class="crd-tool-name">📅 Buffer</div><div class="crd-tool-desc">Schedule your posts in advance.</div></a>
-      <a href="https://trends.google.com" target="_blank" rel="noopener" class="crd-tool-card"><div class="crd-tool-name">📊 Google Trends</div><div class="crd-tool-desc">What's viral right now.</div></a>
-      <a href="https://www.pinterest.com" target="_blank" rel="noopener" class="crd-tool-card"><div class="crd-tool-name">🖼️ Pinterest</div><div class="crd-tool-desc">Visual inspiration, moodboards.</div></a>
+      <a href="https://www.capcut.com" target="_blank" rel="noopener" class="crd-tool-card">
+        <span class="crd-tool-name">🎬 CapCut</span>
+        <span class="crd-tool-desc">Video, Reels, TikTok. Viral templates, autocut, auto-subtitles. #1 tool for creators.</span>
+      </a>
+      <a href="https://lightroom.adobe.com" target="_blank" rel="noopener" class="crd-tool-card">
+        <span class="crd-tool-name">📸 Lightroom Mobile</span>
+        <span class="crd-tool-desc">Pro photo editing. Presets, light, color. Scroll-stopping photos.</span>
+      </a>
+      <a href="https://www.canva.com" target="_blank" rel="noopener" class="crd-tool-card">
+        <span class="crd-tool-name">🎨 Canva</span>
+        <span class="crd-tool-desc">Visuals, thumbnails, Stories. Pro templates in 2 minutes.</span>
+      </a>
+      <a href="https://linktr.ee" target="_blank" rel="noopener" class="crd-tool-card">
+        <span class="crd-tool-name">🔗 Linktree</span>
+        <span class="crd-tool-desc">1 bio link for all your profiles. Essential on TikTok &amp; Instagram.</span>
+      </a>
+      <a href="https://www.inshot.com" target="_blank" rel="noopener" class="crd-tool-card">
+        <span class="crd-tool-name">✂️ InShot</span>
+        <span class="crd-tool-desc">Perfect vertical video editing. Stories, Reels, TikTok format.</span>
+      </a>
+      <a href="https://buffer.com" target="_blank" rel="noopener" class="crd-tool-card">
+        <span class="crd-tool-name">📅 Buffer</span>
+        <span class="crd-tool-desc">Schedule your IG &amp; Twitter posts in advance. Batch 1 week in 1h.</span>
+      </a>
+      <a href="https://trends.google.com" target="_blank" rel="noopener" class="crd-tool-card">
+        <span class="crd-tool-name">📊 Google Trends</span>
+        <span class="crd-tool-desc">What's viral right now. Adapt your content to real-time trends.</span>
+      </a>
+      <a href="https://www.pinterest.com" target="_blank" rel="noopener" class="crd-tool-card">
+        <span class="crd-tool-name">🖼️ Pinterest</span>
+        <span class="crd-tool-desc">Visual inspiration, shoot moodboards, aesthetic ideas.</span>
+      </a>
     </div>
+
     <div class="crd-aff-block">
-      <div class="crd-aff-title">✦ Share & Grow your traffic</div>
-      <a href="#AFF_CAPCUT" target="_blank" rel="noopener" class="crd-aff-row"><span>🎬 CapCut</span><span class="crd-aff-badge">COMING SOON →</span></a>
-      <a href="#AFF_CANVA" target="_blank" rel="noopener" class="crd-aff-row"><span>🎨 Canva Pro</span><span class="crd-aff-badge">COMING SOON →</span></a>
-      <a href="#AFF_LINKTREE" target="_blank" rel="noopener" class="crd-aff-row"><span>🔗 Linktree Pro</span><span class="crd-aff-badge">COMING SOON →</span></a>
-      <a href="https://honeymoonofficiel.vercel.app" target="_blank" rel="noopener" class="crd-aff-row crd-aff-row-gold"><span>✦ Share honeymoonofficiel.com — OnlyFans, Stripchat, BongaCams & more</span><span class="crd-aff-badge">SHARE →</span></a>
+      <span class="crd-aff-title">✦ Share &amp; Grow your traffic</span>
+      <a href="#AFF_CAPCUT" target="_blank" rel="noopener" class="crd-aff-row">
+        <span>🎬 CapCut — Affiliate link</span>
+        <span class="crd-aff-badge">COMING SOON →</span>
+      </a>
+      <a href="#AFF_CANVA" target="_blank" rel="noopener" class="crd-aff-row">
+        <span>🎨 Canva Pro — Affiliate link</span>
+        <span class="crd-aff-badge">COMING SOON →</span>
+      </a>
+      <a href="#AFF_LINKTREE" target="_blank" rel="noopener" class="crd-aff-row">
+        <span>🔗 Linktree Pro — Affiliate link</span>
+        <span class="crd-aff-badge">COMING SOON →</span>
+      </a>
+      <a href="https://honeymoonofficiel.vercel.app" target="_blank" rel="noopener" class="crd-aff-row crd-aff-row-gold">
+        <span>✦ Share honeymoonofficiel.com on your platforms — OnlyFans, Stripchat, BongaCams &amp; more</span>
+        <span class="crd-aff-badge">SHARE →</span>
+      </a>
     </div>
   </div>
 
-  <!-- ══ 10. AGENDA ══ -->
+  <!-- ══════════════ 10 · AGENDA ══════════════ -->
   <div class="crd-sec" id="crd-sec-agenda">
-    <div class="crd-stitle">· Agenda & Reminders ·</div>
+    <div class="crd-stitle">· Agenda &amp; Reminders ·</div>
+
     <div class="crd-ag-nav">
       <button class="crd-ag-btn" onclick="crdAgPrev()">← Prev</button>
       <span class="crd-ag-titre" id="crd-ag-titre">—</span>
@@ -19630,158 +19793,250 @@ document.addEventListener('DOMContentLoaded', function() {
       <div class="crd-ag-wd">Thu</div><div class="crd-ag-wd">Fri</div><div class="crd-ag-wd">Sat</div><div class="crd-ag-wd">Sun</div>
     </div>
     <div class="crd-ag-grid" id="crd-ag-grid"></div>
-    <div id="crd-ag-note-sec" style="display:none;margin-top:16px;">
+
+    <div id="crd-ag-note-sec" style="display:none;margin-top:20px;">
       <div class="crd-stitle-sub">· Note for <span id="crd-ag-note-date"></span> ·</div>
-      <textarea class="crd-note-area" id="crd-ag-note-txt" placeholder="Planned shoot, live, content idea…"></textarea>
-      <button class="crd-btn-gold" onclick="crdAgSaveNote()" style="margin-top:6px;">✦ Save →</button>
+      <textarea class="crd-note-area" id="crd-ag-note-txt" placeholder="Planned shoot, live, content idea, daily goal…"></textarea>
+      <button class="crd-btn-gold" onclick="crdAgSaveNote()" style="margin-top:8px;">✦ Save note →</button>
       <div class="crd-toast" id="crd-toast-ag">✦ Note saved</div>
     </div>
-    <div class="crd-stitle-sub" style="margin-top:24px;">· Set a reminder ·</div>
+
+    <div class="crd-stitle-sub" style="margin-top:28px;">· Set a reminder ·</div>
     <div class="crd-card">
-      <div class="crd-field"><label class="crd-label">Message</label><input class="crd-input" id="crd-al-msg" type="text" placeholder="e.g. Shoot PPV content Friday…"></div>
+      <div class="crd-field">
+        <label class="crd-label">Message</label>
+        <input class="crd-input" id="crd-al-msg" type="text" placeholder="e.g. Shoot PPV content Friday, Reply to DMs…">
+      </div>
       <div class="crd-2col">
         <div class="crd-field"><label class="crd-label">Date</label><input class="crd-input" id="crd-al-date" type="date"></div>
         <div class="crd-field"><label class="crd-label">Time</label><input class="crd-input" id="crd-al-heure" type="time"></div>
       </div>
       <button class="crd-btn-gold" onclick="crdAddAlerte()">+ Add reminder</button>
     </div>
+
     <div class="crd-stitle-sub">· Scheduled reminders ·</div>
-    <div id="crd-al-list"><div style="font-size:8px;color:rgba(214,169,78,0.18);text-align:center;padding:16px;">No reminders yet</div></div>
+    <div id="crd-al-list">
+      <div style="font-size:9px;color:rgba(214,169,78,0.2);text-align:center;padding:20px;letter-spacing:0.2em;">No reminders yet</div>
+    </div>
   </div>
 
-  <!-- ══ 11. NOTES ══ -->
+  <!-- ══════════════ 11 · NOTES ══════════════ -->
   <div class="crd-sec" id="crd-sec-notes">
-    <div class="crd-stitle">· Notebook · <span style="font-size:7px;color:rgba(214,169,78,0.2);">Auto-saved</span></div>
+    <div class="crd-stitle">· Notebook · <span style="font-size:7px;color:rgba(214,169,78,0.2);letter-spacing:0.2em;">AUTO-SAVED</span></div>
+
     <div class="crd-stitle-sub" style="margin-top:0;">· Free memo ·</div>
-    <textarea class="crd-note-area" id="crd-memo-libre" placeholder="Content ideas, shoot concepts, collab plans…" oninput="crdSaveMemo()" style="min-height:180px;"></textarea>
+    <textarea class="crd-note-area" id="crd-memo-libre"
+      placeholder="Content ideas, shoot concepts, collab plans, monthly goals…"
+      oninput="crdSaveMemo()" style="min-height:200px;"></textarea>
+
     <div class="crd-stitle-sub">· This week content plan ·</div>
-    <textarea class="crd-note-area" id="crd-memo-planning" placeholder="Mon : lifestyle photo&#10;Tue : TikTok GRWM&#10;Wed : PPV shoot…" oninput="crdSavePlanning()" style="min-height:130px;"></textarea>
+    <textarea class="crd-note-area" id="crd-memo-planning"
+      placeholder="Mon : lifestyle photo&#10;Tue : TikTok GRWM Reel&#10;Wed : PPV shoot&#10;Thu : Twitter teasers&#10;Fri : IG Stories + Reddit&#10;Sat : Batch creation day&#10;Sun : Rest"
+      oninput="crdSavePlanning()" style="min-height:160px;"></textarea>
+
     <div class="crd-stitle-sub">· Monthly goals ·</div>
-    <textarea class="crd-note-area" id="crd-memo-objectifs" placeholder="Reach X followers on IG, post 20 contents…" oninput="crdSaveObjectifs()" style="min-height:90px;"></textarea>
-    <button class="crd-btn-outline" style="margin-top:8px;">✦ All saved →</button>
+    <textarea class="crd-note-area" id="crd-memo-objectifs"
+      placeholder="Reach X followers on IG, post 20 contents, launch 1 collab, earn X€…"
+      oninput="crdSaveObjectifs()" style="min-height:100px;"></textarea>
+
+    <button class="crd-btn-outline" style="margin-top:10px;">✦ All notes saved automatically →</button>
     <div class="crd-toast" id="crd-toast-notes">✦ Notes saved locally</div>
   </div>
 
-  <!-- ══ 12. AI ══ -->
+  <!-- ══════════════ 12 · AI ══════════════ -->
   <div class="crd-sec" id="crd-sec-ai">
     <div class="crd-stitle">· Honeymoon AI Assistant ·</div>
-    <div class="crd-card" style="border-color:rgba(214,169,78,0.18);background:rgba(214,169,78,0.04);margin-bottom:16px;">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:17px;color:#f2d270;margin-bottom:6px;">✦ Honey Intelligence</div>
-      <div style="font-size:9px;color:rgba(245,240,232,0.45);line-height:1.8;">Your personal assistant — strategy, captions, shoot ideas, growth. <b style="color:rgba(214,169,78,0.6);">15 questions per day.</b></div>
-    </div>
-    <div class="crd-ia-counter">Questions today : <span id="crd-ia-count">0</span> / 15</div>
-    <div class="crd-ia-box" id="crd-ia-msgs">
-      <div class="crd-ia-msg">
-        <div class="crd-ia-who">✦ Honey Intelligence</div>
-        <div class="crd-ia-bbl crd-ia-bbl-ia">Hello! I am your personal AI assistant. Ask me anything about your content strategy, captions, shoot ideas, how to attract more fans… You have 15 questions available today.</div>
+
+    <div class="crd-card" style="border-color:rgba(214,169,78,0.22);background:rgba(214,169,78,0.04);margin-bottom:20px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#f2d270;margin-bottom:8px;">✦ Honey Intelligence</div>
+      <div style="font-size:11px;color:rgba(245,240,232,0.5);line-height:1.85;">
+        Your personal AI assistant. Ask anything about your content strategy, captions, shoot ideas, social media growth, how to attract more fans…<br>
+        <b style="color:rgba(214,169,78,0.7);">15 questions available per day.</b>
       </div>
     </div>
+
+    <div class="crd-ia-counter">Questions today : <span id="crd-ia-count">0</span> / 15</div>
+
+    <div class="crd-ia-box" id="crd-ia-msgs">
+      <div class="crd-ia-msg">
+        <span class="crd-ia-who">✦ Honey Intelligence</span>
+        <div class="crd-ia-bbl crd-ia-bbl-ia">Hello! I am your personal AI assistant. Ask me anything about your content strategy, captions, shoot ideas, how to attract more fans… You have 15 questions available today. Let's grow your audience! ✦</div>
+      </div>
+    </div>
+
     <div class="crd-ia-limit" id="crd-ia-limit">✦ You have used your 15 questions for today. Come back tomorrow!</div>
+
     <div class="crd-ia-row">
-      <input class="crd-ia-inp" id="crd-ia-inp" type="text" placeholder="Give me a caption idea for my next Reel…" onkeydown="if(event.key==='Enter')crdIaSend()">
+      <input class="crd-ia-inp" id="crd-ia-inp" type="text"
+        placeholder="Give me a caption idea for my next Reel…"
+        onkeydown="if(event.key==='Enter')crdIaSend()">
       <button class="crd-ia-send" id="crd-ia-send-btn" onclick="crdIaSend()">Send →</button>
     </div>
   </div>
 
 <script>
 (function(){
-  /* ── Burger ── */
-  window.crdToggleBurger=function(){
-    var m=document.getElementById('crd-burger-menu');
-    if(m) m.style.display=(m.style.display==='none'?'block':'none');
+  /* ── Burger toggle ── */
+  window.crdToggleBurger = function() {
+    var m = document.getElementById('crd-burger-menu');
+    if (m) m.style.display = (m.style.display === 'none' ? 'block' : 'none');
   };
+
   /* ── Agenda ── */
-  var _agM=new Date().getMonth(),_agY=new Date().getFullYear(),_agSel=null;
-  var _agNotes=JSON.parse(localStorage.getItem('crd_ag_notes')||'{}');
-  var _agMn=['January','February','March','April','May','June','July','August','September','October','November','December'];
-  window.crdAgPrev=function(){_agM--;if(_agM<0){_agM=11;_agY--;}crdAgRender();};
-  window.crdAgNext=function(){_agM++;if(_agM>11){_agM=0;_agY++;}crdAgRender();};
-  function crdAgRender(){
-    var t=document.getElementById('crd-ag-titre');if(t)t.textContent=_agMn[_agM]+' '+_agY;
-    var grid=document.getElementById('crd-ag-grid');if(!grid)return;
-    var today=new Date(),first=new Date(_agY,_agM,1),last=new Date(_agY,_agM+1,0);
-    var startDow=(first.getDay()+6)%7;
-    var alertes=JSON.parse(localStorage.getItem('crd_alertes')||'[]');
-    var html='';
-    for(var i=0;i<startDow;i++)html+='<div></div>';
-    for(var d=1;d<=last.getDate();d++){
-      var key=_agY+'-'+String(_agM+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
-      var isToday=(d===today.getDate()&&_agM===today.getMonth()&&_agY===today.getFullYear());
-      html+='<div class="crd-ag-day'+(isToday?' today':'')+(_agNotes[key]?' has-note':'')+(alertes.some(function(a){return a.date===key;})?' has-alert':'')+'" onclick="crdAgSelDay('+d+')">'+'<span class="crd-ag-dn">'+d+'</span></div>';
+  var _agM = new Date().getMonth(), _agY = new Date().getFullYear(), _agSel = null;
+  var _agNotes = JSON.parse(localStorage.getItem('crd_ag_notes') || '{}');
+  var _agMn = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+  window.crdAgPrev = function() { _agM--; if (_agM < 0) { _agM = 11; _agY--; } crdAgRender(); };
+  window.crdAgNext = function() { _agM++; if (_agM > 11) { _agM = 0; _agY++; } crdAgRender(); };
+
+  function crdAgRender() {
+    var t = document.getElementById('crd-ag-titre');
+    if (t) t.textContent = _agMn[_agM] + ' ' + _agY;
+    var grid = document.getElementById('crd-ag-grid');
+    if (!grid) return;
+    var today = new Date();
+    var first = new Date(_agY, _agM, 1);
+    var last  = new Date(_agY, _agM + 1, 0);
+    var startDow = (first.getDay() + 6) % 7;
+    var alertes = JSON.parse(localStorage.getItem('crd_alertes') || '[]');
+    var html = '';
+    for (var i = 0; i < startDow; i++) html += '<div></div>';
+    for (var d = 1; d <= last.getDate(); d++) {
+      var key = _agY + '-' + String(_agM + 1).padStart(2, '0') + '-' + String(d).padStart(2, '0');
+      var isToday = (d === today.getDate() && _agM === today.getMonth() && _agY === today.getFullYear());
+      var hasNote  = !!_agNotes[key];
+      var hasAlert = alertes.some(function(a) { return a.date === key; });
+      html += '<div class="crd-ag-day' + (isToday ? ' today' : '') + (hasNote ? ' has-note' : '') + (hasAlert ? ' has-alert' : '') + '" onclick="crdAgSelDay(' + d + ')">'
+            + '<span class="crd-ag-dn">' + d + '</span></div>';
     }
-    grid.innerHTML=html;
+    grid.innerHTML = html;
   }
-  window.crdAgSelDay=function(d){
-    _agSel=_agY+'-'+String(_agM+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
-    var sec=document.getElementById('crd-ag-note-sec');if(sec)sec.style.display='block';
-    var nd=document.getElementById('crd-ag-note-date');if(nd)nd.textContent=d+' '+_agMn[_agM]+' '+_agY;
-    var nt=document.getElementById('crd-ag-note-txt');if(nt)nt.value=_agNotes[_agSel]||'';
+
+  window.crdAgSelDay = function(d) {
+    _agSel = _agY + '-' + String(_agM + 1).padStart(2, '0') + '-' + String(d).padStart(2, '0');
+    var sec = document.getElementById('crd-ag-note-sec'); if (sec) sec.style.display = 'block';
+    var nd  = document.getElementById('crd-ag-note-date'); if (nd) nd.textContent = d + ' ' + _agMn[_agM] + ' ' + _agY;
+    var nt  = document.getElementById('crd-ag-note-txt'); if (nt) nt.value = _agNotes[_agSel] || '';
   };
-  window.crdAgSaveNote=function(){
-    if(!_agSel)return;
-    var nt=document.getElementById('crd-ag-note-txt');if(nt){_agNotes[_agSel]=nt.value;localStorage.setItem('crd_ag_notes',JSON.stringify(_agNotes));}
-    crdAgRender();crdToast('crd-toast-ag');
+
+  window.crdAgSaveNote = function() {
+    if (!_agSel) return;
+    var nt = document.getElementById('crd-ag-note-txt');
+    if (nt) { _agNotes[_agSel] = nt.value; localStorage.setItem('crd_ag_notes', JSON.stringify(_agNotes)); }
+    crdAgRender();
+    crdToast('crd-toast-ag');
   };
+
   /* ── Alertes ── */
-  var _alertes=JSON.parse(localStorage.getItem('crd_alertes')||'[]');
-  window.crdAddAlerte=function(){
-    var msg=document.getElementById('crd-al-msg'),date=document.getElementById('crd-al-date'),heure=document.getElementById('crd-al-heure');
-    if(!msg||!msg.value)return;
-    _alertes.push({msg:msg.value,date:date?date.value:'',heure:heure?heure.value:'',id:Date.now()});
-    localStorage.setItem('crd_alertes',JSON.stringify(_alertes));
-    if(msg)msg.value='';if(date)date.value='';if(heure)heure.value='';
-    crdAlRender();crdAgRender();
+  var _alertes = JSON.parse(localStorage.getItem('crd_alertes') || '[]');
+
+  window.crdAddAlerte = function() {
+    var msg   = document.getElementById('crd-al-msg');
+    var date  = document.getElementById('crd-al-date');
+    var heure = document.getElementById('crd-al-heure');
+    if (!msg || !msg.value.trim()) return;
+    _alertes.push({ msg: msg.value.trim(), date: date ? date.value : '', heure: heure ? heure.value : '', id: Date.now() });
+    localStorage.setItem('crd_alertes', JSON.stringify(_alertes));
+    if (msg) msg.value = ''; if (date) date.value = ''; if (heure) heure.value = '';
+    crdAlRender(); crdAgRender();
   };
-  function crdAlRender(){
-    var el=document.getElementById('crd-al-list');if(!el)return;
-    if(!_alertes.length){el.innerHTML='<div style="font-size:8px;color:rgba(214,169,78,0.18);text-align:center;padding:16px;">No reminders yet</div>';return;}
-    var html='';
-    _alertes.forEach(function(a){html+='<div class="crd-al-item"><span style="flex:1;">'+a.msg+'</span><span class="crd-al-time">'+(a.date?a.date+' ':'')+( a.heure||'')+'</span><button class="crd-al-del" onclick="crdDelAlerte('+a.id+')">✕</button></div>';});
-    el.innerHTML=html;
+
+  function crdAlRender() {
+    var el = document.getElementById('crd-al-list'); if (!el) return;
+    if (!_alertes.length) {
+      el.innerHTML = '<div style="font-size:9px;color:rgba(214,169,78,0.2);text-align:center;padding:20px;letter-spacing:0.2em;">No reminders yet</div>';
+      return;
+    }
+    var html = '';
+    _alertes.forEach(function(a) {
+      html += '<div class="crd-al-item">'
+            + '<span style="flex:1;">' + a.msg + '</span>'
+            + '<span class="crd-al-time">' + (a.date ? a.date + ' ' : '') + (a.heure || '') + '</span>'
+            + '<button class="crd-al-del" onclick="crdDelAlerte(' + a.id + ')">✕</button>'
+            + '</div>';
+    });
+    el.innerHTML = html;
   }
-  window.crdDelAlerte=function(id){_alertes=_alertes.filter(function(a){return a.id!==id;});localStorage.setItem('crd_alertes',JSON.stringify(_alertes));crdAlRender();crdAgRender();};
+
+  window.crdDelAlerte = function(id) {
+    _alertes = _alertes.filter(function(a) { return a.id !== id; });
+    localStorage.setItem('crd_alertes', JSON.stringify(_alertes));
+    crdAlRender(); crdAgRender();
+  };
+
   /* ── Notes ── */
-  function crdLoadNotes(){
-    var el=document.getElementById('crd-memo-libre');if(el)el.value=localStorage.getItem('crd_memo_libre')||'';
-    el=document.getElementById('crd-memo-planning');if(el)el.value=localStorage.getItem('crd_memo_planning')||'';
-    el=document.getElementById('crd-memo-objectifs');if(el)el.value=localStorage.getItem('crd_memo_objectifs')||'';
+  function crdLoadNotes() {
+    var el;
+    el = document.getElementById('crd-memo-libre');    if (el) el.value = localStorage.getItem('crd_memo_libre')    || '';
+    el = document.getElementById('crd-memo-planning'); if (el) el.value = localStorage.getItem('crd_memo_planning') || '';
+    el = document.getElementById('crd-memo-objectifs');if (el) el.value = localStorage.getItem('crd_memo_objectifs')|| '';
   }
-  window.crdSaveMemo=function(){var el=document.getElementById('crd-memo-libre');if(el)localStorage.setItem('crd_memo_libre',el.value);};
-  window.crdSavePlanning=function(){var el=document.getElementById('crd-memo-planning');if(el)localStorage.setItem('crd_memo_planning',el.value);};
-  window.crdSaveObjectifs=function(){var el=document.getElementById('crd-memo-objectifs');if(el)localStorage.setItem('crd_memo_objectifs',el.value);};
-  /* ── AI ── */
-  var _iaToday=(function(){var d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();})();
-  var _iaStore=JSON.parse(localStorage.getItem('crd_ia_usage')||'{"date":"","count":0}');
-  if(_iaStore.date!==_iaToday){_iaStore={date:_iaToday,count:0};localStorage.setItem('crd_ia_usage',JSON.stringify(_iaStore));}
-  var _iaCount=_iaStore.count;
-  function crdIaUpdateUI(){
-    var cnt=document.getElementById('crd-ia-count');if(cnt)cnt.textContent=_iaCount;
-    var inp=document.getElementById('crd-ia-inp'),btn=document.getElementById('crd-ia-send-btn'),lim=document.getElementById('crd-ia-limit');
-    if(inp)inp.disabled=_iaCount>=15;if(btn)btn.disabled=_iaCount>=15;
-    if(lim)lim.style.display=_iaCount>=15?'block':'none';
+  window.crdSaveMemo      = function() { var el = document.getElementById('crd-memo-libre');    if (el) localStorage.setItem('crd_memo_libre',    el.value); };
+  window.crdSavePlanning  = function() { var el = document.getElementById('crd-memo-planning'); if (el) localStorage.setItem('crd_memo_planning',  el.value); };
+  window.crdSaveObjectifs = function() { var el = document.getElementById('crd-memo-objectifs');if (el) localStorage.setItem('crd_memo_objectifs', el.value); };
+
+  /* ── AI — 15 questions/day ── */
+  var _iaToday = (function() { var d = new Date(); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); })();
+  var _iaStore = JSON.parse(localStorage.getItem('crd_ia_usage') || '{"date":"","count":0}');
+  if (_iaStore.date !== _iaToday) { _iaStore = { date: _iaToday, count: 0 }; localStorage.setItem('crd_ia_usage', JSON.stringify(_iaStore)); }
+  var _iaCount = _iaStore.count;
+
+  function crdIaUpdateUI() {
+    var cnt = document.getElementById('crd-ia-count'); if (cnt) cnt.textContent = _iaCount;
+    var inp = document.getElementById('crd-ia-inp');
+    var btn = document.getElementById('crd-ia-send-btn');
+    var lim = document.getElementById('crd-ia-limit');
+    var blocked = _iaCount >= 15;
+    if (inp) inp.disabled = blocked;
+    if (btn) btn.disabled = blocked;
+    if (lim) lim.style.display = blocked ? 'block' : 'none';
   }
-  window.crdIaSend=async function(){
-    if(_iaCount>=15)return;
-    var inp=document.getElementById('crd-ia-inp'),q=inp?inp.value.trim():'';if(!q)return;
-    if(inp)inp.value='';
-    var msgs=document.getElementById('crd-ia-msgs');
-    if(msgs){msgs.innerHTML+='<div class="crd-ia-msg crd-ia-dir"><div class="crd-ia-who crd-ia-who-dir">You</div><div class="crd-ia-bbl crd-ia-bbl-dir">'+q+'</div></div>';msgs.scrollTop=msgs.scrollHeight;}
-    _iaCount++;_iaStore.count=_iaCount;localStorage.setItem('crd_ia_usage',JSON.stringify(_iaStore));crdIaUpdateUI();
-    var name=(_crdData&&_crdData.name)?_crdData.name:'creator';
-    var cat={honey_girl:'Honey Girl',original:'Original',ambassadrice:'Ambassadrice',star:'Star'}[(_crdData&&(_crdData.category||_crdData.formula))||'honey_girl']||'creator';
-    try{
-      if(msgs){msgs.innerHTML+='<div class="crd-ia-msg" id="crd-ia-thinking"><div class="crd-ia-who">✦ Honey Intelligence</div><div class="crd-ia-bbl crd-ia-bbl-ia" style="opacity:0.5;">…</div></div>';msgs.scrollTop=msgs.scrollHeight;}
-      var res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:400,system:'You are Honey Intelligence, personal AI assistant of '+name+' (Honeymoon '+cat+'). Help with content strategy, captions, shoot ideas, social media growth. English, concise, max 150 words.',messages:[{role:'user',content:q}]})});
-      var data=await res.json();
-      var answer=(data.content&&data.content[0])?data.content[0].text:'I could not process your request.';
-      var th=document.getElementById('crd-ia-thinking');if(th)th.remove();
-      if(msgs){msgs.innerHTML+='<div class="crd-ia-msg"><div class="crd-ia-who">✦ Honey Intelligence</div><div class="crd-ia-bbl crd-ia-bbl-ia">'+answer+'</div></div>';msgs.scrollTop=msgs.scrollHeight;}
-    }catch(e){
-      var th=document.getElementById('crd-ia-thinking');if(th)th.remove();
-      if(msgs){msgs.innerHTML+='<div class="crd-ia-msg"><div class="crd-ia-who">✦ Honey Intelligence</div><div class="crd-ia-bbl crd-ia-bbl-ia">AI unavailable. Try again in a few seconds.</div></div>';msgs.scrollTop=msgs.scrollHeight;}
-      _iaCount--;_iaStore.count=_iaCount;localStorage.setItem('crd_ia_usage',JSON.stringify(_iaStore));crdIaUpdateUI();
+
+  window.crdIaSend = async function() {
+    if (_iaCount >= 15) return;
+    var inp = document.getElementById('crd-ia-inp');
+    var q = inp ? inp.value.trim() : ''; if (!q) return;
+    if (inp) inp.value = '';
+    var msgs = document.getElementById('crd-ia-msgs');
+    if (msgs) {
+      msgs.innerHTML += '<div class="crd-ia-msg crd-ia-dir"><span class="crd-ia-who crd-ia-who-dir">You</span><div class="crd-ia-bbl crd-ia-bbl-dir">' + q + '</div></div>';
+      msgs.scrollTop = msgs.scrollHeight;
+    }
+    _iaCount++; _iaStore.count = _iaCount; localStorage.setItem('crd_ia_usage', JSON.stringify(_iaStore)); crdIaUpdateUI();
+    var name = (window._crdData && window._crdData.name) ? window._crdData.name : 'creator';
+    var cat  = { honey_girl: 'Honey Girl', original: 'Original', ambassadrice: 'Ambassadrice', star: 'Star' }[(window._crdData && (window._crdData.category || window._crdData.formula)) || 'honey_girl'] || 'creator';
+    try {
+      if (msgs) {
+        msgs.innerHTML += '<div class="crd-ia-msg" id="crd-ia-thinking"><span class="crd-ia-who">✦ Honey Intelligence</span><div class="crd-ia-bbl crd-ia-bbl-ia" style="opacity:0.5;">…</div></div>';
+        msgs.scrollTop = msgs.scrollHeight;
+      }
+      var res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514', max_tokens: 400,
+          system: 'You are Honey Intelligence, personal AI assistant of ' + name + ' (Honeymoon ' + cat + '). Help with content strategy, captions, shoot ideas, social media growth on TikTok, Instagram, Twitter, Reddit. Reply in English, concise and professional. Max 150 words.',
+          messages: [{ role: 'user', content: q }]
+        })
+      });
+      var data = await res.json();
+      var answer = (data.content && data.content[0]) ? data.content[0].text : 'I could not process your request.';
+      var th = document.getElementById('crd-ia-thinking'); if (th) th.remove();
+      if (msgs) {
+        msgs.innerHTML += '<div class="crd-ia-msg"><span class="crd-ia-who">✦ Honey Intelligence</span><div class="crd-ia-bbl crd-ia-bbl-ia">' + answer + '</div></div>';
+        msgs.scrollTop = msgs.scrollHeight;
+      }
+    } catch(e) {
+      var th = document.getElementById('crd-ia-thinking'); if (th) th.remove();
+      if (msgs) {
+        msgs.innerHTML += '<div class="crd-ia-msg"><span class="crd-ia-who">✦ Honey Intelligence</span><div class="crd-ia-bbl crd-ia-bbl-ia">AI unavailable. Try again in a few seconds.</div></div>';
+        msgs.scrollTop = msgs.scrollHeight;
+      }
+      _iaCount--; _iaStore.count = _iaCount; localStorage.setItem('crd_ia_usage', JSON.stringify(_iaStore)); crdIaUpdateUI();
     }
   };
+
 })();
 </script>
 
