@@ -19497,340 +19497,543 @@ document.addEventListener('DOMContentLoaded', function() {
 ═══════════════════════════════════════════════════ -->
 <div class="page" id="page-admin-dashboard">
 <style>
-/* ══════════════════════════════════════
-   DASHBOARD DIRECTEUR — LUXURY PREMIUM
-══════════════════════════════════════ */
-.dir-wrap{min-height:100vh;background:#1e1545;font-family:'Montserrat',sans-serif;padding-bottom:80px;}
+/* ═══════════════════════════════════════════════
+   DASHBOARD DIRECTEUR — GRAND HÔTEL DE LUXE
+   Design : fond clair · or · bordeaux · premium
+═══════════════════════════════════════════════ */
+.dir-wrap{min-height:100vh;background:#f5f0e8;font-family:'Montserrat',sans-serif;padding-bottom:80px;}
 .dir-wrap::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
-  background:radial-gradient(ellipse 70% 50% at 100% 0%,rgba(255,72,32,0.10) 0%,transparent 60%),
-             radial-gradient(ellipse 50% 40% at 0% 100%,rgba(214,169,78,0.08) 0%,transparent 55%);}
-.dir-header{position:relative;z-index:2;padding:0 24px;background:linear-gradient(180deg,rgba(30,21,69,0.98) 0%,rgba(30,21,69,0.85) 100%);border-bottom:1px solid rgba(255,72,32,0.15);}
-.dir-header-top{display:flex;justify-content:space-between;align-items:center;padding:20px 0 16px;}
-.dir-logo{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:#ff4820;letter-spacing:0.25em;}
-.dir-signout{background:none;border:1px solid rgba(255,72,32,0.2);color:rgba(255,72,32,0.5);font-family:'Montserrat',sans-serif;font-size:7px;letter-spacing:0.3em;text-transform:uppercase;padding:7px 14px;cursor:pointer;transition:all 0.2s;}
-.dir-signout:hover{border-color:rgba(255,72,32,0.5);color:#ff4820;}
-.dir-hero{padding:24px;border-bottom:1px solid rgba(255,72,32,0.08);position:relative;z-index:1;}
-.dir-hero-name{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:#faf6f0;}
-.dir-hero-sub{font-size:8px;letter-spacing:0.35em;text-transform:uppercase;color:rgba(255,72,32,0.5);margin-top:4px;}
-.dir-nav{display:flex;overflow-x:auto;border-bottom:1px solid rgba(255,72,32,0.08);position:sticky;top:0;z-index:10;background:#1e1545;}
+  background:radial-gradient(ellipse 80% 40% at 100% 0%,rgba(214,169,78,0.08) 0%,transparent 60%),
+             radial-gradient(ellipse 60% 30% at 0% 100%,rgba(139,0,0,0.04) 0%,transparent 55%);}
+
+/* ── Header ── */
+.dir-header{background:#1a0f35;position:relative;z-index:20;padding:0 28px;}
+.dir-header-top{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid rgba(214,169,78,0.15);}
+.dir-logo-wrap{display:flex;align-items:center;gap:14px;}
+.dir-logo-hm{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:#f2d270;letter-spacing:0.3em;}
+.dir-logo-sep{width:1px;height:24px;background:rgba(214,169,78,0.25);}
+.dir-logo-sub{font-size:7px;letter-spacing:0.5em;text-transform:uppercase;color:rgba(214,169,78,0.5);}
+.dir-header-right{display:flex;align-items:center;gap:12px;}
+.dir-alert-badge{background:#8b0000;color:#fff;font-size:7px;letter-spacing:0.2em;padding:4px 10px;border-radius:0;}
+.dir-signout{background:none;border:1px solid rgba(214,169,78,0.25);color:rgba(214,169,78,0.6);font-family:'Montserrat',sans-serif;font-size:7px;letter-spacing:0.3em;text-transform:uppercase;padding:7px 14px;cursor:pointer;transition:all 0.2s;}
+.dir-signout:hover{border-color:rgba(214,169,78,0.6);color:#f2d270;}
+
+/* ── Hero banner ── */
+.dir-hero{background:linear-gradient(135deg,#1a0f35 0%,#2d1f5e 50%,#1a0f35 100%);padding:32px 28px;position:relative;overflow:hidden;}
+.dir-hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(214,169,78,0.4),transparent);}
+.dir-hero-eyebrow{font-size:7px;letter-spacing:0.55em;text-transform:uppercase;color:rgba(214,169,78,0.5);margin-bottom:8px;}
+.dir-hero-title{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:#faf6f0;line-height:1;margin-bottom:6px;}
+.dir-hero-sub{font-size:8px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(214,169,78,0.4);}
+.dir-hero-date{position:absolute;top:32px;right:28px;text-align:right;}
+.dir-hero-date-day{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:300;color:rgba(214,169,78,0.2);line-height:1;}
+.dir-hero-date-txt{font-size:7px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(214,169,78,0.25);}
+
+/* ── KPI Bar ── */
+.dir-kpi-bar{background:#fff;border-bottom:1px solid rgba(214,169,78,0.15);display:flex;overflow-x:auto;position:relative;z-index:5;}
+.dir-kpi-bar::-webkit-scrollbar{display:none;}
+.dir-kpi{flex:1;min-width:100px;padding:16px 12px;text-align:center;border-right:1px solid rgba(214,169,78,0.10);transition:background 0.2s;cursor:default;}
+.dir-kpi:hover{background:rgba(214,169,78,0.04);}
+.dir-kpi-num{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:#1a0f35;display:block;line-height:1;}
+.dir-kpi-num.gold{color:#c8960a;}
+.dir-kpi-num.red{color:#8b0000;}
+.dir-kpi-lbl{font-size:6px;letter-spacing:0.35em;text-transform:uppercase;color:rgba(26,15,53,0.4);margin-top:3px;display:block;}
+.dir-kpi-trend{font-size:7px;color:#22c55e;margin-top:2px;display:block;}
+
+/* ── Navigation ── */
+.dir-nav{background:#fff;border-bottom:2px solid rgba(214,169,78,0.12);display:flex;overflow-x:auto;position:sticky;top:0;z-index:15;}
 .dir-nav::-webkit-scrollbar{display:none;}
-.dir-nav-btn{padding:14px 15px;background:none;border:none;border-bottom:2px solid transparent;font-size:7px;letter-spacing:0.28em;text-transform:uppercase;color:rgba(255,72,32,0.35);cursor:pointer;transition:all 0.2s;white-space:nowrap;font-family:'Montserrat',sans-serif;}
-.dir-nav-btn.on{border-bottom-color:#ff4820;color:#ff4820;}
-.dir-sec{display:none;padding:28px 24px;position:relative;z-index:1;animation:dirIn 0.3s ease;max-width:700px;margin:0 auto;}
+.dir-nav-btn{padding:14px 18px;background:none;border:none;border-bottom:3px solid transparent;font-size:7px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(26,15,53,0.4);cursor:pointer;transition:all 0.2s;white-space:nowrap;font-family:'Montserrat',sans-serif;margin-bottom:-2px;}
+.dir-nav-btn.on{border-bottom-color:#c8960a;color:#1a0f35;font-weight:600;}
+.dir-nav-btn:hover:not(.on){color:#1a0f35;border-bottom-color:rgba(214,169,78,0.3);}
+
+/* ── Sections ── */
+.dir-sec{display:none;padding:32px 28px;position:relative;z-index:1;max-width:900px;margin:0 auto;animation:dirIn 0.3s ease;}
 .dir-sec.on{display:block;}
-@keyframes dirIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.dir-stitle{font-size:8px;letter-spacing:0.5em;text-transform:uppercase;color:rgba(255,72,32,0.45);border-bottom:1px solid rgba(255,72,32,0.08);padding-bottom:10px;margin:0 0 20px;}
-.dir-card{background:rgba(255,255,255,0.025);border:1px solid rgba(255,72,32,0.10);padding:18px;margin-bottom:12px;}
-.dir-card-gold{background:rgba(255,255,255,0.025);border:1px solid rgba(214,169,78,0.15);padding:18px;margin-bottom:12px;}
+@keyframes dirIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
-/* Stats globales */
-.dir-big-stat{text-align:center;padding:24px 16px;background:linear-gradient(135deg,rgba(255,72,32,0.08),rgba(214,169,78,0.04));border:1px solid rgba(255,72,32,0.15);margin-bottom:12px;}
-.dir-big-num{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;color:#ff4820;display:block;line-height:1;}
-.dir-big-lbl{font-size:8px;letter-spacing:0.4em;text-transform:uppercase;color:rgba(255,72,32,0.4);margin-top:6px;display:block;}
-.dir-stats-g{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;}
-.dir-stat{background:rgba(255,72,32,0.04);border:1px solid rgba(255,72,32,0.10);padding:14px 8px;text-align:center;}
-.dir-stat-n{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:#ff4820;display:block;}
-.dir-stat-l{font-size:7px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,72,32,0.35);}
-.dir-stat-gold{background:rgba(214,169,78,0.04);border-color:rgba(214,169,78,0.12);}
-.dir-stat-gold .dir-stat-n{color:#f2d270;}
-.dir-stat-gold .dir-stat-l{color:rgba(214,169,78,0.35);}
+/* ── Titres ── */
+.dir-stitle{font-size:7px;letter-spacing:0.55em;text-transform:uppercase;color:rgba(26,15,53,0.35);border-bottom:1px solid rgba(214,169,78,0.2);padding-bottom:10px;margin:0 0 20px;}
+.dir-stitle-red{color:rgba(139,0,0,0.5);border-color:rgba(139,0,0,0.15);}
+.dir-stitle2{font-size:7px;letter-spacing:0.45em;text-transform:uppercase;color:rgba(26,15,53,0.25);margin:24px 0 14px;padding-top:18px;border-top:1px solid rgba(214,169,78,0.10);}
 
-/* Créatrices */
-.dir-creator-row{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
-.dir-creator-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
-.dir-creator-dot.active{background:#22c55e;box-shadow:0 0 8px #22c55e;}
-.dir-creator-dot.soon{background:#f2d270;}
-.dir-creator-dot.away{background:#ff4820;}
-.dir-creator-name{font-family:'Cormorant Garamond',serif;font-size:18px;color:#faf6f0;flex:1;}
-.dir-creator-badge{font-size:7px;letter-spacing:0.25em;text-transform:uppercase;padding:3px 8px;border:1px solid rgba(214,169,78,0.2);color:rgba(214,169,78,0.6);}
-.dir-creator-status{font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(245,240,232,0.3);min-width:50px;text-align:right;}
-.dir-creator-followers{font-family:'Cormorant Garamond',serif;font-size:16px;color:#f2d270;min-width:60px;text-align:right;}
+/* ── Cards ── */
+.dir-card{background:#fff;border:1px solid rgba(214,169,78,0.15);padding:20px;margin-bottom:12px;box-shadow:0 1px 8px rgba(26,15,53,0.04);}
+.dir-card-dark{background:#1a0f35;border:1px solid rgba(214,169,78,0.15);padding:20px;margin-bottom:12px;}
+.dir-card-red{background:#fff;border-left:3px solid #8b0000;padding:16px 20px;margin-bottom:10px;box-shadow:0 1px 6px rgba(139,0,0,0.06);}
+.dir-card-gold{background:linear-gradient(135deg,rgba(214,169,78,0.06),rgba(214,169,78,0.02));border:1px solid rgba(214,169,78,0.25);padding:20px;margin-bottom:12px;}
 
-/* Notifications */
-.dir-notif-row{padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.04);display:flex;align-items:flex-start;gap:12px;}
-.dir-notif-icon{font-size:14px;flex-shrink:0;margin-top:1px;}
-.dir-notif-txt{font-size:11px;color:rgba(245,240,232,0.7);line-height:1.5;flex:1;}
-.dir-notif-time{font-size:8px;color:rgba(245,240,232,0.2);min-width:45px;text-align:right;}
-.dir-notif-badge{font-size:7px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,72,32,0.7);display:block;margin-bottom:2px;}
+/* ── Stats grille ── */
+.dir-stats-g3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
+.dir-stats-g2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px;}
+.dir-stat{background:#fff;border:1px solid rgba(214,169,78,0.15);padding:18px 12px;text-align:center;box-shadow:0 1px 6px rgba(26,15,53,0.04);}
+.dir-stat-n{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:#1a0f35;display:block;line-height:1;}
+.dir-stat-n.gold{color:#c8960a;}
+.dir-stat-n.red{color:#8b0000;}
+.dir-stat-l{font-size:6px;letter-spacing:0.35em;text-transform:uppercase;color:rgba(26,15,53,0.35);margin-top:4px;display:block;}
 
-/* Membres */
-.dir-member-row{padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);display:flex;align-items:center;gap:10px;}
-.dir-member-email{font-size:11px;color:rgba(245,240,232,0.7);flex:1;}
-.dir-member-badge{font-size:7px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(214,169,78,0.55);}
-.dir-member-pts{font-family:'Cormorant Garamond',serif;font-size:18px;color:#f2d270;min-width:50px;text-align:right;}
+/* ── Créatrices ── */
+.dir-cr-card{background:#fff;border:1px solid rgba(214,169,78,0.15);padding:18px;margin-bottom:10px;box-shadow:0 1px 6px rgba(26,15,53,0.04);}
+.dir-cr-top{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.dir-cr-avatar{width:44px;height:44px;border:1px solid rgba(214,169,78,0.25);background:rgba(214,169,78,0.07);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:18px;color:#c8960a;overflow:hidden;flex-shrink:0;}
+.dir-cr-avatar img{width:100%;height:100%;object-fit:cover;}
+.dir-cr-name{font-family:'Cormorant Garamond',serif;font-size:20px;color:#1a0f35;flex:1;}
+.dir-cr-formula{font-size:7px;letter-spacing:0.3em;text-transform:uppercase;padding:3px 10px;border:1px solid rgba(214,169,78,0.25);color:#c8960a;display:inline-block;margin-top:2px;}
+.dir-cr-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.dir-cr-dot.active{background:#22c55e;box-shadow:0 0 6px #22c55e;}
+.dir-cr-dot.soon{background:#f2d270;}
+.dir-cr-dot.away{background:#cc3311;}
+.dir-cr-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px 16px;}
+.dir-cr-info{font-size:9px;color:rgba(26,15,53,0.5);line-height:1.8;}
+.dir-cr-info span{color:#1a0f35;font-weight:500;}
+.dir-cr-followers{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;padding-top:10px;border-top:1px solid rgba(214,169,78,0.10);}
+.dir-cr-fl-item{font-size:8px;color:rgba(26,15,53,0.4);letter-spacing:0.1em;}
+.dir-cr-fl-item strong{color:#c8960a;font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:300;}
 
-/* Problèmes */
-.dir-issue-row{padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.04);display:flex;gap:10px;align-items:flex-start;}
-.dir-issue-dot{width:6px;height:6px;border-radius:50%;background:#ff4820;flex-shrink:0;margin-top:5px;box-shadow:0 0 6px #ff4820;}
-.dir-issue-dot.warn{background:#f2d270;box-shadow:0 0 6px #f2d270;}
-.dir-issue-txt{font-size:10px;color:rgba(245,240,232,0.65);line-height:1.5;flex:1;}
-.dir-issue-time{font-size:8px;color:rgba(245,240,232,0.2);min-width:45px;text-align:right;}
+/* ── Notifications ── */
+.dir-notif-row{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid rgba(214,169,78,0.08);}
+.dir-notif-icon{font-size:16px;flex-shrink:0;}
+.dir-notif-content{flex:1;}
+.dir-notif-type{font-size:6px;letter-spacing:0.3em;text-transform:uppercase;color:#8b0000;margin-bottom:2px;}
+.dir-notif-txt{font-size:11px;color:rgba(26,15,53,0.75);line-height:1.4;}
+.dir-notif-time{font-size:8px;color:rgba(26,15,53,0.25);white-space:nowrap;}
 
-/* Candidatures */
-.dir-app-row{padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
-.dir-app-name{font-family:'Cormorant Garamond',serif;font-size:17px;color:#faf6f0;margin-bottom:4px;}
-.dir-app-email{font-size:9px;color:rgba(214,169,78,0.5);letter-spacing:0.1em;margin-bottom:6px;}
-.dir-app-formula{font-size:7px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,72,32,0.6);}
+/* ── Membres ── */
+.dir-member-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(214,169,78,0.07);}
+.dir-member-email{font-size:11px;color:rgba(26,15,53,0.7);flex:1;}
+.dir-member-badge{font-size:6px;letter-spacing:0.25em;text-transform:uppercase;padding:2px 8px;border:1px solid rgba(214,169,78,0.2);color:#c8960a;}
+.dir-member-pts{font-family:'Cormorant Garamond',serif;font-size:18px;color:#1a0f35;}
 
-/* Buttons */
-.dir-btn{width:100%;padding:13px;background:rgba(255,72,32,0.08);border:1px solid rgba(255,72,32,0.25);color:rgba(255,100,60,0.85);font-family:'Montserrat',sans-serif;font-size:8px;font-weight:600;letter-spacing:0.28em;text-transform:uppercase;cursor:pointer;margin-bottom:8px;transition:all 0.2s;}
-.dir-btn:hover{background:rgba(255,72,32,0.15);}
-.dir-btn-gold{background:linear-gradient(135deg,#b8840a,#f2d270,#b8840a);background-size:200%;color:#1e1545;border:none;font-weight:700;}
+/* ── Problèmes ── */
+.dir-issue{display:flex;gap:12px;padding:14px;margin-bottom:8px;border-left:3px solid #8b0000;background:#fff;box-shadow:0 1px 4px rgba(139,0,0,0.06);}
+.dir-issue.warn{border-color:#c8960a;box-shadow:0 1px 4px rgba(200,150,10,0.06);}
+.dir-issue-dot{width:8px;height:8px;border-radius:50%;background:#8b0000;flex-shrink:0;margin-top:4px;}
+.dir-issue.warn .dir-issue-dot{background:#c8960a;}
+.dir-issue-txt{font-size:10px;color:rgba(26,15,53,0.7);line-height:1.6;flex:1;}
+.dir-issue-time{font-size:8px;color:rgba(26,15,53,0.25);white-space:nowrap;}
+
+/* ── Agenda ── */
+.dir-agenda-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:14px;}
+.dir-agenda-day{background:#fff;border:1px solid rgba(214,169,78,0.12);padding:8px 4px;text-align:center;cursor:pointer;transition:all 0.2s;min-height:44px;position:relative;}
+.dir-agenda-day:hover{border-color:rgba(214,169,78,0.4);background:rgba(214,169,78,0.04);}
+.dir-agenda-day.today{border-color:#c8960a;background:rgba(200,150,10,0.06);}
+.dir-agenda-day.has-note::after{content:'';position:absolute;top:4px;right:4px;width:5px;height:5px;border-radius:50%;background:#c8960a;}
+.dir-agenda-day-num{font-family:'Cormorant Garamond',serif;font-size:16px;color:#1a0f35;display:block;}
+.dir-agenda-day-lbl{font-size:6px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(26,15,53,0.3);}
+.dir-agenda-weekday{font-size:6px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(26,15,53,0.3);text-align:center;padding:4px 0;border-bottom:1px solid rgba(214,169,78,0.10);margin-bottom:4px;}
+
+/* ── Notes ── */
+.dir-note-area{width:100%;background:#faf8f2;border:1px solid rgba(214,169,78,0.2);color:#1a0f35;font-family:'Montserrat',sans-serif;font-size:12px;padding:16px;resize:vertical;min-height:140px;outline:none;line-height:1.7;box-sizing:border-box;}
+.dir-note-area:focus{border-color:rgba(214,169,78,0.45);}
+.dir-note-area::placeholder{color:rgba(26,15,53,0.2);}
+
+/* ── IA Chat ── */
+.dir-ai-messages{background:#faf8f2;border:1px solid rgba(214,169,78,0.15);padding:16px;min-height:200px;max-height:320px;overflow-y:auto;margin-bottom:10px;}
+.dir-ai-msg{margin-bottom:12px;animation:dirIn 0.2s ease;}
+.dir-ai-msg-dir{text-align:right;}
+.dir-ai-bubble{display:inline-block;max-width:85%;padding:10px 14px;font-size:11px;line-height:1.6;}
+.dir-ai-bubble-dir{background:#1a0f35;color:#faf6f0;text-align:left;}
+.dir-ai-bubble-ia{background:#fff;border:1px solid rgba(214,169,78,0.2);color:rgba(26,15,53,0.8);}
+.dir-ai-who{font-size:7px;letter-spacing:0.25em;text-transform:uppercase;margin-bottom:4px;}
+.dir-ai-who-dir{color:rgba(214,169,78,0.5);text-align:right;}
+.dir-ai-who-ia{color:rgba(139,0,0,0.5);}
+.dir-ai-input-row{display:flex;gap:8px;}
+.dir-ai-input{flex:1;background:#fff;border:1px solid rgba(214,169,78,0.2);color:#1a0f35;font-family:'Montserrat',sans-serif;font-size:11px;padding:11px 14px;outline:none;transition:border-color 0.2s;}
+.dir-ai-input:focus{border-color:rgba(214,169,78,0.45);}
+.dir-ai-input::placeholder{color:rgba(26,15,53,0.2);}
+.dir-ai-send{padding:11px 18px;background:#1a0f35;border:none;color:#f2d270;font-family:'Montserrat',sans-serif;font-size:8px;letter-spacing:0.25em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
+.dir-ai-send:hover{background:#2d1f5e;}
+
+/* ── Buttons ── */
+.dir-btn-dark{width:100%;padding:13px;background:#1a0f35;border:none;color:#f2d270;font-family:'Montserrat',sans-serif;font-size:8px;font-weight:600;letter-spacing:0.3em;text-transform:uppercase;cursor:pointer;margin-bottom:8px;transition:all 0.2s;}
+.dir-btn-dark:hover{background:#2d1f5e;}
+.dir-btn-gold{width:100%;padding:13px;background:linear-gradient(135deg,#b8840a,#f2d270,#b8840a);background-size:200%;color:#1a0f35;font-family:'Montserrat',sans-serif;font-size:8px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;border:none;cursor:pointer;margin-bottom:8px;transition:all 0.3s;}
 .dir-btn-gold:hover{background-position:right;}
-.dir-input{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,72,32,0.15);color:#faf6f0;font-family:'Montserrat',sans-serif;font-size:11px;padding:10px 12px;outline:none;transition:border-color 0.2s;box-sizing:border-box;}
-.dir-input:focus{border-color:rgba(214,169,78,0.4);}
-.dir-input::placeholder{color:rgba(245,240,232,0.18);}
-.dir-select{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,72,32,0.15);color:#faf6f0;font-family:'Montserrat',sans-serif;font-size:11px;padding:10px 12px;outline:none;box-sizing:border-box;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(255,72,32,0.4)'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;cursor:pointer;}
-.dir-select option{background:#1e1545;color:#faf6f0;}
-.dir-field{margin-bottom:8px;}
-.dir-label{font-size:8px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(245,240,232,0.35);display:block;margin-bottom:5px;}
-.dir-empty{font-size:9px;color:rgba(245,240,232,0.2);text-align:center;padding:20px;letter-spacing:0.2em;}
-.dir-toast{display:none;padding:10px 14px;background:rgba(34,197,94,0.07);border:1px solid rgba(34,197,94,0.18);color:rgba(100,220,100,0.8);font-size:8px;letter-spacing:0.2em;text-transform:uppercase;text-align:center;margin:8px 0;}
+.dir-btn-outline{width:100%;padding:12px;background:none;border:1px solid rgba(26,15,53,0.2);color:rgba(26,15,53,0.6);font-family:'Montserrat',sans-serif;font-size:8px;letter-spacing:0.25em;text-transform:uppercase;cursor:pointer;margin-bottom:8px;transition:all 0.2s;}
+.dir-btn-outline:hover{border-color:#1a0f35;color:#1a0f35;}
+.dir-btn-red{width:100%;padding:12px;background:rgba(139,0,0,0.06);border:1px solid rgba(139,0,0,0.2);color:#8b0000;font-family:'Montserrat',sans-serif;font-size:8px;letter-spacing:0.25em;text-transform:uppercase;cursor:pointer;margin-bottom:8px;transition:all 0.2s;}
+
+/* ── Fields ── */
+.dir-field{margin-bottom:10px;}
+.dir-label{font-size:7px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(26,15,53,0.4);display:block;margin-bottom:5px;}
+.dir-input{width:100%;background:#faf8f2;border:1px solid rgba(214,169,78,0.2);color:#1a0f35;font-family:'Montserrat',sans-serif;font-size:11px;padding:10px 13px;outline:none;transition:border-color 0.2s;box-sizing:border-box;}
+.dir-input:focus{border-color:rgba(214,169,78,0.5);}
+.dir-input::placeholder{color:rgba(26,15,53,0.2);}
+.dir-select{width:100%;background:#faf8f2;border:1px solid rgba(214,169,78,0.2);color:#1a0f35;font-family:'Montserrat',sans-serif;font-size:11px;padding:10px 34px 10px 13px;outline:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(200,150,10,0.5)'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;cursor:pointer;box-sizing:border-box;}
+.dir-select option{background:#faf8f2;color:#1a0f35;}
 .dir-2col{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.dir-toast{display:none;padding:10px 14px;background:rgba(34,197,94,0.07);border:1px solid rgba(34,197,94,0.2);color:#166534;font-size:8px;letter-spacing:0.2em;text-transform:uppercase;text-align:center;margin:8px 0;}
+.dir-empty{font-size:9px;color:rgba(26,15,53,0.25);text-align:center;padding:24px;letter-spacing:0.2em;}
+.dir-candidature-card{background:#fff;border:1px solid rgba(214,169,78,0.15);padding:18px;margin-bottom:10px;box-shadow:0 1px 6px rgba(26,15,53,0.04);}
+.dir-cand-name{font-family:'Cormorant Garamond',serif;font-size:20px;color:#1a0f35;margin-bottom:4px;}
+.dir-cand-info{font-size:9px;color:rgba(26,15,53,0.5);line-height:1.8;}
+.dir-cand-formula{font-size:7px;letter-spacing:0.3em;text-transform:uppercase;color:#8b0000;margin:6px 0;}
+.dir-action-row{display:flex;gap:8px;margin-top:12px;}
+.dir-btn-accept{flex:1;padding:10px;background:#166534;border:none;color:#fff;font-family:'Montserrat',sans-serif;font-size:7px;letter-spacing:0.25em;text-transform:uppercase;cursor:pointer;}
+.dir-btn-refuse{flex:1;padding:10px;background:rgba(139,0,0,0.07);border:1px solid rgba(139,0,0,0.2);color:#8b0000;font-family:'Montserrat',sans-serif;font-size:7px;letter-spacing:0.25em;text-transform:uppercase;cursor:pointer;}
 </style>
 
 <div class="dir-wrap">
 
-  <!-- Header -->
+  <!-- ══ HEADER ══ -->
   <div class="dir-header">
     <div class="dir-header-top">
-      <span class="dir-logo">✦ Directeur — Honeymoon</span>
-      <button class="dir-signout" onclick="hmSignOut && hmSignOut()">Déconnexion</button>
+      <div class="dir-logo-wrap">
+        <span class="dir-logo-hm">HM</span>
+        <div class="dir-logo-sep"></div>
+        <span class="dir-logo-sub">Espace Directeur</span>
+      </div>
+      <div class="dir-header-right">
+        <span class="dir-alert-badge" id="dir-alert-badge">0 alerte</span>
+        <button class="dir-signout" onclick="hmSignOut && hmSignOut()">Déconnexion</button>
+      </div>
     </div>
   </div>
 
-  <!-- Hero -->
+  <!-- ══ HERO ══ -->
   <div class="dir-hero">
-    <div class="dir-hero-name">Tableau de bord</div>
-    <div class="dir-hero-sub">· Vue globale du site en temps réel ·</div>
+    <div class="dir-hero-eyebrow">✦ Honeymoon Agency · Tableau de bord</div>
+    <div class="dir-hero-title">Bonjour, Directeur</div>
+    <div class="dir-hero-sub">· Vue complète du site en temps réel ·</div>
+    <div class="dir-hero-date">
+      <div class="dir-hero-date-day" id="dir-date-day">—</div>
+      <div class="dir-hero-date-txt" id="dir-date-txt">—</div>
+    </div>
   </div>
 
-  <!-- Nav -->
+  <!-- ══ KPI BAR ══ -->
+  <div class="dir-kpi-bar">
+    <div class="dir-kpi"><span class="dir-kpi-num gold" id="kpi-creatrices">—</span><span class="dir-kpi-lbl">Créatrices</span></div>
+    <div class="dir-kpi"><span class="dir-kpi-num gold" id="kpi-actives">—</span><span class="dir-kpi-lbl">Actives</span></div>
+    <div class="dir-kpi"><span class="dir-kpi-num" id="kpi-membres">—</span><span class="dir-kpi-lbl">Membres</span></div>
+    <div class="dir-kpi"><span class="dir-kpi-num" id="kpi-contenu">—</span><span class="dir-kpi-lbl">Contenus</span></div>
+    <div class="dir-kpi"><span class="dir-kpi-num gold" id="kpi-followers">—</span><span class="dir-kpi-lbl">Followers</span></div>
+    <div class="dir-kpi"><span class="dir-kpi-num red" id="kpi-alertes">—</span><span class="dir-kpi-lbl">Alertes</span></div>
+    <div class="dir-kpi"><span class="dir-kpi-num red" id="kpi-candidatures">—</span><span class="dir-kpi-lbl">Candidatures</span></div>
+  </div>
+
+  <!-- ══ NAVIGATION ══ -->
   <nav class="dir-nav">
-    <button class="dir-nav-btn on"  onclick="dirTab('apercu',this)">Aperçu</button>
-    <button class="dir-nav-btn"     onclick="dirTab('creatrices',this)">Créatrices</button>
-    <button class="dir-nav-btn"     onclick="dirTab('membres',this)">Membres</button>
-    <button class="dir-nav-btn"     onclick="dirTab('contenu',this)">Contenu</button>
-    <button class="dir-nav-btn"     onclick="dirTab('candidatures',this)">Candidatures</button>
-    <button class="dir-nav-btn"     onclick="dirTab('problemes',this)">Problèmes</button>
-    <button class="dir-nav-btn"     onclick="dirTab('gestion',this)">Gestion</button>
+    <button class="dir-nav-btn on" onclick="dirTab('apercu',this)">Aperçu</button>
+    <button class="dir-nav-btn" onclick="dirTab('creatrices',this)">Créatrices</button>
+    <button class="dir-nav-btn" onclick="dirTab('membres',this)">Membres</button>
+    <button class="dir-nav-btn" onclick="dirTab('contenu',this)">Contenu</button>
+    <button class="dir-nav-btn" onclick="dirTab('candidatures',this)">Candidatures</button>
+    <button class="dir-nav-btn" onclick="dirTab('problemes',this)">Problèmes</button>
+    <button class="dir-nav-btn" onclick="dirTab('ia',this)">Assistant IA</button>
+    <button class="dir-nav-btn" onclick="dirTab('agenda',this)">Agenda</button>
+    <button class="dir-nav-btn" onclick="dirTab('gestion',this)">Gestion</button>
   </nav>
 
-  <!-- ══ TAB APERÇU ══ -->
+  <!-- ══════════════════════
+       TAB — APERÇU
+  ══════════════════════ -->
   <div class="dir-sec on" id="dir-sec-apercu">
+
     <div class="dir-stitle">· Chiffres clés du site ·</div>
-
-    <div class="dir-stats-g">
-      <div class="dir-stat"><span class="dir-stat-n" id="dir-total-creatrices">0</span><span class="dir-stat-l">Créatrices</span></div>
-      <div class="dir-stat"><span class="dir-stat-n" id="dir-total-membres">0</span><span class="dir-stat-l">Membres</span></div>
-      <div class="dir-stat"><span class="dir-stat-n" id="dir-total-contenu">0</span><span class="dir-stat-l">Contenus</span></div>
+    <div class="dir-stats-g3">
+      <div class="dir-stat"><span class="dir-stat-n gold" id="ap-creatrices">—</span><span class="dir-stat-l">Créatrices total</span></div>
+      <div class="dir-stat"><span class="dir-stat-n gold" id="ap-actives">—</span><span class="dir-stat-l">Actives en ce moment</span></div>
+      <div class="dir-stat"><span class="dir-stat-n" id="ap-membres">—</span><span class="dir-stat-l">Membres inscrits</span></div>
     </div>
-    <div class="dir-stats-g">
-      <div class="dir-stat dir-stat-gold"><span class="dir-stat-n" id="dir-creatrices-actives">0</span><span class="dir-stat-l">Actives</span></div>
-      <div class="dir-stat dir-stat-gold"><span class="dir-stat-n" id="dir-total-followers">0</span><span class="dir-stat-l">Followers total</span></div>
-      <div class="dir-stat"><span class="dir-stat-n" id="dir-alertes">0</span><span class="dir-stat-l">Alertes</span></div>
-    </div>
-
-    <div class="dir-stitle" style="margin-top:24px;">· Statut des créatrices ·</div>
-    <div class="dir-card" id="dir-apercu-creators">
-      <div class="dir-empty">Chargement…</div>
+    <div class="dir-stats-g3">
+      <div class="dir-stat"><span class="dir-stat-n" id="ap-contenu">—</span><span class="dir-stat-l">Contenus publiés</span></div>
+      <div class="dir-stat"><span class="dir-stat-n gold" id="ap-followers">—</span><span class="dir-stat-l">Followers cumulés</span></div>
+      <div class="dir-stat"><span class="dir-stat-n red" id="ap-alertes">—</span><span class="dir-stat-l">Alertes en attente</span></div>
     </div>
 
-    <div class="dir-stitle" style="margin-top:20px;">· Dernières notifications ·</div>
-    <div class="dir-card" id="dir-apercu-notifs">
-      <div class="dir-empty">Aucune notification</div>
+    <div class="dir-stitle2">· Statut des créatrices ·</div>
+    <div id="ap-creators-list"><div class="dir-empty">Chargement…</div></div>
+
+    <div class="dir-stitle2">· Dernières activités ·</div>
+    <div class="dir-card" id="ap-notifs-list">
+      <div class="dir-empty">Aucune activité récente</div>
     </div>
+
   </div>
 
-  <!-- ══ TAB CRÉATRICES ══ -->
+  <!-- ══════════════════════
+       TAB — CRÉATRICES
+  ══════════════════════ -->
   <div class="dir-sec" id="dir-sec-creatrices">
-    <div class="dir-stitle">· Toutes les créatrices ·</div>
-    <div id="dir-creatrices-liste">
-      <div class="dir-empty">Chargement…</div>
-    </div>
+    <div class="dir-stitle">· Toutes les créatrices — fiches complètes ·</div>
+    <div id="dir-creatrices-liste"><div class="dir-empty">Chargement…</div></div>
   </div>
 
-  <!-- ══ TAB MEMBRES ══ -->
+  <!-- ══════════════════════
+       TAB — MEMBRES
+  ══════════════════════ -->
   <div class="dir-sec" id="dir-sec-membres">
     <div class="dir-stitle">· Membres inscrits ·</div>
-    <div class="dir-stats-g" style="margin-bottom:20px;">
-      <div class="dir-stat"><span class="dir-stat-n" id="dir-m-total">0</span><span class="dir-stat-l">Total</span></div>
-      <div class="dir-stat dir-stat-gold"><span class="dir-stat-n" id="dir-m-nouveaux">0</span><span class="dir-stat-l">Ce mois</span></div>
-      <div class="dir-stat"><span class="dir-stat-n" id="dir-m-actifs">0</span><span class="dir-stat-l">Actifs</span></div>
+    <div class="dir-stats-g3" style="margin-bottom:20px;">
+      <div class="dir-stat"><span class="dir-stat-n" id="mb-total">—</span><span class="dir-stat-l">Total membres</span></div>
+      <div class="dir-stat"><span class="dir-stat-n gold" id="mb-nouveaux">—</span><span class="dir-stat-l">Ce mois</span></div>
+      <div class="dir-stat"><span class="dir-stat-n" id="mb-points">—</span><span class="dir-stat-l">Points distribués</span></div>
     </div>
     <div class="dir-card" id="dir-membres-liste">
       <div class="dir-empty">Aucun membre</div>
     </div>
   </div>
 
-  <!-- ══ TAB CONTENU ══ -->
+  <!-- ══════════════════════
+       TAB — CONTENU
+  ══════════════════════ -->
   <div class="dir-sec" id="dir-sec-contenu">
-    <div class="dir-stitle">· Contenu publié ·</div>
-    <div class="dir-stats-g" style="margin-bottom:20px;">
-      <div class="dir-stat"><span class="dir-stat-n" id="dir-c-photos">0</span><span class="dir-stat-l">Photos</span></div>
-      <div class="dir-stat"><span class="dir-stat-n" id="dir-c-videos">0</span><span class="dir-stat-l">Vidéos</span></div>
-      <div class="dir-stat"><span class="dir-stat-n" id="dir-c-reels">0</span><span class="dir-stat-l">Reels</span></div>
+    <div class="dir-stitle">· Contenu publié sur le site ·</div>
+    <div class="dir-stats-g3" style="margin-bottom:16px;">
+      <div class="dir-stat"><span class="dir-stat-n" id="ct-photos">—</span><span class="dir-stat-l">Photos</span></div>
+      <div class="dir-stat"><span class="dir-stat-n" id="ct-videos">—</span><span class="dir-stat-l">Vidéos</span></div>
+      <div class="dir-stat"><span class="dir-stat-n" id="ct-reels">—</span><span class="dir-stat-l">Reels</span></div>
     </div>
-    <div class="dir-stitle">· Contenu récent ·</div>
+    <div class="dir-stats-g2">
+      <div class="dir-stat"><span class="dir-stat-n gold" id="ct-gratuit">—</span><span class="dir-stat-l">Gratuit</span></div>
+      <div class="dir-stat"><span class="dir-stat-n" id="ct-payant">—</span><span class="dir-stat-l">Payant (tokens)</span></div>
+    </div>
+    <div class="dir-stitle2">· Derniers contenus uploadés ·</div>
     <div class="dir-card" id="dir-contenu-liste">
       <div class="dir-empty">Aucun contenu</div>
     </div>
   </div>
 
-  <!-- ══ TAB CANDIDATURES ══ -->
+  <!-- ══════════════════════
+       TAB — CANDIDATURES
+  ══════════════════════ -->
   <div class="dir-sec" id="dir-sec-candidatures">
     <div class="dir-stitle">· Candidatures reçues ·</div>
     <div id="dir-candidatures-liste">
-      <div class="dir-empty">Aucune candidature</div>
+      <div class="dir-empty">Aucune candidature reçue</div>
     </div>
   </div>
 
-  <!-- ══ TAB PROBLÈMES ══ -->
+  <!-- ══════════════════════
+       TAB — PROBLÈMES
+  ══════════════════════ -->
   <div class="dir-sec" id="dir-sec-problemes">
-    <div class="dir-stitle">· Problèmes détectés en live ·</div>
-    <div class="dir-card" id="dir-problemes-liste">
-      <div class="dir-empty">Aucun problème détecté ✓</div>
+    <div class="dir-stitle dir-stitle-red">· Problèmes détectés en temps réel ·</div>
+    <div id="dir-problemes-liste">
+      <div class="dir-empty">Analyse en cours…</div>
     </div>
-    <div class="dir-stitle" style="margin-top:20px;">· Journal des erreurs ·</div>
+    <div class="dir-stitle2">· Journal des erreurs Firebase ·</div>
     <div class="dir-card" id="dir-errors-liste">
-      <div class="dir-empty">Journal vide</div>
+      <div class="dir-empty">Aucune erreur enregistrée ✓</div>
     </div>
-    <button class="dir-btn" onclick="dirRefreshProblemes()" style="margin-top:8px;">↻ Actualiser</button>
+    <button class="dir-btn-outline" onclick="dirRefreshProblemes()" style="margin-top:8px;">↻ Actualiser l'analyse</button>
   </div>
 
-  <!-- ══ TAB GESTION ══ -->
+  <!-- ══════════════════════
+       TAB — ASSISTANT IA
+  ══════════════════════ -->
+  <div class="dir-sec" id="dir-sec-ia">
+    <div class="dir-stitle">· Assistant IA — Honeymoon Intelligence ·</div>
+    <div class="dir-card-gold" style="margin-bottom:16px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:16px;color:#1a0f35;margin-bottom:6px;">Votre assistant personnel du site</div>
+      <div style="font-size:9px;color:rgba(26,15,53,0.5);line-height:1.7;">Posez-moi des questions sur vos créatrices, vos membres, votre contenu ou les problèmes du site. Je vous réponds en temps réel avec les données actuelles.</div>
+    </div>
+    <div class="dir-ai-messages" id="dir-ai-messages">
+      <div class="dir-ai-msg">
+        <div class="dir-ai-who dir-ai-who-ia">✦ Assistant Honeymoon</div>
+        <div class="dir-ai-bubble dir-ai-bubble-ia">Bonjour Directeur. Je suis votre assistant IA personnel. Je connais tout le site Honeymoon — créatrices, membres, contenu, problèmes. Que souhaitez-vous savoir ?</div>
+      </div>
+    </div>
+    <div class="dir-ai-input-row">
+      <input class="dir-ai-input" id="dir-ai-input" type="text" placeholder="Combien de créatrices actives ? Quels problèmes ce soir ?" onkeydown="if(event.key==='Enter') dirAiSend()">
+      <button class="dir-ai-send" onclick="dirAiSend()">Envoyer →</button>
+    </div>
+    <div style="font-size:7px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(26,15,53,0.25);margin-top:8px;">Suggestions : "Quelles créatrices ont un profil incomplet ?" · "Combien de membres ce mois ?" · "Y a-t-il des problèmes urgents ?"</div>
+  </div>
+
+  <!-- ══════════════════════
+       TAB — AGENDA
+  ══════════════════════ -->
+  <div class="dir-sec" id="dir-sec-agenda">
+    <div class="dir-stitle">· Mon agenda · <span id="dir-agenda-mois" style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#c8960a;margin-left:10px;"></span></div>
+
+    <!-- Navigation mois -->
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <button class="dir-btn-outline" style="width:auto;padding:8px 16px;margin:0;" onclick="dirAgendaMois(-1)">← Mois précédent</button>
+      <span style="font-family:'Cormorant Garamond',serif;font-size:18px;color:#1a0f35;" id="dir-agenda-titre">—</span>
+      <button class="dir-btn-outline" style="width:auto;padding:8px 16px;margin:0;" onclick="dirAgendaMois(1)">Mois suivant →</button>
+    </div>
+
+    <!-- Jours de la semaine -->
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:4px;">
+      <div class="dir-agenda-weekday">Lun</div>
+      <div class="dir-agenda-weekday">Mar</div>
+      <div class="dir-agenda-weekday">Mer</div>
+      <div class="dir-agenda-weekday">Jeu</div>
+      <div class="dir-agenda-weekday">Ven</div>
+      <div class="dir-agenda-weekday">Sam</div>
+      <div class="dir-agenda-weekday">Dim</div>
+    </div>
+    <div class="dir-agenda-grid" id="dir-agenda-grid"></div>
+
+    <!-- Note du jour sélectionné -->
+    <div id="dir-agenda-note-section" style="display:none;">
+      <div class="dir-stitle2">· Note du <span id="dir-agenda-note-date"></span> ·</div>
+      <textarea class="dir-note-area" id="dir-agenda-note-txt" placeholder="Votre note pour cette journée…"></textarea>
+      <button class="dir-btn-gold" onclick="dirSaveAgendaNote()" style="margin-top:4px;">✦ Sauvegarder la note →</button>
+      <div class="dir-toast" id="dir-toast-agenda">✓ Note sauvegardée</div>
+    </div>
+
+    <!-- Notes libres -->
+    <div class="dir-stitle2">· Mémo libre · <span style="font-size:7px;color:rgba(26,15,53,0.3);">Sauvegardé automatiquement</span></div>
+    <textarea class="dir-note-area" id="dir-memo-libre" placeholder="Idées, rappels, projets en cours, instructions pour les créatrices…" oninput="dirSaveMemo()"></textarea>
+
+    <!-- Alertes personnelles -->
+    <div class="dir-stitle2">· Alertes personnelles ·</div>
+    <div class="dir-card">
+      <div class="dir-field"><label class="dir-label">Message de l'alerte</label><input class="dir-input" id="dir-alerte-msg" type="text" placeholder="ex. Contacter Luna cette semaine"></div>
+      <div class="dir-2col">
+        <div class="dir-field"><label class="dir-label">Date</label><input class="dir-input" id="dir-alerte-date" type="date"></div>
+        <div class="dir-field"><label class="dir-label">Heure</label><input class="dir-input" id="dir-alerte-heure" type="time"></div>
+      </div>
+      <button class="dir-btn-dark" onclick="dirAddAlerte()">+ Ajouter l'alerte</button>
+      <div id="dir-alertes-liste" style="margin-top:10px;"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════
+       TAB — GESTION
+  ══════════════════════ -->
   <div class="dir-sec" id="dir-sec-gestion">
 
-    <!-- Créer compte créatrice -->
     <div class="dir-stitle">· Créer un compte créatrice ·</div>
     <div class="dir-card-gold">
       <div class="dir-field"><label class="dir-label">Nom de scène</label><input class="dir-input" id="dir-cr-name" type="text" placeholder="ex. Luna"></div>
-      <div class="dir-field"><label class="dir-label">Email</label><input class="dir-input" id="dir-cr-email" type="email" placeholder="email@exemple.com"></div>
+      <div class="dir-field"><label class="dir-label">Adresse email</label><input class="dir-input" id="dir-cr-email" type="email" placeholder="email@exemple.com"></div>
       <div class="dir-field">
         <label class="dir-label">Mot de passe</label>
-        <div style="display:flex;gap:6px;">
+        <div style="display:flex;gap:8px;">
           <input class="dir-input" id="dir-cr-pwd" type="text" placeholder="Mot de passe" style="flex:1;">
-          <button class="dir-btn" style="width:auto;padding:10px 14px;margin:0;white-space:nowrap;" onclick="dirGenPwd()">Générer</button>
+          <button class="dir-btn-dark" style="width:auto;padding:10px 16px;margin:0;white-space:nowrap;" onclick="dirGenPwd()">Générer</button>
         </div>
       </div>
       <div class="dir-field">
-        <label class="dir-label">Formule</label>
+        <label class="dir-label">Formule contractuelle</label>
         <select class="dir-select" id="dir-cr-category">
           <option value="honey_girl">✦ Honey Girl — Contrat léger (60%)</option>
-          <option value="original">✦ Honeymoon Original — Plateforme principale (70%+PPV80%)</option>
+          <option value="original">✦ Honeymoon Original — Plateforme principale (70% + PPV 80%)</option>
           <option value="ambassadrice">👑 Ambassadrice — Table VIP</option>
           <option value="star">★ Honeymoon Star — Table d'honneur (75%)</option>
         </select>
       </div>
-      <div id="dir-cr-msg" style="font-family:Montserrat,sans-serif;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;padding:10px;margin-top:6px;display:none;"></div>
-      <button class="dir-btn dir-btn-gold" style="margin-top:10px;" onclick="dirCreateCreator()">✦ Créer le compte →</button>
+      <div id="dir-cr-msg" style="font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;padding:10px;margin-top:6px;display:none;"></div>
+      <button class="dir-btn-gold" style="margin-top:12px;" onclick="dirCreateCreator()">✦ Créer le compte →</button>
     </div>
 
-    <!-- Notifications -->
-    <div class="dir-stitle" style="margin-top:24px;">· Notifications ·</div>
-    <button class="dir-btn" onclick="dirMarkAllRead()">✓ Tout marquer comme lu</button>
+    <div class="dir-stitle2">· Notifications ·</div>
+    <button class="dir-btn-outline" onclick="dirMarkAllRead()">✓ Tout marquer comme lu</button>
 
-    <!-- Retour site -->
-    <div class="dir-stitle" style="margin-top:24px;">· Navigation ·</div>
-    <button class="dir-btn" onclick="showPage('landing')">← Retour au site</button>
+    <div class="dir-stitle2">· Navigation ·</div>
+    <button class="dir-btn-outline" onclick="showPage('landing')">← Retour au site public</button>
+
   </div>
 
-</div>
+</div><!-- /.dir-wrap -->
 
 <script>
 (function(){
 
-  // ── Tab navigation ──
+  /* ══ Date ══ */
+  (function() {
+    var now = new Date();
+    var jours = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+    var moisN = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+    var dd = document.getElementById('dir-date-day');
+    var dt = document.getElementById('dir-date-txt');
+    if (dd) dd.textContent = now.getDate();
+    if (dt) dt.textContent = jours[now.getDay()] + ' ' + moisN[now.getMonth()] + ' ' + now.getFullYear();
+  })();
+
+  /* ══ Tab ══ */
   window.dirTab = function(tab, btn) {
     document.querySelectorAll('.dir-sec').forEach(function(s){ s.classList.remove('on'); });
     document.querySelectorAll('.dir-nav-btn').forEach(function(b){ b.classList.remove('on'); });
     var sec = document.getElementById('dir-sec-' + tab);
     if (sec) sec.classList.add('on');
     if (btn) btn.classList.add('on');
-    // Charger les données à la demande
     if (tab === 'creatrices') dirLoadCreatrices();
     if (tab === 'membres') dirLoadMembres();
     if (tab === 'contenu') dirLoadContenu();
     if (tab === 'candidatures') dirLoadCandidatures();
     if (tab === 'problemes') dirRefreshProblemes();
+    if (tab === 'agenda') dirInitAgenda();
   };
 
-  // ── Init principal ──
+  /* ══ Init principal ══ */
   window.adInit = function() {
     if (!window.hmDB) return;
     import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod) {
 
-      // Créatrices — stats + aperçu
+      // Créatrices
       dbMod.getDocs(dbMod.collection(window.hmDB, 'creators')).then(function(snap) {
-        var total = snap.size;
-        var actives = 0;
-        var totalFollowers = 0;
+        var total = snap.size, actives = 0, followers = 0;
         var html = '';
         snap.forEach(function(d) {
           var data = d.data();
           if (data.status === 'active') actives++;
-          var fl = (['followers_of','followers_sc','followers_bc','followers_ig','followers_tk','followers_tw']).reduce(function(a,k){ return a+(parseInt(data[k])||0); }, 0);
-          totalFollowers += fl;
-          var dot = data.status === 'active' ? 'active' : data.status === 'soon' ? 'soon' : 'away';
-          var catLabel = {honey_girl:'Honey Girl',original:'Original',ambassadrice:'Ambassadrice',star:'★ Star'}[data.category||data.formula||'honey_girl']||'—';
-          html += '<div class="dir-creator-row">'
-                + '<div class="dir-creator-dot ' + dot + '"></div>'
-                + '<span class="dir-creator-name">' + (data.name||d.id) + '</span>'
-                + '<span class="dir-creator-badge">' + catLabel + '</span>'
-                + '<span class="dir-creator-status">' + (data.status||'away') + '</span>'
+          var fl = ['followers_of','followers_sc','followers_bc','followers_ig','followers_tk','followers_tw'].reduce(function(a,k){return a+(parseInt(data[k])||0);},0);
+          followers += fl;
+          var dot = data.status==='active'?'active':data.status==='soon'?'soon':'away';
+          var cat = {honey_girl:'✦ Honey Girl',original:'✦ Original',ambassadrice:'👑 Ambassadrice',star:'★ Star'}[data.category||data.formula||'honey_girl']||'—';
+          html += '<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(214,169,78,0.08);">'
+                + '<div class="dir-cr-dot ' + dot + '"></div>'
+                + '<span style="font-family:\'Cormorant Garamond\',serif;font-size:18px;color:#1a0f35;flex:1;">' + (data.name||d.id) + '</span>'
+                + '<span style="font-size:7px;letter-spacing:0.25em;text-transform:uppercase;color:#c8960a;">' + cat + '</span>'
+                + '<span style="font-size:8px;color:rgba(26,15,53,0.35);">' + (data.status||'away') + '</span>'
                 + '</div>';
         });
-        var el = document.getElementById('dir-apercu-creators');
-        if (el) el.innerHTML = html || '<div class="dir-empty">Aucune créatrice</div>';
-        var tc = document.getElementById('dir-total-creatrices'); if (tc) tc.textContent = total;
-        var ac = document.getElementById('dir-creatrices-actives'); if (ac) ac.textContent = actives;
-        var tf = document.getElementById('dir-total-followers'); if (tf) tf.textContent = totalFollowers.toLocaleString('fr-FR');
+        var el = document.getElementById('ap-creators-list');
+        if (el) el.innerHTML = '<div class="dir-card">' + (html||'<div class="dir-empty">Aucune créatrice</div>') + '</div>';
+        ['kpi-creatrices','ap-creatrices'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=total;});
+        ['kpi-actives','ap-actives'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=actives;});
+        ['kpi-followers','ap-followers'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=followers.toLocaleString('fr-FR');});
       });
 
       // Membres
       dbMod.getDocs(dbMod.collection(window.hmDB, 'members')).then(function(snap) {
-        var el = document.getElementById('dir-total-membres'); if (el) el.textContent = snap.size;
-        var ml = document.getElementById('dir-m-total'); if (ml) ml.textContent = snap.size;
+        ['kpi-membres','ap-membres','mb-total'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=snap.size;});
       });
 
       // Contenu
       dbMod.getDocs(dbMod.collection(window.hmDB, 'content')).then(function(snap) {
-        var el = document.getElementById('dir-total-contenu'); if (el) el.textContent = snap.size;
+        ['kpi-contenu','ap-contenu'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=snap.size;});
       });
 
-      // Notifications — temps réel
-      var nq = dbMod.query(
-        dbMod.collection(window.hmDB, 'notifications'),
-        dbMod.orderBy('created_at', 'desc'),
-        dbMod.limit(15)
-      );
+      // Candidatures
+      dbMod.getDocs(dbMod.collection(window.hmDB, 'applications')).then(function(snap) {
+        var e = document.getElementById('kpi-candidatures'); if(e) e.textContent = snap.size;
+      });
+
+      // Notifications temps réel
+      var nq = dbMod.query(dbMod.collection(window.hmDB,'notifications'),dbMod.orderBy('created_at','desc'),dbMod.limit(15));
       dbMod.onSnapshot(nq, function(snap) {
-        var html = '';
-        var pending = 0;
+        var html = '', pending = 0;
         snap.forEach(function(d) {
           var data = d.data();
           if (data.status === 'pending') pending++;
           var icons = {new_member:'👤',creator_login:'🔑',status_change:'📡',new_content:'📸',new_application:'📋',error:'⚠️'};
-          var icon = icons[data.type] || '•';
-          var labels = {new_member:'Nouveau membre',creator_login:'Connexion créatrice',status_change:'Changement statut',new_content:'Nouveau contenu',new_application:'Candidature',error:'Erreur'};
-          var label = labels[data.type] || data.type || '';
+          var labels = {new_member:'Nouveau membre',creator_login:'Connexion',status_change:'Statut modifié',new_content:'Nouveau contenu',new_application:'Candidature',error:'Erreur'};
+          var icon = icons[data.type]||'•';
+          var label = labels[data.type]||data.type||'';
           var time = data.created_at ? new Date(data.created_at.seconds*1000).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}) : '';
-          var payload = data.payload || {};
-          var txt = payload.email || payload.creator_id || payload.username || '';
+          var payload = data.payload||{};
+          var txt = payload.email||payload.creator_id||payload.username||'';
           html += '<div class="dir-notif-row">'
                 + '<span class="dir-notif-icon">' + icon + '</span>'
-                + '<span class="dir-notif-txt"><span class="dir-notif-badge">' + label + '</span>' + txt + '</span>'
+                + '<div class="dir-notif-content"><div class="dir-notif-type">' + label + '</div><div class="dir-notif-txt">' + txt + '</div></div>'
                 + '<span class="dir-notif-time">' + time + '</span>'
                 + '</div>';
         });
-        var el = document.getElementById('dir-apercu-notifs');
-        if (el) el.innerHTML = html || '<div class="dir-empty">Aucune notification</div>';
-        var al = document.getElementById('dir-alertes'); if (al) al.textContent = pending;
+        var el = document.getElementById('ap-notifs-list');
+        if (el) el.innerHTML = html || '<div class="dir-empty">Aucune activité récente</div>';
+        ['kpi-alertes','ap-alertes'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=pending;});
+        var ab = document.getElementById('dir-alert-badge');
+        if (ab) ab.textContent = pending + (pending > 1 ? ' alertes' : ' alerte');
       });
     });
   };
 
-  // ── Charger créatrices (tab dédié) ──
+  /* ══ Créatrices — fiche complète ══ */
   function dirLoadCreatrices() {
     if (!window.hmDB) return;
     import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod) {
@@ -19839,21 +20042,34 @@ document.addEventListener('DOMContentLoaded', function() {
         snap.forEach(function(d) {
           var data = d.data();
           var dot = data.status==='active'?'active':data.status==='soon'?'soon':'away';
-          var catLabel = {honey_girl:'✦ Honey Girl',original:'✦ Original',ambassadrice:'👑 Ambassadrice',star:'★ Star'}[data.category||data.formula||'honey_girl']||'—';
-          var fl = (['followers_of','followers_sc','followers_bc','followers_ig','followers_tk','followers_tw']).reduce(function(a,k){return a+(parseInt(data[k])||0);},0);
-          html += '<div class="dir-card" style="margin-bottom:10px;">'
-                + '<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">'
-                + '<div class="dir-creator-dot ' + dot + '"></div>'
-                + '<span style="font-family:\'Cormorant Garamond\',serif;font-size:20px;color:#faf6f0;flex:1;">' + (data.name||d.id) + '</span>'
-                + '<span class="dir-creator-badge">' + catLabel + '</span>'
+          var cat = {honey_girl:'✦ Honey Girl',original:'✦ Original',ambassadrice:'👑 Ambassadrice',star:'★ Star'}[data.category||data.formula||'honey_girl']||'—';
+          var fl = ['followers_of','followers_sc','followers_bc','followers_ig','followers_tk','followers_tw'].reduce(function(a,k){return a+(parseInt(data[k])||0);},0);
+          var created = data.created_at ? new Date(data.created_at.seconds*1000).toLocaleDateString('fr-FR') : '—';
+          html += '<div class="dir-cr-card">'
+                + '<div class="dir-cr-top">'
+                + '<div class="dir-cr-avatar">' + (data.photo ? '<img src="'+data.photo+'">' : (data.name||'C')[0].toUpperCase()) + '</div>'
+                + '<div style="flex:1;">'
+                + '<div class="dir-cr-name">' + (data.name||d.id) + '</div>'
+                + '<div class="dir-cr-formula">' + cat + '</div>'
                 + '</div>'
-                + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:9px;color:rgba(245,240,232,0.45);letter-spacing:0.1em;">'
-                + '<span>Email : ' + (data.email||'—') + '</span>'
-                + '<span>Statut : ' + (data.status||'away') + '</span>'
-                + '<span>Pays : ' + (data.country||'—') + '</span>'
-                + '<span>Followers : ' + fl.toLocaleString('fr-FR') + '</span>'
-                + '<span>Bio : ' + (data.bio ? data.bio.substring(0,30)+'…' : '—') + '</span>'
-                + '<span>Créé : ' + (data.created_at ? new Date(data.created_at.seconds*1000).toLocaleDateString('fr-FR') : '—') + '</span>'
+                + '<div class="dir-cr-dot ' + dot + '"></div>'
+                + '<span style="font-size:8px;color:rgba(26,15,53,0.35);margin-left:4px;">' + (data.status||'away') + '</span>'
+                + '</div>'
+                + '<div class="dir-cr-grid">'
+                + '<div class="dir-cr-info">Email : <span>' + (data.email||'—') + '</span></div>'
+                + '<div class="dir-cr-info">Pays : <span>' + (data.country||'—') + '</span></div>'
+                + '<div class="dir-cr-info">Langues : <span>' + (data.languages||'—') + '</span></div>'
+                + '<div class="dir-cr-info">Âge : <span>' + (data.age||'—') + '</span></div>'
+                + '<div class="dir-cr-info">Style : <span>' + (data.style||'—') + '</span></div>'
+                + '<div class="dir-cr-info">Inscrite le : <span>' + created + '</span></div>'
+                + '<div class="dir-cr-info">Bio : <span>' + (data.bio ? (data.bio.length > 40 ? data.bio.substring(0,40)+'…' : data.bio) : '⚠ Non remplie') + '</span></div>'
+                + '<div class="dir-cr-info">Photo : <span>' + (data.photo ? '✓ Présente' : '⚠ Manquante') + '</span></div>'
+                + '</div>'
+                + '<div class="dir-cr-followers">'
+                + '<div class="dir-cr-fl-item"><strong>' + fl.toLocaleString('fr-FR') + '</strong> total</div>'
+                + (data.followers_of ? '<div class="dir-cr-fl-item"><strong>' + parseInt(data.followers_of).toLocaleString('fr-FR') + '</strong> OF</div>' : '')
+                + (data.followers_sc ? '<div class="dir-cr-fl-item"><strong>' + parseInt(data.followers_sc).toLocaleString('fr-FR') + '</strong> Stripchat</div>' : '')
+                + (data.followers_ig ? '<div class="dir-cr-fl-item"><strong>' + parseInt(data.followers_ig).toLocaleString('fr-FR') + '</strong> Instagram</div>' : '')
                 + '</div>'
                 + '</div>';
         });
@@ -19863,47 +20079,54 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // ── Charger membres ──
+  /* ══ Membres ══ */
   function dirLoadMembres() {
     if (!window.hmDB) return;
     import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod) {
       var q = dbMod.query(dbMod.collection(window.hmDB,'members'),dbMod.orderBy('created_at','desc'),dbMod.limit(50));
       dbMod.getDocs(q).then(function(snap) {
-        var html = '';
+        var html = '', totalPts = 0;
         snap.forEach(function(d) {
           var data = d.data();
+          totalPts += parseInt(data.points)||0;
           html += '<div class="dir-member-row">'
                 + '<span class="dir-member-email">' + (data.email||'—') + '</span>'
                 + '<span class="dir-member-badge">' + (data.badge||'honey') + '</span>'
-                + '<span class="dir-member-pts">' + (data.points||0) + '</span>'
+                + '<span class="dir-member-pts">' + (data.points||0) + ' pts</span>'
                 + '</div>';
         });
         var el = document.getElementById('dir-membres-liste');
         if (el) el.innerHTML = html || '<div class="dir-empty">Aucun membre</div>';
-        var mt = document.getElementById('dir-m-total'); if (mt) mt.textContent = snap.size;
+        var mt = document.getElementById('mb-total'); if (mt) mt.textContent = snap.size;
+        var mp = document.getElementById('mb-points'); if (mp) mp.textContent = totalPts.toLocaleString('fr-FR');
       });
     });
   }
 
-  // ── Charger contenu ──
+  /* ══ Contenu ══ */
   function dirLoadContenu() {
     if (!window.hmDB) return;
     import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod) {
       ['photo','video','reels'].forEach(function(type) {
         var q = dbMod.query(dbMod.collection(window.hmDB,'content'),dbMod.where('type','==',type));
         dbMod.getDocs(q).then(function(snap) {
-          var el = document.getElementById('dir-c-'+type+'s'); if(el) el.textContent=snap.size;
+          var el = document.getElementById('ct-'+type+'s'); if(el) el.textContent=snap.size;
         });
       });
-      var q = dbMod.query(dbMod.collection(window.hmDB,'content'),dbMod.orderBy('created_at','desc'),dbMod.limit(20));
-      dbMod.getDocs(q).then(function(snap) {
+      var qFree = dbMod.query(dbMod.collection(window.hmDB,'content'),dbMod.where('locked','==',false));
+      dbMod.getDocs(qFree).then(function(snap){ var e=document.getElementById('ct-gratuit');if(e)e.textContent=snap.size; });
+      var qPaid = dbMod.query(dbMod.collection(window.hmDB,'content'),dbMod.where('locked','==',true));
+      dbMod.getDocs(qPaid).then(function(snap){ var e=document.getElementById('ct-payant');if(e)e.textContent=snap.size; });
+      var q2 = dbMod.query(dbMod.collection(window.hmDB,'content'),dbMod.orderBy('created_at','desc'),dbMod.limit(20));
+      dbMod.getDocs(q2).then(function(snap) {
         var html = '';
         snap.forEach(function(d) {
           var data = d.data();
           var time = data.created_at ? new Date(data.created_at.seconds*1000).toLocaleDateString('fr-FR') : '—';
           html += '<div class="dir-notif-row">'
                 + '<span class="dir-notif-icon">' + (data.type==='video'||data.type==='reels'?'🎬':'📸') + '</span>'
-                + '<span class="dir-notif-txt"><span class="dir-notif-badge">' + (data.type||'—') + '</span>' + (data.creator_id||'—') + (data.locked?' · '+data.price_tokens+'tk':' · Gratuit') + '</span>'
+                + '<div class="dir-notif-content"><div class="dir-notif-type">' + (data.type||'—') + '</div>'
+                + '<div class="dir-notif-txt">' + (data.creator_id||'—') + ' · ' + (data.locked?data.price_tokens+'tk':'Gratuit') + '</div></div>'
                 + '<span class="dir-notif-time">' + time + '</span>'
                 + '</div>';
         });
@@ -19913,25 +20136,32 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // ── Charger candidatures ──
+  /* ══ Candidatures ══ */
   function dirLoadCandidatures() {
     if (!window.hmDB) return;
     import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod) {
-      var q = dbMod.query(dbMod.collection(window.hmDB,'applications'),dbMod.orderBy('created_at','desc'));
-      dbMod.getDocs(q).then(function(snap) {
+      dbMod.getDocs(dbMod.collection(window.hmDB,'applications')).then(function(snap) {
         var html = '';
         snap.forEach(function(d) {
           var data = d.data();
           var time = data.created_at ? new Date(data.created_at.seconds*1000).toLocaleDateString('fr-FR') : '—';
-          html += '<div class="dir-card" style="margin-bottom:10px;">'
-                + '<div class="dir-app-name">' + (data.username||'—') + '</div>'
-                + '<div class="dir-app-email">' + (data.email||'—') + '</div>'
-                + '<div class="dir-app-formula">' + (data.formula||'—') + ' · ' + (data.country||'—') + ' · ' + time + '</div>'
-                + (data.platforms ? '<div style="font-size:9px;color:rgba(245,240,232,0.4);margin-top:6px;">' + data.platforms.substring(0,80) + '</div>' : '')
-                + '<div style="display:flex;gap:6px;margin-top:10px;">'
-                + '<button class="dir-btn" style="padding:8px;font-size:7px;" onclick="dirAcceptApp(\'' + d.id + '\',\'' + (data.email||'') + '\')">✓ Accepter</button>'
-                + '<button class="dir-btn" style="padding:8px;font-size:7px;border-color:rgba(255,72,32,0.3);color:rgba(255,72,32,0.6);" onclick="dirRejectApp(\'' + d.id + '\')">✗ Refuser</button>'
+          var status = data.status || 'pending';
+          var statusColor = status==='accepted'?'#166534':status==='rejected'?'#8b0000':'#c8960a';
+          html += '<div class="dir-candidature-card">'
+                + '<div style="display:flex;justify-content:space-between;align-items:flex-start;">'
+                + '<div><div class="dir-cand-name">' + (data.username||'—') + '</div>'
+                + '<div class="dir-cand-formula">' + (data.formula||'—') + '</div></div>'
+                + '<span style="font-size:7px;letter-spacing:0.25em;text-transform:uppercase;color:'+statusColor+';">' + status + '</span>'
                 + '</div>'
+                + '<div class="dir-cand-info">'
+                + 'Email : ' + (data.email||'—') + ' · Pays : ' + (data.country||'—') + ' · Reçue le ' + time + '<br>'
+                + (data.platforms ? 'Plateformes : ' + data.platforms.substring(0,60) : '')
+                + (data.why ? '<br>Motivation : ' + data.why.substring(0,80)+'…' : '')
+                + '</div>'
+                + (status==='pending' ? '<div class="dir-action-row">'
+                + '<button class="dir-btn-accept" onclick="dirAcceptApp(\''+d.id+'\')">✓ Accepter</button>'
+                + '<button class="dir-btn-refuse" onclick="dirRejectApp(\''+d.id+'\')">✗ Refuser</button>'
+                + '</div>' : '')
                 + '</div>';
         });
         var el = document.getElementById('dir-candidatures-liste');
@@ -19940,110 +20170,266 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // ── Problèmes en live ──
+  /* ══ Problèmes ══ */
   window.dirRefreshProblemes = function() {
     if (!window.hmDB) return;
     import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod) {
       var problemes = [];
-      // Vérifier créatrices sans photo
       dbMod.getDocs(dbMod.collection(window.hmDB,'creators')).then(function(snap) {
         snap.forEach(function(d) {
           var data = d.data();
-          if (!data.photo) problemes.push({type:'warn',txt:'Créatrice <b>' + (data.name||d.id) + '</b> — photo de profil manquante'});
-          if (!data.bio) problemes.push({type:'warn',txt:'Créatrice <b>' + (data.name||d.id) + '</b> — bio non remplie'});
-          if (!data.email) problemes.push({type:'error',txt:'Créatrice <b>' + (data.name||d.id) + '</b> — email manquant dans Firestore'});
+          var nom = data.name||d.id;
+          if (!data.photo) problemes.push({type:'warn',txt:'Créatrice <strong>'+nom+'</strong> — photo de profil manquante'});
+          if (!data.bio||data.bio.length<10) problemes.push({type:'warn',txt:'Créatrice <strong>'+nom+'</strong> — bio non remplie ou trop courte'});
+          if (!data.email) problemes.push({type:'error',txt:'Créatrice <strong>'+nom+'</strong> — email manquant dans Firestore'});
+          if (!data.link_onlyfans && !data.link_stripchat) problemes.push({type:'warn',txt:'Créatrice <strong>'+nom+'</strong> — aucun lien de plateforme renseigné'});
         });
-        // Erreurs dans notifications
-        var eq = dbMod.query(dbMod.collection(window.hmDB,'notifications'),dbMod.where('type','==','error'),dbMod.limit(10));
-        dbMod.getDocs(eq).then(function(eSnap) {
+        var errQ = dbMod.query(dbMod.collection(window.hmDB,'notifications'),dbMod.where('type','==','error'),dbMod.limit(10));
+        dbMod.getDocs(errQ).then(function(eSnap) {
           eSnap.forEach(function(d) {
             var data = d.data();
-            problemes.push({type:'error',txt:data.payload ? JSON.stringify(data.payload).substring(0,80) : 'Erreur inconnue'});
+            problemes.push({type:'error',txt:'Erreur Firebase : '+(data.payload?JSON.stringify(data.payload).substring(0,80):'inconnue')});
           });
           var html = '';
           problemes.forEach(function(p) {
-            html += '<div class="dir-issue-row">'
-                  + '<div class="dir-issue-dot' + (p.type==='warn'?' warn':'') + '"></div>'
+            html += '<div class="dir-issue' + (p.type==='warn'?' warn':'') + '">'
+                  + '<div class="dir-issue-dot"></div>'
                   + '<span class="dir-issue-txt">' + p.txt + '</span>'
                   + '</div>';
           });
           var el = document.getElementById('dir-problemes-liste');
-          if (el) el.innerHTML = html || '<div class="dir-empty">Aucun problème détecté ✓</div>';
+          if (el) el.innerHTML = html || '<div style="padding:20px;text-align:center;font-size:9px;color:#166534;letter-spacing:0.2em;">✓ AUCUN PROBLÈME DÉTECTÉ — SITE OPÉRATIONNEL</div>';
         });
       });
     });
   };
 
-  // ── Accepter candidature ──
-  window.dirAcceptApp = function(id, email) {
+  /* ══ Assistant IA ══ */
+  window.dirAiSend = async function() {
+    var input = document.getElementById('dir-ai-input');
+    var question = input ? input.value.trim() : '';
+    if (!question) return;
+    if (input) input.value = '';
+
+    var messages = document.getElementById('dir-ai-messages');
+    if (messages) {
+      messages.innerHTML += '<div class="dir-ai-msg dir-ai-msg-dir">'
+        + '<div class="dir-ai-who dir-ai-who-dir">Directeur</div>'
+        + '<div class="dir-ai-bubble dir-ai-bubble-dir">' + question + '</div></div>';
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    // Collecter les données du site pour le contexte
+    var siteContext = 'Site Honeymoon Agency. ';
+    try {
+      if (window.hmDB) {
+        var dbMod = await import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js');
+        var crSnap = await dbMod.getDocs(dbMod.collection(window.hmDB,'creators'));
+        var actives = 0; var creatricesInfo = [];
+        crSnap.forEach(function(d){ var data=d.data(); if(data.status==='active') actives++; creatricesInfo.push((data.name||d.id)+' ('+( data.status||'away')+', '+(data.category||'honey_girl')+')'); });
+        siteContext += 'Créatrices : ' + crSnap.size + ' total, ' + actives + ' actives. ';
+        siteContext += 'Liste : ' + creatricesInfo.join(', ') + '. ';
+        var mbSnap = await dbMod.getDocs(dbMod.collection(window.hmDB,'members'));
+        siteContext += 'Membres : ' + mbSnap.size + '. ';
+        var ctSnap = await dbMod.getDocs(dbMod.collection(window.hmDB,'content'));
+        siteContext += 'Contenus publiés : ' + ctSnap.size + '. ';
+        var appSnap = await dbMod.getDocs(dbMod.collection(window.hmDB,'applications'));
+        siteContext += 'Candidatures reçues : ' + appSnap.size + '. ';
+      }
+    } catch(e) { siteContext += 'Données partiellement disponibles. '; }
+
+    try {
+      var response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          system: 'Tu es l\'assistant IA personnel du Directeur de Honeymoon Agency, une agence de créatrices de contenu adulte premium. Tu connais tout le site. Données actuelles : ' + siteContext + ' Réponds toujours en français, de façon concise, professionnelle et utile. Tu es au service du Directeur.',
+          messages: [{role:'user', content: question}]
+        })
+      });
+      var data = await response.json();
+      var answer = data.content && data.content[0] ? data.content[0].text : 'Je n\'ai pas pu traiter votre demande.';
+      if (messages) {
+        messages.innerHTML += '<div class="dir-ai-msg">'
+          + '<div class="dir-ai-who dir-ai-who-ia">✦ Assistant Honeymoon</div>'
+          + '<div class="dir-ai-bubble dir-ai-bubble-ia">' + answer + '</div></div>';
+        messages.scrollTop = messages.scrollHeight;
+      }
+    } catch(e) {
+      if (messages) {
+        messages.innerHTML += '<div class="dir-ai-msg"><div class="dir-ai-who dir-ai-who-ia">✦ Assistant</div><div class="dir-ai-bubble dir-ai-bubble-ia">Connexion à l\'IA indisponible pour le moment. Vérifiez votre connexion.</div></div>';
+        messages.scrollTop = messages.scrollHeight;
+      }
+    }
+  };
+
+  /* ══ Agenda ══ */
+  var _agendaMois = new Date().getMonth();
+  var _agendaAnnee = new Date().getFullYear();
+  var _agendaSelected = null;
+  var _agendaNotes = JSON.parse(localStorage.getItem('hm_agenda_notes')||'{}');
+
+  function dirInitAgenda() {
+    dirRenderAgenda();
+    var memo = localStorage.getItem('hm_memo_libre')||'';
+    var el = document.getElementById('dir-memo-libre'); if(el) el.value = memo;
+    dirRenderAlertes();
+  }
+
+  window.dirAgendaMois = function(dir) {
+    _agendaMois += dir;
+    if (_agendaMois > 11) { _agendaMois = 0; _agendaAnnee++; }
+    if (_agendaMois < 0)  { _agendaMois = 11; _agendaAnnee--; }
+    dirRenderAgenda();
+  };
+
+  function dirRenderAgenda() {
+    var moisN = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+    var titre = document.getElementById('dir-agenda-titre');
+    if (titre) titre.textContent = moisN[_agendaMois] + ' ' + _agendaAnnee;
+    var grid = document.getElementById('dir-agenda-grid');
+    if (!grid) return;
+    var today = new Date();
+    var firstDay = new Date(_agendaAnnee, _agendaMois, 1);
+    var lastDay = new Date(_agendaAnnee, _agendaMois+1, 0);
+    var startDow = (firstDay.getDay() + 6) % 7; // lundi = 0
+    var html = '';
+    for (var i=0; i<startDow; i++) html += '<div></div>';
+    for (var d=1; d<=lastDay.getDate(); d++) {
+      var key = _agendaAnnee + '-' + String(_agendaMois+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+      var isToday = (d===today.getDate() && _agendaMois===today.getMonth() && _agendaAnnee===today.getFullYear());
+      var hasNote = !!_agendaNotes[key];
+      html += '<div class="dir-agenda-day' + (isToday?' today':'') + (hasNote?' has-note':'') + '" onclick="dirSelectDay('+d+')">'
+            + '<span class="dir-agenda-day-num">' + d + '</span>'
+            + '</div>';
+    }
+    grid.innerHTML = html;
+  }
+
+  window.dirSelectDay = function(d) {
+    _agendaSelected = _agendaAnnee + '-' + String(_agendaMois+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+    var moisN = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+    var sec = document.getElementById('dir-agenda-note-section');
+    var dateEl = document.getElementById('dir-agenda-note-date');
+    var txt = document.getElementById('dir-agenda-note-txt');
+    if (sec) sec.style.display = 'block';
+    if (dateEl) dateEl.textContent = d + ' ' + moisN[_agendaMois] + ' ' + _agendaAnnee;
+    if (txt) txt.value = _agendaNotes[_agendaSelected] || '';
+  };
+
+  window.dirSaveAgendaNote = function() {
+    if (!_agendaSelected) return;
+    var txt = document.getElementById('dir-agenda-note-txt');
+    if (txt) { _agendaNotes[_agendaSelected] = txt.value; localStorage.setItem('hm_agenda_notes', JSON.stringify(_agendaNotes)); }
+    dirRenderAgenda();
+    var t = document.getElementById('dir-toast-agenda'); if(t){t.style.display='block';setTimeout(function(){t.style.display='none';},2000);}
+  };
+
+  window.dirSaveMemo = function() {
+    var el = document.getElementById('dir-memo-libre'); if(el) localStorage.setItem('hm_memo_libre', el.value);
+  };
+
+  /* ══ Alertes ══ */
+  var _alertes = JSON.parse(localStorage.getItem('hm_alertes')||'[]');
+
+  window.dirAddAlerte = function() {
+    var msg = document.getElementById('dir-alerte-msg');
+    var date = document.getElementById('dir-alerte-date');
+    var heure = document.getElementById('dir-alerte-heure');
+    if (!msg||!msg.value) return;
+    _alertes.push({msg:msg.value, date:date?date.value:'', heure:heure?heure.value:'', id:Date.now()});
+    localStorage.setItem('hm_alertes', JSON.stringify(_alertes));
+    if(msg) msg.value=''; if(date) date.value=''; if(heure) heure.value='';
+    dirRenderAlertes();
+  };
+
+  function dirRenderAlertes() {
+    var el = document.getElementById('dir-alertes-liste'); if(!el) return;
+    if (!_alertes.length) { el.innerHTML = '<div class="dir-empty">Aucune alerte programmée</div>'; return; }
+    var html = '';
+    _alertes.forEach(function(a) {
+      html += '<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(214,169,78,0.08);">'
+            + '<span style="flex:1;font-size:10px;color:rgba(26,15,53,0.7);">' + a.msg + '</span>'
+            + '<span style="font-size:8px;color:#c8960a;">' + (a.date?a.date+' ':'') + (a.heure||'') + '</span>'
+            + '<button onclick="dirDeleteAlerte('+a.id+')" style="background:none;border:none;color:rgba(139,0,0,0.5);cursor:pointer;font-size:12px;">✕</button>'
+            + '</div>';
+    });
+    el.innerHTML = html;
+  }
+
+  window.dirDeleteAlerte = function(id) {
+    _alertes = _alertes.filter(function(a){ return a.id !== id; });
+    localStorage.setItem('hm_alertes', JSON.stringify(_alertes));
+    dirRenderAlertes();
+  };
+
+  /* ══ Candidatures actions ══ */
+  window.dirAcceptApp = function(id) {
     if (!window.hmDB) return;
     import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod) {
-      dbMod.updateDoc(dbMod.doc(window.hmDB,'applications',id),{status:'accepted',updated_at:dbMod.serverTimestamp()}).then(function() {
+      dbMod.updateDoc(dbMod.doc(window.hmDB,'applications',id),{status:'accepted',updated_at:dbMod.serverTimestamp()}).then(function(){
         dirLoadCandidatures();
-        alert('Candidature acceptée — créez maintenant le compte dans "Gestion"');
+        alert('Candidature acceptée — créez maintenant le compte dans l\'onglet Gestion');
       });
     });
   };
   window.dirRejectApp = function(id) {
     if (!window.hmDB) return;
     import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod) {
-      dbMod.updateDoc(dbMod.doc(window.hmDB,'applications',id),{status:'rejected',updated_at:dbMod.serverTimestamp()}).then(function() {
-        dirLoadCandidatures();
-      });
+      dbMod.updateDoc(dbMod.doc(window.hmDB,'applications',id),{status:'rejected',updated_at:dbMod.serverTimestamp()}).then(dirLoadCandidatures);
     });
   };
 
-  // ── Générer mot de passe ──
+  /* ══ Gestion créatrice ══ */
   window.dirGenPwd = function() {
     var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789!@#';
-    var pwd = '';
-    for (var i=0; i<12; i++) pwd += chars[Math.floor(Math.random()*chars.length)];
-    var el = document.getElementById('dir-cr-pwd'); if (el) el.value = pwd;
+    var pwd = ''; for(var i=0;i<12;i++) pwd+=chars[Math.floor(Math.random()*chars.length)];
+    var el=document.getElementById('dir-cr-pwd'); if(el) el.value=pwd;
   };
 
-  // ── Créer compte créatrice ──
   window.dirCreateCreator = async function() {
-    var name  = (document.getElementById('dir-cr-name')||{}).value||'';
-    var email = (document.getElementById('dir-cr-email')||{}).value||'';
-    var pwd   = (document.getElementById('dir-cr-pwd')||{}).value||'';
-    var cat   = (document.getElementById('dir-cr-category')||{}).value||'honey_girl';
-    var msg   = document.getElementById('dir-cr-msg');
-    if (!name||!email||!pwd) { if(msg){msg.style.display='block';msg.style.color='#ff4820';msg.textContent='Remplissez tous les champs';} return; }
-    if (msg){msg.style.display='block';msg.style.color='rgba(214,169,78,0.7)';msg.textContent='Création en cours…';}
+    var name=(document.getElementById('dir-cr-name')||{}).value||'';
+    var email=(document.getElementById('dir-cr-email')||{}).value||'';
+    var pwd=(document.getElementById('dir-cr-pwd')||{}).value||'';
+    var cat=(document.getElementById('dir-cr-category')||{}).value||'honey_girl';
+    var msg=document.getElementById('dir-cr-msg');
+    if(!name||!email||!pwd){if(msg){msg.style.display='block';msg.style.color='#8b0000';msg.textContent='Remplissez tous les champs';}return;}
+    if(msg){msg.style.display='block';msg.style.color='#c8960a';msg.textContent='Création en cours…';}
     try {
-      var authMod = await import('https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js');
-      var cred = await authMod.createUserWithEmailAndPassword(window.hmAuth, email, pwd);
-      var dbMod = await import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js');
-      var slug = name.toLowerCase().replace(/[^a-z0-9]/g,'');
+      var authMod=await import('https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js');
+      var cred=await authMod.createUserWithEmailAndPassword(window.hmAuth,email,pwd);
+      var dbMod=await import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js');
+      var slug=name.toLowerCase().replace(/[^a-z0-9]/g,'');
       await dbMod.setDoc(dbMod.doc(window.hmDB,'creators',slug),{
-        name:name, email:email, uid:cred.user.uid,
-        category:cat, formula:cat,
-        status:'soon', bio:'', created_at:dbMod.serverTimestamp()
+        name:name,email:email,uid:cred.user.uid,
+        category:cat,formula:cat,
+        status:'soon',bio:'',created_at:dbMod.serverTimestamp()
       });
-      if(msg){msg.style.display='block';msg.style.color='#22c55e';msg.textContent='✓ Compte créé — envoyez les identifiants à la créatrice';}
-      ['dir-cr-name','dir-cr-email','dir-cr-pwd'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+      if(msg){msg.style.display='block';msg.style.color='#166534';msg.textContent='✓ Compte créé — envoyez les identifiants à la créatrice';}
+      ['dir-cr-name','dir-cr-email','dir-cr-pwd'].forEach(function(id){var e=document.getElementById(id);if(e)e.value='';});
     } catch(err) {
-      var e = err.code==='auth/email-already-in-use'?'Email déjà utilisé':err.code==='auth/weak-password'?'Mot de passe trop faible':err.message;
-      if(msg){msg.style.display='block';msg.style.color='#ff4820';msg.textContent=e;}
+      var e=err.code==='auth/email-already-in-use'?'Email déjà utilisé':err.code==='auth/weak-password'?'Mot de passe trop faible':err.message;
+      if(msg){msg.style.display='block';msg.style.color='#8b0000';msg.textContent=e;}
     }
   };
 
-  // ── Marquer tout lu ──
+  /* ══ Notifications ══ */
   window.dirMarkAllRead = function() {
-    if (!window.hmDB) return;
-    import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod) {
-      var q = dbMod.query(dbMod.collection(window.hmDB,'notifications'),dbMod.where('status','==','pending'));
-      dbMod.getDocs(q).then(function(snap) {
-        snap.forEach(function(d){ dbMod.updateDoc(d.ref,{status:'read'}); });
-      });
+    if(!window.hmDB) return;
+    import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod){
+      var q=dbMod.query(dbMod.collection(window.hmDB,'notifications'),dbMod.where('status','==','pending'));
+      dbMod.getDocs(q).then(function(snap){ snap.forEach(function(d){dbMod.updateDoc(d.ref,{status:'read'});}); });
     });
   };
-  // Compat ancienne version
+
+  /* ══ Compat ancienne version ══ */
   window.adMarkAllRead = window.dirMarkAllRead;
   window.adGenPwd = window.dirGenPwd;
   window.adCreateCreator = window.dirCreateCreator;
 
-  // ── Hook showPage ──
+  /* ══ Hook showPage ══ */
   var _origAd = window.showPage;
   window.showPage = function(pid) {
     if (_origAd) _origAd.apply(this, arguments);
