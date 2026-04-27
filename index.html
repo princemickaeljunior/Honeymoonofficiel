@@ -18875,6 +18875,64 @@ document.addEventListener('DOMContentLoaded', function() {
 .crd-contact{background:rgba(255,72,32,0.04);border:1px solid rgba(255,72,32,0.12);padding:18px;margin-top:20px;text-align:center;}
 .crd-contact-txt{font-size:9px;color:rgba(245,240,232,0.4);letter-spacing:0.1em;line-height:1.7;margin-bottom:12px;}
 .crd-contact-email{font-family:'Cormorant Garamond',serif;font-size:15px;color:rgba(214,169,78,0.7);display:block;margin-bottom:12px;}
+
+/* ── GUIDE PRO ── */
+.crd-guide-cat{margin-bottom:22px;}
+.crd-guide-cat-title{font-family:'Cormorant Garamond',serif;font-size:20px;color:#f2d270;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid rgba(214,169,78,0.12);}
+.crd-guide-tip{background:rgba(255,255,255,0.03);border:1px solid rgba(214,169,78,0.10);border-left:2px solid rgba(214,169,78,0.35);padding:14px 16px;margin-bottom:8px;}
+.crd-guide-tip-title{font-size:8px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(214,169,78,0.6);margin-bottom:6px;}
+.crd-guide-tip-body{font-size:11px;color:rgba(245,240,232,0.65);line-height:1.75;}
+.crd-guide-tip-body b{color:rgba(245,240,232,0.9);font-weight:600;}
+.crd-guide-badge{display:inline-block;font-size:6px;letter-spacing:0.25em;text-transform:uppercase;padding:2px 8px;border:1px solid rgba(214,169,78,0.2);color:rgba(214,169,78,0.55);margin-bottom:8px;}
+.crd-guide-platform{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0;}
+.crd-guide-plat-item{background:rgba(214,169,78,0.05);border:1px solid rgba(214,169,78,0.15);padding:6px 12px;font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(214,169,78,0.6);}
+.crd-guide-warn{background:rgba(255,72,32,0.04);border-left:2px solid rgba(255,72,32,0.25);padding:10px 14px;margin:10px 0;font-size:10px;color:rgba(255,120,80,0.7);line-height:1.6;}
+
+/* ── AGENDA créatrice ── */
+.crd-ag-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+.crd-ag-titre{font-family:'Cormorant Garamond',serif;font-size:18px;color:#f2d270;}
+.crd-ag-btn{background:none;border:1px solid rgba(214,169,78,0.18);color:rgba(214,169,78,0.5);font-family:'Montserrat',sans-serif;font-size:6px;letter-spacing:0.2em;text-transform:uppercase;padding:7px 12px;cursor:pointer;}
+.crd-ag-wdays{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:3px;}
+.crd-ag-wd{font-size:6px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(214,169,78,0.22);text-align:center;padding:4px 0;}
+.crd-ag-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;}
+.crd-ag-day{background:rgba(255,255,255,0.02);border:1px solid rgba(214,169,78,0.08);padding:5px 3px;text-align:center;cursor:pointer;transition:all 0.15s;min-height:34px;position:relative;}
+.crd-ag-day:hover{border-color:rgba(214,169,78,0.3);background:rgba(214,169,78,0.04);}
+.crd-ag-day.today{border-color:rgba(214,169,78,0.5);background:rgba(214,169,78,0.06);}
+.crd-ag-day.has-note::after{content:'';position:absolute;top:3px;right:3px;width:4px;height:4px;border-radius:50%;background:#f2d270;}
+.crd-ag-day.has-alert::before{content:'';position:absolute;top:3px;left:3px;width:4px;height:4px;border-radius:50%;background:#ff4820;}
+.crd-ag-dn{font-family:'Cormorant Garamond',serif;font-size:14px;color:#faf6f0;display:block;line-height:1;}
+.crd-ag-note-sec{margin-top:16px;}
+.crd-al-list{margin-top:8px;}
+.crd-al-item{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid rgba(214,169,78,0.06);font-size:10px;color:rgba(245,240,232,0.55);}
+.crd-al-item:last-child{border:none;}
+.crd-al-del{background:none;border:none;color:rgba(252,165,165,0.4);cursor:pointer;font-size:14px;padding:0 4px;line-height:1;}
+.crd-al-time{font-size:7px;color:rgba(214,169,78,0.45);white-space:nowrap;}
+
+/* ── NOTES créatrice ── */
+.crd-note-area{width:100%;background:rgba(255,255,255,0.03);border:1px solid rgba(214,169,78,0.12);color:#faf6f0;font-family:'Montserrat',sans-serif;font-size:12px;padding:14px;resize:vertical;min-height:120px;outline:none;line-height:1.7;box-sizing:border-box;}
+.crd-note-area:focus{border-color:rgba(214,169,78,0.35);}
+.crd-note-area::placeholder{color:rgba(245,240,232,0.12);}
+
+/* ── IA créatrice ── */
+.crd-ia-counter{font-size:7px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(214,169,78,0.35);text-align:right;margin-bottom:8px;}
+.crd-ia-counter span{color:#f2d270;}
+.crd-ia-box{background:rgba(0,0,0,0.2);border:1px solid rgba(214,169,78,0.10);padding:14px;min-height:200px;max-height:340px;overflow-y:auto;margin-bottom:8px;}
+.crd-ia-msg{margin-bottom:10px;}
+.crd-ia-dir{text-align:right;}
+.crd-ia-bbl{display:inline-block;max-width:88%;padding:9px 13px;font-size:11px;line-height:1.55;text-align:left;}
+.crd-ia-bbl-dir{background:rgba(214,169,78,0.10);color:#faf6f0;border:1px solid rgba(214,169,78,0.18);}
+.crd-ia-bbl-ia{background:rgba(255,255,255,0.04);border:1px solid rgba(214,169,78,0.08);color:rgba(245,240,232,0.72);}
+.crd-ia-who{font-size:6px;letter-spacing:0.22em;text-transform:uppercase;margin-bottom:3px;color:rgba(214,169,78,0.35);}
+.crd-ia-who-dir{text-align:right;}
+.crd-ia-row{display:flex;gap:6px;}
+.crd-ia-inp{flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(214,169,78,0.15);color:#faf6f0;font-family:'Montserrat',sans-serif;font-size:11px;padding:10px 12px;outline:none;}
+.crd-ia-inp:focus{border-color:rgba(214,169,78,0.4);}
+.crd-ia-inp::placeholder{color:rgba(245,240,232,0.12);}
+.crd-ia-inp:disabled{opacity:0.4;cursor:not-allowed;}
+.crd-ia-send{padding:10px 16px;background:rgba(214,169,78,0.10);border:1px solid rgba(214,169,78,0.22);color:#f2d270;font-family:'Montserrat',sans-serif;font-size:6px;letter-spacing:0.22em;text-transform:uppercase;cursor:pointer;}
+.crd-ia-send:hover{background:rgba(214,169,78,0.18);}
+.crd-ia-send:disabled{opacity:0.4;cursor:not-allowed;}
+.crd-ia-limit{padding:12px;background:rgba(127,29,29,0.08);border:1px solid rgba(252,165,165,0.15);text-align:center;font-size:9px;color:rgba(252,165,165,0.7);letter-spacing:0.15em;display:none;}
 </style>
 
 <div class="crd-wrap">
@@ -18916,6 +18974,10 @@ document.addEventListener('DOMContentLoaded', function() {
     <button class="crd-nav-btn"     onclick="crdTab('stats',this)">Stats</button>
     <button class="crd-nav-btn"     onclick="crdTab('links',this)">Links</button>
     <button class="crd-nav-btn" id="crd-nav-formula" onclick="crdTab('formula',this)">My Formula</button>
+    <button class="crd-nav-btn" onclick="crdTab('guide',this)">📚 Guide Pro</button>
+    <button class="crd-nav-btn" onclick="crdTab('agenda',this)">📅 Agenda</button>
+    <button class="crd-nav-btn" onclick="crdTab('notes',this)">📝 Notes</button>
+    <button class="crd-nav-btn" onclick="crdTab('ia',this)">✦ IA</button>
   </nav>
 
   <!-- ══════════════════════════
@@ -19215,6 +19277,234 @@ document.addEventListener('DOMContentLoaded', function() {
 
   </div>
 
+  <!-- ══════════════════════════
+       TAB — GUIDE PRO
+  ══════════════════════════ -->
+  <div class="crd-sec" id="crd-sec-guide">
+    <div class="crd-stitle">· Guide Pro — Devenir virale · Attirer · Convertir ·</div>
+
+    <div class="crd-guide-cat">
+      <div class="crd-guide-cat-title">01 — Maîtriser les réseaux sociaux</div>
+      <div class="crd-guide-tip">
+        <div class="crd-guide-tip-title">✦ TikTok — Moteur de découverte</div>
+        <div class="crd-guide-tip-body">TikTok est ton meilleur allié pour être <b>découverte par de nouveaux fans</b> sans dépenser un centime. Contenu explicite interdit — mais ce n'est pas le but ici.<br><br><b>Ce qui fonctionne :</b><br>— "Get Ready With Me" (GRWM) : ton ambiance, ton univers, ta préparation<br>— Lifestyle mystérieux avec texte "Link in bio for more…"<br>— Trends avec sons viraux : adapte le trend à TON style, jamais copier<br>— Behind-the-scenes de tes shoots (sans contenu explicite)<br>— Polls, Q&A, réponses à commentaires en vidéo<br><br><b>Règle d'or :</b> Ne mentionne JAMAIS OnlyFans directement sur TikTok. Dirige vers Instagram ou Linktree.</div>
+      </div>
+      <div class="crd-guide-tip">
+        <div class="crd-guide-tip-title">✦ Instagram Reels — Ton portfolio visuel</div>
+        <div class="crd-guide-tip-body"><b>L'algorithme Instagram pousse les Reels</b> plus que tout autre format. C'est ta vitrine.<br><br><b>Ce qui fait exploser les stats :</b><br>— <b>Watch time</b> : les 3 premières secondes sont DÉCISIVES. Commence fort<br>— <b>Son tendance</b> : utilise les sons viraux du moment (section "Trending" dans l'app)<br>— Pas de watermark TikTok sur Reels IG — réexporte via CapCut sans logo<br>— Publie entre <b>18h–21h</b> en semaine pour le meilleur reach organique<br>— Caption avec CTA : "Tu veux voir la suite ? 👀 Link in bio"<br><br><b>Outil indispensable : CapCut</b> — templates viraux, découpe auto, sous-titres. Gratuit.</div>
+      </div>
+      <div class="crd-guide-tip">
+        <div class="crd-guide-tip-title">✦ Twitter / X — La plateforme la plus libre</div>
+        <div class="crd-guide-tip-body">X autorise le contenu adulte (marqué "sensitive") — seul réseau où tu peux promouvoir directement.<br><br><b>Stratégie quotidienne :</b><br>— 2-3 posts/jour : teaser photo/vidéo + texte intrigant<br>— Réponds aux commentaires des autres créatrices dans ta niche<br>— Hashtags niche : #OnlyFans #SpicyCreators #[TaNiche]Creator<br>— Threads storytelling : "Ce qui m'a amené à créer du contenu…" → engagement fort<br>— Polls : "Je poste quoi ce soir ? 🔥 ou 💋 — votez"</div>
+      </div>
+      <div class="crd-guide-tip">
+        <div class="crd-guide-tip-title">✦ Reddit — Trafic ciblé à haute conversion</div>
+        <div class="crd-guide-tip-body">Reddit est <b>la source #1 d'abonnés qui paient vraiment</b>. Les utilisateurs sont en intention d'achat.<br><br><b>Comment l'utiliser :</b><br>— Trouve les subreddits de ta niche (r/onlyfansgirls, r/[tonStyle]...)<br>— Lis les règles de chaque subreddit AVANT de poster<br>— Poste des teasers de qualité avec "Check bio for more"<br>— Ne spam JAMAIS — 1 post par subreddit par jour max<br>— Commente avec authenticité sur d'autres posts avant de poster<br><br><b>Astuce :</b> Les subreddits 50k–200k membres convertissent mieux que les plus grands (moins de concurrence).</div>
+      </div>
+    </div>
+
+    <div class="crd-guide-cat">
+      <div class="crd-guide-cat-title">02 — Créer du contenu qui accroche</div>
+      <div class="crd-guide-tip">
+        <div class="crd-guide-tip-title">📸 Photos — Ce qui arrête le scroll</div>
+        <div class="crd-guide-tip-body"><b>Lighting = tout.</b> Une bonne lumière naturelle (fenêtre latérale en journée) vaut n'importe quel filtre.<br><br><b>Formule photo virale :</b><br>— <b>Hook visuel</b> : regard caméra, expression forte, pose non conventionnelle<br>— <b>Composition</b> : règle des tiers, fond épuré ou très chargé (contraste)<br>— <b>Editing</b> : Lightroom Mobile gratuit — preset chaud (+température, -highlights)<br>— <b>Caption</b> : question, mystère ou CTA. Jamais descriptif, toujours intrigant<br><br><b>Batch shooting :</b> 1 session/semaine (2h), prépare 7–10 contenus d'un coup. Tu postes tous les jours sans travailler tous les jours.</div>
+      </div>
+      <div class="crd-guide-tip">
+        <div class="crd-guide-tip-title">🎬 Reels & Vidéos — Format roi en 2025</div>
+        <div class="crd-guide-tip-body"><b>Règle des 3 secondes :</b> ton audience décide en 3s. Commence par le moment le plus fort.<br><br><b>Structure d'un Reel viral :</b><br>1. <b>Hook</b> (0–3s) : plan rapproché + texte accrocheur ou son viral<br>2. <b>Corps</b> (3–12s) : moment fort, transitions fluides, rythme musical<br>3. <b>Fin</b> (dernière seconde) : CTA visuel ou loop naturel<br><br><b>Outils recommandés :</b><br>— <b>CapCut</b> : templates viraux, autocut, sous-titres automatiques<br>— <b>InShot</b> : format vertical parfait, transitions propres<br>— <b>Canva</b> : thumbnails et visuels promo</div>
+      </div>
+      <div class="crd-guide-tip">
+        <div class="crd-guide-tip-title">✨ Teasers — L'art de la frustration contrôlée</div>
+        <div class="crd-guide-tip-body">Un teaser efficace donne envie sans tout donner. <b>Coupe à 70% du moment intéressant.</b><br><br><b>Formule teaser qui convertit :</b><br>— Texte overlay : "La suite est sur Honeymoon 👉 link in bio"<br>— Son suggestif ou ambiance (pas besoin de paroles explicites)<br>— Durée idéale : 8–15 secondes<br><br><b>Tunnel de conversion :</b> TikTok/IG lifestyle → Twitter teaser → Honeymoon contenu complet</div>
+      </div>
+    </div>
+
+    <div class="crd-guide-cat">
+      <div class="crd-guide-cat-title">03 — Stratégie de croissance</div>
+      <div class="crd-guide-tip">
+        <div class="crd-guide-tip-title">📅 Consistance — La clé absolue</div>
+        <div class="crd-guide-tip-body"><b>La consistance bat le talent.</b> Une créatrice régulière sans être parfaite gagnera toujours sur celle qui poste sporadiquement des chefs-d'œuvre.<br><br><b>Planning minimum :</b><br>— TikTok : 1 vidéo/jour ou 5/semaine<br>— Instagram : 1 Reel + 2–3 Stories/jour<br>— Twitter/X : 2–3 posts/jour<br>— Honeymoon : selon ton contrat (voir "My Formula")<br><br><b>Astuce Batch :</b> 1 journée création/semaine, programme tout avec l'app native Instagram ou Buffer.</div>
+      </div>
+      <div class="crd-guide-tip">
+        <div class="crd-guide-tip-title">🤝 Collaborations S4S (Shoutout for Shoutout)</div>
+        <div class="crd-guide-tip-body"><b>Méthode la plus rapide pour doubler ton audience</b> sans dépenser d'argent.<br><br>— Tu mets en avant l'autre créatrice, elle fait pareil<br>— Cible les créatrices avec audience similaire (même taille, même niche)<br>— Co-Reels Instagram : vos deux audiences voient le contenu<br>— Engage sincèrement sur leurs posts AVANT de proposer (DM froid = ignoré)<br><br><b>Règle :</b> Qualité &gt; quantité. Choisis des partenaires dont l'audience correspond à tes fans potentiels.</div>
+      </div>
+      <div class="crd-guide-tip">
+        <div class="crd-guide-tip-title">💰 Tunnel de vente — Free → Paid</div>
+        <div class="crd-guide-tip-body"><b>Structure qui maximise les conversions :</b><br><br><b>Étape 1 — Découverte (Free)</b> : TikTok / IG lifestyle → curiosité<br><b>Étape 2 — Intérêt</b> : Twitter / Reddit teasers → désir<br><b>Étape 3 — Conversion</b> : Honeymoon contenu exclusif + PPV → abonnement<br><b>Étape 4 — Fidélisation</b> : Telegram VIP, messages perso, offres exclusives → abonné loyal qui recommande</div>
+      </div>
+      <div class="crd-guide-warn">⚠️ À éviter : spammer le même lien partout (shadowban), copier sans ta touche perso, ignorer tes analytics, négliger tes fans une fois que tu grandis.</div>
+    </div>
+
+    <div class="crd-guide-cat">
+      <div class="crd-guide-cat-title">04 — Outils essentiels · Clique pour accéder</div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+
+        <a href="https://www.capcut.com" target="_blank" rel="noopener" style="text-decoration:none;">
+          <div class="crd-guide-tip" style="cursor:pointer;" onmouseover="this.style.borderLeftColor='rgba(214,169,78,0.7)'" onmouseout="this.style.borderLeftColor='rgba(214,169,78,0.35)'">
+            <div class="crd-guide-tip-title">🎬 CapCut <span style="color:rgba(214,169,78,0.3);font-size:6px;">— GRATUIT →</span></div>
+            <div style="font-size:9px;color:rgba(245,240,232,0.5);line-height:1.6;">Vidéo, Reels, TikTok. Templates viraux, autocut, sous-titres. Outil #1 des créatrices.</div>
+          </div>
+        </a>
+
+        <a href="https://lightroom.adobe.com" target="_blank" rel="noopener" style="text-decoration:none;">
+          <div class="crd-guide-tip" style="cursor:pointer;" onmouseover="this.style.borderLeftColor='rgba(214,169,78,0.7)'" onmouseout="this.style.borderLeftColor='rgba(214,169,78,0.35)'">
+            <div class="crd-guide-tip-title">📸 Lightroom Mobile <span style="color:rgba(214,169,78,0.3);font-size:6px;">— GRATUIT →</span></div>
+            <div style="font-size:9px;color:rgba(245,240,232,0.5);line-height:1.6;">Retouche pro. Presets, lumière, couleur. Photos qui arrêtent le scroll.</div>
+          </div>
+        </a>
+
+        <a href="https://www.canva.com" target="_blank" rel="noopener" style="text-decoration:none;">
+          <div class="crd-guide-tip" style="cursor:pointer;" onmouseover="this.style.borderLeftColor='rgba(214,169,78,0.7)'" onmouseout="this.style.borderLeftColor='rgba(214,169,78,0.35)'">
+            <div class="crd-guide-tip-title">🎨 Canva <span style="color:rgba(214,169,78,0.3);font-size:6px;">— GRATUIT →</span></div>
+            <div style="font-size:9px;color:rgba(245,240,232,0.5);line-height:1.6;">Visuels, thumbnails, Stories. Templates pro en 2 minutes.</div>
+          </div>
+        </a>
+
+        <a href="https://linktr.ee" target="_blank" rel="noopener" style="text-decoration:none;">
+          <div class="crd-guide-tip" style="cursor:pointer;" onmouseover="this.style.borderLeftColor='rgba(214,169,78,0.7)'" onmouseout="this.style.borderLeftColor='rgba(214,169,78,0.35)'">
+            <div class="crd-guide-tip-title">🔗 Linktree <span style="color:rgba(214,169,78,0.3);font-size:6px;">— GRATUIT →</span></div>
+            <div style="font-size:9px;color:rgba(245,240,232,0.5);line-height:1.6;">1 lien en bio pour tous tes profils. Indispensable TikTok et Instagram.</div>
+          </div>
+        </a>
+
+        <a href="https://www.inshot.com" target="_blank" rel="noopener" style="text-decoration:none;">
+          <div class="crd-guide-tip" style="cursor:pointer;" onmouseover="this.style.borderLeftColor='rgba(214,169,78,0.7)'" onmouseout="this.style.borderLeftColor='rgba(214,169,78,0.35)'">
+            <div class="crd-guide-tip-title">✂️ InShot <span style="color:rgba(214,169,78,0.3);font-size:6px;">— GRATUIT →</span></div>
+            <div style="font-size:9px;color:rgba(245,240,232,0.5);line-height:1.6;">Montage vertical parfait. Format Stories, Reels, TikTok. Simple et rapide.</div>
+          </div>
+        </a>
+
+        <a href="https://buffer.com" target="_blank" rel="noopener" style="text-decoration:none;">
+          <div class="crd-guide-tip" style="cursor:pointer;" onmouseover="this.style.borderLeftColor='rgba(214,169,78,0.7)'" onmouseout="this.style.borderLeftColor='rgba(214,169,78,0.35)'">
+            <div class="crd-guide-tip-title">📅 Buffer <span style="color:rgba(214,169,78,0.3);font-size:6px;">— GRATUIT →</span></div>
+            <div style="font-size:9px;color:rgba(245,240,232,0.5);line-height:1.6;">Programme tes posts IG et Twitter à l'avance. Batch 1 semaine en 1h.</div>
+          </div>
+        </a>
+
+        <a href="https://trends.google.com" target="_blank" rel="noopener" style="text-decoration:none;">
+          <div class="crd-guide-tip" style="cursor:pointer;" onmouseover="this.style.borderLeftColor='rgba(214,169,78,0.7)'" onmouseout="this.style.borderLeftColor='rgba(214,169,78,0.35)'">
+            <div class="crd-guide-tip-title">📊 Google Trends <span style="color:rgba(214,169,78,0.3);font-size:6px;">— GRATUIT →</span></div>
+            <div style="font-size:9px;color:rgba(245,240,232,0.5);line-height:1.6;">Ce qui est viral maintenant. Adapte ton contenu aux tendances en temps réel.</div>
+          </div>
+        </a>
+
+        <a href="https://www.pinterest.com" target="_blank" rel="noopener" style="text-decoration:none;">
+          <div class="crd-guide-tip" style="cursor:pointer;" onmouseover="this.style.borderLeftColor='rgba(214,169,78,0.7)'" onmouseout="this.style.borderLeftColor='rgba(214,169,78,0.35)'">
+            <div class="crd-guide-tip-title">🖼️ Pinterest <span style="color:rgba(214,169,78,0.3);font-size:6px;">— GRATUIT →</span></div>
+            <div style="font-size:9px;color:rgba(245,240,232,0.5);line-height:1.6;">Inspiration visuelle, moodboards, idées shoots. Crée un board privé Honeymoon.</div>
+          </div>
+        </a>
+
+      </div>
+
+      <!-- ── BLOC AFFILIÉS ── -->
+      <div style="background:rgba(214,169,78,0.03);border:1px solid rgba(214,169,78,0.18);border-left:3px solid rgba(214,169,78,0.45);padding:14px 16px;margin-top:4px;">
+        <div style="font-size:7px;letter-spacing:0.35em;text-transform:uppercase;color:rgba(214,169,78,0.5);margin-bottom:10px;">✦ Partage &amp; Agrandis ton traffic</div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <a href="#AFF_CAPCUT" target="_blank" rel="noopener" style="text-decoration:none;display:block;">
+            <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(214,169,78,0.10);padding:10px 14px;font-size:9px;color:rgba(214,169,78,0.6);display:flex;justify-content:space-between;align-items:center;">
+              <span>🎬 CapCut</span><span style="font-size:7px;color:rgba(214,169,78,0.3);">À VENIR →</span>
+            </div>
+          </a>
+          <a href="#AFF_CANVA" target="_blank" rel="noopener" style="text-decoration:none;display:block;">
+            <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(214,169,78,0.10);padding:10px 14px;font-size:9px;color:rgba(214,169,78,0.6);display:flex;justify-content:space-between;align-items:center;">
+              <span>🎨 Canva Pro</span><span style="font-size:7px;color:rgba(214,169,78,0.3);">À VENIR →</span>
+            </div>
+          </a>
+          <a href="#AFF_LINKTREE" target="_blank" rel="noopener" style="text-decoration:none;display:block;">
+            <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(214,169,78,0.10);padding:10px 14px;font-size:9px;color:rgba(214,169,78,0.6);display:flex;justify-content:space-between;align-items:center;">
+              <span>🔗 Linktree Pro</span><span style="font-size:7px;color:rgba(214,169,78,0.3);">À VENIR →</span>
+            </div>
+          </a>
+          <a href="https://honeymoonofficiel.vercel.app" target="_blank" rel="noopener" style="text-decoration:none;display:block;">
+            <div style="background:rgba(214,169,78,0.06);border:1px solid rgba(214,169,78,0.25);padding:12px 14px;font-size:9px;color:#f2d270;display:flex;justify-content:space-between;align-items:center;">
+              <span>✦ Partage honeymoonofficiel.com sur tes plateformes — OnlyFans, Stripchat, BongaCams et autres</span>
+              <span style="font-size:7px;letter-spacing:0.15em;color:rgba(214,169,78,0.5);white-space:nowrap;margin-left:10px;">PARTAGER →</span>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="crd-guide-tip">
+        <div class="crd-guide-tip-title">💡 Mindset créatrice qui réussit</div>
+        <div class="crd-guide-tip-body">Les créatrices qui gagnent le plus traitent leur activité comme <b>une vraie entreprise.</b><br><br>— <b>Analyse tes stats</b> chaque semaine : quels posts performent ? Pourquoi ?<br>— <b>Investis dans ton matériel</b> progressivement : ring light → bon smartphone → micro<br>— <b>Protège ton identité</b> si tu le souhaites : pseudo, pas de géolocalisation<br>— <b>Ne burn out pas</b> : 1 jour off/semaine minimum, planifie tes congés à l'avance<br>— <b>Tes fans s'abonnent à TOI</b>, pas à un type de contenu. Ton authenticité est ton avantage compétitif.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════
+       TAB — AGENDA
+  ══════════════════════════ -->
+  <div class="crd-sec" id="crd-sec-agenda">
+    <div class="crd-stitle">· Agenda & Alertes ·</div>
+    <div class="crd-ag-nav">
+      <button class="crd-ag-btn" onclick="crdAgMois(-1)">← Précédent</button>
+      <span class="crd-ag-titre" id="crd-ag-titre">—</span>
+      <button class="crd-ag-btn" onclick="crdAgMois(1)">Suivant →</button>
+    </div>
+    <div class="crd-ag-wdays">
+      <div class="crd-ag-wd">Lun</div><div class="crd-ag-wd">Mar</div><div class="crd-ag-wd">Mer</div>
+      <div class="crd-ag-wd">Jeu</div><div class="crd-ag-wd">Ven</div><div class="crd-ag-wd">Sam</div><div class="crd-ag-wd">Dim</div>
+    </div>
+    <div class="crd-ag-grid" id="crd-ag-grid"></div>
+    <div class="crd-ag-note-sec" id="crd-ag-note-sec" style="display:none;margin-top:16px;">
+      <div class="crd-stitle-sub">· Note du <span id="crd-ag-note-date"></span> ·</div>
+      <textarea class="crd-note-area" id="crd-ag-note-txt" placeholder="Shooting prévu, live, idée contenu, objectif du jour…"></textarea>
+      <button class="crd-btn-gold" onclick="crdAgSaveNote()" style="margin-top:6px;">✦ Sauvegarder →</button>
+      <div class="crd-toast" id="crd-toast-ag">✦ Note sauvegardée</div>
+    </div>
+    <div class="crd-stitle-sub" style="margin-top:24px;">· Programmer une alerte ·</div>
+    <div class="crd-card">
+      <div class="crd-field"><label class="crd-label">Message</label><input class="crd-input" id="crd-al-msg" type="text" placeholder="ex. Shooter contenu PPV vendredi, Répondre aux DMs…"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <div class="crd-field"><label class="crd-label">Date</label><input class="crd-input" id="crd-al-date" type="date"></div>
+        <div class="crd-field"><label class="crd-label">Heure</label><input class="crd-input" id="crd-al-heure" type="time"></div>
+      </div>
+      <button class="crd-btn-gold" onclick="crdAddAlerte()">+ Ajouter l'alerte</button>
+    </div>
+    <div class="crd-stitle-sub">· Alertes programmées ·</div>
+    <div class="crd-al-list" id="crd-al-list"><div style="font-size:8px;color:rgba(214,169,78,0.18);text-align:center;padding:16px;letter-spacing:0.18em;">Aucune alerte</div></div>
+  </div>
+
+  <!-- ══════════════════════════
+       TAB — NOTES
+  ══════════════════════════ -->
+  <div class="crd-sec" id="crd-sec-notes">
+    <div class="crd-stitle">· Carnet de notes · <span style="font-size:7px;color:rgba(214,169,78,0.2);">Sauvegarde auto</span></div>
+    <div class="crd-stitle-sub" style="margin-top:0;">· Mémo libre ·</div>
+    <textarea class="crd-note-area" id="crd-memo-libre" placeholder="Idées de contenu, concepts de shoots, plans de collab, objectifs du mois…" oninput="crdSaveMemo()" style="min-height:180px;"></textarea>
+    <div class="crd-stitle-sub">· Planning contenu cette semaine ·</div>
+    <textarea class="crd-note-area" id="crd-memo-planning" placeholder="Lun : photo lifestyle&#10;Mar : Reel TikTok GRWM&#10;Mer : PPV shoot…" oninput="crdSavePlanning()" style="min-height:130px;"></textarea>
+    <div class="crd-stitle-sub">· Objectifs du mois ·</div>
+    <textarea class="crd-note-area" id="crd-memo-objectifs" placeholder="Atteindre X followers sur IG, poster 20 contenus, lancer 1 collab…" oninput="crdSaveObjectifs()" style="min-height:90px;"></textarea>
+    <button class="crd-btn-outline" onclick="crdNotesToast()" style="margin-top:8px;">✦ Tout est sauvegardé →</button>
+    <div class="crd-toast" id="crd-toast-notes">✦ Notes sauvegardées localement</div>
+  </div>
+
+  <!-- ══════════════════════════
+       TAB — IA PERSONNELLE
+  ══════════════════════════ -->
+  <div class="crd-sec" id="crd-sec-ia">
+    <div class="crd-stitle">· Assistante IA Honeymoon ·</div>
+    <div class="crd-card" style="border-color:rgba(214,169,78,0.18);background:rgba(214,169,78,0.04);margin-bottom:16px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:17px;color:#f2d270;margin-bottom:6px;">✦ Honey Intelligence</div>
+      <div style="font-size:9px;color:rgba(245,240,232,0.45);line-height:1.8;">Ton assistante personnelle pour ta stratégie, tes captions, tes idées de shoots, tes conseils croissance… <b style="color:rgba(214,169,78,0.6);">15 questions par jour.</b></div>
+    </div>
+    <div class="crd-ia-counter">Questions aujourd'hui : <span id="crd-ia-count">0</span> / 15</div>
+    <div class="crd-ia-box" id="crd-ia-msgs">
+      <div class="crd-ia-msg">
+        <div class="crd-ia-who">✦ Honey Intelligence</div>
+        <div class="crd-ia-bbl crd-ia-bbl-ia">Bonjour ! Je suis ton assistante IA personnelle. Pose-moi tes questions sur ta stratégie de contenu, tes captions, tes idées de shoots, comment attirer plus de fans… Tu as 15 questions disponibles aujourd'hui.</div>
+      </div>
+    </div>
+    <div class="crd-ia-limit" id="crd-ia-limit">✦ Tu as utilisé tes 15 questions du jour. Reviens demain pour continuer !</div>
+    <div class="crd-ia-row">
+      <input class="crd-ia-inp" id="crd-ia-inp" type="text" placeholder="Donne-moi une idée de caption pour mon prochain Reel…" onkeydown="if(event.key==='Enter')crdIaSend()">
+      <button class="crd-ia-send" id="crd-ia-send-btn" onclick="crdIaSend()">Envoyer →</button>
+    </div>
+  </div>
+
   <!-- Back -->
   <div style="padding:0 24px 20px;position:relative;z-index:1;">
     <button class="crd-btn-outline" onclick="showPage('landing')">← Back to site</button>
@@ -19482,6 +19772,160 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // ── Toast ──
   function crdToast(id){ var el=document.getElementById(id); if(!el) return; el.style.display='block'; setTimeout(function(){ el.style.display='none'; },2500); }
+
+  // ── AGENDA ──
+  var _crdAgM=new Date().getMonth(), _crdAgY=new Date().getFullYear(), _crdAgSel=null;
+  var _crdAgNotes=JSON.parse(localStorage.getItem('crd_ag_notes')||'{}');
+  window.crdAgMois=function(d){ _crdAgM+=d; if(_crdAgM>11){_crdAgM=0;_crdAgY++;}if(_crdAgM<0){_crdAgM=11;_crdAgY--;}crdRenderAg(); };
+  function crdInitAgenda(){ crdRenderAg(); }
+  function crdRenderAg(){
+    var mn=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+    var t=document.getElementById('crd-ag-titre'); if(t) t.textContent=mn[_crdAgM]+' '+_crdAgY;
+    var grid=document.getElementById('crd-ag-grid'); if(!grid) return;
+    var today=new Date();
+    var first=new Date(_crdAgY,_crdAgM,1);
+    var last=new Date(_crdAgY,_crdAgM+1,0);
+    var startDow=(first.getDay()+6)%7;
+    var _alertes=JSON.parse(localStorage.getItem('crd_alertes')||'[]');
+    var html='';
+    for(var i=0;i<startDow;i++) html+='<div></div>';
+    for(var d=1;d<=last.getDate();d++){
+      var key=_crdAgY+'-'+String(_crdAgM+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+      var isToday=(d===today.getDate()&&_crdAgM===today.getMonth()&&_crdAgY===today.getFullYear());
+      var hasNote=!!_crdAgNotes[key];
+      var hasAlert=_alertes.some(function(a){return a.date===key;});
+      html+='<div class="crd-ag-day'+(isToday?' today':'')+(hasNote?' has-note':'')+(hasAlert?' has-alert':'')+'" onclick="crdSelDay('+d+')">'
+        +'<span class="crd-ag-dn">'+d+'</span></div>';
+    }
+    grid.innerHTML=html;
+  }
+  window.crdSelDay=function(d){
+    var mn=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+    _crdAgSel=_crdAgY+'-'+String(_crdAgM+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    var sec=document.getElementById('crd-ag-note-sec'); if(sec) sec.style.display='block';
+    var nd=document.getElementById('crd-ag-note-date'); if(nd) nd.textContent=d+' '+mn[_crdAgM]+' '+_crdAgY;
+    var nt=document.getElementById('crd-ag-note-txt'); if(nt) nt.value=_crdAgNotes[_crdAgSel]||'';
+  };
+  window.crdAgSaveNote=function(){
+    if(!_crdAgSel) return;
+    var nt=document.getElementById('crd-ag-note-txt'); if(nt){_crdAgNotes[_crdAgSel]=nt.value;localStorage.setItem('crd_ag_notes',JSON.stringify(_crdAgNotes));}
+    crdRenderAg();
+    crdToast('crd-toast-ag');
+  };
+
+  // ── ALERTES ──
+  var _crdAlertes=JSON.parse(localStorage.getItem('crd_alertes')||'[]');
+  window.crdAddAlerte=function(){
+    var msg=document.getElementById('crd-al-msg');
+    var date=document.getElementById('crd-al-date');
+    var heure=document.getElementById('crd-al-heure');
+    if(!msg||!msg.value) return;
+    _crdAlertes.push({msg:msg.value,date:date?date.value:'',heure:heure?heure.value:'',id:Date.now()});
+    localStorage.setItem('crd_alertes',JSON.stringify(_crdAlertes));
+    if(msg)msg.value=''; if(date)date.value=''; if(heure)heure.value='';
+    crdRenderAlertes();
+    crdRenderAg();
+  };
+  function crdRenderAlertes(){
+    var el=document.getElementById('crd-al-list'); if(!el) return;
+    if(!_crdAlertes.length){el.innerHTML='<div style="font-size:8px;color:rgba(214,169,78,0.18);text-align:center;padding:16px;letter-spacing:0.18em;">Aucune alerte</div>';return;}
+    var html='';
+    _crdAlertes.forEach(function(a){
+      html+='<div class="crd-al-item">'
+        +'<span style="flex:1;">'+a.msg+'</span>'
+        +'<span class="crd-al-time">'+(a.date?a.date+' ':'')+( a.heure||'')+'</span>'
+        +'<button class="crd-al-del" onclick="crdDelAlerte('+a.id+')">✕</button>'
+        +'</div>';
+    });
+    el.innerHTML=html;
+  }
+  window.crdDelAlerte=function(id){
+    _crdAlertes=_crdAlertes.filter(function(a){return a.id!==id;});
+    localStorage.setItem('crd_alertes',JSON.stringify(_crdAlertes));
+    crdRenderAlertes();
+    crdRenderAg();
+  };
+
+  // ── NOTES ──
+  function crdLoadNotes(){
+    var libre=document.getElementById('crd-memo-libre'); if(libre) libre.value=localStorage.getItem('crd_memo_libre')||'';
+    var planning=document.getElementById('crd-memo-planning'); if(planning) planning.value=localStorage.getItem('crd_memo_planning')||'';
+    var objectifs=document.getElementById('crd-memo-objectifs'); if(objectifs) objectifs.value=localStorage.getItem('crd_memo_objectifs')||'';
+  }
+  window.crdSaveMemo=function(){ var el=document.getElementById('crd-memo-libre'); if(el) localStorage.setItem('crd_memo_libre',el.value); };
+  window.crdSavePlanning=function(){ var el=document.getElementById('crd-memo-planning'); if(el) localStorage.setItem('crd_memo_planning',el.value); };
+  window.crdSaveObjectifs=function(){ var el=document.getElementById('crd-memo-objectifs'); if(el) localStorage.setItem('crd_memo_objectifs',el.value); };
+  window.crdNotesToast=function(){ crdToast('crd-toast-notes'); };
+
+  // ── IA PERSONNELLE (15 questions/jour) ──
+  var _crdIaToday=(function(){ var d=new Date(); return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); })();
+  var _crdIaStore=JSON.parse(localStorage.getItem('crd_ia_usage')||'{"date":"","count":0}');
+  if(_crdIaStore.date!==_crdIaToday){ _crdIaStore={date:_crdIaToday,count:0}; localStorage.setItem('crd_ia_usage',JSON.stringify(_crdIaStore)); }
+  var _crdIaCount=_crdIaStore.count;
+  function crdIaUpdateUI(){
+    var cnt=document.getElementById('crd-ia-count'); if(cnt) cnt.textContent=_crdIaCount;
+    var inp=document.getElementById('crd-ia-inp');
+    var btn=document.getElementById('crd-ia-send-btn');
+    var lim=document.getElementById('crd-ia-limit');
+    if(_crdIaCount>=15){
+      if(inp) inp.disabled=true;
+      if(btn) btn.disabled=true;
+      if(lim) lim.style.display='block';
+    } else {
+      if(inp) inp.disabled=false;
+      if(btn) btn.disabled=false;
+      if(lim) lim.style.display='none';
+    }
+  }
+  window.crdIaSend=async function(){
+    if(_crdIaCount>=15) return;
+    var inp=document.getElementById('crd-ia-inp');
+    var q=inp?inp.value.trim():''; if(!q) return;
+    if(inp) inp.value='';
+    var msgs=document.getElementById('crd-ia-msgs');
+    if(msgs){ msgs.innerHTML+='<div class="crd-ia-msg crd-ia-dir"><div class="crd-ia-who crd-ia-who-dir">Toi</div><div class="crd-ia-bbl crd-ia-bbl-dir">'+q+'</div></div>'; msgs.scrollTop=msgs.scrollHeight; }
+    _crdIaCount++;
+    _crdIaStore.count=_crdIaCount;
+    localStorage.setItem('crd_ia_usage',JSON.stringify(_crdIaStore));
+    crdIaUpdateUI();
+    var creatorName=(_crdData&&_crdData.name)?_crdData.name:'la créatrice';
+    var creatorCat=(_crdData&&(_crdData.category||_crdData.formula))||'honey_girl';
+    var catLabel={honey_girl:'Honey Girl',original:'Original',ambassadrice:'Ambassadrice',star:'Star'}[creatorCat]||'créatrice';
+    var systemPrompt='Tu es Honey Intelligence, l\'assistante IA personnelle de '+creatorName+', créatrice de contenu adulte premium sur la plateforme Honeymoon (catégorie '+catLabel+'). Tu l\'aides à développer sa stratégie de contenu, ses captions, ses idées de shoots, sa croissance sur les réseaux sociaux (TikTok, Instagram, Twitter, Reddit), ses tunnels de conversion. Réponds en français, de façon concrète, bienveillante et professionnelle. Sois directe et utile. Maximum 150 mots par réponse.';
+    try{
+      if(msgs){ msgs.innerHTML+='<div class="crd-ia-msg" id="crd-ia-thinking"><div class="crd-ia-who">✦ Honey Intelligence</div><div class="crd-ia-bbl crd-ia-bbl-ia" style="opacity:0.5;">…</div></div>'; msgs.scrollTop=msgs.scrollHeight; }
+      var res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:400,system:systemPrompt,messages:[{role:'user',content:q}]})});
+      var data=await res.json();
+      var answer=(data.content&&data.content[0])?data.content[0].text:'Je n\'ai pas pu traiter ta demande.';
+      var thinking=document.getElementById('crd-ia-thinking');
+      if(thinking) thinking.remove();
+      if(msgs){ msgs.innerHTML+='<div class="crd-ia-msg"><div class="crd-ia-who">✦ Honey Intelligence</div><div class="crd-ia-bbl crd-ia-bbl-ia">'+answer+'</div></div>'; msgs.scrollTop=msgs.scrollHeight; }
+    }catch(e){
+      var thinking=document.getElementById('crd-ia-thinking');
+      if(thinking) thinking.remove();
+      if(msgs){ msgs.innerHTML+='<div class="crd-ia-msg"><div class="crd-ia-who">✦ Honey Intelligence</div><div class="crd-ia-bbl crd-ia-bbl-ia">Connexion IA indisponible pour le moment. Réessaie dans quelques secondes.</div></div>'; msgs.scrollTop=msgs.scrollHeight; }
+      _crdIaCount--;
+      _crdIaStore.count=_crdIaCount;
+      localStorage.setItem('crd_ia_usage',JSON.stringify(_crdIaStore));
+      crdIaUpdateUI();
+    }
+  };
+
+  // ── Étendre crdTab pour les nouveaux onglets ──
+  var _origCrdTab=window.crdTab;
+  window.crdTab=function(tab,btn){
+    _origCrdTab(tab,btn);
+    if(tab==='agenda'){ crdInitAgenda(); crdRenderAlertes(); }
+    if(tab==='notes'){ crdLoadNotes(); }
+    if(tab==='ia'){ crdIaUpdateUI(); }
+  };
+
+  // ── Init étendu : charger les notes au démarrage ──
+  var _origCrdInit=window.crdInit;
+  window.crdInit=function(){
+    _origCrdInit();
+    crdRenderAlertes();
+  };
 
   // ── Hook showPage ──
   var _orig=window.showPage;
