@@ -19707,7 +19707,108 @@ document.addEventListener('DOMContentLoaded', function() {
     if(tab==='notes'){crdLoadNotes();}
     if(tab==='ai'){crdIaUpdateUI();}
   };
-    // ── Hook showPage ──
+    /* ── JS new tabs ── */
+  var _agM=new Date().getMonth(),_agY=new Date().getFullYear(),_agSel=null;
+  var _agNotes=JSON.parse(localStorage.getItem('crd_ag_notes')||'{}');
+  var _agMn=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  window.crdAgPrev=function(){_agM--;if(_agM<0){_agM=11;_agY--;}crdAgRender();};
+  window.crdAgNext=function(){_agM++;if(_agM>11){_agM=0;_agY++;}crdAgRender();};
+  function crdAgRender(){
+    var t=document.getElementById('crd-ag-titre');if(t)t.textContent=_agMn[_agM]+' '+_agY;
+    var grid=document.getElementById('crd-ag-grid');if(!grid)return;
+    var today=new Date(),first=new Date(_agY,_agM,1),last=new Date(_agY,_agM+1,0);
+    var startDow=(first.getDay()+6)%7;
+    var alertes=JSON.parse(localStorage.getItem('crd_alertes')||'[]');
+    var html='';
+    for(var i=0;i<startDow;i++)html+='<div></div>';
+    for(var d=1;d<=last.getDate();d++){
+      var key=_agY+'-'+String(_agM+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+      var isToday=(d===today.getDate()&&_agM===today.getMonth()&&_agY===today.getFullYear());
+      html+='<div class="crd-ag-day'+(isToday?' today':'')+(_agNotes[key]?' has-note':'')+(alertes.some(function(a){return a.date===key;})?' has-alert':'')+'" onclick="crdAgSelDay('+d+')">'+'<span class="crd-ag-dn">'+d+'</span></div>';
+    }
+    grid.innerHTML=html;
+  }
+  window.crdAgSelDay=function(d){
+    _agSel=_agY+'-'+String(_agM+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    var sec=document.getElementById('crd-ag-note-sec');if(sec)sec.style.display='block';
+    var nd=document.getElementById('crd-ag-note-date');if(nd)nd.textContent=d+' '+_agMn[_agM]+' '+_agY;
+    var nt=document.getElementById('crd-ag-note-txt');if(nt)nt.value=_agNotes[_agSel]||'';
+  };
+  window.crdAgSaveNote=function(){
+    if(!_agSel)return;
+    var nt=document.getElementById('crd-ag-note-txt');if(nt){_agNotes[_agSel]=nt.value;localStorage.setItem('crd_ag_notes',JSON.stringify(_agNotes));}
+    crdAgRender();crdToast('crd-toast-ag');
+  };
+  var _alertes=JSON.parse(localStorage.getItem('crd_alertes')||'[]');
+  window.crdAddAlerte=function(){
+    var msg=document.getElementById('crd-al-msg'),date=document.getElementById('crd-al-date'),heure=document.getElementById('crd-al-heure');
+    if(!msg||!msg.value)return;
+    _alertes.push({msg:msg.value,date:date?date.value:'',heure:heure?heure.value:'',id:Date.now()});
+    localStorage.setItem('crd_alertes',JSON.stringify(_alertes));
+    if(msg)msg.value='';if(date)date.value='';if(heure)heure.value='';
+    crdAlRender();crdAgRender();
+  };
+  function crdAlRender(){
+    var el=document.getElementById('crd-al-list');if(!el)return;
+    if(!_alertes.length){el.innerHTML='<div style="font-size:8px;color:rgba(214,169,78,0.18);text-align:center;padding:16px;">No reminders yet</div>';return;}
+    var html='';
+    _alertes.forEach(function(a){html+='<div class="crd-al-item"><span style="flex:1;">'+a.msg+'</span><span class="crd-al-time">'+(a.date?a.date+' ':'')+( a.heure||'')+'</span><button class="crd-al-del" onclick="crdDelAlerte('+a.id+')">✕</button></div>';});
+    el.innerHTML=html;
+  }
+  window.crdDelAlerte=function(id){_alertes=_alertes.filter(function(a){return a.id!==id;});localStorage.setItem('crd_alertes',JSON.stringify(_alertes));crdAlRender();crdAgRender();};
+  function crdLoadNotes(){
+    var el=document.getElementById('crd-memo-libre');if(el)el.value=localStorage.getItem('crd_memo_libre')||'';
+    el=document.getElementById('crd-memo-planning');if(el)el.value=localStorage.getItem('crd_memo_planning')||'';
+    el=document.getElementById('crd-memo-objectifs');if(el)el.value=localStorage.getItem('crd_memo_objectifs')||'';
+  }
+  window.crdSaveMemo=function(){var el=document.getElementById('crd-memo-libre');if(el)localStorage.setItem('crd_memo_libre',el.value);};
+  window.crdSavePlanning=function(){var el=document.getElementById('crd-memo-planning');if(el)localStorage.setItem('crd_memo_planning',el.value);};
+  window.crdSaveObjectifs=function(){var el=document.getElementById('crd-memo-objectifs');if(el)localStorage.setItem('crd_memo_objectifs',el.value);};
+  var _iaToday=(function(){var d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();})();
+  var _iaStore=JSON.parse(localStorage.getItem('crd_ia_usage')||'{"date":"","count":0}');
+  if(_iaStore.date!==_iaToday){_iaStore={date:_iaToday,count:0};localStorage.setItem('crd_ia_usage',JSON.stringify(_iaStore));}
+  var _iaCount=_iaStore.count;
+  function crdIaUpdateUI(){
+    var cnt=document.getElementById('crd-ia-count');if(cnt)cnt.textContent=_iaCount;
+    var inp=document.getElementById('crd-ia-inp'),btn=document.getElementById('crd-ia-send-btn'),lim=document.getElementById('crd-ia-limit');
+    if(inp)inp.disabled=_iaCount>=15;if(btn)btn.disabled=_iaCount>=15;
+    if(lim)lim.style.display=_iaCount>=15?'block':'none';
+  }
+  window.crdIaSend=async function(){
+    if(_iaCount>=15)return;
+    var inp=document.getElementById('crd-ia-inp'),q=inp?inp.value.trim():'';if(!q)return;
+    if(inp)inp.value='';
+    var msgs=document.getElementById('crd-ia-msgs');
+    if(msgs){msgs.innerHTML+='<div class="crd-ia-msg crd-ia-dir"><div class="crd-ia-who crd-ia-who-dir">You</div><div class="crd-ia-bbl crd-ia-bbl-dir">'+q+'</div></div>';msgs.scrollTop=msgs.scrollHeight;}
+    _iaCount++;_iaStore.count=_iaCount;localStorage.setItem('crd_ia_usage',JSON.stringify(_iaStore));crdIaUpdateUI();
+    var name=(_crdData&&_crdData.name)?_crdData.name:'creator';
+    var cat={honey_girl:'Honey Girl',original:'Original',ambassadrice:'Ambassadrice',star:'Star'}[(_crdData&&(_crdData.category||_crdData.formula))||'honey_girl']||'creator';
+    try{
+      if(msgs){msgs.innerHTML+='<div class="crd-ia-msg" id="crd-ia-thinking"><div class="crd-ia-who">✦ Honey Intelligence</div><div class="crd-ia-bbl crd-ia-bbl-ia" style="opacity:0.5;">…</div></div>';msgs.scrollTop=msgs.scrollHeight;}
+      var res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:400,system:'You are Honey Intelligence, personal AI assistant of '+name+' (Honeymoon '+cat+'). Help with content strategy, captions, shoot ideas, social media growth. English, concise, max 150 words.',messages:[{role:'user',content:q}]})});
+      var data=await res.json();
+      var answer=(data.content&&data.content[0])?data.content[0].text:'I could not process your request.';
+      var th=document.getElementById('crd-ia-thinking');if(th)th.remove();
+      if(msgs){msgs.innerHTML+='<div class="crd-ia-msg"><div class="crd-ia-who">✦ Honey Intelligence</div><div class="crd-ia-bbl crd-ia-bbl-ia">'+answer+'</div></div>';msgs.scrollTop=msgs.scrollHeight;}
+    }catch(e){
+      var th=document.getElementById('crd-ia-thinking');if(th)th.remove();
+      if(msgs){msgs.innerHTML+='<div class="crd-ia-msg"><div class="crd-ia-who">✦ Honey Intelligence</div><div class="crd-ia-bbl crd-ia-bbl-ia">AI unavailable. Try again in a few seconds.</div></div>';msgs.scrollTop=msgs.scrollHeight;}
+      _iaCount--;_iaStore.count=_iaCount;localStorage.setItem('crd_ia_usage',JSON.stringify(_iaStore));crdIaUpdateUI();
+    }
+  };
+  var _origCrdTab=window.crdTab;
+  window.crdTab=function(tab,btn){
+    var w=document.getElementById('page-creator-dashboard');if(!w)return;
+    w.querySelectorAll('.crd-sec').forEach(function(s){s.classList.remove('on');});
+    w.querySelectorAll('.crd-nav-btn').forEach(function(b){b.classList.remove('on');});
+    var sec=document.getElementById('crd-sec-'+tab);if(sec)sec.classList.add('on');
+    if(btn)btn.classList.add('on');
+    if(tab==='agenda'){crdAgRender();crdAlRender();}
+    if(tab==='notes'){crdLoadNotes();}
+    if(tab==='ai'){crdIaUpdateUI();}
+  };
+
+  // ── Hook showPage ──
   var _orig=window.showPage;
   window.showPage=function(pid){ if(_orig) _orig.apply(this,arguments); if(pid==='creator-dashboard') setTimeout(window.crdInit,300); };
 })();
