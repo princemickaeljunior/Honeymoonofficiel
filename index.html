@@ -19498,28 +19498,28 @@ document.addEventListener('DOMContentLoaded', function() {
 <div class="page" id="page-admin-dashboard">
 <style>
 /* ═══════════════════════════════════════════════════
-   HONEYMOON DIRECTOR DASHBOARD
-   Design : Violet profond · Or · Premium · Luxe
+   HONEYMOON DIRECTOR DASHBOARD — v2 Clean
+   Fond #1e1545 · Or #d6a94e · Premium · Luxe
 ═══════════════════════════════════════════════════ */
-.hmd-wrap{min-height:100vh;background:#1a0f35;font-family:'Montserrat',sans-serif;padding-bottom:80px;position:relative;}
+.hmd-wrap{min-height:100vh;background:#1e1545;font-family:'Montserrat',sans-serif;padding-bottom:80px;position:relative;}
 .hmd-wrap::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
-  background:radial-gradient(ellipse 70% 45% at 100% 0%,rgba(214,169,78,0.07) 0%,transparent 60%),
-             radial-gradient(ellipse 50% 35% at 0% 100%,rgba(124,58,237,0.06) 0%,transparent 55%);}
+  background:radial-gradient(ellipse 70% 45% at 100% 0%,rgba(214,169,78,0.06) 0%,transparent 60%),
+             radial-gradient(ellipse 50% 35% at 0% 100%,rgba(124,58,237,0.05) 0%,transparent 55%);}
 
 /* ─── HEADER ─── */
-.hmd-hdr{background:linear-gradient(180deg,#0d0824 0%,#1a0f35 100%);border-bottom:1px solid rgba(214,169,78,0.12);padding:0 20px;position:relative;z-index:20;}
+.hmd-hdr{background:linear-gradient(180deg,#110b2e 0%,#1e1545 100%);border-bottom:1px solid rgba(214,169,78,0.12);padding:0 20px;position:relative;z-index:20;}
 .hmd-hdr-row{display:flex;justify-content:space-between;align-items:center;padding:16px 0;}
 .hmd-brand{display:flex;align-items:center;gap:10px;}
 .hmd-brand-hm{font-family:'Cormorant Garamond',serif;font-size:22px;color:#f2d270;letter-spacing:0.35em;}
 .hmd-brand-sep{width:1px;height:22px;background:rgba(214,169,78,0.2);}
 .hmd-brand-sub{font-size:6px;letter-spacing:0.55em;text-transform:uppercase;color:rgba(214,169,78,0.4);}
 .hmd-hdr-r{display:flex;align-items:center;gap:8px;}
-.hmd-alert{background:#7f1d1d;color:#fca5a5;font-size:6px;letter-spacing:0.2em;text-transform:uppercase;padding:4px 10px;}
+.hmd-alert-pill{background:#7f1d1d;color:#fca5a5;font-size:6px;letter-spacing:0.2em;text-transform:uppercase;padding:4px 10px;border-radius:2px;}
 .hmd-out{background:none;border:1px solid rgba(214,169,78,0.2);color:rgba(214,169,78,0.5);font-size:6px;letter-spacing:0.25em;text-transform:uppercase;padding:6px 12px;cursor:pointer;font-family:'Montserrat',sans-serif;transition:all 0.2s;}
 .hmd-out:hover{border-color:rgba(214,169,78,0.5);color:#f2d270;}
 
 /* ─── HERO ─── */
-.hmd-hero{background:linear-gradient(135deg,#0d0824 0%,#1e1245 50%,#0d0824 100%);padding:28px 20px 22px;position:relative;overflow:hidden;z-index:1;}
+.hmd-hero{background:linear-gradient(135deg,#110b2e 0%,#1e1545 50%,#110b2e 100%);padding:28px 20px 22px;position:relative;overflow:hidden;z-index:1;}
 .hmd-hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(214,169,78,0.3),transparent);}
 .hmd-hero-eye{font-size:6px;letter-spacing:0.55em;text-transform:uppercase;color:rgba(214,169,78,0.4);margin-bottom:6px;}
 .hmd-hero-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:#faf6f0;line-height:1.1;}
@@ -19529,16 +19529,15 @@ document.addEventListener('DOMContentLoaded', function() {
 .hmd-date-t{font-size:6px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(214,169,78,0.18);}
 
 /* ─── KPI BAR ─── */
-.hmd-kpi-bar{background:rgba(0,0,0,0.2);border-bottom:1px solid rgba(214,169,78,0.10);display:flex;overflow-x:auto;position:relative;z-index:5;}
+.hmd-kpi-bar{background:rgba(0,0,0,0.25);border-bottom:1px solid rgba(214,169,78,0.10);display:flex;overflow-x:auto;position:relative;z-index:5;}
 .hmd-kpi-bar::-webkit-scrollbar{display:none;}
 .hmd-kpi{flex:0 0 auto;width:100px;padding:13px 8px;text-align:center;border-right:1px solid rgba(214,169,78,0.08);}
 .hmd-kpi-n{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:#f2d270;display:block;line-height:1;}
-.hmd-kpi-n.w{color:#faf6f0;}
-.hmd-kpi-n.r{color:#fca5a5;}
+.hmd-kpi-n.w{color:#faf6f0;}.hmd-kpi-n.r{color:#fca5a5;}
 .hmd-kpi-l{font-size:6px;letter-spacing:0.28em;text-transform:uppercase;color:rgba(214,169,78,0.3);display:block;margin-top:3px;}
 
 /* ─── NAV ─── */
-.hmd-nav{background:#0d0824;border-bottom:1px solid rgba(214,169,78,0.10);display:flex;overflow-x:auto;position:sticky;top:0;z-index:15;}
+.hmd-nav{background:#110b2e;border-bottom:1px solid rgba(214,169,78,0.10);display:flex;overflow-x:auto;position:sticky;top:0;z-index:15;}
 .hmd-nav::-webkit-scrollbar{display:none;}
 .hmd-nav-btn{flex:0 0 auto;padding:12px 14px;background:none;border:none;border-bottom:2px solid transparent;font-size:6px;letter-spacing:0.28em;text-transform:uppercase;color:rgba(214,169,78,0.3);cursor:pointer;font-family:'Montserrat',sans-serif;white-space:nowrap;margin-bottom:-1px;transition:all 0.2s;}
 .hmd-nav-btn.on{border-bottom-color:#d6a94e;color:#f2d270;font-weight:600;}
@@ -19560,8 +19559,7 @@ document.addEventListener('DOMContentLoaded', function() {
 .hmd-g4{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px;}
 .hmd-box{background:rgba(255,255,255,0.03);border:1px solid rgba(214,169,78,0.10);padding:14px 8px;text-align:center;}
 .hmd-box-n{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:#f2d270;display:block;line-height:1;}
-.hmd-box-n.w{color:#faf6f0;}
-.hmd-box-n.r{color:#fca5a5;}
+.hmd-box-n.w{color:#faf6f0;}.hmd-box-n.r{color:#fca5a5;}
 .hmd-box-l{font-size:6px;letter-spacing:0.28em;text-transform:uppercase;color:rgba(214,169,78,0.3);margin-top:3px;display:block;}
 
 /* ─── CARDS ─── */
@@ -19569,6 +19567,7 @@ document.addEventListener('DOMContentLoaded', function() {
 .hmd-card-gold{background:rgba(214,169,78,0.04);border:1px solid rgba(214,169,78,0.18);padding:16px;margin-bottom:10px;}
 .hmd-card-red{background:rgba(127,29,29,0.06);border-left:2px solid rgba(252,165,165,0.3);padding:12px 16px;margin-bottom:8px;}
 .hmd-card-warn{background:rgba(214,169,78,0.04);border-left:2px solid rgba(214,169,78,0.3);padding:12px 16px;margin-bottom:8px;}
+.hmd-card-green{background:rgba(20,83,45,0.08);border-left:2px solid rgba(134,239,172,0.25);padding:12px 16px;margin-bottom:8px;}
 
 /* ─── ROWS ─── */
 .hmd-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(214,169,78,0.06);}
@@ -19620,7 +19619,7 @@ document.addEventListener('DOMContentLoaded', function() {
 .hmd-btn-refuse{flex:1;padding:10px;background:rgba(127,29,29,0.2);border:1px solid rgba(127,29,29,0.3);color:#fca5a5;font-family:'Montserrat',sans-serif;font-size:6px;letter-spacing:0.25em;text-transform:uppercase;cursor:pointer;}
 
 /* ─── IA CHAT ─── */
-.hmd-ai-box{background:rgba(0,0,0,0.2);border:1px solid rgba(214,169,78,0.10);padding:14px;min-height:180px;max-height:280px;overflow-y:auto;margin-bottom:8px;}
+.hmd-ai-box{background:rgba(0,0,0,0.2);border:1px solid rgba(214,169,78,0.10);padding:14px;min-height:180px;max-height:320px;overflow-y:auto;margin-bottom:8px;}
 .hmd-ai-msg{margin-bottom:10px;}
 .hmd-ai-dir{text-align:right;}
 .hmd-ai-bbl{display:inline-block;max-width:88%;padding:9px 13px;font-size:11px;line-height:1.55;text-align:left;}
@@ -19662,7 +19661,7 @@ document.addEventListener('DOMContentLoaded', function() {
 .hmd-inp:focus{border-color:rgba(214,169,78,0.4);}
 .hmd-inp::placeholder{color:rgba(245,240,232,0.15);}
 .hmd-sel{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(214,169,78,0.15);color:#faf6f0;font-family:'Montserrat',sans-serif;font-size:11px;padding:10px 30px 10px 12px;outline:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(214,169,78,0.4)'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;cursor:pointer;box-sizing:border-box;}
-.hmd-sel option{background:#1a0f35;color:#faf6f0;}
+.hmd-sel option{background:#1e1545;color:#faf6f0;}
 .hmd-2col{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .hmd-note{width:100%;background:rgba(255,255,255,0.03);border:1px solid rgba(214,169,78,0.12);color:#faf6f0;font-family:'Montserrat',sans-serif;font-size:12px;padding:14px;resize:vertical;min-height:110px;outline:none;line-height:1.7;box-sizing:border-box;}
 .hmd-note:focus{border-color:rgba(214,169,78,0.35);}
@@ -19675,6 +19674,19 @@ document.addEventListener('DOMContentLoaded', function() {
 .hmd-page-item:last-child{border:none;}
 .hmd-page-name{font-size:10px;color:rgba(245,240,232,0.6);flex:1;}
 .hmd-page-cat{font-size:6px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(214,169,78,0.4);}
+
+/* ─── STAT MINI ─── */
+.hmd-stat-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(214,169,78,0.05);font-size:10px;color:rgba(245,240,232,0.55);}
+.hmd-stat-row:last-child{border:none;}
+.hmd-stat-val{font-family:'Cormorant Garamond',serif;font-size:16px;color:#f2d270;}
+
+/* ─── FIREBASE STATUS BADGE ─── */
+.hmd-fb-ok{color:#86efac;font-size:6px;letter-spacing:0.2em;text-transform:uppercase;}
+.hmd-fb-warn{color:#fca5a5;font-size:6px;letter-spacing:0.2em;text-transform:uppercase;}
+.hmd-fb-badge{display:inline-flex;align-items:center;gap:5px;}
+.hmd-fb-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.hmd-fb-dot.ok{background:#22c55e;box-shadow:0 0 4px #22c55e;}
+.hmd-fb-dot.warn{background:#fca5a5;}
 </style>
 
 <div class="hmd-wrap">
@@ -19688,7 +19700,7 @@ document.addEventListener('DOMContentLoaded', function() {
       <span class="hmd-brand-sub">Espace Directeur</span>
     </div>
     <div class="hmd-hdr-r">
-      <span class="hmd-alert" id="hmd-alert-pill">— alertes</span>
+      <span class="hmd-alert-pill" id="hmd-alert-pill">— alertes</span>
       <button class="hmd-out" onclick="hmSignOut&&hmSignOut()">Déconnexion</button>
     </div>
   </div>
@@ -19716,33 +19728,33 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="hmd-kpi"><span class="hmd-kpi-n r" id="k-ca">—</span><span class="hmd-kpi-l">Candidatures</span></div>
 </div>
 
-<!-- ═══ NAV ═══ -->
+<!-- ═══ NAV 20 ONGLETS ═══ -->
 <nav class="hmd-nav">
-  <button class="hmd-nav-btn on" onclick="hmdTab('apercu',this)">Aperçu</button>
-  <button class="hmd-nav-btn" onclick="hmdTab('creatrices',this)">Créatrices</button>
-  <button class="hmd-nav-btn" onclick="hmdTab('membres',this)">Membres</button>
-  <button class="hmd-nav-btn" onclick="hmdTab('contenu',this)">Contenu</button>
-  <button class="hmd-nav-btn" onclick="hmdTab('revenus',this)">Revenus</button>
-  <button class="hmd-nav-btn" onclick="hmdTab('telegram',this)">Telegram</button>
-  <button class="hmd-nav-btn" onclick="hmdTab('candidatures',this)">Candidatures</button>
-  <button class="hmd-nav-btn" onclick="hmdTab('profils',this)">Profils publics</button>
-  <button class="hmd-nav-btn" onclick="hmdTab('affilies',this)">Affiliés</button>
-  <button class="hmd-nav-btn" onclick="hmdTab('notifications',this)">Notifications</button>
-  <button class="hmd-nav-btn" onclick="hmdTab('problemes',this)">Problèmes</button>
-  <button class="hmd-nav-btn" onclick="hmdTab('ia',this)">Assistant IA</button>
-  <button class="hmd-nav-btn" onclick="hmdTab('agenda',this)">Agenda</button>
-  <button class="hmd-nav-btn" onclick="hmdTab('notes',this)">Notes</button>
-  <button class="hmd-nav-btn" onclick="hmdTab('alertes',this)">Alertes</button>
-  <button class="hmd-nav-btn" onclick="hmdTab('pages',this)">Pages du site</button>
-  <button class="hmd-nav-btn" onclick="hmdTab('chat',this)">Chat Honey</button>
-  <button class="hmd-nav-btn" onclick="hmdTab('quiz',this)">Quiz</button>
-  <button class="hmd-nav-btn" onclick="hmdTab('parametres',this)">Paramètres</button>
-  <button class="hmd-nav-btn" onclick="hmdTab('gestion',this)">Gestion</button>
+  <button class="hmd-nav-btn on"  onclick="hmdTab('apercu',this)">01 · Aperçu</button>
+  <button class="hmd-nav-btn"     onclick="hmdTab('creatrices',this)">02 · Créatrices</button>
+  <button class="hmd-nav-btn"     onclick="hmdTab('membres',this)">03 · Membres</button>
+  <button class="hmd-nav-btn"     onclick="hmdTab('contenu',this)">04 · Contenu</button>
+  <button class="hmd-nav-btn"     onclick="hmdTab('revenus',this)">05 · Revenus</button>
+  <button class="hmd-nav-btn"     onclick="hmdTab('stripe',this)">06 · Stripe</button>
+  <button class="hmd-nav-btn"     onclick="hmdTab('telegram',this)">07 · Telegram</button>
+  <button class="hmd-nav-btn"     onclick="hmdTab('candidatures',this)">08 · Candidatures</button>
+  <button class="hmd-nav-btn"     onclick="hmdTab('profils',this)">09 · Profils publics</button>
+  <button class="hmd-nav-btn"     onclick="hmdTab('affilies',this)">10 · Affiliés</button>
+  <button class="hmd-nav-btn"     onclick="hmdTab('notifications',this)">11 · Notifications</button>
+  <button class="hmd-nav-btn"     onclick="hmdTab('problemes',this)">12 · Problèmes</button>
+  <button class="hmd-nav-btn"     onclick="hmdTab('ia',this)">13 · Assistant IA</button>
+  <button class="hmd-nav-btn"     onclick="hmdTab('agenda',this)">14 · Agenda</button>
+  <button class="hmd-nav-btn"     onclick="hmdTab('notes',this)">15 · Notes</button>
+  <button class="hmd-nav-btn"     onclick="hmdTab('alertes',this)">16 · Alertes</button>
+  <button class="hmd-nav-btn"     onclick="hmdTab('pages',this)">17 · Pages du site</button>
+  <button class="hmd-nav-btn"     onclick="hmdTab('chat',this)">18 · Chat Honey</button>
+  <button class="hmd-nav-btn"     onclick="hmdTab('quiz',this)">19 · Quiz</button>
+  <button class="hmd-nav-btn"     onclick="hmdTab('gestion',this)">20 · Gestion</button>
 </nav>
 
-<!-- ═══════════════════════════════════
-     1. APERÇU
-═══════════════════════════════════ -->
+<!-- ══════════════════════════════════
+     01. APERÇU
+══════════════════════════════════ -->
 <div class="hmd-sec on" id="hmd-sec-apercu">
   <div class="hmd-t1">· Chiffres clés du site ·</div>
   <div class="hmd-g3">
@@ -19767,13 +19779,22 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="hmd-card" id="ap-notifs"><div class="hmd-empty">Aucune activité</div></div>
 </div>
 
-<!-- ═══ 2. CRÉATRICES ═══ -->
+<!-- ══════════════════════════════════
+     02. CRÉATRICES
+══════════════════════════════════ -->
 <div class="hmd-sec" id="hmd-sec-creatrices">
-  <div class="hmd-t1">· Fiches complètes — 4 créatrices · 36 pages de profils ·</div>
+  <div class="hmd-t1">· Fiches complètes — 4 thèmes · Luna · Zara · Nova · Dream ·</div>
+  <div class="hmd-card-gold" style="margin-bottom:14px;">
+    <div style="font-size:9px;color:rgba(245,240,232,0.5);line-height:1.8;">
+      Chaque thème contient 3 créatrices (hg-1/2/3, or-1/2/3, am-1/2/3, st-1/2/3). Les données sont synchronisées depuis Firestore en temps réel.
+    </div>
+  </div>
   <div id="hmd-cr-list"><div class="hmd-empty">Chargement…</div></div>
 </div>
 
-<!-- ═══ 3. MEMBRES ═══ -->
+<!-- ══════════════════════════════════
+     03. MEMBRES
+══════════════════════════════════ -->
 <div class="hmd-sec" id="hmd-sec-membres">
   <div class="hmd-t1">· Membres inscrits ·</div>
   <div class="hmd-g3" style="margin-bottom:18px;">
@@ -19781,10 +19802,20 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="hmd-box"><span class="hmd-box-n" id="mb-pts">—</span><span class="hmd-box-l">Points distribués</span></div>
     <div class="hmd-box"><span class="hmd-box-n w" id="mb-bdg">—</span><span class="hmd-box-l">Avec badge</span></div>
   </div>
+  <div class="hmd-t2">· Formules actives ·</div>
+  <div class="hmd-card">
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Premium — 19,99€/mois</span><span class="hmd-row-badge" id="mb-prem">—</span></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Ambassadrice — 29,99€/mois</span><span class="hmd-row-badge" id="mb-amb">—</span></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Win Cash (tokens)</span><span class="hmd-row-badge" id="mb-wc">—</span></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Gratuit (quiz + accès limité)</span><span class="hmd-row-badge" id="mb-free">—</span></div>
+  </div>
+  <div class="hmd-t2">· Liste des membres ·</div>
   <div class="hmd-card" id="hmd-mb-list"><div class="hmd-empty">Aucun membre</div></div>
 </div>
 
-<!-- ═══ 4. CONTENU ═══ -->
+<!-- ══════════════════════════════════
+     04. CONTENU
+══════════════════════════════════ -->
 <div class="hmd-sec" id="hmd-sec-contenu">
   <div class="hmd-t1">· Contenu publié sur le site ·</div>
   <div class="hmd-g4">
@@ -19797,13 +19828,49 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="hmd-box"><span class="hmd-box-n" id="ct-fr">—</span><span class="hmd-box-l">Gratuit</span></div>
     <div class="hmd-box"><span class="hmd-box-n" id="ct-pa">—</span><span class="hmd-box-l">Payant (tokens)</span></div>
   </div>
+  <div class="hmd-t2">· Hébergement Cloudinary ·</div>
+  <div class="hmd-card">
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Cloud name</span><span class="hmd-row-badge">honeymoon-agency</span></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Preset unsigned</span><span class="hmd-row-badge">honeymoon_ids</span></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Dossier IDs</span><span class="hmd-row-badge">honeymoon/ids/</span></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Console Cloudinary</span><a class="hmd-link-btn" href="https://cloudinary.com/console" target="_blank">Ouvrir →</a></div>
+  </div>
   <div class="hmd-t2">· Derniers uploads ·</div>
   <div class="hmd-card" id="hmd-ct-list"><div class="hmd-empty">Aucun contenu</div></div>
 </div>
 
-<!-- ═══ 5. REVENUS ═══ -->
+<!-- ══════════════════════════════════
+     05. REVENUS
+══════════════════════════════════ -->
 <div class="hmd-sec" id="hmd-sec-revenus">
-  <div class="hmd-t1">· Liens Stripe actifs ·</div>
+  <div class="hmd-t1">· Vue d'ensemble des revenus ·</div>
+  <div class="hmd-g3">
+    <div class="hmd-box"><span class="hmd-box-n" id="rv-mois">—</span><span class="hmd-box-l">Ce mois (€)</span></div>
+    <div class="hmd-box"><span class="hmd-box-n" id="rv-total">—</span><span class="hmd-box-l">Total cumulé (€)</span></div>
+    <div class="hmd-box"><span class="hmd-box-n w" id="rv-tx">—</span><span class="hmd-box-l">Taux conversion</span></div>
+  </div>
+  <div class="hmd-t2">· Commissions par formule ·</div>
+  <div class="hmd-card">
+    <div class="hmd-link-row"><span class="hmd-link-lbl">✦ Honey Girl — Contrat léger</span><span class="hmd-row-badge">60% créatrice · 40% agence</span></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">✦ Honeymoon Original — Plateforme principale</span><span class="hmd-row-badge">70% sub + PPV 80%</span></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">👑 Ambassadrice — Table VIP</span><span class="hmd-row-badge">Commission partage</span></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">★ Honeymoon Star — Table d'honneur</span><span class="hmd-row-badge">75% Fan Club</span></div>
+  </div>
+  <div class="hmd-t2">· Sources de revenus ·</div>
+  <div class="hmd-card">
+    <div class="hmd-stat-row"><span>Abonnements Premium (19,99€/mois)</span><span class="hmd-stat-val" id="rv-sub">—</span></div>
+    <div class="hmd-stat-row"><span>Abonnements Ambassadrice (29,99€/mois)</span><span class="hmd-stat-val" id="rv-amb">—</span></div>
+    <div class="hmd-stat-row"><span>Pourboires WinCash (5€/10€/20€)</span><span class="hmd-stat-val" id="rv-tips">—</span></div>
+    <div class="hmd-stat-row"><span>Tokens Pack 10 — WinCash</span><span class="hmd-stat-val" id="rv-tok">—</span></div>
+    <div class="hmd-stat-row"><span>Affiliés Stripchat + BongaCams (RevShare)</span><span class="hmd-stat-val" id="rv-aff">—</span></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     06. STRIPE
+══════════════════════════════════ -->
+<div class="hmd-sec" id="hmd-sec-stripe">
+  <div class="hmd-t1">· Liens Stripe actifs · 6 liens de paiement ·</div>
   <div class="hmd-card">
     <div class="hmd-link-row"><span class="hmd-link-lbl">✦ Abonnement Premium membre — <b style="color:#f2d270;">19,99€/mois</b></span><a class="hmd-link-btn" href="https://buy.stripe.com/6oUaEQ3gOcXR6vCcfVgA80t" target="_blank">Ouvrir →</a></div>
     <div class="hmd-link-row"><span class="hmd-link-lbl">✦ Abonnement Ambassadrice — <b style="color:#f2d270;">29,99€/mois</b></span><a class="hmd-link-btn" href="https://buy.stripe.com/9B67sE04C0b5aLS0xdgA80x" target="_blank">Ouvrir →</a></div>
@@ -19812,18 +19879,20 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="hmd-link-row"><span class="hmd-link-lbl">Pourboire 20€ — WinCash</span><a class="hmd-link-btn" href="https://buy.stripe.com/14AfZacRoaPJf283JpgA80D" target="_blank">Ouvrir →</a></div>
     <div class="hmd-link-row"><span class="hmd-link-lbl">Tokens WinCash — Pack 10</span><a class="hmd-link-btn" href="https://buy.stripe.com/6oUfZag3Af5Z3jq4NtgA80s" target="_blank">Ouvrir →</a></div>
   </div>
-  <div class="hmd-t2">· Commissions par formule ·</div>
+  <div class="hmd-t2">· Dashboard Stripe ·</div>
   <div class="hmd-card">
-    <div class="hmd-link-row"><span class="hmd-link-lbl">✦ Honey Girl — Contrat léger</span><span class="hmd-row-badge">60%</span></div>
-    <div class="hmd-link-row"><span class="hmd-link-lbl">✦ Honeymoon Original — Plateforme principale</span><span class="hmd-row-badge">70% + PPV 80%</span></div>
-    <div class="hmd-link-row"><span class="hmd-link-lbl">👑 Ambassadrice — Table VIP</span><span class="hmd-row-badge">Commission partage</span></div>
-    <div class="hmd-link-row"><span class="hmd-link-lbl">★ Honeymoon Star — Table d'honneur</span><span class="hmd-row-badge">75% Fan Club</span></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Stripe Dashboard principal</span><a class="hmd-link-btn" href="https://dashboard.stripe.com" target="_blank">Ouvrir →</a></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Paiements en cours</span><a class="hmd-link-btn" href="https://dashboard.stripe.com/payments" target="_blank">Voir →</a></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Abonnements actifs</span><a class="hmd-link-btn" href="https://dashboard.stripe.com/subscriptions" target="_blank">Voir →</a></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Webhooks</span><a class="hmd-link-btn" href="https://dashboard.stripe.com/webhooks" target="_blank">Voir →</a></div>
   </div>
 </div>
 
-<!-- ═══ 6. TELEGRAM ═══ -->
+<!-- ══════════════════════════════════
+     07. TELEGRAM
+══════════════════════════════════ -->
 <div class="hmd-sec" id="hmd-sec-telegram">
-  <div class="hmd-t1">· Canaux Telegram — 12 créatrices + support ·</div>
+  <div class="hmd-t1">· Canaux Telegram — Support + 12 créatrices ·</div>
   <div class="hmd-card">
     <div class="hmd-link-row"><span class="hmd-link-lbl">✦ Support Honeymoon (général)</span><a class="hmd-link-btn" href="https://t.me/+QX9U6UiyuH9hMTM0" target="_blank">Ouvrir →</a></div>
     <div class="hmd-link-row"><span class="hmd-link-lbl">Créatrice 1</span><a class="hmd-link-btn" href="https://t.me/+mA7eld-EyQM0ZmM8" target="_blank">Ouvrir →</a></div>
@@ -19839,63 +19908,96 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="hmd-link-row"><span class="hmd-link-lbl">Créatrice 11</span><a class="hmd-link-btn" href="https://t.me/+D0p6o5__XhlmZTdk" target="_blank">Ouvrir →</a></div>
     <div class="hmd-link-row"><span class="hmd-link-lbl">Créatrice 12</span><a class="hmd-link-btn" href="https://t.me/+TJY6o4MKcR04NTE8" target="_blank">Ouvrir →</a></div>
   </div>
+  <div class="hmd-t2">· Configuration bot directeur ·</div>
+  <div class="hmd-card">
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Token Bot Telegram</span><span class="hmd-row-badge" style="color:rgba(245,240,232,0.4);">À configurer dans HM_TELEGRAM_TOKEN</span></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Chat ID directeur</span><span class="hmd-row-badge" style="color:rgba(245,240,232,0.4);">À configurer dans HM_TELEGRAM_CHATID</span></div>
+  </div>
 </div>
 
-<!-- ═══ 7. CANDIDATURES ═══ -->
+<!-- ══════════════════════════════════
+     08. CANDIDATURES
+══════════════════════════════════ -->
 <div class="hmd-sec" id="hmd-sec-candidatures">
-  <div class="hmd-t1">· Candidatures reçues ·</div>
+  <div class="hmd-t1">· Candidatures reçues · Collection Firestore : applications ·</div>
+  <div class="hmd-g3" style="margin-bottom:16px;">
+    <div class="hmd-box"><span class="hmd-box-n r" id="cand-tot">—</span><span class="hmd-box-l">Total</span></div>
+    <div class="hmd-box"><span class="hmd-box-n r" id="cand-pend">—</span><span class="hmd-box-l">En attente</span></div>
+    <div class="hmd-box"><span class="hmd-box-n" id="cand-acc">—</span><span class="hmd-box-l">Acceptées</span></div>
+  </div>
   <div id="hmd-cand-list"><div class="hmd-empty">Aucune candidature</div></div>
 </div>
 
-<!-- ═══ 8. PROFILS PUBLICS ═══ -->
+<!-- ══════════════════════════════════
+     09. PROFILS PUBLICS
+══════════════════════════════════ -->
 <div class="hmd-sec" id="hmd-sec-profils">
   <div class="hmd-t1">· État des profils publics — Luna · Zara · Nova · Dream ·</div>
+  <div class="hmd-card-gold" style="margin-bottom:14px;">
+    <div style="font-size:9px;color:rgba(245,240,232,0.5);line-height:1.8;">
+      36 pages de profils créatrices au total (4 thèmes × 3 galeries × 3 créatrices). Chaque profil est vérifié pour : photo, bio, tagline, lien plateforme, statut.
+    </div>
+  </div>
   <div id="hmd-profils-list"><div class="hmd-empty">Chargement…</div></div>
 </div>
 
-<!-- ═══ 9. AFFILIÉS ═══ -->
+<!-- ══════════════════════════════════
+     10. AFFILIÉS
+══════════════════════════════════ -->
 <div class="hmd-sec" id="hmd-sec-affilies">
-  <div class="hmd-t1">· Liens affiliés actifs ·</div>
+  <div class="hmd-t1">· Liens affiliés actifs · Revenus passifs ·</div>
   <div class="hmd-card">
     <div class="hmd-link-row"><span class="hmd-link-lbl">StripCash — Stripchat (RevShare)</span><a class="hmd-link-btn" href="https://go.mavrtracktor.com?userId=b28eb6e93f8035147f3b9a235e64c41f736ebe098e7a4f768c86b328c5549de1" target="_blank">Voir →</a></div>
     <div class="hmd-link-row"><span class="hmd-link-lbl">BongaCash — BongaCams (RevShare)</span><a class="hmd-link-btn" href="https://bongacams11.com/track?a=285786&p=2&camp=RevShare%20par%20d%C3%A9faut" target="_blank">Voir →</a></div>
   </div>
-  <div class="hmd-t2">· Liens affiliés par créatrice ·</div>
+  <div class="hmd-t2">· Liens affiliés par créatrice (à configurer) ·</div>
   <div class="hmd-card">
     <div class="hmd-link-row"><span class="hmd-link-lbl">Luna — Stripchat profil</span><span class="hmd-row-badge">À configurer</span></div>
     <div class="hmd-link-row"><span class="hmd-link-lbl">Zara — Stripchat profil</span><span class="hmd-row-badge">À configurer</span></div>
     <div class="hmd-link-row"><span class="hmd-link-lbl">Nova — BongaCams profil</span><span class="hmd-row-badge">À configurer</span></div>
     <div class="hmd-link-row"><span class="hmd-link-lbl">Dream — BongaCams profil</span><span class="hmd-row-badge">À configurer</span></div>
   </div>
+  <div class="hmd-t2">· Modèle de revenu affilié ·</div>
+  <div class="hmd-card">
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Type de commission</span><span class="hmd-row-badge">RevShare — % des revenus générés</span></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Tracking</span><span class="hmd-row-badge">Cookies 30 jours</span></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Paiement</span><span class="hmd-row-badge">Mensuel via virement</span></div>
+  </div>
 </div>
 
-<!-- ═══ 10. NOTIFICATIONS ═══ -->
+<!-- ══════════════════════════════════
+     11. NOTIFICATIONS
+══════════════════════════════════ -->
 <div class="hmd-sec" id="hmd-sec-notifications">
-  <div class="hmd-t1">· Journal complet des notifications ·</div>
+  <div class="hmd-t1">· Journal complet des notifications · Firestore : notifications ·</div>
   <button class="hmd-btn-ghost" onclick="hmdMarkAllRead()" style="margin-bottom:12px;">✓ Tout marquer comme lu</button>
   <div class="hmd-card" id="hmd-notif-list"><div class="hmd-empty">Aucune notification</div></div>
 </div>
 
-<!-- ═══ 11. PROBLÈMES ═══ -->
+<!-- ══════════════════════════════════
+     12. PROBLÈMES
+══════════════════════════════════ -->
 <div class="hmd-sec" id="hmd-sec-problemes">
   <div class="hmd-t1 red">· Problèmes détectés en temps réel ·</div>
-  <div id="hmd-prob-list"><div class="hmd-empty">Analyse…</div></div>
+  <div id="hmd-prob-list"><div class="hmd-empty">Analyse en cours…</div></div>
   <div class="hmd-t2">· Journal des erreurs Firebase ·</div>
   <div class="hmd-card" id="hmd-err-list"><div class="hmd-empty">Aucune erreur ✓</div></div>
-  <button class="hmd-btn-ghost" onclick="hmdLoadProblemes()" style="margin-top:6px;">↻ Actualiser</button>
+  <button class="hmd-btn-ghost" onclick="hmdLoadProblemes()" style="margin-top:6px;">↻ Actualiser l'analyse</button>
 </div>
 
-<!-- ═══ 12. ASSISTANT IA ═══ -->
+<!-- ══════════════════════════════════
+     13. ASSISTANT IA
+══════════════════════════════════ -->
 <div class="hmd-sec" id="hmd-sec-ia">
   <div class="hmd-t1">· Assistant IA — Honeymoon Intelligence ·</div>
   <div class="hmd-card-gold" style="margin-bottom:14px;">
     <div style="font-family:'Cormorant Garamond',serif;font-size:16px;color:#f2d270;margin-bottom:4px;">Votre assistant IA personnel</div>
-    <div style="font-size:9px;color:rgba(245,240,232,0.45);line-height:1.7;">Posez vos questions sur le site, les créatrices, les membres, les revenus. Réponses basées sur les données actuelles.</div>
+    <div style="font-size:9px;color:rgba(245,240,232,0.45);line-height:1.7;">Posez vos questions sur le site, les créatrices, les membres, les revenus. Réponses basées sur les données Firestore en temps réel.</div>
   </div>
   <div class="hmd-ai-box" id="hmd-ai-msgs">
     <div class="hmd-ai-msg">
       <div class="hmd-ai-who">✦ Assistant Honeymoon</div>
-      <div class="hmd-ai-bbl hmd-ai-bbl-ia">Bonjour Directeur. Je suis votre assistant IA personnel. Posez-moi vos questions sur le site Honeymoon.</div>
+      <div class="hmd-ai-bbl hmd-ai-bbl-ia">Bonjour Directeur. Je suis votre assistant IA personnel. Posez-moi vos questions sur le site Honeymoon — créatrices, membres, revenus, problèmes techniques.</div>
     </div>
   </div>
   <div class="hmd-ai-row">
@@ -19904,9 +20006,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </div>
 
-<!-- ═══ 13. AGENDA ═══ -->
+<!-- ══════════════════════════════════
+     14. AGENDA
+══════════════════════════════════ -->
 <div class="hmd-sec" id="hmd-sec-agenda">
-  <div class="hmd-t1">· Agenda annuel ·</div>
+  <div class="hmd-t1">· Agenda annuel · Notes par jour ·</div>
   <div class="hmd-ag-nav">
     <button class="hmd-ag-btn" onclick="hmdAgMois(-1)">← Précédent</button>
     <span class="hmd-ag-titre" id="hmd-ag-titre">—</span>
@@ -19925,22 +20029,26 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </div>
 
-<!-- ═══ 14. NOTES ═══ -->
+<!-- ══════════════════════════════════
+     15. NOTES
+══════════════════════════════════ -->
 <div class="hmd-sec" id="hmd-sec-notes">
-  <div class="hmd-t1">· Mémo libre · <span style="font-size:7px;color:rgba(214,169,78,0.25);">Sauvegardé automatiquement</span></div>
+  <div class="hmd-t1">· Mémo libre · <span style="font-size:7px;color:rgba(214,169,78,0.25);">Sauvegarde auto localStorage</span></div>
   <textarea class="hmd-note" id="hmd-memo" placeholder="Idées, projets, instructions créatrices, stratégie…" oninput="hmdSaveMemo()" style="min-height:200px;"></textarea>
-  <div class="hmd-t2">· Notes rapides par créatrice ·</div>
+  <div class="hmd-t2">· Notes rapides par thème ·</div>
   <div class="hmd-card">
     <div class="hmd-field"><label class="hmd-lbl">Luna</label><textarea class="hmd-note" id="hmd-note-luna" placeholder="Notes sur Luna…" oninput="hmdSaveNotesCr()" style="min-height:60px;"></textarea></div>
     <div class="hmd-field"><label class="hmd-lbl">Zara</label><textarea class="hmd-note" id="hmd-note-zara" placeholder="Notes sur Zara…" oninput="hmdSaveNotesCr()" style="min-height:60px;"></textarea></div>
     <div class="hmd-field"><label class="hmd-lbl">Nova</label><textarea class="hmd-note" id="hmd-note-nova" placeholder="Notes sur Nova…" oninput="hmdSaveNotesCr()" style="min-height:60px;"></textarea></div>
-    <div class="hmd-field"><label class="hmd-lbl">Dream / Rêve</label><textarea class="hmd-note" id="hmd-note-dream" placeholder="Notes sur Dream…" oninput="hmdSaveNotesCr()" style="min-height:60px;"></textarea></div>
+    <div class="hmd-field"><label class="hmd-lbl">Dream</label><textarea class="hmd-note" id="hmd-note-dream" placeholder="Notes sur Dream…" oninput="hmdSaveNotesCr()" style="min-height:60px;"></textarea></div>
   </div>
 </div>
 
-<!-- ═══ 15. ALERTES ═══ -->
+<!-- ══════════════════════════════════
+     16. ALERTES
+══════════════════════════════════ -->
 <div class="hmd-sec" id="hmd-sec-alertes">
-  <div class="hmd-t1">· Alertes personnelles ·</div>
+  <div class="hmd-t1">· Alertes personnelles · Rappels ·</div>
   <div class="hmd-card-gold">
     <div class="hmd-field"><label class="hmd-lbl">Message de l'alerte</label><input class="hmd-inp" id="hmd-al-msg" type="text" placeholder="ex. Contacter Luna cette semaine"></div>
     <div class="hmd-2col">
@@ -19953,73 +20061,97 @@ document.addEventListener('DOMContentLoaded', function() {
   <div id="hmd-al-list"><div class="hmd-empty">Aucune alerte</div></div>
 </div>
 
-<!-- ═══ 16. PAGES DU SITE ═══ -->
+<!-- ══════════════════════════════════
+     17. PAGES DU SITE
+══════════════════════════════════ -->
 <div class="hmd-sec" id="hmd-sec-pages">
-  <div class="hmd-t1">· Cartographie des 52 pages du site ·</div>
+  <div class="hmd-t1">· Cartographie complète — 52 pages du site ·</div>
+  <div class="hmd-g4" style="margin-bottom:16px;">
+    <div class="hmd-box"><span class="hmd-box-n w">6</span><span class="hmd-box-l">Publiques</span></div>
+    <div class="hmd-box"><span class="hmd-box-n">36</span><span class="hmd-box-l">Créatrices</span></div>
+    <div class="hmd-box"><span class="hmd-box-n w">6</span><span class="hmd-box-l">Membres</span></div>
+    <div class="hmd-box"><span class="hmd-box-n">3</span><span class="hmd-box-l">Pro</span></div>
+  </div>
   <div class="hmd-t2">· Pages publiques (6) ·</div>
   <div class="hmd-card">
-    <div class="hmd-page-item"><span class="hmd-page-name">Landing — Galerie créatrices</span><span class="hmd-page-cat">Public</span></div>
-    <div class="hmd-page-item"><span class="hmd-page-name">Top Models</span><span class="hmd-page-cat">Public</span></div>
-    <div class="hmd-page-item"><span class="hmd-page-name">Official Access</span><span class="hmd-page-cat">Public</span></div>
-    <div class="hmd-page-item"><span class="hmd-page-name">About Us</span><span class="hmd-page-cat">Public</span></div>
-    <div class="hmd-page-item"><span class="hmd-page-name">Contact</span><span class="hmd-page-cat">Public</span></div>
-    <div class="hmd-page-item"><span class="hmd-page-name">Legal / CGU / Privacy</span><span class="hmd-page-cat">Public</span></div>
+    <div class="hmd-page-item"><span class="hmd-page-name">Landing — Galerie créatrices (page-landing)</span><span class="hmd-page-cat">Public</span></div>
+    <div class="hmd-page-item"><span class="hmd-page-name">Top Models (page-top-models)</span><span class="hmd-page-cat">Public</span></div>
+    <div class="hmd-page-item"><span class="hmd-page-name">Official Access (page-access)</span><span class="hmd-page-cat">Public</span></div>
+    <div class="hmd-page-item"><span class="hmd-page-name">About Us (page-about)</span><span class="hmd-page-cat">Public</span></div>
+    <div class="hmd-page-item"><span class="hmd-page-name">Contact (page-contact)</span><span class="hmd-page-cat">Public</span></div>
+    <div class="hmd-page-item"><span class="hmd-page-name">Legal / CGU / Privacy (page-legal)</span><span class="hmd-page-cat">Public</span></div>
   </div>
-  <div class="hmd-t2">· Profils créatrices (28) ·</div>
+  <div class="hmd-t2">· Thèmes créatrices — 4 thèmes × 3 galeries × 3 profils (36 pages) ·</div>
   <div class="hmd-card">
-    <div class="hmd-page-item"><span class="hmd-page-name">Luna — Galerie + 3 profils (luna-1/2/3)</span><span class="hmd-page-cat">Créatrice</span></div>
-    <div class="hmd-page-item"><span class="hmd-page-name">Zara — Galerie + 3 profils (zara-1/2/3)</span><span class="hmd-page-cat">Créatrice</span></div>
-    <div class="hmd-page-item"><span class="hmd-page-name">Nova — Galerie + 3 profils (nova-1/2/3)</span><span class="hmd-page-cat">Créatrice</span></div>
-    <div class="hmd-page-item"><span class="hmd-page-name">Dream — Galerie + 3 profils (dream-1/2/3)</span><span class="hmd-page-cat">Créatrice</span></div>
-    <div class="hmd-page-item"><span class="hmd-page-name">Honey Girl (hg-1/2/3) · Original (or-1/2/3)</span><span class="hmd-page-cat">Formule</span></div>
-    <div class="hmd-page-item"><span class="hmd-page-name">Ambassadrice (am-1/2/3) · Star (st-1/2/3)</span><span class="hmd-page-cat">Formule</span></div>
+    <div class="hmd-page-item"><span class="hmd-page-name">Luna — Galerie (page-luna) + profils (cr-luna-1/2/3)</span><span class="hmd-page-cat">Thème Luna</span></div>
+    <div class="hmd-page-item"><span class="hmd-page-name">Zara — Galerie (page-zara) + profils (cr-zara-1/2/3)</span><span class="hmd-page-cat">Thème Zara</span></div>
+    <div class="hmd-page-item"><span class="hmd-page-name">Nova — Galerie (page-nova) + profils (cr-nova-1/2/3)</span><span class="hmd-page-cat">Thème Nova</span></div>
+    <div class="hmd-page-item"><span class="hmd-page-name">Dream — Galerie (page-dream) + profils (cr-dream-1/2/3)</span><span class="hmd-page-cat">Thème Dream</span></div>
+    <div class="hmd-page-item"><span class="hmd-page-name">Honey Girl — hg-1 / hg-2 / hg-3</span><span class="hmd-page-cat">Galerie formule</span></div>
+    <div class="hmd-page-item"><span class="hmd-page-name">Original — or-1 / or-2 / or-3</span><span class="hmd-page-cat">Galerie formule</span></div>
+    <div class="hmd-page-item"><span class="hmd-page-name">Ambassadrice — am-1 / am-2 / am-3</span><span class="hmd-page-cat">Galerie formule</span></div>
+    <div class="hmd-page-item"><span class="hmd-page-name">Star — st-1 / st-2 / st-3</span><span class="hmd-page-cat">Galerie formule</span></div>
+    <div class="hmd-page-item"><span class="hmd-page-name">Profils creator — cr-[thème]-1/2/3 (12 profils)</span><span class="hmd-page-cat">Profil creator</span></div>
   </div>
   <div class="hmd-t2">· Espaces membres (6) ·</div>
   <div class="hmd-card">
-    <div class="hmd-page-item"><span class="hmd-page-name">Espace Membre (premium 19.99€/mois)</span><span class="hmd-page-cat">Membre</span></div>
-    <div class="hmd-page-item"><span class="hmd-page-name">Inscription — 4 formules</span><span class="hmd-page-cat">Membre</span></div>
-    <div class="hmd-page-item"><span class="hmd-page-name">Win Cash — Tokens</span><span class="hmd-page-cat">Membre</span></div>
-    <div class="hmd-page-item"><span class="hmd-page-name">Généreux — Tips</span><span class="hmd-page-cat">Membre</span></div>
-    <div class="hmd-page-item"><span class="hmd-page-name">Invitation — VIP</span><span class="hmd-page-cat">Membre</span></div>
-    <div class="hmd-page-item"><span class="hmd-page-name">Premium Originals</span><span class="hmd-page-cat">Membre</span></div>
+    <div class="hmd-page-item"><span class="hmd-page-name">Espace Membre premium — page-member</span><span class="hmd-page-cat">Membre</span></div>
+    <div class="hmd-page-item"><span class="hmd-page-name">Inscription 4 formules — page-register</span><span class="hmd-page-cat">Membre</span></div>
+    <div class="hmd-page-item"><span class="hmd-page-name">Win Cash — page-wincash</span><span class="hmd-page-cat">Membre</span></div>
+    <div class="hmd-page-item"><span class="hmd-page-name">Généreux / Tips — page-generous</span><span class="hmd-page-cat">Membre</span></div>
+    <div class="hmd-page-item"><span class="hmd-page-name">Invitation VIP — page-invitation</span><span class="hmd-page-cat">Membre</span></div>
+    <div class="hmd-page-item"><span class="hmd-page-name">Premium Originals — page-premium</span><span class="hmd-page-cat">Membre</span></div>
   </div>
   <div class="hmd-t2">· Espaces pro (3) ·</div>
   <div class="hmd-card">
-    <div class="hmd-page-item"><span class="hmd-page-name">Creator Login</span><span class="hmd-page-cat">Pro</span></div>
-    <div class="hmd-page-item"><span class="hmd-page-name">Dashboard Créatrice</span><span class="hmd-page-cat">Pro</span></div>
-    <div class="hmd-page-item"><span class="hmd-page-name">Dashboard Directeur</span><span class="hmd-page-cat">Pro</span></div>
+    <div class="hmd-page-item"><span class="hmd-page-name">Creator Login — page-creator-login</span><span class="hmd-page-cat">Pro</span></div>
+    <div class="hmd-page-item"><span class="hmd-page-name">Dashboard Créatrice — page-creator-dashboard</span><span class="hmd-page-cat">Pro</span></div>
+    <div class="hmd-page-item"><span class="hmd-page-name">Dashboard Directeur — page-admin-dashboard</span><span class="hmd-page-cat">Pro · Vous êtes ici</span></div>
+  </div>
+  <div class="hmd-t2">· Page Apply (candidature) ·</div>
+  <div class="hmd-card">
+    <div class="hmd-page-item"><span class="hmd-page-name">Formulaire candidature créatrice — page-apply</span><span class="hmd-page-cat">Recrutement</span></div>
   </div>
 </div>
 
-<!-- ═══ 17. CHAT HONEY ═══ -->
+<!-- ══════════════════════════════════
+     18. CHAT HONEY
+══════════════════════════════════ -->
 <div class="hmd-sec" id="hmd-sec-chat">
-  <div class="hmd-t1">· Chat Honey — IA Gemini ·</div>
+  <div class="hmd-t1">· Chat Honey — IA Gemini · Proxy Vercel ·</div>
   <div class="hmd-card-gold">
-    <div style="font-family:'Cormorant Garamond',serif;font-size:16px;color:#f2d270;margin-bottom:8px;">Honey — Assistante IA du site</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:16px;color:#f2d270;margin-bottom:8px;">Honey — Assistante IA du site public</div>
     <div style="font-size:9px;color:rgba(245,240,232,0.5);line-height:1.8;">
-      Proxy : <b style="color:rgba(245,240,232,0.7);">/api/chat.js</b> sur Vercel<br>
-      API : <b style="color:rgba(245,240,232,0.7);">Gemini AIzaSyBwSaOhC2sW2jmByKEV5GCLVQiVGwQH5x4</b><br>
-      Statut : <b style="color:#fca5a5;">À finaliser (proxy non actif)</b>
+      Proxy API : <b style="color:rgba(245,240,232,0.7);">/api/chat.js</b> sur Vercel<br>
+      Modèle : <b style="color:rgba(245,240,232,0.7);">Gemini (AIzaSy…)</b><br>
+      Statut : <b style="color:#fca5a5;">À finaliser — proxy non encore actif</b>
     </div>
   </div>
   <div class="hmd-t2">· 6 modes du chat ·</div>
   <div class="hmd-card">
-    <div class="hmd-link-row"><span class="hmd-link-lbl">Guide</span><span class="hmd-row-badge">Actif</span></div>
-    <div class="hmd-link-row"><span class="hmd-link-lbl">Match</span><span class="hmd-row-badge">Actif</span></div>
-    <div class="hmd-link-row"><span class="hmd-link-lbl">Seduce</span><span class="hmd-row-badge">Actif</span></div>
-    <div class="hmd-link-row"><span class="hmd-link-lbl">Dating</span><span class="hmd-row-badge">Actif</span></div>
-    <div class="hmd-link-row"><span class="hmd-link-lbl">Social</span><span class="hmd-row-badge">Actif</span></div>
-    <div class="hmd-link-row"><span class="hmd-link-lbl">Coach</span><span class="hmd-row-badge">Actif</span></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Guide — oriente le visiteur vers les créatrices</span><span class="hmd-row-badge">Actif</span></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Match — recommande une créatrice selon profil</span><span class="hmd-row-badge">Actif</span></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Seduce — ton séducteur premium</span><span class="hmd-row-badge">Actif</span></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Dating — conversation intime longue</span><span class="hmd-row-badge">Actif</span></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Social — contenu fun & viral</span><span class="hmd-row-badge">Actif</span></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Coach — conseils relations & confiance</span><span class="hmd-row-badge">Actif</span></div>
   </div>
-  <div class="hmd-t2">· 3 états ·</div>
+  <div class="hmd-t2">· 3 états Honey ·</div>
   <div class="hmd-card">
-    <div class="hmd-link-row"><span class="hmd-link-lbl">Desires</span><span class="hmd-row-badge">Mode</span></div>
-    <div class="hmd-link-row"><span class="hmd-link-lbl">Mysterious</span><span class="hmd-row-badge">Mode</span></div>
-    <div class="hmd-link-row"><span class="hmd-link-lbl">Choose</span><span class="hmd-row-badge">Mode</span></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Desires — mode désirs intenses</span><span class="hmd-row-badge">Humeur</span></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Mysterious — mode mystérieux et envoûtant</span><span class="hmd-row-badge">Humeur</span></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Choose — laisse le membre choisir</span><span class="hmd-row-badge">Humeur</span></div>
+  </div>
+  <div class="hmd-t2">· Point de contrôle ·</div>
+  <div class="hmd-card">
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Vercel fonctions serverless</span><a class="hmd-link-btn" href="https://vercel.com/dashboard" target="_blank">Vérifier →</a></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Google AI Studio (clé Gemini)</span><a class="hmd-link-btn" href="https://aistudio.google.com" target="_blank">Ouvrir →</a></div>
   </div>
 </div>
 
-<!-- ═══ 18. QUIZ ═══ -->
+<!-- ══════════════════════════════════
+     19. QUIZ
+══════════════════════════════════ -->
 <div class="hmd-sec" id="hmd-sec-quiz">
   <div class="hmd-t1">· Quiz — 50 questions progressives ·</div>
   <div class="hmd-g3">
@@ -20027,43 +20159,23 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="hmd-box"><span class="hmd-box-n w" id="qz-played">—</span><span class="hmd-box-l">Parties jouées</span></div>
     <div class="hmd-box"><span class="hmd-box-n" id="qz-avg">—</span><span class="hmd-box-l">Score moyen</span></div>
   </div>
-  <div class="hmd-card-gold" style="margin-top:10px;">
-    <div style="font-size:9px;color:rgba(245,240,232,0.5);line-height:1.8;">
-      Le quiz est intégré dans l'espace membre.<br>
-      Système de points : chaque bonne réponse = +10 pts.<br>
-      Les scores sont liés au profil membre dans Firestore.
-    </div>
+  <div class="hmd-t2">· Système de points ·</div>
+  <div class="hmd-card">
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Points par bonne réponse</span><span class="hmd-row-badge">+10 pts</span></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Stockage des scores</span><span class="hmd-row-badge">Firestore — profil membre</span></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Accès</span><span class="hmd-row-badge">Espace membre uniquement</span></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Type de questions</span><span class="hmd-row-badge">Progressif — niveaux 1 à 5</span></div>
   </div>
+  <div class="hmd-t2">· Statistiques quiz (Firestore) ·</div>
+  <div class="hmd-card" id="hmd-quiz-stats"><div class="hmd-empty">Chargement des stats…</div></div>
 </div>
 
-<!-- ═══ 19. PARAMÈTRES ═══ -->
-<div class="hmd-sec" id="hmd-sec-parametres">
-  <div class="hmd-t1">· Configuration du site ·</div>
-  <div class="hmd-t2">· Identifiants & accès ·</div>
-  <div class="hmd-card">
-    <div class="hmd-link-row"><span class="hmd-link-lbl">Email directeur</span><span class="hmd-row-badge" style="color:rgba(245,240,232,0.5);">jellyjolly@outlook.com</span></div>
-    <div class="hmd-link-row"><span class="hmd-link-lbl">Email honeymoon</span><span class="hmd-row-badge" style="color:rgba(245,240,232,0.5);">honeymoon-official@outlook.com</span></div>
-    <div class="hmd-link-row"><span class="hmd-link-lbl">Site live</span><a class="hmd-link-btn" href="https://honeymoonofficiel.vercel.app" target="_blank">Ouvrir →</a></div>
-    <div class="hmd-link-row"><span class="hmd-link-lbl">GitHub repo</span><a class="hmd-link-btn" href="https://github.com/princemickaeljunior/Honeymoonofficiel" target="_blank">Ouvrir →</a></div>
-    <div class="hmd-link-row"><span class="hmd-link-lbl">Firebase Console</span><a class="hmd-link-btn" href="https://console.firebase.google.com" target="_blank">Ouvrir →</a></div>
-    <div class="hmd-link-row"><span class="hmd-link-lbl">Vercel Dashboard</span><a class="hmd-link-btn" href="https://vercel.com" target="_blank">Ouvrir →</a></div>
-    <div class="hmd-link-row"><span class="hmd-link-lbl">Cloudinary</span><a class="hmd-link-btn" href="https://cloudinary.com" target="_blank">Ouvrir →</a></div>
-    <div class="hmd-link-row"><span class="hmd-link-lbl">Stripe Dashboard</span><a class="hmd-link-btn" href="https://dashboard.stripe.com" target="_blank">Ouvrir →</a></div>
-  </div>
-  <div class="hmd-t2">· Statut Firebase ·</div>
-  <div class="hmd-card">
-    <div class="hmd-link-row"><span class="hmd-link-lbl">Auth</span><span class="hmd-row-badge" style="color:#86efac;">Actif ✓</span></div>
-    <div class="hmd-link-row"><span class="hmd-link-lbl">Firestore</span><span class="hmd-row-badge" style="color:#86efac;">Actif ✓</span></div>
-    <div class="hmd-link-row"><span class="hmd-link-lbl">Rules Firestore</span><span class="hmd-row-badge" style="color:#fca5a5;">Test mode — expire bientôt</span></div>
-    <div class="hmd-link-row"><span class="hmd-link-lbl">Storage</span><span class="hmd-row-badge" style="color:#fca5a5;">Cloudinary (externe)</span></div>
-    <div class="hmd-link-row"><span class="hmd-link-lbl">Proxy Gemini</span><span class="hmd-row-badge" style="color:#fca5a5;">À finaliser</span></div>
-    <div class="hmd-link-row"><span class="hmd-link-lbl">Nodemailer</span><span class="hmd-row-badge" style="color:#fca5a5;">À configurer</span></div>
-  </div>
-</div>
-
-<!-- ═══ 20. GESTION ═══ -->
+<!-- ══════════════════════════════════
+     20. GESTION
+══════════════════════════════════ -->
 <div class="hmd-sec" id="hmd-sec-gestion">
-  <div class="hmd-t1">· Créer un compte créatrice ·</div>
+  <div class="hmd-t1">· Gestion du site · Actions directeur ·</div>
+  <div class="hmd-t2">· Créer un compte créatrice ·</div>
   <div class="hmd-card-gold">
     <div class="hmd-field"><label class="hmd-lbl">Nom de scène</label><input class="hmd-inp" id="hmd-cr-name" type="text" placeholder="ex. Luna"></div>
     <div class="hmd-field"><label class="hmd-lbl">Email</label><input class="hmd-inp" id="hmd-cr-email" type="email" placeholder="email@exemple.com"></div>
@@ -20085,6 +20197,26 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="hmd-msg-box" id="hmd-cr-msg"></div>
     <button class="hmd-btn-gold" style="margin-top:10px;" onclick="hmdCreateCreator()">✦ Créer le compte →</button>
   </div>
+  <div class="hmd-t2">· Identifiants & accès ·</div>
+  <div class="hmd-card">
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Email directeur</span><span class="hmd-row-badge" style="color:rgba(245,240,232,0.5);">jellyjolly@outlook.com</span></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Email honeymoon</span><span class="hmd-row-badge" style="color:rgba(245,240,232,0.5);">honeymoon-official@outlook.com</span></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Site live</span><a class="hmd-link-btn" href="https://honeymoonofficiel.vercel.app" target="_blank">Ouvrir →</a></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">GitHub repo</span><a class="hmd-link-btn" href="https://github.com/princemickaeljunior/Honeymoonofficiel" target="_blank">Ouvrir →</a></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Firebase Console</span><a class="hmd-link-btn" href="https://console.firebase.google.com" target="_blank">Ouvrir →</a></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Vercel Dashboard</span><a class="hmd-link-btn" href="https://vercel.com" target="_blank">Ouvrir →</a></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Cloudinary</span><a class="hmd-link-btn" href="https://cloudinary.com" target="_blank">Ouvrir →</a></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Stripe Dashboard</span><a class="hmd-link-btn" href="https://dashboard.stripe.com" target="_blank">Ouvrir →</a></div>
+  </div>
+  <div class="hmd-t2">· Statut Firebase ·</div>
+  <div class="hmd-card">
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Auth Firebase</span><span class="hmd-fb-badge"><span class="hmd-fb-dot ok"></span><span class="hmd-fb-ok">Actif ✓</span></span></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Firestore DB</span><span class="hmd-fb-badge"><span class="hmd-fb-dot ok"></span><span class="hmd-fb-ok">Actif ✓</span></span></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Rules Firestore</span><span class="hmd-fb-badge"><span class="hmd-fb-dot warn"></span><span class="hmd-fb-warn">Test mode — expire bientôt</span></span></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Storage</span><span class="hmd-fb-badge"><span class="hmd-fb-dot warn"></span><span class="hmd-fb-warn">Cloudinary (externe)</span></span></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Proxy Gemini</span><span class="hmd-fb-badge"><span class="hmd-fb-dot warn"></span><span class="hmd-fb-warn">À finaliser</span></span></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Nodemailer</span><span class="hmd-fb-badge"><span class="hmd-fb-dot warn"></span><span class="hmd-fb-warn">À configurer</span></span></div>
+  </div>
   <div class="hmd-t2">· Actions rapides ·</div>
   <button class="hmd-btn-ghost" onclick="hmdMarkAllRead()">✓ Tout marquer comme lu</button>
   <button class="hmd-btn-ghost" onclick="showPage('landing')">← Retour au site public</button>
@@ -20104,10 +20236,10 @@ document.addEventListener('DOMContentLoaded', function() {
   var dt=document.getElementById('hmd-date-t'); if(dt) dt.textContent=j[now.getDay()]+' '+m[now.getMonth()]+' '+now.getFullYear();
 })();
 
-/* ── Tab ── */
+/* ── Tab navigation ── */
 window.hmdTab=function(tab,btn){
-  document.querySelectorAll('.hmd-sec').forEach(function(s){s.classList.remove('on');});
-  document.querySelectorAll('.hmd-nav-btn').forEach(function(b){b.classList.remove('on');});
+  document.querySelectorAll('#page-admin-dashboard .hmd-sec').forEach(function(s){s.classList.remove('on');});
+  document.querySelectorAll('#page-admin-dashboard .hmd-nav-btn').forEach(function(b){b.classList.remove('on');});
   var sec=document.getElementById('hmd-sec-'+tab); if(sec) sec.classList.add('on');
   if(btn) btn.classList.add('on');
   if(tab==='creatrices') hmdLoadCreatrices();
@@ -20120,13 +20252,15 @@ window.hmdTab=function(tab,btn){
   if(tab==='agenda') hmdInitAgenda();
   if(tab==='notes') hmdLoadNotes();
   if(tab==='alertes') hmdRenderAlertes();
+  if(tab==='quiz') hmdLoadQuiz();
 };
 
-/* ── Init ── */
+/* ── Init principal (appelé par showPage) ── */
 window.adInit=function(){
   if(!window.hmDB) return;
   import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod){
-    // Créatrices
+
+    /* Créatrices */
     dbMod.getDocs(dbMod.collection(window.hmDB,'creators')).then(function(snap){
       var tot=snap.size,ac=0,fl=0,html='';
       snap.forEach(function(d){
@@ -20136,7 +20270,7 @@ window.adInit=function(){
         var dot=data.status==='active'?'active':data.status==='soon'?'soon':'away';
         var cat={honey_girl:'✦ Honey Girl',original:'✦ Original',ambassadrice:'👑 Ambassadrice',star:'★ Star'}[data.category||data.formula||'honey_girl']||'—';
         html+='<div class="hmd-row"><div class="hmd-dot '+dot+'"></div>'
-          +'<span class="hmd-row-lbl"><span style="font-family:'Cormorant Garamond',serif;font-size:17px;color:#faf6f0;">'+( data.name||d.id)+'</span></span>'
+          +'<span class="hmd-row-lbl"><span style="font-family:\'Cormorant Garamond\',serif;font-size:17px;color:#faf6f0;">'+(data.name||d.id)+'</span></span>'
           +'<span class="hmd-row-badge">'+cat+'</span>'
           +'<span style="font-size:7px;color:rgba(245,240,232,0.25);">'+(data.status||'away')+'</span>'
           +'</div>';
@@ -20147,19 +20281,27 @@ window.adInit=function(){
       ['k-ac','ap-ac'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=ac;});
       ['k-fl','ap-fl'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=fl.toLocaleString('fr-FR');});
     });
-    // Membres
+
+    /* Membres */
     dbMod.getDocs(dbMod.collection(window.hmDB,'members')).then(function(snap){
       ['k-mb','ap-mb','mb-tot'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=snap.size;});
     });
-    // Contenu
+
+    /* Contenu */
     dbMod.getDocs(dbMod.collection(window.hmDB,'content')).then(function(snap){
       ['k-ct','ap-ct'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=snap.size;});
     });
-    // Candidatures
+
+    /* Candidatures */
     dbMod.getDocs(dbMod.collection(window.hmDB,'applications')).then(function(snap){
-      ['k-ca','ap-ca'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=snap.size;});
+      var pend=0,acc=0;
+      snap.forEach(function(d){var s=d.data().status;if(s==='pending')pend++;if(s==='accepted')acc++;});
+      ['k-ca','ap-ca','cand-tot'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=snap.size;});
+      var ep=document.getElementById('cand-pend');if(ep)ep.textContent=pend;
+      var ea=document.getElementById('cand-acc');if(ea)ea.textContent=acc;
     });
-    // Notifications temps réel
+
+    /* Notifications temps réel */
     var nq=dbMod.query(dbMod.collection(window.hmDB,'notifications'),dbMod.orderBy('created_at','desc'),dbMod.limit(15));
     dbMod.onSnapshot(nq,function(snap){
       var html='',pending=0;
@@ -20167,7 +20309,7 @@ window.adInit=function(){
         var data=d.data();
         if(data.status==='pending') pending++;
         var icons={new_member:'👤',creator_login:'🔑',status_change:'📡',new_content:'📸',new_application:'📋',error:'⚠️'};
-        var labels={new_member:'Nouveau membre',creator_login:'Connexion',status_change:'Statut',new_content:'Contenu',new_application:'Candidature',error:'Erreur'};
+        var labels={new_member:'Nouveau membre',creator_login:'Connexion créatrice',status_change:'Statut modifié',new_content:'Nouveau contenu',new_application:'Candidature reçue',error:'Erreur système'};
         var time=data.created_at?new Date(data.created_at.seconds*1000).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}):'';
         var payload=data.payload||{};
         var txt=payload.email||payload.creator_id||payload.username||'';
@@ -20185,7 +20327,7 @@ window.adInit=function(){
 
 /* ── Créatrices ── */
 function hmdLoadCreatrices(){
-  if(!window.hmDB) return;
+  if(!window.hmDB){document.getElementById('hmd-cr-list').innerHTML='<div class="hmd-empty">Firebase non disponible</div>';return;}
   import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod){
     dbMod.getDocs(dbMod.collection(window.hmDB,'creators')).then(function(snap){
       var html='';
@@ -20223,7 +20365,7 @@ function hmdLoadCreatrices(){
           +'</div></div>';
       });
       var el=document.getElementById('hmd-cr-list');
-      if(el) el.innerHTML=html||'<div class="hmd-empty">Aucune créatrice</div>';
+      if(el) el.innerHTML=html||'<div class="hmd-empty">Aucune créatrice dans Firestore</div>';
     });
   });
 }
@@ -20232,22 +20374,31 @@ function hmdLoadCreatrices(){
 function hmdLoadMembres(){
   if(!window.hmDB) return;
   import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod){
-    var q=dbMod.query(dbMod.collection(window.hmDB,'members'),dbMod.orderBy('created_at','desc'),dbMod.limit(50));
-    dbMod.getDocs(q).then(function(snap){
-      var html='',pts=0,bdg=0;
+    dbMod.getDocs(dbMod.collection(window.hmDB,'members')).then(function(snap){
+      var html='',pts=0,bdg=0,prem=0,amb=0,wc=0,free=0;
       snap.forEach(function(d){
         var data=d.data();
-        pts+=parseInt(data.points)||0;
-        if(data.badge&&data.badge!=='honey') bdg++;
-        html+='<div class="hmd-row"><span class="hmd-row-lbl">'+(data.email||'—')+'</span>'
-          +'<span class="hmd-row-badge">'+(data.badge||'honey')+'</span>'
-          +'<span class="hmd-row-val">'+(data.points||0)+' pts</span></div>';
+        pts+=(parseInt(data.points)||0);
+        if(data.badge) bdg++;
+        var plan=data.plan||data.formula||'free';
+        if(plan==='premium') prem++;
+        else if(plan==='ambassadrice') amb++;
+        else if(plan==='wincash') wc++;
+        else free++;
+        var joined=data.created_at?new Date(data.created_at.seconds*1000).toLocaleDateString('fr-FR'):'—';
+        html+='<div class="hmd-row">'
+          +'<span class="hmd-row-lbl">'+(data.email||data.username||d.id)+'</span>'
+          +'<span class="hmd-row-badge">'+(data.plan||'free')+'</span>'
+          +'<span style="font-size:7px;color:rgba(245,240,232,0.3);">'+joined+'</span>'
+          +'</div>';
       });
-      var el=document.getElementById('hmd-mb-list');
-      if(el) el.innerHTML='<div class="hmd-card">'+(html||'<div class="hmd-empty">Aucun membre</div>')+'</div>';
-      var mt=document.getElementById('mb-tot'); if(mt) mt.textContent=snap.size;
-      var mp=document.getElementById('mb-pts'); if(mp) mp.textContent=pts.toLocaleString('fr-FR');
-      var mb=document.getElementById('mb-bdg'); if(mb) mb.textContent=bdg;
+      var el=document.getElementById('hmd-mb-list');if(el)el.innerHTML=html||'<div class="hmd-empty">Aucun membre</div>';
+      var ep=document.getElementById('mb-pts');if(ep)ep.textContent=pts.toLocaleString('fr-FR');
+      var eb=document.getElementById('mb-bdg');if(eb)eb.textContent=bdg;
+      var ep2=document.getElementById('mb-prem');if(ep2)ep2.textContent=prem;
+      var ea=document.getElementById('mb-amb');if(ea)ea.textContent=amb;
+      var ew=document.getElementById('mb-wc');if(ew)ew.textContent=wc;
+      var ef=document.getElementById('mb-free');if(ef)ef.textContent=free;
     });
   });
 }
@@ -20256,26 +20407,25 @@ function hmdLoadMembres(){
 function hmdLoadContenu(){
   if(!window.hmDB) return;
   import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod){
-    [{type:'photo',id:'ct-ph'},{type:'video',id:'ct-vi'},{type:'reels',id:'ct-re'},{type:'teaser',id:'ct-te'}].forEach(function(item){
-      var q=dbMod.query(dbMod.collection(window.hmDB,'content'),dbMod.where('type','==',item.type));
-      dbMod.getDocs(q).then(function(snap){var e=document.getElementById(item.id);if(e)e.textContent=snap.size;});
-    });
-    var qF=dbMod.query(dbMod.collection(window.hmDB,'content'),dbMod.where('locked','==',false));
-    dbMod.getDocs(qF).then(function(snap){var e=document.getElementById('ct-fr');if(e)e.textContent=snap.size;});
-    var qP=dbMod.query(dbMod.collection(window.hmDB,'content'),dbMod.where('locked','==',true));
-    dbMod.getDocs(qP).then(function(snap){var e=document.getElementById('ct-pa');if(e)e.textContent=snap.size;});
-    var q2=dbMod.query(dbMod.collection(window.hmDB,'content'),dbMod.orderBy('created_at','desc'),dbMod.limit(20));
-    dbMod.getDocs(q2).then(function(snap){
-      var html='';
+    dbMod.getDocs(dbMod.collection(window.hmDB,'content')).then(function(snap){
+      var ph=0,vi=0,re=0,te=0,fr=0,pa=0,html='';
       snap.forEach(function(d){
         var data=d.data();
-        var time=data.created_at?new Date(data.created_at.seconds*1000).toLocaleDateString('fr-FR'):'—';
-        html+='<div class="hmd-notif"><span class="hmd-notif-icon">'+(data.type==='video'||data.type==='reels'?'🎬':'📸')+'</span>'
-          +'<div class="hmd-notif-body"><div class="hmd-notif-type">'+(data.type||'—')+'</div>'
-          +'<div class="hmd-notif-txt">'+(data.creator_id||'—')+' · '+(data.locked?data.price_tokens+'tk':'Gratuit')+'</div></div>'
-          +'<span class="hmd-notif-time">'+time+'</span></div>';
+        var t=data.type||'photo';
+        if(t==='photo')ph++;else if(t==='video')vi++;else if(t==='reel')re++;else if(t==='teaser')te++;
+        if(data.free)fr++;else pa++;
+        var created=data.created_at?new Date(data.created_at.seconds*1000).toLocaleDateString('fr-FR'):'—';
+        html+='<div class="hmd-row"><span class="hmd-row-lbl">'+(data.title||d.id)+'</span>'
+          +'<span class="hmd-row-badge">'+(data.creator||'—')+'</span>'
+          +'<span style="font-size:7px;color:rgba(245,240,232,0.25);">'+created+'</span></div>';
       });
-      var el=document.getElementById('hmd-ct-list'); if(el) el.innerHTML=html||'<div class="hmd-empty">Aucun contenu</div>';
+      ['ct-ph'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=ph;});
+      ['ct-vi'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=vi;});
+      ['ct-re'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=re;});
+      ['ct-te'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=te;});
+      ['ct-fr'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=fr;});
+      ['ct-pa'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=pa;});
+      var el=document.getElementById('hmd-ct-list');if(el)el.innerHTML=html||'<div class="hmd-empty">Aucun contenu</div>';
     });
   });
 }
@@ -20284,72 +20434,71 @@ function hmdLoadContenu(){
 function hmdLoadCandidatures(){
   if(!window.hmDB) return;
   import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod){
-    dbMod.getDocs(dbMod.collection(window.hmDB,'applications')).then(function(snap){
-      var html='';
+    var q=dbMod.query(dbMod.collection(window.hmDB,'applications'),dbMod.orderBy('created_at','desc'));
+    dbMod.getDocs(q).then(function(snap){
+      var html='',pend=0,acc=0;
       snap.forEach(function(d){
         var data=d.data();
-        var time=data.created_at?new Date(data.created_at.seconds*1000).toLocaleDateString('fr-FR'):'—';
-        var st=data.status||'pending';
-        var stc=st==='accepted'?'#86efac':st==='rejected'?'#fca5a5':'rgba(214,169,78,0.7)';
+        if(data.status==='pending')pend++;
+        if(data.status==='accepted')acc++;
+        var created=data.created_at?new Date(data.created_at.seconds*1000).toLocaleDateString('fr-FR'):'—';
+        var statusColor=data.status==='pending'?'#fca5a5':data.status==='accepted'?'#86efac':'rgba(245,240,232,0.3)';
         html+='<div class="hmd-cand">'
-          +'<div style="display:flex;justify-content:space-between;align-items:flex-start;">'
-          +'<div class="hmd-cand-nm">'+(data.username||'—')+'</div>'
-          +'<span style="font-size:6px;letter-spacing:0.25em;text-transform:uppercase;color:'+stc+';">'+st+'</span>'
-          +'</div>'
-          +'<div class="hmd-cand-fm">'+(data.formula||'—')+'</div>'
-          +'<div class="hmd-cand-info">Email : '+(data.email||'—')+' · Pays : '+(data.country||'—')+' · Reçue le '+time
-          +(data.platforms?'<br>Plateformes : '+data.platforms.substring(0,60):'')
-          +(data.why?'<br>Motivation : '+data.why.substring(0,80):'')+'</div>'
-          +(st==='pending'?'<div class="hmd-act"><button class="hmd-btn-accept" onclick="hmdAcceptApp(''+d.id+'')">✓ Accepter</button><button class="hmd-btn-refuse" onclick="hmdRejectApp(''+d.id+'')">✗ Refuser</button></div>':'')
+          +'<div class="hmd-cand-nm">'+(data.username||data.firstname||d.id)+'</div>'
+          +'<div class="hmd-cand-fm">'+(data.formula||'—')+' · '+created+' · <span style="color:'+statusColor+';">'+(data.status||'pending')+'</span></div>'
+          +'<div class="hmd-cand-info">'
+          +'Email : '+(data.email||'—')+' · Âge : '+(data.age||'—')+' · Pays : '+(data.country||'—')+'<br>'
+          +'Plateformes : '+(data.platforms||'—')+' · Abonnés : '+(data.subscribers||'—')
           +'</div>';
+        if(data.status==='pending'){
+          html+='<div class="hmd-act">'
+            +'<button class="hmd-btn-accept" onclick="hmdAcceptApp(\''+d.id+'\')">✓ Accepter</button>'
+            +'<button class="hmd-btn-refuse" onclick="hmdRejectApp(\''+d.id+'\')">✕ Refuser</button>'
+            +'</div>';
+        }
+        html+='</div>';
       });
       var el=document.getElementById('hmd-cand-list');
-      if(el) el.innerHTML=html||'<div class="hmd-empty">Aucune candidature reçue</div>';
+      if(el)el.innerHTML=html||'<div class="hmd-empty">Aucune candidature</div>';
+      var et=document.getElementById('cand-tot');if(et)et.textContent=snap.size;
+      var ep=document.getElementById('cand-pend');if(ep)ep.textContent=pend;
+      var ea=document.getElementById('cand-acc');if(ea)ea.textContent=acc;
     });
   });
 }
 
 /* ── Profils publics ── */
 function hmdLoadProfils(){
-  if(!window.hmDB) return;
+  if(!window.hmDB){document.getElementById('hmd-profils-list').innerHTML='<div class="hmd-empty">Firebase non disponible</div>';return;}
   import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod){
-    var creatrices=['luna','zara','nova','dream'];
-    var html='';
-    var promises=creatrices.map(function(slug){
-      return dbMod.getDoc(dbMod.doc(window.hmDB,'creators',slug)).then(function(d){
-        var ok=d.exists();
-        var data=ok?d.data():{};
-        var score=0,total=8;
-        if(data.photo) score++;
-        if(data.bio&&data.bio.length>10) score++;
-        if(data.name) score++;
-        if(data.country) score++;
-        if(data.link_onlyfans||data.link_stripchat) score++;
-        if(data.hobbies) score++;
-        if(data.tagline) score++;
-        if(data.languages) score++;
-        var pct=Math.round(score/total*100);
-        var color=pct>=75?'#86efac':pct>=40?'rgba(214,169,78,0.8)':'#fca5a5';
-        html+='<div class="hmd-cr" style="margin-bottom:8px;">'
-          +'<div class="hmd-cr-head">'
-          +'<div class="hmd-cr-av">'+(data.photo?'<img src="'+data.photo+'">':slug[0].toUpperCase())+'</div>'
-          +'<div style="flex:1;"><div class="hmd-cr-nm">'+slug.charAt(0).toUpperCase()+slug.slice(1)+'</div>'
-          +'<div class="hmd-cr-fm">'+(ok?'Profil existant':'Profil non créé')+'</div></div>'
-          +'<span style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:'+color+';">'+pct+'%</span>'
-          +'</div>'
-          +'<div class="hmd-cr-info">'
-          +'<div class="hmd-cr-kv">Photo : <b>'+(data.photo?'✓':'⚠ Manquante')+'</b></div>'
-          +'<div class="hmd-cr-kv">Bio : <b>'+(data.bio&&data.bio.length>10?'✓':'⚠ Vide')+'</b></div>'
-          +'<div class="hmd-cr-kv">Pays : <b>'+(data.country||'⚠ Manquant')+'</b></div>'
-          +'<div class="hmd-cr-kv">Liens plateforme : <b>'+(data.link_onlyfans||data.link_stripchat?'✓':'⚠ Manquant')+'</b></div>'
-          +'<div class="hmd-cr-kv">Hobbies : <b>'+(data.hobbies?'✓':'⚠ Vide')+'</b></div>'
-          +'<div class="hmd-cr-kv">Tagline : <b>'+(data.tagline?'✓':'⚠ Vide')+'</b></div>'
-          +'</div></div>';
+    var themes=['luna','zara','nova','dream'];
+    var html='',promises=[];
+    themes.forEach(function(theme){
+      var p=dbMod.getDocs(dbMod.collection(window.hmDB,'creators')).then(function(snap){
+        snap.forEach(function(d){
+          if(d.id.startsWith(theme)||( d.data().theme===theme)){
+            var data=d.data();
+            var dot=data.status==='active'?'active':data.status==='soon'?'soon':'away';
+            html+='<div class="hmd-cr">'
+              +'<div class="hmd-cr-head">'
+              +'<div class="hmd-cr-av">'+(data.photo?'<img src="'+data.photo+'">':(data.name||theme[0].toUpperCase()).toUpperCase())+'</div>'
+              +'<div style="flex:1;"><div class="hmd-cr-nm">'+(data.name||d.id)+'</div><div class="hmd-cr-fm">Thème '+theme+'</div></div>'
+              +'<div class="hmd-dot '+dot+'"></div>'
+              +'</div>'
+              +'<div class="hmd-cr-info">'
+              +'<div class="hmd-cr-kv">Status : <b>'+(data.status||'away')+'</b></div>'
+              +'<div class="hmd-cr-kv">Bio : <b>'+(data.bio?'✓ Présente':'⚠ Manquante')+'</b></div>'
+              +'<div class="hmd-cr-kv">Photo : <b>'+(data.photo?'✓ Présente':'⚠ Manquante')+'</b></div>'
+              +'<div class="hmd-cr-kv">Tagline : <b>'+(data.tagline?'✓ Présente':'⚠ Vide')+'</b></div>'
+              +'</div></div>';
+          }
+        });
       });
+      promises.push(p);
     });
     Promise.all(promises).then(function(){
       var el=document.getElementById('hmd-profils-list');
-      if(el) el.innerHTML=html||'<div class="hmd-empty">Erreur chargement</div>';
+      if(el) el.innerHTML=html||'<div class="hmd-empty">Aucun profil dans Firestore</div>';
     });
   });
 }
@@ -20364,7 +20513,7 @@ function hmdLoadNotifications(){
       snap.forEach(function(d){
         var data=d.data();
         var icons={new_member:'👤',creator_login:'🔑',status_change:'📡',new_content:'📸',new_application:'📋',error:'⚠️'};
-        var labels={new_member:'Nouveau membre',creator_login:'Connexion',status_change:'Statut modifié',new_content:'Nouveau contenu',new_application:'Candidature',error:'Erreur'};
+        var labels={new_member:'Nouveau membre',creator_login:'Connexion créatrice',status_change:'Statut modifié',new_content:'Nouveau contenu',new_application:'Candidature',error:'Erreur'};
         var time=data.created_at?new Date(data.created_at.seconds*1000).toLocaleString('fr-FR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'';
         var payload=data.payload||{};
         var txt=payload.email||payload.creator_id||payload.username||'';
@@ -20383,7 +20532,10 @@ function hmdLoadNotifications(){
 
 /* ── Problèmes ── */
 function hmdLoadProblemes(){
-  if(!window.hmDB) return;
+  if(!window.hmDB){
+    document.getElementById('hmd-prob-list').innerHTML='<div class="hmd-card-warn"><span style="font-size:10px;color:rgba(245,240,232,0.65);">Firebase non initialisé — connectez-vous d\'abord</span></div>';
+    return;
+  }
   import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod){
     var probs=[];
     dbMod.getDocs(dbMod.collection(window.hmDB,'creators')).then(function(snap){
@@ -20392,17 +20544,21 @@ function hmdLoadProblemes(){
         if(!data.photo) probs.push({t:'warn',msg:'Créatrice <b>'+nom+'</b> — photo de profil manquante'});
         if(!data.bio||data.bio.length<10) probs.push({t:'warn',msg:'Créatrice <b>'+nom+'</b> — bio vide ou trop courte'});
         if(!data.email) probs.push({t:'red',msg:'Créatrice <b>'+nom+'</b> — email absent dans Firestore'});
-        if(!data.link_onlyfans&&!data.link_stripchat) probs.push({t:'warn',msg:'Créatrice <b>'+nom+'</b> — aucun lien de plateforme'});
+        if(!data.link_onlyfans&&!data.link_stripchat) probs.push({t:'warn',msg:'Créatrice <b>'+nom+'</b> — aucun lien de plateforme configuré'});
       });
       var eq=dbMod.query(dbMod.collection(window.hmDB,'notifications'),dbMod.where('type','==','error'),dbMod.limit(10));
       dbMod.getDocs(eq).then(function(eSnap){
+        var errHtml='';
         eSnap.forEach(function(d){
-          probs.push({t:'red',msg:'Erreur Firebase : '+(d.data().payload?JSON.stringify(d.data().payload).substring(0,70):'inconnue')});
+          probs.push({t:'red',msg:'Erreur Firebase : '+(d.data().payload?JSON.stringify(d.data().payload).substring(0,80):'inconnue')});
+          errHtml+='<div class="hmd-card-red"><span style="font-size:10px;color:rgba(245,240,232,0.65);">'+JSON.stringify(d.data().payload||{}).substring(0,80)+'</span></div>';
         });
         var html='';
         probs.forEach(function(p){html+='<div class="'+(p.t==='red'?'hmd-card-red':'hmd-card-warn')+'"><span style="font-size:10px;color:rgba(245,240,232,0.65);line-height:1.6;">'+p.msg+'</span></div>';});
         var el=document.getElementById('hmd-prob-list');
         if(el) el.innerHTML=html||'<div class="hmd-ok">✓ Aucun problème détecté — site opérationnel</div>';
+        var ee=document.getElementById('hmd-err-list');
+        if(ee) ee.innerHTML=errHtml||'<div class="hmd-empty">Aucune erreur Firebase ✓</div>';
       });
     });
   });
@@ -20429,14 +20585,35 @@ window.hmdAiSend=async function(){
     }
   }catch(e){}
   try{
-    var res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:800,system:'Tu es l'assistant IA personnel du Directeur de Honeymoon Agency. Données : '+ctx+' Réponds en français, de façon concise et professionnelle.',messages:[{role:'user',content:q}]})});
+    var res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:800,system:'Tu es l\'assistant IA personnel du Directeur de Honeymoon Agency. Données du site : '+ctx+' Réponds en français, de façon concise et professionnelle.',messages:[{role:'user',content:q}]})});
     var data=await res.json();
-    var answer=data.content&&data.content[0]?data.content[0].text:'Je n'ai pas pu traiter votre demande.';
+    var answer=data.content&&data.content[0]?data.content[0].text:'Je n\'ai pas pu traiter votre demande.';
     if(msgs){msgs.innerHTML+='<div class="hmd-ai-msg"><div class="hmd-ai-who">✦ Assistant</div><div class="hmd-ai-bbl hmd-ai-bbl-ia">'+answer+'</div></div>';msgs.scrollTop=msgs.scrollHeight;}
   }catch(e){
     if(msgs){msgs.innerHTML+='<div class="hmd-ai-msg"><div class="hmd-ai-who">✦ Assistant</div><div class="hmd-ai-bbl hmd-ai-bbl-ia">Connexion IA indisponible pour le moment.</div></div>';msgs.scrollTop=msgs.scrollHeight;}
   }
 };
+
+/* ── Quiz ── */
+function hmdLoadQuiz(){
+  if(!window.hmDB){document.getElementById('hmd-quiz-stats').innerHTML='<div class="hmd-empty">Firebase non disponible</div>';return;}
+  import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod){
+    dbMod.getDocs(dbMod.collection(window.hmDB,'quiz_results')).then(function(snap){
+      var tot=snap.size,totalScore=0;
+      snap.forEach(function(d){totalScore+=(parseInt(d.data().score)||0);});
+      var avg=tot?Math.round(totalScore/tot):0;
+      var eq=document.getElementById('qz-played');if(eq)eq.textContent=tot;
+      var ea=document.getElementById('qz-avg');if(ea)ea.textContent=avg+' pts';
+      var el=document.getElementById('hmd-quiz-stats');
+      if(el) el.innerHTML='<div class="hmd-stat-row"><span>Parties jouées</span><span class="hmd-stat-val">'+tot+'</span></div>'
+        +'<div class="hmd-stat-row"><span>Score total cumulé</span><span class="hmd-stat-val">'+totalScore.toLocaleString('fr-FR')+' pts</span></div>'
+        +'<div class="hmd-stat-row"><span>Score moyen par partie</span><span class="hmd-stat-val">'+avg+' pts</span></div>';
+    }).catch(function(){
+      var el=document.getElementById('hmd-quiz-stats');
+      if(el) el.innerHTML='<div class="hmd-empty">Collection quiz_results introuvable — à créer</div>';
+    });
+  });
+}
 
 /* ── Agenda ── */
 var _agM=new Date().getMonth(),_agY=new Date().getFullYear(),_agSel=null;
@@ -20520,7 +20697,7 @@ window.hmdDelAlerte=function(id){_alertes=_alertes.filter(function(a){return a.i
 window.hmdAcceptApp=function(id){
   if(!window.hmDB) return;
   import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod){
-    dbMod.updateDoc(dbMod.doc(window.hmDB,'applications',id),{status:'accepted',updated_at:dbMod.serverTimestamp()}).then(function(){hmdLoadCandidatures();alert('Candidature acceptée — créez le compte dans l'onglet Gestion');});
+    dbMod.updateDoc(dbMod.doc(window.hmDB,'applications',id),{status:'accepted',updated_at:dbMod.serverTimestamp()}).then(function(){hmdLoadCandidatures();alert('Candidature acceptée — créez le compte dans l\'onglet 20 · Gestion');});
   });
 };
 window.hmdRejectApp=function(id){
@@ -20530,7 +20707,7 @@ window.hmdRejectApp=function(id){
   });
 };
 
-/* ── Gestion ── */
+/* ── Gestion — Créer compte créatrice ── */
 window.hmdGenPwd=function(){
   var chars='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789!@#';
   var pwd='';for(var i=0;i<12;i++)pwd+=chars[Math.floor(Math.random()*chars.length)];
@@ -20557,12 +20734,12 @@ window.hmdCreateCreator=async function(){
     if(msg){msg.style.display='block';msg.style.color='#86efac';msg.textContent='✓ Compte créé — envoyez les identifiants à la créatrice';}
     ['hmd-cr-name','hmd-cr-email','hmd-cr-pwd'].forEach(function(id){var e=document.getElementById(id);if(e)e.value='';});
   }catch(err){
-    var e=err.code==='auth/email-already-in-use'?'Email déjà utilisé':err.code==='auth/weak-password'?'Mot de passe trop faible':err.message;
-    if(msg){msg.style.display='block';msg.style.color='#fca5a5';msg.textContent=e;}
+    var errMsg=err.code==='auth/email-already-in-use'?'Email déjà utilisé':err.code==='auth/weak-password'?'Mot de passe trop faible':err.message;
+    if(msg){msg.style.display='block';msg.style.color='#fca5a5';msg.textContent=errMsg;}
   }
 };
 
-/* ── Notifications ── */
+/* ── Notifications — Marquer tout lu ── */
 window.hmdMarkAllRead=function(){
   if(!window.hmDB) return;
   import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod){
@@ -20571,7 +20748,7 @@ window.hmdMarkAllRead=function(){
   });
 };
 
-/* ── Compat ── */
+/* ── Aliases de compatibilité ── */
 window.adMarkAllRead=window.hmdMarkAllRead;
 window.adGenPwd=window.hmdGenPwd;
 window.adCreateCreator=window.hmdCreateCreator;
@@ -20587,6 +20764,7 @@ window.showPage=function(pid){if(_orig)_orig.apply(this,arguments);if(pid==='adm
 </script>
 </div>
 <!-- ═══ FIN PAGE ADMIN DASHBOARD ═══ -->
+
 
 <!-- ═══════════════════════════════════════════════════════════
      PAGE APPLY — FORMULAIRE CANDIDATURE CRÉATRICE
