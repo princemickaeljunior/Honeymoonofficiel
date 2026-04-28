@@ -20443,6 +20443,13 @@ document.addEventListener('DOMContentLoaded', function() {
         <option value="star">★ Star — Table d'honneur (75%)</option>
       </select>
     </div>
+    <div class="hmd-field"><label class="hmd-lbl">Numéro (1, 2 ou 3)</label>
+      <select class="hmd-sel" id="hmd-cr-num">
+        <option value="1">1 — Première place</option>
+        <option value="2">2 — Deuxième place</option>
+        <option value="3">3 — Troisième place</option>
+      </select>
+    </div>
     <div class="hmd-msg-box" id="hmd-cr-msg"></div>
     <button class="hmd-btn-gold" style="margin-top:10px;" onclick="hmdCreateCreator()">✦ Créer le compte →</button>
   </div>
@@ -20967,24 +20974,20 @@ window.hmdCreateCreator=async function(){
   var email=(document.getElementById('hmd-cr-email')||{}).value||'';
   var pwd=(document.getElementById('hmd-cr-pwd')||{}).value||'';
   var cat=(document.getElementById('hmd-cr-cat')||{}).value||'honey_girl';
+  var num=(document.getElementById('hmd-cr-num')||{}).value||'1';
   var msg=document.getElementById('hmd-cr-msg');
   if(!name||!email||!pwd){if(msg){msg.style.display='block';msg.style.color='#fca5a5';msg.textContent='Remplissez tous les champs';}return;}
   if(msg){msg.style.display='block';msg.style.color='rgba(214,169,78,0.7)';msg.textContent='Création en cours…';}
   try{
-    var authMod=await import('https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js');
-    var cred=await authMod.createUserWithEmailAndPassword(window.hmAuth,email,pwd);
+    var res=await fetch('/api/creator-setup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email,password:pwd,username:name,category:cat,number:num})});
+    var data=await res.json();
+    if(!res.ok) throw new Error(data.error||'Erreur création');
     var dbMod=await import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js');
-    var slug=name.toLowerCase().replace(/[^a-z0-9]/g,'');
-    await dbMod.setDoc(dbMod.doc(window.hmDB,'creators',slug),{
-      name:name,email:email,uid:cred.user.uid,
-      category:cat,formula:cat,
-      status:'soon',bio:'',created_at:dbMod.serverTimestamp()
-    });
-    if(msg){msg.style.display='block';msg.style.color='#86efac';msg.textContent='✓ Compte créé — envoyez les identifiants à la créatrice';}
+    await dbMod.setDoc(dbMod.doc(window.hmDB,'creator_accounts',data.uid),{pageId:data.pageId,email:email,username:name,category:cat,number:num},{merge:true});
+    if(msg){msg.style.display='block';msg.style.color='#86efac';msg.textContent='✓ Compte créé — Page: '+data.pageId+' — Envoyez les identifiants à la créatrice';}
     ['hmd-cr-name','hmd-cr-email','hmd-cr-pwd'].forEach(function(id){var e=document.getElementById(id);if(e)e.value='';});
   }catch(err){
-    var errMsg=err.code==='auth/email-already-in-use'?'Email déjà utilisé':err.code==='auth/weak-password'?'Mot de passe trop faible':err.message;
-    if(msg){msg.style.display='block';msg.style.color='#fca5a5';msg.textContent=errMsg;}
+    if(msg){msg.style.display='block';msg.style.color='#fca5a5';msg.textContent=err.message;}
   }
 };
 
