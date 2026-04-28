@@ -10403,16 +10403,66 @@ var _origShowPage = window.showPage;
 window.showPage = function(id) {
   _origShowPage(id);
   hmUpdateBackBtn(id);
-  // Réinitialiser l'animation hero si on revient au landing
   if (id === 'landing') {
     var hero = document.querySelector('#page-landing .landing-hero');
     if (hero) {
       hero.style.animation = 'none';
-      requestAnimationFrame(function() {
-        hero.style.animation = '';
-      });
+      requestAnimationFrame(function() { hero.style.animation = ''; });
     }
   }
+  // ── Écouter en temps réel la page publique créatrice ──
+  var publicIds = ['hg-1','hg-2','hg-3','or-1','or-2','or-3','am-1','am-2','am-3','st-1','st-2','st-3'];
+  if (publicIds.indexOf(id) !== -1) {
+    hmWatchPublicPage(id);
+  }
+};
+
+// ── Écoute temps réel Firestore → met à jour la page publique ──
+var _hmPageListeners = {};
+window.hmWatchPublicPage = function(pageId) {
+  // Éviter de dupliquer les listeners
+  if (_hmPageListeners[pageId]) return;
+  if (!window.hmDB) {
+    setTimeout(function(){ window.hmWatchPublicPage(pageId); }, 1500);
+    return;
+  }
+  import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js').then(function(dbMod) {
+    var unsubscribe = dbMod.onSnapshot(
+      dbMod.doc(window.hmDB, 'creators', pageId),
+      function(snap) {
+        if (!snap.exists()) return;
+        var data = snap.data();
+        var page = document.getElementById('page-' + pageId);
+        if (!page) return;
+        // Mettre à jour nom
+        if (data.name) {
+          page.querySelectorAll('[data-fb="name"]').forEach(function(el) {
+            el.textContent = data.name;
+          });
+        }
+        // Mettre à jour bio
+        if (data.bio) {
+          page.querySelectorAll('[data-fb="bio"]').forEach(function(el) {
+            el.textContent = data.bio;
+          });
+        }
+        // Mettre à jour photo
+        if (data.photo) {
+          page.querySelectorAll('[data-fb="photo_hero"]').forEach(function(el) {
+            el.innerHTML = '<img src="' + data.photo + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">';
+          });
+        }
+        // Mettre à jour statut
+        var dot = page.querySelector('.hmp-status-dot, .creator-live-dot');
+        if (dot && data.status) {
+          dot.style.background = data.status === 'active' ? '#4caf50' : data.status === 'soon' ? '#ff9800' : '#666';
+        }
+        console.log('✦ HM onSnapshot — page', pageId, 'mise à jour:', data.name);
+      },
+      function(err) { console.warn('HM onSnapshot error:', err); }
+    );
+    _hmPageListeners[pageId] = unsubscribe;
+  });
 };
 
 // ── WINCASH — Achat tokens ──
