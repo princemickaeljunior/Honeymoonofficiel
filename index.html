@@ -27,24 +27,24 @@ rdt('track','PageVisit');
 <style>
 :root {
   /* Colors */
-  --gold: #d6a94e;
-  --gold-light: #f2d270;
-  --gold-glow: rgba(214,169,78,0.60);
-  --gold-glow-soft: rgba(214,169,78,0.25);
-  --gold-dim: rgba(214,169,78,0.14);
-  --gold-border: rgba(214,169,78,0.32);
-  --black: #1e1245;
-  --dark: #261550;
-  --card: #2e1a5a;
+  --gold: #d4a843;
+  --gold-light: #e8c060;
+  --gold-glow: rgba(212,168,67,0.55);
+  --gold-glow-soft: rgba(212,168,67,0.25);
+  --gold-dim: rgba(212,168,67,0.12);
+  --gold-border: rgba(212,168,67,0.35);
+  --black: #2c1f14;
+  --dark: #38271a;
+  --card: #44301f;
   --cream: #faf6f0;
-  --muted: #f5f0e8;
-  --text: #f5f0e8;
-  --rouge:         #ff4820;
-  --rouge-glow:    rgba(255,72,32,0.65);
-  --rouge-dim:     rgba(255,72,32,0.12);
-  --violet:        #7c3aed;
-  --violet-glow:   rgba(124,58,237,0.65);
-  --violet-dim:    rgba(124,58,237,0.16);
+  --muted: #e8d8c8;
+  --text: #f5ede2;
+  --rouge:         #8b4a2a;
+  --rouge-glow:    rgba(139,74,42,0.50);
+  --rouge-dim:     rgba(139,74,42,0.10);
+  --violet:        #6b3a1f;
+  --violet-glow:   rgba(107,58,31,0.50);
+  --violet-dim:    rgba(107,58,31,0.12);
 
   /* ── Système typographique unifié ── */
   --font-body:    'Montserrat', sans-serif;
@@ -73,7 +73,7 @@ rdt('track','PageVisit');
 }
 *{margin:0;padding:0;box-sizing:border-box;}img,video,svg{max-width:100%;display:block;}
 html{scroll-behavior:smooth;-webkit-tap-highlight-color:transparent;text-rendering:optimizeSpeed;}
-body{background:radial-gradient(ellipse 80% 60% at 15% 10%, rgba(255,72,32,0.12) 0%, transparent 55%), radial-gradient(ellipse 70% 60% at 85% 90%, rgba(124,58,237,0.18) 0%, transparent 55%), #1e1245;color:var(--text);font-family:var(--font-body);font-size:15px;font-weight:var(--fw-light);line-height:1.80;overflow-x:hidden;width:100%;-webkit-font-smoothing:antialiased;}
+body{background:radial-gradient(ellipse 80% 60% at 15% 10%, rgba(139,74,42,0.12) 0%, transparent 55%), radial-gradient(ellipse 70% 60% at 85% 90%, rgba(184,146,74,0.08) 0%, transparent 55%), #2c1f14;color:var(--text);font-family:var(--font-body);font-size:15px;font-weight:var(--fw-light);line-height:1.80;overflow-x:hidden;width:100%;-webkit-font-smoothing:antialiased;}
 
 
 
@@ -95,6 +95,7 @@ h1, h2, h3, .display {
   font-weight: 300;
   line-height: 1.05;
   color: var(--cream);
+  text-shadow: 0 0 30px rgba(184,146,74,0.15), 0 1px 2px rgba(0,0,0,0.25);
 }
 
 /* Labels / eyebrows / badges — toujours 10px uppercase */
@@ -112,10 +113,11 @@ h1, h2, h3, .display {
 .access-bar span, .model-role, .cta-divider {
   font-family: var(--font-body) !important;
   font-size: var(--fs-xs) !important;
-  font-weight: var(--fw-regular) !important;
+  font-weight: var(--fw-medium) !important;
   letter-spacing: var(--ls-wide);
   text-transform: uppercase;
   line-height: 1.6;
+  text-shadow: 0 0 18px rgba(212,168,67,0.40), 0 1px 1px rgba(0,0,0,0.30);
 }
 
 /* Corps de texte — 13px */
@@ -321,15 +323,15 @@ img, video { max-width: 100%; height: auto; }
 
 /* Pulse LED — rouge ardent battant */
 @keyframes ledPulse{
-  0%,100%{box-shadow:0 0 12px rgba(255,72,32,0.58), 0 0 25px rgba(124,58,237,0.28);}
-  50%{box-shadow:0 0 26px rgba(255,72,32,0.92), 0 0 55px rgba(124,58,237,0.65);}
+  0%,100%{box-shadow:0 0 8px rgba(184,146,74,0.30), 0 0 18px rgba(139,74,42,0.18);}
+  50%{box-shadow:0 0 16px rgba(184,146,74,0.48), 0 0 32px rgba(139,74,42,0.28);}
 }
 .ref-badge{animation:ledPulse 2s ease-in-out infinite;}
 
 /* Price LED — or brûlant pulsant */
 @keyframes priceLed{
-  0%,100%{text-shadow:0 0 20px rgba(214,169,78,0.75), 0 0 42px rgba(255,72,32,0.45);}
-  50%{text-shadow:0 0 36px rgba(214,169,78,1.00), 0 0 72px rgba(255,72,32,0.72);}
+  0%,100%{text-shadow:0 0 12px rgba(184,146,74,0.35), 0 1px 2px rgba(0,0,0,0.2);}
+  50%{text-shadow:0 0 20px rgba(184,146,74,0.50), 0 1px 2px rgba(0,0,0,0.2);}
 }
 .price-num{animation:priceLed 3s ease-in-out infinite;}
 
@@ -378,8 +380,8 @@ img, video { max-width: 100%; height: auto; }
 /* ── FOOTER DISTINCT ── */
 .site-footer{
   padding:60px 40px 40px;
-  background:var(--dark);
-  border-top:2px solid rgba(214,169,78,0.15);
+  background:#38271a;
+  border-top:2px solid rgba(184,146,74,0.20);
   text-align:center;
   display:flex;flex-direction:column;align-items:center;gap:20px;
   position:relative;
@@ -811,8 +813,8 @@ nav{
   position:fixed;top:0;left:0;right:0;z-index:600;
   padding:16px 44px;
   display:flex;justify-content:center;align-items:center;
-  background:#1e1245;
-  border-bottom:1px solid rgba(214,169,78,0.2);
+  background:#38271a;
+  border-bottom:1px solid rgba(184,146,74,0.22);
   box-shadow:0 2px 40px rgba(0,0,0,0.7);
   transition:opacity 0.4s;
 }
@@ -826,8 +828,8 @@ nav.hidden{opacity:0;pointer-events:none;}
   top:57px;
   left:0;right:0;
   z-index:590;
-  background:#1e1245;
-  border-bottom:1px solid rgba(214,169,78,0.12);
+  background:#38271a;
+  border-bottom:1px solid rgba(184,146,74,0.15);
   box-shadow:0 8px 48px rgba(0,0,0,0.95);
 }
 .quick-bar::before{
@@ -1004,7 +1006,7 @@ nav.hidden{opacity:0;pointer-events:none;}
 /* ── MENU OVERLAY ── */
 .menu-overlay{
   position:fixed;inset:0;z-index:700;
-  background:#2a1840;
+  background:#44301f;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   pointer-events:none;
   opacity:0;
@@ -2987,17 +2989,7 @@ function hmAgeRefuse() {
         <svg class="mc-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
 
-      <!-- CREATOR LOGIN -->
-      <button class="mc-item" onclick="showPage('creator-login');toggleMenu();" style="border-bottom:none;">
-        <div class="mc-icon" style="border-color:rgba(214,169,78,0.35);background:rgba(214,169,78,0.06);">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="rgba(214,169,78,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        </div>
-        <div class="mc-text">
-          <span class="mc-eye" style="color:rgba(214,169,78,0.6);">· Dashboard · Revenue · Content</span>
-          <span class="mc-label" style="color:rgba(242,210,112,0.85);">Creator Login</span>
-        </div>
-        <svg class="mc-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" style="color:#d6a94e;"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
+
 
     </nav>
 
@@ -20508,6 +20500,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="hmd-link-row"><span class="hmd-link-lbl">Email directeur</span><span class="hmd-row-badge" style="color:rgba(245,240,232,0.5);">jellyjolly@outlook.com</span></div>
     <div class="hmd-link-row"><span class="hmd-link-lbl">Email honeymoon</span><span class="hmd-row-badge" style="color:rgba(245,240,232,0.5);">honeymoon-official@outlook.com</span></div>
     <div class="hmd-link-row"><span class="hmd-link-lbl">Site live</span><a class="hmd-link-btn" href="https://honeymoonofficiel.vercel.app" target="_blank">Ouvrir →</a></div>
+    <div class="hmd-link-row"><span class="hmd-link-lbl">Dashboard Créatrice</span><a class="hmd-link-btn" href="https://honeymoonofficiel.vercel.app/creator.html" target="_blank">Copier le lien →</a></div>
     <div class="hmd-link-row"><span class="hmd-link-lbl">GitHub repo</span><a class="hmd-link-btn" href="https://github.com/princemickaeljunior/Honeymoonofficiel" target="_blank">Ouvrir →</a></div>
     <div class="hmd-link-row"><span class="hmd-link-lbl">Firebase Console</span><a class="hmd-link-btn" href="https://console.firebase.google.com" target="_blank">Ouvrir →</a></div>
     <div class="hmd-link-row"><span class="hmd-link-lbl">Vercel Dashboard</span><a class="hmd-link-btn" href="https://vercel.com" target="_blank">Ouvrir →</a></div>
