@@ -20978,16 +20978,29 @@ window.hmdCreateCreator=async function(){
   var msg=document.getElementById('hmd-cr-msg');
   if(!name||!email||!pwd){if(msg){msg.style.display='block';msg.style.color='#fca5a5';msg.textContent='Remplissez tous les champs';}return;}
   if(msg){msg.style.display='block';msg.style.color='rgba(214,169,78,0.7)';msg.textContent='Création en cours…';}
+  // Map catégorie → préfixe page
+  var prefixMap={honey_girl:'hg',original:'or',ambassadrice:'am',star:'st'};
+  var prefix=prefixMap[cat]||'hg';
+  var pageId=prefix+'-'+num;
   try{
-    var res=await fetch('/api/creator-setup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email,password:pwd,username:name,category:cat,number:num})});
-    var data=await res.json();
-    if(!res.ok) throw new Error(data.error||'Erreur création');
+    var authMod=await import('https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js');
+    var cred=await authMod.createUserWithEmailAndPassword(window.hmAuth,email,pwd);
     var dbMod=await import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js');
-    await dbMod.setDoc(dbMod.doc(window.hmDB,'creator_accounts',data.uid),{pageId:data.pageId,email:email,username:name,category:cat,number:num},{merge:true});
-    if(msg){msg.style.display='block';msg.style.color='#86efac';msg.textContent='✓ Compte créé — Page: '+data.pageId+' — Envoyez les identifiants à la créatrice';}
+    // Sauvegarder dans creators/{pageId}
+    await dbMod.setDoc(dbMod.doc(window.hmDB,'creators',pageId),{
+      name:name,email:email,uid:cred.user.uid,
+      category:cat,formula:cat,number:parseInt(num),pageId:pageId,
+      status:'soon',bio:'',created_at:dbMod.serverTimestamp()
+    },{merge:true});
+    // Lier uid → pageId dans creator_accounts
+    await dbMod.setDoc(dbMod.doc(window.hmDB,'creator_accounts',cred.user.uid),{
+      pageId:pageId,email:email,username:name,category:cat,number:parseInt(num)
+    });
+    if(msg){msg.style.display='block';msg.style.color='#86efac';msg.textContent='✓ Compte créé — Page: '+pageId+' — Envoyez les identifiants à la créatrice';}
     ['hmd-cr-name','hmd-cr-email','hmd-cr-pwd'].forEach(function(id){var e=document.getElementById(id);if(e)e.value='';});
   }catch(err){
-    if(msg){msg.style.display='block';msg.style.color='#fca5a5';msg.textContent=err.message;}
+    var errMsg=err.code==='auth/email-already-in-use'?'Email déjà utilisé':err.code==='auth/weak-password'?'Mot de passe trop faible':err.message;
+    if(msg){msg.style.display='block';msg.style.color='#fca5a5';msg.textContent=errMsg;}
   }
 };
 
