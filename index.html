@@ -8125,15 +8125,18 @@ function closeTipModal() {
             if (typeof window.hmSaveMemberFS === 'function') {
               window.hmSaveMemberFS(cred.user.uid, member, email);
             }
+            // ── Envoyer email de bienvenue via SendGrid ──
+            if (typeof hmSendWelcomeEmailSG === 'function') {
+              hmSendWelcomeEmailSG(email, member, 50);
+            }
+            // Retour sur le site — onAuthStateChanged va afficher le trigger
             showPage('landing');
-            setTimeout(function(){ if(typeof hmSbOpen==='function') hmSbOpen(); }, 500);
           })
           .catch(function(err) {
             if (err.code === 'auth/email-already-in-use') {
               authMod.signInWithEmailAndPassword(window.hmAuth, email, pwd)
                 .then(function() {
                   showPage('landing');
-                  setTimeout(function(){ if(typeof hmSbOpen==='function') hmSbOpen(); }, 500);
                 })
                 .catch(function() { alert('This email already has an account. Check your password.'); });
             } else {
@@ -10511,21 +10514,31 @@ function hmUpdatePointsDisplay() {
 async function hmSendEmail(to, subject, html) {
   if (!to || !to.includes('@')) return false;
   try {
-    var res = await fetch('https://api.resend.com/emails', {
+    // ── Utilise notre Vercel Function sécurisée (clé SendGrid stockée dans Vercel) ──
+    var res = await fetch('/api/send-email', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + CONFIG.RESEND_API_KEY
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        from: CONFIG.RESEND_FROM,
-        to: [to],
+        type: 'custom',
+        to: to,
         subject: subject,
         html: html
       })
     });
     return res.ok;
   } catch(e) { return false; }
+}
+
+// ── Envoi email de bienvenue HoneyMoon (nouveau système SendGrid) ──
+async function hmSendWelcomeEmailSG(email, name, points) {
+  if (!email) return;
+  try {
+    await fetch('/api/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'welcome', to: email, name: name, points: points || 50 })
+    });
+  } catch(e) { console.warn('Email bienvenue non envoyé:', e.message); }
 }
 
 // ── EMAIL 1 — Confirmation + Welcome + Points ──
@@ -21561,7 +21574,7 @@ window.showPage=function(pid){if(_orig)_orig.apply(this,arguments);if(pid==='adm
   color:#0f0a1e;border:none;
   width:26px;height:60px;
   cursor:pointer;
-  display:none;/* caché par défaut */
+  display:none;/* toujours caché par défaut — révélé uniquement après auth */
   align-items:center;justify-content:center;
   font-size:13px;
   box-shadow:2px 0 16px rgba(212,168,67,0.2);
@@ -21766,7 +21779,13 @@ waitForFB(function(){
 
   // ── Auth state ──
   onAuthStateChanged(auth,async function(user){
-    if(user&&!user.isAnonymous){
+    // Cacher le trigger par défaut
+    var t=document.getElementById('hm-sb-trigger');
+    if(t)t.classList.remove('show');
+    var wrap=document.getElementById('hm-section-wrap');
+    if(wrap)wrap.style.display='none';
+
+    if(user && !user.isAnonymous){
       window.HM_USER=user;
       // Charger profil
       var snap=await getDoc(doc(db,'users',user.uid));
