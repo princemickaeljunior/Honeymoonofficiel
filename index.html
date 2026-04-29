@@ -8122,23 +8122,44 @@ function closeTipModal() {
         authMod.createUserWithEmailAndPassword(window.hmAuth, email, pwd)
           .then(function(cred) {
             authMod.updateProfile(cred.user, {displayName: member}).catch(function(){});
+            // ── Sauvegarder profil Firestore ──
             if (typeof window.hmSaveMemberFS === 'function') {
               window.hmSaveMemberFS(cred.user.uid, member, email);
             }
-            // ── Envoyer email de bienvenue via SendGrid ──
+            // ── Email de bienvenue SendGrid ──
             if (typeof hmSendWelcomeEmailSG === 'function') {
               hmSendWelcomeEmailSG(email, member, 50);
             }
-            // Retour sur le site — onAuthStateChanged va afficher le trigger
-            showPage('landing');
+            // ── Déconnecter immédiatement — l'utilisateur doit vérifier son email ──
+            return authMod.signOut(window.hmAuth).then(function(){
+              // Afficher page de confirmation
+              var pg = document.getElementById('page-member-login');
+              var wrap = pg || document.body;
+              showPage('member-login');
+              setTimeout(function(){
+                var inner = document.querySelector('#page-member-login .ml-inner, #page-member-login .oa-inner') || document.getElementById('page-member-login');
+                if(inner){
+                  var box = document.createElement('div');
+                  box.id = 'hm-verify-box';
+                  box.style.cssText = 'position:fixed;inset:0;z-index:9999;background:linear-gradient(160deg,#0c0819,#110d22);display:flex;align-items:center;justify-content:center;padding:24px;';
+                  box.innerHTML = '<div style="max-width:400px;width:100%;text-align:center;">'
+                    + '<div style="font-size:48px;margin-bottom:20px;">✉️</div>'
+                    + '<p style="font-family:\'Cormorant Garamond\',serif;font-size:26px;color:#faf6f0;margin-bottom:10px;">Vérifiez votre email</p>'
+                    + '<p style="font-family:\'Montserrat\',sans-serif;font-size:11px;color:rgba(212,168,67,0.7);line-height:1.8;margin-bottom:24px;">Un email a été envoyé à <strong style="color:#e8c060;">'+email+'</strong>.<br>Cliquez sur le lien pour activer votre compte.</p>'
+                    + '<div style="background:rgba(212,168,67,0.07);border:1px solid rgba(212,168,67,0.2);padding:16px;margin-bottom:20px;">'
+                    + '<p style="font-family:\'Montserrat\',sans-serif;font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(212,168,67,0.5);margin:0 0 8px;">Pas reçu ?</p>'
+                    + '<p style="font-family:\'Montserrat\',sans-serif;font-size:11px;color:rgba(245,240,232,0.6);margin:0;">Vérifiez vos spams · Attendez 2 minutes</p>'
+                    + '</div>'
+                    + '<button onclick="document.getElementById(\'hm-verify-box\').remove();showPage(\'member-login\');" style="width:100%;padding:14px;background:linear-gradient(135deg,#d4a843,#e8c060);color:#0f0a1e;font-family:\'Montserrat\',sans-serif;font-size:9px;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;border:none;cursor:pointer;">Aller à la connexion →</button>'
+                    + '</div>';
+                  document.body.appendChild(box);
+                }
+              }, 100);
+            });
           })
           .catch(function(err) {
             if (err.code === 'auth/email-already-in-use') {
-              authMod.signInWithEmailAndPassword(window.hmAuth, email, pwd)
-                .then(function() {
-                  showPage('landing');
-                })
-                .catch(function() { alert('This email already has an account. Check your password.'); });
+              alert('This email already has an account. Please log in instead.');
             } else {
               alert('Error: ' + err.message);
             }
@@ -21863,7 +21884,9 @@ function hmSbOpen(){
   document.getElementById('hm-member-sidebar').classList.add('open');
   document.getElementById('hm-sb-backdrop').classList.add('show');
   HM_SB_OPEN=true;
-  hmRenderSection(HM_ACTIVE_SEC);
+  // Masquer le contenu pour voir le sidebar
+  var wrap=document.getElementById('hm-section-wrap');
+  if(wrap)wrap.style.display='none';
 }
 function hmSbClose(){
   document.getElementById('hm-member-sidebar').classList.remove('open');
@@ -21878,20 +21901,20 @@ function hmSbSection(id){
   document.querySelectorAll('.sb-nav-item').forEach(function(el){
     if((el.getAttribute('onclick')||'').indexOf("'"+id+"'")>-1)el.classList.add('active');
   });
+  // Fermer sidebar sur mobile pour afficher le contenu proprement
+  hmSbClose();
   hmRenderSection(id);
 }
 
 function hmRenderSection(id){
-  // Créer ou mettre à jour la zone de contenu dans le site
   var wrap=document.getElementById('hm-section-wrap');
   if(!wrap){
     wrap=document.createElement('div');
     wrap.id='hm-section-wrap';
-    wrap.style.cssText='position:fixed;top:0;right:0;bottom:0;left:260px;z-index:1150;background:linear-gradient(160deg,#0c0819,#110d22);overflow-y:auto;padding:20px;display:none;';
+    wrap.style.cssText='position:fixed;top:0;right:0;bottom:0;left:0;z-index:1150;background:linear-gradient(160deg,#0c0819,#110d22);overflow-y:auto;padding:20px;display:none;';
     document.body.appendChild(wrap);
   }
-  // Afficher/masquer selon sidebar
-  wrap.style.display=HM_SB_OPEN?'block':'none';
+  wrap.style.display='block';
   if(id==='accueil')wrap.innerHTML=hmSectionAccueil();
   else if(id==='creatrices')hmSectionCreatrices(wrap);
   else if(id==='chat')hmSectionChat(wrap);
@@ -21905,7 +21928,8 @@ function hmRenderSection(id){
 function hmSectionAccueil(){
   var user=window.HM_USER;var profile=window.HM_PROFILE;
   var name=profile?(profile.displayName||user.email.split('@')[0]):'';
-  return '<div style="max-width:560px;margin:0 auto;padding-top:30px;">'
+  var menuBtn='<button onclick="hmSbOpen()" style="margin-bottom:16px;padding:9px 18px;background:rgba(212,168,67,0.08);border:1px solid rgba(212,168,67,0.2);color:#d4a843;font-family:\'Montserrat\',sans-serif;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;cursor:pointer;display:block;width:100%;">☰ Mon espace</button>';
+  return '<div style="max-width:560px;margin:0 auto;padding-top:16px;">'+menuBtn
     +'<div style="background:linear-gradient(135deg,rgba(212,168,67,0.07),rgba(17,13,34,0.8));border:1px solid rgba(212,168,67,0.15);padding:22px 20px;margin-bottom:14px;position:relative;overflow:hidden;">'
     +'<span style="font-family:\'Cormorant Garamond\',serif;font-size:28px;color:#faf6f0;display:block;margin-bottom:4px;">Bonjour, '+name+' ✦</span>'
     +'<span style="font-family:\'Montserrat\',sans-serif;font-size:8px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(212,168,67,0.6);">Membre HoneyMoon</span>'
