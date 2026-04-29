@@ -8026,6 +8026,10 @@ function closeTipModal() {
       <label class="oa-label">Email · to receive your access code + content alerts</label>
       <input class="oa-input" id="oa-email" data-fb="member_email" type="email" placeholder="your@email.com">
 
+      <label class="oa-label" style="margin-top:12px;">Password · minimum 6 characters</label>
+      <input class="oa-input" id="oa-password" type="password" placeholder="Choose a password..." style="margin-bottom:6px;">
+      <p style="font-family:'Montserrat',sans-serif;font-size:9px;color:rgba(214,169,78,0.4);margin-bottom:14px;">You'll use this to log in next time.</p>
+
       <button class="oa-btn" onclick="oaSubmit()">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
         Create my free account
@@ -8105,37 +8109,41 @@ function closeTipModal() {
 
   <script>
   function oaSubmit() {
-    var name = document.getElementById('oa-firstname').value.trim();
+    var name  = document.getElementById('oa-firstname').value.trim();
     var email = document.getElementById('oa-email').value.trim();
+    var pwd   = document.getElementById('oa-password') ? document.getElementById('oa-password').value : '';
     if (!email || !email.includes('@')) { alert('Please enter a valid email address.'); return; }
+    if (!pwd || pwd.length < 6) { alert('Please choose a password (minimum 6 characters).'); return; }
     var member = name || 'Member';
-    // ── localStorage fallback ──
     try { localStorage.setItem('hm_member_name', member); } catch(e) {}
     try { localStorage.setItem('hm_member_email', email); } catch(e) {}
-    // ── FIREBASE : créer compte + sauver dans Firestore ──
     if (window.hmAuth) {
       import("https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js").then(function(authMod) {
-        // Générer un mot de passe temporaire (l'utilisateur le changera via email)
-        var tmpPwd = Math.random().toString(36).slice(-10) + 'Hm!';
-        authMod.createUserWithEmailAndPassword(window.hmAuth, email, tmpPwd)
+        authMod.createUserWithEmailAndPassword(window.hmAuth, email, pwd)
           .then(function(cred) {
-            // Sauver dans Firestore members
+            authMod.updateProfile(cred.user, {displayName: member}).catch(function(){});
             if (typeof window.hmSaveMemberFS === 'function') {
               window.hmSaveMemberFS(cred.user.uid, member, email);
             }
-            // Envoyer email de vérification
-            authMod.sendEmailVerification(cred.user).catch(function(){});
-            console.log("✦ HM Membre créé:", email);
+            showPage('landing');
+            setTimeout(function(){ if(typeof hmSbOpen==='function') hmSbOpen(); }, 500);
           })
           .catch(function(err) {
-            // Email déjà utilisé = membre existant, on continue quand même
-            console.log("HM Auth note:", err.code);
+            if (err.code === 'auth/email-already-in-use') {
+              authMod.signInWithEmailAndPassword(window.hmAuth, email, pwd)
+                .then(function() {
+                  showPage('landing');
+                  setTimeout(function(){ if(typeof hmSbOpen==='function') hmSbOpen(); }, 500);
+                })
+                .catch(function() { alert('This email already has an account. Check your password.'); });
+            } else {
+              alert('Error: ' + err.message);
+            }
           });
       });
+    } else {
+      showPage('landing');
     }
-    if (typeof hmUpdatePointsDisplay === 'function') hmUpdatePointsDisplay();
-    if (typeof wcInitState === 'function') wcInitState();
-    showPage('wincash');
   }
   </script>
 </div>
