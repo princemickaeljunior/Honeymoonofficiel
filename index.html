@@ -2673,7 +2673,7 @@ function hmAgeRefuse() {
   <div class="nav-logo" style="visibility:hidden;pointer-events:none;" aria-hidden="true">HoneyMoon</div>
   <div style="display:flex;align-items:center;gap:10px;position:absolute;right:12px;top:50%;transform:translateY(-50%);z-index:701;">
     <span class="nav-logo" onclick="goHome()" style="cursor:pointer;">HoneyMoon</span>
-    <button class="burger-mini" id="burgerBtn" onclick="toggleMenu()" aria-label="Menu" style="background:none;border:none;cursor:pointer;padding:8px;display:flex;flex-direction:column;gap:5px;align-items:center;justify-content:center;z-index:701;flex-shrink:0;">
+    <button class="burger-mini" id="burgerBtn" onclick="window.HM_USER?hmSbOpen():toggleMenu()" aria-label="Menu" style="background:none;border:none;cursor:pointer;padding:8px;display:flex;flex-direction:column;gap:5px;align-items:center;justify-content:center;z-index:701;flex-shrink:0;">
       <span class="bm-line" style="display:block;width:22px;height:1px;background:rgba(214,169,78,0.55);transition:all 0.3s;"></span>
       <span class="bm-line" style="display:block;width:16px;height:1px;background:rgba(214,169,78,0.35);transition:all 0.3s;"></span>
       <span class="bm-line" style="display:block;width:22px;height:1px;background:rgba(214,169,78,0.55);transition:all 0.3s;"></span>
@@ -17335,17 +17335,29 @@ function crNotifNo(pid){
     btn.textContent = 'Signing in…';
     btn.disabled = true;
 
-    // ── FIREBASE AUTH HOOK ──
-    // firebase.auth().signInWithEmailAndPassword(email, pwd)
-    //   .then(function(cred) { hmSetMember(cred.user.displayName || email.split('@')[0], 0); showPage('landing'); })
-    //   .catch(function(err) { mlShowError(err.message); btn.textContent = 'Log in to my space →'; btn.disabled = false; });
-
-    // DEMO MODE (remove when Firebase is live)
-    setTimeout(function() {
-      mlShowSuccess('Login successful — welcome back!');
-      btn.textContent = 'Log in to my space →';
-      btn.disabled = false;
-    }, 900);
+    // ── FIREBASE AUTH ──
+    if (!window.hmAuth) {
+      mlShowError('Auth not ready — please refresh.');
+      btn.textContent = 'Log in to my space →'; btn.disabled = false; return;
+    }
+    import("https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js").then(function(authMod) {
+      authMod.signInWithEmailAndPassword(window.hmAuth, email, pwd)
+        .then(function(cred) {
+          btn.textContent = 'Log in to my space →'; btn.disabled = false;
+          showPage('landing');
+        })
+        .catch(function(err) {
+          var msg = err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential'
+            ? 'Mot de passe incorrect.'
+            : err.code === 'auth/user-not-found'
+            ? 'Aucun compte avec cet email.'
+            : err.code === 'auth/too-many-requests'
+            ? 'Trop de tentatives — réessayez plus tard.'
+            : err.message;
+          mlShowError(msg);
+          btn.textContent = 'Log in to my space →'; btn.disabled = false;
+        });
+    });
   }
   window.mlSubmit = mlSubmit;
 
@@ -21500,16 +21512,20 @@ window.showPage=function(pid){if(_orig)_orig.apply(this,arguments);if(pid==='adm
 /* ── Sidebar membre ── */
 #hm-member-sidebar{
   position:fixed;left:0;top:0;bottom:0;
-  width:260px;
+  width:100%;
+  max-width:100vw;
   background:linear-gradient(180deg,#0f0a1e 0%,#130e25 100%);
-  border-right:1px solid rgba(212,168,67,0.15);
+  border-right:none;
   z-index:1200;
   transform:translateX(-100%);
   transition:transform 0.32s cubic-bezier(0.4,0,0.2,1);
   display:flex;flex-direction:column;
-  overflow:hidden;
+  overflow-y:auto;
 }
 #hm-member-sidebar.open{transform:translateX(0);}
+@media(min-width:600px){
+  #hm-member-sidebar{width:320px;border-right:1px solid rgba(212,168,67,0.15);}
+}
 
 /* Backdrop */
 #hm-sb-backdrop{
