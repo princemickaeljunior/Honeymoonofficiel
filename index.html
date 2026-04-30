@@ -21605,24 +21605,23 @@ window.showPage=function(pid){if(_orig)_orig.apply(this,arguments);if(pid==='adm
 
 /* Bouton ouvrir sidebar (flottant) — visible quand connecté */
 #hm-sb-trigger{
-  position:fixed;left:0;top:50%;transform:translateY(-50%);
-  z-index:1000;
-  background:linear-gradient(135deg,#d4a843,#e8c060);
-  color:#0f0a1e;border:none;
-  width:26px;height:60px;
+  position:fixed;top:16px;left:16px;
+  z-index:1300;
+  background:linear-gradient(135deg,#1a1232,#0f0a1e);
+  border:1px solid rgba(212,168,67,0.35);
+  width:48px;height:48px;
+  border-radius:50%;
   cursor:pointer;
-  display:none;/* toujours caché par défaut — révélé uniquement après auth */
+  display:none;
   align-items:center;justify-content:center;
-  font-size:13px;
-  box-shadow:2px 0 16px rgba(212,168,67,0.2);
-  transition:all 0.2s;
-  writing-mode:vertical-rl;
-  font-family:'Montserrat',sans-serif;
-  font-size:7px;font-weight:700;letter-spacing:0.15em;
-  text-transform:uppercase;
+  flex-direction:column;gap:5px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.5),0 0 0 1px rgba(212,168,67,0.08);
+  transition:all 0.25s;
 }
-#hm-sb-trigger:hover{width:30px;}
+#hm-sb-trigger:hover{border-color:rgba(212,168,67,0.7);box-shadow:0 4px 24px rgba(212,168,67,0.2);}
 #hm-sb-trigger.show{display:flex;}
+#hm-sb-trigger span{display:block;width:18px;height:1.5px;background:rgba(212,168,67,0.8);border-radius:2px;transition:all 0.25s;}
+#hm-sb-trigger span:nth-child(2){width:12px;}
 
 /* ── Sections contenu membre dans le site ── */
 .hm-member-section{display:none;}
@@ -21688,7 +21687,7 @@ window.showPage=function(pid){if(_orig)_orig.apply(this,arguments);if(pid==='adm
 </style>
 
 <!-- ── Trigger flottant ── -->
-<button id="hm-sb-trigger" onclick="hmSbOpen()">Mon espace</button>
+<button id="hm-sb-trigger" onclick="hmSbOpen()" aria-label="Mon espace"><span></span><span></span><span></span></button>
 
 <!-- ── Backdrop ── -->
 <div id="hm-sb-backdrop" onclick="hmSbClose()"></div>
