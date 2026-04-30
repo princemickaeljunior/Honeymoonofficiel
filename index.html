@@ -21991,27 +21991,11 @@ function hmSectionAccueil(){
 
 // ── Section Créatrices ──
 function hmSectionCreatrices(wrap){
-  wrap.innerHTML='<div style="max-width:560px;margin:0 auto;padding-top:30px;"><div style="font-family:\'Cormorant Garamond\',serif;font-size:22px;color:#faf6f0;margin-bottom:14px;">Créatrices disponibles</div><div id="hm-crea-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"></div></div>';
-  if(!window._hmDb||!window._hmCol)return;
-  window._hmOnSnap(window._hmCol(window._hmDb,'creators'),function(snap){
-    var creators=snap.docs.map(function(d){return Object.assign({id:d.id},d.data());});
-    var grid=document.getElementById('hm-crea-grid');if(!grid)return;
-    var subIds=HM_SUBS.map(function(s){return s.creatorId;});
-    if(!creators.length){grid.innerHTML='<div style="grid-column:1/-1;padding:20px;text-align:center;color:rgba(212,168,67,0.45);font-family:\'Montserrat\',sans-serif;font-size:11px;">Aucune créatrice disponible</div>';return;}
-    grid.innerHTML=creators.map(function(c){
-      var isSub=subIds.indexOf(c.id)>-1;
-      return '<div style="background:rgba(12,8,25,0.9);border:1px solid rgba(212,168,67,'+(isSub?'0.3':'0.1')+');overflow:hidden;cursor:pointer;transition:all 0.2s;" onclick="hmCreatorAction(\''+c.id+'\','+isSub+')">'
-        +'<div style="width:100%;aspect-ratio:3/4;background:linear-gradient(145deg,#1a1232,#0f0a1e);display:flex;align-items:center;justify-content:center;font-size:38px;position:relative;">'
-        +(c.photo?'<img src="'+c.photo+'" style="width:100%;height:100%;object-fit:cover;" alt="">':( c.nom?c.nom.charAt(0):'✦'))
-        +'<div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(4,2,10,0.95) 0%,transparent 55%);"></div>'
-        +(isSub?'<div style="position:absolute;top:8px;right:8px;background:rgba(58,172,110,0.15);border:1px solid rgba(58,172,110,0.35);color:#3aac6e;font-family:\'Montserrat\',sans-serif;font-size:7.5px;letter-spacing:0.12em;text-transform:uppercase;padding:2px 7px;">✓ Abonné</div>':'<div style="position:absolute;top:8px;left:8px;background:rgba(4,2,10,0.7);border:1px solid rgba(212,168,67,0.15);color:rgba(212,168,67,0.5);font-size:9px;padding:3px 7px;">🔒</div>')
-        +'<div style="position:absolute;bottom:0;left:0;right:0;padding:11px;">'
-        +'<span style="font-family:\'Cormorant Garamond\',serif;font-size:16px;color:#faf6f0;display:block;margin-bottom:2px;">'+( c.nom||'Créatrice')+'</span>'
-        +'<span style="font-family:\'Montserrat\',sans-serif;font-size:7.5px;letter-spacing:0.12em;text-transform:uppercase;color:#d4a843;display:block;margin-bottom:4px;">'+(c.formule||'').replace('-',' ')+'</span>'
-        +'<span style="font-family:\'Cormorant Garamond\',serif;font-size:17px;color:#e8c060;">'+(c.prix||'—')+'€<span style="font-size:9px;color:rgba(212,168,67,0.5);font-family:\'Montserrat\',sans-serif;">/mois</span></span>'
-        +'</div></div></div>';
-    }).join('');
-  });
+  hmSbClose();
+  // Redirect vers la galerie du site
+  var anchor=document.getElementById('landing-models-anchor')||document.getElementById('section-models')||document.querySelector('.models-section');
+  if(anchor){anchor.scrollIntoView({behavior:'smooth'});}
+  else{showPage('landing');setTimeout(function(){var a=document.getElementById('landing-models-anchor');if(a)a.scrollIntoView({behavior:'smooth'});},300);}
 }
 
 function hmCreatorAction(id,isSub){
@@ -22045,16 +22029,18 @@ function hmLoadSubs(uid,db){
 // ── Chat ──
 function hmSectionChat(wrap){
   var active=HM_SUBS.filter(function(s){return s.status==='active';});
-  wrap.innerHTML='<div style="max-width:560px;margin:0 auto;padding-top:30px;">'
-    +'<div style="font-family:\'Cormorant Garamond\',serif;font-size:22px;color:#faf6f0;margin-bottom:14px;">Chat privé</div>'
+  var hdr='<div style="display:flex;gap:8px;margin-bottom:20px;">'+'<button onclick="hmSbOpen()" style="flex:1;padding:11px;background:rgba(212,168,67,0.07);border:1px solid rgba(212,168,67,0.2);color:rgba(212,168,67,0.8);font-size:9px;letter-spacing:0.22em;text-transform:uppercase;cursor:pointer;font-family:Montserrat,sans-serif;">☰ Menu</button>'+'<button onclick="hmSbClose()" style="flex:1;padding:11px;background:transparent;border:1px solid rgba(212,168,67,0.12);color:rgba(212,168,67,0.4);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;font-family:Montserrat,sans-serif;">← Site</button>'+'</div>';
+  wrap.innerHTML='<div style="max-width:560px;margin:0 auto;padding:16px 0 40px;">'+hdr
+    +'<div style="font-size:22px;color:#faf6f0;margin-bottom:14px;font-family:Cormorant Garamond,serif;">Chat privé</div>'
     +(active.length?active.map(function(s){
-      return '<div style="display:flex;align-items:center;gap:11px;padding:12px;background:rgba(12,8,25,0.9);border:1px solid rgba(212,168,67,0.12);margin-bottom:8px;cursor:pointer;transition:all 0.18s;" onclick="hmChatOpen(\''+s.creatorId+'\')" onmouseover="this.style.borderColor=\'rgba(212,168,67,0.3)\'" onmouseout="this.style.borderColor=\'rgba(212,168,67,0.12)\'">'
-        +'<div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(145deg,#1a1232,#0f0a1e);border:1px solid rgba(212,168,67,0.2);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">✦</div>'
-        +'<div style="flex:1;"><span style="font-family:\'Cormorant Garamond\',serif;font-size:15px;color:#faf6f0;display:block;">'+s.creatorId+'</span>'
-        +'<span style="font-family:\'Montserrat\',sans-serif;font-size:9px;color:rgba(212,168,67,0.4);">'+(s.firstMsgFree&&!s.msgCount?'Premier message gratuit ✓':'Actif')+'</span></div>'
-        +'<span style="color:rgba(212,168,67,0.4);font-size:16px;">→</span>'
+      return '<div style="background:rgba(12,8,25,0.9);border:1px solid rgba(212,168,67,0.12);padding:16px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;">'
+        +'<span style="font-size:15px;color:#faf6f0;font-family:Cormorant Garamond,serif;">'+s.creatorId+'</span>'
+        +'<button onclick="hmChatOpen(\''+s.creatorId+'\')" style="padding:8px 16px;background:linear-gradient(135deg,#d4a843,#e8c060);color:#0f0a1e;font-size:8px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;border:none;cursor:pointer;">Écrire →</button>'
         +'</div>';
-    }).join(''):'<div style="padding:24px;text-align:center;border:1px dashed rgba(212,168,67,0.1);background:rgba(212,168,67,0.02);"><p style="font-family:\'Montserrat\',sans-serif;font-size:11px;color:rgba(212,168,67,0.45);">Abonnez-vous à une créatrice pour chatter</p></div>')
+    }).join(''):'<div style="padding:30px;text-align:center;border:1px dashed rgba(212,168,67,0.1);">'
+    +'<p style="font-size:14px;color:rgba(212,168,67,0.5);margin:0 0 16px;">Abonnez-vous à une créatrice pour accéder au chat privé</p>'
+    +'<button onclick="hmSbSection(\'abonnements\')" style="padding:12px 24px;background:linear-gradient(135deg,#b8820a,#e8c060);color:#0f0a1e;font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;border:none;cursor:pointer;">Voir les créatrices →</button>'
+    +'</div>')
     +'</div>';
 }
 
@@ -22149,26 +22135,27 @@ async function hmSendMsg(){
 
 // ── Honey Chat IA ──
 function hmSectionHoneyChat(){
-  return '<div style="max-width:560px;margin:0 auto;padding-top:30px;">'
-    +'<div style="font-family:\'Cormorant Garamond\',serif;font-size:22px;color:#faf6f0;margin-bottom:6px;">✦ Honey Chat</div>'
-    +'<div style="font-family:\'Montserrat\',sans-serif;font-size:9px;color:rgba(212,168,67,0.45);margin-bottom:14px;letter-spacing:0.1em;">Votre guide IA HoneyMoon</div>'
+  var hdr='<div style="display:flex;gap:8px;margin-bottom:20px;">'+'<button onclick="hmSbOpen()" style="flex:1;padding:11px;background:rgba(212,168,67,0.07);border:1px solid rgba(212,168,67,0.2);color:rgba(212,168,67,0.8);font-size:9px;letter-spacing:0.22em;text-transform:uppercase;cursor:pointer;font-family:Montserrat,sans-serif;">☰ Menu</button>'+'<button onclick="hmSbClose()" style="flex:1;padding:11px;background:transparent;border:1px solid rgba(212,168,67,0.12);color:rgba(212,168,67,0.4);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;font-family:Montserrat,sans-serif;">← Site</button>'+'</div>';
+  return '<div style="max-width:560px;margin:0 auto;padding:16px 0;">'+hdr
+    +'<div style="font-size:22px;color:#faf6f0;margin-bottom:6px;font-family:Cormorant Garamond,serif;">✦ Honey Chat</div>'
+    +'<div style="font-size:9px;color:rgba(212,168,67,0.45);margin-bottom:14px;letter-spacing:0.1em;font-family:Montserrat,sans-serif;">Votre guide IA HoneyMoon</div>'
     +'<div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px;">'
     +[['Gagner des points','Comment puis-je gagner des points gratuitement ?'],
       ['Recommandation','Quelle créatrice me recommandes-tu ?'],
       ['Les plans','Explique les formules disponibles.'],
       ['🎮 Jouer','Je veux jouer pour gagner des points.']]
-    .map(function(c){return '<button onclick="hmHcChip(\''+c[1]+'\')" style="padding:5px 11px;background:rgba(212,168,67,0.04);border:1px solid rgba(212,168,67,0.12);color:rgba(212,168,67,0.55);font-family:\'Montserrat\',sans-serif;font-size:9px;letter-spacing:0.1em;cursor:pointer;transition:all 0.18s;">'+c[0]+'</button>';}).join('')
+    .map(function(c){return '<button onclick="hmHcChip(\''+c[1]+'\')" style="padding:5px 11px;background:rgba(212,168,67,0.04);border:1px solid rgba(212,168,67,0.12);color:rgba(212,168,67,0.55);font-family:Montserrat,sans-serif;font-size:9px;letter-spacing:0.1em;cursor:pointer;">'+c[0]+'</button>';}).join('')
     +'</div>'
-    +'<div id="hm-hc-wrap" style="display:flex;flex-direction:column;height:380px;background:rgba(4,2,10,0.6);border:1px solid rgba(212,168,67,0.15);">'
+    +'<div id="hm-hc-wrap" style="display:flex;flex-direction:column;height:360px;background:rgba(4,2,10,0.6);border:1px solid rgba(212,168,67,0.15);">'
     +'<div id="hm-hc-msgs" style="flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:9px;">'
-    +'<div style="max-width:88%;padding:9px 12px;background:rgba(12,8,25,0.95);border:1px solid rgba(212,168,67,0.12);color:#faf6f0;font-family:\'Montserrat\',sans-serif;font-size:11.5px;line-height:1.72;align-self:flex-start;">'
+    +'<div style="max-width:88%;padding:9px 12px;background:rgba(12,8,25,0.95);border:1px solid rgba(212,168,67,0.12);color:#faf6f0;font-size:11.5px;line-height:1.72;align-self:flex-start;">'
     +'<span style="font-size:7.5px;letter-spacing:0.18em;text-transform:uppercase;color:#d4a843;display:block;margin-bottom:3px;">Honey · IA</span>'
-    +'Bonjour ✦ Je suis Honey, votre guide HoneyMoon. Je vous aide à naviguer, à gagner des points, et à trouver la créatrice qui vous correspond. Que souhaitez-vous ?'
+    +'Bonjour ✦ Je suis Honey, votre guide HoneyMoon. Comment puis-je vous aider ?'
     +'</div></div>'
     +'<div style="display:flex;border-top:1px solid rgba(212,168,67,0.12);">'
-    +'<input id="hm-hc-inp" style="flex:1;background:transparent;border:none;padding:11px 13px;color:#faf6f0;font-family:\'Montserrat\',sans-serif;font-size:13px;outline:none;" placeholder="Parlez à Honey..." onkeydown="if(event.key===\'Enter\'){event.preventDefault();hmHcSend();}">'
+    +'<input id="hm-hc-inp" style="flex:1;background:transparent;border:none;padding:11px 13px;color:#faf6f0;font-size:13px;outline:none;" placeholder="Parlez à Honey..." onkeydown="if(event.key===\'Enter\'){event.preventDefault();hmHcSend();}">'
     +'<button onclick="hmHcSend()" style="background:rgba(212,168,67,0.1);border:none;border-left:1px solid rgba(212,168,67,0.12);padding:0 16px;color:#d4a843;cursor:pointer;font-size:15px;">→</button>'
-    +'</div></div>';
+    +'</div></div></div>';
 }
 
 function hmHcChip(txt){var i=document.getElementById('hm-hc-inp');if(i){i.value=txt;hmHcSend();}}
@@ -22255,17 +22242,18 @@ function hmSectionAbonnements(){
 function hmSectionProfil(){
   var user=window.HM_USER;var profile=window.HM_PROFILE;
   var name=profile?(profile.displayName||user.email.split('@')[0]):'';
-  return '<div style="max-width:400px;margin:0 auto;padding-top:30px;">'
+  var hdr='<div style="display:flex;gap:8px;margin-bottom:20px;">'+'<button onclick="hmSbOpen()" style="flex:1;padding:11px;background:rgba(212,168,67,0.07);border:1px solid rgba(212,168,67,0.2);color:rgba(212,168,67,0.8);font-size:9px;letter-spacing:0.22em;text-transform:uppercase;cursor:pointer;font-family:Montserrat,sans-serif;">☰ Menu</button>'+'<button onclick="hmSbClose()" style="flex:1;padding:11px;background:transparent;border:1px solid rgba(212,168,67,0.12);color:rgba(212,168,67,0.4);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;font-family:Montserrat,sans-serif;">← Site</button>'+'</div>';
+  return '<div style="max-width:400px;margin:0 auto;padding:16px 0;">'+hdr
     +'<div style="text-align:center;margin-bottom:20px;">'
     +'<div style="width:70px;height:70px;border-radius:50%;background:linear-gradient(145deg,#1a1232,#0f0a1e);border:2px solid rgba(212,168,67,0.25);display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 12px;">'+name.charAt(0).toUpperCase()+'</div>'
-    +'<span style="font-family:\'Cormorant Garamond\',serif;font-size:22px;color:#faf6f0;display:block;margin-bottom:3px;">'+name+'</span>'
-    +'<span style="font-family:\'Montserrat\',sans-serif;font-size:10px;color:rgba(212,168,67,0.4);">'+(user?user.email:'')+'</span>'
+    +'<span style="font-size:22px;color:#faf6f0;display:block;margin-bottom:3px;font-family:Cormorant Garamond,serif;">'+name+'</span>'
+    +'<span style="font-size:10px;color:rgba(212,168,67,0.4);font-family:Montserrat,sans-serif;">'+(user?user.email:'')+'</span>'
     +'</div>'
     +'<div style="background:rgba(12,8,25,0.9);border:1px solid rgba(212,168,67,0.12);padding:18px;">'
-    +'<div style="margin-bottom:13px;"><label style="font-family:\'Montserrat\',sans-serif;font-size:8px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(212,168,67,0.4);display:block;margin-bottom:6px;">Prénom</label>'
-    +'<input id="hm-profil-name" value="'+name+'" style="width:100%;background:rgba(212,168,67,0.04);border:1px solid rgba(212,168,67,0.15);padding:11px 13px;color:#faf6f0;font-family:\'Montserrat\',sans-serif;font-size:13px;outline:none;"></div>'
-    +'<button onclick="hmSaveProfil()" style="width:100%;padding:13px;background:linear-gradient(135deg,#d4a843,#e8c060);color:#0f0a1e;font-family:\'Montserrat\',sans-serif;font-size:9px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;border:none;cursor:pointer;">Sauvegarder →</button>'
-    +'<button onclick="hmMemberLogout()" style="width:100%;padding:10px;background:transparent;border:1px solid rgba(176,40,40,0.2);color:rgba(248,113,113,0.6);font-family:\'Montserrat\',sans-serif;font-size:8.5px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;margin-top:8px;">Se déconnecter</button>'
+    +'<div style="margin-bottom:13px;"><label style="font-size:8px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(212,168,67,0.4);display:block;margin-bottom:6px;font-family:Montserrat,sans-serif;">Prénom</label>'
+    +'<input id="hm-profil-name" value="'+name+'" style="width:100%;background:rgba(212,168,67,0.04);border:1px solid rgba(212,168,67,0.15);padding:11px 13px;color:#faf6f0;font-size:13px;outline:none;box-sizing:border-box;"></div>'
+    +'<button onclick="hmSaveProfil()" style="width:100%;padding:13px;background:linear-gradient(135deg,#d4a843,#e8c060);color:#0f0a1e;font-size:9px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;border:none;cursor:pointer;">Sauvegarder →</button>'
+    +'<button onclick="hmMemberLogout()" style="width:100%;padding:10px;background:transparent;border:1px solid rgba(176,40,40,0.2);color:rgba(248,113,113,0.6);font-size:8.5px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;margin-top:8px;">Se déconnecter</button>'
     +'</div></div>';
 }
 
@@ -22281,12 +22269,19 @@ function hmSaveProfil(){
 
 // ── Contenu ──
 function hmSectionContenu(wrap){
-  wrap.innerHTML='<div style="max-width:560px;margin:0 auto;padding-top:30px;"><div style="font-family:\'Cormorant Garamond\',serif;font-size:22px;color:#faf6f0;margin-bottom:14px;">Mon contenu</div><div id="hm-content-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:9px;"></div></div>';
+  var hdr='<div style="display:flex;gap:8px;margin-bottom:20px;">'+'<button onclick="hmSbOpen()" style="flex:1;padding:11px;background:rgba(212,168,67,0.07);border:1px solid rgba(212,168,67,0.2);color:rgba(212,168,67,0.8);font-size:9px;letter-spacing:0.22em;text-transform:uppercase;cursor:pointer;font-family:Montserrat,sans-serif;">☰ Menu</button>'+'<button onclick="hmSbClose()" style="flex:1;padding:11px;background:transparent;border:1px solid rgba(212,168,67,0.12);color:rgba(212,168,67,0.4);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;font-family:Montserrat,sans-serif;">← Site</button>'+'</div>';
+  wrap.innerHTML='<div style="max-width:560px;margin:0 auto;padding:16px 0 40px;">'+hdr
+    +'<div style="font-size:22px;color:#faf6f0;margin-bottom:14px;font-family:Cormorant Garamond,serif;">Mon contenu</div>'
+    +'<div id="hm-content-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:9px;"></div>'
+    +'</div>';
   if(!window._hmDb)return;
   var subIds=HM_SUBS.map(function(s){return s.creatorId;});
   if(!subIds.length){
     var g=document.getElementById('hm-content-grid');
-    if(g)g.innerHTML='<div style="grid-column:1/-1;padding:20px;text-align:center;border:1px dashed rgba(212,168,67,0.1);font-family:\'Montserrat\',sans-serif;font-size:11px;color:rgba(212,168,67,0.4);">Abonnez-vous à une créatrice pour voir son contenu</div>';
+    if(g)g.innerHTML='<div style="grid-column:1/-1;padding:30px;text-align:center;border:1px dashed rgba(212,168,67,0.1);">'
+      +'<p style="font-size:13px;color:rgba(212,168,67,0.4);margin:0 0 14px;">Abonnez-vous à une créatrice pour voir son contenu</p>'
+      +'<button onclick="hmSbSection(\'abonnements\')" style="padding:11px 22px;background:linear-gradient(135deg,#b8820a,#e8c060);color:#0f0a1e;font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;border:none;cursor:pointer;">Voir les créatrices →</button>'
+      +'</div>';
     return;
   }
   window._hmOnSnap(
@@ -22295,16 +22290,16 @@ function hmSectionContenu(wrap){
       var all=snap.docs.map(function(d){return Object.assign({id:d.id},d.data());});
       var mine=all.filter(function(c){return subIds.indexOf(c.creatorId)>-1;});
       var grid=document.getElementById('hm-content-grid');if(!grid)return;
-      if(!mine.length){grid.innerHTML='<div style="grid-column:1/-1;padding:20px;text-align:center;font-family:\'Montserrat\',sans-serif;font-size:11px;color:rgba(212,168,67,0.4);">Aucun contenu disponible</div>';return;}
+      if(!mine.length){grid.innerHTML='<div style="grid-column:1/-1;padding:20px;text-align:center;font-size:11px;color:rgba(212,168,67,0.4);">Aucun contenu disponible</div>';return;}
       grid.innerHTML=mine.map(function(c){
         var icon=c.type==='video'?'🎬':c.type==='reel'?'📱':c.type==='teaser'?'🔥':'📷';
         var locked=!!c.lockedPrice;
-        return '<div style="background:rgba(12,8,25,0.9);border:1px solid rgba(212,168,67,0.12);overflow:hidden;cursor:pointer;" onclick="hmUnlockContent(\''+c.id+'\','+(c.lockedPrice||0)+')">'
+        return '<div style="background:rgba(12,8,25,0.9);border:1px solid rgba(212,168,67,0.12);overflow:hidden;cursor:pointer;" onclick="hmUnlockContent(\''+c.id+'\','+(c.lockedPrice||0)+')">' 
           +'<div style="width:100%;aspect-ratio:4/3;background:linear-gradient(145deg,#1a1232,#0f0a1e);display:flex;align-items:center;justify-content:center;font-size:28px;position:relative;">'+icon
-          +(locked?'<div style="position:absolute;inset:0;background:rgba(4,2,10,0.75);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;"><span style="font-size:20px;">🔒</span><span style="font-family:\'Montserrat\',sans-serif;font-size:9px;color:#d4a843;background:rgba(212,168,67,0.1);border:1px solid rgba(212,168,67,0.25);padding:2px 8px;">'+c.lockedPrice+' pts</span></div>':'')
+          +(locked?'<div style="position:absolute;inset:0;background:rgba(4,2,10,0.8);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;"><span style="font-size:22px;">🔒</span><span style="font-size:9px;color:#d4a843;background:rgba(212,168,67,0.1);border:1px solid rgba(212,168,67,0.25);padding:3px 10px;">'+c.lockedPrice+' pts</span></div>':'')
           +'</div>'
-          +'<div style="padding:8px;"><span style="font-family:\'Montserrat\',sans-serif;font-size:11px;color:#faf6f0;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:2px;">'+(c.titre||c.type||'Contenu')+'</span>'
-          +'<span style="font-family:\'Montserrat\',sans-serif;font-size:9px;color:rgba(212,168,67,0.4);">'+( c.creatorId||'')+'</span></div>'
+          +'<div style="padding:8px;"><span style="font-size:11px;color:#faf6f0;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:2px;">'+(c.titre||c.type||'Contenu')+'</span>'
+          +'<span style="font-size:9px;color:rgba(212,168,67,0.4);">'+(c.creatorId||'')+'</span></div>'
           +'</div>';
       }).join('');
     }
