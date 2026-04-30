@@ -21605,22 +21605,28 @@ window.showPage=function(pid){if(_orig)_orig.apply(this,arguments);if(pid==='adm
 
 /* Bouton ouvrir sidebar (flottant) — visible quand connecté */
 #hm-sb-trigger{
-  position:fixed;top:16px;left:16px;
+  position:fixed;
+  bottom:32px;
+  right:20px;
   z-index:1300;
-  background:linear-gradient(135deg,#1a1232,#0f0a1e);
-  border:1px solid rgba(212,168,67,0.35);
-  width:48px;height:48px;
+  width:52px;height:52px;
   border-radius:50%;
+  background:linear-gradient(145deg,#0f0a1e,#1a1232);
+  border:1px solid rgba(212,168,67,0.4);
+  box-shadow:0 8px 32px rgba(0,0,0,0.6),0 0 0 1px rgba(212,168,67,0.06),inset 0 1px 0 rgba(212,168,67,0.1);
   cursor:pointer;
   display:none;
   align-items:center;justify-content:center;
   flex-direction:column;gap:5px;
-  box-shadow:0 4px 20px rgba(0,0,0,0.5),0 0 0 1px rgba(212,168,67,0.08);
-  transition:all 0.25s;
+  transition:all 0.25s cubic-bezier(0.34,1.56,0.64,1);
 }
-#hm-sb-trigger:hover{border-color:rgba(212,168,67,0.7);box-shadow:0 4px 24px rgba(212,168,67,0.2);}
+#hm-sb-trigger:hover{
+  border-color:rgba(212,168,67,0.7);
+  box-shadow:0 8px 40px rgba(212,168,67,0.2),0 0 0 1px rgba(212,168,67,0.15);
+  transform:scale(1.08);
+}
 #hm-sb-trigger.show{display:flex;}
-#hm-sb-trigger span{display:block;width:18px;height:1.5px;background:rgba(212,168,67,0.8);border-radius:2px;transition:all 0.25s;}
+#hm-sb-trigger span{display:block;width:18px;height:1.5px;background:rgba(212,168,67,0.85);border-radius:2px;transition:all 0.25s;}
 #hm-sb-trigger span:nth-child(2){width:12px;}
 
 /* ── Sections contenu membre dans le site ── */
@@ -21958,44 +21964,49 @@ function hmRenderSection(id){
 
 // ── Section Accueil ──
 function hmSectionAccueil(){
-  var user=window.HM_USER;var profile=window.HM_PROFILE;
+  var user=window.HM_USER,profile=window.HM_PROFILE;
   var name=profile?(profile.displayName||user.email.split('@')[0]):'';
-  var menuBtn='<button onclick="hmSbOpen()" style="margin-bottom:16px;padding:9px 18px;background:rgba(212,168,67,0.08);border:1px solid rgba(212,168,67,0.2);color:#d4a843;font-family:\'Montserrat\',sans-serif;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;cursor:pointer;display:block;width:100%;">☰ Mon espace</button>';
-  return '<div style="max-width:560px;margin:0 auto;padding-top:16px;">'+menuBtn
-    +'<div style="background:linear-gradient(135deg,rgba(212,168,67,0.07),rgba(17,13,34,0.8));border:1px solid rgba(212,168,67,0.15);padding:22px 20px;margin-bottom:14px;position:relative;overflow:hidden;">'
-    +'<span style="font-family:\'Cormorant Garamond\',serif;font-size:28px;color:#faf6f0;display:block;margin-bottom:4px;">Bonjour, '+name+' ✦</span>'
-    +'<span style="font-family:\'Montserrat\',sans-serif;font-size:8px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(212,168,67,0.6);">Membre HoneyMoon</span>'
-    +'<span style="position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:52px;color:rgba(212,168,67,0.04);">✦</span>'
+  var plan=profile?profile.plan:'visiteur';
+  var planLabel={'visiteur':'Visiteur','honey':'✦ Honey Girl','original':'◈ Original','amb':'♛ Ambassadrice','star':'★ Star'};
+  var planColor={'visiteur':'rgba(212,168,67,0.5)','honey':'#d4a843','original':'#f2d270','amb':'#c8a4ff','star':'#faf6f0'};
+  var planPts={'visiteur':50,'honey':100,'original':150,'amb':200,'star':300};
+  var H='<div style="padding:20px 16px 0;">'+'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">'+'<button onclick="hmSbOpen()" style="display:flex;flex-direction:column;gap:4px;background:none;border:none;cursor:pointer;padding:6px;">'+'<span style="display:block;width:20px;height:1.5px;background:rgba(212,168,67,0.7);"></span>'+'<span style="display:block;width:14px;height:1.5px;background:rgba(212,168,67,0.5);"></span>'+'<span style="display:block;width:20px;height:1.5px;background:rgba(212,168,67,0.7);"></span>'+'</button>'+'<span style="font-family:Cormorant Garamond,serif;font-size:18px;color:#faf6f0;"> Mon Espace</span>'+'<button onclick="hmSbClose()" style="background:none;border:none;color:rgba(212,168,67,0.4);font-size:20px;cursor:pointer;">×</button>'+'</div></div>';
+  var html=H
+    +'<div style="padding:0 16px 24px;">'
+    +'<div style="background:linear-gradient(135deg,rgba(212,168,67,0.08),rgba(17,13,34,0.95));border:1px solid rgba(212,168,67,0.18);padding:22px;margin-bottom:16px;position:relative;overflow:hidden;">'
+    +'<div style="position:absolute;right:-10px;top:-10px;font-size:80px;color:rgba(212,168,67,0.04);line-height:1;">✦</div>'
+    +'<span style="font-family:Cormorant Garamond,serif;font-size:26px;color:#faf6f0;display:block;margin-bottom:4px;">Bonsoir, '+name+' ✦</span>'
+    +'<span style="font-size:8px;letter-spacing:0.3em;text-transform:uppercase;color:'+planColor[plan]+';font-family:Montserrat,sans-serif;">'+planLabel[plan]+'</span>'
     +'</div>'
-    +'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;">'
-    +[{v:HM_POINTS,l:'Points'},{v:HM_SUBS.length,l:'Abonnements'},{v:'0',l:'Messages'}].map(function(k){
-      return '<div style="background:rgba(12,8,25,0.9);border:1px solid rgba(212,168,67,0.12);padding:14px;text-align:center;">'
-        +'<span style="font-family:\'Cormorant Garamond\',serif;font-size:24px;color:#e8c060;display:block;line-height:1;">'+k.v+'</span>'
-        +'<span style="font-family:\'Montserrat\',sans-serif;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(212,168,67,0.4);display:block;margin-top:3px;">'+k.l+'</span>'
+    +'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;">'
+    +[{v:HM_POINTS,l:'Points'},{v:HM_SUBS.length,l:'Abonnements'},{v:planPts[plan],l:'Pts offerts'}].map(function(k){
+      return '<div style="background:rgba(12,8,25,0.9);border:1px solid rgba(212,168,67,0.1);padding:14px;text-align:center;">'
+        +'<span style="font-family:Cormorant Garamond,serif;font-size:22px;color:#e8c060;display:block;line-height:1;">'+k.v+'</span>'
+        +'<span style="font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(212,168,67,0.4);display:block;margin-top:3px;font-family:Montserrat,sans-serif;">'+k.l+'</span>'
         +'</div>';
     }).join('')
     +'</div>'
-    +'<div style="background:rgba(12,8,25,0.9);border:1px solid rgba(212,168,67,0.12);padding:18px;margin-bottom:10px;">'
-    +'<div style="font-family:\'Cormorant Garamond\',serif;font-size:17px;color:#faf6f0;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid rgba(212,168,67,0.08);">Comment utiliser vos points</div>'
-    +'<div style="font-family:\'Montserrat\',sans-serif;font-size:10px;color:rgba(245,240,232,0.55);line-height:1.85;">'
-    +'<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(212,168,67,0.06);"><span>Message privé</span><span style="color:#e8c060;">5 pts</span></div>'
-    +'<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(212,168,67,0.06);"><span>Photo PPV exclusive</span><span style="color:#e8c060;">50 pts</span></div>'
-    +'<div style="display:flex;justify-content:space-between;padding:7px 0;"><span>Vidéo PPV exclusive</span><span style="color:#e8c060;">150 pts</span></div>'
-    +'</div>'
-    +'<button onclick="hmPtsModalOpen()" style="width:100%;margin-top:12px;padding:12px;background:linear-gradient(135deg,#d4a843,#e8c060);color:#0f0a1e;font-family:\'Montserrat\',sans-serif;font-size:9px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;border:none;cursor:pointer;">Acheter des points →</button>'
-    +'<button onclick="hmSbClose();navTo(\'landing\',\'landing-models-anchor\'" style="width:100%;margin-top:8px;padding:14px;background:linear-gradient(135deg,#b8820a 0%,#e8c060 40%,#f2d270 50%,#e8c060 60%,#c8952a 100%);color:#0f0a1e;font-family:\'Montserrat\',sans-serif;font-size:9px;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;border:none;cursor:pointer;box-shadow:0 4px 24px rgba(212,168,67,0.3),inset 0 1px 0 rgba(255,255,255,0.15);">✦ Découvrir les créatrices →</button>'
-    +'</div>'
-    +'<button onclick="hmSbClose()" style="width:100%;padding:10px;background:transparent;border:1px solid rgba(212,168,67,0.15);color:rgba(212,168,67,0.45);font-family:\'Montserrat\',sans-serif;font-size:8.5px;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;">← Retour au site</button>'
+    +'<div style="background:rgba(12,8,25,0.9);border:1px solid rgba(212,168,67,0.1);padding:16px;margin-bottom:12px;">'
+    +'<p style="font-size:8px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(212,168,67,0.4);margin:0 0 10px;font-family:Montserrat,sans-serif;">Utiliser mes points</p>'
+    +'<div style="font-size:11px;color:rgba(245,240,232,0.6);line-height:1.9;font-family:Montserrat,sans-serif;">'
+    +'<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(212,168,67,0.05);"><span>Message privé</span><span style="color:#e8c060;">5 pts</span></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(212,168,67,0.05);"><span>Photo PPV exclusive</span><span style="color:#e8c060;">50 pts</span></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:5px 0;"><span>Vidéo PPV exclusive</span><span style="color:#e8c060;">150 pts</span></div>'
+    +'</div></div>'
+    +'<button onclick="hmPtsModalOpen()" style="width:100%;padding:13px;background:linear-gradient(135deg,#d4a843,#e8c060);color:#0f0a1e;font-size:9px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;border:none;cursor:pointer;margin-bottom:8px;">◈ Acheter des points →</button>'
+    +'<button onclick="hmSbClose();document.getElementById(\'section-models\')?document.getElementById(\'section-models\').scrollIntoView({behavior:\'smooth\'}):showPage(\'landing\')" style="width:100%;padding:13px;background:linear-gradient(135deg,#b8820a,#e8c060,#f2d270,#e8c060,#c8952a);color:#0f0a1e;font-size:9px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;border:none;cursor:pointer;box-shadow:0 4px 20px rgba(212,168,67,0.25);">✦ Découvrir les créatrices →</button>'
     +'</div>';
+  return html;
 }
 
 // ── Section Créatrices ──
 function hmSectionCreatrices(wrap){
   hmSbClose();
-  // Redirect vers la galerie du site
-  var anchor=document.getElementById('landing-models-anchor')||document.getElementById('section-models')||document.querySelector('.models-section');
-  if(anchor){anchor.scrollIntoView({behavior:'smooth'});}
-  else{showPage('landing');setTimeout(function(){var a=document.getElementById('landing-models-anchor');if(a)a.scrollIntoView({behavior:'smooth'});},300);}
+  showPage('landing');
+  setTimeout(function(){
+    var el=document.getElementById('section-models')||document.querySelector('.models-grid')||document.querySelector('[id*=model]');
+    if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
+  },300);
 }
 
 function hmCreatorAction(id,isSub){
@@ -22029,19 +22040,27 @@ function hmLoadSubs(uid,db){
 // ── Chat ──
 function hmSectionChat(wrap){
   var active=HM_SUBS.filter(function(s){return s.status==='active';});
-  var hdr='<div style="display:flex;gap:8px;margin-bottom:20px;">'+'<button onclick="hmSbOpen()" style="flex:1;padding:11px;background:rgba(212,168,67,0.07);border:1px solid rgba(212,168,67,0.2);color:rgba(212,168,67,0.8);font-size:9px;letter-spacing:0.22em;text-transform:uppercase;cursor:pointer;font-family:Montserrat,sans-serif;">☰ Menu</button>'+'<button onclick="hmSbClose()" style="flex:1;padding:11px;background:transparent;border:1px solid rgba(212,168,67,0.12);color:rgba(212,168,67,0.4);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;font-family:Montserrat,sans-serif;">← Site</button>'+'</div>';
-  wrap.innerHTML='<div style="max-width:560px;margin:0 auto;padding:16px 0 40px;">'+hdr
-    +'<div style="font-size:22px;color:#faf6f0;margin-bottom:14px;font-family:Cormorant Garamond,serif;">Chat privé</div>'
-    +(active.length?active.map(function(s){
-      return '<div style="background:rgba(12,8,25,0.9);border:1px solid rgba(212,168,67,0.12);padding:16px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;">'
-        +'<span style="font-size:15px;color:#faf6f0;font-family:Cormorant Garamond,serif;">'+s.creatorId+'</span>'
-        +'<button onclick="hmChatOpen(\''+s.creatorId+'\')" style="padding:8px 16px;background:linear-gradient(135deg,#d4a843,#e8c060);color:#0f0a1e;font-size:8px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;border:none;cursor:pointer;">Écrire →</button>'
+  var H='<div style="padding:20px 16px 0;">'+'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">'+'<button onclick="hmSbOpen()" style="display:flex;flex-direction:column;gap:4px;background:none;border:none;cursor:pointer;padding:6px;">'+'<span style="display:block;width:20px;height:1.5px;background:rgba(212,168,67,0.7);"></span>'+'<span style="display:block;width:14px;height:1.5px;background:rgba(212,168,67,0.5);"></span>'+'<span style="display:block;width:20px;height:1.5px;background:rgba(212,168,67,0.7);"></span>'+'</button>'+'<span style="font-family:Cormorant Garamond,serif;font-size:18px;color:#faf6f0;">💬 Chat Privé</span>'+'<button onclick="hmSbClose()" style="background:none;border:none;color:rgba(212,168,67,0.4);font-size:20px;cursor:pointer;">×</button>'+'</div></div>';
+  var body='';
+  if(active.length){
+    body=active.map(function(s){
+      return '<div style="background:rgba(12,8,25,0.9);border:1px solid rgba(212,168,67,0.12);padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;">'
+        +'<div>'
+        +'<span style="font-family:Cormorant Garamond,serif;font-size:16px;color:#faf6f0;display:block;">'+s.creatorId+'</span>'
+        +'<span style="font-size:9px;color:rgba(212,168,67,0.4);font-family:Montserrat,sans-serif;">5 pts / message</span>'
+        +'</div>'
+        +'<button onclick="hmChatOpen(\''+s.creatorId+'\')" style="padding:9px 18px;background:linear-gradient(135deg,#d4a843,#e8c060);color:#0f0a1e;font-size:8px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;border:none;cursor:pointer;">Écrire →</button>'
         +'</div>';
-    }).join(''):'<div style="padding:30px;text-align:center;border:1px dashed rgba(212,168,67,0.1);">'
-    +'<p style="font-size:14px;color:rgba(212,168,67,0.5);margin:0 0 16px;">Abonnez-vous à une créatrice pour accéder au chat privé</p>'
-    +'<button onclick="hmSbSection(\'abonnements\')" style="padding:12px 24px;background:linear-gradient(135deg,#b8820a,#e8c060);color:#0f0a1e;font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;border:none;cursor:pointer;">Voir les créatrices →</button>'
-    +'</div>')
-    +'</div>';
+    }).join('');
+  } else {
+    body='<div style="text-align:center;padding:32px 16px;border:1px dashed rgba(212,168,67,0.12);margin:0 16px;">'
+      +'<div style="font-size:32px;margin-bottom:12px;">💬</div>'
+      +'<p style="font-family:Cormorant Garamond,serif;font-size:18px;color:#faf6f0;margin:0 0 8px;">Votre cercle intime vous attend.</p>'
+      +'<p style="font-size:10px;color:rgba(212,168,67,0.5);line-height:1.7;margin:0 0 18px;font-family:Montserrat,sans-serif;">Abonnez-vous à une créatrice pour accéder au chat privé exclusif.</p>'
+      +'<button onclick="hmSbSection(\'abonnements\')" style="padding:12px 24px;background:linear-gradient(135deg,#b8820a,#e8c060);color:#0f0a1e;font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;border:none;cursor:pointer;">Voir les créatrices →</button>'
+      +'</div>';
+  }
+  wrap.innerHTML='<div>'+H+'<div style="padding:0 16px 24px;">'+body+'</div></div>';
 }
 
 function hmChatOpen(creatorId){
@@ -22135,26 +22154,24 @@ async function hmSendMsg(){
 
 // ── Honey Chat IA ──
 function hmSectionHoneyChat(){
-  var hdr='<div style="display:flex;gap:8px;margin-bottom:20px;">'+'<button onclick="hmSbOpen()" style="flex:1;padding:11px;background:rgba(212,168,67,0.07);border:1px solid rgba(212,168,67,0.2);color:rgba(212,168,67,0.8);font-size:9px;letter-spacing:0.22em;text-transform:uppercase;cursor:pointer;font-family:Montserrat,sans-serif;">☰ Menu</button>'+'<button onclick="hmSbClose()" style="flex:1;padding:11px;background:transparent;border:1px solid rgba(212,168,67,0.12);color:rgba(212,168,67,0.4);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;font-family:Montserrat,sans-serif;">← Site</button>'+'</div>';
-  return '<div style="max-width:560px;margin:0 auto;padding:16px 0;">'+hdr
-    +'<div style="font-size:22px;color:#faf6f0;margin-bottom:6px;font-family:Cormorant Garamond,serif;">✦ Honey Chat</div>'
-    +'<div style="font-size:9px;color:rgba(212,168,67,0.45);margin-bottom:14px;letter-spacing:0.1em;font-family:Montserrat,sans-serif;">Votre guide IA HoneyMoon</div>'
-    +'<div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px;">'
-    +[['Gagner des points','Comment puis-je gagner des points gratuitement ?'],
-      ['Recommandation','Quelle créatrice me recommandes-tu ?'],
-      ['Les plans','Explique les formules disponibles.'],
-      ['🎮 Jouer','Je veux jouer pour gagner des points.']]
-    .map(function(c){return '<button onclick="hmHcChip(\''+c[1]+'\')" style="padding:5px 11px;background:rgba(212,168,67,0.04);border:1px solid rgba(212,168,67,0.12);color:rgba(212,168,67,0.55);font-family:Montserrat,sans-serif;font-size:9px;letter-spacing:0.1em;cursor:pointer;">'+c[0]+'</button>';}).join('')
+  var name=window.HM_PROFILE?(window.HM_PROFILE.displayName||''):'Membre';
+  var H='<div style="padding:20px 16px 0;">'+'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">'+'<button onclick="hmSbOpen()" style="display:flex;flex-direction:column;gap:4px;background:none;border:none;cursor:pointer;padding:6px;">'+'<span style="display:block;width:20px;height:1.5px;background:rgba(212,168,67,0.7);"></span>'+'<span style="display:block;width:14px;height:1.5px;background:rgba(212,168,67,0.5);"></span>'+'<span style="display:block;width:20px;height:1.5px;background:rgba(212,168,67,0.7);"></span>'+'</button>'+'<span style="font-family:Cormorant Garamond,serif;font-size:18px;color:#faf6f0;">✦ Honey Chat IA</span>'+'<button onclick="hmSbClose()" style="background:none;border:none;color:rgba(212,168,67,0.4);font-size:20px;cursor:pointer;">×</button>'+'</div></div>';
+  return H
+    +'<div style="padding:0 16px 16px;">'
+    +'<p style="font-size:9px;color:rgba(212,168,67,0.45);letter-spacing:0.1em;font-family:Montserrat,sans-serif;margin-bottom:12px;">Votre guide IA HoneyMoon personnalisé</p>'
+    +'<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;">'
+    +[['Points','Comment gagner des points ?'],['Créatrices','Quelle créatrice me recommandes-tu ?'],['Formules','Explique les formules.'],['🎮 Quiz','Je veux jouer pour gagner des points !']]
+    .map(function(c){return '<button onclick="hmHcChip(\''+c[1]+'\')" style="padding:5px 11px;background:rgba(212,168,67,0.04);border:1px solid rgba(212,168,67,0.12);color:rgba(212,168,67,0.6);font-size:9px;letter-spacing:0.1em;cursor:pointer;font-family:Montserrat,sans-serif;">'+c[0]+'</button>';}).join('')
     +'</div>'
-    +'<div id="hm-hc-wrap" style="display:flex;flex-direction:column;height:360px;background:rgba(4,2,10,0.6);border:1px solid rgba(212,168,67,0.15);">'
+    +'<div id="hm-hc-wrap" style="display:flex;flex-direction:column;height:340px;background:rgba(4,2,10,0.6);border:1px solid rgba(212,168,67,0.15);">'
     +'<div id="hm-hc-msgs" style="flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:9px;">'
-    +'<div style="max-width:88%;padding:9px 12px;background:rgba(12,8,25,0.95);border:1px solid rgba(212,168,67,0.12);color:#faf6f0;font-size:11.5px;line-height:1.72;align-self:flex-start;">'
-    +'<span style="font-size:7.5px;letter-spacing:0.18em;text-transform:uppercase;color:#d4a843;display:block;margin-bottom:3px;">Honey · IA</span>'
-    +'Bonjour ✦ Je suis Honey, votre guide HoneyMoon. Comment puis-je vous aider ?'
+    +'<div style="max-width:88%;padding:9px 12px;background:rgba(12,8,25,0.95);border:1px solid rgba(212,168,67,0.12);color:#faf6f0;font-size:11px;line-height:1.72;align-self:flex-start;">'
+    +'<span style="font-size:7px;letter-spacing:0.18em;text-transform:uppercase;color:#d4a843;display:block;margin-bottom:3px;">Honey · IA</span>'
+    +'Bonjour '+name+' ✦ Je suis Honey, votre guide exclusif. Comment puis-je vous aider aujourd\'hui ?'
     +'</div></div>'
     +'<div style="display:flex;border-top:1px solid rgba(212,168,67,0.12);">'
-    +'<input id="hm-hc-inp" style="flex:1;background:transparent;border:none;padding:11px 13px;color:#faf6f0;font-size:13px;outline:none;" placeholder="Parlez à Honey..." onkeydown="if(event.key===\'Enter\'){event.preventDefault();hmHcSend();}">'
-    +'<button onclick="hmHcSend()" style="background:rgba(212,168,67,0.1);border:none;border-left:1px solid rgba(212,168,67,0.12);padding:0 16px;color:#d4a843;cursor:pointer;font-size:15px;">→</button>'
+    +'<input id="hm-hc-inp" style="flex:1;background:transparent;border:none;padding:12px;color:#faf6f0;font-size:13px;outline:none;" placeholder="Parlez à Honey..." onkeydown="if(event.key===\'Enter\'){event.preventDefault();hmHcSend();}">'
+    +'<button onclick="hmHcSend()" style="background:rgba(212,168,67,0.1);border:none;border-left:1px solid rgba(212,168,67,0.12);padding:0 16px;color:#d4a843;cursor:pointer;font-size:16px;">→</button>'
     +'</div></div></div>';
 }
 
@@ -22204,57 +22221,74 @@ function hmGivePoints(n,reason){
 function hmSectionAbonnements(){
   var active=HM_SUBS.filter(function(s){return s.status==='active';});
   var models=[
-    {id:'luna',name:'Luna',tag:'Mystérieuse · Sensuelle'},
-    {id:'zara',name:'Zara',tag:'Audacieuse · Exclusive'},
-    {id:'nova',name:'Nova',tag:'Lumineuse · Passionnée'},
-    {id:'reve',name:'Rêve',tag:'Envoûtante · Intime'}
+    {id:'luna',name:'Luna',tag:'Mystérieuse · Sensuelle',color:'rgba(212,168,67,0.9)'},
+    {id:'zara',name:'Zara',tag:'Audacieuse · Exclusive',color:'#f2d270'},
+    {id:'nova',name:'Nova',tag:'Lumineuse · Passionnée',color:'#c8a4ff'},
+    {id:'reve',name:'Rêve',tag:'Envoûtante · Intime',color:'#faf6f0'}
   ];
-  var gb='background:linear-gradient(135deg,#b8820a 0%,#e8c060 40%,#f2d270 50%,#e8c060 60%,#c8952a 100%);color:#0f0a1e;font-family:\'Montserrat\',sans-serif;font-size:9px;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;border:none;cursor:pointer;box-shadow:0 4px 24px rgba(212,168,67,0.3);';
-  return '<div style="max-width:560px;margin:0 auto;padding:16px 0 40px;">'
-    +'<button onclick="hmSbOpen()" style="margin-bottom:20px;width:100%;padding:10px;background:rgba(212,168,67,0.06);border:1px solid rgba(212,168,67,0.15);color:rgba(212,168,67,0.6);font-family:\'Montserrat\',sans-serif;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;cursor:pointer;">☰ Menu</button>'
-    +'<div style="text-align:center;margin-bottom:24px;">'
-    +'<p style="font-family:\'Cormorant Garamond\',serif;font-size:24px;color:#faf6f0;margin:0 0 8px;line-height:1.3;">L\'exclusivité a un prix.<br>Vous la méritez.</p>'
-    +'<p style="font-family:\'Montserrat\',sans-serif;font-size:10px;color:rgba(212,168,67,0.55);line-height:1.8;margin:0;">Chaque créatrice ouvre son univers intime à un cercle restreint.<br>L\'abonnement se fait directement chez elle — discret, exclusif, immédiat.</p>'
+  var H='<div style="padding:20px 16px 0;">'+'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">'+'<button onclick="hmSbOpen()" style="display:flex;flex-direction:column;gap:4px;background:none;border:none;cursor:pointer;padding:6px;">'+'<span style="display:block;width:20px;height:1.5px;background:rgba(212,168,67,0.7);"></span>'+'<span style="display:block;width:14px;height:1.5px;background:rgba(212,168,67,0.5);"></span>'+'<span style="display:block;width:20px;height:1.5px;background:rgba(212,168,67,0.7);"></span>'+'</button>'+'<span style="font-family:Cormorant Garamond,serif;font-size:18px;color:#faf6f0;">💳 Abonnements</span>'+'<button onclick="hmSbClose()" style="background:none;border:none;color:rgba(212,168,67,0.4);font-size:20px;cursor:pointer;">×</button>'+'</div></div>';
+  return H
+    +'<div style="padding:0 16px 32px;">'
+    +'<div style="text-align:center;padding:20px 0 24px;">'
+    +'<p style="font-family:Cormorant Garamond,serif;font-size:22px;color:#faf6f0;margin:0 0 8px;line-height:1.3;">L\'exclusivité a un prix.<br><em style="color:#e8c060;">Vous la méritez.</em></p>'
+    +'<p style="font-size:10px;color:rgba(212,168,67,0.5);line-height:1.8;margin:0;font-family:Montserrat,sans-serif;">Chaque créatrice réserve son univers intime à un cercle très restreint.<br>L\'abonnement se fait directement chez elle — discret, exclusif, immédiat.</p>'
     +'</div>'
-    +'<p style="font-family:\'Montserrat\',sans-serif;font-size:8px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(212,168,67,0.4);margin-bottom:12px;">Choisissez votre créatrice</p>'
+    +'<p style="font-size:8px;letter-spacing:0.32em;text-transform:uppercase;color:rgba(212,168,67,0.35);margin-bottom:10px;font-family:Montserrat,sans-serif;">Choisissez votre créatrice</p>'
     +models.map(function(m){
-      return '<div style="margin-bottom:10px;">'
-        +'<button onclick="hmSbClose();showPage(\''+m.id+'\')" style="width:100%;padding:15px 20px;'+gb+'display:flex;align-items:center;justify-content:space-between;">'
-        +'<span style="text-align:left;"><span style="display:block;font-size:13px;letter-spacing:0.15em;">'+m.name+'</span>'
-        +'<span style="display:block;font-size:8px;font-weight:400;color:rgba(10,8,20,0.65);margin-top:2px;">'+m.tag+'</span></span>'
-        +'<span>→</span></button></div>';
+      return '<button onclick="hmSbClose();showPage(\''+m.id+'\')" style="width:100%;padding:16px 20px;background:linear-gradient(135deg,#b8820a 0%,#e8c060 40%,#f2d270 50%,#e8c060 60%,#c8952a 100%);color:#0f0a1e;border:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;box-shadow:0 4px 20px rgba(212,168,67,0.2);">'
+        +'<span style="text-align:left;">'
+        +'<span style="display:block;font-family:Cormorant Garamond,serif;font-size:17px;letter-spacing:0.1em;">'+m.name+'</span>'
+        +'<span style="display:block;font-family:Montserrat,sans-serif;font-size:8px;font-weight:400;color:rgba(10,8,20,0.6);margin-top:2px;">'+m.tag+'</span>'
+        +'</span>'
+        +'<span style="font-size:16px;opacity:0.7;">→</span>'
+        +'</button>';
     }).join('')
-    +(active.length?'<div style="background:rgba(12,8,25,0.9);border:1px solid rgba(212,168,67,0.12);padding:18px;margin-top:20px;">'
-    +'<p style="font-family:\'Montserrat\',sans-serif;font-size:8px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(212,168,67,0.4);margin-bottom:12px;">Mes abonnements actifs</p>'
-    +active.map(function(s){
-      var exp=s.endDate?new Date(s.endDate).toLocaleDateString('fr-FR'):'—';
-      return '<div style="display:flex;align-items:center;gap:11px;padding:12px 0;border-bottom:1px solid rgba(212,168,67,0.06);">'
-        +'<div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(145deg,#1a1232,#0f0a1e);border:1px solid rgba(212,168,67,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">✦</div>'
-        +'<div style="flex:1;"><span style="font-family:\'Cormorant Garamond\',serif;font-size:15px;color:#faf6f0;display:block;">'+s.creatorId+'</span>'
-        +'<span style="font-family:\'Montserrat\',sans-serif;font-size:9px;color:rgba(212,168,67,0.4);">Expire le '+exp+'</span></div>'
-        +'<span style="font-size:8px;padding:3px 8px;border:1px solid rgba(58,172,110,0.35);color:#3aac6e;">Actif</span>'
-        +'</div>';
-    }).join('')+'</div>':'')
+    +(active.length
+      ?'<div style="margin-top:20px;background:rgba(12,8,25,0.9);border:1px solid rgba(212,168,67,0.1);padding:16px;">'
+        +'<p style="font-size:8px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(212,168,67,0.4);margin-bottom:12px;font-family:Montserrat,sans-serif;">Mes abonnements actifs</p>'
+        +active.map(function(s){
+          var exp=s.endDate?new Date(s.endDate).toLocaleDateString('fr-FR'):'—';
+          return '<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(212,168,67,0.05);">'
+            +'<div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(145deg,#1a1232,#0f0a1e);border:1px solid rgba(212,168,67,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">✦</div>'
+            +'<div style="flex:1;"><span style="font-family:Cormorant Garamond,serif;font-size:15px;color:#faf6f0;display:block;">'+s.creatorId+'</span>'
+            +'<span style="font-size:9px;color:rgba(212,168,67,0.4);font-family:Montserrat,sans-serif;">Expire le '+exp+'</span></div>'
+            +'<span style="font-size:8px;padding:3px 8px;border:1px solid rgba(58,172,110,0.35);color:#3aac6e;font-family:Montserrat,sans-serif;">Actif</span>'
+            +'</div>';
+        }).join('')+'</div>'
+      :'')
     +'</div>';
 }
 
 // ── Profil ──
 function hmSectionProfil(){
-  var user=window.HM_USER;var profile=window.HM_PROFILE;
+  var user=window.HM_USER,profile=window.HM_PROFILE;
   var name=profile?(profile.displayName||user.email.split('@')[0]):'';
-  var hdr='<div style="display:flex;gap:8px;margin-bottom:20px;">'+'<button onclick="hmSbOpen()" style="flex:1;padding:11px;background:rgba(212,168,67,0.07);border:1px solid rgba(212,168,67,0.2);color:rgba(212,168,67,0.8);font-size:9px;letter-spacing:0.22em;text-transform:uppercase;cursor:pointer;font-family:Montserrat,sans-serif;">☰ Menu</button>'+'<button onclick="hmSbClose()" style="flex:1;padding:11px;background:transparent;border:1px solid rgba(212,168,67,0.12);color:rgba(212,168,67,0.4);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;font-family:Montserrat,sans-serif;">← Site</button>'+'</div>';
-  return '<div style="max-width:400px;margin:0 auto;padding:16px 0;">'+hdr
+  var plan=profile?profile.plan:'visiteur';
+  var planLabel={'visiteur':'Visiteur','honey':'✦ Honey Girl','original':'◈ Original','amb':'♛ Ambassadrice','star':'★ Star'};
+  var H='<div style="padding:20px 16px 0;">'+'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">'+'<button onclick="hmSbOpen()" style="display:flex;flex-direction:column;gap:4px;background:none;border:none;cursor:pointer;padding:6px;">'+'<span style="display:block;width:20px;height:1.5px;background:rgba(212,168,67,0.7);"></span>'+'<span style="display:block;width:14px;height:1.5px;background:rgba(212,168,67,0.5);"></span>'+'<span style="display:block;width:20px;height:1.5px;background:rgba(212,168,67,0.7);"></span>'+'</button>'+'<span style="font-family:Cormorant Garamond,serif;font-size:18px;color:#faf6f0;">👤 Mon Profil</span>'+'<button onclick="hmSbClose()" style="background:none;border:none;color:rgba(212,168,67,0.4);font-size:20px;cursor:pointer;">×</button>'+'</div></div>';
+  return H
+    +'<div style="padding:0 16px 32px;">'
     +'<div style="text-align:center;margin-bottom:20px;">'
-    +'<div style="width:70px;height:70px;border-radius:50%;background:linear-gradient(145deg,#1a1232,#0f0a1e);border:2px solid rgba(212,168,67,0.25);display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 12px;">'+name.charAt(0).toUpperCase()+'</div>'
-    +'<span style="font-size:22px;color:#faf6f0;display:block;margin-bottom:3px;font-family:Cormorant Garamond,serif;">'+name+'</span>'
-    +'<span style="font-size:10px;color:rgba(212,168,67,0.4);font-family:Montserrat,sans-serif;">'+(user?user.email:'')+'</span>'
+    +'<div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(145deg,#1a1232,#0f0a1e);border:2px solid rgba(212,168,67,0.3);display:flex;align-items:center;justify-content:center;font-family:Cormorant Garamond,serif;font-size:28px;color:#e8c060;margin:0 auto 10px;">'+name.charAt(0).toUpperCase()+'</div>'
+    +'<span style="font-family:Cormorant Garamond,serif;font-size:20px;color:#faf6f0;display:block;">'+name+'</span>'
+    +'<span style="font-size:9px;color:rgba(212,168,67,0.4);font-family:Montserrat,sans-serif;">'+(user?user.email:'')+'</span>'
     +'</div>'
-    +'<div style="background:rgba(12,8,25,0.9);border:1px solid rgba(212,168,67,0.12);padding:18px;">'
-    +'<div style="margin-bottom:13px;"><label style="font-size:8px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(212,168,67,0.4);display:block;margin-bottom:6px;font-family:Montserrat,sans-serif;">Prénom</label>'
-    +'<input id="hm-profil-name" value="'+name+'" style="width:100%;background:rgba(212,168,67,0.04);border:1px solid rgba(212,168,67,0.15);padding:11px 13px;color:#faf6f0;font-size:13px;outline:none;box-sizing:border-box;"></div>'
+    +'<div style="background:rgba(212,168,67,0.05);border:1px solid rgba(212,168,67,0.15);padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;">'
+    +'<span style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(212,168,67,0.5);font-family:Montserrat,sans-serif;">Mon plan</span>'
+    +'<span style="font-size:12px;color:#e8c060;font-family:Montserrat,sans-serif;font-weight:700;">'+planLabel[plan]+'</span>'
+    +'</div>'
+    +'<div style="background:rgba(12,8,25,0.9);border:1px solid rgba(212,168,67,0.1);padding:16px;margin-bottom:12px;">'
+    +'<label style="font-size:8px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(212,168,67,0.4);display:block;margin-bottom:6px;font-family:Montserrat,sans-serif;">Prénom affiché</label>'
+    +'<input id="hm-profil-name" value="'+name+'" style="width:100%;background:rgba(212,168,67,0.03);border:1px solid rgba(212,168,67,0.15);padding:11px 13px;color:#faf6f0;font-size:13px;outline:none;box-sizing:border-box;margin-bottom:14px;">'
+    +'<label style="font-size:8px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(212,168,67,0.4);display:block;margin-bottom:6px;font-family:Montserrat,sans-serif;">Notifications email</label>'
+    +'<div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">'
+    +'<input type="checkbox" id="hm-notif-check" checked style="accent-color:#d4a843;width:16px;height:16px;">'
+    +'<span style="font-size:11px;color:rgba(245,240,232,0.6);font-family:Montserrat,sans-serif;">Recevoir les alertes contenu</span>'
+    +'</div>'
     +'<button onclick="hmSaveProfil()" style="width:100%;padding:13px;background:linear-gradient(135deg,#d4a843,#e8c060);color:#0f0a1e;font-size:9px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;border:none;cursor:pointer;">Sauvegarder →</button>'
-    +'<button onclick="hmMemberLogout()" style="width:100%;padding:10px;background:transparent;border:1px solid rgba(176,40,40,0.2);color:rgba(248,113,113,0.6);font-size:8.5px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;margin-top:8px;">Se déconnecter</button>'
-    +'</div></div>';
+    +'</div>'
+    +'<button onclick="hmMemberLogout()" style="width:100%;padding:11px;background:transparent;border:1px solid rgba(176,40,40,0.2);color:rgba(248,113,113,0.55);font-size:8.5px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;font-family:Montserrat,sans-serif;">Se déconnecter</button>'
+    +'</div>';
 }
 
 function hmSaveProfil(){
@@ -22269,37 +22303,34 @@ function hmSaveProfil(){
 
 // ── Contenu ──
 function hmSectionContenu(wrap){
-  var hdr='<div style="display:flex;gap:8px;margin-bottom:20px;">'+'<button onclick="hmSbOpen()" style="flex:1;padding:11px;background:rgba(212,168,67,0.07);border:1px solid rgba(212,168,67,0.2);color:rgba(212,168,67,0.8);font-size:9px;letter-spacing:0.22em;text-transform:uppercase;cursor:pointer;font-family:Montserrat,sans-serif;">☰ Menu</button>'+'<button onclick="hmSbClose()" style="flex:1;padding:11px;background:transparent;border:1px solid rgba(212,168,67,0.12);color:rgba(212,168,67,0.4);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;font-family:Montserrat,sans-serif;">← Site</button>'+'</div>';
-  wrap.innerHTML='<div style="max-width:560px;margin:0 auto;padding:16px 0 40px;">'+hdr
-    +'<div style="font-size:22px;color:#faf6f0;margin-bottom:14px;font-family:Cormorant Garamond,serif;">Mon contenu</div>'
-    +'<div id="hm-content-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:9px;"></div>'
-    +'</div>';
-  if(!window._hmDb)return;
+  var H='<div style="padding:20px 16px 0;">'+'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">'+'<button onclick="hmSbOpen()" style="display:flex;flex-direction:column;gap:4px;background:none;border:none;cursor:pointer;padding:6px;">'+'<span style="display:block;width:20px;height:1.5px;background:rgba(212,168,67,0.7);"></span>'+'<span style="display:block;width:14px;height:1.5px;background:rgba(212,168,67,0.5);"></span>'+'<span style="display:block;width:20px;height:1.5px;background:rgba(212,168,67,0.7);"></span>'+'</button>'+'<span style="font-family:Cormorant Garamond,serif;font-size:18px;color:#faf6f0;">🎬 Mon Contenu</span>'+'<button onclick="hmSbClose()" style="background:none;border:none;color:rgba(212,168,67,0.4);font-size:20px;cursor:pointer;">×</button>'+'</div></div>';
   var subIds=HM_SUBS.map(function(s){return s.creatorId;});
-  if(!subIds.length){
-    var g=document.getElementById('hm-content-grid');
-    if(g)g.innerHTML='<div style="grid-column:1/-1;padding:30px;text-align:center;border:1px dashed rgba(212,168,67,0.1);">'
-      +'<p style="font-size:13px;color:rgba(212,168,67,0.4);margin:0 0 14px;">Abonnez-vous à une créatrice pour voir son contenu</p>'
-      +'<button onclick="hmSbSection(\'abonnements\')" style="padding:11px 22px;background:linear-gradient(135deg,#b8820a,#e8c060);color:#0f0a1e;font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;border:none;cursor:pointer;">Voir les créatrices →</button>'
-      +'</div>';
-    return;
-  }
+  var noSubHtml='<div style="text-align:center;padding:32px 16px;border:1px dashed rgba(212,168,67,0.1);margin:0 16px;">'
+    +'<div style="font-size:32px;margin-bottom:12px;">🔒</div>'
+    +'<p style="font-family:Cormorant Garamond,serif;font-size:18px;color:#faf6f0;margin:0 0 8px;">Contenu exclusif réservé aux abonnés.</p>'
+    +'<p style="font-size:10px;color:rgba(212,168,67,0.5);line-height:1.7;margin:0 0 18px;font-family:Montserrat,sans-serif;">Abonnez-vous à une créatrice pour accéder à ses photos, vidéos et reels privés.</p>'
+    +'<button onclick="hmSbSection(\'abonnements\')" style="padding:12px 24px;background:linear-gradient(135deg,#b8820a,#e8c060);color:#0f0a1e;font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;border:none;cursor:pointer;">Voir les créatrices →</button>'
+    +'</div>';
+  wrap.innerHTML='<div>'+H+'<div style="padding:0 0 32px;">'
+    +(subIds.length?'<div id="hm-content-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(212,168,67,0.05);margin:0 16px;"></div>':noSubHtml)
+    +'</div></div>';
+  if(!subIds.length||!window._hmDb)return;
   window._hmOnSnap(
     window._hmQuery(window._hmCol(window._hmDb,'content'),window._hmWhere('statut','==','approuve')),
     function(snap){
       var all=snap.docs.map(function(d){return Object.assign({id:d.id},d.data());});
       var mine=all.filter(function(c){return subIds.indexOf(c.creatorId)>-1;});
       var grid=document.getElementById('hm-content-grid');if(!grid)return;
-      if(!mine.length){grid.innerHTML='<div style="grid-column:1/-1;padding:20px;text-align:center;font-size:11px;color:rgba(212,168,67,0.4);">Aucun contenu disponible</div>';return;}
+      if(!mine.length){grid.innerHTML='<div style="padding:20px;text-align:center;font-size:11px;color:rgba(212,168,67,0.4);grid-column:1/-1;">Aucun contenu disponible pour le moment.</div>';return;}
       grid.innerHTML=mine.map(function(c){
-        var icon=c.type==='video'?'🎬':c.type==='reel'?'📱':c.type==='teaser'?'🔥':'📷';
+        var ico=c.type==='video'?'🎬':c.type==='reel'?'📱':c.type==='teaser'?'🔥':'📷';
         var locked=!!c.lockedPrice;
-        return '<div style="background:rgba(12,8,25,0.9);border:1px solid rgba(212,168,67,0.12);overflow:hidden;cursor:pointer;" onclick="hmUnlockContent(\''+c.id+'\','+(c.lockedPrice||0)+')">' 
-          +'<div style="width:100%;aspect-ratio:4/3;background:linear-gradient(145deg,#1a1232,#0f0a1e);display:flex;align-items:center;justify-content:center;font-size:28px;position:relative;">'+icon
-          +(locked?'<div style="position:absolute;inset:0;background:rgba(4,2,10,0.8);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;"><span style="font-size:22px;">🔒</span><span style="font-size:9px;color:#d4a843;background:rgba(212,168,67,0.1);border:1px solid rgba(212,168,67,0.25);padding:3px 10px;">'+c.lockedPrice+' pts</span></div>':'')
+        return '<div style="background:rgba(8,5,18,0.95);cursor:pointer;" onclick="hmUnlockContent(\''+c.id+'\','+(c.lockedPrice||0)+')">' 
+          +'<div style="width:100%;aspect-ratio:4/3;background:linear-gradient(145deg,#1a1232,#0f0a1e);display:flex;align-items:center;justify-content:center;font-size:26px;position:relative;">'+ico
+          +(locked?'<div style="position:absolute;inset:0;background:rgba(4,2,10,0.82);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;"><span style="font-size:20px;">🔒</span><span style="font-size:9px;color:#d4a843;background:rgba(212,168,67,0.08);border:1px solid rgba(212,168,67,0.2);padding:3px 10px;font-family:Montserrat,sans-serif;">'+c.lockedPrice+' pts</span></div>':'')
           +'</div>'
-          +'<div style="padding:8px;"><span style="font-size:11px;color:#faf6f0;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:2px;">'+(c.titre||c.type||'Contenu')+'</span>'
-          +'<span style="font-size:9px;color:rgba(212,168,67,0.4);">'+(c.creatorId||'')+'</span></div>'
+          +'<div style="padding:8px 10px;"><span style="font-size:11px;color:#faf6f0;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(c.titre||c.type||'Contenu')+'</span>'
+          +'<span style="font-size:9px;color:rgba(212,168,67,0.4);font-family:Montserrat,sans-serif;">'+(c.creatorId||'')+'</span></div>'
           +'</div>';
       }).join('');
     }
