@@ -21828,16 +21828,16 @@ waitForFB(function(){
         if(document.getElementById('hm-welcome-notif'))return;
         var notif=document.createElement('div');
         notif.id='hm-welcome-notif';
-        notif.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:9999;width:calc(100% - 32px);max-width:400px;background:linear-gradient(135deg,#0f0a1e,#1a1232);border:1px solid rgba(212,168,67,0.35);padding:20px;box-shadow:0 8px 40px rgba(0,0,0,0.6),0 0 0 1px rgba(212,168,67,0.08);animation:hmNotifIn 0.4s cubic-bezier(0.34,1.56,0.64,1) both;';
-        notif.innerHTML='<style>@keyframes hmNotifIn{from{opacity:0;transform:translateX(-50%) translateY(20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}</style>'
-          +'<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">'
-          +'<span style="font-family:'Montserrat',sans-serif;font-size:8px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(212,168,67,0.6);">✦ Cercle Privé</span>'
-          +'<button onclick="this.closest('#hm-welcome-notif').remove()" style="background:none;border:none;color:rgba(212,168,67,0.3);cursor:pointer;font-size:16px;padding:0;line-height:1;">×</button>'
-          +'</div>'
-          +'<p style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#faf6f0;margin:0 0 6px;line-height:1.3;">Votre univers vous attend.</p>'
-          +'<p style="font-family:'Montserrat',sans-serif;font-size:10px;color:rgba(212,168,67,0.6);line-height:1.7;margin:0 0 16px;">Chaque créatrice a quelque chose d'exclusif à vous offrir. Entrez dans leur monde — maintenant.</p>'
-          +'<button onclick="this.closest('#hm-welcome-notif').remove();navTo('landing','landing-models-anchor')" style="width:100%;padding:13px;background:linear-gradient(135deg,#c8952a,#e8c060,#d4a843);background-size:200% 100%;color:#0f0a1e;font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;border:none;cursor:pointer;box-shadow:0 4px 20px rgba(212,168,67,0.25);">Découvrir les créatrices →</button>';
-        document.body.appendChild(notif);
+        notif.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:9999;width:calc(100% - 32px);max-width:400px;background:linear-gradient(135deg,#0f0a1e,#1a1232);border:1px solid rgba(212,168,67,0.35);padding:20px;box-shadow:0 8px 40px rgba(0,0,0,0.6)';
+        notif.innerHTML=[
+          '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">',
+          '<span style="font-size:8px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(212,168,67,0.6);">✦ Cercle Privé</span>',
+          '<button onclick="document.getElementById(\'hm-welcome-notif\').remove()" style="background:none;border:none;color:rgba(212,168,67,0.3);cursor:pointer;font-size:18px;">×</button>',
+          '</div>',
+          '<p style="font-size:20px;color:#faf6f0;margin:0 0 6px;line-height:1.3;">Votre univers vous attend.</p>',
+          '<p style="font-size:10px;color:rgba(212,168,67,0.6);line-height:1.7;margin:0 0 16px;">Chaque créatrice a quelque chose d\'exclusif à vous offrir.</p>',
+          '<button onclick="document.getElementById(\'hm-welcome-notif\').remove();showPage(\'landing\');" style="width:100%;padding:13px;background:linear-gradient(135deg,#d4a843,#e8c060);color:#0f0a1e;font-size:9px;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;border:none;cursor:pointer;">Découvrir les créatrices →</button>'
+        ].join('');
         setTimeout(function(){var n=document.getElementById('hm-welcome-notif');if(n)n.remove();},8000);
       },800);
       // Charger profil
