@@ -21824,6 +21824,23 @@ waitForFB(function(){
 
     if(user && !user.isAnonymous){
       window.HM_USER=user;
+      // ── Notification post-login ──
+      setTimeout(function(){
+        if(document.getElementById('hm-welcome-notif'))return;
+        var notif=document.createElement('div');
+        notif.id='hm-welcome-notif';
+        notif.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:9999;width:calc(100% - 32px);max-width:400px;background:linear-gradient(135deg,#0f0a1e,#1a1232);border:1px solid rgba(212,168,67,0.35);padding:20px;box-shadow:0 8px 40px rgba(0,0,0,0.6),0 0 0 1px rgba(212,168,67,0.08);animation:hmNotifIn 0.4s cubic-bezier(0.34,1.56,0.64,1) both;';
+        notif.innerHTML='<style>@keyframes hmNotifIn{from{opacity:0;transform:translateX(-50%) translateY(20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}</style>'
+          +'<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">'
+          +'<span style="font-family:'Montserrat',sans-serif;font-size:8px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(212,168,67,0.6);">✦ Cercle Privé</span>'
+          +'<button onclick="this.closest('#hm-welcome-notif').remove()" style="background:none;border:none;color:rgba(212,168,67,0.3);cursor:pointer;font-size:16px;padding:0;line-height:1;">×</button>'
+          +'</div>'
+          +'<p style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#faf6f0;margin:0 0 6px;line-height:1.3;">Votre univers vous attend.</p>'
+          +'<p style="font-family:'Montserrat',sans-serif;font-size:10px;color:rgba(212,168,67,0.6);line-height:1.7;margin:0 0 16px;">Chaque créatrice a quelque chose d'exclusif à vous offrir. Entrez dans leur monde — maintenant.</p>'
+          +'<button onclick="this.closest('#hm-welcome-notif').remove();navTo('landing','landing-models-anchor')" style="width:100%;padding:13px;background:linear-gradient(135deg,#c8952a,#e8c060,#d4a843);background-size:200% 100%;color:#0f0a1e;font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;border:none;cursor:pointer;box-shadow:0 4px 20px rgba(212,168,67,0.25);">Découvrir les créatrices →</button>';
+        document.body.appendChild(notif);
+        setTimeout(function(){var n=document.getElementById('hm-welcome-notif');if(n)n.remove();},8000);
+      },800);
       // Charger profil
       var snap=await getDoc(doc(db,'users',user.uid));
       var profile;
@@ -21967,6 +21984,7 @@ function hmSectionAccueil(){
     +'<div style="display:flex;justify-content:space-between;padding:7px 0;"><span>Vidéo PPV exclusive</span><span style="color:#e8c060;">150 pts</span></div>'
     +'</div>'
     +'<button onclick="hmPtsModalOpen()" style="width:100%;margin-top:12px;padding:12px;background:linear-gradient(135deg,#d4a843,#e8c060);color:#0f0a1e;font-family:\'Montserrat\',sans-serif;font-size:9px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;border:none;cursor:pointer;">Acheter des points →</button>'
+    +'<button onclick="hmSbClose();navTo(\'landing\',\'landing-models-anchor\'" style="width:100%;margin-top:8px;padding:14px;background:linear-gradient(135deg,#b8820a 0%,#e8c060 40%,#f2d270 50%,#e8c060 60%,#c8952a 100%);color:#0f0a1e;font-family:\'Montserrat\',sans-serif;font-size:9px;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;border:none;cursor:pointer;box-shadow:0 4px 24px rgba(212,168,67,0.3),inset 0 1px 0 rgba(255,255,255,0.15);">✦ Découvrir les créatrices →</button>'
     +'</div>'
     +'<button onclick="hmSbClose()" style="width:100%;padding:10px;background:transparent;border:1px solid rgba(212,168,67,0.15);color:rgba(212,168,67,0.45);font-family:\'Montserrat\',sans-serif;font-size:8.5px;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;">← Retour au site</button>'
     +'</div>';
@@ -22199,19 +22217,39 @@ function hmGivePoints(n,reason){
 // ── Abonnements ──
 function hmSectionAbonnements(){
   var active=HM_SUBS.filter(function(s){return s.status==='active';});
-  return '<div style="max-width:560px;margin:0 auto;padding-top:30px;">'
-    +'<div style="font-family:\'Cormorant Garamond\',serif;font-size:22px;color:#faf6f0;margin-bottom:14px;">Mes abonnements</div>'
-    +'<div style="background:rgba(12,8,25,0.9);border:1px solid rgba(212,168,67,0.12);padding:18px;margin-bottom:12px;">'
-    +(active.length?active.map(function(s){
+  var models=[
+    {id:'luna',name:'Luna',tag:'Mystérieuse · Sensuelle'},
+    {id:'zara',name:'Zara',tag:'Audacieuse · Exclusive'},
+    {id:'nova',name:'Nova',tag:'Lumineuse · Passionnée'},
+    {id:'reve',name:'Rêve',tag:'Envoûtante · Intime'}
+  ];
+  var gb='background:linear-gradient(135deg,#b8820a 0%,#e8c060 40%,#f2d270 50%,#e8c060 60%,#c8952a 100%);color:#0f0a1e;font-family:\'Montserrat\',sans-serif;font-size:9px;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;border:none;cursor:pointer;box-shadow:0 4px 24px rgba(212,168,67,0.3);';
+  return '<div style="max-width:560px;margin:0 auto;padding:16px 0 40px;">'
+    +'<button onclick="hmSbOpen()" style="margin-bottom:20px;width:100%;padding:10px;background:rgba(212,168,67,0.06);border:1px solid rgba(212,168,67,0.15);color:rgba(212,168,67,0.6);font-family:\'Montserrat\',sans-serif;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;cursor:pointer;">☰ Menu</button>'
+    +'<div style="text-align:center;margin-bottom:24px;">'
+    +'<p style="font-family:\'Cormorant Garamond\',serif;font-size:24px;color:#faf6f0;margin:0 0 8px;line-height:1.3;">L\'exclusivité a un prix.<br>Vous la méritez.</p>'
+    +'<p style="font-family:\'Montserrat\',sans-serif;font-size:10px;color:rgba(212,168,67,0.55);line-height:1.8;margin:0;">Chaque créatrice ouvre son univers intime à un cercle restreint.<br>L\'abonnement se fait directement chez elle — discret, exclusif, immédiat.</p>'
+    +'</div>'
+    +'<p style="font-family:\'Montserrat\',sans-serif;font-size:8px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(212,168,67,0.4);margin-bottom:12px;">Choisissez votre créatrice</p>'
+    +models.map(function(m){
+      return '<div style="margin-bottom:10px;">'
+        +'<button onclick="hmSbClose();showPage(\''+m.id+'\')" style="width:100%;padding:15px 20px;'+gb+'display:flex;align-items:center;justify-content:space-between;">'
+        +'<span style="text-align:left;"><span style="display:block;font-size:13px;letter-spacing:0.15em;">'+m.name+'</span>'
+        +'<span style="display:block;font-size:8px;font-weight:400;color:rgba(10,8,20,0.65);margin-top:2px;">'+m.tag+'</span></span>'
+        +'<span>→</span></button></div>';
+    }).join('')
+    +(active.length?'<div style="background:rgba(12,8,25,0.9);border:1px solid rgba(212,168,67,0.12);padding:18px;margin-top:20px;">'
+    +'<p style="font-family:\'Montserrat\',sans-serif;font-size:8px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(212,168,67,0.4);margin-bottom:12px;">Mes abonnements actifs</p>'
+    +active.map(function(s){
       var exp=s.endDate?new Date(s.endDate).toLocaleDateString('fr-FR'):'—';
       return '<div style="display:flex;align-items:center;gap:11px;padding:12px 0;border-bottom:1px solid rgba(212,168,67,0.06);">'
-        +'<div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(145deg,#1a1232,#0f0a1e);border:1px solid rgba(212,168,67,0.2);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">✦</div>'
+        +'<div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(145deg,#1a1232,#0f0a1e);border:1px solid rgba(212,168,67,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">✦</div>'
         +'<div style="flex:1;"><span style="font-family:\'Cormorant Garamond\',serif;font-size:15px;color:#faf6f0;display:block;">'+s.creatorId+'</span>'
         +'<span style="font-family:\'Montserrat\',sans-serif;font-size:9px;color:rgba(212,168,67,0.4);">Expire le '+exp+'</span></div>'
-        +'<span style="font-family:\'Montserrat\',sans-serif;font-size:8px;padding:3px 8px;border:1px solid rgba(58,172,110,0.35);color:#3aac6e;">Actif</span>'
+        +'<span style="font-size:8px;padding:3px 8px;border:1px solid rgba(58,172,110,0.35);color:#3aac6e;">Actif</span>'
         +'</div>';
-    }).join(''):'<div style="padding:20px;text-align:center;font-family:\'Montserrat\',sans-serif;font-size:11px;color:rgba(212,168,67,0.4);">Aucun abonnement actif</div>')
-    +'</div></div>';
+    }).join('')+'</div>':'')
+    +'</div>';
 }
 
 // ── Profil ──
