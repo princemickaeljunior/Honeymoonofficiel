@@ -22,7 +22,7 @@ export default async function handler(req, res) {
 
   try {
     const body = req.body;
-    if (!body.model) body.model = 'claude-sonnet-4-20250514';
+   if (!body.model) body.model = 'claude-sonnet-4-5-20250929';
     if (!body.max_tokens) body.max_tokens = 1000;
 
     const response = await fetch('https://api.anthropic.com/v1/messages', {
