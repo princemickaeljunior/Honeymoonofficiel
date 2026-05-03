@@ -40,7 +40,7 @@ body{
     radial-gradient(ellipse 50% 40% at 100% 0%,  rgba(10,80,180,0.18) 0%, transparent 50%),
     radial-gradient(ellipse 55% 38% at 50% 100%, rgba(5,40,100,0.30) 0%, transparent 55%),
     linear-gradient(148deg, #06121F 0%, #081828 30%, #0A1E38 60%, #071628 100%);
-  color:#E8F4FF;font-family:'Jost',sans-serif;font-size:13px;font-weight:500;min-height:100vh;-webkit-font-smoothing:antialiased;
+  color:#E8F4FF;font-family:'Jost',sans-serif;font-size:13px;font-weight:500;min-height:100vh;-webkit-font-smoothing:antialiased;scroll-behavior:smooth;
 }
 
 /* ══ HEADER ══ */
@@ -81,94 +81,20 @@ body{
 /* ══ SECTIONS ══ */
 .sec{display:none;padding:18px 16px;animation:fi 0.2s ease;}
 .sec.on{display:block;}
-@keyframes fi{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.sec{will-change:opacity;}
+@keyframes fi{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}
 
 /* ══ DESKTOP LAYOUT ══ */
-@media(min-width:900px){
+#studio-sidebar{display:none !important;}
 
-  /* ── Header full width ── */
-  .hdr{max-width:100%;}
-  .hdr-inner{max-width:1280px;margin:0 auto;padding:0 40px;}
-  .hdr-sub{padding:0 40px;}
-
-  /* ── Cacher nav mobile ── */
-  .nav{display:none !important;}
-
-  /* ── Wrapper principal ── */
-  #studio-body{
-    display:flex;
-    max-width:1280px;
-    margin:0 auto;
-    min-height:calc(100vh - 80px);
-  }
-
-  /* ── Sidebar ── */
-  #studio-sidebar{
-    width:220px;
-    flex-shrink:0;
-    background:rgba(4,10,22,0.98);
-    border-right:1px solid rgba(201,149,42,0.16);
-    position:sticky;
-    top:80px;
-    height:calc(100vh - 80px);
-    overflow-y:auto;
-    padding:28px 0 20px;
-    display:flex;
-    flex-direction:column;
-    gap:1px;
-  }
-  #studio-sidebar::before{
-    content:'NAVIGATION';
-    display:block;
-    font-size:7px;
-    letter-spacing:0.38em;
-    color:rgba(201,149,42,0.35);
-    padding:0 20px 16px;
-  }
-  #studio-sidebar .nav-btn{
-    width:100%;
-    text-align:left;
-    border:none;
-    border-left:2px solid transparent;
-    border-bottom:none !important;
-    padding:10px 20px;
-    font-size:9px;
-    letter-spacing:0.22em;
-    color:rgba(106,158,192,0.75);
-    border-radius:0;
-    transition:all 0.18s;
-  }
-  #studio-sidebar .nav-btn.on{
-    border-left:2px solid var(--gold);
-    color:var(--gold);
-    background:rgba(201,149,42,0.07);
-    font-weight:700;
-  }
-  #studio-sidebar .nav-btn:hover:not(.on){
-    color:#E8F4FF;
-    background:rgba(201,149,42,0.04);
-    border-left:2px solid rgba(201,149,42,0.25);
-  }
-
-  /* ── Contenu principal ── */
-  #studio-main{
-    flex:1;
-    min-width:0;
-    max-width:960px;
-    overflow-y:auto;
-  }
-  .sec{padding:28px 36px;}
-
-  /* ── Cards ── */
-  .card{padding:22px 26px;margin-bottom:12px;}
-  .kpi-grid{grid-template-columns:repeat(4,1fr);gap:14px;}
-  .g2{gap:14px;}
-  .g3{gap:14px;}
-  .dash-profile{padding:20px 24px;}
-
-  /* ── Auth gate ── */
-  .auth-box{max-width:440px;}
+@media(min-width:700px){
+  .nav{justify-content:center;}
+  #studio-body{display:block;}
+  #studio-main{max-width:540px;margin:0 auto;display:block;}
+  .sec{padding:20px 16px;}
+  .kpi-grid{grid-template-columns:repeat(2,1fr);}
 }
+
 
 /* ══ CARD ══ */
 .card{background:var(--card);border:1px solid var(--border);padding:16px;margin-bottom:10px;}
@@ -867,6 +793,11 @@ input::placeholder, textarea::placeholder { color: rgba(201,149,42,0.28) !import
 .photo-wrap { border: 1px solid rgba(201,149,42,0.35) !important; background: rgba(8,24,52,0.80) !important; }
 .photo-overlay { background: rgba(0,0,0,0.62) !important; color: rgba(232,184,74,0.95) !important; }
 
+
+/* ══ LOGOUT ══ */
+.hdr-logout{padding:5px 10px;background:none;border:1px solid rgba(201,149,42,0.25);color:rgba(201,149,42,0.55);font-family:'Jost',sans-serif;font-size:7.5px;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;}
+.hdr-logout:hover{border-color:#C9952A;color:#C9952A;}
+
 /* ══ AUTH GATE ══ */
 #hm-auth-gate{position:fixed;inset:0;z-index:9999;background:linear-gradient(148deg,#06121F 0%,#081828 35%,#0A1E38 65%,#071628 100%);display:flex;align-items:center;justify-content:center;padding:24px;}
 .auth-box{width:100%;max-width:360px;background:rgba(10,24,52,0.97);border:1px solid rgba(201,149,42,0.38);padding:32px 24px;box-shadow:0 28px 80px rgba(0,0,0,0.60);}
@@ -883,11 +814,8 @@ input::placeholder, textarea::placeholder { color: rgba(201,149,42,0.28) !import
 .auth-btn{width:100%;padding:13px;background:linear-gradient(135deg,#b8860b 0%,#d4a017 30%,#f0c040 55%,#d4a017 75%,#b8860b 100%);background-size:250% auto;color:#2a1800;font-family:'Jost',sans-serif;font-size:9px;font-weight:700;letter-spacing:0.32em;text-transform:uppercase;border:none;cursor:pointer;margin-top:8px;transition:background-position 0.5s;box-shadow:0 3px 20px rgba(184,134,11,0.35);}
 .auth-btn:hover{background-position:right center;}
 .auth-err{display:none;margin-top:10px;padding:9px 12px;background:rgba(252,165,165,0.06);border:1px solid rgba(252,165,165,0.22);color:#fca5a5;font-size:10px;letter-spacing:0.1em;text-align:center;}
-.auth-reset{display:block;text-align:center;margin-top:14px;font-size:10px;color:rgba(201,149,42,0.55);cursor:pointer;letter-spacing:0.12em;text-decoration:none;}
+.auth-reset{display:block;text-align:center;margin-top:14px;font-size:10px;color:rgba(201,149,42,0.55);cursor:pointer;letter-spacing:0.12em;}
 .auth-reset:hover{color:#C9952A;}
-/* logout btn */
-.hdr-logout{padding:5px 10px;background:none;border:1px solid rgba(201,149,42,0.25);color:rgba(201,149,42,0.50);font-family:'Jost',sans-serif;font-size:7.5px;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;}
-.hdr-logout:hover{border-color:#C9952A;color:#C9952A;}
 </style>
 </head>
 <body>
@@ -911,7 +839,7 @@ input::placeholder, textarea::placeholder { color: rgba(201,149,42,0.28) !import
     </div>
     <button class="auth-btn" id="auth-submit-btn">Sign In →</button>
     <div class="auth-err" id="auth-err"></div>
-    <a class="auth-reset" id="auth-reset-link" style="cursor:pointer;">Forgot your password?</a>
+    <a class="auth-reset" id="auth-reset-link">Forgot your password?</a>
   </div>
 </div>
 
@@ -2570,45 +2498,12 @@ window.hmDB = db;
 window.hmAuth = auth;
 window.hmStorage = storage;
 
-// ── AUTH GATE FUNCTIONS ──
-window.hmLogin = async function() {
-  var email = document.getElementById('auth-email').value.trim();
-  var pass  = document.getElementById('auth-pass').value;
-  var errEl = document.getElementById('auth-err');
-  if (!email || !pass) { errEl.textContent='Please fill in email and password.'; errEl.style.display='block'; return; }
-  errEl.style.display = 'none';
-  try {
-    await signInWithEmailAndPassword(auth, email, pass);
-  } catch(e) {
-    var msg = e.code === 'auth/invalid-credential' || e.code === 'auth/wrong-password' || e.code === 'auth/user-not-found'
-      ? 'Invalid email or password.'
-      : (e.code === 'auth/too-many-requests' ? 'Too many attempts. Try again later.' : e.message);
-    errEl.textContent = msg;
-    errEl.style.display = 'block';
-  }
-};
-
-window.hmLogout = async function() {
-  if (!confirm('Sign out?')) return;
-  await signOut(auth);
-};
-
-window.hmResetPassword = async function() {
-  var email = document.getElementById('auth-email').value.trim();
-  if (!email) { alert('Enter your email above first.'); return; }
-  try {
-    await sendPasswordResetEmail(auth, email);
-    alert('Reset email sent to ' + email);
-  } catch(e) { alert('Error: ' + e.message); }
-};
-
 // ── AUTH STATE ──
 onAuthStateChanged(auth, function(user) {
   var gate = document.getElementById('hm-auth-gate');
   if (!user) {
     if (gate) gate.style.display = 'flex';
-    window.hmCreatorId = null;
-    window.hmCurrentCreator = null;
+    window.hmCreatorId = null; window.hmCurrentCreator = null;
     return;
   }
   if (gate) gate.style.display = 'none';
@@ -2809,6 +2704,49 @@ async function loadContentFromFirestore(creatorId) {
   renderGrid();updateDashboard();
 }
 
+
+// ── AUTH GATE FUNCTIONS ──
+window.hmLogin = async function() {
+  var email = document.getElementById('auth-email').value.trim();
+  var pass  = document.getElementById('auth-pass').value;
+  var errEl = document.getElementById('auth-err');
+  if (!email || !pass) { errEl.textContent='Fill in email and password.'; errEl.style.display='block'; return; }
+  errEl.style.display = 'none';
+  try {
+    await signInWithEmailAndPassword(auth, email, pass);
+  } catch(e) {
+    var msg = (e.code==='auth/invalid-credential'||e.code==='auth/wrong-password'||e.code==='auth/user-not-found')
+      ? 'Invalid email or password.'
+      : (e.code==='auth/too-many-requests' ? 'Too many attempts. Try later.' : e.message);
+    errEl.textContent = msg; errEl.style.display = 'block';
+  }
+};
+window.hmLogout = async function() {
+  if (!confirm('Sign out?')) return;
+  try { await signOut(auth); } catch(e) {}
+  window.hmCreatorId = null; window.hmCurrentCreator = null;
+  var gate = document.getElementById('hm-auth-gate');
+  if (gate) gate.style.display = 'flex';
+};
+window.hmResetPassword = async function() {
+  var email = document.getElementById('auth-email').value.trim();
+  if (!email) { alert('Enter your email first.'); return; }
+  try { await sendPasswordResetEmail(auth, email); alert('Reset email sent to ' + email); }
+  catch(e) { alert('Error: ' + e.message); }
+};
+
+// ── LOGOUT ──
+document.addEventListener('DOMContentLoaded', function() {
+  var btnLogin  = document.getElementById('auth-submit-btn');
+  var btnReset  = document.getElementById('auth-reset-link');
+  var btnLogout = document.getElementById('hdr-logout-btn');
+  var passInp   = document.getElementById('auth-pass');
+  if (btnLogin)  btnLogin.addEventListener('click', window.hmLogin);
+  if (btnReset)  btnReset.addEventListener('click', window.hmResetPassword);
+  if (btnLogout) btnLogout.addEventListener('click', window.hmLogout);
+  if (passInp)   passInp.addEventListener('keydown', function(e){ if(e.key==='Enter') window.hmLogin(); });
+});
+
 // ── MESSAGES ──
 window.hmMessages = {};
 function listenMessages(creatorId) {
@@ -2822,16 +2760,6 @@ function listenMessages(creatorId) {
   );
 }
 
-// ── BIND AUTH BUTTONS ──
-document.addEventListener('DOMContentLoaded', function() {
-  var btnSubmit = document.getElementById('auth-submit-btn');
-  var btnReset  = document.getElementById('auth-reset-link');
-  var btnLogout = document.getElementById('hdr-logout-btn');
-  var passInp   = document.getElementById('auth-pass');
-  if (btnSubmit) btnSubmit.addEventListener('click', window.hmLogin);
-  if (btnReset)  btnReset.addEventListener('click', window.hmResetPassword);
-  if (btnLogout) btnLogout.addEventListener('click', window.hmLogout);
-  if (passInp)   passInp.addEventListener('keydown', function(e){ if(e.key==='Enter') window.hmLogin(); });
 });
 </script>
 
