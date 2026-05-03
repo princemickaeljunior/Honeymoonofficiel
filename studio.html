@@ -83,6 +83,54 @@ body{
 .sec.on{display:block;}
 @keyframes fi{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 
+/* ══ DESKTOP LAYOUT ══ */
+@media(min-width:900px){
+  /* Centrer et limiter la largeur globale */
+  .hdr{max-width:100%;}
+  .hdr-inner{max-width:1200px;margin:0 auto;padding:0 32px;}
+  .hdr-sub{padding:0 32px;}
+  .hdr-sub > *{max-width:1200px;margin:0 auto;width:100%;}
+
+  /* Nav horizontale desktop — plus large, centrée */
+  .nav{top:80px;justify-content:center;}
+  .nav-btn{padding:14px 18px;font-size:9px;}
+
+  /* Layout principal : sidebar gauche + contenu centré */
+  #studio-body{display:flex;max-width:1200px;margin:0 auto;gap:0;min-height:calc(100vh - 80px);}
+
+  /* Sidebar nav verticale sur desktop */
+  #studio-sidebar{
+    width:200px;flex-shrink:0;
+    background:rgba(5,12,24,0.97);
+    border-right:1px solid rgba(201,149,42,0.18);
+    position:sticky;top:80px;height:calc(100vh - 80px);
+    overflow-y:auto;padding:20px 0;
+    display:flex;flex-direction:column;gap:2px;
+  }
+  #studio-sidebar .nav-btn{
+    width:100%;text-align:left;border-bottom:none;border-left:2px solid transparent;
+    padding:11px 20px;font-size:9px;
+  }
+  #studio-sidebar .nav-btn.on{border-left-color:var(--gold);border-bottom:none;background:rgba(201,149,42,0.06);}
+  #studio-sidebar .nav-btn:hover:not(.on){background:rgba(201,149,42,0.03);}
+
+  /* Cacher la nav horizontale sur desktop */
+  .nav{display:none;}
+
+  /* Contenu principal */
+  #studio-main{flex:1;min-width:0;max-width:860px;padding:0;}
+  .sec{padding:24px 32px;}
+
+  /* Cards plus aérées */
+  .card{padding:20px 24px;}
+  .kpi-grid{grid-template-columns:repeat(4,1fr);gap:12px;}
+  .g2{gap:14px;}
+  .g3{gap:14px;}
+
+  /* Auth gate centré desktop */
+  .auth-box{max-width:420px;}
+}
+
 /* ══ CARD ══ */
 .card{background:var(--card);border:1px solid var(--border);padding:16px;margin-bottom:10px;}
 .card-title{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:300;color:var(--cream);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);letter-spacing:0.03em;}
@@ -860,7 +908,7 @@ input::placeholder, textarea::placeholder { color: rgba(201,149,42,0.28) !import
   </div>
 </div>
 
-<!-- ══ NAV ══ -->
+<!-- ══ NAV mobile (caché desktop) ══ -->
 <div class="nav">
   <button class="nav-btn on"  onclick="goTab('dashboard',this)">Dashboard</button>
   <button class="nav-btn"     onclick="goTab('profile',this)">Profile</button>
@@ -876,6 +924,29 @@ input::placeholder, textarea::placeholder { color: rgba(201,149,42,0.28) !import
   <button class="nav-btn" onclick="goTab('director',this)">Director <span id="dir-badge" style="display:none;background:#c0392b;color:#fff;border-radius:50%;width:16px;height:16px;font-size:9px;display:inline-flex;align-items:center;justify-content:center;margin-left:4px;"></span></button>
   <button class="nav-btn" onclick="goTab('messages',this)">Messages <span id="msg-badge" style="display:none;background:#C9952A;color:#0A1628;border-radius:50%;width:16px;height:16px;font-size:9px;display:inline-flex;align-items:center;justify-content:center;margin-left:4px;"></span></button>
 </div>
+
+<!-- ══ STUDIO BODY ══ -->
+<div id="studio-body">
+
+<!-- ══ SIDEBAR desktop ══ -->
+<nav id="studio-sidebar">
+  <button class="nav-btn on"  onclick="goTab('dashboard',this)">Dashboard</button>
+  <button class="nav-btn"     onclick="goTab('profile',this)">Profile</button>
+  <button class="nav-btn"     onclick="goTab('content',this)">Content</button>
+  <button class="nav-btn"     onclick="goTab('revenue',this)">Revenue</button>
+  <button class="nav-btn"     onclick="goTab('links',this)">Links</button>
+  <button class="nav-btn"     onclick="goTab('contract',this)">Contract</button>
+  <button class="nav-btn"     onclick="goTab('agenda',this)">Agenda</button>
+  <button class="nav-btn"     onclick="goTab('payment',this)">Payment</button>
+  <button class="nav-btn"     onclick="goTab('tools',this)">Tools</button>
+  <button class="nav-btn"     onclick="goTab('boost',this)">Boost Guide</button>
+  <button class="nav-btn"     onclick="goTab('grow',this)">Assistant</button>
+  <button class="nav-btn"     onclick="goTab('director',this)">Director</button>
+  <button class="nav-btn"     onclick="goTab('messages',this)">Messages</button>
+</nav>
+
+<!-- ══ MAIN CONTENT ══ -->
+<div id="studio-main">
 
 
 <!-- ══════ DASHBOARD ══════ -->
@@ -1816,7 +1887,15 @@ function goTab(id,btn){
   document.querySelectorAll('.sec').forEach(function(s){s.classList.remove('on');});
   document.querySelectorAll('.nav-btn').forEach(function(b){b.classList.remove('on');});
   document.getElementById('sec-'+id).classList.add('on');
-  btn.classList.add('on');
+  // Activate matching btn in both navs
+  document.querySelectorAll('.nav-btn').forEach(function(b){
+    if(b.textContent.trim().toLowerCase().indexOf(id.toLowerCase())===0 || 
+       (id==='grow' && b.textContent.trim().toLowerCase().indexOf('assistant')===0) ||
+       (id==='boost' && b.textContent.trim().toLowerCase().indexOf('boost')===0)){
+      b.classList.add('on');
+    }
+  });
+  if(btn) btn.classList.add('on');
   if(id==='agenda'){calRender();renderReminders();loadMemos();}
   if(id==='grow'){loadIdeas();initChat();}
   if(id==='payment'){_loadPaymentTab();}
@@ -3459,6 +3538,9 @@ document.addEventListener('DOMContentLoaded', function() {
   }, 600);
 });
 </script>
+
+</div><!-- /#studio-main -->
+</div><!-- /#studio-body -->
 
 </body>
 </html>
