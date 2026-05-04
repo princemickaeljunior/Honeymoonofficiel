@@ -1739,8 +1739,7 @@ h1, h2, h3, h4,
           if (typeof hmSetMember === "function") hmSetMember(r.user.displayName || r.user.email.split("@")[0], 0);
           showPage("landing");
         })
-        .catch(function(e) { if (e.code !== "auth/popup-closed-by-user")
- });
+        .catch(function(e) { if (e.code !== "auth/popup-closed-by-user") console.warn(e); });
     };
     window.hmSignOut = function() {
       authMod.signOut(window.hmAuth).then(function() { window.hmCurrentUser = null; showPage("landing"); });
@@ -2061,8 +2060,7 @@ h1, h2, h3, h4,
     fetch("https://api.telegram.org/bot" + HM_TELEGRAM_BOT + "/sendMessage", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ chat_id: HM_TELEGRAM_CHATID, text: "✦ HoneyMoon
-" + message })
+      body: JSON.stringify({ chat_id: HM_TELEGRAM_CHATID, text: "✦ HoneyMoon\n" + message })
     }).catch(function(){});
   }
   var _origOaSubmit = window.oaSubmit;
@@ -17733,7 +17731,7 @@ var HM_MODEL_NAMES = {
 /* HM_NOTIFICATIONS: array of notification objects — replace/extend with Firebase listener */
 var HM_NOTIFICATIONS = [
   { id:'n1', type:'content', creator:'creator1',     text:'New photo set just dropped — 8 exclusive photos',          time:'2 min ago',  unread:true  },
-  { id:'n2', type:'live',    creator:'creator3',      text:'🔴 Live now on BongaCams — she's online',                  time:'15 min ago', unread:true  },
+  { id:'n2', type:'live',    creator:'creator3',      text:'🔴 Live now on BongaCams — she\'s online',                  time:'15 min ago', unread:true  },
   { id:'n3', type:'system',  creator:'honeymoon', text:'Your referral link is ready — earn 40 tokens per friend',  time:'1 hour ago', unread:true  },
   { id:'n4', type:'content', creator:'creator2',      text:'Behind-the-scenes video added to your Fan Club archive',   time:'Yesterday',  unread:false },
   { id:'n5', type:'system',  creator:'honeymoon', text:'Welcome to the Private Circle — 20 tokens credited',       time:'2 days ago', unread:false }
