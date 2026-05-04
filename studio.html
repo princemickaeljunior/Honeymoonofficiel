@@ -2522,6 +2522,11 @@ onAuthStateChanged(auth, function(user) {
         // Update header name
         var nameEl = document.getElementById('hdr-creator-name');
         if (nameEl) nameEl.textContent = data.nom || data.name || user.email;
+        // Pre-fill profile form with existing Firestore data
+        if (data.name) { var fn=document.getElementById('f-name'); if(fn) fn.value=data.name; }
+        if (data.tagline) { var ft=document.getElementById('f-tagline'); if(ft) ft.value=data.tagline; }
+        if (data.bio) { var fb=document.getElementById('f-bio'); if(fb) fb.value=data.bio; }
+        if (data.photo) { var fp=document.getElementById('f-photo'); if(fp) fp.value=data.photo; setPhoto(data.photo); var av=document.getElementById('dash-avatar'); if(av) av.innerHTML='<img src="'+data.photo+'">'; }
         // Load formula
         if (data.formule && !S.formula) {
           S.formula = data.formule;
