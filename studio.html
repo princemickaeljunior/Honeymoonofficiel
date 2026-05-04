@@ -2897,18 +2897,22 @@ async function loadConversations() {
         list.innerHTML='<div style="text-align:center;padding:24px;color:#6A9EC0;font-size:11px;border:1.5px dashed rgba(201,149,42,0.35);">No conversations yet.<br><small>When a visitor messages you, it appears here.</small></div>';
         return;
       }
-      list.innerHTML = snap.docs.map(function(d){
+      list.innerHTML = '';
+      snap.docs.forEach(function(d){
         var dt=d.data(), unr=dt.unreadCreator||0, cnt=dt.messageCount||0, sub=dt.visitorSubscribed;
-        return '<div onclick="openConv(''+d.id+'',''+_e(dt.visitorName||'Visitor')+'','+cnt+','+(sub?'true':'false')+')" '
-          +'style="display:flex;align-items:center;gap:12px;padding:12px;border:1px solid '+(unr>0?'#7B5A1A':'#eee')+';cursor:pointer;background:'+(unr>0?'#fdf8ee':'#fff')+';margin-bottom:4px;">'
-          +'<div style="width:36px;height:36px;border-radius:50%;background:rgba(10,24,52,0.92);border:1px solid rgba(201,149,42,0.28);display:flex;align-items:center;justify-content:center;font-weight:600;flex-shrink:0;">'+(dt.visitorName||'?').charAt(0).toUpperCase()+'</div>'
+        var el=document.createElement('div');
+        el.style.cssText='display:flex;align-items:center;gap:12px;padding:12px;border:1px solid '+(unr>0?'#7B5A1A':'#eee')+';cursor:pointer;background:'+(unr>0?'#fdf8ee':'#fff')+';margin-bottom:4px;';
+        el.innerHTML='<div style="width:36px;height:36px;border-radius:50%;background:rgba(10,24,52,0.92);border:1px solid rgba(201,149,42,0.28);display:flex;align-items:center;justify-content:center;font-weight:600;flex-shrink:0;">'+(dt.visitorName||'?').charAt(0).toUpperCase()+'</div>'
           +'<div style="flex:1;min-width:0;">'
           +'<div style="font-size:13px;font-weight:'+(unr>0?600:400)+';color:#E8F4FF;">'+_e(dt.visitorName||'Anonymous')+'</div>'
           +'<div style="font-size:11px;color:#6A9EC0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+_e(dt.lastMessage||'—')+'</div>'
           +'</div>'
           +'<div style="text-align:right;flex-shrink:0;">'+(unr>0?'<span style="background:#7B5A1A;color:#fff;border-radius:50%;width:18px;height:18px;font-size:9px;display:inline-flex;align-items:center;justify-content:center;margin-bottom:3px;">'+unr+'</span><br>':'')
-          +'<span style="font-size:9px;color:'+(sub?'#1a6b3a':'#888')+'">'+(sub?'Subscriber':'Free: '+cnt+'/10')+'</span></div></div>';
-      }).join('');
+          +'<span style="font-size:9px;color:'+(sub?'#1a6b3a':'#888')+'">'+(sub?'Subscriber':'Free: '+cnt+'/10')+'</span></div>';
+        var _id=d.id, _name=dt.visitorName||'Visitor', _cnt=cnt, _sub=!!sub;
+        el.onclick=function(){ openConv(_id, _name, _cnt, _sub); };
+        list.appendChild(el);
+      });
     }
   );
 }
