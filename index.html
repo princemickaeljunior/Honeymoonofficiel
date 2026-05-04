@@ -4717,21 +4717,22 @@ async function lunaSend(preset) {
   setTimeout(function() { lunaShowTyping(); }, 250);
 
   try {
-    var geminiLunaContents = lunaHistory.map(function(m) {
-      return { role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.content }] };
+    var claudeLunaMessages = lunaHistory.map(function(m) {
+      return { role: m.role === 'assistant' ? 'assistant' : 'user', content: m.content };
     });
     var lunaSystemText = getLunaSystem() + (rachelPrenom ? '\n\nSon prenom est / The user name is: ' + rachelPrenom + '. Use it naturally.' : '');
-    var res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyA9YaOVURmQ5DlptFxP8Fuv8uSqmrI5ndo', {
+    var res = await fetch('/api/claude', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        system_instruction: { parts: [{ text: lunaSystemText }] },
-        contents: geminiLunaContents,
-        generationConfig: { maxOutputTokens: 120, temperature: 0.9 }
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 120,
+        system: lunaSystemText,
+        messages: claudeLunaMessages
       })
     });
     var data = await res.json();
-    var reply = (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0]) ? data.candidates[0].content.parts[0].text : "Un instant... 😊";
+    var reply = (data.content && data.content[0] && data.content[0].text) ? data.content[0].text : "Un instant... 😊";
     lunaHistory.push({ role: 'assistant', content: reply });
 
     setTimeout(function() {
@@ -6133,20 +6134,21 @@ async function hfSend() {
 
   try {
     var historyTrimmed = hfHistory.length > 12 ? hfHistory.slice(-12) : hfHistory;
-    var geminiHfContents = historyTrimmed.map(function(m) {
-      return { role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.content }] };
+    var claudeMessages = historyTrimmed.map(function(m) {
+      return { role: m.role === 'assistant' ? 'assistant' : 'user', content: m.content };
     });
-    var res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyA9YaOVURmQ5DlptFxP8Fuv8uSqmrI5ndo', {
+    var res = await fetch('/api/claude', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        system_instruction: { parts: [{ text: hfGetSystem() }] },
-        contents: geminiHfContents,
-        generationConfig: { maxOutputTokens: 180, temperature: 0.9 }
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 180,
+        system: hfGetSystem(),
+        messages: claudeMessages
       })
     });
     var data = await res.json();
-    var reply = (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0]) ? data.candidates[0].content.parts[0].text : 'Small glitch… try again? 😊';
+    var reply = (data.content && data.content[0] && data.content[0].text) ? data.content[0].text : 'Small glitch… try again? 😊';
     hfHistory.push({ role: 'assistant', content: reply });
     var elapsed = Date.now() - hfSendTime;
     var remaining = Math.max(0, 1200 - elapsed);
