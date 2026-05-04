@@ -7055,6 +7055,7 @@ function closeTipModal() {
         authMod.createUserWithEmailAndPassword(window.hmAuth, email, pwd)
           .then(function(cred) {
             authMod.updateProfile(cred.user, {displayName: member}).catch(function(){});
+            authMod.sendEmailVerification(cred.user).catch(function(){});
             if (typeof window.hmSaveMemberFS === 'function') {
               window.hmSaveMemberFS(cred.user.uid, member, email);
             }
