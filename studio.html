@@ -3113,17 +3113,21 @@ async function loadDirectorMessages() {
         list.innerHTML='<div style="text-align:center;padding:24px;color:#6A9EC0;font-size:11px;border:1.5px dashed rgba(201,149,42,0.35);">No messages yet.<br><small>Your conversations with the director will appear here.</small></div>';
         return;
       }
-      list.innerHTML=snap.docs.map(function(d){
+      list.innerHTML='';
+      snap.docs.forEach(function(d){
         var dt=d.data(), unr=dt.unreadCreator||0, ts=dt.updatedAt?new Date(dt.updatedAt.seconds*1000).toLocaleDateString():'';
-        return '<div onclick="openDirThread(''+d.id+'',''+_de(dt.subject)+'')" '
-          +'style="display:flex;align-items:center;gap:12px;padding:12px;border:1px solid '+(unr>0?'#7B5A1A':'#eee')+';cursor:pointer;background:'+(unr>0?'#fdf8ee':'#fff')+';margin-bottom:4px;">'
-          +'<div style="width:34px;height:34px;border-radius:50%;background:rgba(10,24,52,0.92);border:1px solid rgba(201,149,42,0.28);display:flex;align-items:center;justify-content:center;flex-shrink:0;">✦</div>'
+        var el=document.createElement('div');
+        el.style.cssText='display:flex;align-items:center;gap:12px;padding:12px;border:1px solid '+(unr>0?'#7B5A1A':'rgba(201,149,42,0.2)')+';cursor:pointer;background:'+(unr>0?'rgba(139,104,26,0.1)':'transparent')+';margin-bottom:4px;';
+        el.innerHTML='<div style="width:34px;height:34px;border-radius:50%;background:rgba(10,24,52,0.92);border:1px solid rgba(201,149,42,0.28);display:flex;align-items:center;justify-content:center;flex-shrink:0;">✦</div>'
           +'<div style="flex:1;min-width:0;">'
-          +'<div style="font-size:13px;font-weight:'+(unr>0?600:400)+';color:#E8F4FF;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+_de(dt.subject)+'</div>'
-          +'<div style="font-size:11px;color:#6A9EC0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+_de(dt.lastMessage||'—')+'</div>'
+          +'<div style="font-size:13px;font-weight:'+(unr>0?600:400)+';color:#E8F4FF;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+_de(dt.subject||'Message')+'</div>'
+          +'<div style="font-size:11px;color:#6A9EC0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+_de(dt.lastMessage||'...')+'</div>'
           +'</div>'
-          +'<div style="text-align:right;flex-shrink:0;"><div style="font-size:10px;color:rgba(106,158,192,0.60);">'+ts+'</div>'+(unr>0?'<div style="width:8px;height:8px;border-radius:50%;background:#7B5A1A;margin:3px 0 0 auto;"></div>':'')+'</div></div>';
-      }).join('');
+          +(unr>0?'<span style="background:#C9952A;color:#fff;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0;">'+unr+'</span>':'');
+        var _id=d.id, _subj=dt.subject||'';
+        el.onclick=function(){ openDirThread(_id, _subj); };
+        list.appendChild(el);
+      });
     }
   );
 }
