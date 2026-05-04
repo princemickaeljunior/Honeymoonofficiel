@@ -1719,6 +1719,11 @@ h1, h2, h3, h4,
       window.hmCurrentUser = user || null;
       if (user && !user.isAnonymous) {
         import("https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js").then(function(dbMod) {
+          // Reinit any open chats with Firebase
+          document.querySelectorAll('[id^="hm-chat-msgs-"]').forEach(function(el) {
+            var cid = el.id.replace('hm-chat-msgs-','');
+            hmChatInit(cid);
+          });
           dbMod.getDoc(dbMod.doc(window.hmDB, "members", user.uid)).then(function(snap) {
             if (snap.exists()) {
               var d = snap.data();
@@ -4395,10 +4400,16 @@ function showPage(id) {
   setTimeout(initFI, 80);
   if (typeof hmUpdateBackBtn === 'function') hmUpdateBackBtn(id);
 
-  // Load creator bio from Firestore when profile page is visited
-  var creatorMap = { 'profile-luna': 'luna', 'profile-zara': 'zara', 'profile-nova': 'nova', 'profile-dream': 'dream' };
-  if (creatorMap[id] && typeof window.hmLoadCreatorBioPage === 'function') {
-    window.hmLoadCreatorBioPage(creatorMap[id], 'page-' + id);
+  // Reload creator data + content when visiting profile page
+  if (id.startsWith('profile-')) {
+    if (typeof window.hmLoadCreatorsByCategory === 'function') window.hmLoadCreatorsByCategory();
+    var page = document.getElementById('page-' + id);
+    if (page) {
+      var uid = page.getAttribute('data-creator-uid');
+      if (uid && typeof window.hmLoadCreatorContent2 === 'function') {
+        window.hmLoadCreatorContent2(uid, 'page-' + id);
+      }
+    }
   }
 }
 
@@ -16805,13 +16816,53 @@ function cswStartCountdown(creatorId, minutes) {
 window.hmChatMode = {};
 window.hmChatMessages = {};
 window.hmChatOnline = {};
+window.hmChatMode = {};
+window.hmChatUnsub = {};
+window.hmChatConvId = {};
+
 function hmChatInit(creatorId) {
-  if (!window.hmChatMessages[creatorId]) {
-    window.hmChatMessages[creatorId] = [
-      { role:'system', text:'This conversation is private. Only you and the creator can see it.', ts: Date.now()-2000 }
-    ];
+  if (window.hmDB && window.hmCurrentUser) {
+    hmChatInitFirebase(creatorId);
+  } else {
+    if (!window.hmChatMessages[creatorId]) {
+      window.hmChatMessages[creatorId] = [{ role:'system', text:'Sign in to chat with this creator.', ts: Date.now() }];
+    }
+    hmChatRender(creatorId);
   }
-  hmChatRender(creatorId);
+}
+
+async function hmChatInitFirebase(creatorId) {
+  try {
+    var m = await import("https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js");
+    var memberId = window.hmCurrentUser.uid;
+    var memberName = window.hmCurrentUser.displayName || window.hmCurrentUser.email;
+    var q = m.query(m.collection(window.hmDB,'chats'), m.where('memberId','==',memberId), m.where('creatorId','==',creatorId));
+    var snap = await m.getDocs(q);
+    var convId;
+    if (snap.empty) {
+      var ref = await m.addDoc(m.collection(window.hmDB,'chats'), {
+        memberId: memberId, memberName: memberName, creatorId: creatorId,
+        lastMessage: '', unreadCreator: 0, unreadMember: 0,
+        statut: 'actif', createdAt: m.serverTimestamp(), updatedAt: m.serverTimestamp()
+      });
+      convId = ref.id;
+    } else {
+      convId = snap.docs[0].id;
+      m.updateDoc(m.doc(window.hmDB,'chats',convId), {unreadMember: 0}).catch(function(){});
+    }
+    window.hmChatConvId[creatorId] = convId;
+    if (window.hmChatUnsub[creatorId]) window.hmChatUnsub[creatorId]();
+    window.hmChatUnsub[creatorId] = m.onSnapshot(
+      m.query(m.collection(window.hmDB,'chats',convId,'messages'), m.orderBy('createdAt','asc')),
+      function(msgSnap) {
+        window.hmChatMessages[creatorId] = msgSnap.docs.map(function(d) {
+          var data = d.data();
+          return { role: data.role, text: data.text, ts: data.createdAt ? data.createdAt.toMillis() : Date.now(), audioUrl: data.audioUrl || null };
+        });
+        hmChatRender(creatorId);
+      }
+    );
+  } catch(e) { console.warn('Chat Firebase:', e); }
 }
 function hmChatSyncStatus(creatorId, status) {
   var online = (status === 'active');
@@ -16844,16 +16895,36 @@ function hmChatSetMode(creatorId, mode) {
   var inp = document.getElementById('hm-chat-inp-' + creatorId);
   if (inp) inp.placeholder = mode==='creator' ? 'Reply to your fan\u2026' : 'Send a message\u2026';
 }
-function hmChatSend(creatorId) {
+async function hmChatSend(creatorId) {
   var inp = document.getElementById('hm-chat-inp-' + creatorId);
   if (!inp) return;
   var text = inp.value.trim();
   if (!text) return;
-  var mode = window.hmChatMode[creatorId] || 'client';
-  if (!window.hmChatMessages[creatorId]) window.hmChatMessages[creatorId] = [];
-  window.hmChatMessages[creatorId].push({ role:mode, text:text, ts:Date.now() });
   inp.value = '';
-  hmChatRender(creatorId);
+
+  // Save to Firebase if connected
+  if (window.hmDB && window.hmCurrentUser && window.hmChatConvId[creatorId]) {
+    try {
+      var m = await import("https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js");
+      var convId = window.hmChatConvId[creatorId];
+      await m.addDoc(m.collection(window.hmDB, 'chats', convId, 'messages'), {
+        role: 'member',
+        text: text,
+        memberId: window.hmCurrentUser.uid,
+        createdAt: m.serverTimestamp()
+      });
+      await m.updateDoc(m.doc(window.hmDB, 'chats', convId), {
+        lastMessage: text,
+        unreadCreator: m.increment(1),
+        updatedAt: m.serverTimestamp()
+      });
+    } catch(e) { console.warn('Chat send:', e); }
+  } else {
+    // Fallback local
+    if (!window.hmChatMessages[creatorId]) window.hmChatMessages[creatorId] = [];
+    window.hmChatMessages[creatorId].push({ role:'client', text:text, ts:Date.now() });
+    hmChatRender(creatorId);
+  }
 }
 function hmChatHandleKey(e, creatorId) {
   if (e.key==='Enter' && !e.shiftKey) { e.preventDefault(); hmChatSend(creatorId); }
@@ -16867,7 +16938,8 @@ function hmChatRender(creatorId) {
     var cls  = m.role==='creator' ? 'from-creator' : 'from-client';
     var name = m.role==='creator' ? '\u2736 Creator' : 'You';
     var time = new Date(m.ts).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
-    return '<div class="hm-msg '+cls+'"><span class="hm-msg-name">'+name+'</span><div class="hm-msg-bubble">'+escHtml(m.text)+'</div><span class="hm-msg-time">'+time+'</span></div>';
+    var audioHtml = m.audioUrl ? '<br><audio controls src="'+m.audioUrl+'" style="width:100%;height:32px;margin-top:6px;"></audio>' : '';
+    return '<div class="hm-msg '+cls+'"><span class="hm-msg-name">'+name+'</span><div class="hm-msg-bubble">'+escHtml(m.text||'')+audioHtml+'</div><span class="hm-msg-time">'+time+'</span></div>';
   }).join('');
   container.scrollTop = container.scrollHeight;
 }
