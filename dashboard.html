@@ -556,6 +556,7 @@ input, textarea, select, .inp, .txta, .sel {
   <button class="nb" onclick="goTab('revenus',this)">Revenus</button>
   <button class="nb" onclick="goTab('plans',this)">Plans & Promos</button>
   <button class="nb" onclick="goTab('chat',this)">Chat<span class="nb-badge" id="badge-chat">0</span></button>
+    <button class="nb" onclick="goTab('dir-messages',this)">Créatrices<span class="nb-badge" id="badge-dir-msg"></span></button>
   <button class="nb" onclick="goTab('mail',this)">Messagerie<span class="nb-badge orange" id="badge-mail">0</span></button>
   <button class="nb" onclick="goTab('problemes',this)">Problèmes<span class="nb-badge" id="badge-prob">0</span></button>
   <button class="nb" onclick="goTab('assistant',this)" style="color:rgba(201,148,58,0.7);">⚡ Assistant Live</button>
@@ -1168,6 +1169,25 @@ input, textarea, select, .inp, .txta, .sel {
 
 
 <!-- ══════ HONEY CHAT ══════ -->
+<div class="sec" id="sec-dir-messages">
+  <div class="ct">Messages · Créatrices</div>
+  <div id="liste-dir-messages"><div class="loading">Chargement...</div></div>
+</div>
+
+<div class="modal" id="modal-dir-thread" style="display:none;">
+  <div class="modal-box" style="max-width:480px;width:100%;">
+    <div class="modal-hdr">
+      <span id="dir-thread-title">Messages</span>
+      <button class="modal-close" onclick="closeModal('modal-dir-thread')">×</button>
+    </div>
+    <div id="dir-thread-messages" style="max-height:320px;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;"></div>
+    <div style="display:flex;gap:8px;padding:12px;border-top:1px solid rgba(214,169,78,0.15);">
+      <input id="dir-reply-inp" class="inp" placeholder="Répondre..." style="flex:1;" onkeydown="if(event.key==='Enter'){event.preventDefault();sendDirReply();}">
+      <button class="btn" onclick="sendDirReply()">→</button>
+    </div>
+  </div>
+</div>
+
 <div class="sec" id="sec-honeychat">
   <div class="card">
     <div class="ct">💬 Honey Chat — Votre assistant HoneyMoon <span class="ct-badge green">Claude IA</span></div>
@@ -1458,7 +1478,7 @@ input, textarea, select, .inp, .txta, .sel {
 <!-- ═══ JS ═══ -->
 <script>
 // ═══ ÉTAT LOCAL ═══
-var L = {
+var L = { dirMessages: [],
   creatrices: [],
   abonnes: [],
   visiteurs: [],        // collection: visitors — tracking temps réel site
@@ -1521,6 +1541,7 @@ function goTab(id,btn){
   if(id==='revenus') renderRevenus();
   if(id==='plans'){renderPlans();renderPromos();}
   if(id==='chat') renderChat();
+  if(id==='dir-messages') renderDirMessages();
   if(id==='mail') renderMail();
   if(id==='problemes') renderProblemes();
   if(id==='agenda'){calRender();renderRappels();chargerAgenda();}
@@ -1673,6 +1694,12 @@ function initFirebaseListeners(){
   window.hmOnSnapshot(window.hmCol(window.hmDB,'messages'),function(snap){
     L.mails=snap.docs.map(function(d){return Object.assign({id:d.id},d.data());});
     renderMail();majBadges();
+  });
+
+  // ── Messages directeur ↔ créatrices ──
+  window.hmOnSnapshot(window.hmCol(window.hmDB,'director_messages'),function(snap){
+    L.dirMessages = snap.docs.map(function(d){ return Object.assign({id:d.id}, d.data()); });
+    renderDirMessages();majBadges();
   });
 
   // ── Chats (collection: chats) ──
@@ -2042,6 +2069,80 @@ function renderPromos(){
 }
 
 // ═══ CHAT ═══
+function renderDirMessages(){
+  var unread = (L.dirMessages||[]).filter(function(m){ return m.unreadDirector > 0; }).length;
+  var badge = document.getElementById('badge-dir-msg');
+  if (badge) badge.textContent = unread || '';
+  var el = document.getElementById('liste-dir-messages');
+  if (!el) return;
+  var msgs = L.dirMessages || [];
+  if (!msgs.length) { el.innerHTML='<div class="empty"><p>Aucun message</p><small>Les messages des créatrices apparaîtront ici</small></div>'; return; }
+  msgs.sort(function(a,b){ return (b.updatedAt||0)-(a.updatedAt||0); });
+  var cards = msgs.map(function(m){
+    var unread = m.unreadDirector > 0;
+    var _id = m.id;
+    var card = document.createElement('div');
+    card.className = 'chat-card' + (unread ? ' unread' : '');
+    card.onclick = function(){ openDirThread(_id); };
+    card.innerHTML = '<div class="chat-hdr"><span class="chat-parties">✦ '+(m.creatorName||m.creatorId||'Créatrice')+'</span>'
+      +(unread?'<span style="background:#f2d270;color:#1e0a3c;font-size:7px;padding:2px 6px;font-weight:700;">NEW</span>':'')
+      +'</div><div class="chat-preview">'+(m.lastMessage||'...')+'</div>';
+    return card;
+
+  });
+  el.innerHTML = '';
+  cards.forEach(function(c){ if(c && c.appendChild) el.appendChild(c); });
+}
+
+var _dirThreadId = null;
+async function openDirThread(threadId) {
+  _dirThreadId = threadId;
+  var thread = (L.dirMessages||[]).find(function(m){ return m.id === threadId; });
+  if (!thread) return;
+  // Mark as read
+  if (thread.unreadDirector > 0) {
+    window.hmUpdateDoc(window.hmDoc(window.hmDB,'director_messages',threadId), {unreadDirector:0}).catch(function(){});
+  }
+  // Load replies
+  try {
+    var m = await import("https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js");
+    var snap = await m.getDocs(m.query(m.collection(window.hmDB,'director_messages',threadId,'replies'), m.orderBy('createdAt','asc')));
+    var replies = snap.docs.map(function(d){ return Object.assign({id:d.id}, d.data()); });
+    var el = document.getElementById('dir-thread-messages');
+    var header = document.getElementById('dir-thread-title');
+    if (header) header.textContent = '✦ ' + (thread.creatorName || 'Créatrice');
+    if (el) {
+      el.innerHTML = replies.map(function(r){
+        var isDir = r.role === 'director';
+        return '<div class="hm-msg '+(isDir?'from-creator':'from-client')+'">'
+          +'<span class="hm-msg-name">'+(isDir?'Directeur':'Créatrice')+'</span>'
+          +'<div class="hm-msg-bubble">'+(r.text||'')+(r.audioUrl?'<br><audio controls src="'+r.audioUrl+'" style="margin-top:6px;width:100%;height:32px;"></audio>':'')+'</div>'
+          +'</div>';
+      }).join('');
+      el.scrollTop = el.scrollHeight;
+    }
+    openModal('modal-dir-thread');
+  } catch(e) { console.warn('openDirThread:', e); }
+}
+
+async function sendDirReply() {
+  if (!_dirThreadId) return;
+  var inp = document.getElementById('dir-reply-inp');
+  var text = inp ? inp.value.trim() : '';
+  if (!text) return;
+  inp.value = '';
+  try {
+    var m = await import("https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js");
+    await m.addDoc(m.collection(window.hmDB,'director_messages',_dirThreadId,'replies'), {
+      role: 'director', text: text, createdAt: m.serverTimestamp()
+    });
+    await m.updateDoc(m.doc(window.hmDB,'director_messages',_dirThreadId), {
+      lastMessage: text, unreadCreator: m.increment(1), updatedAt: m.serverTimestamp()
+    });
+    openDirThread(_dirThreadId);
+  } catch(e) { console.warn('sendDirReply:', e); }
+}
+
 function renderChat(){
   var total=L.chats.filter(function(c){return c.statut==='actif';}).length;
   var signales=L.chats.filter(function(c){return c.signale;}).length;
