@@ -9210,6 +9210,7 @@ window.showPage = function(id) {
   }
 };
 document.addEventListener('DOMContentLoaded', wcInitState);
+document.addEventListener('DOMContentLoaded', function() {
   hmUpdatePointsDisplay();
   hmUpdateBackBtn(document.querySelector('.page.active') ? document.querySelector('.page.active').id.replace('page-','') : 'landing');
   var menuTg = document.getElementById('menuTelegramLink');
@@ -9219,7 +9220,7 @@ document.addEventListener('DOMContentLoaded', wcInitState);
     wcBtn.style.cssText = 'background:none;border:none;cursor:pointer;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(214,169,78,0.75);font-family:Montserrat,sans-serif;transition:color 0.25s;display:flex;align-items:center;gap:7px;';
     wcBtn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>WinCash';
   }
-}
+});
 </script>
 
 </div><!-- /page-inscription (fix: closure manquante) -->
