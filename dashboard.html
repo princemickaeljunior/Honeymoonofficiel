@@ -1171,20 +1171,61 @@ input, textarea, select, .inp, .txta, .sel {
 
 <!-- ══════ HONEY CHAT ══════ -->
 <div class="sec" id="sec-dir-messages">
-  <div class="ct">Messages · Créatrices</div>
-  <div id="liste-dir-messages"><div class="loading">Chargement...</div></div>
+  <div class="card">
+    <div class="ct" style="justify-content:space-between;">
+      <span>Messages · Créatrices</span>
+      <button class="btn-xs" onclick="document.getElementById('dir-compose-wrap').style.display=document.getElementById('dir-compose-wrap').style.display==='none'?'block':'none'">+ Nouveau message</button>
+    </div>
+    <!-- Compose: initier un message vers une créatrice -->
+    <div id="dir-compose-wrap" style="display:none;background:var(--card2);border:1px solid var(--border);padding:14px;margin-bottom:14px;">
+      <div class="lbl" style="margin-bottom:8px;">Nouvelle conversation → Créatrice</div>
+      <div class="field">
+        <label class="lbl">Créatrice</label>
+        <select class="sel" id="dir-compose-creator">
+          <option value="">— Sélectionner —</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="lbl">Sujet</label>
+        <input class="inp" id="dir-compose-subject" placeholder="Ex: Contenu en attente, Planning...">
+      </div>
+      <div class="field">
+        <label class="lbl">Message</label>
+        <textarea class="txta" id="dir-compose-body" style="min-height:80px;" placeholder="Votre message..."></textarea>
+      </div>
+      <button class="btn" onclick="initDirThread()">Envoyer →</button>
+      <div class="toast" id="toast-dir-init">Message envoyé.</div>
+    </div>
+    <div id="liste-dir-messages"><div class="loading">Chargement...</div></div>
+  </div>
 </div>
 
-<div class="modal" id="modal-dir-thread" style="display:none;">
-  <div class="modal-box" style="max-width:480px;width:100%;">
-    <div class="modal-hdr">
+<!-- Modal thread directeur↔créatrice -->
+<div class="modal-ov" id="modal-dir-thread" style="display:none;">
+  <div class="modal">
+    <div class="modal-title" style="display:flex;justify-content:space-between;align-items:center;">
       <span id="dir-thread-title">Messages</span>
       <button class="modal-close" onclick="closeModal('modal-dir-thread')">×</button>
     </div>
-    <div id="dir-thread-messages" style="max-height:320px;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;"></div>
-    <div style="display:flex;gap:8px;padding:12px;border-top:1px solid rgba(214,169,78,0.15);">
+    <div id="dir-thread-messages" style="max-height:340px;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:8px;background:var(--card2);border:1px solid var(--border2);margin-bottom:10px;"></div>
+    <div style="display:flex;gap:8px;">
       <input id="dir-reply-inp" class="inp" placeholder="Répondre..." style="flex:1;" onkeydown="if(event.key==='Enter'){event.preventDefault();sendDirReply();}">
-      <button class="btn" onclick="sendDirReply()">→</button>
+      <button class="btn" style="width:auto;padding:14px 20px;margin:0;" onclick="sendDirReply()">→</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal conversation membre↔créatrice (surveillance) -->
+<div class="modal-ov" id="modal-chat-surv" style="display:none;">
+  <div class="modal">
+    <div class="modal-title" style="display:flex;justify-content:space-between;align-items:center;">
+      <span id="chat-surv-title">Conversation</span>
+      <button class="modal-close" onclick="closeModal('modal-chat-surv')">×</button>
+    </div>
+    <div id="chat-surv-messages" style="max-height:340px;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:8px;background:var(--card2);border:1px solid var(--border2);margin-bottom:10px;"></div>
+    <div style="display:flex;gap:8px;">
+      <input id="chat-surv-inp" class="inp" placeholder="Intervenir dans la conversation..." style="flex:1;" onkeydown="if(event.key==='Enter'){event.preventDefault();sendSurvMsg();}">
+      <button class="btn" style="width:auto;padding:14px 20px;margin:0;" onclick="sendSurvMsg()">→</button>
     </div>
   </div>
 </div>
@@ -2143,77 +2184,103 @@ function renderPromos(){
 
 // ═══ CHAT ═══
 function renderDirMessages(){
-  var unread = (L.dirMessages||[]).filter(function(m){ return m.unreadDirector > 0; }).length;
-  var badge = document.getElementById('badge-dir-msg');
-  if (badge) badge.textContent = unread || '';
-  var el = document.getElementById('liste-dir-messages');
-  if (!el) return;
-  var msgs = L.dirMessages || [];
-  if (!msgs.length) { el.innerHTML='<div class="empty"><p>Aucun message</p><small>Les messages des créatrices apparaîtront ici</small></div>'; return; }
-  msgs.sort(function(a,b){ return (b.updatedAt||0)-(a.updatedAt||0); });
-  var cards = msgs.map(function(m){
-    var unread = m.unreadDirector > 0;
-    var _id = m.id;
-    var card = document.createElement('div');
-    card.className = 'chat-card' + (unread ? ' unread' : '');
-    card.onclick = function(){ openDirThread(_id); };
-    card.innerHTML = '<div class="chat-hdr"><span class="chat-parties">✦ '+(m.creatorName||m.creatorId||'Créatrice')+'</span>'
-      +(unread?'<span style="background:#f2d270;color:#1e0a3c;font-size:7px;padding:2px 6px;font-weight:700;">NEW</span>':'')
-      +'</div><div class="chat-preview">'+(m.lastMessage||'...')+'</div>';
-    return card;
-
-  });
-  el.innerHTML = '';
-  cards.forEach(function(c){ if(c && c.appendChild) el.appendChild(c); });
-}
-
-var _dirThreadId = null;
-async function openDirThread(threadId) {
-  _dirThreadId = threadId;
-  var thread = (L.dirMessages||[]).find(function(m){ return m.id === threadId; });
-  if (!thread) return;
-  // Mark as read
-  if (thread.unreadDirector > 0) {
-    window.hmUpdateDoc(window.hmDoc(window.hmDB,'director_messages',threadId), {unreadDirector:0}).catch(function(){});
+  // Peupler le select créatrices pour nouveau message
+  var sel=document.getElementById('dir-compose-creator');
+  if(sel&&L.creatrices.length){
+    var opts='<option value="">— Sélectionner —</option>';
+    L.creatrices.forEach(function(c){opts+='<option value="'+c.id+'">'+c.nom+'</option>';});
+    sel.innerHTML=opts;
   }
-  // Load replies
-  try {
-    var m = await import("https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js");
-    var snap = await m.getDocs(m.query(m.collection(window.hmDB,'director_messages',threadId,'replies'), m.orderBy('createdAt','asc')));
-    var replies = snap.docs.map(function(d){ return Object.assign({id:d.id}, d.data()); });
-    var el = document.getElementById('dir-thread-messages');
-    var header = document.getElementById('dir-thread-title');
-    if (header) header.textContent = '✦ ' + (thread.creatorName || 'Créatrice');
-    if (el) {
-      el.innerHTML = replies.map(function(r){
-        var isDir = r.role === 'director';
-        return '<div class="hm-msg '+(isDir?'from-creator':'from-client')+'">'
-          +'<span class="hm-msg-name">'+(isDir?'Directeur':'Créatrice')+'</span>'
-          +'<div class="hm-msg-bubble">'+(r.text||'')+(r.audioUrl?'<br><audio controls src="'+r.audioUrl+'" style="margin-top:6px;width:100%;height:32px;"></audio>':'')+'</div>'
-          +'</div>';
-      }).join('');
-      el.scrollTop = el.scrollHeight;
-    }
-    openModal('modal-dir-thread');
-  } catch(e) { console.warn('openDirThread:', e); }
+  var unread=(L.dirMessages||[]).filter(function(m){return m.unreadDirector>0;}).length;
+  var badge=document.getElementById('badge-dir-msg');
+  if(badge)badge.textContent=unread||'';
+  var el=document.getElementById('liste-dir-messages');
+  if(!el)return;
+  var msgs=L.dirMessages||[];
+  if(!msgs.length){el.innerHTML='<div class="empty"><p>Aucun message</p><small>Les messages des créatrices apparaîtront ici. Utilisez "+ Nouveau message" pour initier.</small></div>';return;}
+  msgs.sort(function(a,b){return (b.updatedAt||0)-(a.updatedAt||0);});
+  el.innerHTML='';
+  msgs.forEach(function(m){
+    var unr=m.unreadDirector>0;
+    var card=document.createElement('div');
+    card.className='chat-card';
+    card.style.cursor='pointer';
+    if(unr)card.style.borderColor='var(--gold)';
+    card.onclick=function(){openDirThread(m.id);};
+    card.innerHTML='<div class="chat-hdr"><span class="chat-parties">✦ '+(m.creatorName||m.creatorEmail||m.creatorId||'Créatrice')+'</span>'
+      +(unr?'<span style="background:var(--gold2);color:#fff;border-radius:50%;min-width:16px;height:16px;font-size:8px;display:inline-flex;align-items:center;justify-content:center;padding:0 3px;">'+m.unreadDirector+'</span>':'')
+      +'</div><div class="chat-preview">'+(m.subject?'<span style="font-size:9px;color:var(--gold);text-transform:uppercase;letter-spacing:0.1em;">'+m.subject+' · </span>':'')+(m.lastMessage||'...')+'</div>';
+    el.appendChild(card);
+  });
 }
 
-async function sendDirReply() {
-  if (!_dirThreadId) return;
-  var inp = document.getElementById('dir-reply-inp');
-  var text = inp ? inp.value.trim() : '';
-  if (!text) return;
-  inp.value = '';
-  try {
-    var m = await import("https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js");
-    await m.addDoc(m.collection(window.hmDB,'director_messages',_dirThreadId,'replies'), {
-      role: 'director', text: text, createdAt: m.serverTimestamp()
+async function initDirThread(){
+  var creatorId=document.getElementById('dir-compose-creator').value;
+  var subject=document.getElementById('dir-compose-subject').value.trim();
+  var body=document.getElementById('dir-compose-body').value.trim();
+  if(!creatorId||!body){alert('Sélectionnez une créatrice et écrivez un message.');return;}
+  var creator=L.creatrices.find(function(c){return c.id===creatorId;});
+  var creatorName=creator?creator.nom:creatorId;
+  try{
+    var m=await import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js');
+    var ref=await m.addDoc(m.collection(window.hmDB,'director_messages'),{
+      creatorId:creatorId,creatorName:creatorName,
+      subject:subject||'Message du Directeur',
+      lastMessage:body,
+      unreadDirector:0,unreadCreator:1,
+      createdAt:m.serverTimestamp(),updatedAt:m.serverTimestamp()
     });
-    await m.updateDoc(m.doc(window.hmDB,'director_messages',_dirThreadId), {
-      lastMessage: text, unreadCreator: m.increment(1), updatedAt: m.serverTimestamp()
+    await m.addDoc(m.collection(window.hmDB,'director_messages',ref.id,'replies'),{
+      role:'director',text:body,createdAt:m.serverTimestamp()
     });
-    openDirThread(_dirThreadId);
-  } catch(e) { console.warn('sendDirReply:', e); }
+    document.getElementById('dir-compose-subject').value='';
+    document.getElementById('dir-compose-body').value='';
+    document.getElementById('dir-compose-wrap').style.display='none';
+    toast('toast-dir-init');
+    openDirThread(ref.id);
+  }catch(e){alert('Erreur: '+e.message);}
+}
+
+var _dirThreadId=null,_dirThreadUnsub=null;
+async function openDirThread(threadId){
+  _dirThreadId=threadId;
+  var thread=(L.dirMessages||[]).find(function(m){return m.id===threadId;});
+  var header=document.getElementById('dir-thread-title');
+  if(header)header.textContent='✦ '+(thread?thread.creatorName||thread.creatorEmail||'Créatrice':'Créatrice');
+  if(thread&&thread.unreadDirector>0){
+    window.hmUpdateDoc(window.hmDoc(window.hmDB,'director_messages',threadId),{unreadDirector:0}).catch(function(){});
+  }
+  // Modal visible
+  document.getElementById('modal-dir-thread').style.display='flex';
+  // Live messages
+  var m=await import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js');
+  if(_dirThreadUnsub)_dirThreadUnsub();
+  _dirThreadUnsub=m.onSnapshot(
+    m.query(m.collection(window.hmDB,'director_messages',threadId,'replies'),m.orderBy('createdAt','asc')),
+    function(snap){
+      var el=document.getElementById('dir-thread-messages');if(!el)return;
+      el.innerHTML=snap.docs.map(function(d){
+        var r=d.data(),isDir=r.role==='director';
+        var ts=r.createdAt?new Date(r.createdAt.seconds*1000).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}):'';
+        return '<div style="display:flex;flex-direction:column;align-items:'+(isDir?'flex-end':'flex-start')+';margin-bottom:4px;">'
+          +'<div style="font-size:8px;color:var(--muted);margin-bottom:2px;">'+(isDir?'Directeur Prince':'✦ Créatrice')+' · '+ts+'</div>'
+          +'<div style="max-width:82%;padding:9px 12px;background:'+(isDir?'var(--gold-dim)':'var(--card2)')+';border:1px solid var(--border2);font-size:12px;line-height:1.5;">'+_hmE(r.text||'')+'</div></div>';
+      }).join('');
+      el.scrollTop=el.scrollHeight;
+    }
+  );
+}
+
+async function sendDirReply(){
+  if(!_dirThreadId)return;
+  var inp=document.getElementById('dir-reply-inp');
+  var text=inp?inp.value.trim():'';if(!text)return;
+  inp.value='';
+  try{
+    var m=await import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js');
+    await m.addDoc(m.collection(window.hmDB,'director_messages',_dirThreadId,'replies'),{role:'director',text:text,createdAt:m.serverTimestamp()});
+    await m.updateDoc(m.doc(window.hmDB,'director_messages',_dirThreadId),{lastMessage:text,unreadCreator:m.increment(1),updatedAt:m.serverTimestamp()});
+  }catch(e){console.warn('sendDirReply:',e);}
 }
 
 function renderChat(){
@@ -2222,11 +2289,48 @@ function renderChat(){
   setEl('ch-total',total);setEl('ch-signales',signales);
   var items=L.filtreChat==='tous'?L.chats:L.chats.filter(function(c){return L.filtreChat==='signale'?c.signale:c.statut===L.filtreChat;});
   var el=document.getElementById('liste-chat');
-  if(!items.length){el.innerHTML='<div class="empty"><p>Aucune conversation</p><small>Les conversations créatrices ↔ abonnés apparaîtront ici</small></div>';return;}
+  if(!items.length){el.innerHTML='<div class="empty"><p>Aucune conversation</p><small>Les conversations créatrices ↔ membres apparaîtront ici</small></div>';return;}
   el.innerHTML=items.map(function(c){
-    return '<div class="chat-card"><div class="chat-hdr"><span class="chat-parties">'+(c.abonne||c.userId||'Utilisateur')+' ↔ '+(c.createur||c.creatorName||'Créatrice')+'</span><span class="chat-time">'+(c.temps||c.updatedAt||'—')+(c.signale?' · 🚩':'')+'</span></div><div class="chat-preview">'+(c.apercu||c.lastMessage||'...')+'</div><div class="chat-acts"><button class="chat-btn '+(c.signale?'danger':'')+'" onclick="toggleSignalChat(\''+c.id+'\')">'+(c.signale?'Désignaler':'Signaler')+'</button><button class="chat-btn danger" onclick="fermerChat(\''+c.id+'\')">Fermer</button></div></div>';
+    var membre=c.visitorName||c.abonne||c.userId||'Membre';
+    var creatrice=c.creatorName||c.createur||'Créatrice';
+    var unread=c.unreadDirector||0;
+    return '<div class="chat-card" style="cursor:pointer;'+(unread>0?'border-color:var(--gold);':'')+'" onclick="ouvrirSurv(\''+c.id+'\',\''+membre.replace(/'/g,'')+'↔'+creatrice.replace(/'/g,'')+'\')"><div class="chat-hdr"><span class="chat-parties">'+membre+' ↔ '+creatrice+'</span>'+(unread>0?'<span style="background:var(--gold2);color:#fff;border-radius:50%;min-width:16px;height:16px;font-size:8px;display:inline-flex;align-items:center;justify-content:center;padding:0 3px;">'+unread+'</span>':'')+(c.signale?' <span style="font-size:10px;">🚩</span>':'')+'</div><div class="chat-preview">'+(c.lastMessage||c.apercu||'...')+'</div><div class="chat-acts" onclick="event.stopPropagation();"><button class="chat-btn '+(c.signale?'danger':'')+'" onclick="toggleSignalChat(\''+c.id+'\')">'+(c.signale?'Désignaler':'Signaler')+'</button><button class="chat-btn danger" onclick="fermerChat(\''+c.id+'\')">Fermer</button></div></div>';
   }).join('');
 }
+
+var _survId=null,_survUnsub=null;
+async function ouvrirSurv(convId,titre){
+  _survId=convId;
+  var el=document.getElementById('chat-surv-title');if(el)el.textContent=titre;
+  document.getElementById('modal-chat-surv').style.display='flex';
+  var m=await import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js');
+  if(_survUnsub)_survUnsub();
+  _survUnsub=m.onSnapshot(
+    m.query(m.collection(window.hmDB,'chats',convId,'messages'),m.orderBy('createdAt','asc')),
+    function(snap){
+      var c=document.getElementById('chat-surv-messages');if(!c)return;
+      c.innerHTML=snap.docs.map(function(d){
+        var msg=d.data(),isC=msg.role==='creator',isD=msg.role==='director';
+        var who=isD?'✦ Directeur':isC?'Créatrice':'Membre';
+        var bg=isD?'var(--gold-dim)':isC?'rgba(58,172,110,0.1)':'var(--card2)';
+        var ts=msg.createdAt?new Date(msg.createdAt.seconds*1000).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}):'';
+        return '<div style="display:flex;flex-direction:column;align-items:'+(isD||isC?'flex-end':'flex-start')+';margin-bottom:4px;">'
+          +'<div style="font-size:8px;color:var(--muted);margin-bottom:2px;">'+who+' · '+ts+'</div>'
+          +'<div style="max-width:82%;padding:8px 12px;background:'+bg+';border:1px solid var(--border2);font-size:12px;line-height:1.5;">'+_hmE(msg.text||'')+'</div></div>';
+      }).join('');
+      c.scrollTop=c.scrollHeight;
+    }
+  );
+}
+async function sendSurvMsg(){
+  var inp=document.getElementById('chat-surv-inp');
+  var text=inp?inp.value.trim():'';if(!text||!_survId)return;
+  inp.value='';
+  var m=await import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js');
+  await m.addDoc(m.collection(window.hmDB,'chats',_survId,'messages'),{role:'director',text:text,createdAt:m.serverTimestamp()});
+  await m.updateDoc(m.doc(window.hmDB,'chats',_survId),{lastMessage:text,updatedAt:m.serverTimestamp()});
+}
+function _hmE(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function filtreChat(f,btn){L.filtreChat=f;document.querySelectorAll('#sec-chat .fb-f').forEach(function(b){b.classList.remove('on');});btn.classList.add('on');renderChat();}
 async function toggleSignalChat(id){
   var c=L.chats.find(function(x){return x.id===id;});if(!c)return;
