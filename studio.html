@@ -1934,12 +1934,12 @@ function setPhoto(src){
   w.onclick=function(){document.getElementById('photo-file').click();};
 }
 function saveProfile(){
-  var d={name:v('f-name'),tagline:v('f-tagline'),bio:v('f-bio'),photo:v('f-photo'),age:v('f-age'),country:v('f-country'),langs:v('f-langs'),height:v('f-height'),body:v('f-body'),hair:v('f-hair'),eyes:v('f-eyes'),hobbies:v('f-hobbies'),style:v('f-style'),goals:v('f-goals')};
+  var n=v('f-name');
+  var d={name:n,nom:n,tagline:v('f-tagline'),bio:v('f-bio'),photo:v('f-photo'),age:v('f-age'),country:v('f-country'),langs:v('f-langs'),height:v('f-height'),body:v('f-body'),hair:v('f-hair'),eyes:v('f-eyes'),hobbies:v('f-hobbies'),style:v('f-style'),goals:v('f-goals')};
   ls('hm_profile',d);
-  // Save to Firestore
   if(window.hmDB && window.hmCreatorId){
     import("https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js").then(function(m){
-      m.setDoc(m.doc(window.hmDB,'creators',window.hmCreatorId), Object.assign({updatedAt:m.serverTimestamp()}, d), {merge:true}).catch(function(e){console.warn('Profile save:',e);});
+      m.setDoc(m.doc(window.hmDB,'creators',window.hmCreatorId),Object.assign({updatedAt:m.serverTimestamp(),uid:window.hmCreatorId},d),{merge:true}).catch(function(e){console.warn('Profile save:',e);});
     });
   }
   if(d.name){
