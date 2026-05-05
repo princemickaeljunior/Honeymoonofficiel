@@ -3089,26 +3089,11 @@ window.hmStorageRef=ref;
 window.hmUploadBytes=uploadBytes;
 window.hmGetDownloadURL=getDownloadURL;
 
-// ── Auth state — portail login ──
+// ── Auth state — dashboard toujours accessible ──
 onAuthStateChanged(auth,function(user){
-  var hdr=document.querySelector('.hdr');
-  var nav=document.querySelector('.nav');
-  var secs=document.querySelectorAll('.sec');
-  var fbot=document.querySelector('.fbot-btn');
-  var fbotP=document.getElementById('fbot-panel');
-  var auditOv=document.getElementById('fb-audit-ov');
-  if(user){
-    // ✅ Connecté — cacher portail, montrer dashboard
-    window.HM_ADMIN_UID=user.uid;
-    
-    // Dashboard visible
-    initFirebaseListeners();
-  } else {
-    // ❌ Non connecté — montrer portail, cacher dashboard
-    window.location.href='/';
-    window.location.href='/';
-    L.fbReady=false;
-  }
+  if(user){window.HM_ADMIN_UID=user.uid;}
+  // Toujours lancer Firebase — avec ou sans compte
+  initFirebaseListeners();
 });
 
 window.hmSignIn=function(e,p){return signInWithEmailAndPassword(auth,e,p);};
