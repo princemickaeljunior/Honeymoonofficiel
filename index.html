@@ -1788,13 +1788,33 @@ h1, h2, h3, h4,
             var cid = el.id.replace('hm-chat-msgs-','');
             hmChatInit(cid);
           });
-          dbMod.getDoc(dbMod.doc(window.hmDB, "members", user.uid)).then(function(snap) {
+          var memberRef = dbMod.doc(window.hmDB, "members", user.uid);
+          dbMod.getDoc(memberRef).then(function(snap) {
             if (snap.exists()) {
+              // Doc existe — charger les données
               var d = snap.data();
-              try { localStorage.setItem("hm_member_name", d.firstname || ""); } catch(e) {}
+              try { localStorage.setItem("hm_member_name", d.firstname || d.displayName || ""); } catch(e) {}
               try { localStorage.setItem("hm_member_email", d.email || ""); } catch(e) {}
               try { localStorage.setItem("hm_points", d.points || 0); } catch(e) {}
               if (typeof hmUpdatePointsDisplay === "function") hmUpdatePointsDisplay();
+              // Mettre à jour lastSeen
+              dbMod.updateDoc(memberRef, { lastSeen: dbMod.serverTimestamp() }).catch(function(){});
+            } else {
+              // Doc absent — le créer automatiquement
+              var nom = user.displayName || user.email.split("@")[0] || "Member";
+              dbMod.setDoc(memberRef, {
+                firstname:     nom,
+                displayName:   nom,
+                email:         user.email || "",
+                points:        0,
+                badge:         "honey",
+                plan:          "visiteur",
+                created_at:    dbMod.serverTimestamp(),
+                lastSeen:      dbMod.serverTimestamp(),
+                referral_code: Math.random().toString(36).substr(2,8).toUpperCase()
+              }).catch(function(){});
+              try { localStorage.setItem("hm_member_name", nom); } catch(e) {}
+              try { localStorage.setItem("hm_member_email", user.email || ""); } catch(e) {}
             }
           });
         });
