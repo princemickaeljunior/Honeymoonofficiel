@@ -2436,10 +2436,37 @@ function sendChat(){
   updateChatCount();
   var msgs=document.getElementById('chat-msgs');
   var u=document.createElement('div');u.className='chat-msg user';u.textContent=msg;msgs.appendChild(u);msgs.scrollTop=msgs.scrollHeight;
-  setTimeout(function(){
-    var typing=document.createElement('div');typing.className='chat-msg bot';typing.textContent='...';typing.id='chat-typing';msgs.appendChild(typing);msgs.scrollTop=msgs.scrollHeight;
-    setTimeout(function(){var t=document.getElementById('chat-typing');if(t)t.textContent=CHAT_REPLIES[Math.floor(Math.random()*CHAT_REPLIES.length)];msgs.scrollTop=msgs.scrollHeight;},900);
-  },350);
+  // Typing indicator
+  var typing=document.createElement('div');typing.className='chat-msg bot';typing.textContent='...';typing.id='chat-typing';msgs.appendChild(typing);msgs.scrollTop=msgs.scrollHeight;
+  // Appel Claude API
+  var creatorName=(window.hmCurrentCreator&&window.hmCurrentCreator.nom)||'Créatrice';
+  var sysprompt='You are the personal growth assistant for '+creatorName+', a creator on HoneyMoon Agency — a premium adult creator platform. You help her grow her audience, improve her content strategy, maximize revenue (subscriptions, tips, PPV, tokens, affiliate BongaCams/Stripchat). Be direct, warm, practical. Short answers. French or English depending on the question.';
+  // Collect history from visible messages
+  var history=[];
+  msgs.querySelectorAll('.chat-msg').forEach(function(el){
+    if(el.id==='chat-typing')return;
+    if(el.classList.contains('user'))history.push({role:'user',content:el.textContent});
+    else history.push({role:'assistant',content:el.textContent});
+  });
+  // Remove the last user msg we just added (already in history), keep context window small
+  if(history.length>12)history=history.slice(-12);
+  fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      model:'claude-sonnet-4-20250514',
+      max_tokens:400,
+      system:sysprompt,
+      messages:history
+    })
+  }).then(function(r){return r.json();}).then(function(data){
+    var t=document.getElementById('chat-typing');
+    var reply=(data.content&&data.content[0]&&data.content[0].text)||'Sorry, I could not respond. Try again.';
+    if(t){t.textContent=reply;t.id='';msgs.scrollTop=msgs.scrollHeight;}
+  }).catch(function(){
+    var t=document.getElementById('chat-typing');
+    if(t){t.textContent='Connection error. Check your internet and try again.';t.id='';}
+  });
 }
 
 // IDEAS
