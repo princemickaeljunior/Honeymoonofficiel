@@ -1803,22 +1803,52 @@ h1, h2, h3, h4,
         if (!data) return;
         var page = document.getElementById(pageId);
         if (!page) return;
-        // Inject name
         var nameEl = page.querySelector('[data-fb="name"]');
         if (nameEl && data.name) nameEl.textContent = data.name;
-        // Inject tagline
         var tagEl = page.querySelector('[data-fb="tagline"]');
         if (tagEl && data.tagline) tagEl.textContent = data.tagline;
-        // Inject bio
         var bioEl = page.querySelector('[data-fb="bio"]');
         if (bioEl && data.bio) { bioEl.textContent = data.bio; bioEl.classList.remove('hmp-bio-text-placeholder'); }
-        // Inject photo
         var photoEl = page.querySelector('[data-fb="photo_hero"]');
         if (photoEl && data.photo) {
           photoEl.innerHTML = '<img src="' + data.photo + '" style="width:100%;height:100%;object-fit:cover;">';
         }
       }).catch(function(e) { console.warn('Bio load:', e); });
     };
+
+    // ── Charger créatrices par catId et injecter dans les pages bio ──
+    window.hmLoadCreatorsByCategory = function() {
+      if (!window.hmDB) return;
+      import("https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js").then(function(m) {
+        m.getDocs(m.collection(window.hmDB, 'creators')).then(function(snap) {
+          snap.forEach(function(docSnap) {
+            var d = docSnap.data();
+            var catId = d.catId || d.catid;
+            if (!catId) return;
+            // Map catId to profile page
+            var pageMap = {1:'page-profile-cat1', 2:'page-profile-cat2', 3:'page-profile-cat3', 4:'page-profile-cat4'};
+            // Also try legacy names
+            var legacyMap = {1:'page-profile-luna', 2:'page-profile-zara', 3:'page-profile-nova', 4:'page-profile-dream'};
+            var profilePage = document.getElementById(pageMap[catId]) || document.getElementById(legacyMap[catId]);
+            if (!profilePage) return;
+            // Inject data
+            var nameEl = profilePage.querySelector('[data-fb="name"]');
+            if (nameEl && (d.name||d.nom)) nameEl.textContent = d.name||d.nom;
+            var tagEl = profilePage.querySelector('[data-fb="tagline"]');
+            if (tagEl && d.tagline) tagEl.textContent = d.tagline;
+            var bioEl = profilePage.querySelector('[data-fb="bio"]');
+            if (bioEl && d.bio) { bioEl.textContent = d.bio; bioEl.classList.remove('hmp-bio-text-placeholder'); }
+            var photoEl = profilePage.querySelector('[data-fb="photo_hero"]');
+            if (photoEl && d.photo) {
+              photoEl.innerHTML = '<img src="'+d.photo+'" style="width:100%;height:100%;object-fit:cover;display:block;">';
+            }
+            profilePage.setAttribute('data-creator-uid', docSnap.id);
+          });
+        }).catch(function(e){ console.warn('loadCreators:', e); });
+      });
+    };
+    // Auto-load 2s after page ready
+    setTimeout(function(){ if(window.hmLoadCreatorsByCategory) window.hmLoadCreatorsByCategory(); }, 2000);
       var q = dbMod.query(
         dbMod.collection(window.hmDB, "content"),
         dbMod.where("creator_id", "==", creatorId),
