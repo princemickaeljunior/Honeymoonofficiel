@@ -3789,7 +3789,7 @@ function hmAgeRefuse() {
         if (lm && lm.style.display !== 'flex') toggleLuna();
         setTimeout(function() {
           if (typeof lunaAddMsg === 'function') {
-            lunaAddMsg('bot', '✦ Welcome to the Honeymoon Founder Circle! Your participation just went live. Join the community on Telegram — I post updates there every week on the site, the offers, and what's coming next 👇');
+            lunaAddMsg('bot', '✦ Welcome to the Honeymoon Founder Circle! Your participation just went live. Join the community on Telegram — I post updates there every week on the site, the offers, and what\'s coming next 👇');
             if (typeof rachelCarte === 'function') lunaAddMsg('bot', rachelCarte('CARTE_FONDATEUR'));
           }
         }, 600);
@@ -17848,16 +17848,21 @@ function msnRender(filter){
     if(msnCurrentFilter === 'messages') return n.type === 'message';
     return true;
   });
-  list.innerHTML = items.map(function(n){
+  list.innerHTML = '';
+  items.forEach(function(n){
     var name = HM_MODEL_NAMES[n.creator] || n.creator;
-    return '<div class="msn-item'+(n.unread?' unread':'')+'" onclick="msnMarkRead(''+n.id+'')">'
-      +'<div class="msn-dot'+(n.unread?'':' read')+'"></div>'
-      +'<div class="msn-body">'
-      +'<span class="msn-creator">'+name+'</span>'
-      +'<p class="msn-text">'+n.text+'</p>'
-      +'<span class="msn-time">'+n.time+'</span>'
-      +'</div></div>';
-  }).join('');
+    var el = document.createElement('div');
+    el.className = 'msn-item' + (n.unread ? ' unread' : '');
+    var _id = n.id;
+    el.onclick = function(){ msnMarkRead(_id); };
+    el.innerHTML = '<div class="msn-dot' + (n.unread ? '' : ' read') + '"></div>'
+      + '<div class="msn-body">'
+      + '<span class="msn-creator">' + name + '</span>'
+      + '<p class="msn-text">' + n.text + '</p>'
+      + '<span class="msn-time">' + n.time + '</span>'
+      + '</div>';
+    list.appendChild(el);
+  });
   if(empty) empty.style.display = items.length ? 'none' : 'flex';
   msnUpdateBadge();
 }
