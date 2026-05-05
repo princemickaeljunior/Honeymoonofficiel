@@ -1710,6 +1710,70 @@ h1, h2, h3, h4,
   // ── Expose globalement pour les modules suivants ──
   window.hmApp     = hmApp;
   window.hmDB      = hmDB;
+  // Load creator profiles immediately after Firebase is ready
+  setTimeout(function(){ if(window.hmLoadCreatorsByCategory) window.hmLoadCreatorsByCategory(); }, 500);
+  // Handle ?creator=uid URL parameter (from dashboard "Voir profil" link)
+  var _urlParams = new URLSearchParams(window.location.search);
+  var _creatorParam = _urlParams.get('creator');
+  if (_creatorParam) {
+    setTimeout(function(){ if(typeof showCreator === 'function') showCreator(_creatorParam); }, 1000);
+  }
+
+    // ── Populate gallery cards with creator UIDs ──────────────────
+    window.hmPopulateGalleryCards = function() {
+      if (!window.hmDB) return;
+      import("https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js").then(function(m) {
+        m.getDocs(m.collection(window.hmDB, 'creators')).then(function(snap) {
+          var catIdMap = {1:'luna', 2:'zara', 3:'nova', 4:'dream'};
+          var formuleMap = {'honey-girl':'luna','honeygirl':'luna','honey girl':'luna','original':'zara','ambassadrice':'nova','ambassador':'nova','star':'dream'};
+          var byGal = {};
+
+          snap.forEach(function(docSnap) {
+            var d = docSnap.data();
+            var formule = (d.formule||'').toLowerCase().trim();
+            var catId = d.catId || d.catid;
+            var gal = formuleMap[formule] || catIdMap[catId];
+            if (!gal) return;
+            if (!byGal[gal]) byGal[gal] = [];
+            byGal[gal].push({ uid: docSnap.id, data: d });
+          });
+
+          Object.keys(byGal).forEach(function(gal) {
+            byGal[gal].forEach(function(creator, i) {
+              var slot = i + 1;
+              var card = document.getElementById('page-cr-' + gal + '-' + slot);
+              if (card) {
+                card.setAttribute('data-creator-uid', creator.uid);
+                // Override click on cr-card inside gallery
+                var galPage = document.getElementById('page-gal-' + gal);
+                if (galPage) {
+                  var cards = galPage.querySelectorAll('.cr-card');
+                  if (cards[i]) {
+                    var _uid = creator.uid;
+                    cards[i].onclick = function(){ showCreator(_uid); };
+                    // Update name if shown
+                    var nameEl = cards[i].querySelector('.cr-name, [data-fb="name"]');
+                    if (nameEl) nameEl.textContent = creator.data.name || creator.data.nom || '';
+                    // Update photo
+                    var photoEl = cards[i].querySelector('.cr-photo, [data-fb="photo"]');
+                    if (photoEl && creator.data.photo) photoEl.style.backgroundImage = 'url(' + creator.data.photo + ')';
+                  }
+                  // Also update Enter buttons
+                  var btns = galPage.querySelectorAll('.cr-btn');
+                  if (btns[i]) {
+                    var _uid2 = creator.uid;
+                    btns[i].onclick = function(){ showCreator(_uid2); };
+                  }
+                }
+              }
+            });
+          });
+        }).catch(function(e){ console.warn('populateCards:', e); });
+      });
+    };
+    setTimeout(function(){ if(window.hmPopulateGalleryCards) window.hmPopulateGalleryCards(); }, 1000);
+    // ────────────────────────────────────────────────────────────────
+
   window.hmAuth    = hmAuth;
   window.hmStorage = hmStorage;
 
@@ -1817,6 +1881,127 @@ h1, h2, h3, h4,
     };
 
     // ── Charger créatrices par catId et injecter dans les pages bio ──
+
+// ════════════════════════════════════════════════════════
+// DYNAMIC CREATOR PAGE — showCreator(uid)
+// Charge depuis Firebase via uid et affiche page-creator
+// ════════════════════════════════════════════════════════
+window._currentCreatorUid = null;
+
+async function showCreator(uid) {
+  if (!uid || !window.hmDB) return;
+  window._currentCreatorUid = uid;
+  showPage('creator');
+
+  try {
+    var m = await import("https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js");
+
+    // Load profile
+    var snap = await m.getDoc(m.doc(window.hmDB, 'creators', uid));
+    if (!snap.exists()) return;
+    var d = snap.data();
+
+    // Inject profile data
+    var nameEl = document.getElementById('cr-name');
+    if (nameEl) nameEl.textContent = d.name || d.nom || 'Creator';
+
+    var tagEl = document.getElementById('cr-tagline');
+    if (tagEl) tagEl.textContent = d.tagline || (d.formule || '') + ' · Honeymoon';
+
+    var bioEl = document.getElementById('cr-bio');
+    if (bioEl) bioEl.textContent = d.bio || 'Bio coming soon.';
+
+    var badgeEl = document.getElementById('cr-badge');
+    if (badgeEl) badgeEl.textContent = '✦ ' + (d.formule || 'Creator');
+
+    var photoEl = document.getElementById('cr-hero-img');
+    if (photoEl && d.photo) {
+      photoEl.style.backgroundImage = 'url(' + d.photo + ')';
+    }
+
+    // Back button → go back to correct gallery
+    var catId = d.catId || d.catid;
+    var galMap = {1:'gal-luna', 2:'gal-zara', 3:'gal-nova', 4:'gal-dream'};
+    var backBtn = document.getElementById('cr-back-btn');
+    if (backBtn && catId && galMap[catId]) {
+      backBtn.onclick = function(){ showPage(galMap[catId]); };
+    }
+
+    // Load content
+    crLoadContent(uid, m);
+
+  } catch(e) { console.warn('showCreator:', e); }
+}
+
+async function crLoadContent(uid, m) {
+  try {
+    var snap = await m.getDocs(m.query(
+      m.collection(window.hmDB, 'content'),
+      m.where('creatorId', '==', uid)
+    ));
+
+    var byType = { teaser:[], photo:[], reels:[], video:[] };
+    snap.forEach(function(d) {
+      var item = Object.assign({id:d.id}, d.data());
+      var t = (item.type||'').toLowerCase();
+      if (byType[t]) byType[t].push(item);
+    });
+
+    ['teaser','photo','reels','video'].forEach(function(type) {
+      var panel = document.getElementById('cr-panel-' + type);
+      if (!panel) return;
+      var items = byType[type];
+      if (!items.length) {
+        panel.innerHTML = '<div style="padding:20px;text-align:center;color:rgba(245,240,232,0.3);font-size:9px;letter-spacing:0.2em;">No content yet</div>';
+        return;
+      }
+      var cols = type === 'teaser' ? '1fr' : 'repeat(3,1fr)';
+      var ratio = type === 'reels' ? '9/16' : type === 'teaser' ? '16/9' : '1';
+      panel.innerHTML = '<div style="display:grid;grid-template-columns:' + cols + ';gap:2px;">'
+        + items.map(function(item) {
+          var locked = item.tokens > 0;
+          var isImg = item.url && !/\.(mp4|mov|webm)/i.test(item.url);
+          var media = isImg
+            ? '<img src="' + item.url + '" style="width:100%;height:100%;object-fit:cover;">'
+            : '<video src="' + item.url + '" style="width:100%;height:100%;object-fit:cover;" muted playsinline></video>';
+          return '<div style="aspect-ratio:' + ratio + ';position:relative;overflow:hidden;background:linear-gradient(160deg,#1e0a3c,#2e1268);">'
+            + media
+            + (locked ? '<div style="position:absolute;inset:0;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(214,169,78,0.6)" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>' : '')
+            + '</div>';
+        }).join('')
+        + '</div>';
+    });
+  } catch(e) { console.warn('crLoadContent:', e); }
+}
+
+function crDynTab(type, btn) {
+  ['teaser','photo','reels','video'].forEach(function(t) {
+    var p = document.getElementById('cr-panel-' + t);
+    if (p) p.style.display = (t === type) ? 'block' : 'none';
+  });
+  document.querySelectorAll('#cr-tabs button').forEach(function(b) {
+    b.style.borderBottomColor = 'transparent';
+    b.style.color = 'rgba(245,240,232,0.35)';
+  });
+  if (btn) {
+    btn.style.borderBottomColor = 'rgba(214,169,78,0.7)';
+    btn.style.color = 'rgba(214,169,78,0.9)';
+  }
+}
+
+function crOpenChat() {
+  var uid = window._currentCreatorUid;
+  if (!uid) return;
+  // Open member chat with this creator
+  if (window.hmCurrentUser) {
+    hmChatInit(uid);
+    showPage('member-chat');
+  } else {
+    showPage('inscription');
+  }
+}
+// ════════════════════════════════════════════════════════
+
     window.hmLoadCreatorsByCategory = function() {
       if (!window.hmDB) return;
       import("https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js").then(function(m) {
@@ -12939,6 +13124,58 @@ function highlightDoor(doorId) {
   if (doors) doors.closest('.hm-doors') && doors.closest('.hm-doors').scrollIntoView({behavior:'smooth', block:'center'});
 }
 </script>
+
+<!-- ════════════════════════════════════════════
+     PAGE CRÉATRICE DYNAMIQUE — chargée via Firebase uid
+     Appelée par showCreator(uid)
+════════════════════════════════════════════ -->
+<div class="page" id="page-creator">
+  <div style="min-height:100vh;background:linear-gradient(160deg,#1e0a3c,#2e1268,#231060);font-family:'Montserrat',sans-serif;">
+
+    <!-- HERO PHOTO -->
+    <div id="cr-hero-photo" style="position:relative;width:100%;aspect-ratio:4/5;max-height:45vh;background:linear-gradient(160deg,#1e0a3c,#2e1268,#231060);display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;">
+      <div id="cr-hero-img" style="position:absolute;inset:0;background-size:cover;background-position:center;"></div>
+      <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,#231060 100%);"></div>
+      <button id="cr-back-btn" onclick="history.back()" style="position:fixed;top:105px;left:16px;z-index:595;background:rgba(30,18,69,0.85);backdrop-filter:blur(8px);border:1px solid rgba(214,169,78,0.4);padding:8px 14px;font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(245,240,232,0.85);cursor:pointer;">← Back</button>
+      <div style="position:relative;z-index:2;padding:20px 20px 24px;">
+        <span id="cr-badge" style="font-size:9px;letter-spacing:0.35em;text-transform:uppercase;color:rgba(214,169,78,0.85);margin-bottom:6px;display:block;">✦ Honey Girl</span>
+        <span id="cr-name" style="font-family:'Cormorant Garamond',serif;font-size:clamp(38px,10vw,64px);font-weight:300;color:#faf6f0;line-height:1;display:block;">Creator</span>
+        <span id="cr-tagline" style="font-size:9px;letter-spacing:0.2em;color:rgba(245,240,232,0.45);text-transform:uppercase;margin-top:6px;display:block;">Loading...</span>
+      </div>
+    </div>
+
+    <!-- BIO -->
+    <div style="padding:24px 20px;border-bottom:1px solid rgba(214,169,78,0.20);">
+      <span style="font-size:9px;letter-spacing:0.4em;text-transform:uppercase;color:rgba(214,169,78,0.6);display:block;margin-bottom:10px;">· About ·</span>
+      <p id="cr-bio" style="font-size:9px;line-height:1.85;color:rgba(245,240,232,0.7);font-style:italic;">Loading...</p>
+    </div>
+
+    <!-- CONTENT TABS -->
+    <div style="display:flex;border-bottom:1px solid rgba(214,169,78,0.12);" id="cr-tabs">
+      <button onclick="crDynTab('teaser',this)" style="flex:1;padding:14px 4px;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;background:none;border:none;border-bottom:2px solid rgba(214,169,78,0.7);color:rgba(214,169,78,0.9);cursor:pointer;font-family:'Montserrat',sans-serif;">Teaser</button>
+      <button onclick="crDynTab('photo',this)" style="flex:1;padding:14px 4px;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;background:none;border:none;border-bottom:2px solid transparent;color:rgba(245,240,232,0.35);cursor:pointer;font-family:'Montserrat',sans-serif;">Photo</button>
+      <button onclick="crDynTab('reels',this)" style="flex:1;padding:14px 4px;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;background:none;border:none;border-bottom:2px solid transparent;color:rgba(245,240,232,0.35);cursor:pointer;font-family:'Montserrat',sans-serif;">Reels</button>
+      <button onclick="crDynTab('video',this)" style="flex:1;padding:14px 4px;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;background:none;border:none;border-bottom:2px solid transparent;color:rgba(245,240,232,0.35);cursor:pointer;font-family:'Montserrat',sans-serif;">Video</button>
+    </div>
+    <div id="cr-panel-teaser" style="display:block;padding:14px;"></div>
+    <div id="cr-panel-photo" style="display:none;padding:14px;"></div>
+    <div id="cr-panel-reels" style="display:none;padding:14px;"></div>
+    <div id="cr-panel-video" style="display:none;padding:14px;"></div>
+
+    <!-- CHAT BUTTON -->
+    <div style="padding:16px 20px;border-top:1px solid rgba(214,169,78,0.12);">
+      <button id="cr-chat-btn" onclick="crOpenChat()" style="width:100%;padding:14px;background:rgba(214,169,78,0.1);border:1px solid rgba(214,169,78,0.4);color:#f2d270;font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;cursor:pointer;">💬 Chat with her →</button>
+    </div>
+
+    <!-- SUBSCRIBE -->
+    <div style="margin:16px;padding:20px;background:rgba(214,169,78,0.05);border:1px solid rgba(214,169,78,0.2);text-align:center;">
+      <span style="font-size:9px;letter-spacing:0.35em;text-transform:uppercase;color:rgba(214,169,78,0.6);display:block;margin-bottom:8px;">· Full access ·</span>
+      <span id="cr-sub-price" style="font-family:'Cormorant Garamond',serif;font-size:42px;color:rgba(214,169,78,0.9);display:block;margin-bottom:16px;line-height:1;">9,99€<small style="font-size:14px;color:rgba(214,169,78,0.5);"> / month</small></span>
+      <a id="cr-sub-btn" href="#" target="_blank" style="display:block;width:100%;padding:14px;background:rgba(214,169,78,0.9);color:#231060;font-size:9px;font-weight:700;letter-spacing:0.25em;text-transform:uppercase;font-family:'Montserrat',sans-serif;text-decoration:none;box-sizing:border-box;">Subscribe · Instant access →</a>
+    </div>
+
+  </div>
+</div>
 
 <div class="page" id="page-cr-luna-1"><div style="min-height:100vh;background:linear-gradient(160deg,#1e0a3c,#2e1268,#231060);font-family:'Montserrat',sans-serif;">
 <div style="position:relative;width:100%;aspect-ratio:4/5;max-height:40vh;background:linear-gradient(160deg,#1e0a3c,#2e1268,#231060);display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;" data-fb="photo_hero">
