@@ -2803,17 +2803,32 @@ function listenMessages(creatorId) {
 <div class="sec" id="sec-messages">
 
   <div class="card">
-    <div class="card-title">Messages · Fans & Visitors</div>
-    <p style="font-size:11px;color:#6A9EC0;margin-bottom:14px;line-height:1.7;">
-      Visitors get <strong>10 free messages</strong>. From the 11th message, they need an active subscription to continue.
-    </p>
+    <div class="card-title" style="display:flex;justify-content:space-between;align-items:center;">
+      <span>Messages · Members</span>
+      <button onclick="document.getElementById('members-panel').style.display=document.getElementById('members-panel').style.display==='none'?'block':'none'" style="padding:5px 12px;background:linear-gradient(135deg,#8A6818,#C9952A);color:#fff;border:none;cursor:pointer;font-size:10px;font-family:inherit;font-weight:600;letter-spacing:0.1em;">+ New</button>
+    </div>
+
+    <!-- Panel membres inscrits pour initier une conversation -->
+    <div id="members-panel" style="display:none;margin-bottom:14px;padding:12px;border:1px solid rgba(201,149,42,0.22);background:rgba(201,149,42,0.04);">
+      <div style="font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:#C9952A;margin-bottom:10px;">Start a conversation with a member</div>
+      <div id="members-list" style="display:flex;flex-direction:column;gap:6px;max-height:200px;overflow-y:auto;margin-bottom:10px;">
+        <div style="font-size:11px;color:#6A9EC0;text-align:center;padding:12px;">Loading members...</div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <input id="init-msg-inp" type="text" placeholder="Write your first message..."
+          style="flex:1;padding:10px 12px;border:1px solid rgba(201,149,42,0.30);background:rgba(8,20,44,0.90);color:#E8F4FF;font-family:inherit;font-size:13px;outline:none;"
+          onkeydown="if(event.key==='Enter')sendInitMsg()">
+        <button onclick="sendInitMsg()" style="padding:10px 16px;background:linear-gradient(135deg,#8A6818,#C9952A);color:#fff;border:none;cursor:pointer;font-family:inherit;font-size:12px;font-weight:600;">Send →</button>
+      </div>
+      <div id="init-msg-toast" style="display:none;margin-top:8px;padding:8px 12px;background:rgba(46,168,122,0.08);border:1px solid rgba(46,168,122,0.28);color:#2ea87a;font-size:11px;">Message sent ✓</div>
+    </div>
 
     <!-- Conversation list -->
     <div id="conv-list-wrap">
-    <div id="conv-list" style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+    <div id="conv-list" style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px;">
       <div style="text-align:center;padding:24px;color:#6A9EC0;font-size:11px;border:1.5px dashed rgba(201,149,42,0.35);">
         No conversations yet.<br>
-        <span style="font-size:10px;">When a visitor messages you, it will appear here.</span>
+        <span style="font-size:10px;">When a member messages you, it will appear here.</span>
       </div>
     </div>
 
@@ -2926,17 +2941,18 @@ async function loadConversations() {
       }
       list.innerHTML = '';
       snap.docs.forEach(function(d){
-        var dt=d.data(), unr=dt.unreadCreator||0, cnt=dt.messageCount||0, sub=dt.visitorSubscribed;
+        var dt=d.data(), unr=dt.unreadCreator||0, cnt=dt.messageCount||0, sub=dt.visitorSubscribed||dt.memberSubscribed;
+        // Support both field names: memberName (index) and visitorName (legacy)
+        var nom=dt.memberName||dt.visitorName||dt.memberEmail||'Membre';
         var el=document.createElement('div');
-        el.style.cssText='display:flex;align-items:center;gap:12px;padding:12px;border:1px solid '+(unr>0?'#7B5A1A':'#eee')+';cursor:pointer;background:'+(unr>0?'#fdf8ee':'#fff')+';margin-bottom:4px;';
-        el.innerHTML='<div style="width:36px;height:36px;border-radius:50%;background:rgba(10,24,52,0.92);border:1px solid rgba(201,149,42,0.28);display:flex;align-items:center;justify-content:center;font-weight:600;flex-shrink:0;">'+(dt.visitorName||'?').charAt(0).toUpperCase()+'</div>'
+        el.style.cssText='display:flex;align-items:center;gap:12px;padding:12px;border:1px solid '+(unr>0?'rgba(201,149,42,0.6)':'rgba(201,149,42,0.18)')+';cursor:pointer;background:'+(unr>0?'rgba(201,149,42,0.06)':'transparent')+';margin-bottom:4px;border-radius:2px;';
+        el.innerHTML='<div style="width:36px;height:36px;border-radius:50%;background:rgba(201,149,42,0.15);border:1px solid rgba(201,149,42,0.3);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0;color:#C9952A;">'+nom.charAt(0).toUpperCase()+'</div>'
           +'<div style="flex:1;min-width:0;">'
-          +'<div style="font-size:13px;font-weight:'+(unr>0?600:400)+';color:#E8F4FF;">'+_e(dt.visitorName||'Anonymous')+'</div>'
+          +'<div style="font-size:13px;font-weight:'+(unr>0?700:400)+';overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+_e(nom)+'</div>'
           +'<div style="font-size:11px;color:#6A9EC0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+_e(dt.lastMessage||'—')+'</div>'
           +'</div>'
-          +'<div style="text-align:right;flex-shrink:0;">'+(unr>0?'<span style="background:#7B5A1A;color:#fff;border-radius:50%;width:18px;height:18px;font-size:9px;display:inline-flex;align-items:center;justify-content:center;margin-bottom:3px;">'+unr+'</span><br>':'')
-          +'<span style="font-size:9px;color:'+(sub?'#1a6b3a':'#888')+'">'+(sub?'Subscriber':'Free: '+cnt+'/10')+'</span></div>';
-        var _id=d.id, _name=dt.visitorName||'Visitor', _cnt=cnt, _sub=!!sub;
+          +(unr>0?'<span style="background:#C9952A;color:#fff;border-radius:50%;min-width:18px;height:18px;font-size:9px;display:inline-flex;align-items:center;justify-content:center;padding:0 3px;flex-shrink:0;">'+unr+'</span>':'');
+        var _id=d.id, _name=nom, _cnt=cnt, _sub=!!sub;
         el.onclick=function(){ openConv(_id, _name, _cnt, _sub); };
         list.appendChild(el);
       });
@@ -2981,10 +2997,71 @@ async function sendCreatorMessage() {
 
 function _e(str){if(!str)return'';return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
+// ── Charger membres inscrits pour initier une conversation ──
+var _selectedMemberId=null, _selectedMemberName=null;
+async function loadMembers(){
+  if(!window.hmDB)return;
+  var m=await import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js');
+  var list=document.getElementById('members-list');if(!list)return;
+  try{
+    var snap=await m.getDocs(m.collection(window.hmDB,'members'));
+    if(snap.empty){list.innerHTML='<div style="font-size:11px;color:#6A9EC0;text-align:center;padding:12px;">No members yet.</div>';return;}
+    list.innerHTML='';
+    snap.docs.forEach(function(d){
+      var dt=d.data();
+      var nom=dt.displayName||dt.name||dt.email||d.id;
+      var el=document.createElement('div');
+      el.style.cssText='display:flex;align-items:center;gap:10px;padding:8px 10px;cursor:pointer;border:1px solid transparent;border-radius:2px;transition:all 0.15s;';
+      el.innerHTML='<div style="width:28px;height:28px;border-radius:50%;background:rgba(201,149,42,0.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#C9952A;flex-shrink:0;">'+nom.charAt(0).toUpperCase()+'</div>'
+        +'<div style="flex:1;min-width:0;"><div style="font-size:12px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+_e(nom)+'</div>'
+        +(dt.email?'<div style="font-size:10px;color:#6A9EC0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+_e(dt.email)+'</div>':'')+'</div>'
+        +'<span id="sel-'+d.id+'" style="font-size:9px;color:#C9952A;display:none;">✓</span>';
+      el.onclick=function(){
+        _selectedMemberId=d.id;_selectedMemberName=nom;
+        list.querySelectorAll('[id^="sel-"]').forEach(function(s){s.style.display='none';});
+        list.querySelectorAll('div[style*="cursor:pointer"]').forEach(function(r){r.style.borderColor='transparent';r.style.background='transparent';});
+        el.style.borderColor='rgba(201,149,42,0.35)';el.style.background='rgba(201,149,42,0.06)';
+        document.getElementById('sel-'+d.id).style.display='inline';
+      };
+      list.appendChild(el);
+    });
+  }catch(e){list.innerHTML='<div style="font-size:11px;color:#f87171;padding:8px;">Error loading members.</div>';}
+}
+
+async function sendInitMsg(){
+  if(!_selectedMemberId){alert('Select a member first.');return;}
+  var inp=document.getElementById('init-msg-inp');
+  var text=inp?inp.value.trim():'';if(!text)return;
+  if(!window.hmDB||!window.hmCreatorId){alert('Not connected.');return;}
+  inp.value='';
+  var m=await import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js');
+  // Chercher si conversation existe déjà
+  var q=m.query(m.collection(window.hmDB,'chats'),m.where('memberId','==',_selectedMemberId),m.where('creatorId','==',window.hmCreatorId));
+  var snap=await m.getDocs(q);
+  var convId;
+  if(snap.empty){
+    var ref=await m.addDoc(m.collection(window.hmDB,'chats'),{
+      memberId:_selectedMemberId,memberName:_selectedMemberName,
+      creatorId:window.hmCreatorId,
+      lastMessage:text,unreadCreator:0,unreadMember:1,
+      statut:'actif',createdAt:m.serverTimestamp(),updatedAt:m.serverTimestamp()
+    });
+    convId=ref.id;
+  }else{
+    convId=snap.docs[0].id;
+    await m.updateDoc(m.doc(window.hmDB,'chats',convId),{lastMessage:text,unreadMember:m.increment(1),updatedAt:m.serverTimestamp()});
+  }
+  await m.addDoc(m.collection(window.hmDB,'chats',convId,'messages'),{role:'creator',text:text,createdAt:m.serverTimestamp()});
+  var t=document.getElementById('init-msg-toast');
+  if(t){t.style.display='block';setTimeout(function(){t.style.display='none';},2500);}
+  document.getElementById('members-panel').style.display='none';
+  _selectedMemberId=null;_selectedMemberName=null;
+}
+
 document.addEventListener('DOMContentLoaded',function(){
   setTimeout(function(){
-    if(window.hmCreatorId)loadConversations();
-    else{var t=setInterval(function(){if(window.hmCreatorId){clearInterval(t);loadConversations();}},600);}
+    if(window.hmCreatorId){loadConversations();loadMembers();}
+    else{var t=setInterval(function(){if(window.hmCreatorId){clearInterval(t);loadConversations();loadMembers();}},600);}
   },1000);
 });
 </script>
