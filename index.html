@@ -8,6 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <!-- Firebase (compat SDK) -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
 <style>
@@ -634,6 +635,32 @@ footer p {
 }
 .auth-forgot:hover { border-bottom-color: var(--gold2); }
 
+.auth-error {
+  display: none;
+  background: rgba(178,58,58,0.08);
+  border: 1px solid rgba(178,58,58,0.3);
+  color: #b23a3a;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  padding: 12px 14px;
+  border-radius: 4px;
+  margin-bottom: 4px;
+}
+.auth-error.visible { display: block; }
+.auth-switch {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.auth-switch a {
+  color: var(--gold2);
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 4px;
+}
+.auth-switch a:hover { text-decoration: underline; }
+
 /* ═══════════════════════════════════════════
    AGE VERIFICATION GATE
 ═══════════════════════════════════════════ */
@@ -799,9 +826,9 @@ footer p {
         <div class="name">Creator Name</div>
         <div class="desc">Exclusive Subscription — Exclusive Content, delivered outside the platform</div>
         <div class="card-actions">
-          <button class="btn outline" onclick="openModal('room')">Room</button>
-          <button class="btn outline" onclick="openModal('chat')">Chat</button>
-          <button class="btn pink" onclick="openModal('subscription')">Subscribe — $20</button>
+          <button class="btn outline" onclick="openModal('room', 'creator-1')">Room</button>
+          <button class="btn outline" onclick="openModal('chat', 'creator-1')">Chat</button>
+          <button class="btn pink" onclick="openModal('subscription', 'creator-1')">Subscribe — $20</button>
         </div>
       </div>
 
@@ -810,9 +837,9 @@ footer p {
         <div class="name">Creator Name</div>
         <div class="desc">Exclusive Subscription — Exclusive Content, delivered outside the platform</div>
         <div class="card-actions">
-          <button class="btn outline" onclick="openModal('room')">Room</button>
-          <button class="btn outline" onclick="openModal('chat')">Chat</button>
-          <button class="btn pink" onclick="openModal('subscription')">Subscribe — $20</button>
+          <button class="btn outline" onclick="openModal('room', 'creator-2')">Room</button>
+          <button class="btn outline" onclick="openModal('chat', 'creator-2')">Chat</button>
+          <button class="btn pink" onclick="openModal('subscription', 'creator-2')">Subscribe — $20</button>
         </div>
       </div>
 
@@ -821,9 +848,9 @@ footer p {
         <div class="name">Creator Name</div>
         <div class="desc">Exclusive Subscription — Exclusive Content, delivered outside the platform</div>
         <div class="card-actions">
-          <button class="btn outline" onclick="openModal('room')">Room</button>
-          <button class="btn outline" onclick="openModal('chat')">Chat</button>
-          <button class="btn pink" onclick="openModal('subscription')">Subscribe — $20</button>
+          <button class="btn outline" onclick="openModal('room', 'creator-3')">Room</button>
+          <button class="btn outline" onclick="openModal('chat', 'creator-3')">Chat</button>
+          <button class="btn pink" onclick="openModal('subscription', 'creator-3')">Subscribe — $20</button>
         </div>
       </div>
 
@@ -832,9 +859,9 @@ footer p {
         <div class="name">Creator Name</div>
         <div class="desc">Exclusive Subscription — Exclusive Content, delivered outside the platform</div>
         <div class="card-actions">
-          <button class="btn outline" onclick="openModal('room')">Room</button>
-          <button class="btn outline" onclick="openModal('chat')">Chat</button>
-          <button class="btn pink" onclick="openModal('subscription')">Subscribe — $20</button>
+          <button class="btn outline" onclick="openModal('room', 'creator-4')">Room</button>
+          <button class="btn outline" onclick="openModal('chat', 'creator-4')">Chat</button>
+          <button class="btn pink" onclick="openModal('subscription', 'creator-4')">Subscribe — $20</button>
         </div>
       </div>
 
@@ -843,9 +870,9 @@ footer p {
         <div class="name">Creator Name</div>
         <div class="desc">Exclusive Subscription — Exclusive Content, delivered outside the platform</div>
         <div class="card-actions">
-          <button class="btn outline" onclick="openModal('room')">Room</button>
-          <button class="btn outline" onclick="openModal('chat')">Chat</button>
-          <button class="btn pink" onclick="openModal('subscription')">Subscribe — $20</button>
+          <button class="btn outline" onclick="openModal('room', 'creator-5')">Room</button>
+          <button class="btn outline" onclick="openModal('chat', 'creator-5')">Chat</button>
+          <button class="btn pink" onclick="openModal('subscription', 'creator-5')">Subscribe — $20</button>
         </div>
       </div>
 
@@ -854,9 +881,9 @@ footer p {
         <div class="name">Creator Name</div>
         <div class="desc">Exclusive Subscription — Exclusive Content, delivered outside the platform</div>
         <div class="card-actions">
-          <button class="btn outline" onclick="openModal('room')">Room</button>
-          <button class="btn outline" onclick="openModal('chat')">Chat</button>
-          <button class="btn pink" onclick="openModal('subscription')">Subscribe — $20</button>
+          <button class="btn outline" onclick="openModal('room', 'creator-6')">Room</button>
+          <button class="btn outline" onclick="openModal('chat', 'creator-6')">Chat</button>
+          <button class="btn pink" onclick="openModal('subscription', 'creator-6')">Subscribe — $20</button>
         </div>
       </div>
     </div>
@@ -913,7 +940,7 @@ footer p {
         <li>Exclusive photos & videos</li>
         <li>Content delivered outside the platform</li>
       </ul>
-      <a href="#" class="btn-gold" style="width:100%; justify-content:center;">Subscribe Now</a>
+      <a href="#" class="btn-gold" style="width:100%; justify-content:center;" onclick="subscribeToCreator(currentCreatorId); return false;">Subscribe Now</a>
     </div>
   </div>
 </div>
@@ -924,19 +951,25 @@ footer p {
     <button class="modal-close" onclick="closeModal('auth')">✕</button>
     <div class="section-header" style="margin-bottom:32px;">
       <div class="s-label">Subscription</div>
-      <h2 class="s-title">Create your <em>account</em></h2>
+      <h2 class="s-title" id="auth-title">Create your <em>account</em></h2>
     </div>
-    <form class="auth-form" onsubmit="return false;">
+    <form class="auth-form" id="auth-form" onsubmit="handleAuthSubmit(event)">
+      <div class="auth-error" id="auth-error"></div>
+
       <label class="auth-label" for="auth-email">Email</label>
       <input class="auth-input" type="email" id="auth-email" placeholder="you@email.com" required>
 
       <label class="auth-label" for="auth-password">Password</label>
-      <input class="auth-input" type="password" id="auth-password" placeholder="••••••••" required>
+      <input class="auth-input" type="password" id="auth-password" placeholder="••••••••" minlength="6" required>
 
-      <a href="#" class="auth-forgot">Forgot password?</a>
+      <a href="#" class="auth-forgot" onclick="handleForgotPassword(event)">Forgot password?</a>
 
-      <button type="submit" class="btn-gold" style="width:100%; justify-content:center; margin-top:8px;">Create Account</button>
+      <button type="submit" class="btn-gold" id="auth-submit-btn" style="width:100%; justify-content:center; margin-top:8px;">Create Account</button>
     </form>
+    <p class="auth-switch">
+      <span id="auth-switch-text">Already have an account?</span>
+      <a href="#" onclick="toggleAuthMode(); return false;" id="auth-switch-link">Log in</a>
+    </p>
   </div>
 </div>
 
@@ -1118,11 +1151,14 @@ const revObs = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 revEls.forEach(el => revObs.observe(el));
 
-function openModal(id) {
+let currentCreatorId = null;
+
+function openModal(id, creatorId) {
   document.getElementById(id).classList.add('active');
   document.body.style.overflow = 'hidden';
-  if (id === 'room') loadRoomContent();
-  if (id === 'chat') listenToChat();
+  if (creatorId) currentCreatorId = creatorId;
+  if (id === 'room') loadRoomContent(currentCreatorId);
+  if (id === 'chat') listenToChat(currentCreatorId);
 }
 function closeModal(id) {
   document.getElementById(id).classList.remove('active');
@@ -1135,35 +1171,156 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
 });
 
 /* ═══════════════════════════════════════════
-   FIREBASE SETUP
-   Replace with your own project config
-   (Firebase console → Project settings → SDK setup)
+   FIREBASE SETUP — honeymoonproject2026
 ═══════════════════════════════════════════ */
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyDjeKf3_JL4FxxZQq_d6gdXdmc2Z5RxbaY",
+  authDomain: "honeymoonproject2026.firebaseapp.com",
+  projectId: "honeymoonproject2026",
+  storageBucket: "honeymoonproject2026.firebasestorage.app",
+  messagingSenderId: "529825855432",
+  appId: "1:529825855432:web:4ff82f1130cd5f3b5cf2fd",
+  measurementId: "G-MF347VTBMY"
 };
 
 let db = null;
+let auth = null;
 try {
   firebase.initializeApp(firebaseConfig);
   db = firebase.firestore();
+  auth = firebase.auth();
 } catch (err) {
   console.warn('Firebase not configured yet — fill in firebaseConfig.', err);
+}
+
+/* ═══════════════════════════════════════════
+   FIREBASE AUTH — email/password signup & login
+═══════════════════════════════════════════ */
+let authMode = 'signup'; // 'signup' | 'login'
+
+function toggleAuthMode() {
+  authMode = authMode === 'signup' ? 'login' : 'signup';
+  const title = document.getElementById('auth-title');
+  const submitBtn = document.getElementById('auth-submit-btn');
+  const switchText = document.getElementById('auth-switch-text');
+  const switchLink = document.getElementById('auth-switch-link');
+  hideAuthError();
+  if (authMode === 'login') {
+    title.innerHTML = 'Welcome <em>back</em>';
+    submitBtn.textContent = 'Log In';
+    switchText.textContent = "Don't have an account?";
+    switchLink.textContent = 'Sign up';
+  } else {
+    title.innerHTML = 'Create your <em>account</em>';
+    submitBtn.textContent = 'Create Account';
+    switchText.textContent = 'Already have an account?';
+    switchLink.textContent = 'Log in';
+  }
+}
+
+function showAuthError(message) {
+  const el = document.getElementById('auth-error');
+  el.textContent = message;
+  el.classList.add('visible');
+}
+function hideAuthError() {
+  const el = document.getElementById('auth-error');
+  el.classList.remove('visible');
+}
+
+/* Friendlier text for Firebase's error codes */
+function friendlyAuthError(err) {
+  switch (err.code) {
+    case 'auth/email-already-in-use': return 'An account already exists with this email — try logging in instead.';
+    case 'auth/invalid-email': return 'That email address doesn\'t look valid.';
+    case 'auth/weak-password': return 'Password should be at least 6 characters.';
+    case 'auth/user-not-found':
+    case 'auth/wrong-password':
+    case 'auth/invalid-credential': return 'Incorrect email or password.';
+    case 'auth/too-many-requests': return 'Too many attempts — please wait a moment and try again.';
+    default: return err.message || 'Something went wrong. Please try again.';
+  }
+}
+
+async function handleAuthSubmit(event) {
+  event.preventDefault();
+  hideAuthError();
+
+  if (!auth) {
+    showAuthError('Sign-up isn\'t connected yet — add your Firebase config in firebaseConfig further up the script.');
+    return;
+  }
+
+  const email = document.getElementById('auth-email').value.trim();
+  const password = document.getElementById('auth-password').value;
+  const submitBtn = document.getElementById('auth-submit-btn');
+  const originalLabel = submitBtn.textContent;
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Please wait…';
+
+  try {
+    if (authMode === 'signup') {
+      await auth.createUserWithEmailAndPassword(email, password);
+    } else {
+      await auth.signInWithEmailAndPassword(email, password);
+    }
+    closeModal('auth');
+    document.getElementById('auth-form').reset();
+  } catch (err) {
+    showAuthError(friendlyAuthError(err));
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = originalLabel;
+  }
+}
+
+async function handleForgotPassword(event) {
+  event.preventDefault();
+  hideAuthError();
+  if (!auth) {
+    showAuthError('Password reset isn\'t connected yet — add your Firebase config first.');
+    return;
+  }
+  const email = document.getElementById('auth-email').value.trim();
+  if (!email) {
+    showAuthError('Enter your email above first, then click "Forgot password?" again.');
+    return;
+  }
+  try {
+    await auth.sendPasswordResetEmail(email);
+    showAuthError('Password reset email sent — check your inbox.');
+    document.getElementById('auth-error').style.color = 'var(--gold2)';
+    document.getElementById('auth-error').style.background = 'rgba(156,113,53,0.08)';
+    document.getElementById('auth-error').style.borderColor = 'rgba(156,113,53,0.3)';
+  } catch (err) {
+    showAuthError(friendlyAuthError(err));
+  }
+}
+
+/* Reflect signed-in state in the nav ("Subscription" → user's email) */
+if (auth) {
+  auth.onAuthStateChanged(user => {
+    const navCta = document.querySelector('.nav-cta');
+    if (!navCta) return;
+    if (user) {
+      navCta.textContent = user.email.split('@')[0];
+      navCta.onclick = () => { if (confirm('Log out?')) auth.signOut(); };
+    } else {
+      navCta.textContent = 'Subscription';
+      navCta.onclick = () => openModal('auth');
+    }
+  });
 }
 
 /* Room content — Firestore collection "content"
    Each doc: { creatorId, type: "photo" | "video", url, createdAt } */
 const ROOM_GRID = document.getElementById('room-grid');
-let roomLoaded = false;
+let lastLoadedRoomCreator = null;
 
-async function loadRoomContent(creatorId = 'demo') {
-  if (!db || roomLoaded) return;
-  roomLoaded = true;
+async function loadRoomContent(creatorId) {
+  if (!db || !creatorId || lastLoadedRoomCreator === creatorId) return;
+  lastLoadedRoomCreator = creatorId;
+  ROOM_GRID.innerHTML = '<div class="room-item">Loading…</div>';
   try {
     const snap = await db.collection('content')
       .where('creatorId', '==', creatorId)
@@ -1190,19 +1347,36 @@ async function loadRoomContent(creatorId = 'demo') {
   } catch (err) {
     console.error('Failed to load room content:', err);
     ROOM_GRID.innerHTML = '<div class="room-item">Unable to load content</div>';
+    lastLoadedRoomCreator = null;
   }
 }
 
 /* Chat — Firestore collection "chats/{chatId}/messages"
-   Each doc: { text, sender: "model" | "client", createdAt } */
+   chatId is derived from the creator + the signed-in member, so
+   each member/creator pair gets its own private conversation:
+   "<creatorId>_<memberUid>" */
 const CHAT_WINDOW = document.getElementById('chat-window');
 const CHAT_INPUT = document.getElementById('chat-message-input');
 let chatUnsub = null;
-const CHAT_ID = 'demo'; // TODO: replace with the real conversation/creator id
+let currentChatId = null;
 
-function listenToChat() {
-  if (!db || chatUnsub) return;
-  chatUnsub = db.collection('chats').doc(CHAT_ID).collection('messages')
+function getChatId(creatorId) {
+  const user = auth && auth.currentUser;
+  if (!creatorId || !user) return null;
+  return `${creatorId}_${user.uid}`;
+}
+
+function listenToChat(creatorId) {
+  if (!db) return;
+  const chatId = getChatId(creatorId);
+  if (!chatId) {
+    CHAT_WINDOW.innerHTML = '<div class="chat-empty">Log in to chat with this creator.</div>';
+    return;
+  }
+  if (chatUnsub && currentChatId === chatId) return; // already listening to this one
+  if (chatUnsub) chatUnsub(); // switching creators — stop the previous listener
+  currentChatId = chatId;
+  chatUnsub = db.collection('chats').doc(chatId).collection('messages')
     .orderBy('createdAt', 'asc')
     .onSnapshot(snap => {
       if (snap.empty) {
@@ -1226,16 +1400,46 @@ function listenToChat() {
 
 async function sendMessage() {
   const text = CHAT_INPUT.value.trim();
-  if (!text || !db) return;
+  if (!text || !db || !currentChatId) return;
   CHAT_INPUT.value = '';
   try {
-    await db.collection('chats').doc(CHAT_ID).collection('messages').add({
+    await db.collection('chats').doc(currentChatId).collection('messages').add({
       text,
       sender: 'client',
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
   } catch (err) {
     console.error('Failed to send message:', err);
+  }
+}
+
+/* ═══════════════════════════════════════════
+   SUBSCRIPTIONS — Firestore collection "subscriptions"
+   Each doc: { userId, creatorId, active, createdAt }
+   NOTE: for now this just records the intent to subscribe.
+   Before this goes live, "active" should only be set to
+   true AFTER a real payment is confirmed (Stripe/CCBill/etc
+   webhook), not directly from the browser like this.
+═══════════════════════════════════════════ */
+async function subscribeToCreator(creatorId) {
+  if (!auth || !auth.currentUser) {
+    closeModal('subscription');
+    openModal('auth');
+    return;
+  }
+  if (!db || !creatorId) return;
+  try {
+    const subId = `${auth.currentUser.uid}_${creatorId}`;
+    await db.collection('subscriptions').doc(subId).set({
+      userId: auth.currentUser.uid,
+      creatorId,
+      active: true, // TODO: flip this to false until payment is confirmed
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    alert('Subscribed! (payment integration still needed before this is real)');
+    closeModal('subscription');
+  } catch (err) {
+    console.error('Failed to subscribe:', err);
   }
 }
 </script>
