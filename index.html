@@ -47,6 +47,12 @@ a:focus, button:focus, a:focus-visible, button:focus-visible {
   outline: 2px solid var(--gold2);
   outline-offset: 2px;
 }
+.account-tab-btn:focus, .account-tab-btn:focus-visible,
+.dash-tab-btn:focus, .dash-tab-btn:focus-visible,
+.dash-type-btn:focus, .dash-type-btn:focus-visible,
+.coach-topic-btn:focus, .coach-topic-btn:focus-visible {
+  outline: none;
+}
 a { transition: color 0.2s, border-color 0.2s; }
 a:hover { color: var(--gold2); }
 
@@ -92,6 +98,92 @@ nav.scrolled {
   transition: background 0.2s, transform 0.2s;
 }
 .nav-cta:hover { background: var(--gold); transform: translateY(-1px); }
+.nav-right {
+  display: flex; align-items: center; gap: 16px;
+}
+.nav-menu-wrap { position: relative; }
+.nav-burger {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: none;
+  padding: 4px 2px;
+  cursor: pointer;
+}
+.burger-icon {
+  position: relative;
+  display: inline-block;
+  width: 24px;
+  height: 12px;
+}
+.burger-icon .burger-line,
+.burger-icon .burger-line::before,
+.burger-icon .burger-line::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 24px;
+  height: 1px;
+  background: var(--ink);
+  transition: transform 0.3s ease, top 0.3s ease, opacity 0.3s ease, background 0.3s ease;
+}
+.burger-icon .burger-line { top: 50%; transform: translateY(-50%); }
+.burger-icon .burger-line::before { top: -6px; }
+.burger-icon .burger-line::after { top: 6px; }
+.burger-label {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink);
+  transition: color 0.25s;
+}
+.nav-burger:hover .burger-line,
+.nav-burger:hover .burger-line::before,
+.nav-burger:hover .burger-line::after { background: var(--gold2); }
+.nav-burger:hover .burger-label { color: var(--gold2); }
+.nav-burger.active .burger-line { background: transparent; }
+.nav-burger.active .burger-line::before { top: 0; transform: rotate(45deg); background: var(--gold2); }
+.nav-burger.active .burger-line::after { top: 0; transform: rotate(-45deg); background: var(--gold2); }
+.nav-burger.active .burger-label { color: var(--gold2); }
+.nav-dropdown {
+  position: absolute;
+  top: calc(100% + 14px);
+  right: 0;
+  min-width: 230px;
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 18px 42px rgba(20,18,12,0.16);
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-8px) scale(0.98);
+  pointer-events: none;
+  transition: opacity 0.22s ease, transform 0.22s ease;
+  z-index: 200;
+}
+.nav-dropdown.open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+.nav-dropdown a {
+  display: block;
+  padding: 14px 20px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s, color 0.2s, padding-left 0.2s;
+}
+.nav-dropdown a:last-child { border-bottom: none; }
+.nav-dropdown a:hover { background: rgba(156,113,53,0.08); color: var(--gold2); padding-left: 26px; }
 
 /* ═══════════════════════════════════════════
    HERO
@@ -254,6 +346,10 @@ nav.scrolled {
   content: '';
   width: 24px; height: 1px;
   background: var(--gold);
+}
+.s-label.s-label-vertical {
+  flex-direction: column;
+  gap: 8px;
 }
 .s-title {
   font-family: 'Cormorant Garamond', serif;
@@ -431,6 +527,375 @@ footer p {
   padding-top: 16px;
   margin-top: 24px !important;
 }
+
+/* ═══════════════════════════════════════════
+   ACCOUNT — toggles & conversations
+═══════════════════════════════════════════ */
+.toggle-row {
+  display: flex; flex-direction: column; align-items: flex-start;
+  gap: 10px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+.toggle-label {
+  font-size: 0.85rem;
+  color: var(--ink);
+  font-weight: 500;
+}
+.toggle-sublabel {
+  font-size: 0.72rem;
+  color: var(--dim);
+  margin-top: 2px;
+}
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 42px; height: 24px;
+  flex-shrink: 0;
+}
+.toggle-switch input {
+  opacity: 0; width: 0; height: 0;
+}
+.toggle-slider {
+  position: absolute; cursor: pointer;
+  inset: 0;
+  background: var(--border);
+  border-radius: 24px;
+  transition: background 0.2s;
+}
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  height: 18px; width: 18px;
+  left: 3px; bottom: 3px;
+  background: var(--white);
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+.toggle-switch input:checked + .toggle-slider { background: var(--gold2); }
+.toggle-switch input:checked + .toggle-slider::before { transform: translateX(18px); }
+
+.conversations-section {
+  margin-top: 28px;
+  border-top: 1px solid var(--border);
+  padding-top: 20px;
+}
+.account-tabs {
+  display: flex;
+  gap: 4px;
+  background: rgba(20,18,12,0.04);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 4px;
+  margin-bottom: 28px;
+}
+.account-tab-btn {
+  flex: 1;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 100px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dim);
+  padding: 12px 8px;
+  cursor: pointer;
+  transition: color 0.25s ease, background 0.25s ease, border-color 0.25s ease, transform 0.15s ease;
+}
+.account-tab-btn:hover { color: var(--gold2); }
+.account-tab-btn:active { transform: scale(0.97); }
+.account-tab-btn.active {
+  color: var(--gold2);
+  background: rgba(184,134,63,0.12);
+  border-color: transparent;
+}
+.account-page {
+  display: none;
+  min-height: 420px;
+}
+.account-page.active {
+  display: block;
+  animation: accountPageFade 0.3s ease;
+}
+@keyframes accountPageFade {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.account-page .conversations-section {
+  margin-top: 0;
+  border-top: none;
+  padding-top: 0;
+}
+
+/* ── Creator Dashboard ── */
+.dash-tabs {
+  display: flex;
+  gap: 4px;
+  background: rgba(20,18,12,0.04);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 4px;
+  margin-bottom: 28px;
+  overflow-x: auto;
+}
+.dash-tab-btn {
+  flex: 1;
+  white-space: nowrap;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 100px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--dim);
+  padding: 11px 10px;
+  cursor: pointer;
+  transition: color 0.25s ease, background 0.25s ease, border-color 0.25s ease, transform 0.15s ease;
+}
+.dash-tab-btn:hover { color: var(--gold2); }
+.dash-tab-btn:active { transform: scale(0.97); }
+.dash-tab-btn.active {
+  color: var(--gold2);
+  background: rgba(184,134,63,0.12);
+  border-color: transparent;
+}
+.dash-page { display: none; min-height: 380px; }
+.dash-page.active { display: block; animation: accountPageFade 0.3s ease; }
+
+.dash-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.dash-stat-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 16px;
+}
+.dash-stat-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.9rem;
+  color: var(--ink);
+  line-height: 1;
+}
+.dash-stat-label {
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-top: 8px;
+}
+.dash-content-type-row {
+  display: flex; gap: 10px;
+  margin-top: 8px;
+}
+.dash-type-btn {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid transparent;
+  background: var(--paper);
+  border-radius: 6px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--dim);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.dash-type-btn.active {
+  color: var(--gold2);
+  background: rgba(184,134,63,0.12);
+  border-color: transparent;
+}
+.dash-content-list {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.dash-content-item {
+  aspect-ratio: 1;
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.65rem;
+  color: var(--dim);
+  text-align: center;
+  padding: 6px;
+  position: relative;
+  overflow: hidden;
+}
+.coach-avatar {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 1px solid var(--gold2);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gold2);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.coach-intro {
+  display: flex; gap: 12px; align-items: center;
+  margin-bottom: 20px;
+}
+.coach-topics {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-bottom: 20px;
+}
+.coach-topic-btn {
+  padding: 9px 14px;
+  border: 1px solid transparent;
+  background: none;
+  border-radius: 100px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--dim);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.coach-topic-btn:hover { color: var(--gold2); }
+.coach-topic-btn.active {
+  background: rgba(184,134,63,0.12);
+  border-color: transparent;
+  color: var(--gold2);
+}
+.coach-bubble {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px 14px 14px 14px;
+  padding: 16px 18px;
+  font-size: 0.85rem;
+  line-height: 1.65;
+  color: var(--ink);
+  display: none;
+}
+.coach-bubble.visible { display: block; animation: accountPageFade 0.3s ease; }
+.coach-bubble strong { color: var(--gold2); }
+
+.coach-select-wrap { margin-bottom: 20px; }
+.coach-select {
+  padding: 13px 16px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--paper);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.85rem;
+  color: var(--ink);
+  width: 100%;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+.coach-select:focus { outline: none; border-color: var(--gold2); }
+
+.dash-file-upload {
+  position: relative;
+  width: 100%;
+}
+.dash-file-upload input[type="file"] {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+.dash-file-label {
+  display: flex; align-items: center; gap: 10px;
+  padding: 13px 16px;
+  border: 1px dashed var(--border);
+  border-radius: 6px;
+  background: var(--paper);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.85rem;
+  color: var(--dim);
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.dash-file-upload:hover .dash-file-label,
+.dash-file-upload:focus-within .dash-file-label {
+  border-color: var(--gold2);
+  color: var(--gold2);
+  background: rgba(184,134,63,0.05);
+}
+.dash-file-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: rgba(184,134,63,0.1);
+  color: var(--gold2);
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+.dash-file-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.dash-conv-item {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px;
+  padding: 14px 4px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.dash-conv-item:hover { opacity: 0.7; }
+.dash-thread-back {
+  background: none; border: none;
+  color: var(--gold2);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0 0 18px;
+}
+.dash-thread-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  color: var(--ink);
+  margin-bottom: 14px;
+}
+.dash-thread-messages {
+  max-height: 260px;
+  overflow-y: auto;
+  display: flex; flex-direction: column; gap: 10px;
+  padding: 4px 2px 16px;
+}
+.dash-thread-input-row {
+  display: flex; gap: 10px;
+  margin-top: 8px;
+}
+.dash-thread-input-row .auth-input { flex: 1; }
+
+.conversation-item {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.conversation-item:hover { opacity: 0.7; }
+.conversation-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+.conversation-preview {
+  font-size: 0.75rem;
+  color: var(--dim);
+  margin-top: 2px;
+  max-width: 260px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.conversation-arrow { color: var(--gold2); font-size: 1.1rem; }
 
 /* ═══════════════════════════════════════════
    ROOM / CHAT / SUBSCRIPTION PAGES
@@ -625,6 +1090,26 @@ footer p {
   box-sizing: border-box;
 }
 .auth-input:focus { outline: none; border-color: var(--gold); }
+.auth-password-wrap {
+  position: relative;
+}
+.auth-password-wrap .auth-input {
+  padding-right: 44px;
+}
+.auth-password-toggle {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 8px 10px;
+  opacity: 0.5;
+  line-height: 1;
+}
+.auth-password-toggle:hover { opacity: 1; }
 .auth-forgot {
   align-self: flex-end;
   margin-top: 10px;
@@ -660,6 +1145,32 @@ footer p {
   margin-left: 4px;
 }
 .auth-switch a:hover { text-decoration: underline; }
+
+.creator-check-row {
+  display: flex; align-items: flex-start; gap: 10px;
+  margin-top: 18px;
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.creator-check-row input[type="checkbox"] {
+  margin-top: 3px;
+  width: 16px; height: 16px;
+  accent-color: var(--gold2);
+  flex-shrink: 0;
+}
+.creator-success {
+  display: none;
+  background: rgba(184,134,63,0.08);
+  border: 1px solid rgba(184,134,63,0.3);
+  color: var(--gold2);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  padding: 14px 16px;
+  border-radius: 4px;
+  text-align: center;
+}
+.creator-success.visible { display: block; }
 
 /* ═══════════════════════════════════════════
    AGE VERIFICATION GATE
@@ -732,9 +1243,30 @@ footer p {
 #room .modal-content, #chat .modal-content { padding: 60px 24px 40px; }
 #room, #chat { padding: 0; }
 
+#creator-dashboard .modal-content {
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  max-height: 100vh;
+  border-radius: 0;
+  padding: 60px 24px 40px;
+}
+#creator-dashboard { padding: 0; }
+
+#account .modal-content {
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  max-height: 100vh;
+  border-radius: 0;
+  padding: 60px 24px 40px;
+}
+#account { padding: 0; }
+
 @media (max-width: 640px) {
-  nav { padding: 18px 24px; }
-  nav.scrolled { padding: 14px 24px; }
+  nav { padding: 16px 20px; }
+  nav.scrolled { padding: 12px 20px; }
+  .burger-label { display: none; }
   .hero-trust { gap: 24px; }
 
   .grid { gap: 12px; }
@@ -787,7 +1319,22 @@ footer p {
 <!-- NAV -->
 <nav id="nav">
   <a href="#" class="nav-logo">Honey Moon</a>
-  <button class="nav-cta" onclick="openModal('auth')">Subscription</button>
+  <div class="nav-right">
+    <div class="nav-menu-wrap">
+      <button class="nav-burger" id="nav-burger" onclick="toggleNavMenu(event)" aria-label="Menu" aria-expanded="false">
+        <span class="burger-icon">
+          <span class="burger-line"></span>
+        </span>
+        <span class="burger-label">Menu</span>
+      </button>
+      <div class="nav-dropdown" id="nav-dropdown">
+        <a href="#" id="nav-subscription-item" onclick="openModal('auth'); closeNavMenu(); return false;">Log In</a>
+        <a href="#" onclick="openModal('account'); closeNavMenu(); return false;">Users</a>
+        <a href="#" onclick="openModal('become-creator'); closeNavMenu(); return false;">Become a Creator</a>
+        <a href="#" onclick="openModal('creator-dashboard'); closeNavMenu(); return false;">Creator Dashboard</a>
+      </div>
+    </div>
+  </div>
 </nav>
 
 <!-- HERO -->
@@ -803,8 +1350,8 @@ footer p {
   </h1>
 
   <p class="hero-sub">
-    Photos, short videos, paid chat and exclusive subscription content —
-    delivered straight to you, outside the platform.
+    Photos, videos and chat with our creators —
+    follow for free and join them in their room.
   </p>
 
   <div class="hero-actions">
@@ -824,66 +1371,66 @@ footer p {
       <div class="card reveal">
         <span class="card-tag">Creator</span>
         <div class="name">Creator Name</div>
-        <div class="desc">Exclusive Subscription — Exclusive Content, delivered outside the platform</div>
+        <div class="desc">Photos, videos & chat — join her room</div>
         <div class="card-actions">
           <button class="btn outline" onclick="openModal('room', 'creator-1')">Room</button>
           <button class="btn outline" onclick="openModal('chat', 'creator-1')">Chat</button>
-          <button class="btn pink" onclick="openModal('subscription', 'creator-1')">Subscribe — $20</button>
+          <button class="btn pink" onclick="followCreator('creator-1', this)">Follow</button>
         </div>
       </div>
 
       <div class="card reveal">
         <span class="card-tag">Creator</span>
         <div class="name">Creator Name</div>
-        <div class="desc">Exclusive Subscription — Exclusive Content, delivered outside the platform</div>
+        <div class="desc">Photos, videos & chat — join her room</div>
         <div class="card-actions">
           <button class="btn outline" onclick="openModal('room', 'creator-2')">Room</button>
           <button class="btn outline" onclick="openModal('chat', 'creator-2')">Chat</button>
-          <button class="btn pink" onclick="openModal('subscription', 'creator-2')">Subscribe — $20</button>
+          <button class="btn pink" onclick="followCreator('creator-2', this)">Follow</button>
         </div>
       </div>
 
       <div class="card reveal">
         <span class="card-tag">Creator</span>
         <div class="name">Creator Name</div>
-        <div class="desc">Exclusive Subscription — Exclusive Content, delivered outside the platform</div>
+        <div class="desc">Photos, videos & chat — join her room</div>
         <div class="card-actions">
           <button class="btn outline" onclick="openModal('room', 'creator-3')">Room</button>
           <button class="btn outline" onclick="openModal('chat', 'creator-3')">Chat</button>
-          <button class="btn pink" onclick="openModal('subscription', 'creator-3')">Subscribe — $20</button>
+          <button class="btn pink" onclick="followCreator('creator-3', this)">Follow</button>
         </div>
       </div>
 
       <div class="card reveal">
         <span class="card-tag">Creator</span>
         <div class="name">Creator Name</div>
-        <div class="desc">Exclusive Subscription — Exclusive Content, delivered outside the platform</div>
+        <div class="desc">Photos, videos & chat — join her room</div>
         <div class="card-actions">
           <button class="btn outline" onclick="openModal('room', 'creator-4')">Room</button>
           <button class="btn outline" onclick="openModal('chat', 'creator-4')">Chat</button>
-          <button class="btn pink" onclick="openModal('subscription', 'creator-4')">Subscribe — $20</button>
+          <button class="btn pink" onclick="followCreator('creator-4', this)">Follow</button>
         </div>
       </div>
 
       <div class="card reveal">
         <span class="card-tag">Creator</span>
         <div class="name">Creator Name</div>
-        <div class="desc">Exclusive Subscription — Exclusive Content, delivered outside the platform</div>
+        <div class="desc">Photos, videos & chat — join her room</div>
         <div class="card-actions">
           <button class="btn outline" onclick="openModal('room', 'creator-5')">Room</button>
           <button class="btn outline" onclick="openModal('chat', 'creator-5')">Chat</button>
-          <button class="btn pink" onclick="openModal('subscription', 'creator-5')">Subscribe — $20</button>
+          <button class="btn pink" onclick="followCreator('creator-5', this)">Follow</button>
         </div>
       </div>
 
       <div class="card reveal">
         <span class="card-tag">Creator</span>
         <div class="name">Creator Name</div>
-        <div class="desc">Exclusive Subscription — Exclusive Content, delivered outside the platform</div>
+        <div class="desc">Photos, videos & chat — join her room</div>
         <div class="card-actions">
           <button class="btn outline" onclick="openModal('room', 'creator-6')">Room</button>
           <button class="btn outline" onclick="openModal('chat', 'creator-6')">Chat</button>
-          <button class="btn pink" onclick="openModal('subscription', 'creator-6')">Subscribe — $20</button>
+          <button class="btn pink" onclick="followCreator('creator-6', this)">Follow</button>
         </div>
       </div>
     </div>
@@ -898,8 +1445,8 @@ footer p {
       <div class="s-label">Creator Room</div>
       <h2 class="s-title">Bio & <em>Content</em></h2>
     </div>
-    <div class="room-bio">
-      Creator Name is a content creator sharing exclusive photos, short videos and behind-the-scenes updates with subscribers.
+    <div class="room-bio" id="room-bio">
+      Loading…
     </div>
     <div class="room-grid" id="room-grid">
       <div class="room-item">Loading…</div>
@@ -926,41 +1473,30 @@ footer p {
   </div>
 </div>
 
-<!-- SUBSCRIPTION MODAL -->
-<div class="modal-overlay" id="subscription">
-  <div class="modal-content">
-    <button class="modal-close" onclick="closeModal('subscription')">✕</button>
-    <div class="section-header" style="margin-bottom:36px;">
-      <div class="s-label">Subscription</div>
-      <h2 class="s-title">Join <em>Creator Name</em></h2>
-    </div>
-    <div class="sub-card" style="border:none; padding:0;">
-      <div class="sub-price">$20<span>/ month</span></div>
-      <ul class="sub-features">
-        <li>Exclusive photos & videos</li>
-        <li>Content delivered outside the platform</li>
-      </ul>
-      <a href="#" class="btn-gold" style="width:100%; justify-content:center;" onclick="subscribeToCreator(currentCreatorId); return false;">Subscribe Now</a>
-    </div>
-  </div>
-</div>
-
 <!-- AUTH MODAL -->
 <div class="modal-overlay" id="auth">
   <div class="modal-content" style="max-width:420px;">
     <button class="modal-close" onclick="closeModal('auth')">✕</button>
     <div class="section-header" style="margin-bottom:32px;">
-      <div class="s-label">Subscription</div>
+      <div class="s-label">Account</div>
       <h2 class="s-title" id="auth-title">Create your <em>account</em></h2>
     </div>
     <form class="auth-form" id="auth-form" onsubmit="handleAuthSubmit(event)">
       <div class="auth-error" id="auth-error"></div>
 
+      <div id="auth-name-field">
+        <label class="auth-label" for="auth-name">Name</label>
+        <input class="auth-input" type="text" id="auth-name" placeholder="Your name">
+      </div>
+
       <label class="auth-label" for="auth-email">Email</label>
       <input class="auth-input" type="email" id="auth-email" placeholder="you@email.com" required>
 
       <label class="auth-label" for="auth-password">Password</label>
-      <input class="auth-input" type="password" id="auth-password" placeholder="••••••••" minlength="6" required>
+      <div class="auth-password-wrap">
+        <input class="auth-input" type="password" id="auth-password" placeholder="••••••••" minlength="6" required>
+        <button type="button" class="auth-password-toggle" id="auth-password-toggle" onclick="togglePasswordVisibility()" aria-label="Show password">👁</button>
+      </div>
 
       <a href="#" class="auth-forgot" onclick="handleForgotPassword(event)">Forgot password?</a>
 
@@ -970,6 +1506,294 @@ footer p {
       <span id="auth-switch-text">Already have an account?</span>
       <a href="#" onclick="toggleAuthMode(); return false;" id="auth-switch-link">Log in</a>
     </p>
+  </div>
+</div>
+
+<!-- USERS PAGE (account modal) -->
+<div class="modal-overlay" id="account">
+  <div class="modal-content" style="max-width:480px;">
+    <button class="modal-close" onclick="closeModal('account')">✕</button>
+    <div class="section-header" style="margin-bottom:28px;">
+      <div class="s-label">Users</div>
+      <h2 class="s-title">Your <em>space</em></h2>
+    </div>
+
+    <div class="account-tabs">
+      <button type="button" class="account-tab-btn active" data-tab="bio" onclick="switchAccountTab('bio')">Bio</button>
+      <button type="button" class="account-tab-btn" data-tab="messages" onclick="switchAccountTab('messages')">Messages</button>
+    </div>
+
+    <div class="account-page active" data-page="bio">
+      <div class="conversations-section">
+        <textarea class="auth-input" id="account-bio" rows="3" placeholder="Tell creators a bit about yourself…" style="resize:vertical; font-family:'Outfit',sans-serif;"></textarea>
+
+        <div class="toggle-row">
+          <div>
+            <div class="toggle-label">Bio visible by</div>
+            <div class="toggle-sublabel" id="account-toggle-bio-sublabel">Creators only</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="account-toggle-bio" checked onchange="updateBioToggleLabel()">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="toggle-row">
+          <div>
+            <div class="toggle-label">Show online status</div>
+            <div class="toggle-sublabel">Creators can see when you're active.</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="account-toggle-online" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <button class="btn-gold" style="width:100%; justify-content:center; margin-top:20px;" onclick="saveAccountProfile()">Save Profile</button>
+        <p class="auth-error" id="account-saved-msg" style="margin-top:12px;"></p>
+      </div>
+    </div>
+
+    <div class="account-page" data-page="messages">
+      <div class="conversations-section">
+        <div id="conversations-list">
+          <div class="chat-empty">Log in to see your conversations.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BECOME A CREATOR MODAL -->
+<div class="modal-overlay" id="become-creator">
+  <div class="modal-content" style="max-width:460px;">
+    <button class="modal-close" onclick="closeModal('become-creator')">✕</button>
+    <div class="section-header" style="margin-bottom:28px;">
+      <div class="s-label">Creators</div>
+      <h2 class="s-title">Become a <em>creator</em></h2>
+      <p style="margin-top:14px; font-size:0.88rem; color:var(--muted); line-height:1.6;">
+        Apply to join Honey Moon. We review every application and reach out by email within a few days.
+      </p>
+    </div>
+
+    <form class="auth-form" id="creator-form" onsubmit="handleCreatorApplication(event)">
+      <div class="auth-error" id="creator-error"></div>
+      <div class="creator-success" id="creator-success">Thank you — your application has been received. We'll be in touch by email soon.</div>
+
+      <label class="auth-label" for="creator-name">Stage name</label>
+      <input class="auth-input" type="text" id="creator-name" placeholder="How you'd like to be known" required>
+
+      <label class="auth-label" for="creator-email">Email</label>
+      <input class="auth-input" type="email" id="creator-email" placeholder="you@email.com" required>
+
+      <label class="auth-label" for="creator-niche">Content style</label>
+      <input class="auth-input" type="text" id="creator-niche" placeholder="e.g. lifestyle, fitness, chat-focused…" required>
+
+      <label class="auth-label" for="creator-link">Social / portfolio link</label>
+      <input class="auth-input" type="url" id="creator-link" placeholder="https://…" required>
+
+      <label class="auth-label" for="creator-pitch">Tell us about yourself</label>
+      <textarea class="auth-input" id="creator-pitch" rows="4" placeholder="A few lines about you and the content you'd like to share…" style="resize:vertical; font-family:'Outfit',sans-serif;" required></textarea>
+
+      <label class="creator-check-row">
+        <input type="checkbox" id="creator-age-confirm" required>
+        <span>I confirm I am 18 years of age or older and all content I share will comply with Honey Moon's Terms of Service.</span>
+      </label>
+
+      <button type="submit" class="btn-gold" id="creator-submit-btn" style="width:100%; justify-content:center; margin-top:22px;">Submit application</button>
+    </form>
+  </div>
+</div>
+
+<!-- CREATOR DASHBOARD MODAL -->
+<div class="modal-overlay" id="creator-dashboard">
+  <div class="modal-content" style="max-width:520px;">
+    <button class="modal-close" onclick="closeModal('creator-dashboard')">✕</button>
+    <div class="section-header" style="margin-bottom:24px;">
+      <div class="s-label">Creators</div>
+      <h2 class="s-title">Your <em>dashboard</em></h2>
+    </div>
+
+    <div class="dash-tabs">
+      <button type="button" class="dash-tab-btn active" data-dtab="stats" onclick="switchDashTab('stats')">Stats</button>
+      <button type="button" class="dash-tab-btn" data-dtab="bio" onclick="switchDashTab('bio')">Bio</button>
+      <button type="button" class="dash-tab-btn" data-dtab="content" onclick="switchDashTab('content')">Content</button>
+      <button type="button" class="dash-tab-btn" data-dtab="messages" onclick="switchDashTab('messages')">Messages</button>
+      <button type="button" class="dash-tab-btn" data-dtab="coach" onclick="switchDashTab('coach')">Coach</button>
+    </div>
+
+    <!-- STATS -->
+    <div class="dash-page active" data-dpage="stats">
+      <div class="dash-stats-grid">
+        <div class="dash-stat-card">
+          <div class="dash-stat-value" id="dash-stat-clicks">0</div>
+          <div class="dash-stat-label">Room clicks</div>
+        </div>
+        <div class="dash-stat-card">
+          <div class="dash-stat-value" id="dash-stat-subs">0</div>
+          <div class="dash-stat-label">Followers</div>
+        </div>
+        <div class="dash-stat-card">
+          <div class="dash-stat-value" id="dash-stat-likes">0</div>
+          <div class="dash-stat-label">Likes</div>
+        </div>
+        <div class="dash-stat-card">
+          <div class="dash-stat-value" id="dash-stat-messages">0</div>
+          <div class="dash-stat-label">Messages received</div>
+        </div>
+      </div>
+      <p style="font-size:0.75rem; color:var(--dim); line-height:1.6;">
+        "Room clicks" counts every time a visitor taps your affiliate link to join your room. Follower count refreshes automatically each time you open this dashboard.
+      </p>
+    </div>
+
+    <!-- BIO -->
+    <div class="dash-page" data-dpage="bio">
+      <label class="auth-label" style="margin-top:0;">Your bio</label>
+      <textarea class="auth-input" id="dash-bio" rows="4" placeholder="Tell your followers who you are…" style="resize:vertical; font-family:'Outfit',sans-serif;"></textarea>
+
+      <label class="auth-label" for="dash-room-link">Your room link (affiliate URL)</label>
+      <input class="auth-input" type="url" id="dash-room-link" placeholder="https://...">
+      <p style="font-size:0.7rem; color:var(--dim); margin-top:6px;">This is where visitors land when they tap "Room" on your profile — use your affiliate/referral link.</p>
+
+      <button class="btn-gold" style="width:100%; justify-content:center; margin-top:16px;" onclick="saveDashboardBio()">Save</button>
+      <p class="auth-error" id="dash-bio-msg" style="margin-top:12px;"></p>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="dash-page" data-dpage="content">
+      <label class="auth-label" style="margin-top:0;">Content type</label>
+      <div class="dash-content-type-row">
+        <button type="button" class="dash-type-btn active" id="dash-type-photo" onclick="setDashContentType('photo')">Photo</button>
+        <button type="button" class="dash-type-btn" id="dash-type-video" onclick="setDashContentType('video')">Video</button>
+      </div>
+
+      <label class="auth-label" for="dash-content-file">File</label>
+      <div class="dash-file-upload">
+        <input type="file" id="dash-content-file" accept="image/*,video/*" onchange="updateDashFileName()">
+        <label for="dash-content-file" class="dash-file-label">
+          <span class="dash-file-icon">⤒</span>
+          <span class="dash-file-name" id="dash-file-name">Choose a file…</span>
+        </label>
+      </div>
+
+      <label class="auth-label" for="dash-content-caption">Caption</label>
+      <input class="auth-input" type="text" id="dash-content-caption" placeholder="A short caption for this post">
+
+      <button class="btn-gold" style="width:100%; justify-content:center; margin-top:18px;" onclick="uploadDashboardContent()" id="dash-upload-btn">Upload content</button>
+      <p class="auth-error" id="dash-content-msg" style="margin-top:12px;"></p>
+
+      <div class="dash-content-list" id="dash-content-list"></div>
+    </div>
+
+    <!-- MESSAGES -->
+    <div class="dash-page" data-dpage="messages">
+      <div id="dash-messages-list-view">
+        <label class="auth-label" style="margin-top:0;">Conversations with your followers</label>
+        <div id="dash-conversations-list">
+          <div class="chat-empty">Log in to see your conversations.</div>
+        </div>
+      </div>
+
+      <div id="dash-messages-thread-view" style="display:none;">
+        <button type="button" class="dash-thread-back" onclick="closeDashThread()">‹ Back to conversations</button>
+        <div class="dash-thread-name" id="dash-thread-name"></div>
+        <div class="dash-thread-messages" id="dash-thread-messages"></div>
+        <div class="dash-thread-input-row">
+          <input class="auth-input" type="text" id="dash-message-text" placeholder="Write something personal for them…">
+          <button class="btn-gold" onclick="sendDashboardMessage()">Send</button>
+        </div>
+        <p class="auth-error" id="dash-message-msg" style="margin-top:12px;"></p>
+      </div>
+    </div>
+
+    <!-- COACH (Honey AI) -->
+    <div class="dash-page" data-dpage="coach">
+      <div class="coach-intro">
+        <div class="coach-avatar">
+          <svg viewBox="0 0 32 32" width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7 6v20M19 6v20M7 16h12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+            <path d="M25.5 5.2a2.6 2.6 0 1 0 0 5.1 3.2 3.2 0 1 1 0-5.1Z" fill="currentColor"/>
+          </svg>
+        </div>
+        <div>
+          <div style="font-family:'Cormorant Garamond',serif; font-size:1.15rem;">Honey</div>
+          <div style="font-size:0.75rem; color:var(--dim);">Your Honey Moon coach — pick a topic below</div>
+        </div>
+      </div>
+      <div class="coach-select-wrap">
+        <select class="coach-select" id="coach-topic-select" onchange="askHoney(this.value)">
+          <option value="">Choose a topic…</option>
+          <optgroup label="Attracting subscribers">
+            <option value="first_impression">Make a strong first impression</option>
+            <option value="free_previews">Use free previews well</option>
+            <option value="cross_promo">Cross-promote on social media</option>
+            <option value="value_promise">Make your subscription's value clear</option>
+            <option value="bio_optimization">Write a bio that converts</option>
+            <option value="referral">Reward referrals</option>
+            <option value="welcome_offer">Create a welcome offer</option>
+          </optgroup>
+          <optgroup label="Content strategy">
+            <option value="content_calendar">Build a content calendar</option>
+            <option value="content_variety">Mix up your content types</option>
+            <option value="teaser_balance">Balance teasers and full content</option>
+            <option value="themed_series">Create themed series</option>
+            <option value="behind_scenes">Share behind-the-scenes moments</option>
+            <option value="seasonal_content">Use seasonal moments</option>
+            <option value="batch_content">Batch your content creation</option>
+          </optgroup>
+          <optgroup label="Making great videos">
+            <option value="video_hook">Nail your first 3 seconds</option>
+            <option value="video_lighting">Get good lighting for video</option>
+            <option value="video_sound">Fix your sound quality</option>
+            <option value="video_pacing">Get your length and pacing right</option>
+            <option value="video_personality">Show your personality on camera</option>
+            <option value="video_editing">Simple editing that helps</option>
+            <option value="video_format">Choose the right format</option>
+          </optgroup>
+          <optgroup label="Taking pro photos">
+            <option value="photo_light">Use natural light</option>
+            <option value="photo_background">Keep backgrounds simple</option>
+            <option value="photo_angles">Shoot multiple angles</option>
+            <option value="photo_aesthetic">Keep a consistent look</option>
+            <option value="photo_posing">Pose with confidence</option>
+            <option value="photo_stabilizer">Stabilize your shots</option>
+          </optgroup>
+          <optgroup label="Messages & DMs">
+            <option value="dm_personal">Keep it personal, not copy-paste</option>
+            <option value="dm_speed">Reply quickly to new subscribers</option>
+            <option value="dm_questions">Ask questions back</option>
+            <option value="dm_length">Don't overwhelm with long texts</option>
+            <option value="dm_difficult">Handle a difficult message calmly</option>
+            <option value="dm_reengage">Re-engage inactive subscribers</option>
+            <option value="dm_anticipation">Build anticipation in your messages</option>
+          </optgroup>
+          <optgroup label="Growing your audience">
+            <option value="grow_consistency">Choose consistency over intensity</option>
+            <option value="grow_comments">Engage with every comment</option>
+            <option value="grow_collabs">Collaborate with other creators</option>
+            <option value="grow_niche">Define what makes you different</option>
+            <option value="grow_trends">Use trending topics</option>
+            <option value="grow_voice">Build your own voice</option>
+          </optgroup>
+          <optgroup label="Increasing your revenue">
+            <option value="rev_layers">Layer your offers</option>
+            <option value="rev_personal_msgs">Sell personal messages as an add-on</option>
+            <option value="rev_promos">Run limited-time promos</option>
+            <option value="rev_loyalty">Check in with your top subscribers</option>
+            <option value="rev_upsell">Upsell exclusive content</option>
+            <option value="rev_bundles">Offer bundles</option>
+          </optgroup>
+          <optgroup label="Staying consistent">
+            <option value="mind_burnout">Avoid burnout</option>
+            <option value="mind_boundaries">Set healthy boundaries</option>
+            <option value="mind_tracking">Track what's actually working</option>
+            <option value="mind_authentic">Stay authentic</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="coach-bubble" id="coach-bubble"></div>
+    </div>
   </div>
 </div>
 
@@ -983,9 +1807,9 @@ footer p {
     </div>
     <div class="legal-text">
       <p><strong>1. Age requirement.</strong> This platform is strictly reserved for adults. By creating an account, you confirm you are at least 18 years old, or the age of majority in your country of residence if that is higher.</p>
-      <p><strong>2. Nature of content.</strong> Honey Moon is a platform connecting independent content creators with paying subscribers for exclusive photos, videos, and private chat. All content is provided by independent creators, who are solely responsible for what they publish.</p>
-      <p><strong>3. Payments & subscriptions.</strong> Subscriptions are billed on a recurring basis until cancelled. Prices are shown before purchase. Refunds are handled on a case-by-case basis in accordance with applicable consumer law.</p>
-      <p><strong>4. Off-platform delivery.</strong> Some content or communication may be delivered outside this platform through third-party services. Honey Moon is not responsible for the availability, security, or content of third-party services.</p>
+      <p><strong>2. Nature of content.</strong> Honey Moon is a free platform showcasing independent content creators — photos, videos, and chat — and connecting visitors to each creator's own room on third-party platforms. All content is provided by independent creators, who are solely responsible for what they publish.</p>
+      <p><strong>3. Affiliate links.</strong> Room links direct visitors to third-party platforms where creators manage their own paid services. Honey Moon may earn a referral commission on traffic sent through these links. Honey Moon is not a party to any transaction that occurs on those third-party platforms.</p>
+      <p><strong>4. Off-platform delivery.</strong> Content or communication accessed through a creator's room link is delivered outside this platform through third-party services. Honey Moon is not responsible for the availability, security, or content of third-party services.</p>
       <p><strong>5. Prohibited use.</strong> Harassment, non-consensual content, and any activity involving minors are strictly prohibited and will be reported to the relevant authorities.</p>
       <p><strong>6. Account termination.</strong> We reserve the right to suspend or terminate accounts that violate these terms.</p>
       <p class="legal-note">This is placeholder text for development purposes only and does not constitute a valid legal agreement. Consult a lawyer before publishing this site.</p>
@@ -1159,10 +1983,13 @@ function openModal(id, creatorId) {
   if (creatorId) currentCreatorId = creatorId;
   if (id === 'room') loadRoomContent(currentCreatorId);
   if (id === 'chat') listenToChat(currentCreatorId);
+  if (id === 'creator-dashboard') loadCreatorDashboard();
+  if (id === 'account') loadAccountProfile();
 }
 function closeModal(id) {
   document.getElementById(id).classList.remove('active');
   document.body.style.overflow = '';
+  if (id === 'creator-dashboard') closeDashThread();
 }
 document.querySelectorAll('.modal-overlay').forEach(overlay => {
   overlay.addEventListener('click', (e) => {
@@ -1198,23 +2025,35 @@ try {
 ═══════════════════════════════════════════ */
 let authMode = 'signup'; // 'signup' | 'login'
 
+function togglePasswordVisibility() {
+  const input = document.getElementById('auth-password');
+  const btn = document.getElementById('auth-password-toggle');
+  const showing = input.type === 'text';
+  input.type = showing ? 'password' : 'text';
+  btn.setAttribute('aria-label', showing ? 'Show password' : 'Hide password');
+  btn.style.opacity = showing ? '0.5' : '1';
+}
+
 function toggleAuthMode() {
   authMode = authMode === 'signup' ? 'login' : 'signup';
   const title = document.getElementById('auth-title');
   const submitBtn = document.getElementById('auth-submit-btn');
   const switchText = document.getElementById('auth-switch-text');
   const switchLink = document.getElementById('auth-switch-link');
+  const nameField = document.getElementById('auth-name-field');
   hideAuthError();
   if (authMode === 'login') {
     title.innerHTML = 'Welcome <em>back</em>';
     submitBtn.textContent = 'Log In';
     switchText.textContent = "Don't have an account?";
     switchLink.textContent = 'Sign up';
+    nameField.style.display = 'none';
   } else {
     title.innerHTML = 'Create your <em>account</em>';
     submitBtn.textContent = 'Create Account';
     switchText.textContent = 'Already have an account?';
     switchLink.textContent = 'Log in';
+    nameField.style.display = '';
   }
 }
 
@@ -1251,6 +2090,7 @@ async function handleAuthSubmit(event) {
     return;
   }
 
+  const name = document.getElementById('auth-name').value.trim();
   const email = document.getElementById('auth-email').value.trim();
   const password = document.getElementById('auth-password').value;
   const submitBtn = document.getElementById('auth-submit-btn');
@@ -1260,7 +2100,19 @@ async function handleAuthSubmit(event) {
 
   try {
     if (authMode === 'signup') {
-      await auth.createUserWithEmailAndPassword(email, password);
+      const cred = await auth.createUserWithEmailAndPassword(email, password);
+      if (name) {
+        try {
+          await cred.user.updateProfile({ displayName: name });
+        } catch (nameErr) {
+          console.error('Could not save name:', nameErr);
+        }
+      }
+      try {
+        await cred.user.sendEmailVerification();
+      } catch (verifyErr) {
+        console.error('Account created but verification email failed to send:', verifyErr);
+      }
     } else {
       await auth.signInWithEmailAndPassword(email, password);
     }
@@ -1300,17 +2152,34 @@ async function handleForgotPassword(event) {
 /* Reflect signed-in state in the nav ("Subscription" → user's email) */
 if (auth) {
   auth.onAuthStateChanged(user => {
-    const navCta = document.querySelector('.nav-cta');
-    if (!navCta) return;
+    const navSub = document.getElementById('nav-subscription-item');
+    if (!navSub) return;
     if (user) {
-      navCta.textContent = user.email.split('@')[0];
-      navCta.onclick = () => { if (confirm('Log out?')) auth.signOut(); };
+      navSub.textContent = user.displayName || user.email.split('@')[0];
+      navSub.onclick = () => { if (confirm('Log out?')) auth.signOut(); return false; };
+      loadAccountProfile();
+      loadConversations();
     } else {
-      navCta.textContent = 'Subscription';
-      navCta.onclick = () => openModal('auth');
+      navSub.textContent = 'Log In';
+      navSub.onclick = () => { openModal('auth'); closeNavMenu(); return false; };
     }
   });
 }
+
+/* Burger dropdown menu */
+function toggleNavMenu(e) {
+  if (e) e.stopPropagation();
+  document.getElementById('nav-dropdown').classList.toggle('open');
+  document.getElementById('nav-burger').classList.toggle('active');
+}
+function closeNavMenu() {
+  document.getElementById('nav-dropdown').classList.remove('open');
+  document.getElementById('nav-burger').classList.remove('active');
+}
+document.addEventListener('click', function (e) {
+  const wrap = document.querySelector('.nav-menu-wrap');
+  if (wrap && !wrap.contains(e.target)) closeNavMenu();
+});
 
 /* Room content — Firestore collection "content"
    Each doc: { creatorId, type: "photo" | "video", url, createdAt } */
@@ -1321,6 +2190,33 @@ async function loadRoomContent(creatorId) {
   if (!db || !creatorId || lastLoadedRoomCreator === creatorId) return;
   lastLoadedRoomCreator = creatorId;
   ROOM_GRID.innerHTML = '<div class="room-item">Loading…</div>';
+  const bioEl = document.getElementById('room-bio');
+  bioEl.textContent = 'Loading…';
+
+  // Bio — pulled from this creator's dashboard profile
+  try {
+    const creatorDoc = await db.collection('creators').doc(creatorId).get();
+    bioEl.textContent = (creatorDoc.exists && creatorDoc.data().bio)
+      ? creatorDoc.data().bio
+      : 'This creator hasn\'t added a bio yet.';
+  } catch (err) {
+    console.warn('Could not load creator bio:', err);
+    bioEl.textContent = '';
+  }
+
+  // Wire up the affiliate / room link + click tracking for this creator
+  try {
+    const linkEl = document.getElementById('room-affiliate-link');
+    const creatorDoc2 = await db.collection('creators').doc(creatorId).get();
+    const roomLink = (creatorDoc2.exists && creatorDoc2.data().roomLink) ? creatorDoc2.data().roomLink : '#';
+    linkEl.href = roomLink;
+    linkEl.target = '_blank';
+    linkEl.rel = 'noopener';
+    linkEl.onclick = () => { trackRoomClick(creatorId); };
+  } catch (err) {
+    console.warn('Could not load affiliate link:', err);
+  }
+
   try {
     const snap = await db.collection('content')
       .where('creatorId', '==', creatorId)
@@ -1400,9 +2296,10 @@ function listenToChat(creatorId) {
 
 async function sendMessage() {
   const text = CHAT_INPUT.value.trim();
-  if (!text || !db || !currentChatId) return;
+  if (!text || !db || !currentChatId || !currentCreatorId) return;
   CHAT_INPUT.value = '';
   try {
+    await updateConversationPreview(currentCreatorId, currentChatId, text);
     await db.collection('chats').doc(currentChatId).collection('messages').add({
       text,
       sender: 'client',
@@ -1421,25 +2318,557 @@ async function sendMessage() {
    true AFTER a real payment is confirmed (Stripe/CCBill/etc
    webhook), not directly from the browser like this.
 ═══════════════════════════════════════════ */
-async function subscribeToCreator(creatorId) {
+async function followCreator(creatorId, btnEl) {
   if (!auth || !auth.currentUser) {
-    closeModal('subscription');
     openModal('auth');
     return;
   }
   if (!db || !creatorId) return;
   try {
-    const subId = `${auth.currentUser.uid}_${creatorId}`;
-    await db.collection('subscriptions').doc(subId).set({
-      userId: auth.currentUser.uid,
-      creatorId,
-      active: true, // TODO: flip this to false until payment is confirmed
+    const followId = `${auth.currentUser.uid}_${creatorId}`;
+    const ref = db.collection('follows').doc(followId);
+    const existing = await ref.get();
+    if (existing.exists) {
+      // already following -> unfollow
+      await ref.delete();
+      if (btnEl) { btnEl.textContent = 'Follow'; btnEl.classList.remove('following'); }
+    } else {
+      await ref.set({
+        userId: auth.currentUser.uid,
+        creatorId,
+        active: true,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      if (btnEl) { btnEl.textContent = 'Following ✓'; btnEl.classList.add('following'); }
+    }
+  } catch (err) {
+    console.error('Failed to follow:', err);
+  }
+}
+
+/* ═══════════════════════════════════════════
+   AFFILIATE CLICKS — Firestore field "creators/{id}.clickCount"
+   Every click on a creator's room/affiliate link is counted here
+   so the creator and Honey Moon can track referred traffic.
+═══════════════════════════════════════════ */
+async function trackRoomClick(creatorId) {
+  if (!db || !creatorId) return;
+  try {
+    await db.collection('creators').doc(creatorId).set({
+      clickCount: firebase.firestore.FieldValue.increment(1)
+    }, { merge: true });
+  } catch (err) {
+    console.warn('Could not track click:', err);
+  }
+}
+
+/* ═══════════════════════════════════════════
+   USER PROFILE — Firestore collection "users"
+   Doc ID = the member's own uid.
+   { bio, showBio, showOnline, updatedAt }
+═══════════════════════════════════════════ */
+async function loadAccountProfile() {
+  if (!db || !auth.currentUser) return;
+  try {
+    const doc = await db.collection('users').doc(auth.currentUser.uid).get();
+    const data = doc.exists ? doc.data() : {};
+    document.getElementById('account-bio').value = data.bio || '';
+    document.getElementById('account-toggle-bio').checked = data.showBio !== false;
+    document.getElementById('account-toggle-online').checked = data.showOnline !== false;
+    updateBioToggleLabel();
+  } catch (err) {
+    console.error('Failed to load profile:', err);
+  }
+}
+
+function switchAccountTab(tab) {
+  document.querySelectorAll('.account-tab-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.tab === tab);
+  });
+  document.querySelectorAll('.account-page').forEach(page => {
+    page.classList.toggle('active', page.dataset.page === tab);
+  });
+}
+
+async function handleCreatorApplication(event) {
+  event.preventDefault();
+  const errorEl = document.getElementById('creator-error');
+  const successEl = document.getElementById('creator-success');
+  const submitBtn = document.getElementById('creator-submit-btn');
+  const form = document.getElementById('creator-form');
+  errorEl.classList.remove('visible');
+  successEl.classList.remove('visible');
+
+  const name = document.getElementById('creator-name').value.trim();
+  const email = document.getElementById('creator-email').value.trim();
+  const niche = document.getElementById('creator-niche').value.trim();
+  const link = document.getElementById('creator-link').value.trim();
+  const pitch = document.getElementById('creator-pitch').value.trim();
+  const ageConfirmed = document.getElementById('creator-age-confirm').checked;
+
+  if (!name || !email || !niche || !link || !pitch || !ageConfirmed) {
+    errorEl.textContent = 'Please fill in every field and confirm you are 18 or older.';
+    errorEl.classList.add('visible');
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Submitting…';
+
+  try {
+    if (!db) throw new Error('not-configured');
+    await db.collection('creatorApplications').add({
+      name, email, niche, link, pitch,
+      status: 'pending',
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
-    alert('Subscribed! (payment integration still needed before this is real)');
-    closeModal('subscription');
+    form.style.display = 'none';
+    successEl.classList.add('visible');
   } catch (err) {
-    console.error('Failed to subscribe:', err);
+    console.error('Creator application failed:', err);
+    errorEl.textContent = 'Something went wrong sending your application. Please try again in a moment.';
+    errorEl.classList.add('visible');
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Submit application';
+  }
+}
+
+/* ══════════════ CREATOR DASHBOARD ══════════════ */
+let dashContentType = 'photo';
+
+function switchDashTab(tab) {
+  document.querySelectorAll('.dash-tab-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.dtab === tab);
+  });
+  document.querySelectorAll('.dash-page').forEach(page => {
+    page.classList.toggle('active', page.dataset.dpage === tab);
+  });
+}
+
+async function loadCreatorDashboard() {
+  if (!auth || !auth.currentUser) {
+    document.getElementById('dash-stat-subs').textContent = '—';
+    document.getElementById('dash-conversations-list').innerHTML = '<div class="chat-empty">Log in to see your conversations.</div>';
+    return;
+  }
+  const uid = auth.currentUser.uid;
+
+  // Bio + room link + click count
+  try {
+    const doc = await db.collection('creators').doc(uid).get();
+    if (doc.exists) {
+      document.getElementById('dash-bio').value = doc.data().bio || '';
+      document.getElementById('dash-room-link').value = doc.data().roomLink || '';
+      document.getElementById('dash-stat-clicks').textContent = doc.data().clickCount || 0;
+    }
+  } catch (err) { console.warn('Could not load creator profile:', err); }
+
+  // Follower count
+  let subsSnap = null;
+  try {
+    subsSnap = await db.collection('follows').where('creatorId', '==', uid).where('active', '==', true).get();
+    document.getElementById('dash-stat-subs').textContent = subsSnap.size;
+  } catch (err) {
+    console.warn('Could not load followers:', err);
+    document.getElementById('dash-stat-subs').textContent = '0';
+  }
+
+  // Likes + messages placeholders (until those counters exist in Firestore)
+  document.getElementById('dash-stat-likes').textContent = '0';
+  document.getElementById('dash-stat-messages').textContent = '0';
+
+  renderDashContentList(uid);
+  renderDashConversationsList(uid, subsSnap);
+}
+
+async function saveDashboardBio() {
+  const msg = document.getElementById('dash-bio-msg');
+  msg.textContent = '';
+  if (!auth || !auth.currentUser) {
+    msg.textContent = 'Please log in first.';
+    msg.classList.add('visible');
+    return;
+  }
+  try {
+    await db.collection('creators').doc(auth.currentUser.uid).set({
+      bio: document.getElementById('dash-bio').value.trim(),
+      roomLink: document.getElementById('dash-room-link').value.trim(),
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }, { merge: true });
+    msg.style.color = 'var(--gold2)';
+    msg.style.background = 'rgba(156,113,53,0.08)';
+    msg.style.borderColor = 'rgba(156,113,53,0.3)';
+    msg.textContent = 'Bio saved.';
+    msg.classList.add('visible');
+  } catch (err) {
+    console.error('Save bio failed:', err);
+    msg.textContent = 'Could not save your bio right now.';
+    msg.classList.add('visible');
+  }
+}
+
+function setDashContentType(type) {
+  dashContentType = type;
+  document.getElementById('dash-type-photo').classList.toggle('active', type === 'photo');
+  document.getElementById('dash-type-video').classList.toggle('active', type === 'video');
+}
+
+function updateDashFileName() {
+  const fileInput = document.getElementById('dash-content-file');
+  const nameEl = document.getElementById('dash-file-name');
+  nameEl.textContent = fileInput.files[0] ? fileInput.files[0].name : 'Choose a file…';
+}
+
+async function uploadDashboardContent() {
+  const msg = document.getElementById('dash-content-msg');
+  const btn = document.getElementById('dash-upload-btn');
+  msg.textContent = '';
+  msg.classList.remove('visible');
+
+  if (!auth || !auth.currentUser) {
+    msg.textContent = 'Please log in first.';
+    msg.classList.add('visible');
+    return;
+  }
+  const fileInput = document.getElementById('dash-content-file');
+  const file = fileInput.files[0];
+  if (!file) {
+    msg.textContent = 'Please choose a file to upload.';
+    msg.classList.add('visible');
+    return;
+  }
+
+  const uid = auth.currentUser.uid;
+  const caption = document.getElementById('dash-content-caption').value.trim();
+
+  btn.disabled = true;
+  btn.textContent = 'Uploading…';
+
+  try {
+    const storageRef = firebase.storage().ref(`creators/${uid}/content/${Date.now()}_${file.name}`);
+    const snap = await storageRef.put(file);
+    const url = await snap.ref.getDownloadURL();
+
+    await db.collection('content').add({
+      creatorId: uid,
+      type: dashContentType,
+      caption,
+      url,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    fileInput.value = '';
+    document.getElementById('dash-content-caption').value = '';
+    document.getElementById('dash-file-name').textContent = 'Choose a file…';
+    msg.style.color = 'var(--gold2)';
+    msg.style.background = 'rgba(156,113,53,0.08)';
+    msg.style.borderColor = 'rgba(156,113,53,0.3)';
+    msg.textContent = 'Content uploaded.';
+    msg.classList.add('visible');
+    renderDashContentList(uid);
+  } catch (err) {
+    console.error('Upload failed:', err);
+    msg.textContent = 'Upload failed. Please try again.';
+    msg.classList.add('visible');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Upload content';
+  }
+}
+
+async function renderDashContentList(uid) {
+  const list = document.getElementById('dash-content-list');
+  try {
+    const snap = await db.collection('content').where('creatorId', '==', uid).orderBy('createdAt', 'desc').limit(9).get();
+    if (snap.empty) {
+      list.innerHTML = '<div class="dash-content-item">No content yet</div>';
+      return;
+    }
+    list.innerHTML = snap.docs.map(d => {
+      const data = d.data();
+      return `<div class="dash-content-item">${data.caption || data.type}</div>`;
+    }).join('');
+  } catch (err) {
+    console.warn('Could not load content list:', err);
+    list.innerHTML = '';
+  }
+}
+
+/* ── Messages: conversation list + thread ── */
+let dashThreadUnsub = null;
+let currentDashThreadUid = null;
+let currentDashCreatorUid = null;
+
+async function renderDashConversationsList(uid, subsSnap) {
+  const list = document.getElementById('dash-conversations-list');
+  currentDashCreatorUid = uid;
+  try {
+    if (!subsSnap) {
+      subsSnap = await db.collection('follows').where('creatorId', '==', uid).where('active', '==', true).get();
+    }
+    if (subsSnap.empty) {
+      list.innerHTML = '<div class="chat-empty">No followers yet.</div>';
+      return;
+    }
+    list.innerHTML = subsSnap.docs.map(d => {
+      const data = d.data();
+      const name = data.userName || 'Follower';
+      return `<div class="dash-conv-item" onclick="openDashThread('${data.userId}', '${name.replace(/'/g, "\\'")}')">
+        <div>
+          <div class="conversation-name">${name}</div>
+          <div class="conversation-preview">Tap to open conversation</div>
+        </div>
+        <div class="conversation-arrow">›</div>
+      </div>`;
+    }).join('');
+  } catch (err) {
+    console.warn('Could not load conversations:', err);
+    list.innerHTML = '<div class="chat-empty">Unable to load conversations.</div>';
+  }
+}
+
+function openDashThread(subscriberUid, name) {
+  currentDashThreadUid = subscriberUid;
+  document.getElementById('dash-thread-name').textContent = name;
+  document.getElementById('dash-messages-list-view').style.display = 'none';
+  document.getElementById('dash-messages-thread-view').style.display = 'block';
+
+  const chatId = `${currentDashCreatorUid}_${subscriberUid}`;
+  if (dashThreadUnsub) dashThreadUnsub();
+  const threadEl = document.getElementById('dash-thread-messages');
+  threadEl.innerHTML = '<div class="chat-empty">Loading…</div>';
+
+  dashThreadUnsub = db.collection('chats').doc(chatId).collection('messages')
+    .orderBy('createdAt', 'asc')
+    .onSnapshot(snap => {
+      if (snap.empty) {
+        threadEl.innerHTML = '<div class="chat-empty">No messages yet — say hi 👋</div>';
+        return;
+      }
+      threadEl.innerHTML = '';
+      snap.forEach(doc => {
+        const m = doc.data();
+        const bubble = document.createElement('div');
+        bubble.className = `chat-bubble ${m.sender === 'creator' ? 'client' : 'model'}`;
+        bubble.textContent = m.text;
+        threadEl.appendChild(bubble);
+      });
+      threadEl.scrollTop = threadEl.scrollHeight;
+    }, err => {
+      console.error('Thread listener failed:', err);
+      threadEl.innerHTML = '<div class="chat-empty">Unable to load this conversation.</div>';
+    });
+}
+
+function closeDashThread() {
+  if (dashThreadUnsub) { dashThreadUnsub(); dashThreadUnsub = null; }
+  currentDashThreadUid = null;
+  document.getElementById('dash-messages-thread-view').style.display = 'none';
+  document.getElementById('dash-messages-list-view').style.display = 'block';
+}
+
+async function sendDashboardMessage() {
+  const msg = document.getElementById('dash-message-msg');
+  msg.textContent = '';
+  msg.classList.remove('visible');
+
+  if (!auth || !auth.currentUser) {
+    msg.textContent = 'Please log in first.';
+    msg.classList.add('visible');
+    return;
+  }
+  if (!currentDashThreadUid) {
+    msg.textContent = 'Open a conversation first.';
+    msg.classList.add('visible');
+    return;
+  }
+  const text = document.getElementById('dash-message-text').value.trim();
+  if (!text) return;
+
+  const uid = auth.currentUser.uid;
+  const chatId = `${uid}_${currentDashThreadUid}`;
+  try {
+    await db.collection('conversations').doc(chatId).set({
+      userId: currentDashThreadUid,
+      creatorId: uid,
+      lastMessage: text,
+      lastMessageAt: firebase.firestore.FieldValue.serverTimestamp()
+    }, { merge: true });
+    await db.collection('chats').doc(chatId).collection('messages').add({
+      text,
+      sender: 'creator',
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    document.getElementById('dash-message-text').value = '';
+  } catch (err) {
+    console.error('Send message failed:', err);
+    msg.textContent = 'Could not send that message right now.';
+    msg.classList.add('visible');
+  }
+}
+
+/* ── Honey coach: 50 topics ── */
+const HONEY_ADVICE = {
+  first_impression: `Hey, it's Honey. Your <strong>first impression</strong> is everything — put your 3 strongest photos where new visitors land first. That's what makes someone stop scrolling instead of moving on.`,
+  free_previews: `Post a <strong>free preview</strong> 2-3 times a week so people get a taste of your world before they subscribe. It builds trust and shows them what they're missing.`,
+  cross_promo: `<strong>Cross-post short teasers</strong> on your social media with a soft call to action like "full version on my page" — it's less pushy and converts better than a hard sell.`,
+  value_promise: `Make your <strong>subscription's value</strong> crystal clear: what do they get, and how often? A vague promise loses people before they even click subscribe.`,
+  bio_optimization: `Your <strong>bio</strong> should say in one line what makes you different. Skip generic phrases — be specific about your vibe, your content, your personality.`,
+  referral: `Consider a small <strong>referral perk</strong> for subscribers who bring a friend. People already enjoying your content are your best promoters.`,
+  welcome_offer: `A short <strong>welcome offer</strong> in someone's first week boosts conversion — a small exclusive extra makes new subscribers feel like they made the right choice.`,
+
+  content_calendar: `A simple <strong>content calendar</strong> — even just a weekly rhythm — keeps you consistent without burning out trying to improvise every day.`,
+  content_variety: `Mixing <strong>photos, videos, and short messages</strong> keeps your page feeling alive. Subscribers get bored of the exact same format every time.`,
+  teaser_balance: `Balance <strong>teaser and full content</strong>: too many teasers frustrates people, too much free content removes the reason to subscribe. Aim for a clear split.`,
+  themed_series: `<strong>Themed series</strong> — a recurring format subscribers look forward to — build anticipation and give people a reason to check back regularly.`,
+  behind_scenes: `<strong>Behind-the-scenes</strong> moments make you feel real and relatable. People subscribe to a person, not just content.`,
+  seasonal_content: `Tie some content to <strong>seasonal moments</strong> (holidays, weather, events) — it feels timely and gives you easy themes to work with.`,
+  batch_content: `<strong>Batch your content creation</strong> — shoot several pieces in one session so you always have a buffer, instead of scrambling last minute.`,
+
+  video_hook: `Your <strong>first 3 seconds</strong> decide if someone keeps watching — open with something that grabs attention immediately, not a slow build-up.`,
+  video_lighting: `Good <strong>lighting</strong> matters more than an expensive camera. Face a window or a soft lamp, and avoid harsh light directly overhead.`,
+  video_sound: `Check your <strong>sound quality</strong> before recording — background noise and echo are one of the fastest ways to lose someone's attention.`,
+  video_pacing: `Keep videos <strong>short and focused</strong> on one idea. If it drags, people scroll away before the good part even starts.`,
+  video_personality: `Let your <strong>personality</strong> show — talk to the camera like it's a real person, because it is. That connection is what keeps people coming back.`,
+  video_editing: `You don't need fancy editing — trimming dead space and adding a clean intro/outro is often enough to make a video feel <strong>polished</strong>.`,
+  video_format: `Match your <strong>format</strong> to where it's watched — vertical for phone scrolling, horizontal if it's meant to feel more cinematic.`,
+
+  photo_light: `<strong>Natural light</strong> near a window, shot during the day, will always look better than most artificial lighting setups.`,
+  photo_background: `Keep your <strong>background simple</strong> and uncluttered — it puts the focus where it should be and looks far more intentional.`,
+  photo_angles: `Take <strong>several angles and heights</strong> for the same shot, then pick your best one. Relying on a single perfect take rarely works.`,
+  photo_aesthetic: `A <strong>consistent look</strong> — similar tones, similar style — makes your page feel curated and recognizable at a glance.`,
+  photo_posing: `<strong>Confidence in your pose</strong> reads through the camera more than the pose itself. Take a breath, relax your shoulders, and own the shot.`,
+  photo_stabilizer: `Even a cheap <strong>tripod or a stack of books</strong> to stabilize your phone removes blur and instantly makes photos look more professional.`,
+
+  dm_personal: `Treat every <strong>DM</strong> like a real conversation, not a copy-paste template. People notice — and appreciate — when it feels personal.`,
+  dm_speed: `<strong>Reply quickly</strong> to a new subscriber's first message — that early response is often what turns a visitor into a loyal subscriber.`,
+  dm_questions: `<strong>Ask a light question back</strong> in your messages — it keeps the conversation going instead of ending it.`,
+  dm_length: `Keep your replies <strong>warm but not overly long</strong> — leave a little room for them to want to reply again.`,
+  dm_difficult: `If a message feels <strong>difficult or pushy</strong>, stay calm and set a clear, polite boundary. You don't owe anyone an uncomfortable conversation.`,
+  dm_reengage: `A quick, friendly check-in can <strong>re-engage an inactive subscriber</strong> — something simple like "haven't heard from you in a while!" works well.`,
+  dm_anticipation: `A little <strong>teasing curiosity</strong> — "I've got something new coming, want a preview?" — works better than announcing everything upfront.`,
+
+  grow_consistency: `<strong>Consistency beats intensity</strong> — posting a little every week works better long-term than a big batch once a month.`,
+  grow_comments: `<strong>Engage with comments</strong> whenever you can. People stick around where they feel noticed and heard.`,
+  grow_collabs: `A <strong>shoutout exchange</strong> with another creator introduces you to a whole new audience that's already interested in similar content.`,
+  grow_niche: `Be clear about <strong>what makes you different</strong> — your niche, your vibe, your angle. It's easier to grow when people know exactly what to expect.`,
+  grow_trends: `Using a <strong>trending topic or format</strong> on social media can get your teasers in front of far more people than usual.`,
+  grow_voice: `Building a recognizable <strong>voice and tone</strong> — how you talk, what you joke about — makes people feel like they know you.`,
+
+  rev_layers: `Think of your income in <strong>layers</strong>: subscription as the base, personal messages and small extras often bring in the most on top.`,
+  rev_personal_msgs: `<strong>Personal messages</strong> as a premium add-on is where a lot of creators earn extra — people value that one-on-one attention.`,
+  rev_promos: `A <strong>limited-time promo</strong> creates urgency and often nudges undecided visitors to finally subscribe.`,
+  rev_loyalty: `Check in personally with your <strong>top subscribers</strong> now and then — loyal subscribers who feel valued rarely cancel.`,
+  rev_upsell: `<strong>Upselling exclusive content</strong> to already-engaged subscribers tends to convert far better than trying to reach new people.`,
+  rev_bundles: `A simple <strong>bundle offer</strong> — a few pieces of content together at a small discount — can boost your average sale nicely.`,
+
+  mind_burnout: `Watch out for <strong>burnout</strong> — a tired, resentful version of you comes through in your content. Rest is part of the job, not a break from it.`,
+  mind_boundaries: `Set clear <strong>boundaries</strong> for what you will and won't do — protecting your comfort keeps this sustainable long-term.`,
+  mind_tracking: `<strong>Track what's actually working</strong> — which posts get the most response — instead of guessing. Let real numbers guide your next move.`,
+  mind_authentic: `Staying <strong>authentic</strong> to who you are is what keeps subscribers loyal over time — trying to be someone else rarely lasts.`
+};
+
+function askHoney(topic) {
+  const bubble = document.getElementById('coach-bubble');
+  if (!topic) {
+    bubble.classList.remove('visible');
+    return;
+  }
+  bubble.innerHTML = HONEY_ADVICE[topic] || '';
+  bubble.classList.remove('visible');
+  void bubble.offsetWidth;
+  bubble.classList.add('visible');
+}
+
+function updateBioToggleLabel() {
+  const checked = document.getElementById('account-toggle-bio').checked;
+  document.getElementById('account-toggle-bio-sublabel').textContent =
+    checked ? 'Creators only' : 'Visible on the site (public)';
+}
+
+async function saveAccountProfile() {
+  const msg = document.getElementById('account-saved-msg');
+  if (!auth || !auth.currentUser) {
+    openModal('auth');
+    return;
+  }
+  if (!db) return;
+  try {
+    await db.collection('users').doc(auth.currentUser.uid).set({
+      bio: document.getElementById('account-bio').value.trim(),
+      showBio: document.getElementById('account-toggle-bio').checked,
+      showOnline: document.getElementById('account-toggle-online').checked,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }, { merge: true });
+    msg.textContent = 'Profile saved.';
+    msg.style.color = 'var(--gold2)';
+    msg.style.background = 'rgba(156,113,53,0.08)';
+    msg.style.borderColor = 'rgba(156,113,53,0.3)';
+    msg.classList.add('visible');
+    setTimeout(() => msg.classList.remove('visible'), 3000);
+  } catch (err) {
+    console.error('Failed to save profile:', err);
+  }
+}
+
+/* ═══════════════════════════════════════════
+   CONVERSATIONS INBOX — Firestore collection
+   "conversations", one doc per chat thread.
+   { userId, creatorId, lastMessage, lastMessageAt }
+   Updated every time sendMessage() fires.
+═══════════════════════════════════════════ */
+async function updateConversationPreview(creatorId, chatId, text) {
+  if (!db) return;
+  try {
+    await db.collection('conversations').doc(chatId).set({
+      userId: auth.currentUser.uid,
+      creatorId,
+      lastMessage: text,
+      lastMessageAt: firebase.firestore.FieldValue.serverTimestamp()
+    }, { merge: true });
+  } catch (err) {
+    console.error('Failed to update conversation preview:', err);
+  }
+}
+
+async function loadConversations() {
+  const list = document.getElementById('conversations-list');
+  if (!db || !auth.currentUser) {
+    list.innerHTML = '<div class="chat-empty">Log in to see your conversations.</div>';
+    return;
+  }
+  try {
+    const snap = await db.collection('conversations')
+      .where('userId', '==', auth.currentUser.uid)
+      .orderBy('lastMessageAt', 'desc')
+      .get();
+
+    if (snap.empty) {
+      list.innerHTML = '<div class="chat-empty">No conversations yet.</div>';
+      return;
+    }
+
+    list.innerHTML = '';
+    snap.forEach(doc => {
+      const convo = doc.data();
+      const item = document.createElement('div');
+      item.className = 'conversation-item';
+      item.innerHTML = `
+        <div>
+          <div class="conversation-name">${convo.creatorId}</div>
+          <div class="conversation-preview">${convo.lastMessage || ''}</div>
+        </div>
+        <span class="conversation-arrow">→</span>
+      `;
+      item.onclick = () => {
+        closeModal('account');
+        openModal('chat', convo.creatorId);
+      };
+      list.appendChild(item);
+    });
+  } catch (err) {
+    console.error('Failed to load conversations:', err);
+    list.innerHTML = '<div class="chat-empty">Unable to load conversations</div>';
   }
 }
 </script>
