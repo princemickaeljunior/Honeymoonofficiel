@@ -414,6 +414,8 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
+const db = firebase.firestore();
+const storage = firebase.storage();
 
 let LANG = 'fr';
 
@@ -789,6 +791,39 @@ document.getElementById('contact-btn').onclick = () => {
 
 function initRoster(){
   setLang('fr');
+  syncProfilesFromFirestore();
+}
+
+/* Va chercher les infos à jour sur Firebase et les fusionne discrètement
+   dans le catalogue déjà affiché. Ne touche jamais à la galerie (photos/
+   vidéos), qui reste gérée comme avant pour l'instant. Aucune écriture
+   n'est tentée ici — uniquement de la lecture, ouverte à tout le monde. */
+async function syncProfilesFromFirestore(){
+  let changed = false;
+  for(const m of roster){
+    try{
+      const snap = await db.collection('profiles').doc(m.id).get();
+      if(snap.exists){
+        const data = snap.data();
+        Object.assign(m, {
+          name: data.name ?? m.name,
+          country: data.country ?? m.country,
+          verified18: data.verified18 ?? m.verified18,
+          platforms: data.platforms ?? m.platforms,
+          audience: data.audience ?? m.audience,
+          contentType: data.contentType ?? m.contentType,
+          availability: data.availability ?? m.availability,
+          photo: data.photo || m.photo,
+          contract: data.contract || m.contract,
+          filled: data.filled ?? m.filled
+        });
+        changed = true;
+      }
+    }catch(e){
+      console.error('sync error', m.id, e);
+    }
+  }
+  if(changed) renderRoster();
 }
 
 /* ---------------- creator read-only view ---------------- */
@@ -800,6 +835,7 @@ function launchCreatorView(slotId){
   document.getElementById('my-lang-en').classList.remove('active');
   applyStaticText();
   renderMyProfile(slotId);
+  syncProfilesFromFirestore().then(() => renderMyProfile(slotId));
 }
 
 function renderMyProfile(slotId){
@@ -966,39 +1002,61 @@ function openEdit(id){
 
   let newPhoto = m.photo;
   let newContract = m.contract;
+  let photoUploading = false;
+  let contractUploading = false;
 
-  document.getElementById('ed-file').onchange = (e) => {
+  document.getElementById('ed-file').onchange = async (e) => {
     const file = e.target.files[0];
     if(!file) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      newPhoto = ev.target.result;
+    photoUploading = true;
+    document.getElementById('ed-drop-label').textContent = LANG==='fr' ? 'Envoi en cours…' : 'Uploading…';
+    try{
+      const ref = storage.ref().child(`covers/${m.id}/${Date.now()}_${file.name}`);
+      await ref.put(file);
+      newPhoto = await ref.getDownloadURL();
       document.getElementById('ed-drop').classList.add('has-file');
       document.getElementById('ed-drop-label').textContent = t('photoReplace');
-    };
-    reader.readAsDataURL(file);
+    }catch(err){
+      console.error('photo upload error', err);
+      toast(LANG==='fr' ? "Échec de l'envoi de la photo." : 'Photo upload failed.');
+      document.getElementById('ed-drop-label').textContent = t('photoPrompt');
+    }
+    photoUploading = false;
   };
 
-  document.getElementById('ed-contract-file').onchange = (e) => {
+  document.getElementById('ed-contract-file').onchange = async (e) => {
     const file = e.target.files[0];
     if(!file) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      newContract = ev.target.result;
+    contractUploading = true;
+    document.getElementById('ed-contract-label').textContent = LANG==='fr' ? 'Envoi en cours…' : 'Uploading…';
+    try{
+      const ref = storage.ref().child(`contracts/${m.id}/${Date.now()}_${file.name}`);
+      await ref.put(file);
+      newContract = await ref.getDownloadURL();
       document.getElementById('ed-contract-drop').classList.add('has-file');
       document.getElementById('ed-contract-label').textContent = t('contractReplace');
-    };
-    reader.readAsDataURL(file);
+    }catch(err){
+      console.error('contract upload error', err);
+      toast(LANG==='fr' ? "Échec de l'envoi du PDF." : 'PDF upload failed.');
+      document.getElementById('ed-contract-label').textContent = t('contractPrompt');
+    }
+    contractUploading = false;
   };
 
   document.getElementById('ed-cancel').onclick = closeEdit;
-  document.getElementById('ed-save').onclick = () => {
+  document.getElementById('ed-save').onclick = async () => {
     const verified = document.getElementById('ed-verified').checked;
     const name = document.getElementById('ed-name').value.trim();
     if(name && !verified){
       toast(t('needConsentToast'));
       return;
     }
+    if(photoUploading || contractUploading){
+      toast(LANG==='fr' ? 'Envoi en cours, patiente un instant…' : 'Upload in progress, please wait…');
+      return;
+    }
+    const saveBtn = document.getElementById('ed-save');
+    saveBtn.disabled = true;
     m.name = name;
     m.country = document.getElementById('ed-country').value.trim();
     m.platforms = document.getElementById('ed-platforms').value.trim();
@@ -1009,10 +1067,28 @@ function openEdit(id){
     m.photo = newPhoto;
     m.contract = newContract;
     m.filled = !!name;
-    if(saveRoster()){
+
+    const localOk = saveRoster();
+
+    let cloudOk = true;
+    try{
+      await db.collection('profiles').doc(m.id).set({
+        slotNumber: parseInt(m.id.replace('m',''), 10),
+        name: m.name, country: m.country, verified18: m.verified18,
+        platforms: m.platforms, audience: m.audience, contentType: m.contentType,
+        availability: m.availability, photo: m.photo, contract: m.contract, filled: m.filled,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge: true });
+    }catch(e){
+      console.error('firestore save error', e);
+      cloudOk = false;
+    }
+
+    saveBtn.disabled = false;
+    if(localOk){
       closeEdit();
       renderRoster();
-      toast(t('savedToast'));
+      toast(cloudOk ? t('savedToast') : (LANG==='fr' ? 'Enregistré ici, mais pas synchronisé en ligne — réessaie.' : 'Saved here, but not synced online — try again.'));
     }
   };
 
