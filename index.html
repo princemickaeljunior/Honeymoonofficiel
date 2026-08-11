@@ -413,10 +413,15 @@ const firebaseConfig = {
   messagingSenderId: "529825855432",
   appId: "1:529825855432:web:20f97cb88e0ce2d35cf2fd"
 };
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
-const storage = firebase.storage();
+let auth, db, storage;
+try{
+  firebase.initializeApp(firebaseConfig);
+  auth = firebase.auth();
+  db = firebase.firestore();
+  storage = firebase.storage();
+}catch(e){
+  console.error('Firebase init failed — le site continue de fonctionner sans synchronisation.', e);
+}
 
 let LANG = 'fr';
 
@@ -696,7 +701,7 @@ document.getElementById('gate-pass').addEventListener('keydown', (e) => {
 
 /* ---------------- admin gate (edit lock) — Firebase Auth email + mot de passe ---------------- */
 let pendingAdminAction = null;
-function isAdmin(){ return !!auth.currentUser; }
+function isAdmin(){ return !!(auth && auth.currentUser); }
 function requireAdmin(action){
   if(isAdmin()){ action(); return; }
   pendingAdminAction = action;
@@ -708,6 +713,12 @@ document.getElementById('admin-submit').onclick = () => {
   const email = document.getElementById('admin-email').value.trim();
   const pass = document.getElementById('admin-pass').value;
   document.getElementById('admin-err').textContent = '';
+  if(!auth){
+    document.getElementById('admin-err').textContent = LANG==='fr'
+      ? 'Connexion à Firebase indisponible — recharge la page et réessaie.'
+      : 'Firebase connection unavailable — reload the page and try again.';
+    return;
+  }
   auth.signInWithEmailAndPassword(email, pass)
     .then(() => {
       document.getElementById('admin-gate').style.display = 'none';
@@ -800,6 +811,7 @@ function initRoster(){
    vidéos), qui reste gérée comme avant. Aucune écriture n'est tentée ici
    — uniquement de la lecture, ouverte à tout le monde. */
 async function syncProfilesFromFirestore(){
+  if(!db) return;
   let changed = false;
   for(const m of roster){
     try{
