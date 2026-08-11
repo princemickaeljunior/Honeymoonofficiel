@@ -402,6 +402,8 @@ const CREATOR_CODES = {
   m5: 'HM05-8L4Z'
 };
 
+// Connexion à Firebase — utilisée UNIQUEMENT pour le login admin à cette étape.
+// Les profils, photos, vidéos restent stockés comme avant (aucun changement).
 const firebaseConfig = {
   apiKey: "AIzaSyDjeKf3_JL4FxxZQq_d6gdXdmc2Z5RxbaY",
   authDomain: "honeymoonproject2026.firebaseapp.com",
@@ -412,8 +414,6 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
-const db = firebase.firestore();
-const storage = firebase.storage();
 
 let LANG = 'fr';
 
@@ -451,8 +451,7 @@ const I18N = {
     galleryPhotos: 'Photos',
     galleryVideos: 'Vidéos',
     galleryEmpty: 'Aucun média pour le moment.',
-    storageFull: "Erreur lors de l'enregistrement — vérifie ta connexion et réessaie.",
-    uploadingLabel: 'Envoi en cours…',
+    storageFull: "Stockage plein dans ce navigateur — impossible d'ajouter ce fichier. Essaie un fichier plus léger, ou passe à un vrai stockage (backend) pour un catalogue plus complet.",
     contactTitle: 'Intéressé par une collaboration ?',
     contactBody: "Contactez l'équipe Honeymoon pour discuter d'un partenariat, obtenir plus d'informations sur une créatrice ou organiser une présentation.",
     contactBtn: 'Contacter Honeymoon',
@@ -526,8 +525,7 @@ const I18N = {
     galleryPhotos: 'Photos',
     galleryVideos: 'Videos',
     galleryEmpty: 'No media yet.',
-    storageFull: "Something went wrong while saving — check your connection and try again.",
-    uploadingLabel: 'Uploading…',
+    storageFull: "This browser's storage is full — couldn't add that file. Try a smaller file, or move to real backend storage for a larger catalogue.",
     contactTitle: 'Interested in a collaboration?',
     contactBody: 'Contact the Honeymoon team to discuss a partnership, get more information about a creator, or arrange an introduction.',
     contactBtn: 'Contact Honeymoon',
@@ -693,7 +691,7 @@ document.getElementById('gate-pass').addEventListener('keydown', (e) => {
   if(e.key === 'Enter') document.getElementById('gate-submit').click();
 });
 
-/* ---------------- admin gate (edit lock) — real Firebase Auth ---------------- */
+/* ---------------- admin gate (edit lock) — Firebase Auth email + mot de passe ---------------- */
 let pendingAdminAction = null;
 function isAdmin(){ return !!auth.currentUser; }
 function requireAdmin(action){
@@ -714,8 +712,9 @@ document.getElementById('admin-submit').onclick = () => {
       pendingAdminAction = null;
       if(action) action();
     })
-    .catch(() => {
-      document.getElementById('admin-err').textContent = t('adminErr');
+    .catch((err) => {
+      console.error('admin login error', err);
+      document.getElementById('admin-err').textContent = t('adminErr') + ' (' + (err.code || err.message) + ')';
     });
 };
 document.getElementById('admin-pass').addEventListener('keydown', (e) => {
@@ -726,7 +725,7 @@ document.getElementById('admin-cancel').onclick = () => {
   document.getElementById('admin-gate').style.display = 'none';
 };
 
-/* ---------------- roster data (Firestore + Storage) ---------------- */
+/* ---------------- roster data ---------------- */
 function emptySlot(i){
   return {
     id: 'm' + i, filled: false, name: '', country: '', verified18: false,
@@ -734,46 +733,26 @@ function emptySlot(i){
     photo: '', contract: '', galleryPhotos: [], galleryVideos: []
   };
 }
-
-async function fetchRosterFromFirestore(){
-  const result = [];
-  for(let i=1;i<=SLOT_COUNT;i++){
-    const id = 'm' + i;
-    const ref = db.collection('profiles').doc(id);
-    let snap = await ref.get();
-    if(!snap.exists){
-      const fresh = emptySlot(i);
-      await ref.set({
-        slotNumber: i, name: fresh.name, country: fresh.country, verified18: fresh.verified18,
-        platforms: fresh.platforms, audience: fresh.audience, contentType: fresh.contentType,
-        availability: fresh.availability, photo: fresh.photo, contract: fresh.contract, filled: fresh.filled
-      });
-      snap = await ref.get();
-    }
-    const data = snap.data() || {};
-    const mediaSnap = await ref.collection('media').orderBy('createdAt').get();
-    const galleryPhotos = [];
-    const galleryVideos = [];
-    mediaSnap.forEach(d => {
-      const md = d.data();
-      const entry = { docId: d.id, url: md.url };
-      if(md.kind === 'video') galleryVideos.push(entry);
-      else galleryPhotos.push(entry);
-    });
-    result.push(Object.assign(emptySlot(i), data, { id, galleryPhotos, galleryVideos }));
-  }
-  return result;
-}
-
-async function saveProfileFields(m){
+function loadRoster(){
   try{
-    await db.collection('profiles').doc(m.id).set({
-      slotNumber: parseInt(m.id.replace('m',''), 10),
-      name: m.name, country: m.country, verified18: m.verified18,
-      platforms: m.platforms, audience: m.audience, contentType: m.contentType,
-      availability: m.availability, photo: m.photo, contract: m.contract, filled: m.filled,
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-    }, { merge: true });
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw){
+      const parsed = JSON.parse(raw);
+      if(Array.isArray(parsed) && parsed.length === SLOT_COUNT){
+        return parsed.map(m => Object.assign(emptySlot(0), m, {
+          galleryPhotos: Array.isArray(m.galleryPhotos) ? m.galleryPhotos : [],
+          galleryVideos: Array.isArray(m.galleryVideos) ? m.galleryVideos : []
+        }));
+      }
+    }
+  }catch(e){}
+  const fresh = [];
+  for(let i=1;i<=SLOT_COUNT;i++) fresh.push(emptySlot(i));
+  return fresh;
+}
+function saveRoster(){
+  try{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(roster));
     return true;
   }catch(e){
     toast(t('storageFull'));
@@ -781,15 +760,7 @@ async function saveProfileFields(m){
   }
 }
 
-let roster = [];
-let rosterLoaded = false;
-async function ensureRosterLoaded(){
-  if(rosterLoaded) return roster;
-  roster = await fetchRosterFromFirestore();
-  rosterLoaded = true;
-  return roster;
-}
-
+let roster = loadRoster();
 let editMode = false;
 
 checkGate();
@@ -816,23 +787,18 @@ document.getElementById('contact-btn').onclick = () => {
   window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${bodyTxt}`;
 };
 
-async function initRoster(){
+function initRoster(){
   setLang('fr');
-  document.getElementById('roster-grid').innerHTML = `<p class="gallery-empty">${LANG==='fr' ? 'Chargement…' : 'Loading…'}</p>`;
-  await ensureRosterLoaded();
-  renderRoster();
 }
 
 /* ---------------- creator read-only view ---------------- */
-async function launchCreatorView(slotId){
+function launchCreatorView(slotId){
   document.getElementById('app-shell').style.display = 'none';
   document.getElementById('my-profile-shell').style.display = 'block';
   LANG = 'fr';
   document.getElementById('my-lang-fr').classList.add('active');
   document.getElementById('my-lang-en').classList.remove('active');
   applyStaticText();
-  document.getElementById('my-profile-body').innerHTML = `<p class="gallery-empty">Chargement…</p>`;
-  await ensureRosterLoaded();
   renderMyProfile(slotId);
 }
 
@@ -845,11 +811,10 @@ function renderMyProfile(slotId){
     ? `<div class="my-profile-photo"><img src="${m.photo}"></div>`
     : '';
 
-  const photoThumbs = m.galleryPhotos.map(item => `
-    <div class="gallery-thumb"><img src="${item.url}" data-full="${item.url}" data-type="image"></div>`).join('');
-  const videoThumbs = m.galleryVideos.map(item => `
-    <div class="gallery-thumb"><video src="${item.url}" data-full="${item.url}" data-type="video" muted></video></div>`).join('');
-
+  const photoThumbs = m.galleryPhotos.map(src => `
+    <div class="gallery-thumb"><img src="${src}" data-full="${src}" data-type="image"></div>`).join('');
+  const videoThumbs = m.galleryVideos.map(src => `
+    <div class="gallery-thumb"><video src="${src}" data-full="${src}" data-type="video" muted></video></div>`).join('');
 
   const noMedia = (!m.galleryPhotos.length && !m.galleryVideos.length && !m.photo)
     ? `<p class="gallery-empty">${t('myProfileNoMedia')}</p>` : '';
@@ -1001,59 +966,39 @@ function openEdit(id){
 
   let newPhoto = m.photo;
   let newContract = m.contract;
-  let photoUploading = false;
-  let contractUploading = false;
 
-  document.getElementById('ed-file').onchange = async (e) => {
+  document.getElementById('ed-file').onchange = (e) => {
     const file = e.target.files[0];
     if(!file) return;
-    photoUploading = true;
-    document.getElementById('ed-drop-label').textContent = t('uploadingLabel');
-    try{
-      const ref = storage.ref().child(`covers/${m.id}/${Date.now()}_${file.name}`);
-      await ref.put(file);
-      newPhoto = await ref.getDownloadURL();
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      newPhoto = ev.target.result;
       document.getElementById('ed-drop').classList.add('has-file');
       document.getElementById('ed-drop-label').textContent = t('photoReplace');
-    }catch(err){
-      toast(t('storageFull'));
-      document.getElementById('ed-drop-label').textContent = t('photoPrompt');
-    }
-    photoUploading = false;
+    };
+    reader.readAsDataURL(file);
   };
 
-  document.getElementById('ed-contract-file').onchange = async (e) => {
+  document.getElementById('ed-contract-file').onchange = (e) => {
     const file = e.target.files[0];
     if(!file) return;
-    contractUploading = true;
-    document.getElementById('ed-contract-label').textContent = t('uploadingLabel');
-    try{
-      const ref = storage.ref().child(`contracts/${m.id}/${Date.now()}_${file.name}`);
-      await ref.put(file);
-      newContract = await ref.getDownloadURL();
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      newContract = ev.target.result;
       document.getElementById('ed-contract-drop').classList.add('has-file');
       document.getElementById('ed-contract-label').textContent = t('contractReplace');
-    }catch(err){
-      toast(t('storageFull'));
-      document.getElementById('ed-contract-label').textContent = t('contractPrompt');
-    }
-    contractUploading = false;
+    };
+    reader.readAsDataURL(file);
   };
 
   document.getElementById('ed-cancel').onclick = closeEdit;
-  document.getElementById('ed-save').onclick = async () => {
+  document.getElementById('ed-save').onclick = () => {
     const verified = document.getElementById('ed-verified').checked;
     const name = document.getElementById('ed-name').value.trim();
     if(name && !verified){
       toast(t('needConsentToast'));
       return;
     }
-    if(photoUploading || contractUploading){
-      toast(t('uploadingLabel'));
-      return;
-    }
-    const saveBtn = document.getElementById('ed-save');
-    saveBtn.disabled = true;
     m.name = name;
     m.country = document.getElementById('ed-country').value.trim();
     m.platforms = document.getElementById('ed-platforms').value.trim();
@@ -1064,9 +1009,7 @@ function openEdit(id){
     m.photo = newPhoto;
     m.contract = newContract;
     m.filled = !!name;
-    const ok = await saveProfileFields(m);
-    saveBtn.disabled = false;
-    if(ok){
+    if(saveRoster()){
       closeEdit();
       renderRoster();
       toast(t('savedToast'));
@@ -1100,16 +1043,16 @@ function renderGalleryBody(m){
   const canEdit = editMode && isAdmin();
   const body = document.getElementById('gallery-body');
 
-  const photoThumbs = m.galleryPhotos.map((item) => `
+  const photoThumbs = m.galleryPhotos.map((src, i) => `
     <div class="gallery-thumb">
-      <img src="${item.url}" data-full="${item.url}" data-type="image">
-      ${canEdit ? `<button class="rm" data-kind="photo" data-docid="${item.docId}">✕</button>` : ''}
+      <img src="${src}" data-full="${src}" data-type="image">
+      ${canEdit ? `<button class="rm" data-kind="photo" data-idx="${i}">✕</button>` : ''}
     </div>`).join('');
 
-  const videoThumbs = m.galleryVideos.map((item) => `
+  const videoThumbs = m.galleryVideos.map((src, i) => `
     <div class="gallery-thumb">
-      <video src="${item.url}" data-full="${item.url}" data-type="video" muted></video>
-      ${canEdit ? `<button class="rm" data-kind="video" data-docid="${item.docId}">✕</button>` : ''}
+      <video src="${src}" data-full="${src}" data-type="video" muted></video>
+      ${canEdit ? `<button class="rm" data-kind="video" data-idx="${i}">✕</button>` : ''}
     </div>`).join('');
 
   const addPhotoBtn = canEdit ? `
@@ -1145,46 +1088,38 @@ function renderGalleryBody(m){
     if(videoInput) videoInput.onchange = (e) => handleGalleryAdd(m, e.target.files, 'galleryVideos');
 
     body.querySelectorAll('.rm').forEach(btn => {
-      btn.onclick = async () => {
+      btn.onclick = () => {
         const kind = btn.dataset.kind;
-        const docId = btn.dataset.docid;
-        btn.disabled = true;
-        try{
-          await db.collection('profiles').doc(m.id).collection('media').doc(docId).delete();
-          if(kind === 'photo') m.galleryPhotos = m.galleryPhotos.filter(x => x.docId !== docId);
-          else m.galleryVideos = m.galleryVideos.filter(x => x.docId !== docId);
-          renderGalleryBody(m);
-          renderRoster();
-          toast(t('removedToast'));
-        }catch(e){
-          toast(t('storageFull'));
-        }
+        const idx = parseInt(btn.dataset.idx, 10);
+        if(kind === 'photo') m.galleryPhotos.splice(idx, 1);
+        else m.galleryVideos.splice(idx, 1);
+        saveRoster();
+        renderGalleryBody(m);
+        renderRoster();
+        toast(t('removedToast'));
       };
     });
   }
 }
 
-async function handleGalleryAdd(m, files, field){
-  const kind = field === 'galleryPhotos' ? 'photo' : 'video';
+function handleGalleryAdd(m, files, field){
   const list = Array.from(files);
-  if(!list.length) return;
-  for(const file of list){
-    try{
-      const path = `${kind}s/${m.id}/${Date.now()}_${file.name}`;
-      const ref = storage.ref().child(path);
-      await ref.put(file);
-      const url = await ref.getDownloadURL();
-      const docRef = await db.collection('profiles').doc(m.id).collection('media').add({
-        kind, url, createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      });
-      m[field].push({ docId: docRef.id, url });
-      toast(t('addedToast'));
-    }catch(e){
-      toast(t('storageFull'));
-    }
-  }
-  renderGalleryBody(m);
-  renderRoster();
+  let remaining = list.length;
+  if(!remaining) return;
+  list.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      m[field].push(ev.target.result);
+      const ok = saveRoster();
+      remaining--;
+      if(ok) toast(t('addedToast'));
+      if(remaining === 0){
+        renderGalleryBody(m);
+        renderRoster();
+      }
+    };
+    reader.readAsDataURL(file);
+  });
 }
 
 /* ---------------- lightbox ---------------- */
