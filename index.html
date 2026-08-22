@@ -61,6 +61,11 @@ button{font-family:inherit;cursor:pointer;}
   background:var(--bg-elev-2);color:var(--text-muted);padding:8px 12px;border:none;
 }
 .lang-group button.active{ background:var(--honey);color:#160f04; }
+.lang-select{
+  background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text);
+  font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.02em;
+  padding:8px 10px;border-radius:999px;max-width:150px;
+}
 .edit-toggle{
   font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase;
   background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text-muted);
@@ -186,10 +191,11 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 .modal-box.open{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1);}
 .modal-box h3{font-size:18px;margin-bottom:16px;}
 .modal-box label{font-size:11px;color:var(--text-muted);display:block;margin-bottom:6px;margin-top:12px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;}
-.modal-box input, .modal-box textarea{
+.modal-box input, .modal-box textarea, .modal-box select{
   width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text);
   border-radius:var(--radius-sm);padding:11px 13px;font-family:'Inter',sans-serif;font-size:14px;
 }
+.modal-box textarea{resize:vertical;}
 .upload-drop{ border:1.5px dashed var(--border);border-radius:var(--radius); padding:22px 14px;text-align:center;color:var(--text-muted);font-size:12.5px;margin-top:12px; position:relative; }
 .upload-drop.has-file{border-color:var(--honey);color:var(--text);}
 .upload-drop input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;}
@@ -223,6 +229,32 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 #lightbox-backdrop img, #lightbox-backdrop video{max-width:100%;max-height:88vh;border-radius:8px;}
 #lightbox-close{position:absolute;top:20px;right:24px;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text);width:38px;height:38px;border-radius:50%;font-size:16px;}
 
+/* ---------- vitrine (public showcase) ---------- */
+.vitrine-modal{max-width:560px;}
+.vitrine-card-btn{ cursor:pointer; }
+.vitrine-cover{width:100%;aspect-ratio:4/5;border-radius:var(--radius-sm);overflow:hidden;background:var(--bg-elev-2);margin-bottom:14px;position:relative;}
+.vitrine-cover img{width:100%;height:100%;object-fit:cover;display:block;}
+.vitrine-status-badge{
+  position:absolute;top:10px;right:10px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.08em;text-transform:uppercase;
+  padding:4px 9px;border-radius:999px;background:rgba(0,0,0,0.6);border:1px solid var(--border);color:var(--text-muted);
+}
+.vitrine-status-badge.online{border-color:#5fd67a;color:#5fd67a;}
+.vitrine-bio-rows{display:flex;flex-direction:column;gap:8px;margin:14px 0;}
+.vitrine-bio-row{font-size:12.5px;border-bottom:1px solid var(--border);padding-bottom:8px;}
+.vitrine-bio-row .k{display:block;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:3px;}
+.vitrine-bio-row .v{color:var(--text);line-height:1.5;white-space:pre-wrap;}
+.vitrine-votes{display:flex;gap:10px;margin:16px 0;}
+.vote-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;border-radius:var(--radius-sm);background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text);font-size:13px;}
+.vote-btn.active{border-color:var(--honey);color:var(--honey);}
+.vitrine-comments{margin-top:22px;padding-top:18px;border-top:1px solid var(--border);}
+.vitrine-comments h4{font-size:13px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;font-family:'JetBrains Mono',monospace;margin-bottom:6px;}
+.comment-rules{font-size:11px;color:var(--text-muted);margin-bottom:12px;}
+.comment-list{display:flex;flex-direction:column;gap:10px;max-height:220px;overflow-y:auto;margin-bottom:12px;}
+.comment-item{background:var(--bg-elev-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;font-size:13px;line-height:1.5;}
+.comment-form{display:flex;gap:8px;}
+.comment-form textarea{flex:1;min-height:44px;}
+.comment-form button{white-space:nowrap;}
+
 /* ---------- contact ---------- */
 .contact{
   margin-top:56px;background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius);
@@ -251,14 +283,13 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 <div id="gate">
   <div class="gate-card">
     <div class="logo">honeymoon</div>
+    <select class="lang-select" id="gate-lang-select" style="margin:10px auto 0;display:block;"></select>
     <p class="sub mono" id="t-gate-sub">Accès privé</p>
     <input id="gate-pass" type="password" placeholder="Code d'accès">
     <button class="btn btn-primary" id="gate-submit"><span id="t-gate-enter">Entrer</span></button>
     <div class="gate-err" id="gate-err"></div>
-    <div class="gate-note">
-      <b id="t-gate-note-b">Note technique :</b> <span id="t-gate-note">ce code d'accès est une simple barrière côté navigateur, pas une vraie authentification.</span>
-    </div>
     <button class="gate-switch" id="show-creator-gate"><span id="t-creator-link">Espace créatrice</span></button>
+    <button class="gate-switch" id="show-vitrine" style="margin-top:8px;"><span id="t-vitrine-link">Voir le site vitrine</span></button>
   </div>
 </div>
 
@@ -293,8 +324,7 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
     <div class="logo">honeymoon</div>
     <div class="right">
       <div class="lang-group">
-        <button id="lang-fr" data-lang="fr">FR</button>
-        <button id="lang-en" data-lang="en">EN</button>
+        <select class="lang-select" id="app-lang-select"></select>
       </div>
       <button class="edit-toggle" id="edit-toggle"><span id="t-edit-toggle">Modifier le catalogue</span></button>
     </div>
@@ -334,8 +364,7 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
     <div class="logo">honeymoon</div>
     <div class="right">
       <div class="lang-group">
-        <button id="my-lang-fr" data-lang="fr">FR</button>
-        <button id="my-lang-en" data-lang="en">EN</button>
+        <select class="lang-select" id="my-lang-select"></select>
       </div>
       <button class="creator-logout" id="creator-logout"><span id="t-creator-logout">Se déconnecter</span></button>
     </div>
@@ -366,6 +395,59 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 <div id="lightbox-backdrop">
   <button id="lightbox-close">✕</button>
   <div id="lightbox-content"></div>
+</div>
+
+<!-- ================= AGE GATE (18+, avant l'entrée sur le site vitrine) ================= -->
+<div id="age-gate" style="display:none;position:fixed;inset:0;z-index:98;background:rgba(0,0,0,0.85);align-items:center;justify-content:center;padding:24px;">
+  <div style="max-width:380px;width:100%;background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius);padding:28px 24px;text-align:center;">
+    <h2 class="display" style="font-size:20px;margin-bottom:12px;" id="t-age-gate-title">Vérification d'âge</h2>
+    <p style="color:var(--text-muted);font-size:13px;line-height:1.7;margin-bottom:22px;" id="t-age-gate-body">Ce site présente du contenu réservé aux personnes majeures (18 ans et plus). Confirmez votre âge pour continuer.</p>
+    <button class="btn btn-primary" id="age-yes-btn" style="margin-bottom:10px;"><span id="t-age-yes">Oui, j'ai 18 ans ou plus</span></button>
+    <button class="btn btn-ghost" id="age-no-btn"><span id="t-age-no">Non, j'ai moins de 18 ans</span></button>
+  </div>
+</div>
+
+<!-- ================= AGE BLOCKED (accès refusé) ================= -->
+<div id="age-blocked" style="display:none;position:fixed;inset:0;z-index:99;background:var(--bg);align-items:center;justify-content:center;padding:24px;">
+  <div style="max-width:380px;width:100%;text-align:center;">
+    <h2 class="display" style="font-size:20px;margin-bottom:12px;" id="t-age-blocked-title">Accès refusé</h2>
+    <p style="color:var(--text-muted);font-size:13px;line-height:1.7;margin-bottom:22px;" id="t-age-blocked-body">L'accès à ce site est réservé aux personnes majeures (18 ans et plus).</p>
+    <button class="btn btn-ghost" id="age-leave-btn"><span id="t-age-leave">Quitter</span></button>
+  </div>
+</div>
+
+<!-- ================= VITRINE (public showcase, no gate) ================= -->
+<div id="vitrine-shell" style="display:none;">
+  <div id="topbar">
+    <div class="logo">honeymoon</div>
+    <div class="right">
+      <div class="lang-group">
+        <select class="lang-select" id="vitrine-lang-select"></select>
+      </div>
+      <button class="edit-toggle" id="vitrine-back-btn"><span id="t-vitrine-back">← Retour</span></button>
+    </div>
+  </div>
+  <main>
+    <div class="hero">
+      <div class="eyebrow" id="t-vitrine-eyebrow">Site vitrine</div>
+      <h1 id="t-vitrine-title">Découvre nos créatrices</h1>
+      <p id="t-vitrine-body">Un aperçu public des créatrices Honeymoon. Aime, laisse un commentaire, et découvre leur univers.</p>
+    </div>
+    <div class="roster-grid" id="vitrine-grid"></div>
+    <div class="foot">
+      <span id="t-vitrine-foot-tag">Honeymoon</span>
+      <span id="vitrine-foot-year"></span>
+    </div>
+  </main>
+</div>
+
+<!-- ================= VITRINE ROOM (profile detail: bio + gallery + likes + comments) ================= -->
+<div class="modal-backdrop" id="vitrine-backdrop"></div>
+<div class="modal-box vitrine-modal" id="vitrine-room">
+  <div id="vitrine-room-body"></div>
+  <div class="modal-actions">
+    <button class="btn btn-ghost btn-sm" id="vitrine-room-close" style="flex:1;"><span id="t-vitrine-room-close">Fermer</span></button>
+  </div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -432,6 +514,10 @@ const I18N = {
     gateNoteB: 'Note technique :',
     gateNote: "ce code d'accès est une simple barrière côté navigateur, pas une vraie authentification.",
     gateErr: 'Code incorrect.',
+    gatePassPh: "Code d'accès",
+    creatorPassPh: "Ton code",
+    noPhotoYet: "Aucune photo",
+    vitrineEnterBtn: "Entrer",
     adminSub: 'Accès administrateur',
     adminEnter: 'Déverrouiller',
     adminCancel: 'Annuler',
@@ -485,6 +571,14 @@ const I18N = {
     addedToast: 'Ajouté à la galerie',
     removedToast: 'Supprimé de la galerie',
     creatorLink: 'Espace créatrice',
+    vitrineLink: 'Entrée au site',
+    ageGateTitle: 'Vérification d\'âge',
+    ageGateBody: "Ce site présente du contenu réservé aux personnes majeures (18 ans et plus). Confirmez votre âge pour continuer.",
+    ageYes: "Oui, j'ai 18 ans ou plus",
+    ageNo: "Non, j'ai moins de 18 ans",
+    ageBlockedTitle: 'Accès refusé',
+    ageBlockedBody: "L'accès à ce site est réservé aux personnes majeures (18 ans et plus).",
+    ageLeaveBtn: 'Quitter',
     creatorGateSub: 'Accès créatrice',
     creatorEnter: 'Entrer',
     backAgency: '← Retour',
@@ -498,7 +592,56 @@ const I18N = {
     creatorCodeLabel: 'Code créatrice (à lui transmettre)',
     copyBtn: 'Copier',
     copiedToast: 'Code copié',
-    numberPrefix: 'N°'
+    numberPrefix: 'N°',
+    myEditBtn: 'Modifier mes informations',
+    myProfileManageNote: "Gère ta photo, tes informations et ta galerie ci-dessous. Les photos et vidéos que tu postes ici seront visibles sur le site vitrine.",
+    addPhoto: 'Ajouter des photos',
+    addVideo: 'Ajouter des vidéos',
+    uploadingLabel: 'Envoi en cours…',
+    uploadFailed: "Échec de l'envoi.",
+    saveErrorToast: "Erreur lors de l'enregistrement — vérifie ta connexion et réessaie.",
+    myVaultTitle: 'Mon coffre personnel',
+    myVaultNote: "Un espace privé pour sauvegarder tes photos et vidéos. Contrairement à ta galerie ci-dessus, ce coffre n'est visible par personne d'autre que toi.",
+    myVaultPhotos: 'Photos sauvegardées',
+    myVaultVideos: 'Vidéos sauvegardées',
+    bioSectionTitle: 'Biographie',
+    bioSectionNote: "Ces informations serviront à présenter la créatrice sur le site vitrine.",
+    bioOrigin: 'Origine',
+    bioNationality: 'Nationalité',
+    bioAge: 'Âge',
+    bioBodyType: 'Type de corps',
+    bioOrientation: 'Orientation',
+    bioLookingFor: 'Ce qu\'elle recherche',
+    bioPassions: 'Passions',
+    bioUniverse: 'Son univers',
+    bioHobbies: 'Hobbies',
+    bioPersonality: 'Personnalité',
+    bioFantasies: 'Fantasmes',
+    bioFetish: 'Fetish',
+    bioAmbitions: 'Ambitions',
+    bioSocials: 'Réseaux sociaux (optionnel)',
+    bioSocialsPh: 'ex. Instagram @..., TikTok @...',
+    bioWorkUrl: 'Site où elle travaille (lien)',
+    bioWorkUrlPh: 'https://...',
+    bioOnlineStatus: 'Statut',
+    statusOnline: 'En ligne',
+    statusOffline: 'Hors ligne',
+    contentPolicyNote: "Photos et vidéos : lingerie ou tenue sexy uniquement (danse, twerk, sensuel, aguicheur autorisés). Aucun contenu nu — photo ou vidéo — n'est accepté.",
+    vitrineHeroEyebrow: 'Site vitrine',
+    vitrineHeroTitle: 'Découvre nos créatrices',
+    vitrineHeroBody: "Un aperçu public des créatrices Honeymoon. Aime, laisse un commentaire, et découvre leur univers.",
+    vitrineBack: '← Retour',
+    vitrineEmpty: 'Aucune créatrice publiée pour le moment.',
+    visitSiteBtn: 'Visiter son site',
+    likeLabel: "J'aime",
+    dislikeLabel: "Je n'aime pas",
+    commentsTitle: 'Commentaires',
+    commentPlaceholder: 'Écris un commentaire respectueux…',
+    commentSubmit: 'Publier',
+    commentEmpty: 'Aucun commentaire pour le moment. Sois la première !',
+    commentModerationError: "Ton commentaire contient des mots non autorisés (insultes, grossièretés). Merci de le reformuler.",
+    commentPosted: 'Commentaire publié',
+    commentRules: "Espace de commentaires bienveillant : pas d'injures, pas de grossièretés."
   },
   en: {
     gateSub: 'Private access',
@@ -506,6 +649,10 @@ const I18N = {
     gateNoteB: 'Technical note:',
     gateNote: 'this access code is a simple browser-side barrier, not real authentication.',
     gateErr: 'Incorrect code.',
+    gatePassPh: "Access code",
+    creatorPassPh: "Your code",
+    noPhotoYet: "No photo yet",
+    vitrineEnterBtn: "Enter",
     adminSub: 'Administrator access',
     adminEnter: 'Unlock',
     adminCancel: 'Cancel',
@@ -559,6 +706,14 @@ const I18N = {
     addedToast: 'Added to gallery',
     removedToast: 'Removed from gallery',
     creatorLink: 'Creator access',
+    vitrineLink: 'Enter the site',
+    ageGateTitle: 'Age verification',
+    ageGateBody: 'This site presents content reserved for adults (18 years and older). Please confirm your age to continue.',
+    ageYes: "Yes, I'm 18 or older",
+    ageNo: "No, I'm under 18",
+    ageBlockedTitle: 'Access denied',
+    ageBlockedBody: 'Access to this site is reserved for adults (18 years and older).',
+    ageLeaveBtn: 'Leave',
     creatorGateSub: 'Creator access',
     creatorEnter: 'Enter',
     backAgency: '← Back',
@@ -572,10 +727,1680 @@ const I18N = {
     creatorCodeLabel: 'Creator code (share with her)',
     copyBtn: 'Copy',
     copiedToast: 'Code copied',
-    numberPrefix: 'No.'
-  }
+    numberPrefix: 'No.',
+    myEditBtn: 'Edit my information',
+    myProfileManageNote: 'Manage your photo, information and gallery below. Photos and videos you post here will be visible on the showcase site.',
+    addPhoto: 'Add photos',
+    addVideo: 'Add videos',
+    uploadingLabel: 'Uploading…',
+    uploadFailed: 'Upload failed.',
+    saveErrorToast: 'Something went wrong while saving — check your connection and try again.',
+    myVaultTitle: 'My private vault',
+    myVaultNote: "A private space to save your photos and videos. Unlike your gallery above, this vault is visible to no one but you.",
+    myVaultPhotos: 'Saved photos',
+    myVaultVideos: 'Saved videos',
+    bioSectionTitle: 'Biography',
+    bioSectionNote: 'This information will be used to present the creator on the showcase site.',
+    bioOrigin: 'Origin',
+    bioNationality: 'Nationality',
+    bioAge: 'Age',
+    bioBodyType: 'Body type',
+    bioOrientation: 'Orientation',
+    bioLookingFor: 'What she\'s looking for',
+    bioPassions: 'Passions',
+    bioUniverse: 'Her universe',
+    bioHobbies: 'Hobbies',
+    bioPersonality: 'Personality',
+    bioFantasies: 'Fantasies',
+    bioFetish: 'Fetish',
+    bioAmbitions: 'Ambitions',
+    bioSocials: 'Social media (optional)',
+    bioSocialsPh: 'e.g. Instagram @..., TikTok @...',
+    bioWorkUrl: 'Site where she works (link)',
+    bioWorkUrlPh: 'https://...',
+    bioOnlineStatus: 'Status',
+    statusOnline: 'Online',
+    statusOffline: 'Offline',
+    contentPolicyNote: 'Photos and videos: lingerie or sexy outfits only (dance, twerk, sensual, teasing content allowed). No nude content — photo or video — is accepted.',
+    vitrineHeroEyebrow: 'Showcase site',
+    vitrineHeroTitle: 'Discover our creators',
+    vitrineHeroBody: 'A public preview of the Honeymoon creators. Like, leave a comment, and discover their world.',
+    vitrineBack: '← Back',
+    vitrineEmpty: 'No creator published yet.',
+    visitSiteBtn: 'Visit her site',
+    likeLabel: 'Like',
+    dislikeLabel: 'Dislike',
+    commentsTitle: 'Comments',
+    commentPlaceholder: 'Write a respectful comment…',
+    commentSubmit: 'Post',
+    commentEmpty: 'No comments yet. Be the first!',
+    commentModerationError: 'Your comment contains words that are not allowed (insults, profanity). Please rephrase it.',
+    commentPosted: 'Comment posted',
+    commentRules: "Friendly comment space: no insults, no profanity."
+  },
+  es: {
+    gateSub: 'Acceso privado',
+    gateEnter: 'Entrar',
+    gateNoteB: 'Nota técnica:',
+    gateNote: 'este código de acceso es una simple barrera del navegador, no una autenticación real.',
+    gateErr: 'Código incorrecto.',
+    gatePassPh: "Código de acceso",
+    creatorPassPh: "Tu código",
+    noPhotoYet: "Sin foto",
+    vitrineEnterBtn: "Entrar",
+    adminSub: 'Acceso administrador',
+    adminEnter: 'Desbloquear',
+    adminCancel: 'Cancelar',
+    adminErr: 'Código de administrador incorrecto.',
+    editToggleOn: 'Editar catálogo',
+    editToggleOff: 'Listo',
+    heroEyebrow: 'Catálogo',
+    heroTitle: '5 creadoras, un contrato, una exigencia: la seriedad.',
+    heroBody: 'El catálogo Honeymoon reúne a 5 creadoras bajo contrato exclusivo, elegidas por su seriedad y motivación. Algunas son nuevas en la industria: las expectativas se explican claramente desde el principio, y ellas las cumplen.',
+    catalogueTitle: 'El Catálogo',
+    emptyName: 'Perfil vacío',
+    emptyDesc: 'Este perfil estará disponible próximamente.',
+    nameUndefined: 'Nombre por definir',
+    platforms: 'Plataformas',
+    audience: 'Audiencia',
+    content: 'Contenido',
+    verified: '18+ verificada',
+    notVerified: 'No verificada',
+    viewContract: 'Ver el contrato',
+    noContract: 'Contrato próximamente',
+    editProfile: 'Editar este perfil',
+    galleryBtn: 'Galería',
+    galleryTitle: 'Galería',
+    galleryClose: 'Cerrar',
+    galleryPhotos: 'Fotos',
+    galleryVideos: 'Videos',
+    galleryEmpty: 'Aún no hay contenido.',
+    storageFull: 'Ocurrió un error al guardar — revisa tu conexión e inténtalo de nuevo.',
+    contactTitle: '¿Interesado en una colaboración?',
+    contactBody: 'Contacta al equipo de Honeymoon para hablar de una colaboración, obtener más información sobre una creadora u organizar una presentación.',
+    contactBtn: 'Contactar Honeymoon',
+    footTag: 'Honeymoon — Confidencial',
+    modalTitle: 'Editar perfil',
+    stageName: 'Nombre artístico',
+    country: 'País',
+    platformsPh: 'ej. Instagram · TikTok',
+    audiencePh: 'ej. 25K+',
+    contentPh: 'ej. Baile · Video · Social',
+    availLabel: 'Disponible para (separado por comas)',
+    photoLabel: 'Foto de portada',
+    photoPrompt: 'Haz clic para elegir una foto',
+    photoReplace: 'Foto actual — haz clic para reemplazar',
+    contractLabel: 'Contrato y consentimiento (PDF)',
+    contractPrompt: 'Haz clic para añadir el PDF',
+    contractReplace: 'PDF añadido — haz clic para reemplazar',
+    consentText: 'Confirmo que esta creadora es mayor de edad (18+), ha firmado un contrato y ha dado su consentimiento para el uso de su foto e información en este catálogo.',
+    cancel: 'Cancelar',
+    save: 'Guardar',
+    savedToast: 'Perfil guardado',
+    needConsentToast: 'Por favor confirma la mayoría de edad, el contrato y el consentimiento antes de guardar.',
+    addedToast: 'Añadido a la galería',
+    removedToast: 'Eliminado de la galería',
+    creatorLink: 'Espacio de la creadora',
+    vitrineLink: 'Entrar al sitio',
+    ageGateTitle: 'Verificación de edad',
+    ageGateBody: 'Este sitio presenta contenido reservado para personas mayores de edad (18 años o más). Confirma tu edad para continuar.',
+    ageYes: 'Sí, tengo 18 años o más',
+    ageNo: 'No, tengo menos de 18 años',
+    ageBlockedTitle: 'Acceso denegado',
+    ageBlockedBody: 'El acceso a este sitio está reservado para personas mayores de edad (18 años o más).',
+    ageLeaveBtn: 'Salir',
+    creatorGateSub: 'Acceso creadora',
+    creatorEnter: 'Entrar',
+    backAgency: '← Volver',
+    creatorErr: 'Código incorrecto.',
+    creatorLogout: 'Cerrar sesión',
+    myProfileHello: 'Hola',
+    myProfileNote: 'Aquí están tu foto y tus videos tal como aparecen en el catálogo.',
+    myProfilePhotos: 'Tus fotos',
+    myProfileVideos: 'Tus videos',
+    myProfileNoMedia: 'Aún no has añadido contenido.',
+    creatorCodeLabel: 'Código de la creadora (compártelo con ella)',
+    copyBtn: 'Copiar',
+    copiedToast: 'Código copiado',
+    numberPrefix: 'N.°',
+    myEditBtn: 'Editar mi información',
+    myProfileManageNote: 'Gestiona tu foto, tu información y tu galería a continuación. Las fotos y videos que publiques aquí serán visibles en el sitio vitrina.',
+    addPhoto: 'Añadir fotos',
+    addVideo: 'Añadir videos',
+    uploadingLabel: 'Enviando…',
+    uploadFailed: 'Error al enviar.',
+    saveErrorToast: 'Ocurrió un error al guardar — revisa tu conexión e inténtalo de nuevo.',
+    myVaultTitle: 'Mi bóveda privada',
+    myVaultNote: 'Un espacio privado para guardar tus fotos y videos. A diferencia de tu galería de arriba, esta bóveda no es visible para nadie más que tú.',
+    myVaultPhotos: 'Fotos guardadas',
+    myVaultVideos: 'Videos guardados',
+    bioSectionTitle: 'Biografía',
+    bioSectionNote: 'Esta información se usará para presentar a la creadora en el sitio vitrina.',
+    bioOrigin: 'Origen',
+    bioNationality: 'Nacionalidad',
+    bioAge: 'Edad',
+    bioBodyType: 'Tipo de cuerpo',
+    bioOrientation: 'Orientación',
+    bioLookingFor: 'Lo que busca',
+    bioPassions: 'Pasiones',
+    bioUniverse: 'Su universo',
+    bioHobbies: 'Hobbies',
+    bioPersonality: 'Personalidad',
+    bioFantasies: 'Fantasías',
+    bioFetish: 'Fetiche',
+    bioAmbitions: 'Ambiciones',
+    bioSocials: 'Redes sociales (opcional)',
+    bioSocialsPh: 'ej. Instagram @..., TikTok @...',
+    bioWorkUrl: 'Sitio donde trabaja (enlace)',
+    bioWorkUrlPh: 'https://...',
+    bioOnlineStatus: 'Estado',
+    statusOnline: 'En línea',
+    statusOffline: 'Desconectada',
+    contentPolicyNote: 'Fotos y videos: solo lencería o ropa sexy (baile, twerk, sensual, provocador permitido). No se acepta contenido desnudo, ni foto ni video.',
+    vitrineHeroEyebrow: 'Sitio vitrina',
+    vitrineHeroTitle: 'Descubre a nuestras creadoras',
+    vitrineHeroBody: 'Una vista pública de las creadoras Honeymoon. Da like, deja un comentario y descubre su universo.',
+    vitrineBack: '← Volver',
+    vitrineEmpty: 'Ninguna creadora publicada por el momento.',
+    visitSiteBtn: 'Visitar su sitio',
+    likeLabel: 'Me gusta',
+    dislikeLabel: 'No me gusta',
+    commentsTitle: 'Comentarios',
+    commentPlaceholder: 'Escribe un comentario respetuoso…',
+    commentSubmit: 'Publicar',
+    commentEmpty: '¡Aún no hay comentarios. Sé la primera!',
+    commentModerationError: 'Tu comentario contiene palabras no permitidas (insultos, groserías). Por favor reformúlalo.',
+    commentPosted: 'Comentario publicado',
+    commentRules: 'Espacio de comentarios amable: sin insultos, sin groserías.'
+  },
+  it: {
+    gateSub: "Accesso privato",
+    gateEnter: "Entra",
+    gateNoteB: "Nota tecnica:",
+    gateNote: "questo codice di accesso è una semplice barriera lato browser, non una vera autenticazione.",
+    gateErr: "Codice errato.",
+    gatePassPh: "Codice di accesso",
+    creatorPassPh: "Il tuo codice",
+    noPhotoYet: "Nessuna foto",
+    vitrineEnterBtn: "Entra",
+    adminSub: "Accesso amministratore",
+    adminEnter: "Sblocca",
+    adminCancel: "Annulla",
+    adminErr: "Codice amministratore errato.",
+    editToggleOn: "Modifica il catalogo",
+    editToggleOff: "Fatto",
+    heroEyebrow: "Catalogo",
+    heroTitle: "5 creatrici, un contratto, un'esigenza: la serietà.",
+    heroBody: "Il catalogo Honeymoon riunisce 5 creatrici sotto contratto esclusivo, scelte per la loro serietà e motivazione. Alcune sono agli inizi: le aspettative sono chiare fin dall'inizio, e le rispettano.",
+    catalogueTitle: "Il Catalogo",
+    emptyName: "Profilo vuoto",
+    emptyDesc: "Questo profilo sarà presto disponibile.",
+    nameUndefined: "Nome da definire",
+    platforms: "Piattaforme",
+    audience: "Pubblico",
+    content: "Contenuto",
+    verified: "18+ verificata",
+    notVerified: "Non verificata",
+    viewContract: "Vedi il contratto",
+    noContract: "Contratto in arrivo",
+    editProfile: "Modifica questo profilo",
+    galleryBtn: "Galleria",
+    galleryTitle: "Galleria",
+    galleryClose: "Chiudi",
+    galleryPhotos: "Foto",
+    galleryVideos: "Video",
+    galleryEmpty: "Nessun contenuto multimediale per ora.",
+    storageFull: "Spazio di archiviazione pieno in questo browser — impossibile aggiungere questo file. Prova un file più leggero, oppure passa a un archivio reale (backend) per un catalogo più completo.",
+    contactTitle: "Interessato a una collaborazione?",
+    contactBody: "Contatta il team Honeymoon per discutere di una partnership, ottenere maggiori informazioni su una creatrice o organizzare una presentazione.",
+    contactBtn: "Contatta Honeymoon",
+    footTag: "Honeymoon — Riservato",
+    modalTitle: "Modifica il profilo",
+    stageName: "Nome d'arte",
+    country: "Paese",
+    platformsPh: "es. Instagram · TikTok",
+    audiencePh: "es. 25K+",
+    contentPh: "es. Danza · Video · Social",
+    availLabel: "Disponibile per (separato da virgole)",
+    photoLabel: "Foto di copertina",
+    photoPrompt: "Clicca per scegliere una foto",
+    photoReplace: "Foto attuale — clicca per sostituire",
+    contractLabel: "Contratto e consenso (PDF)",
+    contractPrompt: "Clicca per aggiungere il PDF",
+    contractReplace: "PDF aggiunto — clicca per sostituire",
+    consentText: "Confermo che questa creatrice è maggiorenne (18+), ha firmato un contratto e ha dato il proprio consenso all'uso della sua foto e delle sue informazioni in questo catalogo.",
+    cancel: "Annulla",
+    save: "Salva",
+    savedToast: "Profilo salvato (salvato in questo browser)",
+    needConsentToast: "Conferma la maggiore età, il contratto e il consenso della creatrice prima di salvare.",
+    addedToast: "Aggiunto alla galleria",
+    removedToast: "Rimosso dalla galleria",
+    creatorLink: "Area creatrice",
+    vitrineLink: "Entra nel sito",
+    ageGateTitle: "Verifica dell'età",
+    ageGateBody: "Questo sito presenta contenuti riservati agli adulti (18 anni e oltre). Conferma la tua età per continuare.",
+    ageYes: "Sì, ho 18 anni o più",
+    ageNo: "No, ho meno di 18 anni",
+    ageBlockedTitle: "Accesso negato",
+    ageBlockedBody: "L'accesso a questo sito è riservato agli adulti (18 anni e oltre).",
+    ageLeaveBtn: "Esci",
+    creatorGateSub: "Accesso creatrice",
+    creatorEnter: "Entra",
+    backAgency: "← Indietro",
+    creatorErr: "Codice errato.",
+    creatorLogout: "Disconnetti",
+    myProfileHello: "Ciao",
+    myProfileNote: "Ecco la tua foto e i tuoi video così come appaiono nel catalogo. Non puoi aggiungere né modificare nulla qui — per una modifica, contatta il team Honeymoon.",
+    myProfilePhotos: "Le tue foto",
+    myProfileVideos: "I tuoi video",
+    myProfileNoMedia: "Nessun contenuto aggiunto per ora.",
+    creatorCodeLabel: "Codice creatrice (da comunicarle)",
+    copyBtn: "Copia",
+    copiedToast: "Codice copiato",
+    numberPrefix: "N°",
+    myEditBtn: "Modifica le mie informazioni",
+    myProfileManageNote: "Gestisci la tua foto, le tue informazioni e la tua galleria qui sotto. Le foto e i video che pubblichi qui saranno visibili sul sito vetrina.",
+    addPhoto: "Aggiungi foto",
+    addVideo: "Aggiungi video",
+    uploadingLabel: "Invio in corso…",
+    uploadFailed: "Invio non riuscito.",
+    saveErrorToast: "Errore durante il salvataggio — controlla la tua connessione e riprova.",
+    myVaultTitle: "Il mio caveau personale",
+    myVaultNote: "Uno spazio privato per salvare le tue foto e i tuoi video. A differenza della galleria qui sopra, questo caveau non è visibile a nessun altro.",
+    myVaultPhotos: "Foto salvate",
+    myVaultVideos: "Video salvati",
+    bioSectionTitle: "Biografia",
+    bioSectionNote: "Queste informazioni serviranno a presentare la creatrice sul sito vetrina.",
+    bioOrigin: "Origine",
+    bioNationality: "Nazionalità",
+    bioAge: "Età",
+    bioBodyType: "Tipo di corpo",
+    bioOrientation: "Orientamento",
+    bioLookingFor: "Cosa cerca",
+    bioPassions: "Passioni",
+    bioUniverse: "Il suo universo",
+    bioHobbies: "Hobby",
+    bioPersonality: "Personalità",
+    bioFantasies: "Fantasie",
+    bioFetish: "Feticci",
+    bioAmbitions: "Ambizioni",
+    bioSocials: "Social media (opzionale)",
+    bioSocialsPh: "es. Instagram @..., TikTok @...",
+    bioWorkUrl: "Sito dove lavora (link)",
+    bioWorkUrlPh: "https://...",
+    bioOnlineStatus: "Stato",
+    statusOnline: "Online",
+    statusOffline: "Offline",
+    contentPolicyNote: "Foto e video: solo lingerie o abiti sexy (ballo, twerk, sensuale, provocante permessi). Nessun contenuto nudo — foto o video — è accettato.",
+    vitrineHeroEyebrow: "Sito vetrina",
+    vitrineHeroTitle: "Scopri le nostre creatrici",
+    vitrineHeroBody: "Un'anteprima pubblica delle creatrici Honeymoon. Metti mi piace, lascia un commento e scopri il loro universo.",
+    vitrineBack: "← Indietro",
+    vitrineEmpty: "Nessuna creatrice pubblicata per ora.",
+    visitSiteBtn: "Visita il suo sito",
+    likeLabel: "Mi piace",
+    dislikeLabel: "Non mi piace",
+    commentsTitle: "Commenti",
+    commentPlaceholder: "Scrivi un commento rispettoso…",
+    commentSubmit: "Pubblica",
+    commentEmpty: "Nessun commento per ora. Sii la prima!",
+    commentModerationError: "Il tuo commento contiene parole non consentite (insulti, volgarità). Per favore riformulalo.",
+    commentPosted: "Commento pubblicato",
+    commentRules: "Spazio commenti rispettoso: niente insulti, niente volgarità."
+  },
+  pt: {
+    gateSub: "Acesso privado",
+    gateEnter: "Entrar",
+    gateNoteB: "Nota técnica:",
+    gateNote: "este código de acesso é apenas uma barreira do lado do navegador, não uma autenticação real.",
+    gateErr: "Código incorreto.",
+    gatePassPh: "Código de acesso",
+    creatorPassPh: "O teu código",
+    noPhotoYet: "Ainda sem foto",
+    vitrineEnterBtn: "Entrar",
+    adminSub: "Acesso de administrador",
+    adminEnter: "Desbloquear",
+    adminCancel: "Cancelar",
+    adminErr: "Código de administrador incorreto.",
+    editToggleOn: "Editar o catálogo",
+    editToggleOff: "Concluído",
+    heroEyebrow: "Catálogo",
+    heroTitle: "5 criadoras, um contrato, uma exigência: seriedade.",
+    heroBody: "O catálogo Honeymoon reúne 5 criadoras sob contrato exclusivo, escolhidas pela sua seriedade e motivação. Algumas estão começando: as expectativas são claras desde o início, e elas as cumprem.",
+    catalogueTitle: "O Catálogo",
+    emptyName: "Perfil vazio",
+    emptyDesc: "Este perfil estará disponível em breve.",
+    nameUndefined: "Nome a definir",
+    platforms: "Plataformas",
+    audience: "Audiência",
+    content: "Conteúdo",
+    verified: "18+ verificada",
+    notVerified: "Não verificada",
+    viewContract: "Ver o contrato",
+    noContract: "Contrato em breve",
+    editProfile: "Editar este perfil",
+    galleryBtn: "Galeria",
+    galleryTitle: "Galeria",
+    galleryClose: "Fechar",
+    galleryPhotos: "Fotos",
+    galleryVideos: "Vídeos",
+    galleryEmpty: "Nenhum conteúdo por enquanto.",
+    storageFull: "Armazenamento cheio neste navegador — não é possível adicionar este arquivo. Tente um arquivo menor, ou use um armazenamento real (backend) para um catálogo mais completo.",
+    contactTitle: "Interessado numa colaboração?",
+    contactBody: "Contacte a equipa Honeymoon para discutir uma parceria, obter mais informações sobre uma criadora ou organizar uma apresentação.",
+    contactBtn: "Contactar Honeymoon",
+    footTag: "Honeymoon — Confidencial",
+    modalTitle: "Editar o perfil",
+    stageName: "Nome artístico",
+    country: "País",
+    platformsPh: "ex. Instagram · TikTok",
+    audiencePh: "ex. 25K+",
+    contentPh: "ex. Dança · Vídeo · Social",
+    availLabel: "Disponível para (separado por vírgulas)",
+    photoLabel: "Foto de capa",
+    photoPrompt: "Clique para escolher uma foto",
+    photoReplace: "Foto atual — clique para substituir",
+    contractLabel: "Contrato e consentimento (PDF)",
+    contractPrompt: "Clique para adicionar o PDF",
+    contractReplace: "PDF adicionado — clique para substituir",
+    consentText: "Confirmo que esta criadora é maior de idade (18+), assinou um contrato e deu o seu consentimento para o uso da sua foto e das suas informações neste catálogo.",
+    cancel: "Cancelar",
+    save: "Guardar",
+    savedToast: "Perfil guardado (guardado neste navegador)",
+    needConsentToast: "Confirme a maioridade, o contrato e o consentimento da criadora antes de guardar.",
+    addedToast: "Adicionado à galeria",
+    removedToast: "Removido da galeria",
+    creatorLink: "Área da criadora",
+    vitrineLink: "Entrar no site",
+    ageGateTitle: "Verificação de idade",
+    ageGateBody: "Este site apresenta conteúdo reservado a adultos (18 anos ou mais). Confirme a sua idade para continuar.",
+    ageYes: "Sim, tenho 18 anos ou mais",
+    ageNo: "Não, tenho menos de 18 anos",
+    ageBlockedTitle: "Acesso negado",
+    ageBlockedBody: "O acesso a este site é reservado a adultos (18 anos ou mais).",
+    ageLeaveBtn: "Sair",
+    creatorGateSub: "Acesso da criadora",
+    creatorEnter: "Entrar",
+    backAgency: "← Voltar",
+    creatorErr: "Código incorreto.",
+    creatorLogout: "Sair da conta",
+    myProfileHello: "Olá",
+    myProfileNote: "Aqui está a tua foto e os teus vídeos tal como aparecem no catálogo. Não podes adicionar nem editar nada aqui — para uma alteração, contacta a equipa Honeymoon.",
+    myProfilePhotos: "As tuas fotos",
+    myProfileVideos: "Os teus vídeos",
+    myProfileNoMedia: "Nenhum conteúdo adicionado por enquanto.",
+    creatorCodeLabel: "Código da criadora (para lhe entregar)",
+    copyBtn: "Copiar",
+    copiedToast: "Código copiado",
+    numberPrefix: "N.º",
+    myEditBtn: "Editar as minhas informações",
+    myProfileManageNote: "Gere a tua foto, as tuas informações e a tua galeria abaixo. As fotos e vídeos que publicares aqui serão visíveis no site vitrine.",
+    addPhoto: "Adicionar fotos",
+    addVideo: "Adicionar vídeos",
+    uploadingLabel: "A enviar…",
+    uploadFailed: "Falha no envio.",
+    saveErrorToast: "Erro ao guardar — verifica a tua ligação e tenta novamente.",
+    myVaultTitle: "O meu cofre pessoal",
+    myVaultNote: "Um espaço privado para guardar as tuas fotos e vídeos. Ao contrário da tua galeria acima, este cofre não é visível para mais ninguém além de ti.",
+    myVaultPhotos: "Fotos guardadas",
+    myVaultVideos: "Vídeos guardados",
+    bioSectionTitle: "Biografia",
+    bioSectionNote: "Esta informação será usada para apresentar a criadora no site vitrine.",
+    bioOrigin: "Origem",
+    bioNationality: "Nacionalidade",
+    bioAge: "Idade",
+    bioBodyType: "Tipo de corpo",
+    bioOrientation: "Orientação",
+    bioLookingFor: "O que ela procura",
+    bioPassions: "Paixões",
+    bioUniverse: "O seu universo",
+    bioHobbies: "Hobbies",
+    bioPersonality: "Personalidade",
+    bioFantasies: "Fantasias",
+    bioFetish: "Fetiche",
+    bioAmbitions: "Ambições",
+    bioSocials: "Redes sociais (opcional)",
+    bioSocialsPh: "ex. Instagram @..., TikTok @...",
+    bioWorkUrl: "Site onde trabalha (link)",
+    bioWorkUrlPh: "https://...",
+    bioOnlineStatus: "Estado",
+    statusOnline: "Online",
+    statusOffline: "Offline",
+    contentPolicyNote: "Fotos e vídeos: apenas lingerie ou roupa sexy (dança, twerk, sensual, provocante permitido). Nenhum conteúdo nu — foto ou vídeo — é aceite.",
+    vitrineHeroEyebrow: "Site vitrine",
+    vitrineHeroTitle: "Descobre as nossas criadoras",
+    vitrineHeroBody: "Uma pré-visualização pública das criadoras Honeymoon. Gosta, deixa um comentário e descobre o seu universo.",
+    vitrineBack: "← Voltar",
+    vitrineEmpty: "Nenhuma criadora publicada por enquanto.",
+    visitSiteBtn: "Visitar o seu site",
+    likeLabel: "Gosto",
+    dislikeLabel: "Não gosto",
+    commentsTitle: "Comentários",
+    commentPlaceholder: "Escreve um comentário respeitoso…",
+    commentSubmit: "Publicar",
+    commentEmpty: "Ainda sem comentários. Sê a primeira!",
+    commentModerationError: "O teu comentário contém palavras não permitidas (insultos, palavrões). Por favor reformula-o.",
+    commentPosted: "Comentário publicado",
+    commentRules: "Espaço de comentários respeitoso: sem insultos, sem palavrões."
+  },
+  sw: {
+    gateSub: "Ufikiaji wa faragha",
+    gateEnter: "Ingia",
+    gateNoteB: "Kumbuka la kiufundi:",
+    gateNote: "nambari hii ya ufikiaji ni kizuizi rahisi cha kivinjari tu, si uthibitishaji halisi.",
+    gateErr: "Nambari sio sahihi.",
+    gatePassPh: "Nambari ya kuingia",
+    creatorPassPh: "Nambari yako",
+    noPhotoYet: "Hakuna picha bado",
+    vitrineEnterBtn: "Ingia",
+    adminSub: "Ufikiaji wa msimamizi",
+    adminEnter: "Fungua",
+    adminCancel: "Ghairi",
+    adminErr: "Nambari ya msimamizi sio sahihi.",
+    editToggleOn: "Hariri katalogi",
+    editToggleOff: "Imekamilika",
+    heroEyebrow: "Katalogi",
+    heroTitle: "Waundaji 5, mkataba mmoja, sharti moja: umakini.",
+    heroBody: "Katalogi ya Honeymoon inakusanya waundaji 5 walio na mkataba wa kipekee, waliochaguliwa kwa umakini na motisha yao. Baadhi wanaanza kazini: matarajio ni wazi tangu mwanzo, nao wanayafuata.",
+    catalogueTitle: "Katalogi",
+    emptyName: "Wasifu tupu",
+    emptyDesc: "Wasifu huu utapatikana hivi karibuni.",
+    nameUndefined: "Jina bado halijawekwa",
+    platforms: "Majukwaa",
+    audience: "Hadhira",
+    content: "Maudhui",
+    verified: "Umri 18+ umethibitishwa",
+    notVerified: "Haijathibitishwa",
+    viewContract: "Angalia mkataba",
+    noContract: "Mkataba unakuja",
+    editProfile: "Hariri wasifu huu",
+    galleryBtn: "Picha",
+    galleryTitle: "Picha",
+    galleryClose: "Funga",
+    galleryPhotos: "Picha",
+    galleryVideos: "Video",
+    galleryEmpty: "Hakuna maudhui bado.",
+    storageFull: "Hifadhi imejaa kwenye kivinjari hiki — haiwezekani kuongeza faili hii. Jaribu faili nyepesi zaidi, au tumia hifadhi halisi (backend) kwa katalogi kamili zaidi.",
+    contactTitle: "Una nia ya kushirikiana?",
+    contactBody: "Wasiliana na timu ya Honeymoon kuzungumzia ushirikiano, kupata maelezo zaidi kuhusu muundaji au kupanga uwasilishaji.",
+    contactBtn: "Wasiliana na Honeymoon",
+    footTag: "Honeymoon — Siri",
+    modalTitle: "Hariri wasifu",
+    stageName: "Jina la jukwaani",
+    country: "Nchi",
+    platformsPh: "mfano. Instagram · TikTok",
+    audiencePh: "mfano. 25K+",
+    contentPh: "mfano. Dansi · Video · Mitandao",
+    availLabel: "Inapatikana kwa (tenganisha kwa koma)",
+    photoLabel: "Picha ya jalada",
+    photoPrompt: "Bofya kuchagua picha",
+    photoReplace: "Picha ya sasa — bofya kubadilisha",
+    contractLabel: "Mkataba na idhini (PDF)",
+    contractPrompt: "Bofya kuongeza PDF",
+    contractReplace: "PDF imeongezwa — bofya kubadilisha",
+    consentText: "Ninathibitisha kuwa muundaji huyu ana umri wa miaka 18+, ametia saini mkataba na ametoa idhini yake ya matumizi ya picha yake na taarifa zake katika katalogi hii.",
+    cancel: "Ghairi",
+    save: "Hifadhi",
+    savedToast: "Wasifu umehifadhiwa (umehifadhiwa kwenye kivinjari hiki)",
+    needConsentToast: "Tafadhali thibitisha umri, mkataba na idhini ya muundaji kabla ya kuhifadhi.",
+    addedToast: "Imeongezwa kwenye picha",
+    removedToast: "Imeondolewa kwenye picha",
+    creatorLink: "Eneo la muundaji",
+    vitrineLink: "Ingia kwenye tovuti",
+    ageGateTitle: "Uthibitishaji wa umri",
+    ageGateBody: "Tovuti hii ina maudhui yaliyohifadhiwa kwa watu wazima (miaka 18 na zaidi). Thibitisha umri wako ili kuendelea.",
+    ageYes: "Ndiyo, nina miaka 18 au zaidi",
+    ageNo: "Hapana, nina chini ya miaka 18",
+    ageBlockedTitle: "Ufikiaji umekataliwa",
+    ageBlockedBody: "Ufikiaji wa tovuti hii umehifadhiwa kwa watu wazima (miaka 18 na zaidi).",
+    ageLeaveBtn: "Ondoka",
+    creatorGateSub: "Ufikiaji wa muundaji",
+    creatorEnter: "Ingia",
+    backAgency: "← Rudi",
+    creatorErr: "Nambari sio sahihi.",
+    creatorLogout: "Toka",
+    myProfileHello: "Habari",
+    myProfileNote: "Hii ni picha yako na video zako kama zinavyoonekana kwenye katalogi. Huwezi kuongeza wala kubadilisha chochote hapa — kwa mabadiliko, wasiliana na timu ya Honeymoon.",
+    myProfilePhotos: "Picha zako",
+    myProfileVideos: "Video zako",
+    myProfileNoMedia: "Hakuna maudhui yaliyoongezwa bado.",
+    creatorCodeLabel: "Nambari ya muundaji (mpe yeye)",
+    copyBtn: "Nakili",
+    copiedToast: "Nambari imenakiliwa",
+    numberPrefix: "Na.",
+    myEditBtn: "Hariri taarifa zangu",
+    myProfileManageNote: "Simamia picha yako, taarifa zako na picha zako hapa chini. Picha na video unazochapisha hapa zitaonekana kwenye tovuti ya maonyesho.",
+    addPhoto: "Ongeza picha",
+    addVideo: "Ongeza video",
+    uploadingLabel: "Inapakia…",
+    uploadFailed: "Upakiaji umeshindwa.",
+    saveErrorToast: "Hitilafu wakati wa kuhifadhi — angalia muunganisho wako na ujaribu tena.",
+    myVaultTitle: "Hifadhi yangu binafsi",
+    myVaultNote: "Nafasi ya faragha ya kuhifadhi picha na video zako. Tofauti na picha zako hapo juu, hifadhi hii haionekani na mtu mwingine yeyote isipokuwa wewe.",
+    myVaultPhotos: "Picha zilizohifadhiwa",
+    myVaultVideos: "Video zilizohifadhiwa",
+    bioSectionTitle: "Wasifu",
+    bioSectionNote: "Taarifa hizi zitatumika kumwakilisha muundaji kwenye tovuti ya maonyesho.",
+    bioOrigin: "Asili",
+    bioNationality: "Uraia",
+    bioAge: "Umri",
+    bioBodyType: "Aina ya mwili",
+    bioOrientation: "Mwelekeo",
+    bioLookingFor: "Anachotafuta",
+    bioPassions: "Mapenzi/Vipendwa",
+    bioUniverse: "Ulimwengu wake",
+    bioHobbies: "Mambo anayopenda kufanya",
+    bioPersonality: "Tabia",
+    bioFantasies: "Ndoto/Mawazo",
+    bioFetish: "Fetish",
+    bioAmbitions: "Malengo",
+    bioSocials: "Mitandao ya kijamii (si lazima)",
+    bioSocialsPh: "mfano. Instagram @..., TikTok @...",
+    bioWorkUrl: "Tovuti anayofanyia kazi (kiungo)",
+    bioWorkUrlPh: "https://...",
+    bioOnlineStatus: "Hali",
+    statusOnline: "Mtandaoni",
+    statusOffline: "Nje ya mtandao",
+    contentPolicyNote: "Picha na video: nguo za ndani au mavazi ya kuvutia pekee (dansi, twerk, hisia, kuvutia zinaruhusiwa). Hakuna maudhui ya uchi — picha au video — yanayokubaliwa.",
+    vitrineHeroEyebrow: "Tovuti ya maonyesho",
+    vitrineHeroTitle: "Gundua waundaji wetu",
+    vitrineHeroBody: "Muhtasari wa umma wa waundaji wa Honeymoon. Penda, acha maoni, na gundua ulimwengu wao.",
+    vitrineBack: "← Rudi",
+    vitrineEmpty: "Hakuna muundaji aliyechapishwa bado.",
+    visitSiteBtn: "Tembelea tovuti yake",
+    likeLabel: "Nipendi",
+    dislikeLabel: "Sipendi",
+    commentsTitle: "Maoni",
+    commentPlaceholder: "Andika maoni yenye heshima…",
+    commentSubmit: "Chapisha",
+    commentEmpty: "Hakuna maoni bado. Kuwa wa kwanza!",
+    commentModerationError: "Maoni yako yana maneno yasiyoruhusiwa (matusi, lugha chafu). Tafadhali yabadilishe.",
+    commentPosted: "Maoni yamechapishwa",
+    commentRules: "Nafasi ya maoni yenye heshima: hakuna matusi, hakuna lugha chafu."
+  },
+  zu: {
+    gateSub: "Ukufinyelela okuyimfihlo",
+    gateEnter: "Ngena",
+    gateNoteB: "Inothi lezobuchwepheshe:",
+    gateNote: "le khodi yokufinyelela iyisithiyo esilula sesiphequluli, hhayi ukuqinisekiswa kwangempela.",
+    gateErr: "Ikhodi engalungile.",
+    gatePassPh: "Ikhodi yokungena",
+    creatorPassPh: "Ikhodi yakho",
+    noPhotoYet: "Asikho isithombe okwamanje",
+    vitrineEnterBtn: "Ngena",
+    adminSub: "Ukufinyelela komphathi",
+    adminEnter: "Vula",
+    adminCancel: "Khansela",
+    adminErr: "Ikhodi yomphathi engalungile.",
+    editToggleOn: "Hlela ikhathalogu",
+    editToggleOff: "Kwenziwe",
+    heroEyebrow: "Ikhathalogu",
+    heroTitle: "Abadali abangu-5, isivumelwano esisodwa, isidingo esisodwa: ukuzimisela.",
+    heroBody: "Ikhathalogu ye-Honeymoon ihlanganisa abadali abangu-5 abangaphansi kwesivumelwano esikhethekile, abakhethwe ngokuzimisela nangokugqugquzeleka kwabo. Abanye basaqala emkhakheni: okulindelekile kucacile kusukela ekuqaleni, futhi bayakulandela.",
+    catalogueTitle: "Ikhathalogu",
+    emptyName: "Iphrofayela engenalutho",
+    emptyDesc: "Le phrofayela izotholakala maduze.",
+    nameUndefined: "Igama kusalindelwe",
+    platforms: "Amasekethe",
+    audience: "Izilaleli",
+    content: "Okuqukethwe",
+    verified: "Iminyaka 18+ iqinisekisiwe",
+    notVerified: "Ayiqinisekiswanga",
+    viewContract: "Buka isivumelwano",
+    noContract: "Isivumelwano siyeza",
+    editProfile: "Hlela le phrofayela",
+    galleryBtn: "Umgwaqo Wezithombe",
+    galleryTitle: "Umgwaqo Wezithombe",
+    galleryClose: "Vala",
+    galleryPhotos: "Izithombe",
+    galleryVideos: "Amavidiyo",
+    galleryEmpty: "Ayikho imidiya okwamanje.",
+    storageFull: "Isikhala sokugcina sigcwele kule siphequluli — akukwazi ukwengeza le fayela. Zama ifayela elincane, noma sebenzisa isitoreji sangempela (backend) uma ufuna ikhathalogu ephelele.",
+    contactTitle: "Uyathakazelela ukubambisana?",
+    contactBody: "Xhumana neqembu le-Honeymoon ukuxoxa ngobambiswano, ukuthola ulwazi olwengeziwe ngomdali noma ukuhlela isethulo.",
+    contactBtn: "Xhumana ne-Honeymoon",
+    footTag: "Honeymoon — Okuyimfihlo",
+    modalTitle: "Hlela iphrofayela",
+    stageName: "Igama lasesiteji",
+    country: "Izwe",
+    platformsPh: "isb. Instagram · TikTok",
+    audiencePh: "isb. 25K+",
+    contentPh: "isb. Umdanso · Ividiyo · Ezenhlalo",
+    availLabel: "Iyatholakala ku- (hlukanisa ngo-comma)",
+    photoLabel: "Isithombe sekhava",
+    photoPrompt: "Chofoza ukukhetha isithombe",
+    photoReplace: "Isithombe samanje — chofoza ukushintsha",
+    contractLabel: "Isivumelwano nemvume (PDF)",
+    contractPrompt: "Chofoza ukwengeza i-PDF",
+    contractReplace: "I-PDF yengeziwe — chofoza ukushintsha",
+    consentText: "Ngiyaqinisekisa ukuthi lo mdali usemdala (18+), usayine isivumelwano futhi wanikeza imvume yakhe yokusetshenziswa kwesithombe sakhe nolwazi lwakhe kule khathalogu.",
+    cancel: "Khansela",
+    save: "Gcina",
+    savedToast: "Iphrofayela igciniwe (igcinwe kule siphequluli)",
+    needConsentToast: "Sicela uqinisekise ubudala, isivumelwano nemvume yomdali ngaphambi kokugcina.",
+    addedToast: "Kwengezwe kumgwaqo wezithombe",
+    removedToast: "Kususiwe kumgwaqo wezithombe",
+    creatorLink: "Indawo yomdali",
+    vitrineLink: "Ngena kusayithi",
+    ageGateTitle: "Ukuqinisekiswa kobudala",
+    ageGateBody: "Le sayithi ibonisa okuqukethwe okugodliwe kubantu abadala (iminyaka engu-18 nangaphezulu). Qinisekisa ubudala bakho ukuze uqhubeke.",
+    ageYes: "Yebo, ngineminyaka engu-18 noma ngaphezulu",
+    ageNo: "Cha, ngingaphansi kweminyaka engu-18",
+    ageBlockedTitle: "Ukufinyelela kwenqatshelwe",
+    ageBlockedBody: "Ukufinyelela kule sayithi kugodliwe kubantu abadala (iminyaka engu-18 nangaphezulu).",
+    ageLeaveBtn: "Phuma",
+    creatorGateSub: "Ukufinyelela komdali",
+    creatorEnter: "Ngena",
+    backAgency: "← Buyela",
+    creatorErr: "Ikhodi engalungile.",
+    creatorLogout: "Phuma",
+    myProfileHello: "Sawubona",
+    myProfileNote: "Nasi isithombe sakho namavidiyo akho njengoba abonakala kukhathalogu. Awukwazi ukwengeza noma ukushintsha lutho lapha — uma ufuna ushintsho, xhumana neqembu le-Honeymoon.",
+    myProfilePhotos: "Izithombe zakho",
+    myProfileVideos: "Amavidiyo akho",
+    myProfileNoMedia: "Ayikho imidiya eyengeziwe okwamanje.",
+    creatorCodeLabel: "Ikhodi yomdali (mnike yona)",
+    copyBtn: "Kopisha",
+    copiedToast: "Ikhodi ikopishiwe",
+    numberPrefix: "Nom.",
+    myEditBtn: "Hlela ulwazi lwami",
+    myProfileManageNote: "Phatha isithombe sakho, ulwazi lwakho nomgwaqo wezithombe ngezansi. Izithombe namavidiyo owafaka lapha azobonakala kusayithi yesitolo.",
+    addPhoto: "Engeza izithombe",
+    addVideo: "Engeza amavidiyo",
+    uploadingLabel: "Iyathumela…",
+    uploadFailed: "Ukuthumela kwehlulekile.",
+    saveErrorToast: "Iphutha ngesikhathi sokugcina — hlola uxhumo lwakho bese uzama futhi.",
+    myVaultTitle: "Isikhwama sami esiyimfihlo",
+    myVaultNote: "Indawo eyimfihlo yokugcina izithombe namavidiyo akho. Ngokungafani nomgwaqo wakho wezithombe ongenhla, lesi sikhwama asibonakali muntu ngaphandle kwakho.",
+    myVaultPhotos: "Izithombe ezigciniwe",
+    myVaultVideos: "Amavidiyo agciniwe",
+    bioSectionTitle: "Umlando womuntu",
+    bioSectionNote: "Lolu lwazi luzosetshenziswa ukwethula umdali kusayithi yesitolo.",
+    bioOrigin: "Umsuka",
+    bioNationality: "Ubuzwe",
+    bioAge: "Ubudala",
+    bioBodyType: "Uhlobo lomzimba",
+    bioOrientation: "Ukuthambekela",
+    bioLookingFor: "Akufunayo",
+    bioPassions: "Izinto azithandayo",
+    bioUniverse: "Umhlaba wakhe",
+    bioHobbies: "Amahobhi",
+    bioPersonality: "Isimilo",
+    bioFantasies: "Amaphupho",
+    bioFetish: "I-Fetish",
+    bioAmbitions: "Izifiso",
+    bioSocials: "Ezokuxhumana (akuphoqelekile)",
+    bioSocialsPh: "isb. Instagram @..., TikTok @...",
+    bioWorkUrl: "Isayithi asebenza kuyo (isixhumanisi)",
+    bioWorkUrlPh: "https://...",
+    bioOnlineStatus: "Isimo",
+    statusOnline: "Ku-inthanethi",
+    statusOffline: "Ngaphandle kwe-inthanethi",
+    contentPolicyNote: "Izithombe namavidiyo: izingubo zangaphansi noma ezimnandi kuphela (umdanso, i-twerk, ukudlala, ukuheha kuvunyelwe). Akukho okuqukethwe okunqunu — isithombe noma ividiyo — okwamukelekile.",
+    vitrineHeroEyebrow: "Isayithi yesitolo",
+    vitrineHeroTitle: "Thola abadali bethu",
+    vitrineHeroBody: "Ukubukwa komphakathi kwabadali be-Honeymoon. Thanda, shiya umbono, futhi uthole umhlaba wabo.",
+    vitrineBack: "← Buyela",
+    vitrineEmpty: "Akekho umdali oshicilelwe okwamanje.",
+    visitSiteBtn: "Vakashela isayithi yakhe",
+    likeLabel: "Ngiyakuthanda",
+    dislikeLabel: "Angikuthandi",
+    commentsTitle: "Imibono",
+    commentPlaceholder: "Bhala umbono onenhlonipho…",
+    commentSubmit: "Shicilela",
+    commentEmpty: "Asikho isimbono okwamanje. Yiba ngowokuqala!",
+    commentModerationError: "Umbono wakho unamagama angavunyelwe (izithuko, ulimi olubi). Sicela uwuguqule.",
+    commentPosted: "Umbono ushicilelwe",
+    commentRules: "Indawo yemibono enenhlonipho: akukho izithuko, akukho ulimi olubi."
+  },
+  st: {
+    gateSub: "Phihlelo ya lekunutu",
+    gateEnter: "Kena",
+    gateNoteB: "Tlhaloso ya tekgeniki:",
+    gateNote: "khoutu ena ya phihlelo ke sebaka se bonolo sa browser, eseng netefatso ya sebele.",
+    gateErr: "Khoutu e fosahetseng.",
+    gatePassPh: "Khoutu ya ho kena",
+    creatorPassPh: "Khoutu ya hao",
+    noPhotoYet: "Ha ho na setshwantsho",
+    vitrineEnterBtn: "Kena",
+    adminSub: "Phihlelo ya motsamaisi",
+    adminEnter: "Bula",
+    adminCancel: "Hlakola",
+    adminErr: "Khoutu ya motsamaisi e fosahetseng.",
+    editToggleOn: "Fetola lethathamo",
+    editToggleOff: "Ho phethiloe",
+    heroEyebrow: "Lethathamo",
+    heroTitle: "Babopi ba 5, konteraka e le nngwe, tlhoko e le nngwe: botebo.",
+    heroBody: "Lethathamo la Honeymoon le kopanya babopi ba 5 tlas'a konteraka e ikgethileng, ba kgethilweng ka lebaka la botebo le tlhohonolofatso ya bona. Ba bang ba qala mosebetsing: dintlha tse lebeletsweng di hlakile ho tloha qalong, mme ba di latela.",
+    catalogueTitle: "Lethathamo",
+    emptyName: "Profaele e se nang letho",
+    emptyDesc: "Profaele ena e tla fumaneha haufinyane.",
+    nameUndefined: "Lebitso ha le so behwe",
+    platforms: "Diprothlaform",
+    audience: "Bamameli",
+    content: "Diteng",
+    verified: "Dilemo tse 18+ di netefaditswe",
+    notVerified: "Ha e a netefatswa",
+    viewContract: "Sheba konteraka",
+    noContract: "Konteraka e tla tla",
+    editProfile: "Fetola profaele ena",
+    galleryBtn: "Diswantso",
+    galleryTitle: "Diswantso",
+    galleryClose: "Kwala",
+    galleryPhotos: "Diswantso",
+    galleryVideos: "Divideo",
+    galleryEmpty: "Ha ho na diteng ka nako ena.",
+    storageFull: "Sebaka sa polokelo se tletse ho browser ena — ha ho kgonahale ho kenya faele ena. Leka faele e bobebe, kapa o sebedise polokelo ya sebele (backend) bakeng sa lethathamo le felletseng.",
+    contactTitle: "O na le thahasello ya tshebedisano?",
+    contactBody: "Ikopanye le sehlopha sa Honeymoon ho bua ka tshebedisano, ho fumana lesedi le leng ka mmopi, kapa ho rulaganya tlhahiso.",
+    contactBtn: "Ikopanye le Honeymoon",
+    footTag: "Honeymoon — Sephiri",
+    modalTitle: "Fetola profaele",
+    stageName: "Lebitso la sethaeng",
+    country: "Naha",
+    platformsPh: "mohlala. Instagram · TikTok",
+    audiencePh: "mohlala. 25K+",
+    contentPh: "mohlala. Tantshi · Video · Ditjhaba",
+    availLabel: "E fumaneha bakeng sa (arola ka komma)",
+    photoLabel: "Setshwantsho sa sekwahelo",
+    photoPrompt: "Tobetsa ho kgetha setshwantsho",
+    photoReplace: "Setshwantsho sa hajwale — tobetsa ho fetola",
+    contractLabel: "Konteraka le tumello (PDF)",
+    contractPrompt: "Tobetsa ho kenya PDF",
+    contractReplace: "PDF e kentswe — tobetsa ho fetola",
+    consentText: "Ke netefatsa hore mmopi enwa o feditse dilemo tse 18, o saenne konteraka mme o file tumello ya hore setshwantsho sa hae le lesedi la hae di sebediswe lethathamong lena.",
+    cancel: "Hlakola",
+    save: "Boloka",
+    savedToast: "Profaele e bolokilwe (e bolokilwe ho browser ena)",
+    needConsentToast: "Ka kopo netefatsa dilemo, konteraka le tumello ya mmopi pele o boloka.",
+    addedToast: "E kentswe diswantshong",
+    removedToast: "E tlositswe diswantshong",
+    creatorLink: "Sebaka sa mmopi",
+    vitrineLink: "Kena websaeteng",
+    ageGateTitle: "Netefatso ya dilemo",
+    ageGateBody: "Websaete ena e na le diteng tse boloketsweng batho ba baholo (dilemo tse 18 le ho feta). Netefatsa dilemo tsa hao ho tswela pele.",
+    ageYes: "E, ke na le dilemo tse 18 kapa ho feta",
+    ageNo: "Tjhe, ke na le dilemo tse ka tlas'a 18",
+    ageBlockedTitle: "Phihlelo e hanetswe",
+    ageBlockedBody: "Phihlelo ya websaete ena e boloketswe batho ba baholo (dilemo tse 18 le ho feta).",
+    ageLeaveBtn: "Tswa",
+    creatorGateSub: "Phihlelo ya mmopi",
+    creatorEnter: "Kena",
+    backAgency: "← Kgutlela",
+    creatorErr: "Khoutu e fosahetseng.",
+    creatorLogout: "Tswa",
+    myProfileHello: "Dumela",
+    myProfileNote: "Ke setshwantsho sa hao le divideo tsa hao jwalo ka ha di bonahala lethathamong. Ha o kgone ho kenya kapa ho fetola letho mona — bakeng sa phetoho, ikopanye le sehlopha sa Honeymoon.",
+    myProfilePhotos: "Diswantso tsa hao",
+    myProfileVideos: "Divideo tsa hao",
+    myProfileNoMedia: "Ha ho na diteng tse kentsweng ka nako ena.",
+    creatorCodeLabel: "Khoutu ya mmopi (mo fe yona)",
+    copyBtn: "Kopa",
+    copiedToast: "Khoutu e kopilwe",
+    numberPrefix: "Nomoro",
+    myEditBtn: "Fetola lesedi la ka",
+    myProfileManageNote: "Laola setshwantsho sa hao, lesedi la hao le diswantso tsa hao ka tlase. Diswantso le divideo tseo o di kentseng mona di tla bonahala websaeteng ya pontsho.",
+    addPhoto: "Kenya diswantso",
+    addVideo: "Kenya divideo",
+    uploadingLabel: "E a romelwa…",
+    uploadFailed: "Ho romela ho hloletswe.",
+    saveErrorToast: "Phoso nakong ya ho boloka — sheba khokahano ya hao mme o leke hape.",
+    myVaultTitle: "Sebaka sa ka sa lekunutu",
+    myVaultNote: "Sebaka sa lekunutu sa ho boloka diswantso le divideo tsa hao. Ho fapana le diswantso tsa hao tse ka hodimo, sebaka sena ha se bonahale ke motho e mong ntle le wena.",
+    myVaultPhotos: "Diswantso tse bolokilweng",
+    myVaultVideos: "Divideo tse bolokilweng",
+    bioSectionTitle: "Tlaleho ya bophelo",
+    bioSectionNote: "Lesedi lena le tla sebediswa ho hlahisa mmopi websaeteng ya pontsho.",
+    bioOrigin: "Tswalo",
+    bioNationality: "Boemo ba bonaha",
+    bioAge: "Dilemo",
+    bioBodyType: "Mofuta wa mmele",
+    bioOrientation: "Tshekamelo",
+    bioLookingFor: "Seo a se batlang",
+    bioPassions: "Dintho tseo a di ratang",
+    bioUniverse: "Lefatshe la hae",
+    bioHobbies: "Diqeto/Mesebetsi eo a e ratang",
+    bioPersonality: "Botho",
+    bioFantasies: "Ditoro",
+    bioFetish: "Fetish",
+    bioAmbitions: "Ditakatso",
+    bioSocials: "Mecha ya kgokahano (ha e a hlokahala)",
+    bioSocialsPh: "mohlala. Instagram @..., TikTok @...",
+    bioWorkUrl: "Websaete eo a sebetsang ho yona (kgokahanyo)",
+    bioWorkUrlPh: "https://...",
+    bioOnlineStatus: "Boemo",
+    statusOnline: "O inthaneteng",
+    statusOffline: "Ha a inthaneteng",
+    contentPolicyNote: "Diswantso le divideo: diaparo tsa ka tlasa feela kapa diaparo tse hohelang (tantshi, twerk, tse hohelang di dumeletswe). Ha ho diteng tsa bofeela — setshwantsho kapa video — tse amohelwang.",
+    vitrineHeroEyebrow: "Websaete ya pontsho",
+    vitrineHeroTitle: "Sibolla babopi ba rona",
+    vitrineHeroBody: "Pono ya sechaba ya babopi ba Honeymoon. Rata, siya maikutlo, mme o sibolle lefatshe la bona.",
+    vitrineBack: "← Kgutlela",
+    vitrineEmpty: "Ha ho mmopi ya phatlaladitsweng ka nako ena.",
+    visitSiteBtn: "Etela websaete ya hae",
+    likeLabel: "Ke a rata",
+    dislikeLabel: "Ha ke rate",
+    commentsTitle: "Maikutlo",
+    commentPlaceholder: "Ngola maikutlo a hlomphehang…",
+    commentSubmit: "Phatlalatsa",
+    commentEmpty: "Ha ho na maikutlo ka nako ena. Ba wa pele!",
+    commentModerationError: "Maikutlo a hao a na le mantswe a sa dumellwang (dinyefolo, mantswe a mabe). Ka kopo a fetole.",
+    commentPosted: "Maikutlo a phatlaladitswe",
+    commentRules: "Sebaka sa maikutlo se hlomphehang: ha ho dinyefolo, ha ho mantswe a mabe."
+  },
+  ln: {
+    gateSub: "Bokoti ya sekele",
+    gateEnter: "Kota",
+    gateNoteB: "Sango ya tekiniki:",
+    gateNote: "kode oyo ya bokoti ezali kaka ekangeli ya pete na navigateur, ezali te bondimi ya solo.",
+    gateErr: "Kode ezali malamu te.",
+    gatePassPh: "Kode ya kokota",
+    creatorPassPh: "Kode na yo",
+    noPhotoYet: "Foto te naino",
+    vitrineEnterBtn: "Kota",
+    adminSub: "Bokoti ya mokambi",
+    adminEnter: "Fungola",
+    adminCancel: "Tika",
+    adminErr: "Kode ya mokambi ezali malamu te.",
+    editToggleOn: "Benga catalogue",
+    editToggleOff: "Esili",
+    heroEyebrow: "Catalogue",
+    heroTitle: "Bakeli 5, kontra moko, mposa moko: bosolo.",
+    heroBody: "Catalogue ya Honeymoon esangisi bakeli 5 na se ya kontra ya ndenge moko, baponami mpo na bosolo mpe molende na bango. Bamosusu bazali kobanda: bazwi malamu makanisi na ebandeli, mpe balandaka yango.",
+    catalogueTitle: "Catalogue",
+    emptyName: "Profil ezanga eloko",
+    emptyDesc: "Profil oyo ekozala pene na kozwama.",
+    nameUndefined: "Nkombo ezali naino te",
+    platforms: "Baplatform",
+    audience: "Bayoki",
+    content: "Makambo",
+    verified: "Mibu 18+ endimami",
+    notVerified: "Endimami te",
+    viewContract: "Tala kontra",
+    noContract: "Kontra ekoya",
+    editProfile: "Benga profil oyo",
+    galleryBtn: "Bifoto",
+    galleryTitle: "Bifoto",
+    galleryClose: "Kanga",
+    galleryPhotos: "Bifoto",
+    galleryVideos: "Bavideo",
+    galleryEmpty: "Eloko moko te sikoyo.",
+    storageFull: "Esika ya kobomba etondi na navigateur oyo — ekoki te kobakisa fichier oyo. Meka fichier ya moke, to sala esika ya solo ya kobomba (backend) mpo na catalogue ya kokoka.",
+    contactTitle: "Olingi kosala boyokani?",
+    contactBody: "Benga ekipe ya Honeymoon mpo na kosolola na ntina ya boyokani, kozwa nsango mingi na ntina ya mokeli to kobongisa presentation.",
+    contactBtn: "Benga Honeymoon",
+    footTag: "Honeymoon — Sekele",
+    modalTitle: "Benga profil",
+    stageName: "Nkombo ya scène",
+    country: "Ekolo",
+    platformsPh: "ndakisa. Instagram · TikTok",
+    audiencePh: "ndakisa. 25K+",
+    contentPh: "ndakisa. Kobina · Video · Réseaux",
+    availLabel: "Ezali na esika mpo na (kabola na koma)",
+    photoLabel: "Foto ya couverture",
+    photoPrompt: "Finela mpo na kopona foto",
+    photoReplace: "Foto ya sikawa — finela mpo na kobongola",
+    contractLabel: "Kontra na ndingisa (PDF)",
+    contractPrompt: "Finela mpo na kobakisa PDF",
+    contractReplace: "PDF ebakisami — finela mpo na kobongola",
+    consentText: "Nazali kondima ete mokeli oyo akoki mibu 18+, asili kotia signature na kontra mpe apesi ndingisa na ye mpo na kosalela foto na ye mpe nsango na ye na catalogue oyo.",
+    cancel: "Tika",
+    save: "Bomba",
+    savedToast: "Profil ebombami (ebombami na navigateur oyo)",
+    needConsentToast: "Svp ndimisa mibu, kontra na ndingisa ya mokeli liboso ya kobomba.",
+    addedToast: "Ebakisami na bifoto",
+    removedToast: "Elongolami na bifoto",
+    creatorLink: "Esika ya mokeli",
+    vitrineLink: "Kota na site",
+    ageGateTitle: "Kotala mibu",
+    ageGateBody: "Site oyo ezali na makambo oyo etikami mpo na bato ya mikolo (mibu 18 to koleka). Ndimisa mibu na yo mpo na kokoba.",
+    ageYes: "Iyo, nazali na mibu 18 to koleka",
+    ageNo: "Te, naza na mibu ya nse ya 18",
+    ageBlockedTitle: "Bokoti epekisami",
+    ageBlockedBody: "Bokoti na site oyo etikami mpo na bato ya mikolo (mibu 18 to koleka).",
+    ageLeaveBtn: "Bima",
+    creatorGateSub: "Bokoti ya mokeli",
+    creatorEnter: "Kota",
+    backAgency: "← Zonga",
+    creatorErr: "Kode ezali malamu te.",
+    creatorLogout: "Bima",
+    myProfileHello: "Mbote",
+    myProfileNote: "Tala foto na yo mpe bavideo na yo ndenge bamonanaka na catalogue. Okoki kobakisa to kobongola eloko te awa — mpo na mbongwana, benga ekipe ya Honeymoon.",
+    myProfilePhotos: "Bifoto na yo",
+    myProfileVideos: "Bavideo na yo",
+    myProfileNoMedia: "Eloko moko ebakisami te sikoyo.",
+    creatorCodeLabel: "Kode ya mokeli (pesa ye yango)",
+    copyBtn: "Kopi",
+    copiedToast: "Kode ekopiami",
+    numberPrefix: "N°",
+    myEditBtn: "Benga nsango na ngai",
+    myProfileManageNote: "Batela foto na yo, nsango na yo mpe bifoto na yo na se. Bifoto na bavideo oyo okotia awa ekomonana na site ya vitrine.",
+    addPhoto: "Bakisa bifoto",
+    addVideo: "Bakisa bavideo",
+    uploadingLabel: "Ezali kotinda…",
+    uploadFailed: "Kotinda elongi te.",
+    saveErrorToast: "Libunga na ntango ya kobomba — tala connexion na yo mpe meka lisusu.",
+    myVaultTitle: "Esika na ngai ya sekele",
+    myVaultNote: "Esika ya sekele mpo na kobomba bifoto na bavideo na yo. Na bokeseni na bifoto na yo ya likolo, esika oyo emonanaka na moto mosusu te longola kaka yo.",
+    myVaultPhotos: "Bifoto ebombami",
+    myVaultVideos: "Bavideo ebombami",
+    bioSectionTitle: "Lisolo ya bomoi",
+    bioSectionNote: "Nsango oyo ekosalelama mpo na kolakisa mokeli na site ya vitrine.",
+    bioOrigin: "Ebandeli",
+    bioNationality: "Ekolo (nationalité)",
+    bioAge: "Mibu",
+    bioBodyType: "Lolenge ya nzoto",
+    bioOrientation: "Orientation",
+    bioLookingFor: "Oyo alingi koluka",
+    bioPassions: "Bolingo/Makambo alingaka",
+    bioUniverse: "Mokili na ye",
+    bioHobbies: "Ba passe-temps",
+    bioPersonality: "Bizaleli",
+    bioFantasies: "Ba fantasme",
+    bioFetish: "Fetish",
+    bioAmbitions: "Bilingi/Ba ambition",
+    bioSocials: "Réseaux sociaux (esengeli te)",
+    bioSocialsPh: "ndakisa. Instagram @..., TikTok @...",
+    bioWorkUrl: "Site esika asalaka mosala (lien)",
+    bioWorkUrlPh: "https://...",
+    bioOnlineStatus: "Etat",
+    statusOnline: "Na ligne",
+    statusOffline: "Na ligne te",
+    contentPolicyNote: "Bifoto na bavideo: bilamba ya nse to bilamba ya kobenda miso kaka (kobina, twerk, sensuel, kobenda miso endimami). Eloko ya bolumbu te — foto to video — endimami te.",
+    vitrineHeroEyebrow: "Site ya vitrine",
+    vitrineHeroTitle: "Yeba bakeli na biso",
+    vitrineHeroBody: "Botali ya bato nyonso ya bakeli ya Honeymoon. Sepela, tika commentaire, mpe yeba mokili na bango.",
+    vitrineBack: "← Zonga",
+    vitrineEmpty: "Mokeli moko te abimisami sikoyo.",
+    visitSiteBtn: "Kende na site na ye",
+    likeLabel: "Nasepeli",
+    dislikeLabel: "Nasepeli te",
+    commentsTitle: "Ba commentaire",
+    commentPlaceholder: "Koma commentaire ya limemya…",
+    commentSubmit: "Bimisa",
+    commentEmpty: "Commentaire moko te sikoyo. Zala wa liboso!",
+    commentModerationError: "Commentaire na yo ezali na maloba oyo endimami te (matuka, maloba mabe). Svp bongola yango.",
+    commentPosted: "Commentaire ebimisami",
+    commentRules: "Esika ya ba commentaire ya limemya: matuka te, maloba mabe te."
+  },
+  zh: {
+    gateSub: "私密访问",
+    gateEnter: "进入",
+    gateNoteB: "技术说明：",
+    gateNote: "此访问码只是浏览器端的简单屏障，并非真正的身份验证。",
+    gateErr: "密码错误。",
+    gatePassPh: "访问码",
+    creatorPassPh: "你的代码",
+    noPhotoYet: "暂无照片",
+    vitrineEnterBtn: "进入",
+    adminSub: "管理员访问",
+    adminEnter: "解锁",
+    adminCancel: "取消",
+    adminErr: "管理员密码错误。",
+    editToggleOn: "编辑目录",
+    editToggleOff: "完成",
+    heroEyebrow: "目录",
+    heroTitle: "5位创作者，一份合同，一个要求：认真负责。",
+    heroBody: "Honeymoon 目录汇集了5位签有独家合同的创作者，她们因认真负责和积极进取而被选中。有些人刚刚起步：从一开始要求就很明确，她们也会严格遵守。",
+    catalogueTitle: "目录",
+    emptyName: "空档案",
+    emptyDesc: "此档案即将推出。",
+    nameUndefined: "姓名待定",
+    platforms: "平台",
+    audience: "受众",
+    content: "内容",
+    verified: "已验证18+",
+    notVerified: "未验证",
+    viewContract: "查看合同",
+    noContract: "合同即将上传",
+    editProfile: "编辑此档案",
+    galleryBtn: "相册",
+    galleryTitle: "相册",
+    galleryClose: "关闭",
+    galleryPhotos: "照片",
+    galleryVideos: "视频",
+    galleryEmpty: "暂无内容。",
+    storageFull: "此浏览器的存储空间已满 — 无法添加此文件。请尝试更小的文件，或使用真正的存储（后端）以获得更完整的目录。",
+    contactTitle: "有意合作？",
+    contactBody: "联系 Honeymoon 团队，商讨合作事宜、了解某位创作者的更多信息，或安排介绍会。",
+    contactBtn: "联系 Honeymoon",
+    footTag: "Honeymoon — 保密",
+    modalTitle: "编辑档案",
+    stageName: "艺名",
+    country: "国家",
+    platformsPh: "例如 Instagram · TikTok",
+    audiencePh: "例如 25K+",
+    contentPh: "例如 舞蹈 · 视频 · 社交",
+    availLabel: "可提供服务（用逗号分隔）",
+    photoLabel: "封面照片",
+    photoPrompt: "点击选择照片",
+    photoReplace: "当前照片 — 点击更换",
+    contractLabel: "合同与同意书（PDF）",
+    contractPrompt: "点击添加PDF",
+    contractReplace: "已添加PDF — 点击更换",
+    consentText: "我确认该创作者已成年（18岁以上），已签署合同，并同意在本目录中使用她的照片及个人信息。",
+    cancel: "取消",
+    save: "保存",
+    savedToast: "档案已保存（保存在此浏览器中）",
+    needConsentToast: "请在保存前确认创作者已成年、已签合同并已同意。",
+    addedToast: "已添加到相册",
+    removedToast: "已从相册移除",
+    creatorLink: "创作者专区",
+    vitrineLink: "进入网站",
+    ageGateTitle: "年龄验证",
+    ageGateBody: "本网站包含仅限成年人（18岁及以上）访问的内容。请确认您的年龄以继续。",
+    ageYes: "是的，我已满18岁",
+    ageNo: "不，我未满18岁",
+    ageBlockedTitle: "访问被拒绝",
+    ageBlockedBody: "本网站仅限成年人（18岁及以上）访问。",
+    ageLeaveBtn: "离开",
+    creatorGateSub: "创作者访问",
+    creatorEnter: "进入",
+    backAgency: "← 返回",
+    creatorErr: "密码错误。",
+    creatorLogout: "退出登录",
+    myProfileHello: "你好",
+    myProfileNote: "这是你在目录中展示的照片和视频。你不能在此处添加或修改任何内容 — 如需更改，请联系 Honeymoon 团队。",
+    myProfilePhotos: "你的照片",
+    myProfileVideos: "你的视频",
+    myProfileNoMedia: "暂无添加内容。",
+    creatorCodeLabel: "创作者代码（请转交给她）",
+    copyBtn: "复制",
+    copiedToast: "代码已复制",
+    numberPrefix: "编号",
+    myEditBtn: "编辑我的信息",
+    myProfileManageNote: "在下方管理你的照片、信息和相册。你在此发布的照片和视频将在展示网站上可见。",
+    addPhoto: "添加照片",
+    addVideo: "添加视频",
+    uploadingLabel: "正在上传…",
+    uploadFailed: "上传失败。",
+    saveErrorToast: "保存时出错 — 请检查你的网络连接并重试。",
+    myVaultTitle: "我的私人保险库",
+    myVaultNote: "一个用于保存你照片和视频的私密空间。与上方的相册不同，此保险库除你之外任何人都无法看到。",
+    myVaultPhotos: "已保存的照片",
+    myVaultVideos: "已保存的视频",
+    bioSectionTitle: "个人简介",
+    bioSectionNote: "这些信息将用于在展示网站上介绍该创作者。",
+    bioOrigin: "出生地",
+    bioNationality: "国籍",
+    bioAge: "年龄",
+    bioBodyType: "体型",
+    bioOrientation: "性取向",
+    bioLookingFor: "她在寻找什么",
+    bioPassions: "兴趣爱好",
+    bioUniverse: "她的风格",
+    bioHobbies: "爱好",
+    bioPersonality: "性格",
+    bioFantasies: "幻想",
+    bioFetish: "恋物癖",
+    bioAmbitions: "抱负",
+    bioSocials: "社交媒体（可选）",
+    bioSocialsPh: "例如 Instagram @..., TikTok @...",
+    bioWorkUrl: "她工作的网站（链接）",
+    bioWorkUrlPh: "https://...",
+    bioOnlineStatus: "状态",
+    statusOnline: "在线",
+    statusOffline: "离线",
+    contentPolicyNote: "照片和视频：仅限内衣或性感服装（允许舞蹈、翘臀舞、性感、挑逗内容）。不接受任何裸露内容 — 无论是照片还是视频。",
+    vitrineHeroEyebrow: "展示网站",
+    vitrineHeroTitle: "探索我们的创作者",
+    vitrineHeroBody: "Honeymoon 创作者的公开预览。点赞、留言，探索她们的世界。",
+    vitrineBack: "← 返回",
+    vitrineEmpty: "目前还没有已发布的创作者。",
+    visitSiteBtn: "访问她的网站",
+    likeLabel: "喜欢",
+    dislikeLabel: "不喜欢",
+    commentsTitle: "评论",
+    commentPlaceholder: "写下一条友善的评论…",
+    commentSubmit: "发布",
+    commentEmpty: "暂无评论。快来抢沙发吧！",
+    commentModerationError: "你的评论包含不允许的词语（辱骂、粗话）。请重新表述。",
+    commentPosted: "评论已发布",
+    commentRules: "友善评论区：禁止辱骂，禁止粗话。"
+  },
+  ja: {
+    gateSub: "プライベートアクセス",
+    gateEnter: "入る",
+    gateNoteB: "技術メモ：",
+    gateNote: "このアクセスコードはブラウザ側の簡易的な障壁にすぎず、本当の認証ではありません。",
+    gateErr: "コードが正しくありません。",
+    gatePassPh: "アクセスコード",
+    creatorPassPh: "あなたのコード",
+    noPhotoYet: "まだ写真がありません",
+    vitrineEnterBtn: "入る",
+    adminSub: "管理者アクセス",
+    adminEnter: "ロック解除",
+    adminCancel: "キャンセル",
+    adminErr: "管理者コードが正しくありません。",
+    editToggleOn: "カタログを編集",
+    editToggleOff: "完了",
+    heroEyebrow: "カタログ",
+    heroTitle: "5人のクリエイター、1つの契約、1つの条件：誠実さ。",
+    heroBody: "Honeymoon のカタログは、誠実さとモチベーションを基準に選ばれた、専属契約を結ぶ5人のクリエイターを集めています。この業界を始めたばかりの人もいますが、最初から期待値は明確にされ、それを守っています。",
+    catalogueTitle: "カタログ",
+    emptyName: "空のプロフィール",
+    emptyDesc: "このプロフィールは近日公開予定です。",
+    nameUndefined: "名前未定",
+    platforms: "プラットフォーム",
+    audience: "オーディエンス",
+    content: "コンテンツ",
+    verified: "18歳以上確認済み",
+    notVerified: "未確認",
+    viewContract: "契約書を見る",
+    noContract: "契約書は準備中",
+    editProfile: "このプロフィールを編集",
+    galleryBtn: "ギャラリー",
+    galleryTitle: "ギャラリー",
+    galleryClose: "閉じる",
+    galleryPhotos: "写真",
+    galleryVideos: "動画",
+    galleryEmpty: "現在コンテンツはありません。",
+    storageFull: "このブラウザのストレージがいっぱいです — このファイルを追加できません。より軽いファイルを試すか、より充実したカタログのために本格的なストレージ（バックエンド）に移行してください。",
+    contactTitle: "コラボレーションにご興味がありますか？",
+    contactBody: "パートナーシップについて相談したり、クリエイターの詳細情報を得たり、プレゼンテーションを企画するには、Honeymoon チームまでご連絡ください。",
+    contactBtn: "Honeymoon に連絡する",
+    footTag: "Honeymoon — 機密",
+    modalTitle: "プロフィールを編集",
+    stageName: "ステージネーム",
+    country: "国",
+    platformsPh: "例：Instagram · TikTok",
+    audiencePh: "例：25K+",
+    contentPh: "例：ダンス · 動画 · SNS",
+    availLabel: "対応可能な内容（カンマ区切り）",
+    photoLabel: "カバー写真",
+    photoPrompt: "クリックして写真を選択",
+    photoReplace: "現在の写真 — クリックして変更",
+    contractLabel: "契約書と同意書（PDF）",
+    contractPrompt: "クリックしてPDFを追加",
+    contractReplace: "PDFを追加しました — クリックして変更",
+    consentText: "私はこのクリエイターが成人（18歳以上）であること、契約書に署名していること、そして本カタログでの写真および情報の使用に同意していることを確認します。",
+    cancel: "キャンセル",
+    save: "保存",
+    savedToast: "プロフィールを保存しました（このブラウザに保存）",
+    needConsentToast: "保存する前に、成人年齢、契約書、クリエイターの同意を確認してください。",
+    addedToast: "ギャラリーに追加しました",
+    removedToast: "ギャラリーから削除しました",
+    creatorLink: "クリエイター専用ページ",
+    vitrineLink: "サイトに入る",
+    ageGateTitle: "年齢確認",
+    ageGateBody: "当サイトは成人（18歳以上）限定のコンテンツを掲載しています。続けるには年齢を確認してください。",
+    ageYes: "はい、18歳以上です",
+    ageNo: "いいえ、18歳未満です",
+    ageBlockedTitle: "アクセス拒否",
+    ageBlockedBody: "当サイトへのアクセスは成人（18歳以上）に限定されています。",
+    ageLeaveBtn: "退出",
+    creatorGateSub: "クリエイターアクセス",
+    creatorEnter: "入る",
+    backAgency: "← 戻る",
+    creatorErr: "コードが正しくありません。",
+    creatorLogout: "ログアウト",
+    myProfileHello: "こんにちは",
+    myProfileNote: "カタログに表示されるあなたの写真と動画です。ここでは追加や変更はできません — 変更が必要な場合は Honeymoon チームまでご連絡ください。",
+    myProfilePhotos: "あなたの写真",
+    myProfileVideos: "あなたの動画",
+    myProfileNoMedia: "まだコンテンツが追加されていません。",
+    creatorCodeLabel: "クリエイターコード（本人に伝えてください）",
+    copyBtn: "コピー",
+    copiedToast: "コードをコピーしました",
+    numberPrefix: "No.",
+    myEditBtn: "自分の情報を編集",
+    myProfileManageNote: "以下であなたの写真、情報、ギャラリーを管理できます。ここに投稿した写真や動画はショーケースサイトに表示されます。",
+    addPhoto: "写真を追加",
+    addVideo: "動画を追加",
+    uploadingLabel: "アップロード中…",
+    uploadFailed: "アップロードに失敗しました。",
+    saveErrorToast: "保存中にエラーが発生しました — 接続を確認して再試行してください。",
+    myVaultTitle: "私専用の保管庫",
+    myVaultNote: "写真や動画を保存するプライベートな空間です。上のギャラリーとは異なり、この保管庫はあなた以外の誰にも見えません。",
+    myVaultPhotos: "保存した写真",
+    myVaultVideos: "保存した動画",
+    bioSectionTitle: "プロフィール（自己紹介）",
+    bioSectionNote: "この情報はショーケースサイトでクリエイターを紹介するために使用されます。",
+    bioOrigin: "出身地",
+    bioNationality: "国籍",
+    bioAge: "年齢",
+    bioBodyType: "体型",
+    bioOrientation: "性的指向",
+    bioLookingFor: "求めていること",
+    bioPassions: "情熱・好きなこと",
+    bioUniverse: "彼女の世界観",
+    bioHobbies: "趣味",
+    bioPersonality: "性格",
+    bioFantasies: "ファンタジー",
+    bioFetish: "フェチ",
+    bioAmbitions: "目標・野望",
+    bioSocials: "SNS（任意）",
+    bioSocialsPh: "例：Instagram @..., TikTok @...",
+    bioWorkUrl: "仕事用サイト（リンク）",
+    bioWorkUrlPh: "https://...",
+    bioOnlineStatus: "ステータス",
+    statusOnline: "オンライン",
+    statusOffline: "オフライン",
+    contentPolicyNote: "写真・動画：ランジェリーまたはセクシーな衣装のみ（ダンス、トワーク、官能的、誘惑的な内容は許可）。ヌードコンテンツ（写真・動画とも）は一切受け付けません。",
+    vitrineHeroEyebrow: "ショーケースサイト",
+    vitrineHeroTitle: "私たちのクリエイターを発見しよう",
+    vitrineHeroBody: "Honeymoon のクリエイターを公開プレビュー。いいねをして、コメントを残し、彼女たちの世界観を発見しましょう。",
+    vitrineBack: "← 戻る",
+    vitrineEmpty: "まだ公開されているクリエイターはいません。",
+    visitSiteBtn: "彼女のサイトを訪れる",
+    likeLabel: "いいね",
+    dislikeLabel: "よくないね",
+    commentsTitle: "コメント",
+    commentPlaceholder: "思いやりのあるコメントを書いてください…",
+    commentSubmit: "投稿",
+    commentEmpty: "まだコメントはありません。最初のコメントを残しましょう！",
+    commentModerationError: "コメントに許可されていない言葉（暴言・下品な言葉）が含まれています。書き直してください。",
+    commentPosted: "コメントを投稿しました",
+    commentRules: "思いやりのあるコメント欄です：暴言・下品な言葉は禁止です。"
+  },
+  ru: {
+    gateSub: "Приватный доступ",
+    gateEnter: "Войти",
+    gateNoteB: "Техническое примечание:",
+    gateNote: "этот код доступа — простой барьер на стороне браузера, а не настоящая аутентификация.",
+    gateErr: "Неверный код.",
+    gatePassPh: "Код доступа",
+    creatorPassPh: "Твой код",
+    noPhotoYet: "Пока нет фото",
+    vitrineEnterBtn: "Войти",
+    adminSub: "Доступ администратора",
+    adminEnter: "Разблокировать",
+    adminCancel: "Отмена",
+    adminErr: "Неверный код администратора.",
+    editToggleOn: "Редактировать каталог",
+    editToggleOff: "Готово",
+    heroEyebrow: "Каталог",
+    heroTitle: "5 создательниц, один контракт, одно требование: серьёзность.",
+    heroBody: "Каталог Honeymoon объединяет 5 создательниц по эксклюзивному контракту, отобранных за их серьёзность и мотивацию. Некоторые только начинают: ожидания чётко обозначены с самого начала, и они их придерживаются.",
+    catalogueTitle: "Каталог",
+    emptyName: "Пустой профиль",
+    emptyDesc: "Этот профиль скоро будет доступен.",
+    nameUndefined: "Имя не определено",
+    platforms: "Платформы",
+    audience: "Аудитория",
+    content: "Контент",
+    verified: "Возраст 18+ подтверждён",
+    notVerified: "Не подтверждено",
+    viewContract: "Посмотреть контракт",
+    noContract: "Контракт скоро появится",
+    editProfile: "Редактировать этот профиль",
+    galleryBtn: "Галерея",
+    galleryTitle: "Галерея",
+    galleryClose: "Закрыть",
+    galleryPhotos: "Фото",
+    galleryVideos: "Видео",
+    galleryEmpty: "Пока нет медиа.",
+    storageFull: "Хранилище в этом браузере заполнено — невозможно добавить этот файл. Попробуйте файл меньшего размера или перейдите на настоящее хранилище (бэкенд) для более полного каталога.",
+    contactTitle: "Заинтересованы в сотрудничестве?",
+    contactBody: "Свяжитесь с командой Honeymoon, чтобы обсудить партнёрство, получить больше информации о создательнице или организовать презентацию.",
+    contactBtn: "Связаться с Honeymoon",
+    footTag: "Honeymoon — Конфиденциально",
+    modalTitle: "Редактировать профиль",
+    stageName: "Сценическое имя",
+    country: "Страна",
+    platformsPh: "напр. Instagram · TikTok",
+    audiencePh: "напр. 25K+",
+    contentPh: "напр. Танцы · Видео · Соцсети",
+    availLabel: "Доступна для (через запятую)",
+    photoLabel: "Обложка (фото)",
+    photoPrompt: "Нажмите, чтобы выбрать фото",
+    photoReplace: "Текущее фото — нажмите, чтобы заменить",
+    contractLabel: "Контракт и согласие (PDF)",
+    contractPrompt: "Нажмите, чтобы добавить PDF",
+    contractReplace: "PDF добавлен — нажмите, чтобы заменить",
+    consentText: "Я подтверждаю, что эта создательница совершеннолетняя (18+), подписала контракт и дала согласие на использование её фото и информации в этом каталоге.",
+    cancel: "Отмена",
+    save: "Сохранить",
+    savedToast: "Профиль сохранён (сохранено в этом браузере)",
+    needConsentToast: "Пожалуйста, подтвердите совершеннолетие, контракт и согласие создательницы перед сохранением.",
+    addedToast: "Добавлено в галерею",
+    removedToast: "Удалено из галереи",
+    creatorLink: "Личный кабинет создательницы",
+    vitrineLink: "Войти на сайт",
+    ageGateTitle: "Проверка возраста",
+    ageGateBody: "На этом сайте представлен контент, предназначенный только для совершеннолетних (18 лет и старше). Подтвердите свой возраст, чтобы продолжить.",
+    ageYes: "Да, мне 18 лет или больше",
+    ageNo: "Нет, мне меньше 18 лет",
+    ageBlockedTitle: "Доступ запрещён",
+    ageBlockedBody: "Доступ к этому сайту предназначен только для совершеннолетних (18 лет и старше).",
+    ageLeaveBtn: "Выйти",
+    creatorGateSub: "Доступ для создательниц",
+    creatorEnter: "Войти",
+    backAgency: "← Назад",
+    creatorErr: "Неверный код.",
+    creatorLogout: "Выйти из аккаунта",
+    myProfileHello: "Привет",
+    myProfileNote: "Вот твоё фото и видео, как они отображаются в каталоге. Здесь ничего нельзя добавить или изменить — для изменений свяжись с командой Honeymoon.",
+    myProfilePhotos: "Твои фото",
+    myProfileVideos: "Твои видео",
+    myProfileNoMedia: "Пока нет добавленных медиа.",
+    creatorCodeLabel: "Код создательницы (передать ей)",
+    copyBtn: "Копировать",
+    copiedToast: "Код скопирован",
+    numberPrefix: "№",
+    myEditBtn: "Редактировать мою информацию",
+    myProfileManageNote: "Управляй своим фото, информацией и галереей ниже. Фото и видео, которые ты здесь публикуешь, будут видны на сайте-витрине.",
+    addPhoto: "Добавить фото",
+    addVideo: "Добавить видео",
+    uploadingLabel: "Загрузка…",
+    uploadFailed: "Ошибка загрузки.",
+    saveErrorToast: "Ошибка при сохранении — проверь соединение и попробуй снова.",
+    myVaultTitle: "Моё личное хранилище",
+    myVaultNote: "Приватное пространство для сохранения твоих фото и видео. В отличие от галереи выше, это хранилище не видно никому, кроме тебя.",
+    myVaultPhotos: "Сохранённые фото",
+    myVaultVideos: "Сохранённые видео",
+    bioSectionTitle: "Биография",
+    bioSectionNote: "Эта информация будет использована для представления создательницы на сайте-витрине.",
+    bioOrigin: "Происхождение",
+    bioNationality: "Национальность",
+    bioAge: "Возраст",
+    bioBodyType: "Тип телосложения",
+    bioOrientation: "Ориентация",
+    bioLookingFor: "Что она ищет",
+    bioPassions: "Увлечения",
+    bioUniverse: "Её мир",
+    bioHobbies: "Хобби",
+    bioPersonality: "Личность",
+    bioFantasies: "Фантазии",
+    bioFetish: "Фетиш",
+    bioAmbitions: "Амбиции",
+    bioSocials: "Соцсети (по желанию)",
+    bioSocialsPh: "напр. Instagram @..., TikTok @...",
+    bioWorkUrl: "Сайт, где она работает (ссылка)",
+    bioWorkUrlPh: "https://...",
+    bioOnlineStatus: "Статус",
+    statusOnline: "Онлайн",
+    statusOffline: "Оффлайн",
+    contentPolicyNote: "Фото и видео: только нижнее бельё или откровенная одежда (танцы, тверк, чувственный, соблазнительный контент разрешены). Обнажённый контент — фото или видео — не принимается.",
+    vitrineHeroEyebrow: "Сайт-витрина",
+    vitrineHeroTitle: "Откройте для себя наших создательниц",
+    vitrineHeroBody: "Публичный предпросмотр создательниц Honeymoon. Ставьте лайки, оставляйте комментарии и открывайте их мир.",
+    vitrineBack: "← Назад",
+    vitrineEmpty: "Пока нет опубликованных создательниц.",
+    visitSiteBtn: "Посетить её сайт",
+    likeLabel: "Нравится",
+    dislikeLabel: "Не нравится",
+    commentsTitle: "Комментарии",
+    commentPlaceholder: "Напишите уважительный комментарий…",
+    commentSubmit: "Опубликовать",
+    commentEmpty: "Пока нет комментариев. Будьте первой!",
+    commentModerationError: "Ваш комментарий содержит недопустимые слова (оскорбления, нецензурная лексика). Пожалуйста, переформулируйте его.",
+    commentPosted: "Комментарий опубликован",
+    commentRules: "Уважительное пространство для комментариев: без оскорблений, без нецензурной лексики."
+  },
+  ar: {
+    gateSub: "وصول خاص",
+    gateEnter: "دخول",
+    gateNoteB: "ملاحظة تقنية:",
+    gateNote: "رمز الوصول هذا هو مجرد حاجز بسيط من جانب المتصفح، وليس مصادقة حقيقية.",
+    gateErr: "الرمز غير صحيح.",
+    gatePassPh: "رمز الوصول",
+    creatorPassPh: "رمزك",
+    noPhotoYet: "لا توجد صورة بعد",
+    vitrineEnterBtn: "دخول",
+    adminSub: "وصول المسؤول",
+    adminEnter: "فتح القفل",
+    adminCancel: "إلغاء",
+    adminErr: "رمز المسؤول غير صحيح.",
+    editToggleOn: "تعديل الكتالوج",
+    editToggleOff: "تم",
+    heroEyebrow: "الكتالوج",
+    heroTitle: "5 منشئات محتوى، عقد واحد، شرط واحد: الجدية.",
+    heroBody: "يجمع كتالوج Honeymoon 5 منشئات محتوى بعقد حصري، تم اختيارهن لجديتهن وحماسهن. بعضهن بدأن للتو في هذا المجال: التوقعات واضحة منذ البداية، وهن يلتزمن بها.",
+    catalogueTitle: "الكتالوج",
+    emptyName: "ملف شخصي فارغ",
+    emptyDesc: "سيكون هذا الملف الشخصي متاحًا قريبًا.",
+    nameUndefined: "الاسم غير محدد بعد",
+    platforms: "المنصات",
+    audience: "الجمهور",
+    content: "المحتوى",
+    verified: "تم التحقق من سن +18",
+    notVerified: "غير موثّق",
+    viewContract: "عرض العقد",
+    noContract: "العقد قادم قريبًا",
+    editProfile: "تعديل هذا الملف الشخصي",
+    galleryBtn: "المعرض",
+    galleryTitle: "المعرض",
+    galleryClose: "إغلاق",
+    galleryPhotos: "الصور",
+    galleryVideos: "الفيديوهات",
+    galleryEmpty: "لا يوجد محتوى بعد.",
+    storageFull: "مساحة التخزين ممتلئة في هذا المتصفح — لا يمكن إضافة هذا الملف. جرّبي ملفًا أصغر، أو استخدمي تخزينًا حقيقيًا (خادم خلفي) للحصول على كتالوج أكثر اكتمالًا.",
+    contactTitle: "مهتم بالتعاون؟",
+    contactBody: "تواصل مع فريق Honeymoon لمناقشة شراكة، أو الحصول على مزيد من المعلومات حول إحدى منشئات المحتوى، أو تنظيم عرض تقديمي.",
+    contactBtn: "تواصل مع Honeymoon",
+    footTag: "Honeymoon — سري",
+    modalTitle: "تعديل الملف الشخصي",
+    stageName: "اسم الشهرة",
+    country: "الدولة",
+    platformsPh: "مثال. Instagram · TikTok",
+    audiencePh: "مثال. 25K+",
+    contentPh: "مثال. رقص · فيديو · اجتماعي",
+    availLabel: "متاحة لـ (مفصولة بفواصل)",
+    photoLabel: "صورة الغلاف",
+    photoPrompt: "انقر لاختيار صورة",
+    photoReplace: "الصورة الحالية — انقر للاستبدال",
+    contractLabel: "العقد والموافقة (PDF)",
+    contractPrompt: "انقر لإضافة ملف PDF",
+    contractReplace: "تمت إضافة PDF — انقر للاستبدال",
+    consentText: "أؤكد أن هذه المنشئة بالغة (18 سنة فأكثر)، وقّعت عقدًا، ووافقت على استخدام صورتها ومعلوماتها في هذا الكتالوج.",
+    cancel: "إلغاء",
+    save: "حفظ",
+    savedToast: "تم حفظ الملف الشخصي (محفوظ في هذا المتصفح)",
+    needConsentToast: "يرجى تأكيد سن الرشد والعقد وموافقة المنشئة قبل الحفظ.",
+    addedToast: "تمت الإضافة إلى المعرض",
+    removedToast: "تمت الإزالة من المعرض",
+    creatorLink: "مساحة المنشئة",
+    vitrineLink: "الدخول إلى الموقع",
+    ageGateTitle: "التحقق من العمر",
+    ageGateBody: "يحتوي هذا الموقع على محتوى مخصص للبالغين فقط (18 سنة فأكثر). يرجى تأكيد عمرك للمتابعة.",
+    ageYes: "نعم، عمري 18 سنة أو أكثر",
+    ageNo: "لا، عمري أقل من 18 سنة",
+    ageBlockedTitle: "تم رفض الوصول",
+    ageBlockedBody: "الوصول إلى هذا الموقع مخصص للبالغين فقط (18 سنة فأكثر).",
+    ageLeaveBtn: "مغادرة",
+    creatorGateSub: "وصول المنشئة",
+    creatorEnter: "دخول",
+    backAgency: "← رجوع",
+    creatorErr: "الرمز غير صحيح.",
+    creatorLogout: "تسجيل الخروج",
+    myProfileHello: "مرحبًا",
+    myProfileNote: "هذه صورتك وفيديوهاتك كما تظهر في الكتالوج. لا يمكنك إضافة أو تعديل أي شيء هنا — لإجراء تغيير، تواصلي مع فريق Honeymoon.",
+    myProfilePhotos: "صورك",
+    myProfileVideos: "فيديوهاتك",
+    myProfileNoMedia: "لم تتم إضافة أي محتوى بعد.",
+    creatorCodeLabel: "رمز المنشئة (يُسلَّم لها)",
+    copyBtn: "نسخ",
+    copiedToast: "تم نسخ الرمز",
+    numberPrefix: "رقم",
+    myEditBtn: "تعديل معلوماتي",
+    myProfileManageNote: "أدرّي صورتك ومعلوماتك ومعرضك أدناه. الصور والفيديوهات التي تنشرينها هنا ستكون مرئية على الموقع التعريفي.",
+    addPhoto: "إضافة صور",
+    addVideo: "إضافة فيديوهات",
+    uploadingLabel: "جارٍ الإرسال…",
+    uploadFailed: "فشل الإرسال.",
+    saveErrorToast: "حدث خطأ أثناء الحفظ — تحققي من اتصالك وحاولي مرة أخرى.",
+    myVaultTitle: "خزنتي الخاصة",
+    myVaultNote: "مساحة خاصة لحفظ صورك وفيديوهاتك. على عكس معرضك أعلاه، هذه الخزنة غير مرئية لأي شخص سواك.",
+    myVaultPhotos: "الصور المحفوظة",
+    myVaultVideos: "الفيديوهات المحفوظة",
+    bioSectionTitle: "السيرة الذاتية",
+    bioSectionNote: "ستُستخدم هذه المعلومات لتقديم المنشئة على الموقع التعريفي.",
+    bioOrigin: "الأصل",
+    bioNationality: "الجنسية",
+    bioAge: "العمر",
+    bioBodyType: "نوع الجسم",
+    bioOrientation: "التوجه",
+    bioLookingFor: "ما الذي تبحث عنه",
+    bioPassions: "شغفها",
+    bioUniverse: "عالمها",
+    bioHobbies: "الهوايات",
+    bioPersonality: "الشخصية",
+    bioFantasies: "الخيالات",
+    bioFetish: "الهوس (Fetish)",
+    bioAmbitions: "الطموحات",
+    bioSocials: "وسائل التواصل الاجتماعي (اختياري)",
+    bioSocialsPh: "مثال. Instagram @..., TikTok @...",
+    bioWorkUrl: "الموقع الذي تعمل عليه (رابط)",
+    bioWorkUrlPh: "https://...",
+    bioOnlineStatus: "الحالة",
+    statusOnline: "متصلة",
+    statusOffline: "غير متصلة",
+    contentPolicyNote: "الصور والفيديوهات: ملابس داخلية أو مثيرة فقط (يُسمح بالرقص، التويرك، المحتوى المثير والمغري). لا يُقبل أي محتوى عارٍ — صورة كان أم فيديو.",
+    vitrineHeroEyebrow: "الموقع التعريفي",
+    vitrineHeroTitle: "اكتشفي منشئاتنا",
+    vitrineHeroBody: "نظرة عامة عامة على منشئات محتوى Honeymoon. أعجبي، اتركي تعليقًا، واكتشفي عالمهن.",
+    vitrineBack: "← رجوع",
+    vitrineEmpty: "لا توجد منشئة منشورة حتى الآن.",
+    visitSiteBtn: "زيارة موقعها",
+    likeLabel: "إعجاب",
+    dislikeLabel: "عدم إعجاب",
+    commentsTitle: "التعليقات",
+    commentPlaceholder: "اكتب تعليقًا لائقًا…",
+    commentSubmit: "نشر",
+    commentEmpty: "لا توجد تعليقات بعد. كوني الأولى!",
+    commentModerationError: "يحتوي تعليقك على كلمات غير مسموح بها (شتائم، ألفاظ نابية). يرجى إعادة صياغته.",
+    commentPosted: "تم نشر التعليق",
+    commentRules: "مساحة تعليقات محترمة: بدون شتائم، بدون ألفاظ نابية."
+  },
+  kg: {
+    gateSub: "Nzila ya kinsweki",
+    gateEnter: "Kota",
+    gateNoteB: "Nsangu ya tekiniki:",
+    gateNote: "kode yayi ya nzila kele kaka kikangu ya pete ya navigatele, kele ve kimenga ya kieleka.",
+    gateErr: "Kode kele mbote ve.",
+    gatePassPh: "Kode ya nzila",
+    creatorPassPh: "Kode na nge",
+    noPhotoYet: "Kifwani ve kiantete",
+    vitrineEnterBtn: "Kota",
+    adminSub: "Nzila ya mfumu",
+    adminEnter: "Kangula",
+    adminCancel: "Vidisa",
+    adminErr: "Kode ya mfumu kele mbote ve.",
+    editToggleOn: "Soba katalogi",
+    editToggleOff: "Mene manisa",
+    heroEyebrow: "Katalogi",
+    heroTitle: "Bantu 5 ya kusala mambu, kontrata mosi, mfunu mosi: kieleka.",
+    heroBody: "Katalogi ya Honeymoon ke kutikisa bantu 5 ya kusala mambu na nsi ya kontrata ya kikesa, bo solwaka mu kieleka ye mfunu na bo. Bankaka ke yantika kaka na kisalu: mambu ya kuvingila kele pwelele tuka na luyantiku, ye bo ke landa yo.",
+    catalogueTitle: "Katalogi",
+    emptyName: "Profile ya mpamba",
+    emptyDesc: "Profile yayi ta monana kutuka.",
+    nameUndefined: "Nkumbu ya nkatu solwa",
+    platforms: "Baplatform",
+    audience: "Basi ya kuwa",
+    content: "Bima ya nkati",
+    verified: "Mvu 18+ me solwama",
+    notVerified: "Me solwama ve",
+    viewContract: "Tala kontrata",
+    noContract: "Kontrata ke kwiza",
+    editProfile: "Soba profile yayi",
+    galleryBtn: "Bifwani",
+    galleryTitle: "Bifwani",
+    galleryClose: "Kanga",
+    galleryPhotos: "Bifwani",
+    galleryVideos: "Bavideo",
+    galleryEmpty: "Kima ya nkati ve kutuka.",
+    storageFull: "Kisika ya kubumba me fuluka na navigatele yayi — nkatu lenda kubakisa fisye yayi. Meka fisye ya fioti, to sadila kisika ya kieleka ya kubumba (backend) sambu na katalogi ya kufuluka mbote.",
+    contactTitle: "Nge kele na mfunu ya kusadila kumosi?",
+    contactBody: "Bokila ekipi ya Honeymoon sambu na kusolula mambu ya kusadila kumosi, kubaka nsangu ya nkaka mu yina metila mosi, to kubongisa lusonga.",
+    contactBtn: "Bokila Honeymoon",
+    footTag: "Honeymoon — Kinsweki",
+    modalTitle: "Soba profile",
+    stageName: "Nkumbu ya scène",
+    country: "Insi",
+    platformsPh: "mbandu. Instagram · TikTok",
+    audiencePh: "mbandu. 25K+",
+    contentPh: "mbandu. Kina · Video · Réseaux",
+    availLabel: "Kele na kisika sambu na (kabula na koma)",
+    photoLabel: "Kifwani ya couverture",
+    photoPrompt: "Fina sambu na kusola kifwani",
+    photoReplace: "Kifwani ya bubu — fina sambu na kusoba",
+    contractLabel: "Kontrata ye nsudi (PDF)",
+    contractPrompt: "Fina sambu na kubakisa PDF",
+    contractReplace: "PDF me bakisama — fina sambu na kusoba",
+    consentText: "Mono ke kundima nde metila yayi mekufwana mvu 18+, me sina kontrata ye me pesa nsudi na yandi sambu na kusadila kifwani na yandi ye nsangu na yandi na katalogi yayi.",
+    cancel: "Vidisa",
+    save: "Bumba",
+    savedToast: "Profile me bumbama (me bumbama na navigatele yayi)",
+    needConsentToast: "Nsweswe, solwa mvu, kontrata ye nsudi ya metila na ntwala ya kubumba.",
+    addedToast: "Me bakisama na bifwani",
+    removedToast: "Me katulama na bifwani",
+    creatorLink: "Kisika ya metila",
+    vitrineLink: "Kota na site",
+    ageGateTitle: "Kutala mvu",
+    ageGateBody: "Site yayi kele na bima ya nkati ya bantu ya bininga (mvu 18 to kuluta). Solwa mvu na nge sambu na kulanda.",
+    ageYes: "Ee, mono kele na mvu 18 to kuluta",
+    ageNo: "Ve, mono kele na mvu na nsi ya 18",
+    ageBlockedTitle: "Nzila me kangama",
+    ageBlockedBody: "Nzila na site yayi kele kaka sambu na bantu ya bininga (mvu 18 to kuluta).",
+    ageLeaveBtn: "Basika",
+    creatorGateSub: "Nzila ya metila",
+    creatorEnter: "Kota",
+    backAgency: "← Vutuka",
+    creatorErr: "Kode kele mbote ve.",
+    creatorLogout: "Basika",
+    myProfileHello: "Mbote",
+    myProfileNote: "Tala kifwani na nge ye bavideo na nge mutindu bo ke monana na katalogi. Nge lenda ve kubakisa to kusoba kima na yayi — sambu na kusoba, bokila ekipi ya Honeymoon.",
+    myProfilePhotos: "Bifwani na nge",
+    myProfileVideos: "Bavideo na nge",
+    myProfileNoMedia: "Kima ya nkati me bakisama ve kutuka.",
+    creatorCodeLabel: "Kode ya metila (pesa yandi yo)",
+    copyBtn: "Kopia",
+    copiedToast: "Kode me kopiama",
+    numberPrefix: "N°",
+    myEditBtn: "Soba nsangu na mono",
+    myProfileManageNote: "Yala kifwani na nge, nsangu na nge ye bifwani na nge na nsi. Bifwani ye bavideo yina nge ke tula wana ta monana na site ya vitrine.",
+    addPhoto: "Bakisa bifwani",
+    addVideo: "Bakisa bavideo",
+    uploadingLabel: "Ke tindisa…",
+    uploadFailed: "Kutindisa me lemba.",
+    saveErrorToast: "Kifu na ntangu ya kubumba — tala connexion na nge ye meka diaka.",
+    myVaultTitle: "Kisika na mono ya kinsweki",
+    myVaultNote: "Kisika ya kinsweki sambu na kubumba bifwani ye bavideo na nge. Kubwisana ye bifwani na nge ya likolu, kisika yayi ke monana ve na muntu ya nkaka kaka nge.",
+    myVaultPhotos: "Bifwani ya bumbama",
+    myVaultVideos: "Bavideo ya bumbama",
+    bioSectionTitle: "Kinkulu ya luzingu",
+    bioSectionNote: "Nsangu yayi ta sadilwa sambu na kusonga metila na site ya vitrine.",
+    bioOrigin: "Luyantiku",
+    bioNationality: "Kisi-nsi",
+    bioAge: "Mvu",
+    bioBodyType: "Mutindu ya nitu",
+    bioOrientation: "Orientation",
+    bioLookingFor: "Yina yandi ke sosa",
+    bioPassions: "Zola/Bima yina yandi ke zola",
+    bioUniverse: "Nsi-ntoto na yandi",
+    bioHobbies: "Bisalu ya kiese",
+    bioPersonality: "Kimuntu",
+    bioFantasies: "Ndoti",
+    bioFetish: "Fetish",
+    bioAmbitions: "Balukanu",
+    bioSocials: "Réseaux sociaux (ke lombama ve)",
+    bioSocialsPh: "mbandu. Instagram @..., TikTok @...",
+    bioWorkUrl: "Site ya kisalu na yandi (lien)",
+    bioWorkUrlPh: "https://...",
+    bioOnlineStatus: "Etat",
+    statusOnline: "Na ligne",
+    statusOffline: "Na ligne ve",
+    contentPolicyNote: "Bifwani ye bavideo: kaka bilele ya nsi to bilele ya kubenda meso (kina, twerk, sensuel, kubenda meso ndimama). Kima ya bwakabwaka ve — kifwani to video — ke ndimama ve.",
+    vitrineHeroEyebrow: "Site ya vitrine",
+    vitrineHeroTitle: "Zaba bametila na beto",
+    vitrineHeroBody: "Kutala ya bantu yonso ya bametila ya Honeymoon. Zola, bika commentaire, ye zaba nsi-ntoto na bo.",
+    vitrineBack: "← Vutuka",
+    vitrineEmpty: "Metila mosi ve me basisama kutuka.",
+    visitSiteBtn: "Kwenda na site na yandi",
+    likeLabel: "Mono ke zola",
+    dislikeLabel: "Mono ke zola ve",
+    commentsTitle: "Ba commentaire",
+    commentPlaceholder: "Soneka commentaire ya luzitu…",
+    commentSubmit: "Basisa",
+    commentEmpty: "Commentaire mosi ve kutuka. Vanga wa ntete!",
+    commentModerationError: "Commentaire na nge kele na mambu yina ndimama ve (matuka, mambu ya mbi). Nsweswe soba yo.",
+    commentPosted: "Commentaire me basisama",
+    commentRules: "Kisika ya ba commentaire ya luzitu: matuka ve, mambu ya mbi ve."
+  },
 };
 function t(key){ return I18N[LANG][key]; }
+function tr(fr, en, es){ return LANG==='fr' ? fr : (LANG==='es' ? es : en); }
 
 document.getElementById('contact-addr').textContent = CONTACT_EMAIL;
 document.getElementById('foot-year').textContent = '© ' + new Date().getFullYear();
@@ -590,22 +2415,48 @@ function esc(s){ return (s||'').replace(/[&<>"']/g, c => ({'&':'&lt;','<':'&lt;'
 // fix: proper escape map
 function escText(s){ return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
-/* ---------------- language (explicit FR / EN buttons) ---------------- */
+/* ---------------- language (menu déroulant, 12 langues) ---------------- */
+const LANGS_LIST = [
+  { code:'fr', label:'Français' },
+  { code:'en', label:'English' },
+  { code:'es', label:'Español' },
+  { code:'it', label:'Italiano' },
+  { code:'pt', label:'Português' },
+  { code:'sw', label:'Kiswahili' },
+  { code:'zu', label:'isiZulu' },
+  { code:'st', label:'Sesotho' },
+  { code:'ln', label:'Lingála' },
+  { code:'kg', label:'Kikongo' },
+  { code:'ar', label:'العربية' },
+  { code:'zh', label:'中文' },
+  { code:'ja', label:'日本語' },
+  { code:'ru', label:'Русский' }
+];
+function populateLangSelects(){
+  document.querySelectorAll('select.lang-select').forEach(sel => {
+    if(sel.dataset.filled) return;
+    sel.innerHTML = LANGS_LIST.map(l => `<option value="${l.code}">${l.label}</option>`).join('');
+    sel.dataset.filled = '1';
+  });
+}
+function syncLangSelects(lang){
+  document.querySelectorAll('select.lang-select').forEach(sel => { sel.value = lang; });
+}
+populateLangSelects();
+syncLangSelects(LANG);
+
 function setLang(lang){
   LANG = lang;
-  document.getElementById('lang-fr').classList.toggle('active', lang==='fr');
-  document.getElementById('lang-en').classList.toggle('active', lang==='en');
+  syncLangSelects(lang);
   applyStaticText();
   renderRoster();
 }
-document.getElementById('lang-fr').onclick = () => setLang('fr');
-document.getElementById('lang-en').onclick = () => setLang('en');
+document.getElementById('gate-lang-select').onchange = (e) => setLang(e.target.value);
+document.getElementById('app-lang-select').onchange = (e) => setLang(e.target.value);
 
 function applyStaticText(){
   document.getElementById('t-gate-sub').textContent = t('gateSub');
   document.getElementById('t-gate-enter').textContent = t('gateEnter');
-  document.getElementById('t-gate-note-b').textContent = t('gateNoteB');
-  document.getElementById('t-gate-note').textContent = t('gateNote');
   document.getElementById('t-admin-sub').textContent = t('adminSub');
   document.getElementById('t-admin-enter').textContent = t('adminEnter');
   document.getElementById('t-admin-cancel').textContent = t('adminCancel');
@@ -621,14 +2472,16 @@ function applyStaticText(){
   document.getElementById('t-modal-title').textContent = t('modalTitle');
   document.getElementById('t-gallery-title').textContent = t('galleryTitle');
   document.getElementById('t-gallery-close').textContent = t('galleryClose');
-  document.getElementById('gate-pass').placeholder = LANG==='fr' ? "Code d'accès" : 'Access code';
+  document.getElementById('gate-pass').placeholder = t('gatePassPh');
   document.getElementById('t-creator-link').textContent = t('creatorLink');
+  document.getElementById('t-vitrine-link').textContent = t('vitrineLink');
   document.getElementById('t-creator-gate-sub').textContent = t('creatorGateSub');
   document.getElementById('t-creator-enter').textContent = t('creatorEnter');
   document.getElementById('t-back-agency').textContent = t('backAgency');
-  document.getElementById('creator-pass').placeholder = LANG==='fr' ? 'Ton code' : 'Your code';
+  document.getElementById('creator-pass').placeholder = t('creatorPassPh');
   document.getElementById('t-creator-logout').textContent = t('creatorLogout');
   document.documentElement.lang = LANG;
+  document.documentElement.dir = (LANG === 'ar') ? 'rtl' : 'ltr';
 }
 
 /* ---------------- agency gate <-> creator gate switch ---------------- */
@@ -646,6 +2499,9 @@ document.getElementById('creator-submit').onclick = () => {
   if(match){
     sessionStorage.setItem('hm_creator_slot', match);
     document.getElementById('creator-gate').style.display = 'none';
+    if(auth){
+      auth.signInAnonymously().catch(e => console.error('anon sign-in failed', e));
+    }
     launchCreatorView(match);
   } else {
     document.getElementById('creator-err').textContent = t('creatorErr');
@@ -656,15 +2512,16 @@ document.getElementById('creator-pass').addEventListener('keydown', (e) => {
 });
 document.getElementById('creator-logout').onclick = () => {
   sessionStorage.removeItem('hm_creator_slot');
+  if(auth && auth.currentUser && auth.currentUser.isAnonymous){
+    auth.signOut().catch(()=>{});
+  }
   document.getElementById('my-profile-shell').style.display = 'none';
   document.getElementById('gate').style.display = 'flex';
 };
-document.getElementById('my-lang-fr').onclick = () => { setMyProfileLang('fr'); };
-document.getElementById('my-lang-en').onclick = () => { setMyProfileLang('en'); };
+document.getElementById('my-lang-select').onchange = (e) => { setMyProfileLang(e.target.value); };
 function setMyProfileLang(lang){
   LANG = lang;
-  document.getElementById('my-lang-fr').classList.toggle('active', lang==='fr');
-  document.getElementById('my-lang-en').classList.toggle('active', lang==='en');
+  syncLangSelects(lang);
   applyStaticText();
   const slot = sessionStorage.getItem('hm_creator_slot');
   if(slot) renderMyProfile(slot);
@@ -682,7 +2539,12 @@ function checkGate(){
     document.getElementById('gate').style.display = 'none';
     document.getElementById('app-shell').style.display = 'block';
     initRoster();
+    return;
   }
+  // Ni session créatrice, ni session agence : on revient toujours à l'écran de connexion.
+  document.getElementById('app-shell').style.display = 'none';
+  document.getElementById('my-profile-shell').style.display = 'none';
+  document.getElementById('gate').style.display = 'flex';
 }
 document.getElementById('gate-submit').onclick = () => {
   const val = document.getElementById('gate-pass').value;
@@ -744,7 +2606,8 @@ function emptySlot(i){
   return {
     id: 'm' + i, filled: false, name: '', country: '', verified18: false,
     platforms: '', audience: '', contentType: '', availability: '',
-    photo: '', contract: '', galleryPhotos: [], galleryVideos: []
+    photo: '', contract: '', galleryPhotos: [], galleryVideos: [],
+    privatePhotos: [], privateVideos: [], bio: null, likes: 0, dislikes: 0
   };
 }
 function loadRoster(){
@@ -754,8 +2617,10 @@ function loadRoster(){
       const parsed = JSON.parse(raw);
       if(Array.isArray(parsed) && parsed.length === SLOT_COUNT){
         return parsed.map(m => Object.assign(emptySlot(0), m, {
-          galleryPhotos: Array.isArray(m.galleryPhotos) ? m.galleryPhotos : [],
-          galleryVideos: Array.isArray(m.galleryVideos) ? m.galleryVideos : []
+          // La galerie vient maintenant toujours de Firebase (voir syncProfilesFromFirestore) ;
+          // on ignore l'ancien format local (base64) pour éviter tout mélange.
+          galleryPhotos: [],
+          galleryVideos: []
         }));
       }
     }
@@ -828,10 +2693,25 @@ async function syncProfilesFromFirestore(){
           availability: data.availability ?? m.availability,
           photo: data.photo || m.photo,
           contract: data.contract || m.contract,
-          filled: data.filled ?? m.filled
+          filled: data.filled ?? m.filled,
+          bio: data.bio || m.bio,
+          likes: data.likes || 0,
+          dislikes: data.dislikes || 0
         });
         changed = true;
       }
+      const mediaSnap = await db.collection('profiles').doc(m.id).collection('media').orderBy('createdAt').get();
+      const galleryPhotos = [];
+      const galleryVideos = [];
+      mediaSnap.forEach(d => {
+        const md = d.data();
+        const entry = { docId: d.id, url: md.url };
+        if(md.kind === 'video') galleryVideos.push(entry);
+        else galleryPhotos.push(entry);
+      });
+      m.galleryPhotos = galleryPhotos;
+      m.galleryVideos = galleryVideos;
+      changed = true;
     }catch(e){
       console.error('sync error', m.id, e);
     }
@@ -840,15 +2720,37 @@ async function syncProfilesFromFirestore(){
 }
 
 /* ---------------- creator read-only view ---------------- */
-function launchCreatorView(slotId){
+async function launchCreatorView(slotId){
   document.getElementById('app-shell').style.display = 'none';
   document.getElementById('my-profile-shell').style.display = 'block';
-  LANG = 'fr';
-  document.getElementById('my-lang-fr').classList.add('active');
-  document.getElementById('my-lang-en').classList.remove('active');
+  // force un rafraîchissement d'affichage immédiat (évite un écran vide tant qu'on n'a pas interagi)
+  void document.getElementById('my-profile-shell').offsetHeight;
+  syncLangSelects(LANG);
   applyStaticText();
-  renderMyProfile(slotId);
+  renderMyProfile(slotId); // affichage immédiat, ne dépend d'aucune requête réseau
+  if(auth && !auth.currentUser){
+    try{ await auth.signInAnonymously(); }catch(e){ console.error('anon sign-in failed', e); }
+  }
   syncProfilesFromFirestore().then(() => renderMyProfile(slotId));
+  const m0 = roster.find(x => x.id === slotId);
+  if(m0){ fetchPrivateVault(m0).then(() => renderMyProfile(slotId)); }
+}
+
+async function fetchPrivateVault(m){
+  if(!db) return;
+  try{
+    const snap = await db.collection('profiles').doc(m.id).collection('private_media').orderBy('createdAt').get();
+    const photos = []; const videos = [];
+    snap.forEach(d => {
+      const md = d.data();
+      const entry = { docId: d.id, url: md.url };
+      if(md.kind === 'video') videos.push(entry); else photos.push(entry);
+    });
+    m.privatePhotos = photos;
+    m.privateVideos = videos;
+  }catch(e){
+    console.error('private vault fetch error', e);
+  }
 }
 
 function renderMyProfile(slotId){
@@ -858,38 +2760,323 @@ function renderMyProfile(slotId){
 
   const photoBlock = m.photo
     ? `<div class="my-profile-photo"><img src="${m.photo}"></div>`
-    : '';
-
-  const photoThumbs = m.galleryPhotos.map(src => `
-    <div class="gallery-thumb"><img src="${src}" data-full="${src}" data-type="image"></div>`).join('');
-  const videoThumbs = m.galleryVideos.map(src => `
-    <div class="gallery-thumb"><video src="${src}" data-full="${src}" data-type="video" muted></video></div>`).join('');
-
-  const noMedia = (!m.galleryPhotos.length && !m.galleryVideos.length && !m.photo)
-    ? `<p class="gallery-empty">${t('myProfileNoMedia')}</p>` : '';
+    : `<div class="my-profile-photo" style="display:flex;align-items:center;justify-content:center;">
+         <span class="mono" style="font-size:10.5px;color:var(--text-muted);text-align:center;padding:0 10px;">${t('noPhotoYet')}</span>
+       </div>`;
 
   body.innerHTML = `
     <div style="text-align:center;">
       ${photoBlock}
       <h1 class="display" style="font-size:24px;">${t('myProfileHello')}${m.name ? ', ' + escText(m.name) : ''}</h1>
-      <p style="color:var(--text-muted);font-size:13px;max-width:420px;margin:10px auto 0;line-height:1.7;">${t('myProfileNote')}</p>
+      <p style="color:var(--text-muted);font-size:13px;max-width:420px;margin:10px auto 0;line-height:1.7;">${t('myProfileManageNote')}</p>
+      <button class="btn btn-primary" id="my-edit-btn" style="max-width:280px;margin:18px auto 0;">${t('myEditBtn')}</button>
     </div>
-    ${noMedia}
-    ${m.galleryPhotos.length ? `
-      <div class="gallery-section" style="margin-top:36px;">
-        <h4>${t('myProfilePhotos')} (${m.galleryPhotos.length})</h4>
-        <div class="gallery-strip">${photoThumbs}</div>
-      </div>` : ''}
-    ${m.galleryVideos.length ? `
-      <div class="gallery-section">
-        <h4>${t('myProfileVideos')} (${m.galleryVideos.length})</h4>
-        <div class="gallery-strip">${videoThumbs}</div>
-      </div>` : ''}
+    <p style="color:var(--honey);font-size:11.5px;max-width:460px;margin:22px auto 0;line-height:1.6;text-align:center;">${t('contentPolicyNote')}</p>
+    <div id="my-gallery-zone" style="margin-top:14px;"></div>
+    <div style="margin-top:48px;padding-top:36px;border-top:1px solid var(--border);">
+      <h2 class="display" style="font-size:19px;">${t('myVaultTitle')}</h2>
+      <p style="color:var(--text-muted);font-size:12.5px;max-width:460px;margin-top:8px;line-height:1.65;">${t('myVaultNote')}</p>
+      <div id="my-vault-zone" style="margin-top:20px;"></div>
+    </div>
   `;
 
-  body.querySelectorAll('.gallery-thumb img, .gallery-thumb video').forEach(el => {
+  document.getElementById('my-edit-btn').onclick = () => openMyProfileEdit(m);
+  renderMyGallery(m);
+  renderMyVault(m);
+}
+
+function renderMyVault(m){
+  const zone = document.getElementById('my-vault-zone');
+  if(!zone) return;
+
+  const photoThumbs = m.privatePhotos.map((item) => `
+    <div class="gallery-thumb">
+      <img src="${item.url}" data-full="${item.url}" data-type="image">
+      <button class="rm" data-kind="photo" data-docid="${item.docId}">✕</button>
+    </div>`).join('');
+  const videoThumbs = m.privateVideos.map((item) => `
+    <div class="gallery-thumb">
+      <video src="${item.url}" data-full="${item.url}" data-type="video" muted></video>
+      <button class="rm" data-kind="video" data-docid="${item.docId}">✕</button>
+    </div>`).join('');
+
+  zone.innerHTML = `
+    <div class="gallery-section">
+      <h4>${t('myVaultPhotos')} (${m.privatePhotos.length})</h4>
+      <div class="gallery-strip">
+        ${photoThumbs}
+        <div class="gallery-add-btn">＋<input type="file" id="vault-add-photo" accept="image/*" multiple></div>
+      </div>
+    </div>
+    <div class="gallery-section">
+      <h4>${t('myVaultVideos')} (${m.privateVideos.length})</h4>
+      <div class="gallery-strip">
+        ${videoThumbs}
+        <div class="gallery-add-btn">＋<input type="file" id="vault-add-video" accept="video/*" multiple></div>
+      </div>
+    </div>
+  `;
+
+  zone.querySelectorAll('.gallery-thumb img, .gallery-thumb video').forEach(el => {
     el.onclick = () => openLightbox(el.dataset.full, el.dataset.type);
   });
+
+  document.getElementById('vault-add-photo').onchange = async (e) => {
+    const list = Array.from(e.target.files);
+    for(const file of list){
+      try{
+        const item = await uploadMediaItem(m.id, file, 'photo', { collection: 'private_media', pathPrefix: 'private/photos' });
+        m.privatePhotos.push(item);
+        toast(t('addedToast'));
+      }catch(err){ console.error(err); toast(t('saveErrorToast')); }
+    }
+    renderMyVault(m);
+  };
+  document.getElementById('vault-add-video').onchange = async (e) => {
+    const list = Array.from(e.target.files);
+    for(const file of list){
+      try{
+        const item = await uploadMediaItem(m.id, file, 'video', { collection: 'private_media', pathPrefix: 'private/videos' });
+        m.privateVideos.push(item);
+        toast(t('addedToast'));
+      }catch(err){ console.error(err); toast(t('saveErrorToast')); }
+    }
+    renderMyVault(m);
+  };
+
+  zone.querySelectorAll('.rm').forEach(btn => {
+    btn.onclick = async () => {
+      const kind = btn.dataset.kind;
+      const docId = btn.dataset.docid;
+      btn.disabled = true;
+      try{
+        await deleteMediaItem(m.id, docId, 'private_media');
+        if(kind === 'photo') m.privatePhotos = m.privatePhotos.filter(x => x.docId !== docId);
+        else m.privateVideos = m.privateVideos.filter(x => x.docId !== docId);
+        renderMyVault(m);
+        toast(t('removedToast'));
+      }catch(e){
+        toast(t('saveErrorToast'));
+      }
+    };
+  });
+}
+
+function renderMyGallery(m){
+  const zone = document.getElementById('my-gallery-zone');
+  if(!zone) return;
+
+  const photoThumbs = m.galleryPhotos.map((item) => `
+    <div class="gallery-thumb">
+      <img src="${item.url}" data-full="${item.url}" data-type="image">
+      <button class="rm" data-kind="photo" data-docid="${item.docId}">✕</button>
+    </div>`).join('');
+  const videoThumbs = m.galleryVideos.map((item) => `
+    <div class="gallery-thumb">
+      <video src="${item.url}" data-full="${item.url}" data-type="video" muted></video>
+      <button class="rm" data-kind="video" data-docid="${item.docId}">✕</button>
+    </div>`).join('');
+
+  zone.innerHTML = `
+    <div class="gallery-section">
+      <h4>${t('myProfilePhotos')} (${m.galleryPhotos.length})</h4>
+      <div class="gallery-strip">
+        ${photoThumbs}
+        <div class="gallery-add-btn">＋<input type="file" id="my-add-photo" accept="image/*" multiple></div>
+      </div>
+    </div>
+    <div class="gallery-section">
+      <h4>${t('myProfileVideos')} (${m.galleryVideos.length})</h4>
+      <div class="gallery-strip">
+        ${videoThumbs}
+        <div class="gallery-add-btn">＋<input type="file" id="my-add-video" accept="video/*" multiple></div>
+      </div>
+    </div>
+  `;
+
+  zone.querySelectorAll('.gallery-thumb img, .gallery-thumb video').forEach(el => {
+    el.onclick = () => openLightbox(el.dataset.full, el.dataset.type);
+  });
+
+  document.getElementById('my-add-photo').onchange = (e) => handleGalleryAdd(m, e.target.files, 'galleryPhotos', () => renderMyGallery(m));
+  document.getElementById('my-add-video').onchange = (e) => handleGalleryAdd(m, e.target.files, 'galleryVideos', () => renderMyGallery(m));
+
+  zone.querySelectorAll('.rm').forEach(btn => {
+    btn.onclick = async () => {
+      const kind = btn.dataset.kind;
+      const docId = btn.dataset.docid;
+      btn.disabled = true;
+      try{
+        await deleteMediaItem(m.id, docId);
+        if(kind === 'photo') m.galleryPhotos = m.galleryPhotos.filter(x => x.docId !== docId);
+        else m.galleryVideos = m.galleryVideos.filter(x => x.docId !== docId);
+        renderMyGallery(m);
+        toast(t('removedToast'));
+      }catch(e){
+        toast(t('saveErrorToast'));
+      }
+    };
+  });
+}
+
+/* ---------------- creator self-edit (own info + cover photo, no contract/consent) ---------------- */
+function openMyProfileEdit(m){
+  const body = document.getElementById('edit-body');
+  document.getElementById('t-modal-title').textContent = t('myEditBtn');
+  const bio = Object.assign({
+    origin:'', nationality:'', age:'', bodyType:'', orientation:'', lookingFor:'',
+    passions:'', universe:'', hobbies:'', personality:'', fantasies:'', fetish:'',
+    ambitions:'', socials:'', workUrl:'', status:'offline'
+  }, m.bio || {});
+  body.innerHTML = `
+    <label>${t('stageName')}</label>
+    <input id="ed-name" value="${escText(m.name)}" placeholder="ex. Luna">
+    <label>${t('country')}</label>
+    <input id="ed-country" value="${escText(m.country)}" placeholder="ex. France">
+    <label>${t('platforms')}</label>
+    <input id="ed-platforms" value="${escText(m.platforms)}" placeholder="${t('platformsPh')}">
+    <label>${t('audience')}</label>
+    <input id="ed-audience" value="${escText(m.audience)}" placeholder="${t('audiencePh')}">
+    <label>${t('content')}</label>
+    <input id="ed-content" value="${escText(m.contentType)}" placeholder="${t('contentPh')}">
+    <label>${t('availLabel')}</label>
+    <input id="ed-avail" value="${escText(m.availability)}" placeholder="ex. Partenariats marque, Collaborations">
+    <label>${t('photoLabel')}</label>
+    <div class="upload-drop ${m.photo ? 'has-file' : ''}" id="ed-drop">
+      <span id="ed-drop-label">${m.photo ? t('photoReplace') : t('photoPrompt')}</span>
+      <input type="file" id="ed-file" accept="image/*">
+    </div>
+
+    <div style="margin-top:26px;padding-top:20px;border-top:1px solid var(--border);">
+      <h3 style="font-size:15px;margin-bottom:4px;">${t('bioSectionTitle')}</h3>
+      <p style="color:var(--text-muted);font-size:12px;margin-bottom:14px;line-height:1.6;">${t('bioSectionNote')}</p>
+
+      <label>${t('bioOrigin')}</label>
+      <input id="ed-bio-origin" value="${escText(bio.origin)}">
+      <label>${t('bioNationality')}</label>
+      <input id="ed-bio-nationality" value="${escText(bio.nationality)}">
+      <label>${t('bioAge')}</label>
+      <input id="ed-bio-age" type="number" min="18" value="${escText(bio.age)}">
+      <label>${t('bioBodyType')}</label>
+      <input id="ed-bio-bodytype" value="${escText(bio.bodyType)}">
+      <label>${t('bioOrientation')}</label>
+      <input id="ed-bio-orientation" value="${escText(bio.orientation)}">
+      <label>${t('bioLookingFor')}</label>
+      <input id="ed-bio-lookingfor" value="${escText(bio.lookingFor)}">
+      <label>${t('bioPassions')}</label>
+      <textarea id="ed-bio-passions" rows="2">${escText(bio.passions)}</textarea>
+      <label>${t('bioUniverse')}</label>
+      <textarea id="ed-bio-universe" rows="2">${escText(bio.universe)}</textarea>
+      <label>${t('bioHobbies')}</label>
+      <textarea id="ed-bio-hobbies" rows="2">${escText(bio.hobbies)}</textarea>
+      <label>${t('bioPersonality')}</label>
+      <textarea id="ed-bio-personality" rows="2">${escText(bio.personality)}</textarea>
+      <label>${t('bioFantasies')}</label>
+      <textarea id="ed-bio-fantasies" rows="2">${escText(bio.fantasies)}</textarea>
+      <label>${t('bioFetish')}</label>
+      <textarea id="ed-bio-fetish" rows="2">${escText(bio.fetish)}</textarea>
+      <label>${t('bioAmbitions')}</label>
+      <textarea id="ed-bio-ambitions" rows="2">${escText(bio.ambitions)}</textarea>
+      <label>${t('bioSocials')}</label>
+      <input id="ed-bio-socials" value="${escText(bio.socials)}" placeholder="${t('bioSocialsPh')}">
+      <label>${t('bioWorkUrl')}</label>
+      <input id="ed-bio-workurl" value="${escText(bio.workUrl)}" placeholder="${t('bioWorkUrlPh')}">
+      <label>${t('bioOnlineStatus')}</label>
+      <select id="ed-bio-status">
+        <option value="offline" ${bio.status !== 'online' ? 'selected' : ''}>${t('statusOffline')}</option>
+        <option value="online" ${bio.status === 'online' ? 'selected' : ''}>${t('statusOnline')}</option>
+      </select>
+      <p style="color:var(--honey);font-size:11.5px;margin-top:12px;line-height:1.6;">${t('contentPolicyNote')}</p>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-ghost btn-sm" id="ed-cancel" style="flex:1;">${t('cancel')}</button>
+      <button class="btn btn-primary btn-sm" id="ed-save" style="flex:1;">${t('save')}</button>
+    </div>
+  `;
+
+  let newPhoto = m.photo;
+  let photoUploading = false;
+
+  document.getElementById('ed-file').onchange = async (e) => {
+    const file = e.target.files[0];
+    if(!file) return;
+    photoUploading = true;
+    document.getElementById('ed-drop-label').textContent = t('uploadingLabel');
+    try{
+      const ref = storage.ref().child(`covers/${m.id}/${Date.now()}_${file.name}`);
+      await ref.put(file);
+      newPhoto = await ref.getDownloadURL();
+      document.getElementById('ed-drop').classList.add('has-file');
+      document.getElementById('ed-drop-label').textContent = t('photoReplace');
+    }catch(err){
+      console.error('photo upload error', err);
+      toast(t('uploadFailed'));
+      document.getElementById('ed-drop-label').textContent = t('photoPrompt');
+    }
+    photoUploading = false;
+  };
+
+  document.getElementById('ed-cancel').onclick = closeEdit;
+  document.getElementById('ed-save').onclick = async () => {
+    if(photoUploading){
+      toast(t('uploadingLabel'));
+      return;
+    }
+    const saveBtn = document.getElementById('ed-save');
+    saveBtn.disabled = true;
+    m.name = document.getElementById('ed-name').value.trim();
+    m.country = document.getElementById('ed-country').value.trim();
+    m.platforms = document.getElementById('ed-platforms').value.trim();
+    m.audience = document.getElementById('ed-audience').value.trim();
+    m.contentType = document.getElementById('ed-content').value.trim();
+    m.availability = document.getElementById('ed-avail').value.trim();
+    m.photo = newPhoto;
+    m.filled = !!m.name;
+    m.bio = {
+      origin: document.getElementById('ed-bio-origin').value.trim(),
+      nationality: document.getElementById('ed-bio-nationality').value.trim(),
+      age: document.getElementById('ed-bio-age').value.trim(),
+      bodyType: document.getElementById('ed-bio-bodytype').value.trim(),
+      orientation: document.getElementById('ed-bio-orientation').value.trim(),
+      lookingFor: document.getElementById('ed-bio-lookingfor').value.trim(),
+      passions: document.getElementById('ed-bio-passions').value.trim(),
+      universe: document.getElementById('ed-bio-universe').value.trim(),
+      hobbies: document.getElementById('ed-bio-hobbies').value.trim(),
+      personality: document.getElementById('ed-bio-personality').value.trim(),
+      fantasies: document.getElementById('ed-bio-fantasies').value.trim(),
+      fetish: document.getElementById('ed-bio-fetish').value.trim(),
+      ambitions: document.getElementById('ed-bio-ambitions').value.trim(),
+      socials: document.getElementById('ed-bio-socials').value.trim(),
+      workUrl: document.getElementById('ed-bio-workurl').value.trim(),
+      status: document.getElementById('ed-bio-status').value
+    };
+
+    let ok = true;
+    try{
+      await db.collection('profiles').doc(m.id).set({
+        slotNumber: parseInt(m.id.replace('m',''), 10),
+        name: m.name, country: m.country, platforms: m.platforms,
+        audience: m.audience, contentType: m.contentType, availability: m.availability,
+        photo: m.photo, filled: m.filled, bio: m.bio,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge: true });
+    }catch(e){
+      console.error('self-save error', e);
+      ok = false;
+    }
+    saveBtn.disabled = false;
+    if(ok){
+      closeEdit();
+      renderMyProfile(m.id);
+      toast(t('savedToast'));
+    } else {
+      toast(t('saveErrorToast'));
+    }
+  };
+
+  document.getElementById('edit-backdrop').classList.add('open');
+  document.getElementById('edit-modal').classList.add('open');
 }
 
 function renderRoster(){
@@ -966,6 +3153,7 @@ function modelCardHtml(m){
 function openEdit(id){
   const m = roster.find(x => x.id === id);
   const body = document.getElementById('edit-body');
+  document.getElementById('t-modal-title').textContent = t('modalTitle');
   body.innerHTML = `
     <label>${t('creatorCodeLabel')}</label>
     <div class="creator-code-box">
@@ -1114,7 +3302,25 @@ function closeEdit(){
 }
 document.getElementById('edit-backdrop').onclick = closeEdit;
 
-/* ---------------- gallery modal (unlimited photos/videos) ---------------- */
+/* ---------------- media helpers (Firebase Storage + Firestore) ---------------- */
+async function uploadMediaItem(profileId, file, kind, opts){
+  opts = opts || {};
+  const collectionName = opts.collection || 'media';
+  const pathPrefix = opts.pathPrefix || (kind + 's');
+  const path = `${pathPrefix}/${profileId}/${Date.now()}_${file.name}`;
+  const ref = storage.ref().child(path);
+  await ref.put(file);
+  const url = await ref.getDownloadURL();
+  const docRef = await db.collection('profiles').doc(profileId).collection(collectionName).add({
+    kind, url, createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  });
+  return { docId: docRef.id, url };
+}
+async function deleteMediaItem(profileId, docId, collectionName){
+  await db.collection('profiles').doc(profileId).collection(collectionName || 'media').doc(docId).delete();
+}
+
+/* ---------------- gallery modal (admin) ---------------- */
 function openGallery(id){
   const m = roster.find(x => x.id === id);
   renderGalleryBody(m);
@@ -1132,16 +3338,16 @@ function renderGalleryBody(m){
   const canEdit = editMode && isAdmin();
   const body = document.getElementById('gallery-body');
 
-  const photoThumbs = m.galleryPhotos.map((src, i) => `
+  const photoThumbs = m.galleryPhotos.map((item) => `
     <div class="gallery-thumb">
-      <img src="${src}" data-full="${src}" data-type="image">
-      ${canEdit ? `<button class="rm" data-kind="photo" data-idx="${i}">✕</button>` : ''}
+      <img src="${item.url}" data-full="${item.url}" data-type="image">
+      ${canEdit ? `<button class="rm" data-kind="photo" data-docid="${item.docId}">✕</button>` : ''}
     </div>`).join('');
 
-  const videoThumbs = m.galleryVideos.map((src, i) => `
+  const videoThumbs = m.galleryVideos.map((item) => `
     <div class="gallery-thumb">
-      <video src="${src}" data-full="${src}" data-type="video" muted></video>
-      ${canEdit ? `<button class="rm" data-kind="video" data-idx="${i}">✕</button>` : ''}
+      <video src="${item.url}" data-full="${item.url}" data-type="video" muted></video>
+      ${canEdit ? `<button class="rm" data-kind="video" data-docid="${item.docId}">✕</button>` : ''}
     </div>`).join('');
 
   const addPhotoBtn = canEdit ? `
@@ -1172,43 +3378,46 @@ function renderGalleryBody(m){
 
   if(canEdit){
     const photoInput = document.getElementById('gal-add-photo');
-    if(photoInput) photoInput.onchange = (e) => handleGalleryAdd(m, e.target.files, 'galleryPhotos');
+    if(photoInput) photoInput.onchange = (e) => handleGalleryAdd(m, e.target.files, 'galleryPhotos', () => renderGalleryBody(m));
     const videoInput = document.getElementById('gal-add-video');
-    if(videoInput) videoInput.onchange = (e) => handleGalleryAdd(m, e.target.files, 'galleryVideos');
+    if(videoInput) videoInput.onchange = (e) => handleGalleryAdd(m, e.target.files, 'galleryVideos', () => renderGalleryBody(m));
 
     body.querySelectorAll('.rm').forEach(btn => {
-      btn.onclick = () => {
+      btn.onclick = async () => {
         const kind = btn.dataset.kind;
-        const idx = parseInt(btn.dataset.idx, 10);
-        if(kind === 'photo') m.galleryPhotos.splice(idx, 1);
-        else m.galleryVideos.splice(idx, 1);
-        saveRoster();
-        renderGalleryBody(m);
-        renderRoster();
-        toast(t('removedToast'));
+        const docId = btn.dataset.docid;
+        btn.disabled = true;
+        try{
+          await deleteMediaItem(m.id, docId);
+          if(kind === 'photo') m.galleryPhotos = m.galleryPhotos.filter(x => x.docId !== docId);
+          else m.galleryVideos = m.galleryVideos.filter(x => x.docId !== docId);
+          renderGalleryBody(m);
+          renderRoster();
+          toast(t('removedToast'));
+        }catch(e){
+          toast(t('saveErrorToast'));
+        }
       };
     });
   }
 }
 
-function handleGalleryAdd(m, files, field){
+async function handleGalleryAdd(m, files, field, onDone){
+  const kind = field === 'galleryPhotos' ? 'photo' : 'video';
   const list = Array.from(files);
-  let remaining = list.length;
-  if(!remaining) return;
-  list.forEach(file => {
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      m[field].push(ev.target.result);
-      const ok = saveRoster();
-      remaining--;
-      if(ok) toast(t('addedToast'));
-      if(remaining === 0){
-        renderGalleryBody(m);
-        renderRoster();
-      }
-    };
-    reader.readAsDataURL(file);
-  });
+  if(!list.length) return;
+  for(const file of list){
+    try{
+      const item = await uploadMediaItem(m.id, file, kind);
+      m[field].push(item);
+      toast(t('addedToast'));
+    }catch(e){
+      console.error('media upload error', e);
+      toast(t('saveErrorToast'));
+    }
+  }
+  renderRoster();
+  if(onDone) onDone();
 }
 
 /* ---------------- lightbox ---------------- */
@@ -1228,6 +3437,382 @@ document.getElementById('lightbox-backdrop').addEventListener('click', (e) => {
     document.getElementById('lightbox-close').click();
   }
 });
+
+/* =========================================================
+   VITRINE — site public (sans code d'accès)
+   Lecture publique des "profiles" (déjà ouverte, voir
+   syncProfilesFromFirestore). Vote (like/dislike) et
+   commentaires publics, avec filtre anti-insultes basique
+   côté navigateur avant tout envoi.
+   ========================================================= */
+document.getElementById('show-vitrine').onclick = () => { requireAgeGate(() => { window.location.hash = 'vitrine'; openVitrine(); }); };
+document.getElementById('vitrine-back-btn').onclick = () => {
+  window.location.hash = '';
+  hideAllShells();
+  document.getElementById('gate').style.display = 'flex';
+};
+
+/* ---------------- age gate (18+) ---------------- */
+let pendingAgeAction = null;
+function requireAgeGate(onConfirm){
+  if(sessionStorage.getItem('hm_age_ok') === '1'){ onConfirm(); return; }
+  pendingAgeAction = onConfirm;
+  document.getElementById('t-age-gate-title').textContent = t('ageGateTitle');
+  document.getElementById('t-age-gate-body').textContent = t('ageGateBody');
+  document.getElementById('t-age-yes').textContent = t('ageYes');
+  document.getElementById('t-age-no').textContent = t('ageNo');
+  document.getElementById('age-gate').style.display = 'flex';
+}
+document.getElementById('age-yes-btn').onclick = () => {
+  sessionStorage.setItem('hm_age_ok', '1');
+  document.getElementById('age-gate').style.display = 'none';
+  const action = pendingAgeAction;
+  pendingAgeAction = null;
+  if(action) action();
+};
+document.getElementById('age-no-btn').onclick = () => {
+  pendingAgeAction = null;
+  document.getElementById('age-gate').style.display = 'none';
+  document.getElementById('t-age-blocked-title').textContent = t('ageBlockedTitle');
+  document.getElementById('t-age-blocked-body').textContent = t('ageBlockedBody');
+  document.getElementById('t-age-leave').textContent = t('ageLeaveBtn');
+  hideAllShells();
+  document.getElementById('age-blocked').style.display = 'flex';
+};
+document.getElementById('age-leave-btn').onclick = () => {
+  window.location.href = 'about:blank';
+};
+document.getElementById('vitrine-lang-select').onchange = (e) => setVitrineLang(e.target.value);
+function setVitrineLang(lang){
+  LANG = lang;
+  syncLangSelects(lang);
+  applyVitrineStaticText();
+  renderVitrineGrid();
+}
+function applyVitrineStaticText(){
+  document.getElementById('t-vitrine-back').textContent = t('vitrineBack');
+  document.getElementById('t-vitrine-eyebrow').textContent = t('vitrineHeroEyebrow');
+  document.getElementById('t-vitrine-title').textContent = t('vitrineHeroTitle');
+  document.getElementById('t-vitrine-body').textContent = t('vitrineHeroBody');
+  document.getElementById('t-vitrine-foot-tag').textContent = 'Honeymoon';
+  document.getElementById('t-vitrine-room-close').textContent = t('galleryClose');
+  document.documentElement.lang = LANG;
+  document.documentElement.dir = (LANG === 'ar') ? 'rtl' : 'ltr';
+}
+
+function hideAllShells(){
+  document.getElementById('gate').style.display = 'none';
+  document.getElementById('creator-gate').style.display = 'none';
+  document.getElementById('app-shell').style.display = 'none';
+  document.getElementById('my-profile-shell').style.display = 'none';
+  document.getElementById('vitrine-shell').style.display = 'none';
+}
+
+async function openVitrine(creatorId){
+  hideAllShells();
+  document.getElementById('vitrine-shell').style.display = 'block';
+  // force un rafraîchissement d'affichage immédiat (évite un écran vide tant qu'on n'a pas interagi)
+  void document.getElementById('vitrine-shell').offsetHeight;
+  document.getElementById('vitrine-foot-year').textContent = new Date().getFullYear();
+  applyVitrineStaticText();
+  renderVitrineGrid(); // affichage immédiat avec les données déjà en mémoire
+  if(creatorId) openVitrineRoom(creatorId); // lien direct vers une créatrice précise
+  await syncProfilesFromFirestore();
+  renderVitrineGrid(); // re-affichage une fois les données à jour reçues
+  if(creatorId) openVitrineRoom(creatorId); // rafraîchit la room avec les données à jour
+}
+
+function parseVitrineHash(){
+  const h = window.location.hash;
+  if(h === '#vitrine') return { open: true, id: null };
+  const m = h.match(/^#vitrine\/(m\d+)$/);
+  if(m) return { open: true, id: m[1] };
+  return { open: false, id: null };
+}
+
+window.addEventListener('hashchange', () => {
+  const parsed = parseVitrineHash();
+  if(parsed.open){
+    requireAgeGate(() => openVitrine(parsed.id));
+  } else {
+    document.getElementById('vitrine-backdrop').classList.remove('open');
+    document.getElementById('vitrine-room').classList.remove('open');
+    document.getElementById('vitrine-shell').style.display = 'none';
+    checkGate();
+  }
+});
+// Lien direct possible (#vitrine ou #vitrine/m1) au premier chargement de la page.
+const initialVitrineHash = parseVitrineHash();
+if(initialVitrineHash.open){
+  hideAllShells();
+  requireAgeGate(() => openVitrine(initialVitrineHash.id));
+}
+
+function renderVitrineGrid(){
+  const grid = document.getElementById('vitrine-grid');
+  if(!grid) return;
+  grid.innerHTML = roster.map(m => vitrineCardHtml(m)).join('');
+  grid.querySelectorAll('.vitrine-enter-btn').forEach(btn => {
+    btn.onclick = async () => {
+      try{
+        window.location.hash = 'vitrine/' + btn.dataset.id;
+        await openVitrineRoom(btn.dataset.id);
+      }catch(err){
+        console.error('vitrine card click error', err);
+        toast((LANG==='fr' ? 'Erreur : ' : 'Error: ') + (err && err.message ? err.message : err));
+      }
+    };
+  });
+}
+
+function vitrineCardHtml(m){
+  const num = m.id.replace('m', '').padStart(2, '0');
+
+  // Slot pas encore rempli par la créatrice : même placeholder que la page agence.
+  if(!m.filled || !m.photo){
+    return `
+      <div class="model-card">
+        <div class="model-photo">
+          <div class="placeholder">${LANG==='fr' ? 'Photo à ajouter<br>(avec autorisation de la créatrice)' : 'Photo to add<br>(with the creator\'s authorization)'}</div>
+          <span class="num-badge">${num}</span>
+        </div>
+        <div class="model-body">
+          <h3 style="color:var(--text-muted);font-size:16px;">${t('emptyName')}</h3>
+          <div class="meta">${t('numberPrefix')} ${num}</div>
+        </div>
+      </div>`;
+  }
+
+  const online = m.bio && m.bio.status === 'online';
+  const photoCount = m.galleryPhotos.length;
+  const videoCount = m.galleryVideos.length;
+  const hasBio = !!(m.bio && Object.keys(m.bio).some(k => k !== 'status' && m.bio[k]));
+
+  return `
+    <div class="model-card">
+      <div class="model-photo">
+        <img src="${m.photo}">
+        <span class="num-badge">${num}</span>
+        <span class="status">${online ? t('statusOnline') : t('statusOffline')}</span>
+      </div>
+      <div class="model-body">
+        <div class="name-row"><h3>${escText(m.name) || t('nameUndefined')}</h3></div>
+        <div class="meta">${escText(m.country || '—')}</div>
+        <div class="tags">
+          <span>📷 ${photoCount}</span>
+          <span>🎥 ${videoCount}</span>
+          ${hasBio ? `<span>📝 ${t('bioSectionTitle')}</span>` : ''}
+        </div>
+        <button type="button" class="btn btn-primary vitrine-enter-btn" data-id="${m.id}" style="margin-top:6px;">${t('vitrineEnterBtn')}</button>
+      </div>
+    </div>`;
+}
+
+function bioRow(labelKey, value){
+  if(!value) return '';
+  return `<div class="vitrine-bio-row"><span class="k">${t(labelKey)}</span><span class="v">${escText(value)}</span></div>`;
+}
+
+async function openVitrineRoom(id){
+  const m = roster.find(x => x.id === id);
+  if(!m) return;
+  const bio = Object.assign({
+    origin:'', nationality:'', age:'', bodyType:'', orientation:'', lookingFor:'',
+    passions:'', universe:'', hobbies:'', personality:'', fantasies:'', fetish:'',
+    ambitions:'', socials:'', workUrl:'', status:'offline'
+  }, m.bio || {});
+  const online = bio.status === 'online';
+
+  const photoThumbs = m.galleryPhotos.map(item => `
+    <div class="gallery-thumb"><img src="${item.url}" data-full="${item.url}" data-type="image"></div>`).join('');
+  const videoThumbs = m.galleryVideos.map(item => `
+    <div class="gallery-thumb"><video src="${item.url}" data-full="${item.url}" data-type="video" muted></video></div>`).join('');
+
+  const body = document.getElementById('vitrine-room-body');
+  body.innerHTML = `
+    <div class="vitrine-cover">
+      <img src="${m.photo}">
+      <span class="vitrine-status-badge ${online ? 'online' : ''}">${online ? t('statusOnline') : t('statusOffline')}</span>
+    </div>
+    <h3>${escText(m.name) || t('nameUndefined')}</h3>
+    <div class="meta" style="color:var(--text-muted);font-size:12px;margin-top:2px;">${escText(m.country || '—')}</div>
+
+    <div class="vitrine-bio-rows">
+      ${bioRow('bioOrigin', bio.origin)}
+      ${bioRow('bioNationality', bio.nationality)}
+      ${bioRow('bioAge', bio.age)}
+      ${bioRow('bioBodyType', bio.bodyType)}
+      ${bioRow('bioOrientation', bio.orientation)}
+      ${bioRow('bioLookingFor', bio.lookingFor)}
+      ${bioRow('bioPassions', bio.passions)}
+      ${bioRow('bioUniverse', bio.universe)}
+      ${bioRow('bioHobbies', bio.hobbies)}
+      ${bioRow('bioPersonality', bio.personality)}
+      ${bioRow('bioFantasies', bio.fantasies)}
+      ${bioRow('bioFetish', bio.fetish)}
+      ${bioRow('bioAmbitions', bio.ambitions)}
+      ${bioRow('bioSocials', bio.socials)}
+    </div>
+    ${bio.workUrl ? `<a class="pill-link" href="${escText(bio.workUrl)}" target="_blank" rel="noopener" style="display:flex;margin-bottom:14px;">🔗 ${t('visitSiteBtn')}</a>` : ''}
+
+    ${(photoThumbs || videoThumbs) ? `
+      <div class="gallery-section">
+        <h4>${t('galleryPhotos')} (${m.galleryPhotos.length})</h4>
+        <div class="gallery-strip">${photoThumbs}</div>
+      </div>
+      <div class="gallery-section">
+        <h4>${t('galleryVideos')} (${m.galleryVideos.length})</h4>
+        <div class="gallery-strip">${videoThumbs}</div>
+      </div>` : ''}
+
+    <div class="vitrine-votes">
+      <button class="vote-btn" id="vote-like" data-id="${m.id}">👍 <span id="like-count">${m.likes || 0}</span> ${t('likeLabel')}</button>
+      <button class="vote-btn" id="vote-dislike" data-id="${m.id}">👎 <span id="dislike-count">${m.dislikes || 0}</span> ${t('dislikeLabel')}</button>
+    </div>
+
+    <div class="vitrine-comments">
+      <h4>${t('commentsTitle')}</h4>
+      <p class="comment-rules">${t('commentRules')}</p>
+      <div class="comment-list" id="comment-list"><span class="gallery-empty">${t('commentEmpty')}</span></div>
+      <div class="comment-form">
+        <textarea id="comment-input" placeholder="${t('commentPlaceholder')}"></textarea>
+        <button class="btn btn-primary btn-sm" id="comment-submit">${t('commentSubmit')}</button>
+      </div>
+    </div>
+  `;
+
+  body.querySelectorAll('.gallery-thumb img, .gallery-thumb video').forEach(el => {
+    el.onclick = () => openLightbox(el.dataset.full, el.dataset.type);
+  });
+
+  const voteState = localStorage.getItem('hm_vote_' + m.id);
+  document.getElementById('vote-like').classList.toggle('active', voteState === 'like');
+  document.getElementById('vote-dislike').classList.toggle('active', voteState === 'dislike');
+  document.getElementById('vote-like').onclick = () => castVote(m, 'like');
+  document.getElementById('vote-dislike').onclick = () => castVote(m, 'dislike');
+
+  document.getElementById('comment-submit').onclick = () => submitComment(m.id);
+
+  document.getElementById('vitrine-backdrop').classList.add('open');
+  document.getElementById('vitrine-room').classList.add('open');
+  // force un rafraîchissement d'affichage immédiat (même correctif que sur les autres pages)
+  void document.getElementById('vitrine-room').offsetHeight;
+
+  loadComments(m.id);
+}
+document.getElementById('vitrine-backdrop').onclick = closeVitrineRoom;
+document.getElementById('vitrine-room-close').onclick = closeVitrineRoom;
+function closeVitrineRoom(){
+  document.getElementById('vitrine-backdrop').classList.remove('open');
+  document.getElementById('vitrine-room').classList.remove('open');
+  if(window.location.hash.startsWith('#vitrine/')){
+    window.location.hash = 'vitrine';
+  }
+}
+
+/* ---------------- votes (like / dislike) ---------------- */
+async function castVote(m, type){
+  if(!db) return;
+  const key = 'hm_vote_' + m.id;
+  const prev = localStorage.getItem(key);
+  const ref = db.collection('profiles').doc(m.id);
+  const inc = firebase.firestore.FieldValue.increment(1);
+  const dec = firebase.firestore.FieldValue.increment(-1);
+  const update = {};
+
+  if(prev === type){
+    // annuler le vote
+    update[type === 'like' ? 'likes' : 'dislikes'] = dec;
+    localStorage.removeItem(key);
+  } else {
+    if(prev){ update[prev === 'like' ? 'likes' : 'dislikes'] = dec; }
+    update[type === 'like' ? 'likes' : 'dislikes'] = inc;
+    localStorage.setItem(key, type);
+  }
+
+  try{
+    await ref.set(update, { merge: true });
+  }catch(e){ console.error('vote error', e); }
+
+  // relit les valeurs à jour depuis Firestore pour rester exact
+  try{
+    const snap = await ref.get();
+    const data = snap.data() || {};
+    m.likes = data.likes || 0;
+    m.dislikes = data.dislikes || 0;
+    document.getElementById('like-count').textContent = m.likes;
+    document.getElementById('dislike-count').textContent = m.dislikes;
+    const newVote = localStorage.getItem(key);
+    document.getElementById('vote-like').classList.toggle('active', newVote === 'like');
+    document.getElementById('vote-dislike').classList.toggle('active', newVote === 'dislike');
+  }catch(e){ console.error('vote refresh error', e); }
+}
+
+/* ---------------- comments (public, moderated) ---------------- */
+const BANNED_WORDS = [
+  'connard','connasse','salope','pute','putain de merde','encule','enculé','enculee',
+  'batard','bâtard','fdp','ntm','pd','negre','nègre','sale pute','sale chien',
+  'idiot(e)? de merde','abruti','débile mental','ta gueule','ferme ta gueule',
+  'fuck you','fucking bitch','bitch','asshole','cunt','whore','slut','retard','faggot',
+  'nigger','n[i1]gga','stupid bitch','dumb whore','kill yourself','kys'
+];
+function containsBannedWords(text){
+  const norm = text.toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, ''); // enlève les accents
+  return BANNED_WORDS.some(w => {
+    const pattern = w.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    try{
+      const re = new RegExp('\\b' + pattern + '\\b', 'i');
+      return re.test(norm);
+    }catch(e){
+      return norm.includes(pattern.replace(/[()?[\]]/g, ''));
+    }
+  });
+}
+
+async function loadComments(profileId){
+  const list = document.getElementById('comment-list');
+  if(!db || !list) return;
+  try{
+    const snap = await db.collection('profiles').doc(profileId).collection('comments')
+      .orderBy('createdAt', 'desc').limit(50).get();
+    if(snap.empty){
+      list.innerHTML = `<span class="gallery-empty">${t('commentEmpty')}</span>`;
+      return;
+    }
+    list.innerHTML = snap.docs.map(d => {
+      const c = d.data();
+      return `<div class="comment-item">${escText(c.text || '')}</div>`;
+    }).join('');
+  }catch(e){
+    console.error('load comments error', e);
+  }
+}
+
+async function submitComment(profileId){
+  const input = document.getElementById('comment-input');
+  const text = input.value.trim();
+  if(!text) return;
+  if(containsBannedWords(text)){
+    toast(t('commentModerationError'));
+    return;
+  }
+  const btn = document.getElementById('comment-submit');
+  btn.disabled = true;
+  try{
+    await db.collection('profiles').doc(profileId).collection('comments').add({
+      text: text.slice(0, 500),
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    input.value = '';
+    toast(t('commentPosted'));
+    loadComments(profileId);
+  }catch(e){
+    console.error('comment post error', e);
+    toast(t('saveErrorToast'));
+  }
+  btn.disabled = false;
+}
 </script>
 </body>
 </html>
