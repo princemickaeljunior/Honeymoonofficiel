@@ -326,7 +326,7 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 .exclusive-video-pair{display:flex;gap:4px;}
 .exclusive-video-pair .exclusive-thumb{flex:1;}
 .exclusive-teaser-thumb video{filter:none;}
-.exclusive-blurred-video{filter:blur(4px) brightness(0.8) saturate(1.05);transform:scale(1.08);}
+.exclusive-blurred-video{filter:blur(9px) brightness(0.7) saturate(1.05);transform:scale(1.12);}
 
 /* ---------- onglets galerie gratuite / exclusive dans la room ---------- */
 .room-tabs{display:flex;gap:8px;margin:14px 0 12px;border-bottom:1px solid var(--border);}
@@ -337,6 +337,39 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 .room-tab-btn.active{color:var(--honey);border-color:var(--honey);}
 .room-tab-panel{display:none;}
 .room-tab-panel.active{display:block;}
+
+/* ---------- outils créatrice ---------- */
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;}
+.cal-cell{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;border-radius:8px;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text);font-size:12px;position:relative;}
+.cal-cell.empty{background:none;border:none;}
+.cal-cell.today{border-color:var(--honey);color:var(--honey);font-weight:700;}
+.cal-cell.has-note::after{content:'';position:absolute;bottom:4px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--honey);}
+#notes-textarea{width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text);border-radius:var(--radius-sm);padding:12px;font-family:'Inter',sans-serif;font-size:13px;resize:vertical;}
+.calc-display{background:var(--bg-elev-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:26px;color:var(--honey);margin-bottom:10px;word-break:break-all;}
+.calc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.calc-btn{aspect-ratio:1/1;border-radius:10px;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text);font-size:16px;}
+.calc-op{color:var(--honey);}
+.calc-eq{background:var(--honey);color:#160f04;font-weight:700;}
+.finance-form{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
+.finance-form select, .finance-form input{background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:8px 10px;font-size:12.5px;}
+.finance-form input#fin-label{flex:1;min-width:100px;}
+.finance-form input#fin-amount{width:80px;}
+.finance-form button{width:100%;}
+.finance-list{display:flex;flex-direction:column;gap:8px;}
+.finance-row{display:flex;justify-content:space-between;align-items:center;background:var(--bg-elev-2);border:1px solid var(--border);border-radius:8px;padding:9px 12px;}
+.finance-label{font-size:12.5px;display:block;}
+.finance-date{font-size:9.5px;color:var(--text-muted);}
+.finance-amount{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;}
+.finance-amount.income{color:#5fd67a;}
+.finance-amount.expense{color:#e06a6a;}
+.advice-topics{display:flex;flex-direction:column;gap:8px;max-height:280px;overflow-y:auto;margin-bottom:16px;padding-right:2px;}
+.advice-topic-btn{display:flex;align-items:center;gap:8px;text-align:left;background:var(--bg-elev-2);border:1px solid var(--border);border-radius:10px;padding:11px 13px;color:var(--text);font-size:12.5px;}
+.advice-topic-btn:active{border-color:var(--honey);}
+.advice-chat{display:flex;flex-direction:column;gap:10px;}
+.chat-bubble{max-width:85%;padding:10px 14px;border-radius:14px;font-size:13px;line-height:1.5;opacity:0;transform:translateY(6px);transition:opacity .3s, transform .3s;}
+.chat-bubble.chat-user{align-self:flex-end;background:var(--honey);color:#160f04;border-bottom-right-radius:4px;opacity:1;transform:none;}
+.chat-bubble.chat-bot{align-self:flex-start;background:var(--bg-elev-2);border:1px solid var(--border);border-bottom-left-radius:4px;}
+.chat-bubble.chat-bot.show{opacity:1;transform:none;}
 
 /* ---------- ventes / facture ---------- */
 .sale-order-row{display:flex;flex-direction:column;gap:8px;background:var(--bg-elev-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;margin-bottom:12px;}
@@ -781,6 +814,27 @@ const I18N = {
     paidSalesPanelBtn: "Ventes",
     paidSalesPanelTitle: "Ventes en attente",
     paidVideoPrompt: "Cliquez pour choisir une vidéo",
+    paidThisMonthLabel: "Ce mois-ci",
+    paidAllTimeLabel: "Total cumulé (tous les mois)",
+    toolsTitle: "Outils",
+    toolsNote: "Ton espace personnel : calendrier, notes, calculatrice, suivi de tes recettes/dépenses et conseils pratiques. Ces données restent sur ton téléphone, elles ne sont pas partagées.",
+    toolCalendar: "Calendrier",
+    toolNotes: "Notes",
+    toolCalc: "Calculatrice",
+    toolFinance: "Finances",
+    toolAdvice: "Conseils",
+    toolCalendarPh: "Ajoute une note pour ce jour…",
+    toolNotesPh: "Écris ce que tu veux ici…",
+    toolCalcError: "Erreur",
+    toolIncome: "Recettes",
+    toolExpense: "Dépenses",
+    toolBalance: "Solde",
+    toolFinLabelPh: "Nom (ex. Achat éclairage)",
+    toolAddEntry: "Ajouter",
+    toolNoEntries: "Aucune entrée pour le moment.",
+    toolPaymentAccessNote: "Ces boutons ouvrent les sites officiels PayPal et M-Pesa dans ton navigateur — le site ne peut pas accéder à tes comptes directement.",
+    toolFinMissing: "Merci de remplir un nom et un montant valide.",
+    toolAdviceNote: "Clique sur un sujet ci-dessous, le conseil s'affiche comme dans une conversation.",
     showcaseTitle: "Présentation agences",
     showcaseNote: "Contenu réservé à la présentation de la créatrice aux agences partenaires (non visible du grand public).",
     showcasePhotoLabel: "Photo de présentation",
@@ -992,6 +1046,27 @@ const I18N = {
     paidSalesPanelBtn: "Sales",
     paidSalesPanelTitle: "Pending sales",
     paidVideoPrompt: "Click to choose a video",
+    paidThisMonthLabel: "This month",
+    paidAllTimeLabel: "All-time total",
+    toolsTitle: "Tools",
+    toolsNote: "Your personal space: calendar, notes, calculator, income/expense tracking and practical tips. This data stays on your phone, it isn't shared.",
+    toolCalendar: "Calendar",
+    toolNotes: "Notes",
+    toolCalc: "Calculator",
+    toolFinance: "Finance",
+    toolAdvice: "Tips",
+    toolCalendarPh: "Add a note for this day…",
+    toolNotesPh: "Write anything here…",
+    toolCalcError: "Error",
+    toolIncome: "Income",
+    toolExpense: "Expenses",
+    toolBalance: "Balance",
+    toolFinLabelPh: "Name (e.g. Lighting purchase)",
+    toolAddEntry: "Add",
+    toolNoEntries: "No entries yet.",
+    toolPaymentAccessNote: "These buttons open the official PayPal and M-Pesa websites in your browser — the site cannot access your accounts directly.",
+    toolFinMissing: "Please fill in a name and a valid amount.",
+    toolAdviceNote: "Tap a topic below, the tip appears like in a conversation.",
     showcaseTitle: "Agency showcase",
     showcaseNote: "Content reserved for presenting the creator to partner agencies (not visible to the general public).",
     showcasePhotoLabel: "Presentation photo",
@@ -1203,6 +1278,27 @@ const I18N = {
     paidSalesPanelBtn: "Ventas",
     paidSalesPanelTitle: "Ventas pendientes",
     paidVideoPrompt: "Haz clic para elegir un video",
+    paidThisMonthLabel: "Este mes",
+    paidAllTimeLabel: "Total acumulado",
+    toolsTitle: "Herramientas",
+    toolsNote: "Tu espacio personal: calendario, notas, calculadora, seguimiento de ingresos/gastos y consejos prácticos. Estos datos permanecen en tu teléfono, no se comparten.",
+    toolCalendar: "Calendario",
+    toolNotes: "Notas",
+    toolCalc: "Calculadora",
+    toolFinance: "Finanzas",
+    toolAdvice: "Consejos",
+    toolCalendarPh: "Añade una nota para este día…",
+    toolNotesPh: "Escribe lo que quieras aquí…",
+    toolCalcError: "Error",
+    toolIncome: "Ingresos",
+    toolExpense: "Gastos",
+    toolBalance: "Saldo",
+    toolFinLabelPh: "Nombre (ej. Compra de iluminación)",
+    toolAddEntry: "Añadir",
+    toolNoEntries: "Aún no hay entradas.",
+    toolPaymentAccessNote: "Estos botones abren los sitios oficiales de PayPal y M-Pesa en tu navegador — el sitio no puede acceder directamente a tus cuentas.",
+    toolFinMissing: "Por favor completa un nombre y un monto válido.",
+    toolAdviceNote: "Toca un tema abajo, el consejo aparece como en una conversación.",
     showcaseTitle: "Presentación para agencias",
     showcaseNote: "Contenido reservado para presentar a la creadora a las agencias asociadas (no visible al público general).",
     showcasePhotoLabel: "Foto de presentación",
@@ -1414,6 +1510,27 @@ const I18N = {
     paidSalesPanelBtn: "Vendite",
     paidSalesPanelTitle: "Vendite in attesa",
     paidVideoPrompt: "Clicca per scegliere un video",
+    paidThisMonthLabel: "Questo mese",
+    paidAllTimeLabel: "Totale cumulato",
+    toolsTitle: "Strumenti",
+    toolsNote: "Il tuo spazio personale: calendario, note, calcolatrice, monitoraggio entrate/uscite e consigli pratici. Questi dati restano sul tuo telefono, non vengono condivisi.",
+    toolCalendar: "Calendario",
+    toolNotes: "Note",
+    toolCalc: "Calcolatrice",
+    toolFinance: "Finanze",
+    toolAdvice: "Consigli",
+    toolCalendarPh: "Aggiungi una nota per questo giorno…",
+    toolNotesPh: "Scrivi qui quello che vuoi…",
+    toolCalcError: "Errore",
+    toolIncome: "Entrate",
+    toolExpense: "Uscite",
+    toolBalance: "Saldo",
+    toolFinLabelPh: "Nome (es. Acquisto illuminazione)",
+    toolAddEntry: "Aggiungi",
+    toolNoEntries: "Nessuna voce per ora.",
+    toolPaymentAccessNote: "Questi pulsanti aprono i siti ufficiali PayPal e M-Pesa nel tuo browser — il sito non può accedere direttamente ai tuoi conti.",
+    toolFinMissing: "Inserisci un nome e un importo valido.",
+    toolAdviceNote: "Tocca un argomento qui sotto, il consiglio appare come in una conversazione.",
     showcaseTitle: "Presentazione per agenzie",
     showcaseNote: "Contenuto riservato alla presentazione della creatrice alle agenzie partner (non visibile al pubblico generale).",
     showcasePhotoLabel: "Foto di presentazione",
@@ -1625,6 +1742,27 @@ const I18N = {
     paidSalesPanelBtn: "Vendas",
     paidSalesPanelTitle: "Vendas pendentes",
     paidVideoPrompt: "Clica para escolher um vídeo",
+    paidThisMonthLabel: "Este mês",
+    paidAllTimeLabel: "Total acumulado",
+    toolsTitle: "Ferramentas",
+    toolsNote: "O teu espaço pessoal: calendário, notas, calculadora, controlo de receitas/despesas e conselhos práticos. Estes dados ficam no teu telemóvel, não são partilhados.",
+    toolCalendar: "Calendário",
+    toolNotes: "Notas",
+    toolCalc: "Calculadora",
+    toolFinance: "Finanças",
+    toolAdvice: "Conselhos",
+    toolCalendarPh: "Adiciona uma nota para este dia…",
+    toolNotesPh: "Escreve aqui o que quiseres…",
+    toolCalcError: "Erro",
+    toolIncome: "Receitas",
+    toolExpense: "Despesas",
+    toolBalance: "Saldo",
+    toolFinLabelPh: "Nome (ex. Compra de iluminação)",
+    toolAddEntry: "Adicionar",
+    toolNoEntries: "Ainda sem registos.",
+    toolPaymentAccessNote: "Estes botões abrem os sites oficiais do PayPal e M-Pesa no teu navegador — o site não consegue aceder diretamente às tuas contas.",
+    toolFinMissing: "Por favor preenche um nome e um valor válido.",
+    toolAdviceNote: "Toca num tópico abaixo, o conselho aparece como numa conversa.",
     showcaseTitle: "Apresentação para agências",
     showcaseNote: "Conteúdo reservado para apresentar a criadora às agências parceiras (não visível ao público em geral).",
     showcasePhotoLabel: "Foto de apresentação",
@@ -1836,6 +1974,27 @@ const I18N = {
     paidSalesPanelBtn: "Mauzo",
     paidSalesPanelTitle: "Mauzo yanayosubiri",
     paidVideoPrompt: "Bofya kuchagua video",
+    paidThisMonthLabel: "Mwezi huu",
+    paidAllTimeLabel: "Jumla yote",
+    toolsTitle: "Zana",
+    toolsNote: "Nafasi yako binafsi: kalenda, madokezo, kikokotoo, ufuatiliaji wa mapato/matumizi na ushauri wa vitendo. Data hii inabaki kwenye simu yako, haishirikiwi.",
+    toolCalendar: "Kalenda",
+    toolNotes: "Madokezo",
+    toolCalc: "Kikokotoo",
+    toolFinance: "Fedha",
+    toolAdvice: "Ushauri",
+    toolCalendarPh: "Ongeza dokezo kwa siku hii…",
+    toolNotesPh: "Andika chochote hapa…",
+    toolCalcError: "Hitilafu",
+    toolIncome: "Mapato",
+    toolExpense: "Matumizi",
+    toolBalance: "Salio",
+    toolFinLabelPh: "Jina (mfano. Ununuzi wa taa)",
+    toolAddEntry: "Ongeza",
+    toolNoEntries: "Hakuna kiingilio bado.",
+    toolPaymentAccessNote: "Vitufe hivi vinafungua tovuti rasmi za PayPal na M-Pesa kwenye kivinjari chako — tovuti haiwezi kufikia akaunti zako moja kwa moja.",
+    toolFinMissing: "Tafadhali jaza jina na kiasi halali.",
+    toolAdviceNote: "Gusa mada hapa chini, ushauri unaonekana kama kwenye mazungumzo.",
     showcaseTitle: "Uwasilishaji kwa mashirika",
     showcaseNote: "Maudhui yaliyohifadhiwa kwa ajili ya kuwasilisha muundaji kwa mashirika washirika (hayaonekani kwa umma).",
     showcasePhotoLabel: "Picha ya uwasilishaji",
@@ -2047,6 +2206,27 @@ const I18N = {
     paidSalesPanelBtn: "Ukuthengiswa",
     paidSalesPanelTitle: "Ukuthengiswa okulindile",
     paidVideoPrompt: "Chofoza ukukhetha ividiyo",
+    paidThisMonthLabel: "Le nyanga",
+    paidAllTimeLabel: "Isamba sonke",
+    toolsTitle: "Amathuluzi",
+    toolsNote: "Isikhala sakho somuntu siqu: ikhalenda, amanothi, isibali, ukulandelela imali engenayo/ephumayo neseluleko olusebenzayo. Le datha ihlala efonini yakho, ayabelwana.",
+    toolCalendar: "Ikhalenda",
+    toolNotes: "Amanothi",
+    toolCalc: "Isibali",
+    toolFinance: "Izimali",
+    toolAdvice: "Iseluleko",
+    toolCalendarPh: "Engeza inothi kwalolu suku…",
+    toolNotesPh: "Bhala noma yini lapha…",
+    toolCalcError: "Iphutha",
+    toolIncome: "Imali engenayo",
+    toolExpense: "Izindleko",
+    toolBalance: "Ibhalansi",
+    toolFinLabelPh: "Igama (isb. Ukuthenga ukukhanya)",
+    toolAddEntry: "Engeza",
+    toolNoEntries: "Azikho izingeniso okwamanje.",
+    toolPaymentAccessNote: "Laba abazingayo bavula amasayithi asemthethweni e-PayPal ne-M-Pesa kusiphequluli sakho — isayithi ayikwazi ukufinyelela ama-akhawunti akho ngokuqondile.",
+    toolFinMissing: "Sicela ufake igama nenani elifanele.",
+    toolAdviceNote: "Thepha isihloko ngezansi, iseluleko sibonakala njengasenkulumweni.",
     showcaseTitle: "Ukwethulwa kumaejensi",
     showcaseNote: "Okuqukethwe okugodliwe kokwethula umdali kumaejensi angane (akubonakali emphakathini jikelele).",
     showcasePhotoLabel: "Isithombe sokwethula",
@@ -2258,6 +2438,27 @@ const I18N = {
     paidSalesPanelBtn: "Dithekiso",
     paidSalesPanelTitle: "Dithekiso tse lebeletseng",
     paidVideoPrompt: "Tobetsa ho kgetha video",
+    paidThisMonthLabel: "Kgweding ena",
+    paidAllTimeLabel: "Palo yohle",
+    toolsTitle: "Disebediswa",
+    toolsNote: "Sebaka sa hao sa botho: khalentara, mangolo, sebali, ho latela chelete e kenang/e tswang le keletso e sebetsang. Data ena e dula mohaleng wa hao, ha e arolelwe.",
+    toolCalendar: "Khalentara",
+    toolNotes: "Mangolo",
+    toolCalc: "Sebali",
+    toolFinance: "Ditjhelete",
+    toolAdvice: "Keletso",
+    toolCalendarPh: "Kenya nyuze bakeng sa letsatsi lena…",
+    toolNotesPh: "Ngola eng kapa eng mona…",
+    toolCalcError: "Phoso",
+    toolIncome: "Chelete e kenang",
+    toolExpense: "Ditshenyehelo",
+    toolBalance: "Bolane",
+    toolFinLabelPh: "Lebitso (mohlala. Ho reka bonngwe)",
+    toolAddEntry: "Kenya",
+    toolNoEntries: "Ha ho na dikenyo ka nako ena.",
+    toolPaymentAccessNote: "Dikonopo tsena di bula diwebsaete tsa semmuso tsa PayPal le M-Pesa ho browser ya hao — websaete ha e kgone ho fihlella diakhaonto tsa hao ka kotloloho.",
+    toolFinMissing: "Ka kopo tlatsa lebitso le chelete e nepahetseng.",
+    toolAdviceNote: "Tobetsa sehlooho ka tlase, keletso e hlaha jwaloka puisanong.",
     showcaseTitle: "Tlhahiso ho diejensi",
     showcaseNote: "Diteng tse boloketsweng ho hlahisa mmopi ho diejensi tse ntseng tsa hae (ha di bonahale ho sechaba ka kakaretso).",
     showcasePhotoLabel: "Setshwantsho sa tlhahiso",
@@ -2469,6 +2670,27 @@ const I18N = {
     paidSalesPanelBtn: "Kotekisa",
     paidSalesPanelTitle: "Kotekisa oyo ezali kozela",
     paidVideoPrompt: "Finela mpo na kopona video",
+    paidThisMonthLabel: "Sanza oyo",
+    paidAllTimeLabel: "Boto nyonso",
+    toolsTitle: "Bisaleli",
+    toolsNote: "Esika na yo ya moko: kalandriye, ba note, kalkulatrisi, kolanda mbongo oyo ekoti/ebimi mpe toli ya bosolo. Data oyo etikalaka na telefone na yo, ekabolamaka te.",
+    toolCalendar: "Kalandriye",
+    toolNotes: "Ba note",
+    toolCalc: "Kalkulatrisi",
+    toolFinance: "Mbongo",
+    toolAdvice: "Toli",
+    toolCalendarPh: "Bakisa note mpo na mokolo oyo…",
+    toolNotesPh: "Koma eloko nyonso awa…",
+    toolCalcError: "Libunga",
+    toolIncome: "Mbongo oyo ekoti",
+    toolExpense: "Mbongo oyo ebimi",
+    toolBalance: "Bwabwa",
+    toolFinLabelPh: "Nkombo (ndakisa. Kosomba pole)",
+    toolAddEntry: "Bakisa",
+    toolNoEntries: "Eloko moko te sikoyo.",
+    toolPaymentAccessNote: "Batone oyo ekofungola ba site ya solo ya PayPal na M-Pesa na navigateur na yo — site ekoki te kokota na ba compte na yo na ndenge mosusu.",
+    toolFinMissing: "Svp tondisa nkombo na mbongo ya solo.",
+    toolAdviceNote: "Finela sujet na nse, toli emononaka lokola na lisolo.",
     showcaseTitle: "Kolakisa na ba agence",
     showcaseNote: "Bikuma bibombami mpo na kolakisa mokeli epai ya ba agence baninga (emonanaka na bato nyonso te).",
     showcasePhotoLabel: "Foto ya kolakisa",
@@ -2680,6 +2902,27 @@ const I18N = {
     paidSalesPanelBtn: "销售",
     paidSalesPanelTitle: "待处理销售",
     paidVideoPrompt: "点击选择视频",
+    paidThisMonthLabel: "本月",
+    paidAllTimeLabel: "累计总额",
+    toolsTitle: "工具",
+    toolsNote: "你的个人空间：日历、笔记、计算器、收支记录和实用建议。这些数据保存在你的手机上，不会被分享。",
+    toolCalendar: "日历",
+    toolNotes: "笔记",
+    toolCalc: "计算器",
+    toolFinance: "财务",
+    toolAdvice: "建议",
+    toolCalendarPh: "为这一天添加备注…",
+    toolNotesPh: "在这里写点什么…",
+    toolCalcError: "错误",
+    toolIncome: "收入",
+    toolExpense: "支出",
+    toolBalance: "余额",
+    toolFinLabelPh: "名称（例如：购买灯具）",
+    toolAddEntry: "添加",
+    toolNoEntries: "暂无记录。",
+    toolPaymentAccessNote: "这些按钮会在你的浏览器中打开PayPal和M-Pesa官方网站——本网站无法直接访问你的账户。",
+    toolFinMissing: "请填写名称和有效金额。",
+    toolAdviceNote: "点击下方主题，建议会像对话一样显示。",
     showcaseTitle: "经纪公司展示",
     showcaseNote: "仅用于向合作经纪公司展示创作者的内容（不对公众开放）。",
     showcasePhotoLabel: "展示照片",
@@ -2891,6 +3134,27 @@ const I18N = {
     paidSalesPanelBtn: "販売",
     paidSalesPanelTitle: "保留中の販売",
     paidVideoPrompt: "クリックして動画を選択",
+    paidThisMonthLabel: "今月",
+    paidAllTimeLabel: "累計",
+    toolsTitle: "ツール",
+    toolsNote: "あなた専用のスペース：カレンダー、メモ、電卓、収支管理、実用的なアドバイス。このデータはあなたのスマホに保存され、共有されません。",
+    toolCalendar: "カレンダー",
+    toolNotes: "メモ",
+    toolCalc: "電卓",
+    toolFinance: "収支",
+    toolAdvice: "アドバイス",
+    toolCalendarPh: "この日のメモを追加…",
+    toolNotesPh: "ここに自由に書いてください…",
+    toolCalcError: "エラー",
+    toolIncome: "収入",
+    toolExpense: "支出",
+    toolBalance: "残高",
+    toolFinLabelPh: "名称（例：照明の購入）",
+    toolAddEntry: "追加",
+    toolNoEntries: "まだ記録がありません。",
+    toolPaymentAccessNote: "このボタンはPayPalとM-Pesaの公式サイトをブラウザで開きます — サイトから直接あなたのアカウントにアクセスすることはできません。",
+    toolFinMissing: "名称と有効な金額を入力してください。",
+    toolAdviceNote: "下のトピックをタップすると、会話のようにアドバイスが表示されます。",
     showcaseTitle: "エージェンシー向けプレゼンテーション",
     showcaseNote: "提携エージェンシーにクリエイターを紹介するための限定コンテンツです（一般公開はされません）。",
     showcasePhotoLabel: "紹介用写真",
@@ -3102,6 +3366,27 @@ const I18N = {
     paidSalesPanelBtn: "Продажи",
     paidSalesPanelTitle: "Ожидающие продажи",
     paidVideoPrompt: "Нажмите, чтобы выбрать видео",
+    paidThisMonthLabel: "В этом месяце",
+    paidAllTimeLabel: "Всего накоплено",
+    toolsTitle: "Инструменты",
+    toolsNote: "Твоё личное пространство: календарь, заметки, калькулятор, учёт доходов/расходов и практические советы. Эти данные остаются на твоём телефоне и не передаются.",
+    toolCalendar: "Календарь",
+    toolNotes: "Заметки",
+    toolCalc: "Калькулятор",
+    toolFinance: "Финансы",
+    toolAdvice: "Советы",
+    toolCalendarPh: "Добавь заметку на этот день…",
+    toolNotesPh: "Напиши здесь что угодно…",
+    toolCalcError: "Ошибка",
+    toolIncome: "Доходы",
+    toolExpense: "Расходы",
+    toolBalance: "Баланс",
+    toolFinLabelPh: "Название (напр. Покупка света)",
+    toolAddEntry: "Добавить",
+    toolNoEntries: "Пока нет записей.",
+    toolPaymentAccessNote: "Эти кнопки открывают официальные сайты PayPal и M-Pesa в браузере — сайт не может напрямую получить доступ к твоим счетам.",
+    toolFinMissing: "Пожалуйста, укажи название и корректную сумму.",
+    toolAdviceNote: "Нажми на тему ниже, совет появится как в переписке.",
     showcaseTitle: "Презентация для агентств",
     showcaseNote: "Контент, предназначенный только для представления создательницы партнёрским агентствам (не виден широкой публике).",
     showcasePhotoLabel: "Презентационное фото",
@@ -3313,6 +3598,27 @@ const I18N = {
     paidSalesPanelBtn: "المبيعات",
     paidSalesPanelTitle: "المبيعات المعلقة",
     paidVideoPrompt: "انقر لاختيار فيديو",
+    paidThisMonthLabel: "هذا الشهر",
+    paidAllTimeLabel: "الإجمالي التراكمي",
+    toolsTitle: "الأدوات",
+    toolsNote: "مساحتك الشخصية: تقويم، ملاحظات، آلة حاسبة، تتبع الإيرادات/المصروفات، ونصائح عملية. تبقى هذه البيانات على هاتفك ولا تتم مشاركتها.",
+    toolCalendar: "التقويم",
+    toolNotes: "الملاحظات",
+    toolCalc: "الآلة الحاسبة",
+    toolFinance: "المالية",
+    toolAdvice: "النصائح",
+    toolCalendarPh: "أضيفي ملاحظة لهذا اليوم…",
+    toolNotesPh: "اكتبي أي شيء هنا…",
+    toolCalcError: "خطأ",
+    toolIncome: "الإيرادات",
+    toolExpense: "المصروفات",
+    toolBalance: "الرصيد",
+    toolFinLabelPh: "الاسم (مثال: شراء إضاءة)",
+    toolAddEntry: "إضافة",
+    toolNoEntries: "لا توجد إدخالات بعد.",
+    toolPaymentAccessNote: "تفتح هذه الأزرار المواقع الرسمية لـ PayPal وM-Pesa في متصفحك — لا يمكن للموقع الوصول إلى حساباتك مباشرة.",
+    toolFinMissing: "يرجى ملء اسم ومبلغ صحيح.",
+    toolAdviceNote: "اضغطي على موضوع أدناه، وستظهر النصيحة كما في محادثة.",
     showcaseTitle: "عرض للوكالات",
     showcaseNote: "محتوى مخصص لتقديم المنشئة إلى الوكالات الشريكة (غير مرئي للجمهور العام).",
     showcasePhotoLabel: "صورة تقديمية",
@@ -3524,6 +3830,27 @@ const I18N = {
     paidSalesPanelBtn: "Kuteka",
     paidSalesPanelTitle: "Kuteka yina ke vingila",
     paidVideoPrompt: "Fina sambu na kusola video",
+    paidThisMonthLabel: "Ngonda yayi",
+    paidAllTimeLabel: "Yonso yakutanisama",
+    toolsTitle: "Bisadilu",
+    toolsNote: "Kisika na nge ya mwenemene: kalandriye, ba note, kalkulatrisi, kulanda mbongo yina kekota/kebasika ye toli ya mfunu. Data yayi kesalaka na telefone na nge, kekabwanaka ve.",
+    toolCalendar: "Kalandriye",
+    toolNotes: "Ba note",
+    toolCalc: "Kalkulatrisi",
+    toolFinance: "Mbongo",
+    toolAdvice: "Toli",
+    toolCalendarPh: "Bakisa note mpo lumbu yayi…",
+    toolNotesPh: "Soneka konso kima awa…",
+    toolCalcError: "Kifu",
+    toolIncome: "Mbongo yina kekota",
+    toolExpense: "Mbongo yina kebasika",
+    toolBalance: "Balans",
+    toolFinLabelPh: "Nkumbu (mbandu. Kusumba mwinda)",
+    toolAddEntry: "Bakisa",
+    toolNoEntries: "Kima ya nkati ve kutuka.",
+    toolPaymentAccessNote: "Ba bouton yayi kefungula ba site ya kieleka ya PayPal ye M-Pesa na navigateur na nge — site kelenda ve kukota na ba compte na nge mu mutindu ya nkaka.",
+    toolFinMissing: "Nsweswe fulusa nkumbu ye mbongo ya kieleka.",
+    toolAdviceNote: "Fina sujet na nse, toli kemonana bonso na disolo.",
     showcaseTitle: "Kulakisa na ba agence",
     showcaseNote: "Bima bindimami mpo na kulakisa metila na ba agence banduku (emonanaka na bantu yonso ve).",
     showcasePhotoLabel: "Kifwani ya kulakisa",
@@ -4106,12 +4433,18 @@ function renderMyProfile(slotId){
       <p style="color:var(--honey);font-size:11.5px;max-width:460px;margin-top:10px;line-height:1.6;">${t('contentPolicyNote')}</p>
       <div id="my-paid-zone" style="margin-top:20px;"></div>
     </div>
+    <div style="margin-top:48px;padding-top:36px;border-top:1px solid var(--border);">
+      <h2 class="display" style="font-size:19px;">${t('toolsTitle')}</h2>
+      <p style="color:var(--text-muted);font-size:12.5px;max-width:460px;margin-top:8px;line-height:1.65;">${t('toolsNote')}</p>
+      <div id="my-tools-zone" style="margin-top:20px;"></div>
+    </div>
   `;
 
   document.getElementById('my-edit-btn').onclick = () => openMyProfileEdit(m);
   renderMyGallery(m);
   renderMyVault(m);
   renderMyPaidGallery(m);
+  renderMyTools(m);
 }
 
 function renderMyVault(m){
@@ -4235,6 +4568,12 @@ function renderMyPaidGallery(m){
   }).join('');
 
   zone.innerHTML = `
+    <p class="mono" style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;">${t('paidThisMonthLabel')}</p>
+    <div class="paid-summary" id="paid-summary-month">
+      <div><span class="k">${t('paidTotalRevenue')}</span><span class="v">…</span></div>
+      <div><span class="k">${t('paidTotalSales')}</span><span class="v">…</span></div>
+    </div>
+    <p class="mono" style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;margin:16px 0 8px;">${t('paidAllTimeLabel')}</p>
     <div class="paid-summary">
       <div><span class="k">${t('paidTotalRevenue')}</span><span class="v">${totalRevenue}€</span></div>
       <div><span class="k">${t('paidTotalSales')}</span><span class="v">${totalSales}</span></div>
@@ -4243,6 +4582,7 @@ function renderMyPaidGallery(m){
       <button class="btn btn-ghost btn-sm" id="add-paid-photo-btn">${ICON_CAMERA}${t('paidAddPhoto')}</button>
       <button class="btn btn-ghost btn-sm" id="add-paid-video-btn">${ICON_VIDEO}${t('paidAddVideo')}</button>
     </div>
+    <div id="paid-monthly-data-holder" style="display:none;"></div>
     <div class="paid-items-list">
       ${itemCards || `<span class="gallery-empty">${t('paidNoItems')}</span>`}
     </div>
@@ -4272,6 +4612,280 @@ function renderMyPaidGallery(m){
   });
 
   loadMyOrders(m);
+  loadMonthlyStats(m);
+}
+
+async function loadMonthlyStats(m){
+  const holder = document.getElementById('paid-summary-month');
+  if(!holder || !db) return;
+  try{
+    const now = new Date();
+    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+    let monthRevenue = 0, monthSales = 0;
+    for(const item of (m.paidContent || [])){
+      const snap = await db.collection('profiles').doc(m.id).collection('paid_content').doc(item.docId)
+        .collection('orders').get();
+      snap.forEach(d => {
+        const data = d.data();
+        if(data.status !== 'paid' || !data.paidAt || !data.paidAt.toDate) return;
+        if(data.paidAt.toDate() >= monthStart){
+          monthSales += 1;
+          monthRevenue += (data.creatorShare != null ? data.creatorShare + (data.platformShare || 0) : item.price) || 0;
+        }
+      });
+    }
+    holder.innerHTML = `
+      <div><span class="k">${t('paidTotalRevenue')}</span><span class="v">${monthRevenue}€</span></div>
+      <div><span class="k">${t('paidTotalSales')}</span><span class="v">${monthSales}</span></div>
+    `;
+  }catch(e){
+    console.error('monthly stats error', e);
+    holder.innerHTML = `<div style="grid-column:1/-1;"><span class="gallery-empty">${(LANG==='fr'?'Erreur : ':'Error: ')}${escText(e.message||String(e))}</span></div>`;
+  }
+}
+
+/* ================================================================
+   OUTILS — espace productivité personnelle de la créatrice.
+   Stocké en local sur son téléphone (localStorage), pas sur Firebase :
+   plus simple, fonctionne même hors-ligne, et reste privé à cet appareil.
+   ================================================================ */
+function renderMyTools(m){
+  const zone = document.getElementById('my-tools-zone');
+  if(!zone) return;
+  zone.innerHTML = `
+    <div class="room-tabs" id="tools-tabs">
+      <button class="room-tab-btn active" data-tool="calendar">${ICON_CALENDAR}${t('toolCalendar')}</button>
+      <button class="room-tab-btn" data-tool="notes">${ICON_NOTE}${t('toolNotes')}</button>
+      <button class="room-tab-btn" data-tool="calc">${ICON_CALC}${t('toolCalc')}</button>
+      <button class="room-tab-btn" data-tool="finance">${ICON_COIN}${t('toolFinance')}</button>
+      <button class="room-tab-btn" data-tool="advice">${ICON_CHAT}${t('toolAdvice')}</button>
+    </div>
+    <div class="room-tab-panel active" id="tool-panel-calendar"></div>
+    <div class="room-tab-panel" id="tool-panel-notes"></div>
+    <div class="room-tab-panel" id="tool-panel-calc"></div>
+    <div class="room-tab-panel" id="tool-panel-finance"></div>
+    <div class="room-tab-panel" id="tool-panel-advice"></div>
+  `;
+  zone.querySelectorAll('#tools-tabs .room-tab-btn').forEach(btn => {
+    btn.onclick = () => {
+      zone.querySelectorAll('#tools-tabs .room-tab-btn').forEach(b => b.classList.remove('active'));
+      zone.querySelectorAll('.room-tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tool-panel-' + btn.dataset.tool).classList.add('active');
+    };
+  });
+  renderToolCalendar(m);
+  renderToolNotes(m);
+  renderToolCalc(m);
+  renderToolFinance(m);
+  renderToolAdvice(m);
+}
+
+/* ---------------- Calendrier ---------------- */
+function renderToolCalendar(m){
+  const panel = document.getElementById('tool-panel-calendar');
+  const key = 'hm_calendar_' + m.id;
+  let data = {};
+  try{ data = JSON.parse(localStorage.getItem(key) || '{}'); }catch(e){}
+  const now = new Date();
+  const y = now.getFullYear(), mo = now.getMonth();
+  const first = new Date(y, mo, 1);
+  const daysInMonth = new Date(y, mo + 1, 0).getDate();
+  const startWeekday = first.getDay();
+  const monthLabel = now.toLocaleDateString(LANG === 'fr' ? 'fr-FR' : LANG, { month: 'long', year: 'numeric' });
+
+  let cells = '';
+  for(let i = 0; i < startWeekday; i++) cells += `<div class="cal-cell empty"></div>`;
+  for(let d = 1; d <= daysInMonth; d++){
+    const dateStr = `${y}-${String(mo+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const hasNote = !!data[dateStr];
+    const isToday = d === now.getDate();
+    cells += `<button class="cal-cell ${isToday ? 'today' : ''} ${hasNote ? 'has-note' : ''}" data-date="${dateStr}">${d}</button>`;
+  }
+
+  panel.innerHTML = `
+    <p style="color:var(--text-muted);font-size:11.5px;margin-bottom:10px;text-transform:capitalize;">${monthLabel}</p>
+    <div class="cal-grid">${cells}</div>
+    <div id="cal-note-editor" style="margin-top:14px;display:none;">
+      <label id="cal-note-date-label" style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:6px;"></label>
+      <textarea id="cal-note-text" rows="2" placeholder="${t('toolCalendarPh')}"></textarea>
+      <div style="display:flex;gap:8px;margin-top:8px;">
+        <button class="btn btn-primary btn-sm" id="cal-note-save" style="flex:1;">${t('save')}</button>
+        <button class="btn btn-ghost btn-sm" id="cal-note-delete" style="flex:1;">${t('cancel')}</button>
+      </div>
+    </div>
+  `;
+
+  panel.querySelectorAll('.cal-cell[data-date]').forEach(btn => {
+    btn.onclick = () => {
+      const dateStr = btn.dataset.date;
+      const editor = document.getElementById('cal-note-editor');
+      editor.style.display = 'block';
+      document.getElementById('cal-note-date-label').textContent = dateStr;
+      document.getElementById('cal-note-text').value = data[dateStr] || '';
+      document.getElementById('cal-note-save').onclick = () => {
+        const val = document.getElementById('cal-note-text').value.trim();
+        if(val) data[dateStr] = val; else delete data[dateStr];
+        localStorage.setItem(key, JSON.stringify(data));
+        renderToolCalendar(m);
+        toast(t('savedToast'));
+      };
+      document.getElementById('cal-note-delete').onclick = () => {
+        delete data[dateStr];
+        localStorage.setItem(key, JSON.stringify(data));
+        renderToolCalendar(m);
+      };
+    };
+  });
+}
+
+/* ---------------- Bloc-notes ---------------- */
+function renderToolNotes(m){
+  const panel = document.getElementById('tool-panel-notes');
+  const key = 'hm_notes_' + m.id;
+  const saved = localStorage.getItem(key) || '';
+  panel.innerHTML = `
+    <textarea id="notes-textarea" rows="10" placeholder="${t('toolNotesPh')}" style="width:100%;">${escText(saved)}</textarea>
+    <button class="btn btn-primary btn-sm" id="notes-save" style="margin-top:10px;width:100%;">${t('save')}</button>
+  `;
+  document.getElementById('notes-save').onclick = () => {
+    localStorage.setItem(key, document.getElementById('notes-textarea').value);
+    toast(t('savedToast'));
+  };
+}
+
+/* ---------------- Calculatrice ---------------- */
+function renderToolCalc(m){
+  const panel = document.getElementById('tool-panel-calc');
+  panel.innerHTML = `
+    <div class="calc-display" id="calc-display">0</div>
+    <div class="calc-grid">
+      <button class="calc-btn calc-op" data-k="C">C</button>
+      <button class="calc-btn calc-op" data-k="(">(</button>
+      <button class="calc-btn calc-op" data-k=")">)</button>
+      <button class="calc-btn calc-op" data-k="/">÷</button>
+      <button class="calc-btn" data-k="7">7</button>
+      <button class="calc-btn" data-k="8">8</button>
+      <button class="calc-btn" data-k="9">9</button>
+      <button class="calc-btn calc-op" data-k="*">×</button>
+      <button class="calc-btn" data-k="4">4</button>
+      <button class="calc-btn" data-k="5">5</button>
+      <button class="calc-btn" data-k="6">6</button>
+      <button class="calc-btn calc-op" data-k="-">−</button>
+      <button class="calc-btn" data-k="1">1</button>
+      <button class="calc-btn" data-k="2">2</button>
+      <button class="calc-btn" data-k="3">3</button>
+      <button class="calc-btn calc-op" data-k="+">+</button>
+      <button class="calc-btn" data-k="0">0</button>
+      <button class="calc-btn" data-k=".">,</button>
+      <button class="calc-btn calc-eq" data-k="=" style="grid-column:span 2;">=</button>
+    </div>
+  `;
+  let expr = '';
+  const display = document.getElementById('calc-display');
+  panel.querySelectorAll('.calc-btn').forEach(btn => {
+    btn.onclick = () => {
+      const k = btn.dataset.k;
+      if(k === 'C'){ expr = ''; display.textContent = '0'; return; }
+      if(k === '='){
+        try{
+          const safe = expr.replace(/,/g, '.');
+          if(!/^[0-9+\-*/().\s]+$/.test(safe)) throw new Error('invalid');
+          const result = Function('"use strict"; return (' + safe + ')')();
+          display.textContent = String(Math.round(result * 100) / 100).replace('.', ',');
+          expr = String(result);
+        }catch(e){ display.textContent = t('toolCalcError'); expr = ''; }
+        return;
+      }
+      expr += k;
+      display.textContent = expr.replace(/\./g, ',');
+    };
+  });
+}
+
+/* ---------------- Recettes & dépenses ---------------- */
+function renderToolFinance(m){
+  const panel = document.getElementById('tool-panel-finance');
+  const key = 'hm_finance_' + m.id;
+  let entries = [];
+  try{ entries = JSON.parse(localStorage.getItem(key) || '[]'); }catch(e){}
+  const income = entries.filter(e => e.type === 'income').reduce((s, e) => s + e.amount, 0);
+  const expense = entries.filter(e => e.type === 'expense').reduce((s, e) => s + e.amount, 0);
+  const balance = income - expense;
+
+  const rows = entries.slice().reverse().map((e, idx) => `
+    <div class="finance-row">
+      <div>
+        <span class="finance-label">${escText(e.label)}</span>
+        <span class="finance-date mono">${e.date}</span>
+      </div>
+      <span class="finance-amount ${e.type}">${e.type === 'income' ? '+' : '−'}${e.amount}€</span>
+    </div>`).join('');
+
+  panel.innerHTML = `
+    <div class="paid-summary" style="margin-bottom:14px;">
+      <div><span class="k">${t('toolIncome')}</span><span class="v" style="color:#5fd67a;">+${income}€</span></div>
+      <div><span class="k">${t('toolExpense')}</span><span class="v" style="color:#e06a6a;">−${expense}€</span></div>
+    </div>
+    <div class="paid-summary" style="margin-bottom:18px;">
+      <div style="grid-column:1/-1;"><span class="k">${t('toolBalance')}</span><span class="v">${balance}€</span></div>
+    </div>
+    <div class="finance-form">
+      <select id="fin-type">
+        <option value="income">${t('toolIncome')}</option>
+        <option value="expense">${t('toolExpense')}</option>
+      </select>
+      <input id="fin-label" placeholder="${t('toolFinLabelPh')}">
+      <input id="fin-amount" type="number" min="0" step="0.01" placeholder="€">
+      <button class="btn btn-primary btn-sm" id="fin-add">${t('toolAddEntry')}</button>
+    </div>
+    <div class="finance-list">${rows || `<span class="gallery-empty">${t('toolNoEntries')}</span>`}</div>
+    <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border);">
+      <p style="color:var(--text-muted);font-size:11px;line-height:1.6;margin-bottom:10px;">${t('toolPaymentAccessNote')}</p>
+      <div style="display:flex;gap:8px;">
+        <a class="pill-link" href="https://www.paypal.com" target="_blank" rel="noopener" style="flex:1;justify-content:center;">PayPal</a>
+        <a class="pill-link" href="https://www.safaricom.co.ke/personal/m-pesa" target="_blank" rel="noopener" style="flex:1;justify-content:center;">M-Pesa</a>
+      </div>
+    </div>
+  `;
+  document.getElementById('fin-add').onclick = () => {
+    const type = document.getElementById('fin-type').value;
+    const label = document.getElementById('fin-label').value.trim();
+    const amount = parseFloat(document.getElementById('fin-amount').value);
+    if(!label || !amount || amount <= 0){ toast(t('toolFinMissing')); return; }
+    entries.push({ type, label: label.slice(0, 60), amount: Math.round(amount * 100) / 100, date: new Date().toLocaleDateString(LANG) });
+    localStorage.setItem(key, JSON.stringify(entries));
+    renderToolFinance(m);
+  };
+}
+
+/* ---------------- Conseils (chatbot à sujets, style WhatsApp) ---------------- */
+function renderToolAdvice(m){
+  const panel = document.getElementById('tool-panel-advice');
+  panel.innerHTML = `
+    <p style="color:var(--text-muted);font-size:11.5px;margin-bottom:12px;line-height:1.6;">${t('toolAdviceNote')}</p>
+    <div class="advice-topics" id="advice-topics"></div>
+    <div class="advice-chat" id="advice-chat"></div>
+  `;
+  const topicsEl = document.getElementById('advice-topics');
+  topicsEl.innerHTML = ADVICE_TOPICS.map((topic, idx) => `
+    <button class="advice-topic-btn" data-idx="${idx}">${topic.icon} ${topic.title[LANG] || topic.title.en}</button>
+  `).join('');
+  topicsEl.querySelectorAll('.advice-topic-btn').forEach(btn => {
+    btn.onclick = () => showAdviceAnswer(ADVICE_TOPICS[parseInt(btn.dataset.idx, 10)]);
+  });
+}
+function showAdviceAnswer(topic){
+  const chat = document.getElementById('advice-chat');
+  const title = topic.title[LANG] || topic.title.en;
+  const answer = topic.answer[LANG] || topic.answer.en;
+  chat.innerHTML = `
+    <div class="chat-bubble chat-user">${escText(title)}</div>
+    <div class="chat-bubble chat-bot" id="chat-bot-bubble"></div>
+  `;
+  chat.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  const bubble = document.getElementById('chat-bot-bubble');
+  setTimeout(() => { bubble.classList.add('show'); bubble.innerHTML = escText(answer).replace(/\n/g, '<br>'); }, 350);
 }
 
 function openPaidContentModal(m, kind){
@@ -4698,17 +5312,16 @@ function modelCardHtml(m){
   }
 
   const contractHtml = m.contract
-    ? `<a class="pill-link contract-link" data-href="${m.contract}" href="#">📄 ${t('viewContract')}</a>`
-    : `<div class="pill-link disabled">📄 ${t('noContract')}</div>`;
+    ? `<a class="pill-link contract-link" data-href="${m.contract}" href="#">${ICON_DOC}${t('viewContract')}</a>`
+    : `<div class="pill-link disabled">${ICON_DOC}${t('noContract')}</div>`;
 
   const sigCount = (m.contractSignatures || []).length;
   const agencyContractHtml = m.filled
-    ? `<button class="pill-link agency-contract-btn" data-id="${m.id}">${ICON_SIGN} ${t('agencyContractBtn')} (${sigCount})</button>`
+    ? `<button class="pill-link agency-contract-btn" data-id="${m.id}">${ICON_SIGN}${t('agencyContractBtn')} (${sigCount})</button>`
     : '';
 
-  const mediaCount = (m.galleryPhotos.length + m.galleryVideos.length);
   const galleryHtml = m.filled
-    ? `<button class="pill-link gallery-open-btn" data-id="${m.id}">🖼️ ${t('galleryBtn')} (${mediaCount})</button>`
+    ? `<button class="pill-link gallery-open-btn" data-id="${m.id}">${ICON_GALLERY}${t('galleryBtn')}</button>`
     : '';
 
   return `
@@ -5323,6 +5936,78 @@ const ICON_COIN = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" s
 const ICON_LOCK = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>';
 const ICON_STAR = '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1" style="vertical-align:-2px;margin-right:3px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
 const ICON_SIGN = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M3 17c2-4 4-4 6 0s4 4 6 0 4-4 6 0"/><path d="M3 21h18"/></svg>';
+const ICON_CALENDAR = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>';
+const ICON_NOTE = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4Z"/></svg>';
+const ICON_CALC = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="11" x2="8" y2="11.01"/><line x1="12" y1="11" x2="12" y2="11.01"/><line x1="16" y1="11" x2="16" y2="11.01"/><line x1="8" y1="15" x2="8" y2="15.01"/><line x1="12" y1="15" x2="12" y2="15.01"/><line x1="16" y1="15" x2="16" y2="15.01"/><line x1="8" y1="19" x2="16" y2="19"/></svg>';
+const ICON_CHAT = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>';
+
+/* ================= SUJETS DE CONSEILS (chatbot à sujets) =================
+   Contenu disponible en français et anglais pour l'instant (les autres
+   langues affichent la version anglaise par défaut). Dis-moi si tu veux
+   que je traduise ces conseils dans les 12 autres langues du site. */
+const ADVICE_TOPICS = [
+  { icon:'💡', title:{fr:'Bien utiliser la lumière naturelle', en:'Using natural light well', es:"Usar bien la luz natural", it:"Usare bene la luce naturale", pt:"Usar bem a luz natural", sw:"Kutumia vizuri mwanga wa asili", zu:"Ukusebenzisa ukukhanya kwemvelo kahle", st:"Ho sebedisa leseli la tlhaho hantle", ln:"Kosalela pole ya bomoto malamu", kg:"Kusadila pole ya kimenga malamu", zh:"善用自然光", ja:"自然光をうまく使う", ru:"Правильно использовать естественный свет", ar:"استخدام الضوء الطبيعي جيدًا"},
+    answer:{fr:'La lumière douce du matin ou de fin de journée (golden hour) est la plus flatteuse. Place-toi face à une fenêtre plutôt que dos à elle pour éviter les ombres dures sur le visage.', en:'Soft morning or late-afternoon light (golden hour) is the most flattering. Face a window rather than having it behind you to avoid harsh shadows on your face.', es:"La luz suave de la mañana o del atardecer (hora dorada) es la más favorecedora. Ponte de cara a una ventana en vez de darle la espalda para evitar sombras duras en el rostro.", it:"La luce morbida del mattino o del tardo pomeriggio (ora dorata) è la più favorevole. Mettiti di fronte a una finestra invece che di spalle per evitare ombre dure sul viso.", pt:"A luz suave da manhã ou do fim de tarde (hora dourada) é a mais favorável. Fica de frente para uma janela em vez de lhe dares as costas para evitar sombras duras no rosto.", sw:"Mwanga laini wa asubuhi au jioni (saa ya dhahabu) ndio bora zaidi. Simama ukiielekea dirisha badala ya kulipa mgongo ili kuepuka vivuli vikali usoni.", zu:"Ukukhanya okuthambile kwasekuseni noma kusihlwa (i-golden hour) yikhona okuhle kakhulu. Bheka ifasitela hhayi ukuhlehla kulo ukugwema imithunzi eqinile ebusweni.", st:"Leseli le bonolo la mahareng a hoseng kapa a mantsiboea (golden hour) ke lona le sebetsang hantle ho feta. Ema o shebane le fensetere ho fapana le ho e furalla ho qoba meriti e thata sefahlehong.", ln:"Pole ya boboto ya ntongo to ya pokwa (golden hour) ezali kitoko mingi. Telema liboso ya lininisa na esika ya kopesa yango mokongo mpo na kokima molili makasi na elongi.", kg:"Pole ya boboto ya ntangu ya nkokila to ya masika (golden hour) yina kele ya mbote mingi. Telama na ntwala ya jendele na kisika ya kupesa yandi mongongo mpo na kubuya midindu ya ngolo na luse.", zh:"清晨或傍晚的柔和光线（黄金时段）最能修饰形象。面对窗户而不是背对窗户拍摄，可以避免脸上出现生硬的阴影。", ja:"朝や夕方の柔らかい光（ゴールデンアワー）が一番きれいに見えます。窓を背にせず、窓に向かって撮ると顔にきつい影が出ません。", ru:"Мягкий утренний или вечерний свет (золотой час) самый выигрышный. Встань лицом к окну, а не спиной, чтобы избежать резких теней на лице.", ar:"الضوء الناعم في الصباح أو آخر النهار (الساعة الذهبية) هو الأكثر إطراءً. قفي وجهًا لوجه أمام نافذة بدلاً من إدارة ظهرك لها لتجنب الظلال القاسية على الوجه."} },
+  { icon:'📐', title:{fr:'Trouver son meilleur angle', en:'Finding your best angle', es:"Encontrar tu mejor ángulo", it:"Trovare il proprio angolo migliore", pt:"Encontrar o teu melhor ângulo", sw:"Kupata pembe yako bora", zu:"Ukuthola i-engeli yakho engcono kakhulu", st:"Ho fumana engele ea hao e molemo ka ho fetisisa", ln:"Koluka angle na yo ya malamu koleka", kg:"Kubaka angle na nge ya mbote mingi", zh:"找到你的最佳角度", ja:"自分に合った角度を見つける", ru:"Найти свой лучший ракурс", ar:"إيجاد أفضل زاوية لك"},
+    answer:{fr:"Prends l'appareil légèrement au-dessus du niveau des yeux plutôt qu'en dessous — ça allonge la silhouette. Teste plusieurs angles avant une séance et note ceux qui te plaisent le plus.", en:"Hold the camera slightly above eye level rather than below — it elongates the silhouette. Test a few angles before a shoot and note which ones you like best.", es:"Sostén la cámara ligeramente por encima del nivel de los ojos en vez de por debajo — alarga la silueta. Prueba varios ángulos antes de una sesión y anota los que más te gusten.", it:"Tieni la fotocamera leggermente sopra il livello degli occhi invece che sotto — allunga la silhouette. Prova diversi angoli prima di uno shooting e annota quelli che ti piacciono di più.", pt:"Segura a câmara ligeiramente acima do nível dos olhos em vez de abaixo — alonga a silhueta. Testa vários ângulos antes de uma sessão e anota os que mais gostas.", sw:"Shika kamera juu kidogo ya usawa wa macho badala ya chini — hii inarefusha umbo. Jaribu pembe kadhaa kabla ya kikao na andika unazopenda zaidi.", zu:"Bamba ikhamera phezulu kancane kunebala lamehlo hhayi ngezansi — lokhu kwelula isimo somzimba. Zama ama-engeli amaningi ngaphambi kwesikhathi sokuthwebula bese ubhala lawo owathandayo.", st:"Tshoara khamera hodimo hanyane ho feta boemo ba mahlo ho fapana le ka tlase — sena se lelefatsa setshwantsho. Leka diengele tse ngata pele ho nako ea ho nka setshwantsho mme o ngole tseo o li ratang.", ln:"Simba kamera likolo mwa moke koleka niveau ya miso na esika ya na nse — yango ekolisaka nzoto. Meka ba angle mingi liboso ya seance mpe koma oyo olingi mingi.", kg:"Simba kamera na zulu mwa fioti ya niveau ya meso na kisika ya na nsi — yayi kelefusaka nitu. Meka ba angle mingi na ntwala ya seance ye soneka yina nge kezolaka mingi.", zh:"将相机举得略高于视线而不是低于视线——这样能拉长身形轮廓。拍摄前多试几个角度，记下你最喜欢的。", ja:"カメラは目線より少し高めに構えると、シルエットが長く見えます。撮影前にいくつかの角度を試して、気に入ったものをメモしておきましょう。", ru:"Держи камеру чуть выше уровня глаз, а не ниже — это вытягивает силуэт. Попробуй несколько ракурсов перед съёмкой и отметь те, что нравятся больше всего.", ar:"أمسكي الكاميرا أعلى قليلاً من مستوى العين بدلاً من أسفله — هذا يطيل القوام. جربي عدة زوايا قبل الجلسة ودوّني ما يعجبك أكثر."} },
+  { icon:'🖼️', title:{fr:'Composer une bonne photo', en:'Composing a good photo', es:"Componer una buena foto", it:"Comporre una buona foto", pt:"Compor uma boa foto", sw:"Kupanga picha nzuri", zu:"Ukwakha isithombe esihle", st:"Ho theha setshwantsho se setle", ln:"Kosala composition ya kitoko", kg:"Kusala composition ya mbote", zh:"构图一张好照片", ja:"良い構図を作る", ru:"Составить хороший кадр", ar:"تكوين صورة جيدة"},
+    answer:{fr:"Utilise la règle des tiers : imagine une grille 3x3 et place le sujet principal sur une des lignes, pas au centre. Ça rend la photo plus dynamique.", en:'Use the rule of thirds: imagine a 3x3 grid and place the main subject on one of the lines, not dead center. It makes the photo more dynamic.', es:"Usa la regla de los tercios: imagina una cuadrícula 3x3 y coloca el sujeto principal en una de las líneas, no en el centro. Hace la foto más dinámica.", it:"Usa la regola dei terzi: immagina una griglia 3x3 e posiziona il soggetto principale su una delle linee, non al centro. Rende la foto più dinamica.", pt:"Usa a regra dos terços: imagina uma grelha 3x3 e coloca o sujeito principal numa das linhas, não no centro. Torna a foto mais dinâmica.", sw:"Tumia kanuni ya thuluthi: fikiria gridi ya 3x3 na weka kiini kikuu kwenye moja ya mistari, si katikati. Hii inafanya picha iwe na mchezo zaidi.", zu:"Sebenzisa umthetho wezingxenye ezintathu: cabanga i-grid ye-3x3 futhi ubeke into eyinhloko kolunye lwemigqa, hhayi phakathi. Lokhu kwenza isithombe sibe nomdlandla omkhulu.", st:"Sebedisa molao oa dikarolo tse tharo: nahana ka grid ea 3x3 mme o behe ntho e ka sehloohong moleng o le mong, eseng bohareng. Sena se etsa hore setshwantsho se be le matla a mangata.", ln:"Sala mobeko ya ba tiers misato: kanisa grille 3x3 mpe tia eloko ya monene na moko ya milongo, na kati te. Yango ekomisaka foto kitoko mingi.", kg:"Sadila mbeko ya ba tiers tatu: banza grille 3x3 ye tula kima ya nene na mosi ya balungu, na kati ve. Yayi kesalaka nde foto kele na kikesa mingi.", zh:"使用三分法：想象一个3x3的网格，把主体放在其中一条线上，而不是正中间。这样照片会更有动感。", ja:"三分割法を使いましょう：3x3のグリッドを想像し、被写体を中央ではなく線の上に配置すると、写真がより動きのある印象になります。", ru:"Используй правило третей: представь сетку 3x3 и размести главный объект на одной из линий, а не в центре. Так фото становится динамичнее.", ar:"استخدمي قاعدة الأثلاث: تخيلي شبكة 3x3 وضعي الموضوع الرئيسي على أحد الخطوط، لا في المنتصف. هذا يجعل الصورة أكثر حيوية."} },
+  { icon:'🎨', title:{fr:'Choisir une palette de couleurs', en:'Choosing a color palette', es:"Elegir una paleta de colores", it:"Scegliere una palette di colori", pt:"Escolher uma paleta de cores", sw:"Kuchagua rangi zinazolingana", zu:"Ukukhetha imibala", st:"Ho kgetha mebala e tshwanang", ln:"Kopona ba couleur", kg:"Kusola bakuma", zh:"选择配色方案", ja:"カラーパレットを選ぶ", ru:"Выбрать цветовую палитру", ar:"اختيار لوحة ألوان"},
+    answer:{fr:"Garde 2-3 couleurs dominantes par shooting (tenue, décor, filtre). Une palette cohérente rend ton feed plus reconnaissable et professionnel.", en:'Stick to 2-3 dominant colors per shoot (outfit, background, filter). A consistent palette makes your feed more recognizable and professional.', es:"Mantén 2-3 colores dominantes por sesión (ropa, fondo, filtro). Una paleta coherente hace tu feed más reconocible y profesional.", it:"Mantieni 2-3 colori dominanti per shooting (outfit, sfondo, filtro). Una palette coerente rende il tuo feed più riconoscibile e professionale.", pt:"Mantém 2-3 cores dominantes por sessão (roupa, fundo, filtro). Uma paleta coerente torna o teu feed mais reconhecível e profissional.", sw:"Weka rangi 2-3 kuu kwa kila kikao (nguo, mandhari, kichujio). Rangi zinazolingana zinafanya ukurasa wako utambulike na kuonekana kitaalamu.", zu:"Gcina imibala emi-2-3 ephethe isikhathi sonke sokuthwebula (izingubo, isizinda, isihlungi). Imibala evumelanayo yenza ikhasi lakho likwazi ukuhlonzwa futhi libe elobuchwepheshe.", st:"Boloka mebala e 2-3 e ka sehloohong nakong e nngwe le e nngwe ea ho nka setshwantsho (diaparo, semelo, sefihlela). Mebala e tshwanang e etsa hore leqephe la hao le tsejwe le be le boiphihlelo.", ln:"Batela ba couleur 2-3 ya monene na seance moko (bilamba, fond, filtre). Ba couleur oyo eyokani ekomisaka page na yo koyebana mpe professionnel.", kg:"Bumba bakuma 2-3 ya nene na seance mosi (bilele, fond, filtre). Bakuma yina ke ndimana kesalaka nde page na nge kezabana ye kele professionnel.", zh:"每次拍摄保持2-3种主色调（服装、背景、滤镜）。统一的配色让你的主页更有辨识度、更专业。", ja:"1回の撮影で2〜3色に絞りましょう（服・背景・フィルター）。統一感のある配色はフィードをより印象的でプロっぽく見せます。", ru:"Держи 2-3 доминирующих цвета на съёмке (одежда, фон, фильтр). Единая палитра делает твою ленту более узнаваемой и профессиональной.", ar:"التزمي بـ 2-3 ألوان أساسية لكل جلسة (الملابس، الخلفية، الفلتر). اللوحة المتناسقة تجعل حسابك أكثر تميزًا واحترافية."} },
+  { icon:'📱', title:{fr:'Stabiliser son téléphone', en:'Stabilizing your phone', es:"Estabilizar tu teléfono", it:"Stabilizzare il telefono", pt:"Estabilizar o telemóvel", sw:"Kutuliza simu yako", zu:"Ukuzinza ifoni yakho", st:"Ho tsitsisa mohala oa hao", ln:"Kokangisa telefone na yo", kg:"Kukangisa telefone na nge", zh:"稳定你的手机", ja:"スマホを安定させる", ru:"Стабилизировать телефон", ar:"تثبيت هاتفك"},
+    answer:{fr:"Un petit trépied ou même une pile de livres change tout : moins de flou de bougé, cadrage plus stable. Investis dans un trépied pas cher avec télécommande Bluetooth.", en:'A small tripod or even a stack of books changes everything: less motion blur, steadier framing. A cheap tripod with Bluetooth remote is a great investment.', es:"Un trípode pequeño o incluso una pila de libros cambia todo: menos desenfoque, encuadre más estable. Invierte en un trípode barato con control remoto Bluetooth.", it:"Un piccolo treppiede o anche una pila di libri cambia tutto: meno sfocatura da movimento, inquadratura più stabile. Investi in un treppiede economico con telecomando Bluetooth.", pt:"Um tripé pequeno ou até uma pilha de livros muda tudo: menos desfoque de movimento, enquadramento mais estável. Investe num tripé barato com controlo remoto Bluetooth.", sw:"Kishikilia kidogo au hata rundo la vitabu hubadilisha kila kitu: mtetemo mdogo, mchoro thabiti zaidi. Wekeza kwenye kishikilia cha bei nafuu chenye kidhibiti cha Bluetooth.", zu:"I-tripod encane noma ngisho isitaki sezincwadi kuguqula konke: ukudideka okuncane, isithombe esizinzile kakhudlwana. Tshala imali ku-tripod eshibhile ene-remote ye-Bluetooth.", st:"Tripod e nyane kapa esita le buka tse hlophisitsweng di fetola tsohle: ho sisinyeha ho fokolang, setshwantsho se tsitsitseng. Reka tripod e theko e tlase e nang le taolo ea Bluetooth.", ln:"Trepied ya moke to ata liboke ya babuku ebongolaka nyonso: koningana moke, cadrage ya kokangama. Sombá trepied ya ntalo moke na télécommande Bluetooth.", kg:"Trepied ya fioti to ata liboke ya mikanda kebongolaka mambu yonso: kuningana ya fioti, cadrage ya kukangama. Sumba trepied ya ntalu ya fioti na télécommande Bluetooth.", zh:"一个小三脚架，甚至一摞书都能带来很大改变：减少抖动模糊，画面更稳定。买一个便宜的带蓝牙遥控的三脚架很值得。", ja:"小さな三脚や本を積むだけでも大きく変わります：ブレが減り、構図が安定します。Bluetoothリモコン付きの安い三脚は投資する価値があります。", ru:"Небольшой штатив или даже стопка книг всё меняет: меньше смазанности, устойчивее кадр. Стоит вложиться в недорогой штатив с Bluetooth-пультом.", ar:"حامل صغير أو حتى كومة كتب يغيّر كل شيء: اهتزاز أقل، إطار أكثر ثباتًا. استثمري في حامل رخيص مزود بجهاز تحكم بلوتوث."} },
+  { icon:'🎬', title:{fr:'Filmer une vidéo fluide', en:'Filming smooth video', es:"Filmar un video fluido", it:"Filmare un video fluido", pt:"Filmar um vídeo fluido", sw:"Kupiga video laini", zu:"Ukuthwebula ividiyo ehambayo", st:"Ho nka video e phallang hantle", ln:"Kokanga video ya kotambola malamu", kg:"Kukanga video ya kutambula malamu", zh:"拍摄流畅的视频", ja:"スムーズな動画を撮る", ru:"Снимать плавное видео", ar:"تصوير فيديو سلس"},
+    answer:{fr:"Bouge lentement et de façon continue plutôt que par à-coups. Filme en 30fps minimum, et évite de zoomer numériquement — rapproche-toi plutôt physiquement.", en:'Move slowly and continuously rather than jerkily. Film at 30fps minimum, and avoid digital zoom — move physically closer instead.', es:"Muévete despacio y de forma continua en vez de a tirones. Filma a 30fps mínimo, y evita el zoom digital — acércate físicamente en su lugar.", it:"Muoviti lentamente e in modo continuo invece che a scatti. Filma almeno a 30fps, ed evita lo zoom digitale — avvicinati fisicamente.", pt:"Move-te devagar e de forma contínua em vez de aos solavancos. Filma a pelo menos 30fps, e evita o zoom digital — aproxima-te fisicamente.", sw:"Songa polepole na kwa mfululizo badala ya ghafla. Piga angalau 30fps, na epuka kukuza kidijitali — sogea karibu kimwili badala yake.", zu:"Nyakaza kancane futhi ngokuqhubekayo hhayi ngokuthintitha. Thwebula okungenani ku-30fps, futhi ugweme ukusondeza kwedijithali — sondela ngokoqobo.", st:"Sisinyeha butle mme ka mokgwa o tswellang, eseng ka mathata. Nka bonyane ka 30fps, mme o qobe ho hodisa ka dijithale — atamela haufi ka 'mele.", ln:"Ningana malembe mpe na boyokani na esika ya kokata-kata. Kanga na 30fps ya moke, mpe kima zoom ya numérique — pusana penepene na nzoto.", kg:"Ninga malembe ye na boyikani na kisika ya kukata-kata. Kanga na 30fps ya fioti, ye buya zoom ya numérique — fikama penepene na nitu.", zh:"缓慢而连续地移动，而不是突然抖动。至少以30帧每秒拍摄，避免使用数码变焦——直接靠近拍摄对象。", ja:"急な動きではなく、ゆっくり連続的に動きましょう。最低30fpsで撮影し、デジタルズームは避けて、実際に近づくようにしましょう。", ru:"Двигайся медленно и непрерывно, а не рывками. Снимай минимум на 30fps и избегай цифрового зума — лучше подойди физически ближе.", ar:"تحركي ببطء وباستمرار بدلاً من الحركات المفاجئة. صوّري بمعدل 30 إطارًا في الثانية على الأقل، وتجنبي التكبير الرقمي — اقتربي جسديًا بدلاً من ذلك."} },
+  { icon:'✂️', title:{fr:'Monter simplement une vidéo', en:'Simple video editing', es:"Editar un video de forma sencilla", it:"Montare semplicemente un video", pt:"Editar um vídeo de forma simples", sw:"Kuhariri video kwa urahisi", zu:"Ukuhlela ividiyo kalula", st:"Ho fetola video ka bonolo", ln:"Kobongisa video na pete", kg:"Kubongisa video na pete", zh:"简单剪辑视频", ja:"シンプルに動画編集する", ru:"Просто монтировать видео", ar:"مونتاج فيديو ببساطة"},
+    answer:{fr:"Des applis comme CapCut permettent de couper, ajouter de la musique et des transitions gratuitement. Garde les vidéos courtes en tête (15-30s) pour les réseaux.", en:'Apps like CapCut let you cut, add music and transitions for free. Keep short-form videos in mind (15-30s) for social platforms.', es:"Apps como CapCut permiten cortar, añadir música y transiciones gratis. Mantén los videos cortos (15-30s) para redes sociales.", it:"App come CapCut permettono di tagliare, aggiungere musica e transizioni gratuitamente. Tieni i video brevi (15-30s) per i social.", pt:"Apps como o CapCut permitem cortar, adicionar música e transições gratuitamente. Mantém os vídeos curtos (15-30s) para as redes sociais.", sw:"Programu kama CapCut zinaruhusu kukata, kuongeza muziki na mabadiliko bila malipo. Weka video fupi (sekunde 15-30) kwa mitandao ya kijamii.", zu:"Ama-app afana ne-CapCut avumela ukusika, ukwengeza umculo namashintsho mahhala. Gcina amavidiyo emafushane (imizuzwana engu-15-30) kumamediya enhlalo.", st:"Diapp tse kang CapCut di dumella ho seha, ho kenya mmino le diphetoho mahala. Boloka divideo tse khutshwane (metsotswana e 15-30) bakeng sa mecha ea kopano.", ln:"Ba application lokola CapCut epesaka nzela ya kokata, kobakisa miziki na batransition ofele. Batela ba video mikuse (segondes 15-30) mpo na ba réseaux.", kg:"Ba application bonso CapCut kepesaka nzila ya kukata, kubakisa miziki ye batransition ofele. Bumba ba video ya nkufi (segondes 15-30) mpo na ba réseaux.", zh:"CapCut等应用可以免费剪辑、添加音乐和转场。社交平台上视频尽量保持简短（15-30秒）。", ja:"CapCutのようなアプリなら、カット・音楽追加・トランジションが無料でできます。SNS向けには短め（15〜30秒）を意識しましょう。", ru:"Приложения вроде CapCut позволяют бесплатно обрезать, добавлять музыку и переходы. Держи короткие видео (15-30с) в голове для соцсетей.", ar:"تطبيقات مثل CapCut تتيح القص وإضافة الموسيقى والانتقالات مجانًا. اجعلي الفيديوهات قصيرة (15-30 ثانية) لمنصات التواصل."} },
+  { icon:'🎵', title:{fr:'Choisir la bonne musique', en:'Choosing the right music', es:"Elegir la música adecuada", it:"Scegliere la musica giusta", pt:"Escolher a música certa", sw:"Kuchagua muziki sahihi", zu:"Ukukhetha umculo ofanele", st:"Ho kgetha mmino o nepahetseng", ln:"Kopona miziki ya malamu", kg:"Kusola miziki ya mbote", zh:"选择合适的音乐", ja:"ぴったりの音楽を選ぶ", ru:"Выбрать подходящую музыку", ar:"اختيار الموسيقى المناسبة"},
+    answer:{fr:"Une musique tendance au bon rythme augmente énormément la portée sur TikTok/Reels. Vérifie les sons \"trending\" dans l'appli avant de filmer une danse.", en:'A trending song with the right rhythm massively boosts reach on TikTok/Reels. Check the "trending" sounds in the app before filming a dance.', es:"Una canción de tendencia con el ritmo correcto aumenta muchísimo el alcance en TikTok/Reels. Revisa los sonidos \"trending\" en la app antes de filmar un baile.", it:"Una musica di tendenza con il ritmo giusto aumenta enormemente la portata su TikTok/Reels. Controlla i suoni \"di tendenza\" nell'app prima di filmare un ballo.", pt:"Uma música em tendência com o ritmo certo aumenta muito o alcance no TikTok/Reels. Verifica os sons \"em tendência\" na app antes de filmares uma dança.", sw:"Muziki maarufu wenye mdundo sahihi huongeza sana ufikiaji kwenye TikTok/Reels. Angalia sauti \"zinazovuma\" kwenye programu kabla ya kupiga dansi.", zu:"Umculo othandwayo one-rhythm efanele wandisa kakhulu ukufinyelela ku-TikTok/Reels. Hlola imisindo \"ethandwayo\" ku-app ngaphambi kokuthwebula umdanso.", st:"Mmino o tsebahalang o nang le rhythm e nepahetseng o eketsa haholo ho fihlella ho TikTok/Reels. Sheba melodi e \"tsebahalang\" ho app pele o nka video ea tantshi.", ln:"Miziki oyo ezali na lokito mpe na rythme ya malamu ebakisaka mingi bomoni na TikTok/Reels. Tala ba son oyo ezali \"trending\" na application liboso ya kokanga dance.", kg:"Miziki yina kele na lokito ye na rythme ya mbote kebakisaka mingi bumoni na TikTok/Reels. Tala ba son yina kele \"trending\" na application na ntwala ya kukanga dance.", zh:"节奏合拍的热门音乐能大大提升TikTok/Reels的曝光量。拍舞蹈前先看看应用里的热门音效。", ja:"トレンドの曲でリズムが合っていると、TikTok/Reelsでのリーチが大幅に伸びます。ダンスを撮る前にアプリの「トレンド」音源をチェックしましょう。", ru:"Трендовая музыка в нужном ритме сильно увеличивает охват в TikTok/Reels. Проверь \"трендовые\" звуки в приложении перед съёмкой танца.", ar:"الموسيقى الرائجة بالإيقاع المناسب تزيد الانتشار بشكل كبير على TikTok/Reels. تحققي من الأصوات \"الرائجة\" في التطبيق قبل تصوير رقصة."} },
+  { icon:'🕺', title:{fr:'Bien danser devant la caméra', en:'Dancing well on camera', es:"Bailar bien frente a la cámara", it:"Ballare bene davanti alla telecamera", pt:"Dançar bem em frente à câmara", sw:"Kucheza vizuri mbele ya kamera", zu:"Ukudansa kahle phambi kwekhamera", st:"Ho bina hantle kapele ho khamera", ln:"Kobina malamu liboso ya kamera", kg:"Kubina mbote na ntwala ya kamera", zh:"在镜头前跳好舞", ja:"カメラの前で上手に踊る", ru:"Хорошо танцевать перед камерой", ar:"الرقص بشكل جيد أمام الكاميرا"},
+    answer:{fr:"Répète le mouvement plusieurs fois sans filmer d'abord pour le rendre naturel. Regarde parfois la caméra, parfois ailleurs — ça donne un rendu plus authentique qu'un regard fixe.", en:'Rehearse the move a few times without filming first so it feels natural. Look at the camera sometimes, away other times — it feels more authentic than a constant stare.', es:"Ensaya el movimiento varias veces sin grabar primero para que se vea natural. Mira a la cámara a veces, y a otro lado otras — se ve más auténtico que una mirada fija.", it:"Ripeti il movimento più volte senza filmare prima, per renderlo naturale. Guarda a volte la telecamera, a volte altrove — dà un risultato più autentico di uno sguardo fisso.", pt:"Ensaia o movimento várias vezes sem filmar primeiro para que fique natural. Olha por vezes para a câmara, por vezes para outro lado — dá um resultado mais autêntico do que um olhar fixo.", sw:"Rudia mwendo mara kadhaa bila kupiga picha kwanza ili uonekane wa asili. Angalia kamera wakati mwingine, mahali pengine wakati mwingine — inaonekana halisi zaidi kuliko kutazama moja kwa moja.", zu:"Phinda umnyakazo izikhathi eziningi ngaphandle kokuthwebula kuqala ukuze ubukeke ojwayelekile. Bheka ikhamera ngezinye izikhathi, kwenye indawo ngezinye — kubukeka kuyiqiniso kunokugqolozela njalo.", st:"Pheta motsamao makgetlo a mangata pele o nka video pele hore e bonahale e le tlhaho. Sheba khamera ka nako e nngwe, kae kae ka nako e nngwe — sena se bonahala e le sebele ho feta ho shebella feela.", ln:"Zongela mouvement mbala mingi liboso ya kokanga mpo emonana ya solo. Tala kamera ntango mosusu, esika mosusu ntango mosusu — emonanaka ya solo koleka kotala kaka moko.", kg:"Vutuka mouvement mbala mingi na ntwala ya kukanga mpo yamonana ya kieleka. Tala kamera ntangu ya nkaka, kisika ya nkaka ntangu ya nkaka — yamonanaka ya kieleka kuluta kutala kaka mosi.", zh:"先反复练习动作再拍摄，让动作看起来自然。有时看镜头，有时看别处——比一直盯着镜头看起来更真实。", ja:"撮影前に何度か練習して、動きを自然にしましょう。時々カメラを見て、時々そらす方が、ずっと見つめ続けるより自然に見えます。", ru:"Повтори движение несколько раз без съёмки сначала, чтобы оно выглядело естественно. Смотри иногда в камеру, иногда в сторону — это выглядит более естественно, чем постоянный взгляд.", ar:"كرري الحركة عدة مرات دون تصوير أولاً لتبدو طبيعية. انظري أحيانًا للكاميرا وأحيانًا بعيدًا عنها — هذا يبدو أكثر واقعية من النظرة الثابتة."} },
+  { icon:'🖊️', title:{fr:'Ajouter un filigrane (watermark)', en:'Adding a watermark', es:"Añadir una marca de agua", it:"Aggiungere una filigrana", pt:"Adicionar uma marca de água", sw:"Kuongeza alama ya maji", zu:"Ukwengeza uphawu lwamanzi", st:"Ho kenya letshwao la metsi", ln:"Kobakisa filigrane", kg:"Kubakisa filigrane", zh:"添加水印", ja:"透かし（ウォーターマーク）を入れる", ru:"Добавить водяной знак", ar:"إضافة علامة مائية"},
+    answer:{fr:"Ajoute ton nom ou logo en petit et discret sur tes photos/vidéos pour limiter le vol de contenu. Des applis comme Watermark gratuites suffisent.", en:'Add your name or logo small and discreet on your photos/videos to limit content theft. Free apps like Watermark are enough.', es:"Añade tu nombre o logo pequeño y discreto en tus fotos/videos para limitar el robo de contenido. Apps gratuitas como Watermark son suficientes.", it:"Aggiungi il tuo nome o logo piccolo e discreto sulle tue foto/video per limitare il furto di contenuti. App gratuite come Watermark bastano.", pt:"Adiciona o teu nome ou logótipo pequeno e discreto nas tuas fotos/vídeos para limitar o roubo de conteúdo. Apps gratuitas como Watermark são suficientes.", sw:"Ongeza jina lako au nembo kwa udogo na kwa siri kwenye picha/video zako kupunguza wizi wa maudhui. Programu za bure kama Watermark zinatosha.", zu:"Engeza igama lakho noma uphawu ngobuncane futhi ngokungagqami ezithombeni/emavidiyweni akho ukunciphisa ukwebiwa kokuqukethwe. Ama-app mahhala afana ne-Watermark ayanele.", st:"Kenya lebitso la hao kapa logo e nyane le e sa hlaheleng dintlheng tsa hao/divideo ho fokotsa bosholu ba diteng. Diapp tsa mahala tse kang Watermark di lekana.", ln:"Bakisa nkombo na yo to logo na bonene ya moke na ba foto/ba video na yo mpo na kokitisa moyibi ya bikuma. Ba application ofele lokola Watermark ekoki.", kg:"Bakisa nkumbu na nge to logo na bunene ya fioti na ba foto/ba video na nge mpo na kukitisa buivi ya bima. Ba application ofele bonso Watermark kelenda.", zh:"在照片/视频上加一个小而低调的名字或标志，减少内容被盗用的风险。免费应用如Watermark就够用了。", ja:"写真や動画に小さく控えめに名前やロゴを入れると、無断使用を減らせます。Watermarkなどの無料アプリで十分です。", ru:"Добавь своё имя или лого — маленькое и незаметное — на фото/видео, чтобы ограничить кражу контента. Бесплатных приложений вроде Watermark достаточно.", ar:"أضيفي اسمك أو شعارك بشكل صغير وغير ملفت على صورك/فيديوهاتك للحد من سرقة المحتوى. تطبيقات مجانية مثل Watermark كافية."} },
+  { icon:'📅', title:{fr:'Créer un calendrier de publication', en:'Creating a posting calendar', es:"Crear un calendario de publicación", it:"Creare un calendario di pubblicazione", pt:"Criar um calendário de publicação", sw:"Kuunda ratiba ya kuchapisha", zu:"Ukwakha ikhalenda yokushicilela", st:"Ho theha khalentara ea ho hatisa", ln:"Kosala calendrier ya kobimisa", kg:"Kusala calendrier ya kubasisa", zh:"制定发布日程", ja:"投稿カレンダーを作る", ru:"Создать календарь публикаций", ar:"إنشاء جدول نشر"},
+    answer:{fr:"Publie à heures régulières (ex. 19h-21h quand ton audience est connectée). La régularité compte plus que la fréquence pour fidéliser.", en:'Post at consistent times (e.g. 7-9pm when your audience is online). Consistency matters more than frequency for building loyalty.', es:"Publica a horas regulares (ej. 19h-21h cuando tu audiencia está conectada). La constancia importa más que la frecuencia para fidelizar.", it:"Pubblica a orari regolari (es. 19-21 quando il tuo pubblico è connesso). La regolarità conta più della frequenza per fidelizzare.", pt:"Publica em horários regulares (ex. 19h-21h quando a tua audiência está online). A regularidade conta mais do que a frequência para fidelizar.", sw:"Chapisha kwa saa za kawaida (mfano saa 7-9 jioni wafuasi wako wapo mtandaoni). Uthabiti ni muhimu zaidi ya mara ngapi kwa uaminifu.", zu:"Shicilela ngezikhathi ezijwayelekile (isb. 19h-21h lapho abalandeli bakho bexhunywe). Ukuqhubeka kubaluleke kakhulu kunokuvamile ekuthembekeni.", st:"Hatisa ka dihora tse tshwanang (mohlala 19h-21h ha balateli ba hao ba le inthaneteng). Ho tswella ho bohlokwa ho feta makgetlo bakeng sa botshepehi.", ln:"Bimisa na ba heure ya mbala na mbala (ndakisa 19h-21h ntango bayekoli na yo bazali na ligne). Kozala ya mbala na mbala eleki motango ya mbala mpo na kobatela bango.", kg:"Basisa na ba heure ya mbala na mbala (mbandu 19h-21h ntangu bayekoli na nge kele na ligne). Kuvanda ya mbala na mbala keluta motango ya mbala mpo na kubumba bo.", zh:"在固定时间发布（例如晚上7点到9点，粉丝在线时）。规律性比发布频率更能培养粉丝忠诚度。", ja:"一定の時間帯に投稿しましょう（例：フォロワーがオンラインの19〜21時）。ファン定着には頻度より規則性の方が大事です。", ru:"Публикуй в одно и то же время (напр. 19-21ч, когда аудитория онлайн). Регулярность важнее частоты для удержания аудитории.", ar:"انشري في أوقات منتظمة (مثلاً 7-9 مساءً عندما يكون جمهورك متصلاً). الانتظام أهم من التكرار لبناء الولاء."} },
+  { icon:'🏷️', title:{fr:'Utiliser les bons hashtags', en:'Using the right hashtags', es:"Usar los hashtags correctos", it:"Usare gli hashtag giusti", pt:"Usar as hashtags certas", sw:"Kutumia hashtag sahihi", zu:"Ukusebenzisa ama-hashtag afanele", st:"Ho sebedisa dihashtag tse nepahetseng", ln:"Kosalela ba hashtag ya malamu", kg:"Kusadila ba hashtag ya mbote", zh:"使用合适的标签", ja:"適切なハッシュタグを使う", ru:"Использовать правильные хэштеги", ar:"استخدام الهاشتاغات المناسبة"},
+    answer:{fr:"Mélange des hashtags larges (beaucoup de portée) et des hashtags de niche (moins de concurrence). 5 à 10 hashtags pertinents suffisent, inutile d'en mettre 30.", en:'Mix broad hashtags (wide reach) with niche ones (less competition). 5 to 10 relevant hashtags are enough — no need for 30.', es:"Mezcla hashtags amplios (más alcance) con hashtags de nicho (menos competencia). Con 5 a 10 hashtags relevantes basta, no hace falta poner 30.", it:"Mescola hashtag ampi (più portata) con hashtag di nicchia (meno concorrenza). 5-10 hashtag pertinenti bastano, non serve metterne 30.", pt:"Mistura hashtags amplas (mais alcance) com hashtags de nicho (menos concorrência). 5 a 10 hashtags relevantes bastam, não é preciso colocar 30.", sw:"Changanya hashtag pana (ufikiaji zaidi) na hashtag maalum (ushindani mdogo). Hashtag 5 hadi 10 zinazofaa zinatosha, hakuna haja ya kuweka 30.", zu:"Xuba ama-hashtag abanzi (ukufinyelela okwengeziwe) nama-hashtag ancane (ukuncintisana okuncane). Ama-hashtag angu-5 kuya kwangu-10 afanele ayanele, akudingeki ubeke angu-30.", st:"Kopanya dihashtag tse pharaletseng (ho fihlella ho hoholo) le dihashtag tse itseng (tlholisano e tlase). Dihashtag tse 5 ho isa ho tse 10 tse amanang di lekane, ha ho hlokahale ho kenya tse 30.", ln:"Sangisa ba hashtag ya monene (bomoni mingi) na ba hashtag ya niche (concurrence moke). Ba hashtag 5 kino 10 oyo ekoki ezali malamu, esengeli te kotia 30.", kg:"Sangisa ba hashtag ya nene (bumoni mingi) na ba hashtag ya niche (concurrence ya fioti). Ba hashtag 5 kino 10 yina kelenda kele mbote, kelombama ve kutia 30.", zh:"混合使用大流量标签和小众精准标签（竞争较少）。5到10个相关标签就够了，不需要用到30个。", ja:"リーチの広いタグとニッチなタグ（競争が少ない）を組み合わせましょう。5〜10個の関連タグで十分、30個も付ける必要はありません。", ru:"Сочетай широкие хэштеги (больше охвата) с нишевыми (меньше конкуренции). Достаточно 5-10 релевантных хэштегов, не нужно ставить 30.", ar:"امزجي بين هاشتاغات واسعة الانتشار وأخرى متخصصة (منافسة أقل). 5 إلى 10 هاشتاغات ذات صلة كافية، لا حاجة لوضع 30."} },
+  { icon:'💬', title:{fr:'Faire grandir sa communauté', en:'Growing your community', es:"Hacer crecer tu comunidad", it:"Far crescere la propria community", pt:"Fazer crescer a tua comunidade", sw:"Kukuza jumuiya yako", zu:"Ukukhulisa umphakathi wakho", st:"Ho hodisa sechaba sa hao", ln:"Kokolisa lisanga na yo", kg:"Kukolisa dibundu na nge", zh:"发展你的社区", ja:"コミュニティを育てる", ru:"Растить своё сообщество", ar:"تنمية مجتمعك"},
+    answer:{fr:"Réponds aux commentaires dans la première heure après publication — ça booste l'algorithme. Pose une question dans ta légende pour inciter aux réponses.", en:'Reply to comments within the first hour after posting — it boosts the algorithm. Ask a question in your caption to encourage replies.', es:"Responde a los comentarios en la primera hora tras publicar — impulsa el algoritmo. Haz una pregunta en tu descripción para incentivar respuestas.", it:"Rispondi ai commenti entro la prima ora dopo la pubblicazione — favorisce l'algoritmo. Fai una domanda nella didascalia per incoraggiare le risposte.", pt:"Responde aos comentários na primeira hora após a publicação — impulsiona o algoritmo. Faz uma pergunta na legenda para incentivar respostas.", sw:"Jibu maoni ndani ya saa ya kwanza baada ya kuchapisha — hii husaidia algoriti. Uliza swali kwenye maelezo ili kuhamasisha majibu.", zu:"Phendula amazwana ehora lokuqala ngemuva kokushicilela — lokhu kusiza i-algorithm. Buza umbuzo ku-caption ukukhuthaza izimpendulo.", st:"Araba maikutlo hora ea pele ka mora ho hatisa — sena se thusa algorithm. Botsa potso ho caption ho kgothaletsa dikarabo.", ln:"Yanola ba commentaire na heure ya liboso sima ya kobimisa — yango esungaka algorithme. Tuna motuna na légende mpo na kolendisa biyano.", kg:"Vutula ba commentaire na heure ya ntete na nima ya kubasisa — yayi kesadisaka algorithme. Yula ntuba na légende mpo na kulendisa biyano.", zh:"发布后第一个小时内回复评论——有助于提升算法权重。在文案中提问，鼓励大家留言。", ja:"投稿後1時間以内にコメントに返信するとアルゴリズムに有利です。キャプションに質問を入れて返信を促しましょう。", ru:"Отвечай на комментарии в первый час после публикации — это помогает алгоритму. Задай вопрос в подписи, чтобы стимулировать ответы.", ar:"ردّي على التعليقات خلال الساعة الأولى بعد النشر — هذا يعزز الخوارزمية. اطرحي سؤالاً في التعليق التوضيحي لتشجيع الردود."} },
+  { icon:'🔁', title:{fr:'Recycler son contenu', en:'Repurposing your content', es:"Reciclar tu contenido", it:"Riciclare i propri contenuti", pt:"Reciclar o teu conteúdo", sw:"Kutumia tena maudhui yako", zu:"Ukusetshenziswa kabusha kokuqukethwe kwakho", st:"Ho sebedisa diteng tsa hao hape", ln:"Kosalela lisusu bikuma na yo", kg:"Kusadila diaka bima na nge", zh:"循环利用内容", ja:"コンテンツを使い回す", ru:"Переиспользовать контент", ar:"إعادة استخدام محتواك"},
+    answer:{fr:"Une même séance photo peut donner 10-15 posts différents étalés sur plusieurs semaines. Pas besoin de nouveau contenu tous les jours.", en:'A single photo shoot can give you 10-15 different posts spread over several weeks. You don\'t need new content every day.', es:"Una misma sesión de fotos puede dar 10-15 publicaciones diferentes repartidas en varias semanas. No necesitas contenido nuevo cada día.", it:"Un solo shooting fotografico può dare 10-15 post diversi distribuiti su più settimane. Non serve nuovo contenuto ogni giorno.", pt:"Uma mesma sessão fotográfica pode dar 10-15 publicações diferentes espalhadas por várias semanas. Não precisas de conteúdo novo todos os dias.", sw:"Kikao kimoja cha picha kinaweza kutoa machapisho 10-15 tofauti yaliyosambazwa kwa wiki kadhaa. Hauhitaji maudhui mapya kila siku.", zu:"Isikhathi esisodwa sokuthwebula singanikeza izithombe ezingu-10-15 ezahlukene ezisatshalaliswe emavikini amaningi. Awudingi okuqukethwe okusha nsuku zonke.", st:"Nako e le nngwe ea ho nka setshwantsho e ka fana ka diposo tse fapaneng tse 10-15 tse aroloswang dibekeng tse ngata. Ha o hloke diteng tse ncha letsatsi le letsatsi.", ln:"Seance moko ya foto ekoki kopesa ba post 10-15 ekeseni oyo ekabwani na ba semaine ebele. Osengeli na bikuma ya sika mokolo na mokolo te.", kg:"Seance mosi ya foto kelenda kupesa ba post 10-15 ekeseni yina ekabwani na ba semaine mingi. Kelombama ve na bima ya mpa lumbu na lumbu.", zh:"一次拍摄可以分成10-15条不同的帖子，分几周发布。不需要每天都拍新内容。", ja:"1回の撮影で10〜15件の異なる投稿を数週間に分けて作れます。毎日新しいコンテンツを用意する必要はありません。", ru:"Одна фотосессия может дать 10-15 разных постов на несколько недель. Не нужен новый контент каждый день.", ar:"جلسة تصوير واحدة يمكن أن تعطي 10-15 منشورًا مختلفًا موزعة على عدة أسابيع. لست بحاجة لمحتوى جديد كل يوم."} },
+  { icon:'🧲', title:{fr:'Créer un teaser accrocheur', en:'Creating a catchy teaser', es:"Crear un teaser llamativo", it:"Creare un teaser accattivante", pt:"Criar um teaser cativante", sw:"Kuunda teaser inayovutia", zu:"Ukwakha i-teaser eheha", st:"Ho theha teaser e hohelang", ln:"Kosala teaser oyo ebendaka", kg:"Kusala teaser yina kebendaka", zh:"制作吸引人的预告片", ja:"興味を引くティザーを作る", ru:"Создать цепляющий тизер", ar:"إنشاء مقطع ترويجي جذاب"},
+    answer:{fr:"Les 2-3 premières secondes décident si on continue à regarder. Commence par le moment le plus fort, pas par une intro lente.", en:'The first 2-3 seconds decide whether someone keeps watching. Start with the strongest moment, not a slow intro.', es:"Los primeros 2-3 segundos deciden si siguen viendo. Empieza por el momento más fuerte, no por una intro lenta.", it:"I primi 2-3 secondi decidono se si continua a guardare. Inizia con il momento più forte, non con un'intro lenta.", pt:"Os primeiros 2-3 segundos decidem se continuam a ver. Começa pelo momento mais forte, não por uma introdução lenta.", sw:"Sekunde 2-3 za kwanza huamua kama mtu ataendelea kutazama. Anza na wakati wenye nguvu zaidi, si utangulizi wa polepole.", zu:"Imizuzwana emi-2-3 yokuqala inquma ukuthi umuntu uyaqhubeka yini ukubuka. Qala ngomzuzu onamandla kakhulu, hhayi isingeniso esihamba kancane.", st:"Metsotswana e 4 ea pele e etsa qeto ea hore na batho ba tla tswela pele ho shebella. Qala ka nako e matla ka ho fetisisa, eseng ka selelekela se butle.", ln:"Segondes 2-3 ya liboso nde ekataka soki bato bakokoba kotala. Banda na moment ya makasi koleka, na intro ya malembe te.", kg:"Segondes 2-3 ya ntete nde kekataka kana bantu takwenda na ntwala ya kutala. Yantika na moment ya ngolo kuluta, na intro ya malembe ve.", zh:"开头2-3秒决定观众是否继续看下去。从最精彩的部分开始，而不是慢节奏的开场。", ja:"最初の2〜3秒で見続けるかどうかが決まります。ゆっくりした導入ではなく、一番インパクトのある瞬間から始めましょう。", ru:"Первые 2-3 секунды решают, будут ли смотреть дальше. Начни с самого сильного момента, а не с медленного вступления.", ar:"الثواني الـ2-3 الأولى تحدد ما إذا كان سيستمر المشاهد. ابدئي باللحظة الأقوى، لا بمقدمة بطيئة."} },
+  { icon:'💰', title:{fr:'Fixer ses prix', en:'Setting your prices', es:"Fijar tus precios", it:"Fissare i propri prezzi", pt:"Definir os teus preços", sw:"Kuweka bei zako", zu:"Ukubeka amanani akho", st:"Ho beha ditheko tsa hao", ln:"Kotia ba prix na yo", kg:"Kutia ba prix na nge", zh:"定价", ja:"価格を設定する", ru:"Устанавливать цены", ar:"تحديد أسعارك"},
+    answer:{fr:"Commence avec des prix modestes pour construire ta base de clients fidèles, puis augmente progressivement à mesure que ta demande grandit.", en:'Start with modest prices to build a loyal client base, then raise them gradually as demand grows.', es:"Empieza con precios modestos para construir tu base de clientes fieles, y súbelos poco a poco a medida que crece la demanda.", it:"Inizia con prezzi modesti per costruire la tua base di clienti fedeli, poi aumentali gradualmente man mano che cresce la domanda.", pt:"Começa com preços modestos para construir a tua base de clientes fiéis, e aumenta-os gradualmente à medida que a procura cresce.", sw:"Anza na bei ndogo ili kujenga msingi wa wateja waaminifu, kisha ongeza taratibu mahitaji yanapokua.", zu:"Qala ngamanani amancane ukwakha isisekelo sabathengi bakho abathembekile, bese wandisa kancane njengoba isidingo sikhula.", st:"Qala ka ditheko tse tlase ho haha motheo oa bareki ba hao ba tshepahalang, ebe o eketsa butle-butle ha tlhoko e ntse e hola.", ln:"Banda na ba prix ya moke mpo na kotonga base ya baklient ya sembo, na sima tombola malembe-malembe ndenge demande ekoli.", kg:"Yantika na ba prix ya fioti mpo na kutunga base ya baklient ya kieleka, na nima tombola malembe-malembe bonso demande kekola.", zh:"一开始用较低的价格来建立忠实客户群，随着需求增长再逐步涨价。", ja:"最初は控えめな価格で常連客の基盤を作り、需要が増えるにつれて徐々に値上げしましょう。", ru:"Начни со скромных цен, чтобы построить базу лояльных клиентов, затем постепенно повышай по мере роста спроса.", ar:"ابدئي بأسعار متواضعة لبناء قاعدة عملاء أوفياء، ثم ارفعيها تدريجيًا مع نمو الطلب."} },
+  { icon:'🎁', title:{fr:'Créer des offres groupées', en:'Creating bundle offers', es:"Crear ofertas combinadas", it:"Creare offerte in bundle", pt:"Criar ofertas em pacote", sw:"Kuunda ofa za pamoja", zu:"Ukwakha izinikezelo ezihlanganisiwe", st:"Ho theha ditlhahiso tse kopantsweng", ln:"Kosala ba offre esangisami", kg:"Kusala ba offre yina esangisami", zh:"制作组合套餐", ja:"セット販売を作る", ru:"Создавать пакетные предложения", ar:"إنشاء عروض مجمّعة"},
+    answer:{fr:"Propose un pack de plusieurs photos/vidéos à prix légèrement réduit par rapport à l'achat séparé — ça augmente le panier moyen.", en:'Offer a bundle of several photos/videos at a slightly reduced price compared to buying separately — it increases average order value.', es:"Ofrece un paquete de varias fotos/videos a precio ligeramente reducido frente a la compra por separado — aumenta el gasto medio.", it:"Proponi un pacchetto di più foto/video a prezzo leggermente ridotto rispetto all'acquisto separato — aumenta lo scontrino medio.", pt:"Propõe um pacote de várias fotos/vídeos a preço ligeiramente reduzido em relação à compra separada — aumenta o valor médio de compra.", sw:"Toa kifurushi cha picha/video kadhaa kwa bei iliyopunguzwa kidogo kuliko kununua tofauti — huongeza wastani wa manunuzi.", zu:"Nikeza iphakethe lezithombe/amavidiyo amaningana ngentengo encishisiwe kancane uma kuqhathaniswa nokuthenga ngokwahlukene — lokhu kwandisa isamba esilinganiselwe.", st:"Fana ka pakete ea diswantso/divideo tse ngata ka theko e fokolang hanyane ho feta ho reka ka ho arohana — sena se eketsa chelete e sebediswang.", ln:"Pesa pack ya ba foto/video ebele na prix ya moke koleka soki basombi separement — yango ebakisaka mbongo oyo bato bafutaka na moyenne.", kg:"Pesa pack ya ba foto/video mingi na prix ya fioti kuluta kana basumbi separement — yayi kebakisaka mbongo yina bantu kefutaka na moyenne.", zh:"推出多张照片/视频的套餐，价格略低于单独购买——能提高平均消费金额。", ja:"単品購入より少し割安な複数枚/複数本セットを用意すると、平均購入額が上がります。", ru:"Предложи набор из нескольких фото/видео по цене чуть ниже, чем при отдельной покупке — это увеличивает средний чек.", ar:"اقترحي حزمة من عدة صور/فيديوهات بسعر أقل قليلاً من الشراء المنفصل — هذا يزيد متوسط قيمة الطلب."} },
+  { icon:'⏰', title:{fr:'Créer un sentiment d\'urgence', en:'Creating a sense of urgency', es:"Crear sensación de urgencia", it:"Creare un senso di urgenza", pt:"Criar um sentido de urgência", sw:"Kuunda hali ya haraka", zu:"Ukwakha umuzwa wesiphuthumayo", st:"Ho theha maikutlo a potlako", ln:"Kosala liyoki ya lombangu", kg:"Kusala kudiakisa ya lombangu", zh:"营造紧迫感", ja:"緊急感を演出する", ru:"Создавать ощущение срочности", ar:"خلق شعور بالإلحاح"},
+    answer:{fr:'Une offre "disponible 48h seulement" pousse à l\'achat plus vite qu\'une offre permanente. À utiliser avec modération pour rester crédible.', en:'A "48h only" offer drives faster purchases than a permanent one. Use sparingly to stay credible.', es:"Una oferta \"disponible solo 48h\" impulsa la compra más rápido que una oferta permanente. Úsalo con moderación para seguir siendo creíble.", it:"Un'offerta \"disponibile solo 48h\" spinge all'acquisto più velocemente di un'offerta permanente. Usala con moderazione per restare credibile.", pt:"Uma oferta \"disponível apenas 48h\" impulsiona a compra mais rápido do que uma oferta permanente. Usa com moderação para te manteres credível.", sw:"Ofa \"inapatikana kwa saa 48 tu\" huchochea ununuzi haraka zaidi kuliko ofa ya kudumu. Tumia kwa kiasi ili kubaki mwaminifu.", zu:"Umnikelo \"otholakala amahora angu-48 kuphela\" ukhuthaza ukuthenga ngokushesha kunomnikelo ohlala njalo. Sebenzisa ngokulinganisela ukuze uhlale wethembeka.", st:"Tlhahiso e \"fumanehang ka dihora tse 48 feela\" e kgothaletsa ho reka kapele ho feta tlhahiso e sa feleng. E sebedise ka tekano ho dula o tshepahala.", ln:"Offre \"ezali kaka na ba heure 48\" etindaka kosomba noki koleka offre ya libela. Salela na mesure mpo na kotikala ya kondimisa.", kg:"Offre \"kevanda kaka na ba heure 48\" ketinda kusumba noki kuluta offre ya mvula na mvula. Sadila na mesure mpo na kuvanda ya kundimisa.", zh:"限时48小时的优惠比长期优惠更能促使人尽快购买。适度使用，保持可信度。", ja:"「48時間限定」のオファーは、常設オファーより購入を後押しします。信頼を保つために使いすぎには注意しましょう。", ru:"Предложение \"доступно только 48 часов\" подталкивает к покупке быстрее, чем постоянное предложение. Используй умеренно, чтобы оставаться убедительной.", ar:"عرض \"متاح لمدة 48 ساعة فقط\" يدفع للشراء بشكل أسرع من عرض دائم. استخدميه باعتدال لتبقي موثوقة."} },
+  { icon:'🔒', title:{fr:'Protéger son identité', en:'Protecting your identity', es:"Proteger tu identidad", it:"Proteggere la propria identità", pt:"Proteger a tua identidade", sw:"Kulinda utambulisho wako", zu:"Ukuvikela ubunikazi bakho", st:"Ho sireletsa boitsebiso ba hao", ln:"Kobatela identité na yo", kg:"Kubumba identité na nge", zh:"保护你的身份", ja:"身元を守る", ru:"Защищать свою личность", ar:"حماية هويتك"},
+    answer:{fr:"Évite les détails identifiables en arrière-plan (rue, plaque, façade reconnaissable). Désactive la géolocalisation sur tes photos avant de les poster.", en:"Avoid identifiable background details (street, license plate, recognizable façade). Turn off geolocation on your photos before posting.", es:"Evita detalles identificables en el fondo (calle, matrícula, fachada reconocible). Desactiva la geolocalización en tus fotos antes de publicarlas.", it:"Evita dettagli identificabili sullo sfondo (via, targa, facciata riconoscibile). Disattiva la geolocalizzazione sulle tue foto prima di pubblicarle.", pt:"Evita detalhes identificáveis no fundo (rua, matrícula, fachada reconhecível). Desativa a geolocalização nas tuas fotos antes de as publicares.", sw:"Epuka maelezo yanayoweza kutambulika nyuma (barabara, namba ya gari, jengo linalotambulika). Zima eneo la GPS kwenye picha zako kabla ya kuchapisha.", zu:"Gwema imininingwane ehlonzekayo ngasemuva (umgwaqo, inombolo yemoto, ingaphandle elihlonzekayo). Vala indawo ku-GPS ezithombeni zakho ngaphambi kokuzishicilela.", st:"Qoba dintlha tse ka tsejwang ka morao (seterata, nomoro ea koloi, ntlo e tsejwang). Tima sebaka sa GPS diswantshong tsa hao pele o di hatisa.", ln:"Kima ba détail oyo bakoki koyeba na fond (balabala, plaque, ndako oyo eyebani). Boma géolocalisation na ba foto na yo liboso ya kobimisa yango.", kg:"Buya ba détail yina belenda kuzaba na fond (balabala, plaque, nzo yina bezabaka). Fua géolocalisation na ba foto na nge na ntwala ya kubasisa yo.", zh:"避免背景中出现可识别的细节（街道、车牌、有辨识度的建筑外观）。发布前先关闭照片的定位信息。", ja:"背景に特定できる要素（通り、ナンバープレート、見覚えのある建物など）を避けましょう。投稿前に写真の位置情報をオフにしておきましょう。", ru:"Избегай узнаваемых деталей на фоне (улица, номер, узнаваемый фасад). Отключай геолокацию на фото перед публикацией.", ar:"تجنبي التفاصيل التي يمكن التعرف عليها في الخلفية (شارع، لوحة سيارة، واجهة مميزة). عطّلي تحديد الموقع الجغرافي على صورك قبل نشرها."} },
+  { icon:'🕵️', title:{fr:'Éviter le partage non autorisé', en:'Avoiding unauthorized sharing', es:"Evitar la difusión no autorizada", it:"Evitare la condivisione non autorizzata", pt:"Evitar a partilha não autorizada", sw:"Kuepuka usambazaji usioidhinishwa", zu:"Ukugwema ukwabelana okungagunyaziwe", st:"Ho qoba ho arolelana ntle le tumello", ln:"Kokima kokabola oyo endimami te", kg:"Kubuya kukabula yina endimami ve", zh:"避免未经授权的传播", ja:"無断転載を防ぐ", ru:"Избегать несанкционированного распространения", ar:"تجنب المشاركة غير المصرح بها"},
+    answer:{fr:"Le filigrane et les métadonnées t'aident à prouver que le contenu est le tien si quelqu'un le republie sans autorisation.", en:'Watermarks and metadata help you prove content is yours if someone reposts it without permission.', es:"La marca de agua y los metadatos te ayudan a demostrar que el contenido es tuyo si alguien lo republica sin permiso.", it:"La filigrana e i metadati ti aiutano a dimostrare che il contenuto è tuo se qualcuno lo ripubblica senza autorizzazione.", pt:"A marca de água e os metadados ajudam-te a provar que o conteúdo é teu se alguém o republicar sem autorização.", sw:"Alama ya maji na metadata hukusaidia kuthibitisha maudhui ni yako endapo mtu atayachapisha tena bila ruhusa.", zu:"Uphawu lwamanzi nedatha ye-metadata kukusiza ukufakazela ukuthi okuqukethwe ngokwakho uma othile ekushicilela kabusha ngaphandle kwemvume.", st:"Letshwao la metsi le metadata li o thusa ho pakela hore diteng ke tsa hao haeba motho e mong a di hatisa hape ntle le tumello.", ln:"Filigrane na métadonnées esungaka yo kolakisa ete bikuma ezali ya yo soki moto moko abimisi yango lisusu na ndingisa te.", kg:"Filigrane na métadonnées kesadisaka nge kulakisa nde bima kele ya nge kana muntu mosi kebasisa yo diaka na ndingisa ve.", zh:"水印和元数据能帮你证明内容是你的，一旦有人未经授权转发。", ja:"透かしとメタデータは、誰かが無断で再投稿した際にそのコンテンツが自分のものであることを証明する助けになります。", ru:"Водяной знак и метаданные помогают доказать, что контент твой, если кто-то опубликует его без разрешения.", ar:"العلامة المائية والبيانات الوصفية تساعدك على إثبات ملكية المحتوى إذا أعاد أحدهم نشره دون إذن."} },
+  { icon:'🧘', title:{fr:'Gérer la pression et la fatigue', en:'Managing pressure and fatigue', es:"Gestionar la presión y el cansancio", it:"Gestire la pressione e la stanchezza", pt:"Gerir a pressão e o cansaço", sw:"Kudhibiti shinikizo na uchovu", zu:"Ukuphatha ingcindezi nokukhathala", st:"Ho laola khatello le mokgathala", ln:"Kolanda pression na kolemba", kg:"Kulanda pression na kulemba", zh:"应对压力和疲惫", ja:"プレッシャーと疲れをケアする", ru:"Справляться с давлением и усталостью", ar:"إدارة الضغط والتعب"},
+    answer:{fr:"Il est normal de ne pas vouloir publier tous les jours. Planifie des jours de repos à l'avance dans ton calendrier de contenu pour éviter l'épuisement.", en:"It's normal not to want to post every day. Plan rest days ahead of time in your content calendar to avoid burnout.", es:"Es normal no querer publicar todos los días. Planifica días de descanso con antelación en tu calendario de contenido para evitar el agotamiento.", it:"È normale non voler pubblicare tutti i giorni. Pianifica in anticipo giorni di riposo nel tuo calendario contenuti per evitare il burnout.", pt:"É normal não quereres publicar todos os dias. Planeia dias de descanso com antecedência no teu calendário de conteúdo para evitar o esgotamento.", sw:"Ni kawaida kutotaka kuchapisha kila siku. Panga siku za mapumziko mapema kwenye ratiba yako ya maudhui ili kuepuka uchovu.", zu:"Kujwayelekile ukungafuni ukushicilela nsuku zonke. Hlela izinsuku zokuphumula kusengaphambili kukhalenda yakho yokuqukethwe ukugwema ukukhathala okukhulu.", st:"Ke ntho e tlwaelehileng ho se batle ho hatisa letsatsi le letsatsi. Rera matsatsi a phomolo esale pele khalentareng ea hao ea diteng ho qoba ho felelwa ke matla.", ln:"Ezali normal koluka te kobimisa mokolo na mokolo. Bongisa mikolo ya kopema liboso na calendrier ya bikuma na yo mpo na kokima kolemba mingi.", kg:"Kele normal kuluka ve kubasisa lumbu na lumbu. Bongisa balumbu ya kupema na ntwala na calendrier ya bima na nge mpo na kubuya kulemba mingi.", zh:"不想每天发布是很正常的。提前在内容日程中安排休息日，避免过度疲劳。", ja:"毎日投稿したくないと感じるのは自然なことです。燃え尽きを防ぐため、コンテンツカレンダーに休息日をあらかじめ組み込みましょう。", ru:"Это нормально — не хотеть публиковать каждый день. Планируй дни отдыха заранее в календаре контента, чтобы избежать выгорания.", ar:"من الطبيعي ألا ترغبي في النشر كل يوم. خططي لأيام راحة مسبقًا في جدول محتواك لتجنب الإرهاق."} },
+  { icon:'📸', title:{fr:'Améliorer la qualité de ses photos avec peu de matériel', en:'Improving photo quality with little gear', es:"Mejorar la calidad de tus fotos con poco material", it:"Migliorare la qualità delle foto con poca attrezzatura", pt:"Melhorar a qualidade das fotos com pouco material", sw:"Kuboresha ubora wa picha kwa vifaa vichache", zu:"Ukuthuthukisa ikhwalithi yezithombe ngezinsiza ezimbalwa", st:"Ho ntlafatsa boleng ba diswantso ka thepa e fokolang", ln:"Kobongisa qualité ya ba foto na biloko ya moke", kg:"Kubongisa qualité ya ba foto na bima ya fioti", zh:"用简单设备提升照片质量", ja:"少ない機材で写真の質を上げる", ru:"Улучшать качество фото с минимумом оборудования", ar:"تحسين جودة الصور بمعدات بسيطة"},
+    answer:{fr:"Un simple anneau lumineux LED (ring light) à moins de 20€ améliore énormément le rendu en intérieur, surtout le soir.", en:'A simple LED ring light under 20€ hugely improves indoor shots, especially in the evening.', es:"Un simple aro de luz LED por menos de 20€ mejora enormemente el resultado en interiores, sobre todo de noche.", it:"Un semplice ring light LED a meno di 20€ migliora enormemente la resa in interni, soprattutto di sera.", pt:"Um simples ring light LED por menos de 20€ melhora imenso o resultado em interiores, sobretudo à noite.", sw:"Mwanga wa duara wa LED wa bei chini ya euro 20 huboresha sana matokeo ndani ya nyumba, hasa jioni.", zu:"I-ring light ye-LED elula engaphansi kuka-€20 ithuthukisa kakhulu umphumela ngaphakathi, ikakhulukazi kusihlwa.", st:"Ring light ea LED e bonolo e ka tlase ho €20 e ntlafatsa haholo sephetho ka hare, haholo-holo bosiu.", ln:"Ring light moko ya LED ya moke koleka €20 ebongisaka mingi résultat na kati ya ndako, mingi-mingi na pokwa.", kg:"Ring light mosi ya LED ya fioti kuluta €20 kebongisaka mingi résultat na kati ya nzo, mingi-mingi na masika.", zh:"一个不到20欧元的LED环形灯就能大大提升室内拍摄效果，尤其是晚上。", ja:"2000円程度のLEDリングライトだけでも、特に夜の室内撮影の仕上がりが大きく向上します。", ru:"Простое LED-кольцо дешевле 20€ значительно улучшает результат в помещении, особенно вечером.", ar:"حلقة إضاءة LED بسيطة بأقل من 20 يورو تحسّن النتيجة كثيرًا في الداخل، خاصة في المساء."} },
+  { icon:'🌇', title:{fr:'Photographier en extérieur', en:'Shooting outdoors', es:"Fotografiar en exteriores", it:"Fotografare all'aperto", pt:"Fotografar no exterior", sw:"Kupiga picha nje", zu:"Ukuthwebula ngaphandle", st:"Ho nka diswantso ka ntle", ln:"Kokanga foto na libanda", kg:"Kukanga foto na nganda", zh:"户外拍摄", ja:"屋外での撮影", ru:"Снимать на улице", ar:"التصوير في الخارج"},
+    answer:{fr:"Privilégie les heures où le soleil est bas (tôt le matin, fin d'après-midi) pour une lumière douce et flatteuse, sans ombres dures à midi.", en:'Favor times when the sun is low (early morning, late afternoon) for soft, flattering light without harsh midday shadows.', es:"Prefiere las horas en que el sol está bajo (temprano en la mañana, al atardecer) para una luz suave y favorecedora, sin sombras duras al mediodía.", it:"Privilegia le ore in cui il sole è basso (mattina presto, tardo pomeriggio) per una luce morbida e favorevole, senza ombre dure a mezzogiorno.", pt:"Prefere as horas em que o sol está baixo (de manhã cedo, ao fim da tarde) para uma luz suave e favorável, sem sombras duras ao meio-dia.", sw:"Pendelea saa ambazo jua liko chini (asubuhi mapema, jioni) kwa mwanga laini na mzuri, bila vivuli vikali mchana.", zu:"Khetha amahora lapho ilanga liphansi (ekuseni kakhulu, kusihlwa) ukuze kube nokukhanya okuthambile nokuhle, ngaphandle kwemithunzi eqinile emini.", st:"Kgetha dihora tseo letsatsi le tlase ho tsona (hoseng haholo, mantsiboea) bakeng sa leseli le bonolo le le hohelang, ntle le meriti e thata mots'eare.", ln:"Pona ba heure oyo moyi ezali na nse (ntongo ya liboso, pokwa) mpo na pole ya boboto mpe ya kitoko, na milili makasi te na midi.", kg:"Sola ba heure yina ntangu kele na nsi (ntongo ya ntete, masika) mpo na pole ya boboto ye ya mbote, na midindu ya ngolo ve na midi.", zh:"优先选择太阳角度较低的时段（清晨、傍晚），光线柔和好看，避免正午的生硬阴影。", ja:"太陽が低い時間帯（早朝や夕方）を選ぶと、柔らかく美しい光になり、正午のきつい影を避けられます。", ru:"Выбирай время, когда солнце низко (раннее утро, поздний вечер), для мягкого выигрышного света без резких теней в полдень.", ar:"فضّلي الأوقات التي تكون فيها الشمس منخفضة (الصباح الباكر، آخر النهار) لضوء ناعم ومريح، دون ظلال قاسية عند الظهيرة."} },
+  { icon:'🪞', title:{fr:'Se filmer seule facilement', en:'Filming yourself alone easily', es:"Grabarte sola fácilmente", it:"Filmarsi da sole facilmente", pt:"Filmares-te sozinha facilmente", sw:"Kujipiga picha peke yako kwa urahisi", zu:"Ukuzithwebula ngokulula wedwa", st:"Ho itshwantsha o le mong ka bonolo", ln:"Komikanga yo moko na pete", kg:"Kumikanga nge mosi na pete", zh:"轻松独自拍摄", ja:"一人で簡単に自撮り動画を撮る", ru:"Легко снимать себя одной", ar:"تصوير نفسك بمفردك بسهولة"},
+    answer:{fr:"Un trépied avec télécommande Bluetooth ou le retardateur de l'appareil te permettent de te filmer sans aide. Vérifie le cadrage avec l'écran avant/selfie.", en:'A tripod with Bluetooth remote or the camera timer lets you film yourself without help. Check framing with the front/selfie screen.', es:"Un trípode con control remoto Bluetooth o el temporizador de la cámara te permiten grabarte sin ayuda. Revisa el encuadre con la pantalla frontal/selfie.", it:"Un treppiede con telecomando Bluetooth o l'autoscatto della fotocamera ti permettono di filmarti senza aiuto. Controlla l'inquadratura con lo schermo anteriore/selfie.", pt:"Um tripé com controlo remoto Bluetooth ou o temporizador da câmara permitem-te filmares-te sem ajuda. Verifica o enquadramento com o ecrã frontal/selfie.", sw:"Kishikilia chenye kidhibiti cha Bluetooth au kipima muda cha kamera hukuwezesha kujipiga bila msaada. Angalia mpangilio kwa skrini ya mbele/selfie.", zu:"I-tripod ene-remote ye-Bluetooth noma isikhathi sekhamera sokuzithwebula kukuvumela ukuzithwebula ngaphandle kosizo. Hlola ukubekwa nge-screen engaphambili/selfie.", st:"Tripod e nang le taolo ea Bluetooth kapa nako ea khamera ea boithati e o dumella ho itshwantsha ntle le thuso. Sheba tlhophiso ka skrini ea ka pele/selfie.", ln:"Trepied na télécommande Bluetooth to minuteur ya kamera epesaka yo nzela ya komikanga yo moko na lisungi te. Tala cadrage na écran ya liboso/selfie.", kg:"Trepied na télécommande Bluetooth to minuteur ya kamera kepesaka nge nzila ya kumikanga nge mosi na lusadisu ve. Tala cadrage na écran ya ntwala/selfie.", zh:"带蓝牙遥控的三脚架或相机自拍定时器，让你无需帮忙就能自己拍摄。用前置/自拍屏幕检查构图。", ja:"Bluetoothリモコン付き三脚やカメラのセルフタイマーを使えば、一人でも撮影できます。フロント/自撮り画面で構図を確認しましょう。", ru:"Штатив с Bluetooth-пультом или таймер камеры позволяют снимать себя без помощи. Проверяй кадр через фронтальный/селфи-экран.", ar:"حامل مزود بجهاز تحكم بلوتوث أو مؤقت الكاميرا يتيحان لك تصوير نفسك دون مساعدة. تحققي من الإطار عبر الشاشة الأمامية/السيلفي."} },
+  { icon:'🖼️', title:{fr:'Retoucher ses photos sans exagérer', en:'Editing photos without overdoing it', es:"Retocar tus fotos sin exagerar", it:"Ritoccare le foto senza esagerare", pt:"Retocar as fotos sem exagerar", sw:"Kurekebisha picha bila kupitiliza", zu:"Ukulungisa izithombe ngaphandle kokweqisa", st:"Ho lokisa diswantso ntle le ho feteletsa", ln:"Kobongisa ba foto na yo na kolekisa ndelo te", kg:"Kubongisa ba foto na nge na kulekisa ndelo ve", zh:"适度修图", ja:"やりすぎない写真加工", ru:"Ретушировать фото без перебора", ar:"تعديل صورك دون مبالغة"},
+    answer:{fr:"Ajuste la luminosité, le contraste et la chaleur des couleurs plutôt que d'utiliser des filtres trop forts qui rendent le rendu artificiel.", en:'Adjust brightness, contrast and color warmth rather than using overly strong filters that look artificial.', es:"Ajusta el brillo, el contraste y la calidez del color en vez de usar filtros demasiado fuertes que se ven artificiales.", it:"Regola luminosità, contrasto e calore del colore invece di usare filtri troppo forti che rendono il risultato artificiale.", pt:"Ajusta o brilho, o contraste e a temperatura da cor em vez de usares filtros demasiado fortes que tornam o resultado artificial.", sw:"Rekebisha mwangaza, tofauti na joto la rangi badala ya kutumia vichujio vikali sana vinavyofanya matokeo yaonekane bandia.", zu:"Lungisa ukukhanya, ukuphambana kanye nokufudumala kombala kunokusebenzisa izihlungi eziqinile kakhulu ezenza umphumela ubukeke ongokoqobo.", st:"Lokisa bokgabane, phapano le mocheso oa mmala ho fapana le ho sebedisa disefe tse matla haholo tse etsang hore sephetho se bonahale e se sa tlhaho.", ln:"Bongisa lumière, contraste na chaleur ya couleur na esika ya kosalela ba filtre makasi mingi oyo ekomisaka résultat ya solo te.", kg:"Bongisa lumière, contraste ye kiyoyo ya bakuma na kisika ya kusadila ba filtre ya ngolo mingi yina kesalaka résultat ya kieleka ve.", zh:"调整亮度、对比度和色温，而不是使用过强的滤镜，那样会显得不自然。", ja:"不自然に見える強すぎるフィルターより、明るさ・コントラスト・色温度を調整する方が自然です。", ru:"Настраивай яркость, контраст и теплоту цвета вместо использования слишком сильных фильтров, которые выглядят неестественно.", ar:"اضبطي السطوع والتباين ودفء اللون بدلاً من استخدام فلاتر قوية جدًا تجعل النتيجة تبدو مصطنعة."} },
+  { icon:'📊', title:{fr:'Comprendre ses statistiques', en:'Understanding your stats', es:"Entender tus estadísticas", it:"Capire le proprie statistiche", pt:"Perceber as tuas estatísticas", sw:"Kuelewa takwimu zako", zu:"Ukuqonda izibalo zakho", st:"Ho utlwisisa dipalo tsa hao", ln:"Kososola ba statistique na yo", kg:"Kuzaba ba statistique na nge", zh:"了解你的数据", ja:"自分の統計を理解する", ru:"Понимать свою статистику", ar:"فهم إحصائياتك"},
+    answer:{fr:"Regarde quels posts ont le plus d'engagement (likes, commentaires, temps de visionnage) et refais des contenus similaires à ceux qui marchent le mieux.", en:'Look at which posts get the most engagement (likes, comments, watch time) and create more content similar to what performs best.', es:"Fíjate en qué publicaciones tienen más interacción (me gusta, comentarios, tiempo visto) y crea contenido similar al que mejor funciona.", it:"Guarda quali post hanno più interazione (like, commenti, tempo di visualizzazione) e crea contenuti simili a quelli che funzionano meglio.", pt:"Vê que publicações têm mais interação (gostos, comentários, tempo de visualização) e cria conteúdos semelhantes aos que funcionam melhor.", sw:"Angalia machapisho gani yana mwingiliano zaidi (like, maoni, muda wa kutazama) na tengeneza maudhui yanayofanana na yale yanayofanya vizuri zaidi.", zu:"Bheka ukuthi yiziphi izithombe ezinokuxhumana okuningi (ama-like, amazwana, isikhathi sokubuka) bese wakha okuqukethwe okufanayo nalokho okusebenza kahle kakhulu.", st:"Sheba hore na diposo life di nang le ho sebediswa ho hoholo (dilikes, maikutlo, nako ea ho shebella) mme o etse diteng tse tshwanang le tse sebetsang hantle ka ho fetisisa.", ln:"Tala ba post nini ezali na boyokani mingi (ba like, ba commentaire, ntango ya kotala) mpe sala bikuma ekokani na oyo esalaka malamu koleka.", kg:"Tala ba post nki kele na boyikani mingi (ba like, ba commentaire, ntangu ya kutala) ye sala bima yina ekokani na yina kesalaka mbote kuluta.", zh:"看看哪些帖子互动最多（点赞、评论、观看时长），多制作类似表现好的内容。", ja:"どの投稿が一番反応が良いか（いいね、コメント、視聴時間）を見て、うまくいったものに似たコンテンツを作りましょう。", ru:"Смотри, какие посты набирают больше вовлечённости (лайки, комментарии, время просмотра), и создавай похожий контент.", ar:"انظري أي المنشورات حصلت على أعلى تفاعل (إعجابات، تعليقات، مدة المشاهدة) وأنشئي محتوى مشابهًا لما ينجح أكثر."} },
+  { icon:'🤝', title:{fr:'Fidéliser ses clients réguliers', en:'Keeping regular clients loyal', es:"Fidelizar a tus clientes habituales", it:"Fidelizzare i clienti abituali", pt:"Fidelizar os teus clientes regulares", sw:"Kuwaaminisha wateja wako wa kawaida", zu:"Ukuthembeka kwabathengi bakho abavamile", st:"Ho tshepahala ho bareki ba hao ba tloaelehileng", ln:"Kobatela baklient na yo ya mbala na mbala", kg:"Kubumba baklient na nge ya mbala na mbala", zh:"留住老客户", ja:"常連客を大切にする", ru:"Удерживать постоянных клиентов", ar:"كسب ولاء عملائك المنتظمين"},
+    answer:{fr:"Un petit mot personnalisé ou un contenu exclusif pour tes clients les plus fidèles renforce la relation et donne envie de revenir.", en:'A short personalized note or exclusive content for your most loyal clients strengthens the relationship and encourages them to come back.', es:"Una nota personalizada o contenido exclusivo para tus clientes más fieles refuerza la relación y da ganas de volver.", it:"Un piccolo messaggio personalizzato o contenuto esclusivo per i tuoi clienti più fedeli rafforza la relazione e invoglia a tornare.", pt:"Uma pequena mensagem personalizada ou conteúdo exclusivo para os teus clientes mais fiéis reforça a relação e dá vontade de voltar.", sw:"Ujumbe mdogo wa kibinafsi au maudhui ya kipekee kwa wateja wako waaminifu zaidi huimarisha uhusiano na kuwafanya warudi.", zu:"Umyalezo omncane ozenzele wona noma okuqukethwe okukhethekile kubathengi bakho abathembeke kakhulu kuqinisa ubudlelwano futhi kubenza bafune ukubuya.", st:"Molaetsa o monyane o ikgethileng kapa diteng tse ikgethang bakeng sa bareki ba hao ba tshepahalang haholo di matlafatsa kamano mme li etsa hore ba batle ho kgutla.", ln:"Liloba moko ya moke oyo ozali kokomela bango moko to bikuma ya spécial mpo na baklient na yo ya sembo koleka elendisaka boyokani mpe epesaka posa ya kozonga.", kg:"Diambu mosi ya fioti yina kesonekela bo mosi to bima ya spécial mpo na baklient na nge ya kieleka kuluta kelendisaka boyikani ye kepesaka posa ya kuvutuka.", zh:"给忠实客户一句个性化留言或专属内容，能加深关系，让他们更愿意回头。", ja:"一番のお得意様への個人的なひと言や限定コンテンツは、関係を深め再訪を促します。", ru:"Небольшое персональное сообщение или эксклюзивный контент для самых верных клиентов укрепляет отношения и мотивирует вернуться.", ar:"كلمة شخصية صغيرة أو محتوى حصري لعميلاتك الأكثر ولاءً يعزز العلاقة ويشجع على العودة."} },
+  { icon:'🗂️', title:{fr:'Organiser ses fichiers', en:'Organizing your files', es:"Organizar tus archivos", it:"Organizzare i propri file", pt:"Organizar os teus ficheiros", sw:"Kupanga faili zako", zu:"Ukuhlela amafayela akho", st:"Ho hlophisa difaele tsa hao", ln:"Kobongisa ba fichier na yo", kg:"Kubongisa ba fisye na nge", zh:"整理你的文件", ja:"ファイルを整理する", ru:"Организовать свои файлы", ar:"تنظيم ملفاتك"},
+    answer:{fr:"Crée un dossier par séance avec la date, pour retrouver facilement tes meilleures photos/vidéos plus tard et éviter les doublons.", en:'Create one folder per shoot with the date, to easily find your best photos/videos later and avoid duplicates.', es:"Crea una carpeta por sesión con la fecha, para encontrar fácilmente tus mejores fotos/videos más tarde y evitar duplicados.", it:"Crea una cartella per ogni shooting con la data, per ritrovare facilmente le tue foto/video migliori in seguito ed evitare duplicati.", pt:"Cria uma pasta por sessão com a data, para encontrares facilmente as tuas melhores fotos/vídeos mais tarde e evitares duplicados.", sw:"Tengeneza folda kwa kila kikao pamoja na tarehe, ili kupata kwa urahisi picha/video zako bora baadaye na kuepuka nakala.", zu:"Yakha ifolda ngasinye sokuthwebula kanye nosuku, ukuze uthole kalula izithombe/amavidiyo akho angcono kamuva futhi ugweme ukuphindaphinda.", st:"Etsa foldara bakeng sa nako e nngwe le e nngwe ea ho nka setshwantsho hammoho le letsatsi, ho fumana ka bonolo diswantso/divideo tsa hao tse ntle hamorao le ho qoba diphetiso.", ln:"Sala dossier moko na seance moko elongo na date, mpo na koluka na pete ba foto/video na yo ya malamu koleka na sima mpe kokima ba doublon.", kg:"Sala dossier mosi na seance mosi vandaka na date, mpo na kuluka na pete ba foto/video na nge ya mbote kuluta na nima ye kubuya ba doublon.", zh:"按拍摄日期建立文件夹，方便日后快速找到最好的照片/视频，避免重复文件。", ja:"日付ごとに撮影フォルダを作ると、後で一番良い写真/動画を見つけやすく、重複も防げます。", ru:"Создавай папку для каждой съёмки с датой, чтобы легко находить лучшие фото/видео позже и избегать дублей.", ar:"أنشئي مجلدًا لكل جلسة تصوير مع التاريخ، لتجدي بسهولة أفضل صورك/فيديوهاتك لاحقًا وتتجنبي التكرار."} },
+  { icon:'🌟', title:{fr:'Se démarquer de la concurrence', en:'Standing out from competitors', es:"Destacar frente a la competencia", it:"Distinguersi dalla concorrenza", pt:"Destacares-te da concorrência", sw:"Kujitofautisha na washindani", zu:"Ukuzehlukanisa kwabancintisana nabo", st:"Ho ikgetholla ho tlholisano", ln:"Komikesenisa na ba concurrent", kg:"Kumikesenisa na ba concurrent", zh:"在竞争中脱颖而出", ja:"競合との差別化", ru:"Выделяться среди конкуренток", ar:"التميّز عن المنافسات"},
+    answer:{fr:"Trouve un thème ou univers qui te ressemble (couleurs, décor, personnalité) et garde-le cohérent — c'est ce qui te rend reconnaissable.", en:'Find a theme or style that feels like you (colors, setting, personality) and keep it consistent — that\'s what makes you recognizable.', es:"Encuentra un tema o estilo que se parezca a ti (colores, ambiente, personalidad) y mantenlo coherente — eso es lo que te hace reconocible.", it:"Trova un tema o uno stile che ti somiglia (colori, ambientazione, personalità) e mantienilo coerente — è ciò che ti rende riconoscibile.", pt:"Encontra um tema ou estilo que se pareça contigo (cores, ambiente, personalidade) e mantém-no coerente — é isso que te torna reconhecível.", sw:"Tafuta mandhari au mtindo unaokufananisha (rangi, mazingira, tabia) na uudumishe — hicho ndicho kinachokufanya utambulike.", zu:"Thola isihloko noma isitayela esikufanele (imibala, indawo, ubuntu) bese uyagcina kuvumelana — yilokho okwenza uhlonzwe.", st:"Fumana sehlooho kapa setaele se o tshwanang le sona (mebala, tikoloho, botho) mme o se boloke se tshwana — ke sona se etsang hore o tsejwe.", ln:"Luka thème to style oyo ekokani na yo (couleur, ambiance, personnalité) mpe batela yango ya kokangama — yango nde ekomisaka yo koyebana.", kg:"Luka thème to style yina ekokani na nge (bakuma, ambiance, kimuntu) ye bumba yo ya kukangama — yayi nde kesalaka nde nge kezabana.", zh:"找到一个符合你风格的主题（颜色、场景、个性）并保持一致——这就是让你有辨识度的关键。", ja:"自分らしいテーマや世界観（色・雰囲気・個性）を見つけて一貫させましょう——それがあなたを印象づけます。", ru:"Найди тему или стиль, который тебе подходит (цвета, обстановка, характер), и придерживайся его — это делает тебя узнаваемой.", ar:"ابحثي عن موضوع أو أسلوب يشبهك (ألوان، أجواء، شخصية) وحافظي على تناسقه — هذا ما يجعلك مميزة."} },
+  { icon:'📝', title:{fr:'Rédiger une légende qui capte l\'attention', en:'Writing a caption that grabs attention', es:"Escribir una descripción que capte la atención", it:"Scrivere una didascalia che catturi l'attenzione", pt:"Escrever uma legenda que capte a atenção", sw:"Kuandika maelezo yanayovutia", zu:"Ukubhala incazelo edonsa ukunakwa", st:"Ho ngola caption e hohelang tlhokomelo", ln:"Kokoma légende oyo ebendaka likebi", kg:"Kusoneka légende yina kebendaka dikebi", zh:"写一段吸引眼球的文案", ja:"目を引くキャプションを書く", ru:"Написать подпись, привлекающую внимание", ar:"كتابة تعليق يجذب الانتباه"},
+    answer:{fr:"Commence par une phrase courte et intrigante avant les détails. Une question ou une confidence donne envie de lire la suite et de commenter.", en:'Start with a short, intriguing line before the details. A question or a personal note makes people want to read on and comment.', es:"Empieza con una frase corta e intrigante antes de los detalles. Una pregunta o una confidencia da ganas de seguir leyendo y comentar.", it:"Inizia con una frase breve e intrigante prima dei dettagli. Una domanda o una confidenza invoglia a leggere e a commentare.", pt:"Começa com uma frase curta e intrigante antes dos detalhes. Uma pergunta ou uma confidência dá vontade de continuar a ler e a comentar.", sw:"Anza na sentensi fupi ya kuvutia kabla ya maelezo. Swali au siri ndogo humfanya msomaji aendelee kusoma na kutoa maoni.", zu:"Qala ngomusho omfushane odonsa ukunakwa ngaphambi kwemininingwane. Umbuzo noma imfihlo encane kwenza umuntu afune ukuqhubeka ukufunda nokuphawula.", st:"Qala ka polelwana e khutshwane e hohelang pele ho dintlha. Potso kapa lekunutu le lenyane li etsa hore motho a batle ho tswela pele ho bala le ho fana ka maikutlo.", ln:"Banda na phrase ya mokuse mpe ya kobenda liboso ya ba détail. Motuna to sekele moko ya moke epesaka posa ya kotanga mpe kopesa commentaire.", kg:"Yantika na phrase ya nkufi ye ya kubenda na ntwala ya ba détail. Ntuba to sekele mosi ya fioti kepesaka posa ya kutanga ye kupesa commentaire.", zh:"先用一句简短又有悬念的话开头，再说细节。一个问题或一点小秘密会让人更想继续阅读和留言。", ja:"詳細の前に短くて気になる一文から始めましょう。質問や打ち明け話は、続きを読んだりコメントしたくなる気持ちを引き出します。", ru:"Начни с короткой интригующей фразы перед деталями. Вопрос или личное признание вызывает желание читать дальше и комментировать.", ar:"ابدئي بجملة قصيرة ومثيرة للفضول قبل التفاصيل. سؤال أو اعتراف شخصي يجعل القارئ يرغب في متابعة القراءة والتعليق."} }
+];
+
 function vitrineCardHtml(m){
   const num = m.id.replace('m', '').padStart(2, '0');
 
@@ -5615,6 +6300,8 @@ function closeVitrineRoom(){
 /* ---------------- votes (like / dislike) ---------------- */
 const ICON_LIKE = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>';
 const ICON_DISLIKE = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3z"/><path d="M17 2h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"/></svg>';
+const ICON_DOC = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>';
+const ICON_GALLERY = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>';
 
 async function castMediaVote(profileId, docId, type){
   if(!db){ toast(t('saveErrorToast')); return; }
