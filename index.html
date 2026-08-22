@@ -304,25 +304,24 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 .order-meta{font-size:10.5px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;margin-top:2px;}
 
 /* ---------- contenu exclusif (vitrine, verrouillé) ---------- */
-.exclusive-card{position:relative;border-radius:12px;overflow:hidden;background:var(--bg-elev-2);border:1px solid var(--border);margin-bottom:14px;max-width:260px;}
-.exclusive-teaser{width:100%;aspect-ratio:4/5;max-height:260px;object-fit:cover;display:block;}
-.exclusive-locked-overlay{
-  position:relative;aspect-ratio:4/5;max-height:260px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
-  background:linear-gradient(155deg, rgba(40,30,15,0.9), rgba(10,8,5,0.95));color:var(--honey);
+.exclusive-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(90px,1fr));gap:8px;}
+.exclusive-thumb-wrap{display:flex;flex-direction:column;gap:4px;}
+.exclusive-thumb{
+  position:relative;aspect-ratio:1/1;border-radius:10px;overflow:hidden;background:var(--bg-elev-2);
+  border:1px solid var(--border);cursor:pointer;
 }
-.exclusive-locked-photo-wrap{position:relative;aspect-ratio:4/5;max-height:260px;overflow:hidden;}
-.exclusive-blurred-img{width:100%;height:100%;object-fit:cover;display:block;filter:blur(18px) brightness(0.55) saturate(1.1);transform:scale(1.15);}
-.exclusive-lock-badge{
-  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
-  color:var(--honey);text-align:center;padding:0 12px;
+.exclusive-thumb img, .exclusive-thumb video{width:100%;height:100%;object-fit:cover;display:block;}
+.exclusive-blurred-img{filter:blur(10px) brightness(0.55) saturate(1.1);transform:scale(1.15);}
+.exclusive-thumb video{filter:brightness(0.7);}
+.exclusive-thumb-lock{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--honey);
+  background:rgba(10,8,5,0.28);
 }
-.exclusive-lock-badge span{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.03em;}
-.exclusive-info{padding:10px 12px;}
-.exclusive-desc{font-size:12px;color:var(--text-muted);line-height:1.5;margin-bottom:8px;}
-.exclusive-unlock-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:6px;}
-.exclusive-teaser-badge{position:absolute;top:8px;left:8px;background:rgba(0,0,0,0.7);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:9px;padding:3px 8px;border-radius:999px;letter-spacing:0.04em;text-transform:uppercase;}
-.exclusive-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(140px,1fr));gap:10px;}
-.exclusive-grid .exclusive-card{max-width:none;margin-bottom:0;}
+.exclusive-thumb-price{
+  position:absolute;bottom:4px;right:4px;background:rgba(0,0,0,0.75);color:var(--honey);
+  font-family:'JetBrains Mono',monospace;font-size:9.5px;padding:2px 6px;border-radius:6px;
+}
+.exclusive-thumb-desc{font-size:10px;color:var(--text-muted);line-height:1.3;margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 
 /* ---------- onglets galerie gratuite / exclusive dans la room ---------- */
 .room-tabs{display:flex;gap:8px;margin:14px 0 12px;border-bottom:1px solid var(--border);}
@@ -805,6 +804,8 @@ const I18N = {
     agencyContractBtn: "Contrat agence",
     signSignatureLabel: "Signature",
     paidWhatsappBtn: "Prévenir Honeymoon sur WhatsApp",
+    paidUploadingTeaser: "Envoi teaser…",
+    paidUploadingFull: "Envoi vidéo…",
     adminSub: 'Accès administrateur',
     adminEnter: 'Déverrouiller',
     adminCancel: 'Annuler',
@@ -1014,6 +1015,8 @@ const I18N = {
     agencyContractBtn: "Agency contract",
     signSignatureLabel: "Signature",
     paidWhatsappBtn: "Notify Honeymoon on WhatsApp",
+    paidUploadingTeaser: "Uploading teaser…",
+    paidUploadingFull: "Uploading video…",
     adminSub: 'Administrator access',
     adminEnter: 'Unlock',
     adminCancel: 'Cancel',
@@ -1223,6 +1226,8 @@ const I18N = {
     agencyContractBtn: "Contrato de agencia",
     signSignatureLabel: "Firma",
     paidWhatsappBtn: "Avisar a Honeymoon por WhatsApp",
+    paidUploadingTeaser: "Enviando teaser…",
+    paidUploadingFull: "Enviando video…",
     adminSub: 'Acceso administrador',
     adminEnter: 'Desbloquear',
     adminCancel: 'Cancelar',
@@ -1432,6 +1437,8 @@ const I18N = {
     agencyContractBtn: "Contratto agenzia",
     signSignatureLabel: "Firma",
     paidWhatsappBtn: "Avvisa Honeymoon su WhatsApp",
+    paidUploadingTeaser: "Invio teaser…",
+    paidUploadingFull: "Invio video…",
     adminSub: "Accesso amministratore",
     adminEnter: "Sblocca",
     adminCancel: "Annulla",
@@ -1641,6 +1648,8 @@ const I18N = {
     agencyContractBtn: "Contrato de agência",
     signSignatureLabel: "Assinatura",
     paidWhatsappBtn: "Avisar a Honeymoon no WhatsApp",
+    paidUploadingTeaser: "A enviar teaser…",
+    paidUploadingFull: "A enviar vídeo…",
     adminSub: "Acesso de administrador",
     adminEnter: "Desbloquear",
     adminCancel: "Cancelar",
@@ -1850,6 +1859,8 @@ const I18N = {
     agencyContractBtn: "Mkataba wa wakala",
     signSignatureLabel: "Sahihi",
     paidWhatsappBtn: "Arifu Honeymoon kwenye WhatsApp",
+    paidUploadingTeaser: "Inatuma teaser…",
+    paidUploadingFull: "Inatuma video…",
     adminSub: "Ufikiaji wa msimamizi",
     adminEnter: "Fungua",
     adminCancel: "Ghairi",
@@ -2059,6 +2070,8 @@ const I18N = {
     agencyContractBtn: "Isivumelwano seejensi",
     signSignatureLabel: "Isignesha",
     paidWhatsappBtn: "Yazisa i-Honeymoon nge-WhatsApp",
+    paidUploadingTeaser: "Ithumela i-teaser…",
+    paidUploadingFull: "Ithumela ividiyo…",
     adminSub: "Ukufinyelela komphathi",
     adminEnter: "Vula",
     adminCancel: "Khansela",
@@ -2268,6 +2281,8 @@ const I18N = {
     agencyContractBtn: "Konteraka ya ejensi",
     signSignatureLabel: "Saeno",
     paidWhatsappBtn: "Tsebisa Honeymoon ho WhatsApp",
+    paidUploadingTeaser: "E romela teaser…",
+    paidUploadingFull: "E romela video…",
     adminSub: "Phihlelo ya motsamaisi",
     adminEnter: "Bula",
     adminCancel: "Hlakola",
@@ -2477,6 +2492,8 @@ const I18N = {
     agencyContractBtn: "Kontra ya agence",
     signSignatureLabel: "Signature",
     paidWhatsappBtn: "Yebisa Honeymoon na WhatsApp",
+    paidUploadingTeaser: "Ezali kotinda teaser…",
+    paidUploadingFull: "Ezali kotinda video…",
     adminSub: "Bokoti ya mokambi",
     adminEnter: "Fungola",
     adminCancel: "Tika",
@@ -2686,6 +2703,8 @@ const I18N = {
     agencyContractBtn: "经纪公司合同",
     signSignatureLabel: "签名",
     paidWhatsappBtn: "通过WhatsApp通知Honeymoon",
+    paidUploadingTeaser: "正在上传预告片…",
+    paidUploadingFull: "正在上传视频…",
     adminSub: "管理员访问",
     adminEnter: "解锁",
     adminCancel: "取消",
@@ -2895,6 +2914,8 @@ const I18N = {
     agencyContractBtn: "エージェンシー契約",
     signSignatureLabel: "署名",
     paidWhatsappBtn: "WhatsAppでHoneymoonに知らせる",
+    paidUploadingTeaser: "ティザーを送信中…",
+    paidUploadingFull: "動画を送信中…",
     adminSub: "管理者アクセス",
     adminEnter: "ロック解除",
     adminCancel: "キャンセル",
@@ -3104,6 +3125,8 @@ const I18N = {
     agencyContractBtn: "Контракт с агентством",
     signSignatureLabel: "Подпись",
     paidWhatsappBtn: "Уведомить Honeymoon в WhatsApp",
+    paidUploadingTeaser: "Загрузка тизера…",
+    paidUploadingFull: "Загрузка видео…",
     adminSub: "Доступ администратора",
     adminEnter: "Разблокировать",
     adminCancel: "Отмена",
@@ -3313,6 +3336,8 @@ const I18N = {
     agencyContractBtn: "عقد الوكالة",
     signSignatureLabel: "التوقيع",
     paidWhatsappBtn: "إخطار Honeymoon عبر واتساب",
+    paidUploadingTeaser: "جارٍ إرسال المقطع الترويجي…",
+    paidUploadingFull: "جارٍ إرسال الفيديو…",
     adminSub: "وصول المسؤول",
     adminEnter: "فتح القفل",
     adminCancel: "إلغاء",
@@ -3522,6 +3547,8 @@ const I18N = {
     agencyContractBtn: "Kontrata ya agence",
     signSignatureLabel: "Signature",
     paidWhatsappBtn: "Zabisa Honeymoon na WhatsApp",
+    paidUploadingTeaser: "Ke tindisa teaser…",
+    paidUploadingFull: "Ke tindisa video…",
     adminSub: "Nzila ya mfumu",
     adminEnter: "Kangula",
     adminCancel: "Vidisa",
@@ -4279,21 +4306,32 @@ function openPaidContentModal(m, kind){
     if(kind === 'video' && !teaserFile){ toast(t('paidTeaserRequired')); return; }
 
     const saveBtn = document.getElementById('paid-save');
+    const cancelBtn = document.getElementById('paid-cancel');
     saveBtn.disabled = true;
+    cancelBtn.disabled = true;
+    const originalLabel = saveBtn.textContent;
     try{
+      let teaserUrl = '';
+      let teaserDocId = null;
+      if(kind === 'video'){
+        // Teaser d'abord (fichier léger, upload rapide) — donne un retour visuel immédiat.
+        saveBtn.textContent = t('paidUploadingTeaser');
+        const teaserPath = `paid/teasers/${m.id}/${Date.now()}_${teaserFile.name}`;
+        const teaserRef = storage.ref().child(teaserPath);
+        await uploadWithProgress(teaserRef, teaserFile, (pct) => {
+          saveBtn.textContent = `${t('paidUploadingTeaser')} ${pct}%`;
+        });
+        teaserUrl = await teaserRef.getDownloadURL();
+      }
+
+      saveBtn.textContent = t('paidUploadingFull');
       const fullUpload = await uploadMediaItem(m.id, fullFile, kind, {
         collection: 'paid_content',
         pathPrefix: 'paid/' + kind + 's',
-        extraFields: { price, description: desc, salesCount: 0, revenue: 0 }
+        extraFields: { price, description: desc, salesCount: 0, revenue: 0, teaserUrl },
+        onProgress: (pct) => { saveBtn.textContent = `${t('paidUploadingFull')} ${pct}%`; }
       });
-      let teaserUrl = '';
-      if(kind === 'video'){
-        const path = `paid/teasers/${m.id}/${Date.now()}_${teaserFile.name}`;
-        const ref = storage.ref().child(path);
-        await ref.put(teaserFile);
-        teaserUrl = await ref.getDownloadURL();
-        await db.collection('profiles').doc(m.id).collection('paid_content').doc(fullUpload.docId).set({ teaserUrl }, { merge: true });
-      }
+
       m.paidContent = m.paidContent || [];
       m.paidContent.unshift({
         docId: fullUpload.docId, kind, url: fullUpload.url, teaserUrl,
@@ -4304,9 +4342,11 @@ function openPaidContentModal(m, kind){
       toast(t('addedToast'));
     }catch(e){
       console.error('paid content save error', e);
-      toast(t('saveErrorToast'));
+      toast((LANG==='fr' ? 'Erreur : ' : 'Error: ') + (e && e.message ? e.message : e));
     }
     saveBtn.disabled = false;
+    cancelBtn.disabled = false;
+    saveBtn.textContent = originalLabel;
   };
 
   document.getElementById('paid-backdrop').classList.add('open');
@@ -4825,13 +4865,23 @@ async function uploadMediaItem(profileId, file, kind, opts){
   const pathPrefix = opts.pathPrefix || (kind + 's');
   const path = `${pathPrefix}/${profileId}/${Date.now()}_${file.name}`;
   const ref = storage.ref().child(path);
-  await ref.put(file);
+  await uploadWithProgress(ref, file, opts.onProgress);
   const url = await ref.getDownloadURL();
   const docRef = await db.collection('profiles').doc(profileId).collection(collectionName).add(Object.assign(
     { kind, url, createdAt: firebase.firestore.FieldValue.serverTimestamp() },
     opts.extraFields || {}
   ));
   return { docId: docRef.id, url };
+}
+function uploadWithProgress(ref, file, onProgress){
+  return new Promise((resolve, reject) => {
+    const task = ref.put(file);
+    task.on('state_changed',
+      (snap) => { if(onProgress) onProgress(Math.round((snap.bytesTransferred / snap.totalBytes) * 100)); },
+      (err) => reject(err),
+      () => resolve()
+    );
+  });
 }
 async function deleteMediaItem(profileId, docId, collectionName){
   await db.collection('profiles').doc(profileId).collection(collectionName || 'media').doc(docId).delete();
@@ -4855,27 +4905,6 @@ function renderGalleryBody(m){
   const canEdit = editMode && isAdmin();
   const body = document.getElementById('gallery-body');
 
-  const photoThumbs = m.galleryPhotos.map((item) => `
-    <div class="gallery-thumb">
-      <img src="${item.url}" data-full="${item.url}" data-type="image">
-      ${canEdit ? `<button class="rm" data-kind="photo" data-docid="${item.docId}">✕</button>` : ''}
-    </div>`).join('');
-
-  const videoThumbs = m.galleryVideos.map((item) => `
-    <div class="gallery-thumb">
-      <video src="${item.url}" data-full="${item.url}" data-type="video" muted></video>
-      ${canEdit ? `<button class="rm" data-kind="video" data-docid="${item.docId}">✕</button>` : ''}
-    </div>`).join('');
-
-  const addPhotoBtn = canEdit ? `
-    <div class="gallery-add-btn">＋
-      <input type="file" id="gal-add-photo" accept="image/*" multiple>
-    </div>` : '';
-  const addVideoBtn = canEdit ? `
-    <div class="gallery-add-btn">＋
-      <input type="file" id="gal-add-video" accept="video/*" multiple>
-    </div>` : '';
-
   const showcaseSection = (kind, labelKey, accept) => {
     const items = (m.showcaseMedia || []).filter(x => x.kind === kind);
     const thumbs = items.map(item => `
@@ -4897,24 +4926,49 @@ function renderGalleryBody(m){
       </div>`;
   };
 
+  const bio = m.bio || {};
+  const infoRow = (labelKey, value) => value ? `
+    <div class="vitrine-bio-row"><span class="k">${t(labelKey)}</span><span class="v">${escText(value)}</span></div>` : '';
+
   body.innerHTML = `
-    <div class="gallery-section">
-      <h4>${t('galleryPhotos')} (${m.galleryPhotos.length})</h4>
-      <div class="gallery-strip">${photoThumbs}${addPhotoBtn}</div>
-      ${(!m.galleryPhotos.length && !canEdit) ? `<p class="gallery-empty">${t('galleryEmpty')}</p>` : ''}
+    <div class="room-tabs">
+      <button class="room-tab-btn active" id="tab-btn-presentation">${t('showcaseTitle')}</button>
+      <button class="room-tab-btn" id="tab-btn-bio">${t('bioSectionTitle')}</button>
     </div>
-    <div class="gallery-section">
-      <h4>${t('galleryVideos')} (${m.galleryVideos.length})</h4>
-      <div class="gallery-strip">${videoThumbs}${addVideoBtn}</div>
-      ${(!m.galleryVideos.length && !canEdit) ? `<p class="gallery-empty">${t('galleryEmpty')}</p>` : ''}
-    </div>
-    <div style="margin-top:24px;padding-top:18px;border-top:1px solid var(--border);">
-      <h3 style="font-size:14px;color:var(--honey);">${t('showcaseTitle')}</h3>
+
+    <div class="room-tab-panel active" id="tab-panel-presentation">
       <p style="color:var(--text-muted);font-size:11.5px;margin:4px 0 12px;line-height:1.55;">${t('showcaseNote')}</p>
       ${showcaseSection('photo', 'showcasePhotoLabel', 'image/*')}
       ${showcaseSection('video_short', 'showcaseShortLabel', 'video/*')}
       ${showcaseSection('video_long', 'showcaseLongLabel', 'video/*')}
+      ${(!(m.showcaseMedia||[]).length && !canEdit) ? `<p class="gallery-empty">${t('galleryEmpty')}</p>` : ''}
     </div>
+
+    <div class="room-tab-panel" id="tab-panel-bio">
+      <div class="vitrine-bio-rows">
+        ${infoRow('stageName', m.name)}
+        ${infoRow('country', m.country)}
+        ${infoRow('platforms', m.platforms)}
+        ${infoRow('audience', m.audience)}
+        ${infoRow('content', m.contentType)}
+        ${infoRow('availLabel', m.availability)}
+        ${infoRow('bioOrigin', bio.origin)}
+        ${infoRow('bioNationality', bio.nationality)}
+        ${infoRow('bioAge', bio.age)}
+        ${infoRow('bioBodyType', bio.bodyType)}
+        ${infoRow('bioOrientation', bio.orientation)}
+        ${infoRow('bioLookingFor', bio.lookingFor)}
+        ${infoRow('bioPassions', bio.passions)}
+        ${infoRow('bioUniverse', bio.universe)}
+        ${infoRow('bioHobbies', bio.hobbies)}
+        ${infoRow('bioPersonality', bio.personality)}
+        ${infoRow('bioFantasies', bio.fantasies)}
+        ${infoRow('bioFetish', bio.fetish)}
+        ${infoRow('bioAmbitions', bio.ambitions)}
+        ${infoRow('bioSocials', bio.socials)}
+      </div>
+    </div>
+
     <div class="modal-actions">
       <button class="btn btn-primary btn-sm" id="gal-sign-contract-btn" style="flex:1;">${ICON_SIGN} ${t('signContractBtn')}</button>
     </div>
@@ -4924,14 +4978,22 @@ function renderGalleryBody(m){
     el.onclick = () => openLightbox(el.dataset.full, el.dataset.type);
   });
 
+  const tabPBtn = document.getElementById('tab-btn-presentation');
+  const tabBBtn = document.getElementById('tab-btn-bio');
+  tabPBtn.onclick = () => {
+    tabPBtn.classList.add('active'); tabBBtn.classList.remove('active');
+    document.getElementById('tab-panel-presentation').classList.add('active');
+    document.getElementById('tab-panel-bio').classList.remove('active');
+  };
+  tabBBtn.onclick = () => {
+    tabBBtn.classList.add('active'); tabPBtn.classList.remove('active');
+    document.getElementById('tab-panel-bio').classList.add('active');
+    document.getElementById('tab-panel-presentation').classList.remove('active');
+  };
+
   document.getElementById('gal-sign-contract-btn').onclick = () => openContractSignModal(m);
 
   if(canEdit){
-    const photoInput = document.getElementById('gal-add-photo');
-    if(photoInput) photoInput.onchange = (e) => handleGalleryAdd(m, e.target.files, 'galleryPhotos', () => renderGalleryBody(m));
-    const videoInput = document.getElementById('gal-add-video');
-    if(videoInput) videoInput.onchange = (e) => handleGalleryAdd(m, e.target.files, 'galleryVideos', () => renderGalleryBody(m));
-
     body.querySelectorAll('.gal-add-showcase').forEach(input => {
       input.onchange = async (e) => {
         const kind = input.dataset.showcaseKind;
@@ -4952,19 +5014,12 @@ function renderGalleryBody(m){
 
     body.querySelectorAll('.rm').forEach(btn => {
       btn.onclick = async () => {
-        const kind = btn.dataset.kind;
         const showcaseKind = btn.dataset.showcase;
         const docId = btn.dataset.docid;
         btn.disabled = true;
         try{
-          if(showcaseKind){
-            await db.collection('profiles').doc(m.id).collection('showcase_media').doc(docId).delete();
-            m.showcaseMedia = (m.showcaseMedia || []).filter(x => x.docId !== docId);
-          } else {
-            await deleteMediaItem(m.id, docId);
-            if(kind === 'photo') m.galleryPhotos = m.galleryPhotos.filter(x => x.docId !== docId);
-            else m.galleryVideos = m.galleryVideos.filter(x => x.docId !== docId);
-          }
+          await db.collection('profiles').doc(m.id).collection('showcase_media').doc(docId).delete();
+          m.showcaseMedia = (m.showcaseMedia || []).filter(x => x.docId !== docId);
           renderGalleryBody(m);
           renderRoster();
           toast(t('removedToast'));
@@ -5108,6 +5163,12 @@ function parseVitrineHash(){
 }
 
 window.addEventListener('hashchange', () => {
+  // Protection : si la créatrice est en train de travailler dans son espace
+  // (ex. après avoir choisi un fichier photo/vidéo), on ignore les
+  // changements d'URL involontaires pour ne pas la renvoyer sur la vitrine.
+  if(sessionStorage.getItem('hm_creator_slot') && document.getElementById('my-profile-shell').style.display !== 'none'){
+    return;
+  }
   const parsed = parseVitrineHash();
   if(parsed.open){
     requireAgeGate(() => openVitrine(parsed.id));
@@ -5202,31 +5263,23 @@ function exclusiveCardHtml(m, item){
   const desc = escText(item.description) || '';
   if(item.kind === 'video'){
     return `
-      <div class="exclusive-card">
-        ${item.teaserUrl ? `
-          <video class="exclusive-teaser" src="${item.teaserUrl}" muted autoplay loop playsinline></video>
-          <span class="exclusive-teaser-badge">${t('paidTeaserBadge')}</span>
-        ` : `<div class="exclusive-locked-overlay">${ICON_LOCK}</div>`}
-        <div class="exclusive-info">
-          ${desc ? `<p class="exclusive-desc">${desc}</p>` : ''}
-          <button type="button" class="btn btn-primary exclusive-unlock-btn" data-docid="${item.docId}" data-price="${item.price}" data-kind="video">
-            ${ICON_LOCK} ${t('paidUnlockBtn')} ${item.price}€
-          </button>
+      <div class="exclusive-thumb-wrap">
+        <div class="exclusive-thumb exclusive-unlock-btn" data-docid="${item.docId}" data-price="${item.price}" data-kind="video">
+          ${item.teaserUrl ? `<video src="${item.teaserUrl}" muted autoplay loop playsinline></video>` : ''}
+          <div class="exclusive-thumb-lock">${ICON_LOCK}</div>
+          <span class="exclusive-thumb-price">${item.price}€</span>
         </div>
+        ${desc ? `<p class="exclusive-thumb-desc">${desc}</p>` : ''}
       </div>`;
   }
   return `
-    <div class="exclusive-card">
-      <div class="exclusive-locked-photo-wrap">
+    <div class="exclusive-thumb-wrap">
+      <div class="exclusive-thumb exclusive-unlock-btn" data-docid="${item.docId}" data-price="${item.price}" data-kind="photo">
         <img class="exclusive-blurred-img" src="${item.url}">
-        <div class="exclusive-lock-badge">${ICON_LOCK}<span>${t('paidLockedPhoto')}</span></div>
+        <div class="exclusive-thumb-lock">${ICON_LOCK}</div>
+        <span class="exclusive-thumb-price">${item.price}€</span>
       </div>
-      <div class="exclusive-info">
-        ${desc ? `<p class="exclusive-desc">${desc}</p>` : ''}
-        <button type="button" class="btn btn-primary exclusive-unlock-btn" data-docid="${item.docId}" data-price="${item.price}" data-kind="photo">
-          ${ICON_LOCK} ${t('paidUnlockBtn')} ${item.price}€
-        </button>
-      </div>
+      ${desc ? `<p class="exclusive-thumb-desc">${desc}</p>` : ''}
     </div>`;
 }
 
