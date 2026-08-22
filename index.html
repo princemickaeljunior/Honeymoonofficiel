@@ -311,7 +311,7 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
   border:1px solid var(--border);cursor:pointer;
 }
 .exclusive-thumb img, .exclusive-thumb video{width:100%;height:100%;object-fit:cover;display:block;}
-.exclusive-blurred-img{filter:blur(10px) brightness(0.55) saturate(1.1);transform:scale(1.15);}
+.exclusive-blurred-img{filter:blur(5px) brightness(0.75) saturate(1.05);transform:scale(1.1);}
 .exclusive-thumb video{filter:brightness(0.7);}
 .exclusive-thumb-lock{
   position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--honey);
@@ -3794,11 +3794,13 @@ document.getElementById('creator-logout').onclick = () => {
   if(auth && auth.currentUser && auth.currentUser.isAnonymous){
     auth.signOut().catch(()=>{});
   }
+  document.getElementById('creator-pass').value = ''; // sécurité : n'affiche jamais un code déjà tapé
   document.getElementById('my-profile-shell').style.display = 'none';
   document.getElementById('gate').style.display = 'flex';
 };
 document.getElementById('agency-logout').onclick = () => {
   sessionStorage.removeItem('hm_gate_ok');
+  document.getElementById('gate-pass').value = ''; // sécurité : n'affiche jamais un code déjà tapé
   document.getElementById('app-shell').style.display = 'none';
   document.getElementById('gate').style.display = 'flex';
 };
@@ -3828,6 +3830,8 @@ function checkGate(){
   // Ni session créatrice, ni session agence : on revient toujours à l'écran de connexion.
   document.getElementById('app-shell').style.display = 'none';
   document.getElementById('my-profile-shell').style.display = 'none';
+  document.getElementById('gate-pass').value = ''; // sécurité : n'affiche jamais un code déjà tapé
+  document.getElementById('creator-pass').value = '';
   document.getElementById('gate').style.display = 'flex';
 }
 document.getElementById('gate-submit').onclick = () => {
@@ -4708,6 +4712,11 @@ function modelCardHtml(m){
 /* ---------------- edit modal (profile info) ---------------- */
 function openEdit(id){
   const m = roster.find(x => x.id === id);
+  const bio = Object.assign({
+    origin:'', nationality:'', age:'', bodyType:'', orientation:'', lookingFor:'',
+    passions:'', universe:'', hobbies:'', personality:'', fantasies:'', fetish:'',
+    ambitions:'', socials:'', workUrl:'', status:'offline'
+  }, m.bio || {});
   const body = document.getElementById('edit-body');
   document.getElementById('t-modal-title').textContent = t('modalTitle');
   body.innerHTML = `
@@ -4733,7 +4742,49 @@ function openEdit(id){
       <span id="ed-drop-label">${m.photo ? t('photoReplace') : t('photoPrompt')}</span>
       <input type="file" id="ed-file" accept="image/*">
     </div>
-    <label>${t('contractLabel')}</label>
+
+    <div style="margin-top:26px;padding-top:20px;border-top:1px solid var(--border);">
+      <h3 style="font-size:15px;margin-bottom:4px;">${t('bioSectionTitle')}</h3>
+      <p style="color:var(--text-muted);font-size:12px;margin-bottom:14px;line-height:1.6;">${t('bioSectionNote')}</p>
+
+      <label>${t('bioOrigin')}</label>
+      <input id="ed-bio-origin" value="${escText(bio.origin)}">
+      <label>${t('bioNationality')}</label>
+      <input id="ed-bio-nationality" value="${escText(bio.nationality)}">
+      <label>${t('bioAge')}</label>
+      <input id="ed-bio-age" type="number" min="18" value="${escText(bio.age)}">
+      <label>${t('bioBodyType')}</label>
+      <input id="ed-bio-bodytype" value="${escText(bio.bodyType)}">
+      <label>${t('bioOrientation')}</label>
+      <input id="ed-bio-orientation" value="${escText(bio.orientation)}">
+      <label>${t('bioLookingFor')}</label>
+      <input id="ed-bio-lookingfor" value="${escText(bio.lookingFor)}">
+      <label>${t('bioPassions')}</label>
+      <textarea id="ed-bio-passions" rows="2">${escText(bio.passions)}</textarea>
+      <label>${t('bioUniverse')}</label>
+      <textarea id="ed-bio-universe" rows="2">${escText(bio.universe)}</textarea>
+      <label>${t('bioHobbies')}</label>
+      <textarea id="ed-bio-hobbies" rows="2">${escText(bio.hobbies)}</textarea>
+      <label>${t('bioPersonality')}</label>
+      <textarea id="ed-bio-personality" rows="2">${escText(bio.personality)}</textarea>
+      <label>${t('bioFantasies')}</label>
+      <textarea id="ed-bio-fantasies" rows="2">${escText(bio.fantasies)}</textarea>
+      <label>${t('bioFetish')}</label>
+      <textarea id="ed-bio-fetish" rows="2">${escText(bio.fetish)}</textarea>
+      <label>${t('bioAmbitions')}</label>
+      <textarea id="ed-bio-ambitions" rows="2">${escText(bio.ambitions)}</textarea>
+      <label>${t('bioSocials')}</label>
+      <input id="ed-bio-socials" value="${escText(bio.socials)}" placeholder="${t('bioSocialsPh')}">
+      <label>${t('bioWorkUrl')}</label>
+      <input id="ed-bio-workurl" value="${escText(bio.workUrl)}" placeholder="${t('bioWorkUrlPh')}">
+      <label>${t('bioOnlineStatus')}</label>
+      <select id="ed-bio-status">
+        <option value="offline" ${bio.status !== 'online' ? 'selected' : ''}>${t('statusOffline')}</option>
+        <option value="online" ${bio.status === 'online' ? 'selected' : ''}>${t('statusOnline')}</option>
+      </select>
+    </div>
+
+    <label style="margin-top:26px;">${t('contractLabel')}</label>
     <div class="upload-drop ${m.contract ? 'has-file' : ''}" id="ed-contract-drop">
       <span id="ed-contract-label">${m.contract ? t('contractReplace') : t('contractPrompt')}</span>
       <input type="file" id="ed-contract-file" accept="application/pdf">
@@ -4824,6 +4875,24 @@ function openEdit(id){
     m.photo = newPhoto;
     m.contract = newContract;
     m.filled = !!name;
+    m.bio = {
+      origin: document.getElementById('ed-bio-origin').value.trim(),
+      nationality: document.getElementById('ed-bio-nationality').value.trim(),
+      age: document.getElementById('ed-bio-age').value.trim(),
+      bodyType: document.getElementById('ed-bio-bodytype').value.trim(),
+      orientation: document.getElementById('ed-bio-orientation').value.trim(),
+      lookingFor: document.getElementById('ed-bio-lookingfor').value.trim(),
+      passions: document.getElementById('ed-bio-passions').value.trim(),
+      universe: document.getElementById('ed-bio-universe').value.trim(),
+      hobbies: document.getElementById('ed-bio-hobbies').value.trim(),
+      personality: document.getElementById('ed-bio-personality').value.trim(),
+      fantasies: document.getElementById('ed-bio-fantasies').value.trim(),
+      fetish: document.getElementById('ed-bio-fetish').value.trim(),
+      ambitions: document.getElementById('ed-bio-ambitions').value.trim(),
+      socials: document.getElementById('ed-bio-socials').value.trim(),
+      workUrl: document.getElementById('ed-bio-workurl').value.trim(),
+      status: document.getElementById('ed-bio-status').value
+    };
 
     const localOk = saveRoster();
 
@@ -4834,6 +4903,7 @@ function openEdit(id){
         name: m.name, country: m.country, verified18: m.verified18,
         platforms: m.platforms, audience: m.audience, contentType: m.contentType,
         availability: m.availability, photo: m.photo, contract: m.contract, filled: m.filled,
+        bio: m.bio,
         updatedAt: firebase.firestore.FieldValue.serverTimestamp()
       }, { merge: true });
     }catch(e){
