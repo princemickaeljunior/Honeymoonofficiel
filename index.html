@@ -334,6 +334,21 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
   .no-print{display:none !important;}
 }
 
+/* ---------- mise en avant (featured) ---------- */
+.featured-card{border-color:var(--honey);box-shadow:0 0 0 1px var(--honey);}
+.featured-badge{
+  position:absolute;top:10px;left:10px;background:var(--honey);color:#160f04;
+  font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;
+  padding:4px 9px;border-radius:999px;display:flex;align-items:center;
+}
+.featured-toggle-btn{margin-top:8px;}
+
+/* ---------- signature de contrat ---------- */
+.sig-canvas-wrap{background:#fff;border-radius:10px;overflow:hidden;border:1px solid var(--border);touch-action:none;}
+#sig-canvas{display:block;width:100%;height:180px;cursor:crosshair;}
+.sig-clear-btn{margin-top:8px;}
+.contract-signed-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(95,214,122,0.12);color:#5fd67a;border:1px solid rgba(95,214,122,0.35);border-radius:999px;padding:5px 10px;font-size:11px;font-family:'JetBrains Mono',monospace;}
+
 /* ---------- contact ---------- */
 .contact{
   margin-top:56px;background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius);
@@ -406,7 +421,6 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
         <select class="lang-select" id="app-lang-select"></select>
       </div>
       <button class="edit-toggle" id="edit-toggle" style="max-width:140px;"><span id="t-edit-toggle">HM_Catalogue</span></button>
-      <button class="edit-toggle" id="sales-panel-btn" style="display:none;">💰 <span id="t-sales-btn">Ventes</span></button>
       <button class="creator-logout" id="agency-logout"><span id="t-agency-logout">Se déconnecter</span></button>
     </div>
   </div>
@@ -482,6 +496,16 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
   </div>
 </div>
 
+<!-- ================= CONTRACTS PANEL (admin: signed contracts across all creators) ================= -->
+<div class="modal-backdrop" id="contracts-backdrop"></div>
+<div class="modal-box" id="contracts-modal" style="max-width:560px;">
+  <h3 id="t-contracts-title">Contrats signés</h3>
+  <div id="contracts-body"></div>
+  <div class="modal-actions">
+    <button class="btn btn-ghost btn-sm" id="contracts-close" style="flex:1;"><span id="t-contracts-close">Fermer</span></button>
+  </div>
+</div>
+
 <!-- ================= INVOICE (printable) ================= -->
 <div class="modal-backdrop" id="invoice-backdrop"></div>
 <div class="modal-box" id="invoice-modal" style="max-width:480px;">
@@ -490,6 +514,12 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
     <button class="btn btn-ghost btn-sm" id="invoice-close" style="flex:1;">Fermer</button>
     <button class="btn btn-primary btn-sm" id="invoice-print" style="flex:1;">Imprimer / Enregistrer PDF</button>
   </div>
+</div>
+
+<!-- ================= CONTRACT SIGNATURE MODAL ================= -->
+<div class="modal-backdrop" id="sign-backdrop"></div>
+<div class="modal-box" id="sign-modal" style="max-width:480px;">
+  <div id="sign-body"></div>
 </div>
 
 <!-- ================= PAID CONTENT MODAL (creator: add paid photo/video) ================= -->
@@ -680,11 +710,39 @@ const I18N = {
     paidHolderLabel: "Titulaire du compte",
     paidSalesPanelBtn: "Ventes",
     paidSalesPanelTitle: "Ventes en attente",
+    paidVideoPrompt: "Cliquez pour choisir une vidéo",
+    showcaseTitle: "Présentation agences",
+    showcaseNote: "Contenu réservé à la présentation de la créatrice aux agences partenaires (non visible du grand public).",
+    showcasePhotoLabel: "Photo de présentation",
+    showcaseShortLabel: "Vidéo courte (showreel)",
+    showcaseLongLabel: "Vidéo longue (portfolio)",
+    signContractBtn: "Signer un contrat",
+    featuredBadge: "En avant",
+    featureBtn: "Mettre en avant",
+    unfeatureBtn: "Retirer la mise en avant",
+    signContractExplain: "En signant, vous confirmez être habilité(e) à engager votre agence dans un contrat de représentation avec cette créatrice, selon les conditions convenues avec Honeymoon.",
+    signAgencyName: "Nom de l'agence",
+    signRepName: "Nom du représentant",
+    signDrawLabel: "Signature (dessinez ci-dessous)",
+    signClearBtn: "Effacer",
+    signConsentText: "Je certifie être autorisé(e) à signer au nom de mon agence et j'accepte les conditions du contrat.",
+    signConfirmBtn: "Signer le contrat",
+    signMissingFields: "Merci de remplir le nom de l'agence et du représentant.",
+    signMissingSignature: "Merci de dessiner votre signature.",
+    signMissingConsent: "Merci de cocher la case de consentement.",
+    signCertTitle: "Certificat de signature n°",
+    signSavedToast: "Contrat signé et enregistré !",
+    signNoContracts: "Aucun contrat signé pour le moment.",
+    signViewBtn: "Voir",
+    contractsPanelBtn: "Contrats",
+    signedContractsTitle: "Contrats signés",
+    agencyContractBtn: "Contrat agence",
+    signSignatureLabel: "Signature",
     adminSub: 'Accès administrateur',
     adminEnter: 'Déverrouiller',
     adminCancel: 'Annuler',
     adminErr: 'Code administrateur incorrect.',
-    editToggleOn: "HM_Catalogue",
+    editToggleOn: "CTA",
     editToggleOff: 'Terminé',
     heroEyebrow: 'Catalogue',
     heroTitle: '5 créatrices, un contrat, une exigence : le sérieux.',
@@ -860,11 +918,39 @@ const I18N = {
     paidHolderLabel: "Account holder",
     paidSalesPanelBtn: "Sales",
     paidSalesPanelTitle: "Pending sales",
+    paidVideoPrompt: "Click to choose a video",
+    showcaseTitle: "Agency showcase",
+    showcaseNote: "Content reserved for presenting the creator to partner agencies (not visible to the general public).",
+    showcasePhotoLabel: "Presentation photo",
+    showcaseShortLabel: "Short video (showreel)",
+    showcaseLongLabel: "Long video (portfolio)",
+    signContractBtn: "Sign a contract",
+    featuredBadge: "Featured",
+    featureBtn: "Feature",
+    unfeatureBtn: "Unfeature",
+    signContractExplain: "By signing, you confirm you are authorized to commit your agency to a representation contract with this creator, under the terms agreed with Honeymoon.",
+    signAgencyName: "Agency name",
+    signRepName: "Representative name",
+    signDrawLabel: "Signature (draw below)",
+    signClearBtn: "Clear",
+    signConsentText: "I certify I am authorized to sign on behalf of my agency and I accept the terms of the contract.",
+    signConfirmBtn: "Sign contract",
+    signMissingFields: "Please fill in the agency and representative names.",
+    signMissingSignature: "Please draw your signature.",
+    signMissingConsent: "Please check the consent box.",
+    signCertTitle: "Signature certificate no.",
+    signSavedToast: "Contract signed and saved!",
+    signNoContracts: "No signed contracts yet.",
+    signViewBtn: "View",
+    contractsPanelBtn: "Contracts",
+    signedContractsTitle: "Signed contracts",
+    agencyContractBtn: "Agency contract",
+    signSignatureLabel: "Signature",
     adminSub: 'Administrator access',
     adminEnter: 'Unlock',
     adminCancel: 'Cancel',
     adminErr: 'Incorrect administrator code.',
-    editToggleOn: "HM_Catalogue",
+    editToggleOn: "CTA",
     editToggleOff: 'Done',
     heroEyebrow: 'Catalogue',
     heroTitle: '5 creators, one contract, one standard: seriousness.',
@@ -1040,11 +1126,39 @@ const I18N = {
     paidHolderLabel: "Titular de la cuenta",
     paidSalesPanelBtn: "Ventas",
     paidSalesPanelTitle: "Ventas pendientes",
+    paidVideoPrompt: "Haz clic para elegir un video",
+    showcaseTitle: "Presentación para agencias",
+    showcaseNote: "Contenido reservado para presentar a la creadora a las agencias asociadas (no visible al público general).",
+    showcasePhotoLabel: "Foto de presentación",
+    showcaseShortLabel: "Video corto (showreel)",
+    showcaseLongLabel: "Video largo (portafolio)",
+    signContractBtn: "Firmar un contrato",
+    featuredBadge: "Destacada",
+    featureBtn: "Destacar",
+    unfeatureBtn: "Quitar destacado",
+    signContractExplain: "Al firmar, confirmas que estás autorizado/a para comprometer a tu agencia en un contrato de representación con esta creadora, según las condiciones acordadas con Honeymoon.",
+    signAgencyName: "Nombre de la agencia",
+    signRepName: "Nombre del representante",
+    signDrawLabel: "Firma (dibuja abajo)",
+    signClearBtn: "Borrar",
+    signConsentText: "Certifico que estoy autorizado/a a firmar en nombre de mi agencia y acepto las condiciones del contrato.",
+    signConfirmBtn: "Firmar contrato",
+    signMissingFields: "Por favor completa el nombre de la agencia y del representante.",
+    signMissingSignature: "Por favor dibuja tu firma.",
+    signMissingConsent: "Por favor marca la casilla de consentimiento.",
+    signCertTitle: "Certificado de firma n.º",
+    signSavedToast: "¡Contrato firmado y guardado!",
+    signNoContracts: "Aún no hay contratos firmados.",
+    signViewBtn: "Ver",
+    contractsPanelBtn: "Contratos",
+    signedContractsTitle: "Contratos firmados",
+    agencyContractBtn: "Contrato de agencia",
+    signSignatureLabel: "Firma",
     adminSub: 'Acceso administrador',
     adminEnter: 'Desbloquear',
     adminCancel: 'Cancelar',
     adminErr: 'Código de administrador incorrecto.',
-    editToggleOn: "HM_Catalogue",
+    editToggleOn: "CTA",
     editToggleOff: 'Listo',
     heroEyebrow: 'Catálogo',
     heroTitle: '5 creadoras, un contrato, una exigencia: la seriedad.',
@@ -1220,11 +1334,39 @@ const I18N = {
     paidHolderLabel: "Intestatario del conto",
     paidSalesPanelBtn: "Vendite",
     paidSalesPanelTitle: "Vendite in attesa",
+    paidVideoPrompt: "Clicca per scegliere un video",
+    showcaseTitle: "Presentazione per agenzie",
+    showcaseNote: "Contenuto riservato alla presentazione della creatrice alle agenzie partner (non visibile al pubblico generale).",
+    showcasePhotoLabel: "Foto di presentazione",
+    showcaseShortLabel: "Video breve (showreel)",
+    showcaseLongLabel: "Video lungo (portfolio)",
+    signContractBtn: "Firma un contratto",
+    featuredBadge: "In evidenza",
+    featureBtn: "Metti in evidenza",
+    unfeatureBtn: "Rimuovi dall'evidenza",
+    signContractExplain: "Firmando, confermi di essere autorizzato/a a impegnare la tua agenzia in un contratto di rappresentanza con questa creatrice, secondo le condizioni concordate con Honeymoon.",
+    signAgencyName: "Nome dell'agenzia",
+    signRepName: "Nome del rappresentante",
+    signDrawLabel: "Firma (disegna qui sotto)",
+    signClearBtn: "Cancella",
+    signConsentText: "Certifico di essere autorizzato/a a firmare per conto della mia agenzia e accetto le condizioni del contratto.",
+    signConfirmBtn: "Firma il contratto",
+    signMissingFields: "Compila il nome dell'agenzia e del rappresentante.",
+    signMissingSignature: "Disegna la tua firma.",
+    signMissingConsent: "Seleziona la casella di consenso.",
+    signCertTitle: "Certificato di firma n.",
+    signSavedToast: "Contratto firmato e salvato!",
+    signNoContracts: "Nessun contratto firmato per ora.",
+    signViewBtn: "Visualizza",
+    contractsPanelBtn: "Contratti",
+    signedContractsTitle: "Contratti firmati",
+    agencyContractBtn: "Contratto agenzia",
+    signSignatureLabel: "Firma",
     adminSub: "Accesso amministratore",
     adminEnter: "Sblocca",
     adminCancel: "Annulla",
     adminErr: "Codice amministratore errato.",
-    editToggleOn: "HM_Catalogue",
+    editToggleOn: "CTA",
     editToggleOff: "Fatto",
     heroEyebrow: "Catalogo",
     heroTitle: "5 creatrici, un contratto, un'esigenza: la serietà.",
@@ -1400,11 +1542,39 @@ const I18N = {
     paidHolderLabel: "Titular da conta",
     paidSalesPanelBtn: "Vendas",
     paidSalesPanelTitle: "Vendas pendentes",
+    paidVideoPrompt: "Clica para escolher um vídeo",
+    showcaseTitle: "Apresentação para agências",
+    showcaseNote: "Conteúdo reservado para apresentar a criadora às agências parceiras (não visível ao público em geral).",
+    showcasePhotoLabel: "Foto de apresentação",
+    showcaseShortLabel: "Vídeo curto (showreel)",
+    showcaseLongLabel: "Vídeo longo (portfólio)",
+    signContractBtn: "Assinar um contrato",
+    featuredBadge: "Em destaque",
+    featureBtn: "Destacar",
+    unfeatureBtn: "Remover destaque",
+    signContractExplain: "Ao assinar, confirmas que estás autorizado/a a comprometer a tua agência num contrato de representação com esta criadora, segundo as condições acordadas com a Honeymoon.",
+    signAgencyName: "Nome da agência",
+    signRepName: "Nome do representante",
+    signDrawLabel: "Assinatura (desenha abaixo)",
+    signClearBtn: "Limpar",
+    signConsentText: "Certifico que estou autorizado/a a assinar em nome da minha agência e aceito as condições do contrato.",
+    signConfirmBtn: "Assinar contrato",
+    signMissingFields: "Por favor preenche o nome da agência e do representante.",
+    signMissingSignature: "Por favor desenha a tua assinatura.",
+    signMissingConsent: "Por favor marca a caixa de consentimento.",
+    signCertTitle: "Certificado de assinatura n.º",
+    signSavedToast: "Contrato assinado e guardado!",
+    signNoContracts: "Ainda sem contratos assinados.",
+    signViewBtn: "Ver",
+    contractsPanelBtn: "Contratos",
+    signedContractsTitle: "Contratos assinados",
+    agencyContractBtn: "Contrato de agência",
+    signSignatureLabel: "Assinatura",
     adminSub: "Acesso de administrador",
     adminEnter: "Desbloquear",
     adminCancel: "Cancelar",
     adminErr: "Código de administrador incorreto.",
-    editToggleOn: "HM_Catalogue",
+    editToggleOn: "CTA",
     editToggleOff: "Concluído",
     heroEyebrow: "Catálogo",
     heroTitle: "5 criadoras, um contrato, uma exigência: seriedade.",
@@ -1580,11 +1750,39 @@ const I18N = {
     paidHolderLabel: "Mmiliki wa akaunti",
     paidSalesPanelBtn: "Mauzo",
     paidSalesPanelTitle: "Mauzo yanayosubiri",
+    paidVideoPrompt: "Bofya kuchagua video",
+    showcaseTitle: "Uwasilishaji kwa mashirika",
+    showcaseNote: "Maudhui yaliyohifadhiwa kwa ajili ya kuwasilisha muundaji kwa mashirika washirika (hayaonekani kwa umma).",
+    showcasePhotoLabel: "Picha ya uwasilishaji",
+    showcaseShortLabel: "Video fupi (showreel)",
+    showcaseLongLabel: "Video ndefu (portfolio)",
+    signContractBtn: "Sahihi mkataba",
+    featuredBadge: "Iliyoangaziwa",
+    featureBtn: "Angazia",
+    unfeatureBtn: "Ondoa mwangaza",
+    signContractExplain: "Kwa kusaini, unathibitisha kuwa una idhini ya kuifunga shirika lako kwenye mkataba wa uwakilishi na muundaji huyu, kulingana na masharti yaliyokubaliwa na Honeymoon.",
+    signAgencyName: "Jina la shirika",
+    signRepName: "Jina la mwakilishi",
+    signDrawLabel: "Sahihi (chora hapa chini)",
+    signClearBtn: "Futa",
+    signConsentText: "Ninathibitisha kuwa nina idhini ya kutia sahihi kwa niaba ya shirika langu na ninakubali masharti ya mkataba.",
+    signConfirmBtn: "Sahihi mkataba",
+    signMissingFields: "Tafadhali jaza jina la shirika na la mwakilishi.",
+    signMissingSignature: "Tafadhali chora sahihi yako.",
+    signMissingConsent: "Tafadhali tia alama kwenye kisanduku cha idhini.",
+    signCertTitle: "Cheti cha sahihi na.",
+    signSavedToast: "Mkataba umesainiwa na kuhifadhiwa!",
+    signNoContracts: "Hakuna mkataba uliosainiwa bado.",
+    signViewBtn: "Angalia",
+    contractsPanelBtn: "Mikataba",
+    signedContractsTitle: "Mikataba iliyosainiwa",
+    agencyContractBtn: "Mkataba wa wakala",
+    signSignatureLabel: "Sahihi",
     adminSub: "Ufikiaji wa msimamizi",
     adminEnter: "Fungua",
     adminCancel: "Ghairi",
     adminErr: "Nambari ya msimamizi sio sahihi.",
-    editToggleOn: "HM_Catalogue",
+    editToggleOn: "CTA",
     editToggleOff: "Imekamilika",
     heroEyebrow: "Katalogi",
     heroTitle: "Waundaji 5, mkataba mmoja, sharti moja: umakini.",
@@ -1760,11 +1958,39 @@ const I18N = {
     paidHolderLabel: "Umnikazi we-akhawunti",
     paidSalesPanelBtn: "Ukuthengiswa",
     paidSalesPanelTitle: "Ukuthengiswa okulindile",
+    paidVideoPrompt: "Chofoza ukukhetha ividiyo",
+    showcaseTitle: "Ukwethulwa kumaejensi",
+    showcaseNote: "Okuqukethwe okugodliwe kokwethula umdali kumaejensi angane (akubonakali emphakathini jikelele).",
+    showcasePhotoLabel: "Isithombe sokwethula",
+    showcaseShortLabel: "Ividiyo emfushane (showreel)",
+    showcaseLongLabel: "Ividiyo ende (portfolio)",
+    signContractBtn: "Sayina isivumelwano",
+    featuredBadge: "Kuvezwe",
+    featureBtn: "Veza",
+    unfeatureBtn: "Susa ukuveza",
+    signContractExplain: "Ngokusayina, uqinisekisa ukuthi unemvume yokubopha inhlangano yakho esivumelwaneni sokumela lo mdali, ngokwemibandela evunyelwene ne-Honeymoon.",
+    signAgencyName: "Igama lenhlangano",
+    signRepName: "Igama lommeleli",
+    signDrawLabel: "Isignesha (dweba ngezansi)",
+    signClearBtn: "Sula",
+    signConsentText: "Ngiyaqinisekisa ukuthi nginemvume yokusayina egameni lenhlangano yami futhi ngiyayamukela imibandela yesivumelwano.",
+    signConfirmBtn: "Sayina isivumelwano",
+    signMissingFields: "Sicela ugcwalise igama lenhlangano nelommeleli.",
+    signMissingSignature: "Sicela udwebe isignesha yakho.",
+    signMissingConsent: "Sicela uhloniphe ibhokisi lemvume.",
+    signCertTitle: "Isitifiketi sesignesha nombolo",
+    signSavedToast: "Isivumelwano sisayiniwe futhi sigciniwe!",
+    signNoContracts: "Asikho isivumelwano esisayiniwe okwamanje.",
+    signViewBtn: "Buka",
+    contractsPanelBtn: "Izivumelwano",
+    signedContractsTitle: "Izivumelwano ezisayiniwe",
+    agencyContractBtn: "Isivumelwano seejensi",
+    signSignatureLabel: "Isignesha",
     adminSub: "Ukufinyelela komphathi",
     adminEnter: "Vula",
     adminCancel: "Khansela",
     adminErr: "Ikhodi yomphathi engalungile.",
-    editToggleOn: "HM_Catalogue",
+    editToggleOn: "CTA",
     editToggleOff: "Kwenziwe",
     heroEyebrow: "Ikhathalogu",
     heroTitle: "Abadali abangu-5, isivumelwano esisodwa, isidingo esisodwa: ukuzimisela.",
@@ -1940,11 +2166,39 @@ const I18N = {
     paidHolderLabel: "Mong'a akhaonto",
     paidSalesPanelBtn: "Dithekiso",
     paidSalesPanelTitle: "Dithekiso tse lebeletseng",
+    paidVideoPrompt: "Tobetsa ho kgetha video",
+    showcaseTitle: "Tlhahiso ho diejensi",
+    showcaseNote: "Diteng tse boloketsweng ho hlahisa mmopi ho diejensi tse ntseng tsa hae (ha di bonahale ho sechaba ka kakaretso).",
+    showcasePhotoLabel: "Setshwantsho sa tlhahiso",
+    showcaseShortLabel: "Video e khutshwane (showreel)",
+    showcaseLongLabel: "Video e telele (portfolio)",
+    signContractBtn: "Saena konteraka",
+    featuredBadge: "E behilweng pele",
+    featureBtn: "Beha pele",
+    unfeatureBtn: "Tlosa ho beha pele",
+    signContractExplain: "Ka ho saena, o netefatsa hore o na le tumello ya ho tlama ejensi ya hao konterakeng ya boemedi le mmopi enwa, ho ya ka dintlha tse dumellanweng le Honeymoon.",
+    signAgencyName: "Lebitso la ejensi",
+    signRepName: "Lebitso la moemedi",
+    signDrawLabel: "Saeno (taka ka tlase)",
+    signClearBtn: "Hlakola",
+    signConsentText: "Ke netefatsa hore ke na le tumello ya ho saena lebitsong la ejensi ya ka mme ke dumela dintlha tsa konteraka.",
+    signConfirmBtn: "Saena konteraka",
+    signMissingFields: "Ka kopo tlatsa lebitso la ejensi le la moemedi.",
+    signMissingSignature: "Ka kopo taka saeno ya hao.",
+    signMissingConsent: "Ka kopo tobetsa lebokose la tumello.",
+    signCertTitle: "Setifikeiti sa saeno nomoro",
+    signSavedToast: "Konteraka e saennwe mme e bolokilwe!",
+    signNoContracts: "Ha ho na konteraka e saennweng ka nako ena.",
+    signViewBtn: "Sheba",
+    contractsPanelBtn: "Dikonteraka",
+    signedContractsTitle: "Dikonteraka tse saennweng",
+    agencyContractBtn: "Konteraka ya ejensi",
+    signSignatureLabel: "Saeno",
     adminSub: "Phihlelo ya motsamaisi",
     adminEnter: "Bula",
     adminCancel: "Hlakola",
     adminErr: "Khoutu ya motsamaisi e fosahetseng.",
-    editToggleOn: "HM_Catalogue",
+    editToggleOn: "CTA",
     editToggleOff: "Ho phethiloe",
     heroEyebrow: "Lethathamo",
     heroTitle: "Babopi ba 5, konteraka e le nngwe, tlhoko e le nngwe: botebo.",
@@ -2120,11 +2374,39 @@ const I18N = {
     paidHolderLabel: "Nkolo ya compte",
     paidSalesPanelBtn: "Kotekisa",
     paidSalesPanelTitle: "Kotekisa oyo ezali kozela",
+    paidVideoPrompt: "Finela mpo na kopona video",
+    showcaseTitle: "Kolakisa na ba agence",
+    showcaseNote: "Bikuma bibombami mpo na kolakisa mokeli epai ya ba agence baninga (emonanaka na bato nyonso te).",
+    showcasePhotoLabel: "Foto ya kolakisa",
+    showcaseShortLabel: "Video ya mokuse (showreel)",
+    showcaseLongLabel: "Video molayi (portfolio)",
+    signContractBtn: "Tia signature na kontra",
+    featuredBadge: "Elakisami",
+    featureBtn: "Lakisa",
+    unfeatureBtn: "Longola kolakisama",
+    signContractExplain: "Na kotia signature, ondimi ete ozali na ndingisa ya kokanga agence na yo na kontra ya boyekoli na mokeli oyo, kolanda makanisi mayokani na Honeymoon.",
+    signAgencyName: "Nkombo ya agence",
+    signRepName: "Nkombo ya moyekoli",
+    signDrawLabel: "Signature (koma na nse)",
+    signClearBtn: "Longola",
+    signConsentText: "Nazali kondima ete nazali na ndingisa ya kotia signature na kombo ya agence na ngai mpe nandimi makanisi ya kontra.",
+    signConfirmBtn: "Tia signature na kontra",
+    signMissingFields: "Svp tondisa nkombo ya agence na moyekoli.",
+    signMissingSignature: "Svp koma signature na yo.",
+    signMissingConsent: "Svp finela kesí ya ndingisa.",
+    signCertTitle: "Certificat ya signature n°",
+    signSavedToast: "Kontra etié signature mpe ebombami!",
+    signNoContracts: "Kontra moko te etié signature sikoyo.",
+    signViewBtn: "Tala",
+    contractsPanelBtn: "Ba kontra",
+    signedContractsTitle: "Ba kontra oyo etié signature",
+    agencyContractBtn: "Kontra ya agence",
+    signSignatureLabel: "Signature",
     adminSub: "Bokoti ya mokambi",
     adminEnter: "Fungola",
     adminCancel: "Tika",
     adminErr: "Kode ya mokambi ezali malamu te.",
-    editToggleOn: "HM_Catalogue",
+    editToggleOn: "CTA",
     editToggleOff: "Esili",
     heroEyebrow: "Catalogue",
     heroTitle: "Bakeli 5, kontra moko, mposa moko: bosolo.",
@@ -2300,11 +2582,39 @@ const I18N = {
     paidHolderLabel: "账户持有人",
     paidSalesPanelBtn: "销售",
     paidSalesPanelTitle: "待处理销售",
+    paidVideoPrompt: "点击选择视频",
+    showcaseTitle: "经纪公司展示",
+    showcaseNote: "仅用于向合作经纪公司展示创作者的内容（不对公众开放）。",
+    showcasePhotoLabel: "展示照片",
+    showcaseShortLabel: "短片（showreel）",
+    showcaseLongLabel: "长片（作品集）",
+    signContractBtn: "签署合同",
+    featuredBadge: "精选",
+    featureBtn: "设为精选",
+    unfeatureBtn: "取消精选",
+    signContractExplain: "签署即表示您确认有权代表贵经纪公司与该创作者签订代理合同，条款以与 Honeymoon 商定为准。",
+    signAgencyName: "经纪公司名称",
+    signRepName: "代表人姓名",
+    signDrawLabel: "签名（在下方绘制）",
+    signClearBtn: "清除",
+    signConsentText: "我确认我有权代表本公司签署，并接受合同条款。",
+    signConfirmBtn: "签署合同",
+    signMissingFields: "请填写经纪公司名称和代表人姓名。",
+    signMissingSignature: "请绘制您的签名。",
+    signMissingConsent: "请勾选同意选项。",
+    signCertTitle: "签名证书编号",
+    signSavedToast: "合同已签署并保存！",
+    signNoContracts: "暂无已签署的合同。",
+    signViewBtn: "查看",
+    contractsPanelBtn: "合同",
+    signedContractsTitle: "已签署的合同",
+    agencyContractBtn: "经纪公司合同",
+    signSignatureLabel: "签名",
     adminSub: "管理员访问",
     adminEnter: "解锁",
     adminCancel: "取消",
     adminErr: "管理员密码错误。",
-    editToggleOn: "HM_Catalogue",
+    editToggleOn: "CTA",
     editToggleOff: "完成",
     heroEyebrow: "目录",
     heroTitle: "5位创作者，一份合同，一个要求：认真负责。",
@@ -2480,11 +2790,39 @@ const I18N = {
     paidHolderLabel: "口座名義人",
     paidSalesPanelBtn: "販売",
     paidSalesPanelTitle: "保留中の販売",
+    paidVideoPrompt: "クリックして動画を選択",
+    showcaseTitle: "エージェンシー向けプレゼンテーション",
+    showcaseNote: "提携エージェンシーにクリエイターを紹介するための限定コンテンツです（一般公開はされません）。",
+    showcasePhotoLabel: "紹介用写真",
+    showcaseShortLabel: "ショート動画（ショーリール）",
+    showcaseLongLabel: "ロング動画（ポートフォリオ）",
+    signContractBtn: "契約書に署名",
+    featuredBadge: "注目",
+    featureBtn: "注目に設定",
+    unfeatureBtn: "注目を解除",
+    signContractExplain: "署名することで、貴社を代表してこのクリエイターとの代理契約を締結する権限があることを確認したものとみなされます（条件はHoneymoonとの合意に基づきます）。",
+    signAgencyName: "エージェンシー名",
+    signRepName: "担当者名",
+    signDrawLabel: "署名（下に描いてください）",
+    signClearBtn: "消去",
+    signConsentText: "私は自社を代表して署名する権限があることを証明し、契約条件に同意します。",
+    signConfirmBtn: "契約書に署名する",
+    signMissingFields: "エージェンシー名と担当者名を入力してください。",
+    signMissingSignature: "署名を描いてください。",
+    signMissingConsent: "同意のチェックボックスにチェックを入れてください。",
+    signCertTitle: "署名証明書番号",
+    signSavedToast: "契約が署名・保存されました！",
+    signNoContracts: "署名済みの契約はまだありません。",
+    signViewBtn: "表示",
+    contractsPanelBtn: "契約書",
+    signedContractsTitle: "署名済み契約書",
+    agencyContractBtn: "エージェンシー契約",
+    signSignatureLabel: "署名",
     adminSub: "管理者アクセス",
     adminEnter: "ロック解除",
     adminCancel: "キャンセル",
     adminErr: "管理者コードが正しくありません。",
-    editToggleOn: "HM_Catalogue",
+    editToggleOn: "CTA",
     editToggleOff: "完了",
     heroEyebrow: "カタログ",
     heroTitle: "5人のクリエイター、1つの契約、1つの条件：誠実さ。",
@@ -2660,11 +2998,39 @@ const I18N = {
     paidHolderLabel: "Владелец счёта",
     paidSalesPanelBtn: "Продажи",
     paidSalesPanelTitle: "Ожидающие продажи",
+    paidVideoPrompt: "Нажмите, чтобы выбрать видео",
+    showcaseTitle: "Презентация для агентств",
+    showcaseNote: "Контент, предназначенный только для представления создательницы партнёрским агентствам (не виден широкой публике).",
+    showcasePhotoLabel: "Презентационное фото",
+    showcaseShortLabel: "Короткое видео (шоурил)",
+    showcaseLongLabel: "Длинное видео (портфолио)",
+    signContractBtn: "Подписать контракт",
+    featuredBadge: "В подборке",
+    featureBtn: "Добавить в подборку",
+    unfeatureBtn: "Убрать из подборки",
+    signContractExplain: "Подписывая, вы подтверждаете, что уполномочены заключить от имени вашего агентства контракт на представление интересов этой создательницы на условиях, согласованных с Honeymoon.",
+    signAgencyName: "Название агентства",
+    signRepName: "Имя представителя",
+    signDrawLabel: "Подпись (нарисуйте ниже)",
+    signClearBtn: "Очистить",
+    signConsentText: "Я подтверждаю, что уполномочен(а) подписать от имени моего агентства, и принимаю условия контракта.",
+    signConfirmBtn: "Подписать контракт",
+    signMissingFields: "Пожалуйста, заполните название агентства и имя представителя.",
+    signMissingSignature: "Пожалуйста, нарисуйте вашу подпись.",
+    signMissingConsent: "Пожалуйста, отметьте галочку согласия.",
+    signCertTitle: "Сертификат подписи №",
+    signSavedToast: "Контракт подписан и сохранён!",
+    signNoContracts: "Пока нет подписанных контрактов.",
+    signViewBtn: "Просмотр",
+    contractsPanelBtn: "Контракты",
+    signedContractsTitle: "Подписанные контракты",
+    agencyContractBtn: "Контракт с агентством",
+    signSignatureLabel: "Подпись",
     adminSub: "Доступ администратора",
     adminEnter: "Разблокировать",
     adminCancel: "Отмена",
     adminErr: "Неверный код администратора.",
-    editToggleOn: "HM_Catalogue",
+    editToggleOn: "CTA",
     editToggleOff: "Готово",
     heroEyebrow: "Каталог",
     heroTitle: "5 создательниц, один контракт, одно требование: серьёзность.",
@@ -2840,11 +3206,39 @@ const I18N = {
     paidHolderLabel: "صاحب الحساب",
     paidSalesPanelBtn: "المبيعات",
     paidSalesPanelTitle: "المبيعات المعلقة",
+    paidVideoPrompt: "انقر لاختيار فيديو",
+    showcaseTitle: "عرض للوكالات",
+    showcaseNote: "محتوى مخصص لتقديم المنشئة إلى الوكالات الشريكة (غير مرئي للجمهور العام).",
+    showcasePhotoLabel: "صورة تقديمية",
+    showcaseShortLabel: "فيديو قصير (عرض تعريفي)",
+    showcaseLongLabel: "فيديو طويل (ملف الأعمال)",
+    signContractBtn: "توقيع عقد",
+    featuredBadge: "مميزة",
+    featureBtn: "إضافة إلى المميز",
+    unfeatureBtn: "إزالة من المميز",
+    signContractExplain: "بالتوقيع، فإنك تؤكد أنك مخوّل لإلزام وكالتك بعقد تمثيل مع هذه المنشئة، وفقًا للشروط المتفق عليها مع Honeymoon.",
+    signAgencyName: "اسم الوكالة",
+    signRepName: "اسم الممثل",
+    signDrawLabel: "التوقيع (ارسم أدناه)",
+    signClearBtn: "مسح",
+    signConsentText: "أشهد أنني مخوّل بالتوقيع نيابة عن وكالتي وأوافق على شروط العقد.",
+    signConfirmBtn: "توقيع العقد",
+    signMissingFields: "يرجى ملء اسم الوكالة واسم الممثل.",
+    signMissingSignature: "يرجى رسم توقيعك.",
+    signMissingConsent: "يرجى تحديد مربع الموافقة.",
+    signCertTitle: "شهادة توقيع رقم",
+    signSavedToast: "تم توقيع العقد وحفظه!",
+    signNoContracts: "لا توجد عقود موقعة بعد.",
+    signViewBtn: "عرض",
+    contractsPanelBtn: "العقود",
+    signedContractsTitle: "العقود الموقعة",
+    agencyContractBtn: "عقد الوكالة",
+    signSignatureLabel: "التوقيع",
     adminSub: "وصول المسؤول",
     adminEnter: "فتح القفل",
     adminCancel: "إلغاء",
     adminErr: "رمز المسؤول غير صحيح.",
-    editToggleOn: "HM_Catalogue",
+    editToggleOn: "CTA",
     editToggleOff: "تم",
     heroEyebrow: "الكتالوج",
     heroTitle: "5 منشئات محتوى، عقد واحد، شرط واحد: الجدية.",
@@ -3020,11 +3414,39 @@ const I18N = {
     paidHolderLabel: "Mfumu ya compte",
     paidSalesPanelBtn: "Kuteka",
     paidSalesPanelTitle: "Kuteka yina ke vingila",
+    paidVideoPrompt: "Fina sambu na kusola video",
+    showcaseTitle: "Kulakisa na ba agence",
+    showcaseNote: "Bima bindimami mpo na kulakisa metila na ba agence banduku (emonanaka na bantu yonso ve).",
+    showcasePhotoLabel: "Kifwani ya kulakisa",
+    showcaseShortLabel: "Video ya nkufi (showreel)",
+    showcaseLongLabel: "Video ya nda (portfolio)",
+    signContractBtn: "Tula signature na kontrata",
+    featuredBadge: "Elakisami",
+    featureBtn: "Lakisa",
+    unfeatureBtn: "Katula kulakisama",
+    signContractExplain: "Na kutula signature, ke ndima nde kele na ndingisa ya kukanga agence na nge na kontrata ya kimosi ye metila yayi, mu kulanda makanisi mayikanama ye Honeymoon.",
+    signAgencyName: "Nkumbu ya agence",
+    signRepName: "Nkumbu ya moyikani",
+    signDrawLabel: "Signature (soneka na nse)",
+    signClearBtn: "Katula",
+    signConsentText: "Ke ndima nde kele na ndingisa ya kutula signature na nkumbu ya agence na mono ye ke ndima makanisi ya kontrata.",
+    signConfirmBtn: "Tula signature na kontrata",
+    signMissingFields: "Nsweswe fulusa nkumbu ya agence ye ya moyikani.",
+    signMissingSignature: "Nsweswe soneka signature na nge.",
+    signMissingConsent: "Nsweswe tula kizindu na kesi ya ndingisa.",
+    signCertTitle: "Certificat ya signature n°",
+    signSavedToast: "Kontrata me sonama ye me bombami!",
+    signNoContracts: "Kontrata mosi ve me sonama sikoyo.",
+    signViewBtn: "Tala",
+    contractsPanelBtn: "Ba kontrata",
+    signedContractsTitle: "Ba kontrata yina me sonama",
+    agencyContractBtn: "Kontrata ya agence",
+    signSignatureLabel: "Signature",
     adminSub: "Nzila ya mfumu",
     adminEnter: "Kangula",
     adminCancel: "Vidisa",
     adminErr: "Kode ya mfumu kele mbote ve.",
-    editToggleOn: "HM_Catalogue",
+    editToggleOn: "CTA",
     editToggleOff: "Mene manisa",
     heroEyebrow: "Katalogi",
     heroTitle: "Bantu 5 ya kusala mambu, kontrata mosi, mfunu mosi: kieleka.",
@@ -3228,9 +3650,8 @@ function applyStaticText(){
   document.getElementById('creator-pass').placeholder = t('creatorPassPh');
   document.getElementById('t-creator-logout').textContent = t('creatorLogout');
   document.getElementById('t-agency-logout').textContent = t('agencyLogout');
-  document.getElementById('t-sales-btn').textContent = t('paidSalesPanelBtn');
-  document.getElementById('t-sales-title').textContent = t('paidSalesPanelTitle');
-  document.getElementById('t-sales-close').textContent = t('galleryClose');
+  document.getElementById('t-contracts-title').textContent = t('signedContractsTitle');
+  document.getElementById('t-contracts-close').textContent = t('galleryClose');
   document.documentElement.lang = LANG;
   document.documentElement.dir = (LANG === 'ar') ? 'rtl' : 'ltr';
 }
@@ -3363,7 +3784,8 @@ function emptySlot(i){
     id: 'm' + i, filled: false, name: '', country: '', verified18: false,
     platforms: '', audience: '', contentType: '', availability: '',
     photo: '', contract: '', galleryPhotos: [], galleryVideos: [],
-    privatePhotos: [], privateVideos: [], bio: null, likes: 0, dislikes: 0, paidContent: []
+    privatePhotos: [], privateVideos: [], bio: null, likes: 0, dislikes: 0, paidContent: [],
+    showcaseMedia: [], featured: false, contractSignatures: []
   };
 }
 function loadRoster(){
@@ -3411,12 +3833,8 @@ document.getElementById('edit-toggle').onclick = () => {
 function refreshEditUI(){
   document.getElementById('edit-toggle').classList.toggle('active', editMode);
   document.getElementById('t-edit-toggle').textContent = editMode ? t('editToggleOff') : t('editToggleOn');
-  document.getElementById('sales-panel-btn').style.display = isAdmin() ? '' : 'none';
   renderRoster();
 }
-document.getElementById('sales-panel-btn').onclick = () => {
-  requireAdmin(openSalesPanel);
-};
 
 document.getElementById('contact-btn').onclick = () => {
   const subject = encodeURIComponent(LANG==='fr' ? 'Demande de partenariat — Honeymoon' : 'Partnership inquiry — Honeymoon');
@@ -3456,7 +3874,8 @@ async function syncProfilesFromFirestore(){
           filled: data.filled ?? m.filled,
           bio: data.bio || m.bio,
           likes: data.likes || 0,
-          dislikes: data.dislikes || 0
+          dislikes: data.dislikes || 0,
+          featured: data.featured || false
         });
         changed = true;
       }
@@ -3484,6 +3903,19 @@ async function syncProfilesFromFirestore(){
         });
       });
       m.paidContent = paidContent;
+
+      const showcaseSnap = await db.collection('profiles').doc(m.id).collection('showcase_media').orderBy('createdAt').get();
+      const showcaseMedia = [];
+      showcaseSnap.forEach(d => {
+        const sd = d.data();
+        showcaseMedia.push({ docId: d.id, kind: sd.kind, url: sd.url });
+      });
+      m.showcaseMedia = showcaseMedia;
+
+      const contractSigSnap = await db.collection('profiles').doc(m.id).collection('contract_signatures').orderBy('signedAt', 'desc').get();
+      const contractSignatures = [];
+      contractSigSnap.forEach(d => contractSignatures.push({ id: d.id, ...d.data() }));
+      m.contractSignatures = contractSignatures;
     }catch(e){
       console.error('sync error', m.id, e);
     }
@@ -3723,12 +4155,12 @@ function openPaidContentModal(m, kind){
     ${kind === 'video' ? `
       <label>${t('paidTeaserLabel')}</label>
       <div class="upload-drop" id="paid-teaser-drop">
-        <span id="paid-teaser-label">${t('photoPrompt')}</span>
+        <span id="paid-teaser-label">${t('paidVideoPrompt')}</span>
         <input type="file" id="paid-teaser-file" accept="video/*">
       </div>
       <label>${t('paidFullVideoLabel')}</label>
       <div class="upload-drop" id="paid-full-drop">
-        <span id="paid-full-label">${t('photoPrompt')}</span>
+        <span id="paid-full-label">${t('paidVideoPrompt')}</span>
         <input type="file" id="paid-full-file" accept="video/*">
       </div>
     ` : `
@@ -4058,7 +4490,8 @@ function renderRoster(){
   const filledCount = roster.filter(m => m.filled).length;
   document.getElementById('roster-count').textContent = filledCount + ' / ' + SLOT_COUNT;
 
-  grid.innerHTML = roster.map(m => modelCardHtml(m)).join('');
+  const displayOrder = [...roster].sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
+  grid.innerHTML = displayOrder.map(m => modelCardHtml(m)).join('');
 
   grid.querySelectorAll('.edit-btn').forEach(btn => {
     btn.onclick = () => requireAdmin(() => openEdit(btn.dataset.id));
@@ -4068,6 +4501,27 @@ function renderRoster(){
   });
   grid.querySelectorAll('.gallery-open-btn').forEach(btn => {
     btn.onclick = () => openGallery(btn.dataset.id);
+  });
+  grid.querySelectorAll('.agency-contract-btn').forEach(btn => {
+    btn.onclick = () => openAgencyContractsForCreator(btn.dataset.id);
+  });
+  grid.querySelectorAll('.featured-toggle-btn').forEach(btn => {
+    btn.onclick = async () => {
+      const m = roster.find(x => x.id === btn.dataset.id);
+      if(!m) return;
+      btn.disabled = true;
+      try{
+        m.featured = !m.featured;
+        await db.collection('profiles').doc(m.id).set({ featured: m.featured }, { merge: true });
+        renderRoster();
+        toast(t('savedToast'));
+      }catch(e){
+        console.error(e);
+        m.featured = !m.featured;
+        toast(t('saveErrorToast'));
+        btn.disabled = false;
+      }
+    };
   });
 }
 
@@ -4093,16 +4547,22 @@ function modelCardHtml(m){
     ? `<a class="pill-link contract-link" data-href="${m.contract}" href="#">📄 ${t('viewContract')}</a>`
     : `<div class="pill-link disabled">📄 ${t('noContract')}</div>`;
 
+  const sigCount = (m.contractSignatures || []).length;
+  const agencyContractHtml = m.filled
+    ? `<button class="pill-link agency-contract-btn" data-id="${m.id}">${ICON_SIGN} ${t('agencyContractBtn')} (${sigCount})</button>`
+    : '';
+
   const mediaCount = (m.galleryPhotos.length + m.galleryVideos.length);
   const galleryHtml = m.filled
     ? `<button class="pill-link gallery-open-btn" data-id="${m.id}">🖼️ ${t('galleryBtn')} (${mediaCount})</button>`
     : '';
 
   return `
-    <div class="model-card">
+    <div class="model-card ${m.featured ? 'featured-card' : ''}">
       <div class="model-photo">
         ${photoHtml}
         ${numBadge}
+        ${m.featured ? `<span class="featured-badge">${ICON_STAR} ${t('featuredBadge')}</span>` : ''}
         ${m.filled ? `<span class="status">${m.verified18 ? t('verified') : t('notVerified')}</span>` : ''}
       </div>
       <div class="model-body">
@@ -4117,8 +4577,10 @@ function modelCardHtml(m){
         </div>
         ${m.availability ? `<div class="tags">${m.availability.split(',').map(x=>`<span>${escText(x.trim())}</span>`).join('')}</div>` : ''}
         ${m.filled ? contractHtml : ''}
+        ${agencyContractHtml}
         ${galleryHtml}
         ${editMode ? `<button class="edit-btn" data-id="${m.id}">${t('editProfile')}</button>` : ''}
+        ${editMode && m.filled ? `<button class="pill-link featured-toggle-btn" data-id="${m.id}">${ICON_STAR} ${m.featured ? t('unfeatureBtn') : t('featureBtn')}</button>` : ''}
       </div>
     </div>`;
 }
@@ -4334,6 +4796,27 @@ function renderGalleryBody(m){
       <input type="file" id="gal-add-video" accept="video/*" multiple>
     </div>` : '';
 
+  const showcaseSection = (kind, labelKey, accept) => {
+    const items = (m.showcaseMedia || []).filter(x => x.kind === kind);
+    const thumbs = items.map(item => `
+      <div class="gallery-thumb">
+        ${kind === 'photo'
+          ? `<img src="${item.url}" data-full="${item.url}" data-type="image">`
+          : `<video src="${item.url}" data-full="${item.url}" data-type="video" muted></video>`}
+        ${canEdit ? `<button class="rm" data-showcase="${kind}" data-docid="${item.docId}">✕</button>` : ''}
+      </div>`).join('');
+    const addBtn = canEdit ? `
+      <div class="gallery-add-btn">＋
+        <input type="file" class="gal-add-showcase" data-showcase-kind="${kind}" accept="${accept}" multiple>
+      </div>` : '';
+    if(!items.length && !canEdit) return '';
+    return `
+      <div class="gallery-section">
+        <h4>${t(labelKey)} (${items.length})</h4>
+        <div class="gallery-strip">${thumbs}${addBtn}</div>
+      </div>`;
+  };
+
   body.innerHTML = `
     <div class="gallery-section">
       <h4>${t('galleryPhotos')} (${m.galleryPhotos.length})</h4>
@@ -4345,11 +4828,23 @@ function renderGalleryBody(m){
       <div class="gallery-strip">${videoThumbs}${addVideoBtn}</div>
       ${(!m.galleryVideos.length && !canEdit) ? `<p class="gallery-empty">${t('galleryEmpty')}</p>` : ''}
     </div>
+    <div style="margin-top:24px;padding-top:18px;border-top:1px solid var(--border);">
+      <h3 style="font-size:14px;color:var(--honey);">${t('showcaseTitle')}</h3>
+      <p style="color:var(--text-muted);font-size:11.5px;margin:4px 0 12px;line-height:1.55;">${t('showcaseNote')}</p>
+      ${showcaseSection('photo', 'showcasePhotoLabel', 'image/*')}
+      ${showcaseSection('video_short', 'showcaseShortLabel', 'video/*')}
+      ${showcaseSection('video_long', 'showcaseLongLabel', 'video/*')}
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-primary btn-sm" id="gal-sign-contract-btn" style="flex:1;">${ICON_SIGN} ${t('signContractBtn')}</button>
+    </div>
   `;
 
   body.querySelectorAll('.gallery-thumb img, .gallery-thumb video').forEach(el => {
     el.onclick = () => openLightbox(el.dataset.full, el.dataset.type);
   });
+
+  document.getElementById('gal-sign-contract-btn').onclick = () => openContractSignModal(m);
 
   if(canEdit){
     const photoInput = document.getElementById('gal-add-photo');
@@ -4357,15 +4852,39 @@ function renderGalleryBody(m){
     const videoInput = document.getElementById('gal-add-video');
     if(videoInput) videoInput.onchange = (e) => handleGalleryAdd(m, e.target.files, 'galleryVideos', () => renderGalleryBody(m));
 
+    body.querySelectorAll('.gal-add-showcase').forEach(input => {
+      input.onchange = async (e) => {
+        const kind = input.dataset.showcaseKind;
+        const list = Array.from(e.target.files);
+        for(const file of list){
+          try{
+            const item = await uploadMediaItem(m.id, file, kind === 'photo' ? 'photo' : 'video', {
+              collection: 'showcase_media', pathPrefix: 'showcase/' + kind
+            });
+            m.showcaseMedia = m.showcaseMedia || [];
+            m.showcaseMedia.push({ docId: item.docId, kind, url: item.url });
+            toast(t('addedToast'));
+          }catch(err){ console.error(err); toast(t('saveErrorToast')); }
+        }
+        renderGalleryBody(m);
+      };
+    });
+
     body.querySelectorAll('.rm').forEach(btn => {
       btn.onclick = async () => {
         const kind = btn.dataset.kind;
+        const showcaseKind = btn.dataset.showcase;
         const docId = btn.dataset.docid;
         btn.disabled = true;
         try{
-          await deleteMediaItem(m.id, docId);
-          if(kind === 'photo') m.galleryPhotos = m.galleryPhotos.filter(x => x.docId !== docId);
-          else m.galleryVideos = m.galleryVideos.filter(x => x.docId !== docId);
+          if(showcaseKind){
+            await db.collection('profiles').doc(m.id).collection('showcase_media').doc(docId).delete();
+            m.showcaseMedia = (m.showcaseMedia || []).filter(x => x.docId !== docId);
+          } else {
+            await deleteMediaItem(m.id, docId);
+            if(kind === 'photo') m.galleryPhotos = m.galleryPhotos.filter(x => x.docId !== docId);
+            else m.galleryVideos = m.galleryVideos.filter(x => x.docId !== docId);
+          }
           renderGalleryBody(m);
           renderRoster();
           toast(t('removedToast'));
@@ -4549,6 +5068,8 @@ const ICON_BIO = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" st
 const ICON_CART = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>';
 const ICON_COIN = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M15 9.5c0-1.4-1.34-2.5-3-2.5s-3 1.1-3 2.5S10.34 12 12 12s3 1.1 3 2.5-1.34 2.5-3 2.5-3-1.1-3-2.5"/></svg>';
 const ICON_LOCK = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>';
+const ICON_STAR = '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1" style="vertical-align:-2px;margin-right:3px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+const ICON_SIGN = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M3 17c2-4 4-4 6 0s4 4 6 0 4-4 6 0"/><path d="M3 21h18"/></svg>';
 function vitrineCardHtml(m){
   const num = m.id.replace('m', '').padStart(2, '0');
 
@@ -4996,6 +5517,180 @@ document.getElementById('invoice-close').onclick = () => {
   document.getElementById('invoice-modal').classList.remove('open');
 };
 document.getElementById('invoice-print').onclick = () => window.print();
+
+/* ================= SIGNATURE ÉLECTRONIQUE DE CONTRAT ================= */
+function openContractSignModal(m){
+  const body = document.getElementById('sign-body');
+  body.innerHTML = `
+    <h3>${t('signContractBtn')} — ${escText(m.name) || t('nameUndefined')}</h3>
+    <p style="color:var(--text-muted);font-size:12px;line-height:1.6;margin-bottom:14px;">${t('signContractExplain')}</p>
+    <label>${t('signAgencyName')}</label>
+    <input id="sign-agency-name">
+    <label>${t('signRepName')}</label>
+    <input id="sign-rep-name">
+    <label>${t('signDrawLabel')}</label>
+    <div class="sig-canvas-wrap"><canvas id="sig-canvas"></canvas></div>
+    <button class="btn btn-ghost btn-sm sig-clear-btn" id="sig-clear">${t('signClearBtn')}</button>
+    <label style="display:flex;align-items:flex-start;gap:8px;margin-top:16px;text-transform:none;font-weight:400;">
+      <input type="checkbox" id="sign-consent" style="width:auto;margin-top:3px;">
+      <span style="font-size:11.5px;color:var(--text-muted);line-height:1.5;">${t('signConsentText')}</span>
+    </label>
+    <div class="modal-actions">
+      <button class="btn btn-ghost btn-sm" id="sign-cancel" style="flex:1;">${t('cancel')}</button>
+      <button class="btn btn-primary btn-sm" id="sign-confirm" style="flex:1;">${t('signConfirmBtn')}</button>
+    </div>
+  `;
+
+  const canvas = document.getElementById('sig-canvas');
+  const ctx = canvas.getContext('2d');
+  function fitCanvas(){
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * 2;
+    canvas.height = rect.height * 2;
+    ctx.scale(2, 2);
+    ctx.lineWidth = 2;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = '#111';
+  }
+  fitCanvas();
+  let drawing = false, hasSignature = false;
+  function pos(e){
+    const rect = canvas.getBoundingClientRect();
+    const cx = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+    const cy = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+    return { x: cx, y: cy };
+  }
+  function start(e){ drawing = true; hasSignature = true; const p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); e.preventDefault(); }
+  function move(e){ if(!drawing) return; const p = pos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); e.preventDefault(); }
+  function end(){ drawing = false; }
+  canvas.addEventListener('mousedown', start);
+  canvas.addEventListener('mousemove', move);
+  window.addEventListener('mouseup', end);
+  canvas.addEventListener('touchstart', start, { passive: false });
+  canvas.addEventListener('touchmove', move, { passive: false });
+  canvas.addEventListener('touchend', end);
+
+  document.getElementById('sig-clear').onclick = () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    hasSignature = false;
+  };
+  document.getElementById('sign-cancel').onclick = closeSignModal;
+  document.getElementById('sign-confirm').onclick = async () => {
+    const agencyName = document.getElementById('sign-agency-name').value.trim();
+    const repName = document.getElementById('sign-rep-name').value.trim();
+    const consent = document.getElementById('sign-consent').checked;
+    if(!agencyName || !repName){ toast(t('signMissingFields')); return; }
+    if(!hasSignature){ toast(t('signMissingSignature')); return; }
+    if(!consent){ toast(t('signMissingConsent')); return; }
+    const btn = document.getElementById('sign-confirm');
+    btn.disabled = true;
+    try{
+      if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
+      const signatureDataUrl = canvas.toDataURL('image/png');
+      const docRef = await db.collection('profiles').doc(m.id).collection('contract_signatures').add({
+        agencyName: agencyName.slice(0, 80), repName: repName.slice(0, 80),
+        signatureDataUrl, signedAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      closeSignModal();
+      showSignedConfirmation({
+        ref: docRef.id.slice(-6).toUpperCase(), creatorName: m.name, agencyName, repName,
+        signatureDataUrl, date: new Date()
+      });
+    }catch(e){
+      console.error('contract signature error', e);
+      toast((LANG==='fr' ? 'Erreur : ' : 'Error: ') + (e && e.message ? e.message : e));
+    }
+    btn.disabled = false;
+  };
+
+  document.getElementById('sign-backdrop').classList.add('open');
+  document.getElementById('sign-modal').classList.add('open');
+}
+function closeSignModal(){
+  document.getElementById('sign-backdrop').classList.remove('open');
+  document.getElementById('sign-modal').classList.remove('open');
+}
+document.getElementById('sign-backdrop').onclick = closeSignModal;
+
+function showSignedConfirmation(o){
+  const num = 'HM-SIGN-' + o.date.getFullYear() + '-' + o.ref;
+  document.getElementById('invoice-body').innerHTML = `
+    <div class="invoice-paper">
+      <h2>Honeymoon</h2>
+      <div class="inv-meta">${t('signCertTitle')} ${num} — ${formatCommentDate(o.date)}</div>
+      <table>
+        <tr><td>${t('creatorLink')}</td><td style="text-align:right;">${escText(o.creatorName)}</td></tr>
+        <tr><td>${t('signAgencyName')}</td><td style="text-align:right;">${escText(o.agencyName)}</td></tr>
+        <tr><td>${t('signRepName')}</td><td style="text-align:right;">${escText(o.repName)}</td></tr>
+      </table>
+      <p style="font-size:11px;color:#666;margin:10px 0 4px;">${t('signSignatureLabel')}</p>
+      <img src="${o.signatureDataUrl}" style="max-width:100%;border:1px solid #eee;border-radius:6px;">
+    </div>
+  `;
+  document.getElementById('invoice-backdrop').classList.add('open');
+  document.getElementById('invoice-modal').classList.add('open');
+  toast(t('signSavedToast'));
+}
+
+/* ================= PANNEAU ADMIN : CONTRATS SIGNÉS ================= */
+async function openAgencyContractsForCreator(creatorId){
+  const m = roster.find(x => x.id === creatorId);
+  if(!m) return;
+  document.getElementById('t-contracts-title').textContent = `${t('agencyContractBtn')} — ${escText(m.name) || t('nameUndefined')}`;
+  document.getElementById('contracts-backdrop').classList.add('open');
+  document.getElementById('contracts-modal').classList.add('open');
+  const body = document.getElementById('contracts-body');
+  body.innerHTML = `<span class="gallery-empty">${t('paidOrdersLoading')}</span>`;
+  try{
+    const snap = await db.collection('profiles').doc(m.id).collection('contract_signatures').orderBy('signedAt', 'desc').get();
+    const all = [];
+    snap.forEach(d => all.push({ id: d.id, ...d.data() }));
+    if(!all.length){
+      body.innerHTML = `
+        <span class="gallery-empty">${t('signNoContracts')}</span>
+        <button class="btn btn-primary btn-sm" id="contracts-sign-new" style="width:100%;margin-top:14px;">${ICON_SIGN} ${t('signContractBtn')}</button>`;
+      document.getElementById('contracts-sign-new').onclick = () => {
+        document.getElementById('contracts-backdrop').classList.remove('open');
+        document.getElementById('contracts-modal').classList.remove('open');
+        openContractSignModal(m);
+      };
+      return;
+    }
+    body.innerHTML = all.map(o => `
+      <div class="sale-order-row">
+        <div class="sale-order-head">
+          <span><b>${escText(o.agencyName)}</b></span>
+          <span class="mono" style="color:var(--text-muted);">${formatCommentDate(o.signedAt)}</span>
+        </div>
+        <div style="font-size:12px;color:var(--text-muted);">${escText(o.repName)}</div>
+        <button class="btn btn-ghost btn-sm" data-id="${o.id}">${t('signViewBtn')}</button>
+      </div>`).join('') + `
+      <button class="btn btn-primary btn-sm" id="contracts-sign-new" style="width:100%;margin-top:14px;">${ICON_SIGN} ${t('signContractBtn')}</button>`;
+    body.querySelectorAll('button[data-id]').forEach((btn, idx) => {
+      btn.onclick = () => {
+        const o = all[idx];
+        showSignedConfirmation({
+          ref: o.id.slice(-6).toUpperCase(), creatorName: m.name, agencyName: o.agencyName,
+          repName: o.repName, signatureDataUrl: o.signatureDataUrl,
+          date: (o.signedAt && o.signedAt.toDate) ? o.signedAt.toDate() : new Date()
+        });
+      };
+    });
+    document.getElementById('contracts-sign-new').onclick = () => {
+      document.getElementById('contracts-backdrop').classList.remove('open');
+      document.getElementById('contracts-modal').classList.remove('open');
+      openContractSignModal(m);
+    };
+  }catch(e){
+    console.error('agency contracts error', e);
+    body.innerHTML = `<span class="gallery-empty">${(LANG==='fr'?'Erreur : ':'Error: ')}${escText(e.message||String(e))}</span>`;
+  }
+}
+document.getElementById('contracts-close').onclick = () => {
+  document.getElementById('contracts-backdrop').classList.remove('open');
+  document.getElementById('contracts-modal').classList.remove('open');
+};
+document.getElementById('contracts-backdrop').onclick = () => document.getElementById('contracts-close').click();
 
 async function loadComments(profileId){
   const list = document.getElementById('comment-list');
