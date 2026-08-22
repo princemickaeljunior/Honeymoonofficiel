@@ -189,6 +189,8 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
   padding:24px;opacity:0;pointer-events:none;transition:opacity .2s, transform .2s;
 }
 .modal-box.open{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1);}
+#paid-backdrop{z-index:100;}
+#paid-modal{z-index:101;}
 .modal-box h3{font-size:18px;margin-bottom:16px;}
 .modal-box label{font-size:11px;color:var(--text-muted);display:block;margin-bottom:6px;margin-top:12px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;}
 .modal-box input, .modal-box textarea, .modal-box select{
@@ -243,17 +245,94 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 .vitrine-bio-row{font-size:12.5px;border-bottom:1px solid var(--border);padding-bottom:8px;}
 .vitrine-bio-row .k{display:block;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:3px;}
 .vitrine-bio-row .v{color:var(--text);line-height:1.5;white-space:pre-wrap;}
-.vitrine-votes{display:flex;gap:10px;margin:16px 0;}
-.vote-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;border-radius:var(--radius-sm);background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text);font-size:13px;}
-.vote-btn.active{border-color:var(--honey);color:var(--honey);}
+
+/* votes par média (sous chaque photo/vidéo) */
+.gallery-thumb-wrap{display:flex;flex-direction:column;gap:5px;}
+.media-votes{display:flex;gap:5px;}
+.media-vote-btn{
+  flex:1;display:flex;align-items:center;justify-content:center;gap:4px;padding:5px 4px;
+  border-radius:8px;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text-muted);font-size:10.5px;
+}
+.media-vote-btn.active{border-color:var(--honey);color:var(--honey);}
+.media-vote-btn span{font-family:'JetBrains Mono',monospace;}
+
+/* commentaires — design premium */
 .vitrine-comments{margin-top:22px;padding-top:18px;border-top:1px solid var(--border);}
 .vitrine-comments h4{font-size:13px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;font-family:'JetBrains Mono',monospace;margin-bottom:6px;}
 .comment-rules{font-size:11px;color:var(--text-muted);margin-bottom:12px;}
-.comment-list{display:flex;flex-direction:column;gap:10px;max-height:220px;overflow-y:auto;margin-bottom:12px;}
-.comment-item{background:var(--bg-elev-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;font-size:13px;line-height:1.5;}
-.comment-form{display:flex;gap:8px;}
-.comment-form textarea{flex:1;min-height:44px;}
-.comment-form button{white-space:nowrap;}
+.comment-list{display:flex;flex-direction:column;gap:10px;max-height:280px;overflow-y:auto;margin-bottom:14px;padding-right:2px;}
+.comment-card{
+  display:flex;gap:10px;background:linear-gradient(155deg, var(--bg-elev) 0%, var(--bg-elev-2) 100%);
+  border:1px solid var(--border);border-radius:14px;padding:12px 13px;box-shadow:0 2px 10px rgba(0,0,0,0.18);
+}
+.comment-avatar{
+  flex-shrink:0;width:32px;height:32px;border-radius:50%;background:linear-gradient(140deg, var(--honey), #a9761f);
+  color:#160f04;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;
+  font-size:12px;font-weight:700;letter-spacing:0.02em;
+}
+.comment-body{flex:1;min-width:0;}
+.comment-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:3px;}
+.comment-name{font-size:12.5px;font-weight:600;color:var(--text);}
+.comment-date{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--text-muted);white-space:nowrap;}
+.comment-text{font-size:13px;line-height:1.55;color:var(--text);word-break:break-word;}
+.comment-form{display:flex;flex-direction:column;gap:8px;background:var(--bg-elev-2);border:1px solid var(--border);border-radius:14px;padding:12px;}
+.comment-name-input{
+  background:var(--bg-elev);border:1px solid var(--border);color:var(--text);border-radius:8px;
+  padding:9px 11px;font-size:13px;font-family:'Inter',sans-serif;
+}
+.comment-form textarea{min-height:56px;background:var(--bg-elev);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:9px 11px;font-size:13px;font-family:'Inter',sans-serif;resize:vertical;}
+.comment-form button{align-self:flex-end;min-width:120px;}
+
+/* ---------- galerie payante ---------- */
+.paid-summary{display:flex;gap:10px;margin-bottom:16px;}
+.paid-summary > div{flex:1;background:var(--bg-elev-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;text-align:center;}
+.paid-summary .k{display:block;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;}
+.paid-summary .v{font-size:18px;font-weight:700;color:var(--honey);}
+.paid-add-row{display:flex;gap:10px;margin-bottom:18px;}
+.paid-add-row button{flex:1;}
+.paid-items-list{display:flex;flex-direction:column;gap:12px;}
+.paid-item-card{display:flex;gap:12px;background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px;}
+.paid-item-thumb{position:relative;width:80px;height:80px;flex-shrink:0;border-radius:8px;overflow:hidden;background:var(--bg-elev-2);}
+.paid-item-thumb img, .paid-item-thumb video{width:100%;height:100%;object-fit:cover;}
+.paid-item-price{position:absolute;bottom:4px;right:4px;background:rgba(0,0,0,0.75);color:var(--honey);font-family:'JetBrains Mono',monospace;font-size:10px;padding:2px 6px;border-radius:6px;}
+.paid-item-info{flex:1;min-width:0;}
+.paid-item-desc{font-size:12.5px;color:var(--text);line-height:1.4;margin-bottom:6px;}
+.paid-item-stats{display:flex;gap:12px;font-size:11px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;}
+.order-card{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--bg-elev-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:8px;}
+.order-buyer{font-size:12.5px;font-weight:600;}
+.order-contact{font-weight:400;color:var(--text-muted);}
+.order-meta{font-size:10.5px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;margin-top:2px;}
+
+/* ---------- contenu exclusif (vitrine, verrouillé) ---------- */
+.exclusive-card{position:relative;border-radius:12px;overflow:hidden;background:var(--bg-elev-2);border:1px solid var(--border);margin-bottom:14px;}
+.exclusive-teaser{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;}
+.exclusive-locked-overlay{
+  position:relative;aspect-ratio:1/1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  background:linear-gradient(155deg, rgba(40,30,15,0.9), rgba(10,8,5,0.95));color:var(--honey);
+}
+.exclusive-info{padding:10px 12px;}
+.exclusive-desc{font-size:12px;color:var(--text-muted);line-height:1.5;margin-bottom:8px;}
+.exclusive-unlock-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:6px;}
+.exclusive-teaser-badge{position:absolute;top:8px;left:8px;background:rgba(0,0,0,0.7);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:9px;padding:3px 8px;border-radius:999px;letter-spacing:0.04em;text-transform:uppercase;}
+
+/* ---------- ventes / facture ---------- */
+.sale-order-row{display:flex;flex-direction:column;gap:8px;background:var(--bg-elev-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;margin-bottom:12px;}
+.sale-order-head{display:flex;justify-content:space-between;font-size:12.5px;}
+.sale-order-head b{color:var(--text);}
+.sale-split-row{display:flex;align-items:center;gap:8px;font-size:12px;}
+.sale-split-row input{width:64px;background:var(--bg-elev);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:5px 7px;}
+.invoice-paper{background:#fff;color:#111;border-radius:10px;padding:24px;font-family:'Inter',sans-serif;}
+.invoice-paper h2{font-family:'Playfair Display',serif;font-size:20px;margin-bottom:4px;}
+.invoice-paper .inv-meta{font-size:11px;color:#666;margin-bottom:18px;}
+.invoice-paper table{width:100%;border-collapse:collapse;font-size:13px;margin:14px 0;}
+.invoice-paper td{padding:6px 0;border-bottom:1px solid #eee;}
+.invoice-paper .inv-total{font-weight:700;font-size:15px;}
+@media print{
+  body *{visibility:hidden;}
+  #invoice-modal, #invoice-modal *{visibility:visible;}
+  #invoice-modal{position:absolute;left:0;top:0;width:100%;max-width:100%;box-shadow:none;}
+  .no-print{display:none !important;}
+}
 
 /* ---------- contact ---------- */
 .contact{
@@ -326,7 +405,9 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
       <div class="lang-group">
         <select class="lang-select" id="app-lang-select"></select>
       </div>
-      <button class="edit-toggle" id="edit-toggle"><span id="t-edit-toggle">Modifier le catalogue</span></button>
+      <button class="edit-toggle" id="edit-toggle" style="max-width:140px;"><span id="t-edit-toggle">HM_Catalogue</span></button>
+      <button class="edit-toggle" id="sales-panel-btn" style="display:none;">💰 <span id="t-sales-btn">Ventes</span></button>
+      <button class="creator-logout" id="agency-logout"><span id="t-agency-logout">Se déconnecter</span></button>
     </div>
   </div>
 
@@ -389,6 +470,33 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
   <div class="modal-actions">
     <button class="btn btn-ghost btn-sm" id="gallery-close" style="flex:1;"><span id="t-gallery-close">Fermer</span></button>
   </div>
+</div>
+
+<!-- ================= SALES PANEL (admin: pending orders across all creators) ================= -->
+<div class="modal-backdrop" id="sales-backdrop"></div>
+<div class="modal-box" id="sales-modal" style="max-width:560px;">
+  <h3 id="t-sales-title">Ventes en attente</h3>
+  <div id="sales-body"></div>
+  <div class="modal-actions">
+    <button class="btn btn-ghost btn-sm" id="sales-close" style="flex:1;"><span id="t-sales-close">Fermer</span></button>
+  </div>
+</div>
+
+<!-- ================= INVOICE (printable) ================= -->
+<div class="modal-backdrop" id="invoice-backdrop"></div>
+<div class="modal-box" id="invoice-modal" style="max-width:480px;">
+  <div id="invoice-body"></div>
+  <div class="modal-actions no-print">
+    <button class="btn btn-ghost btn-sm" id="invoice-close" style="flex:1;">Fermer</button>
+    <button class="btn btn-primary btn-sm" id="invoice-print" style="flex:1;">Imprimer / Enregistrer PDF</button>
+  </div>
+</div>
+
+<!-- ================= PAID CONTENT MODAL (creator: add paid photo/video) ================= -->
+<div class="modal-backdrop" id="paid-backdrop"></div>
+<div class="modal-box" id="paid-modal">
+  <h3 id="t-paid-modal-title">Ajouter un contenu payant</h3>
+  <div id="paid-body"></div>
 </div>
 
 <!-- ================= LIGHTBOX ================= -->
@@ -469,6 +577,15 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
    ========================================================= */
 
 const CONTACT_EMAIL = 'honeymoon-official@outlook.com';
+/* ===== À REMPLIR : coordonnées bancaires affichées au client après sa demande de déblocage
+   (en attendant l'ouverture d'un compte CCBill). Modifie les valeurs ci-dessous. ===== */
+const PAYMENT_INSTRUCTIONS = {
+  iban: 'FR76 XXXX XXXX XXXX XXXX XXXX XXX',
+  bic: 'XXXXXXXX',
+  holder: 'Prince Mickael',
+  note: 'Merci d\'indiquer la référence de commande en libellé du virement.'
+};
+const DEFAULT_SPLIT_CREATOR_PERCENT = 60;
 const GATE_PASSWORD = 'H25051988';
 const STORAGE_KEY = 'hm_catalogue_v3';
 const SLOT_COUNT = 6;
@@ -518,11 +635,56 @@ const I18N = {
     creatorPassPh: "Ton code",
     noPhotoYet: "Aucune photo",
     vitrineEnterBtn: "Entrer",
+    agencyLogout: "Se déconnecter",
+    commentNamePh: "Ton prénom ou pseudo",
+    commentNameRequired: "Merci d'indiquer ton prénom ou pseudo avant de publier.",
+    paidGalleryTitle: "Galerie payante",
+    paidGalleryNote: "Vends des photos et vidéos exclusives directement depuis ton espace. Contenu autorisé : lingerie, tenue sexy, danse sensuelle. Aucune nudité.",
+    paidSalesLabel: "ventes",
+    paidTotalRevenue: "Chiffre d'affaires total",
+    paidTotalSales: "Ventes totales",
+    paidAddPhoto: "+ Photo payante",
+    paidAddVideo: "+ Vidéo payante",
+    paidNoItems: "Aucun contenu payant pour le moment.",
+    paidOrdersTitle: "Demandes de déblocage",
+    paidOrdersLoading: "Chargement…",
+    paidDescLabel: "Description",
+    paidDescPh: "Décris ce contenu pour donner envie…",
+    paidPriceLabel: "Prix (€)",
+    paidTeaserLabel: "Teaser (5 secondes, visible gratuitement)",
+    paidFullVideoLabel: "Vidéo complète (verrouillée)",
+    paidPhotoLabel: "Photo (verrouillée)",
+    paidFileRequired: "Ajoute un fichier avant d'enregistrer.",
+    paidTeaserRequired: "Le teaser est obligatoire pour une vidéo payante.",
+    paidNoOrders: "Aucune demande en attente.",
+    paidMarkPaid: "Marquer payée",
+    paidMarkedPaidToast: "Vente confirmée !",
+    paidExclusiveTitle: "Contenu exclusif",
+    paidExclusiveNote: "Aperçu gratuit ci-dessous, contenu complet à débloquer.",
+    paidTeaserBadge: "Teaser gratuit",
+    paidUnlockBtn: "Débloquer pour",
+    paidLockedPhoto: "Photo exclusive verrouillée",
+    paidUnlockExplain: "Envoie ta demande : tu recevras les instructions de paiement, et le contenu te sera transmis une fois le paiement confirmé.",
+    paidContactLabel: "Contact (email, téléphone ou WhatsApp)",
+    paidContactPh: "ex. email ou numéro WhatsApp",
+    paidContactRequired: "Merci d'indiquer ton prénom et un moyen de te contacter.",
+    paidSendRequest: "Envoyer la demande",
+    paidRequestSent: "Demande envoyée ! Tu vas être contactée pour le paiement.",
+    paidPendingAgency: "En attente de validation par l'agence",
+    paidSplitLabel: "Répartition :",
+    paidSplitCreator: "part créatrice",
+    paidInvoiceAndValidate: "Facturer & valider",
+    paidPaymentInstructionsIntro: "Ta demande a bien été enregistrée. Effectue le virement ci-dessous en indiquant la référence, puis tu recevras le contenu une fois le paiement confirmé.",
+    paidRefLabel: "Référence",
+    paidAmountLabel: "Montant",
+    paidHolderLabel: "Titulaire du compte",
+    paidSalesPanelBtn: "Ventes",
+    paidSalesPanelTitle: "Ventes en attente",
     adminSub: 'Accès administrateur',
     adminEnter: 'Déverrouiller',
     adminCancel: 'Annuler',
     adminErr: 'Code administrateur incorrect.',
-    editToggleOn: 'Modifier le catalogue',
+    editToggleOn: "HM_Catalogue",
     editToggleOff: 'Terminé',
     heroEyebrow: 'Catalogue',
     heroTitle: '5 créatrices, un contrat, une exigence : le sérieux.',
@@ -653,11 +815,56 @@ const I18N = {
     creatorPassPh: "Your code",
     noPhotoYet: "No photo yet",
     vitrineEnterBtn: "Enter",
+    agencyLogout: "Log out",
+    commentNamePh: "Your name or nickname",
+    commentNameRequired: "Please enter your name or nickname before posting.",
+    paidGalleryTitle: "Paid gallery",
+    paidGalleryNote: "Sell exclusive photos and videos directly from your space. Allowed content: lingerie, sexy outfits, sensual dance. No nudity.",
+    paidSalesLabel: "sales",
+    paidTotalRevenue: "Total revenue",
+    paidTotalSales: "Total sales",
+    paidAddPhoto: "+ Paid photo",
+    paidAddVideo: "+ Paid video",
+    paidNoItems: "No paid content yet.",
+    paidOrdersTitle: "Unlock requests",
+    paidOrdersLoading: "Loading…",
+    paidDescLabel: "Description",
+    paidDescPh: "Describe this content to make it enticing…",
+    paidPriceLabel: "Price (€)",
+    paidTeaserLabel: "Teaser (5 seconds, free to view)",
+    paidFullVideoLabel: "Full video (locked)",
+    paidPhotoLabel: "Photo (locked)",
+    paidFileRequired: "Please add a file before saving.",
+    paidTeaserRequired: "A teaser is required for a paid video.",
+    paidNoOrders: "No pending requests.",
+    paidMarkPaid: "Mark as paid",
+    paidMarkedPaidToast: "Sale confirmed!",
+    paidExclusiveTitle: "Exclusive content",
+    paidExclusiveNote: "Free preview below, unlock the full content.",
+    paidTeaserBadge: "Free teaser",
+    paidUnlockBtn: "Unlock for",
+    paidLockedPhoto: "Locked exclusive photo",
+    paidUnlockExplain: "Send your request: you'll receive payment instructions, and the content will be sent once payment is confirmed.",
+    paidContactLabel: "Contact (email, phone or WhatsApp)",
+    paidContactPh: "e.g. email or WhatsApp number",
+    paidContactRequired: "Please enter your name and a way to contact you.",
+    paidSendRequest: "Send request",
+    paidRequestSent: "Request sent! You'll be contacted for payment.",
+    paidPendingAgency: "Pending agency validation",
+    paidSplitLabel: "Split:",
+    paidSplitCreator: "creator share",
+    paidInvoiceAndValidate: "Invoice & confirm",
+    paidPaymentInstructionsIntro: "Your request has been recorded. Make the transfer below with the reference, and you'll receive the content once payment is confirmed.",
+    paidRefLabel: "Reference",
+    paidAmountLabel: "Amount",
+    paidHolderLabel: "Account holder",
+    paidSalesPanelBtn: "Sales",
+    paidSalesPanelTitle: "Pending sales",
     adminSub: 'Administrator access',
     adminEnter: 'Unlock',
     adminCancel: 'Cancel',
     adminErr: 'Incorrect administrator code.',
-    editToggleOn: 'Edit catalogue',
+    editToggleOn: "HM_Catalogue",
     editToggleOff: 'Done',
     heroEyebrow: 'Catalogue',
     heroTitle: '5 creators, one contract, one standard: seriousness.',
@@ -788,11 +995,56 @@ const I18N = {
     creatorPassPh: "Tu código",
     noPhotoYet: "Sin foto",
     vitrineEnterBtn: "Entrar",
+    agencyLogout: "Cerrar sesión",
+    commentNamePh: "Tu nombre o apodo",
+    commentNameRequired: "Indica tu nombre o apodo antes de publicar.",
+    paidGalleryTitle: "Galería de pago",
+    paidGalleryNote: "Vende fotos y videos exclusivos directamente desde tu espacio. Contenido permitido: lencería, ropa sexy, baile sensual. Sin desnudez.",
+    paidSalesLabel: "ventas",
+    paidTotalRevenue: "Ingresos totales",
+    paidTotalSales: "Ventas totales",
+    paidAddPhoto: "+ Foto de pago",
+    paidAddVideo: "+ Video de pago",
+    paidNoItems: "Aún no hay contenido de pago.",
+    paidOrdersTitle: "Solicitudes de desbloqueo",
+    paidOrdersLoading: "Cargando…",
+    paidDescLabel: "Descripción",
+    paidDescPh: "Describe este contenido para darle ganas…",
+    paidPriceLabel: "Precio (€)",
+    paidTeaserLabel: "Teaser (5 segundos, visible gratis)",
+    paidFullVideoLabel: "Video completo (bloqueado)",
+    paidPhotoLabel: "Foto (bloqueada)",
+    paidFileRequired: "Añade un archivo antes de guardar.",
+    paidTeaserRequired: "El teaser es obligatorio para un video de pago.",
+    paidNoOrders: "No hay solicitudes pendientes.",
+    paidMarkPaid: "Marcar como pagado",
+    paidMarkedPaidToast: "¡Venta confirmada!",
+    paidExclusiveTitle: "Contenido exclusivo",
+    paidExclusiveNote: "Vista previa gratis abajo, desbloquea el contenido completo.",
+    paidTeaserBadge: "Teaser gratis",
+    paidUnlockBtn: "Desbloquear por",
+    paidLockedPhoto: "Foto exclusiva bloqueada",
+    paidUnlockExplain: "Envía tu solicitud: recibirás las instrucciones de pago, y el contenido te será enviado una vez confirmado el pago.",
+    paidContactLabel: "Contacto (email, teléfono o WhatsApp)",
+    paidContactPh: "ej. email o número de WhatsApp",
+    paidContactRequired: "Indica tu nombre y una forma de contactarte.",
+    paidSendRequest: "Enviar solicitud",
+    paidRequestSent: "¡Solicitud enviada! Te contactaremos para el pago.",
+    paidPendingAgency: "Pendiente de validación por la agencia",
+    paidSplitLabel: "Reparto:",
+    paidSplitCreator: "parte de la creadora",
+    paidInvoiceAndValidate: "Facturar y confirmar",
+    paidPaymentInstructionsIntro: "Tu solicitud ha sido registrada. Realiza la transferencia indicando la referencia, y recibirás el contenido una vez confirmado el pago.",
+    paidRefLabel: "Referencia",
+    paidAmountLabel: "Importe",
+    paidHolderLabel: "Titular de la cuenta",
+    paidSalesPanelBtn: "Ventas",
+    paidSalesPanelTitle: "Ventas pendientes",
     adminSub: 'Acceso administrador',
     adminEnter: 'Desbloquear',
     adminCancel: 'Cancelar',
     adminErr: 'Código de administrador incorrecto.',
-    editToggleOn: 'Editar catálogo',
+    editToggleOn: "HM_Catalogue",
     editToggleOff: 'Listo',
     heroEyebrow: 'Catálogo',
     heroTitle: '5 creadoras, un contrato, una exigencia: la seriedad.',
@@ -923,11 +1175,56 @@ const I18N = {
     creatorPassPh: "Il tuo codice",
     noPhotoYet: "Nessuna foto",
     vitrineEnterBtn: "Entra",
+    agencyLogout: "Disconnetti",
+    commentNamePh: "Il tuo nome o nickname",
+    commentNameRequired: "Indica il tuo nome o nickname prima di pubblicare.",
+    paidGalleryTitle: "Galleria a pagamento",
+    paidGalleryNote: "Vendi foto e video esclusivi direttamente dal tuo spazio. Contenuto consentito: lingerie, abiti sexy, danza sensuale. Nessuna nudità.",
+    paidSalesLabel: "vendite",
+    paidTotalRevenue: "Fatturato totale",
+    paidTotalSales: "Vendite totali",
+    paidAddPhoto: "+ Foto a pagamento",
+    paidAddVideo: "+ Video a pagamento",
+    paidNoItems: "Nessun contenuto a pagamento per ora.",
+    paidOrdersTitle: "Richieste di sblocco",
+    paidOrdersLoading: "Caricamento…",
+    paidDescLabel: "Descrizione",
+    paidDescPh: "Descrivi questo contenuto per renderlo invitante…",
+    paidPriceLabel: "Prezzo (€)",
+    paidTeaserLabel: "Teaser (5 secondi, visibile gratis)",
+    paidFullVideoLabel: "Video completo (bloccato)",
+    paidPhotoLabel: "Foto (bloccata)",
+    paidFileRequired: "Aggiungi un file prima di salvare.",
+    paidTeaserRequired: "Il teaser è obbligatorio per un video a pagamento.",
+    paidNoOrders: "Nessuna richiesta in sospeso.",
+    paidMarkPaid: "Segna come pagato",
+    paidMarkedPaidToast: "Vendita confermata!",
+    paidExclusiveTitle: "Contenuto esclusivo",
+    paidExclusiveNote: "Anteprima gratuita qui sotto, sblocca il contenuto completo.",
+    paidTeaserBadge: "Teaser gratuito",
+    paidUnlockBtn: "Sblocca per",
+    paidLockedPhoto: "Foto esclusiva bloccata",
+    paidUnlockExplain: "Invia la tua richiesta: riceverai le istruzioni di pagamento, e il contenuto ti sarà inviato una volta confermato il pagamento.",
+    paidContactLabel: "Contatto (email, telefono o WhatsApp)",
+    paidContactPh: "es. email o numero WhatsApp",
+    paidContactRequired: "Indica il tuo nome e un modo per contattarti.",
+    paidSendRequest: "Invia richiesta",
+    paidRequestSent: "Richiesta inviata! Sarai contattata per il pagamento.",
+    paidPendingAgency: "In attesa di convalida dell'agenzia",
+    paidSplitLabel: "Ripartizione:",
+    paidSplitCreator: "quota creatrice",
+    paidInvoiceAndValidate: "Fattura e conferma",
+    paidPaymentInstructionsIntro: "La tua richiesta è stata registrata. Effettua il bonifico indicando il riferimento, riceverai il contenuto una volta confermato il pagamento.",
+    paidRefLabel: "Riferimento",
+    paidAmountLabel: "Importo",
+    paidHolderLabel: "Intestatario del conto",
+    paidSalesPanelBtn: "Vendite",
+    paidSalesPanelTitle: "Vendite in attesa",
     adminSub: "Accesso amministratore",
     adminEnter: "Sblocca",
     adminCancel: "Annulla",
     adminErr: "Codice amministratore errato.",
-    editToggleOn: "Modifica il catalogo",
+    editToggleOn: "HM_Catalogue",
     editToggleOff: "Fatto",
     heroEyebrow: "Catalogo",
     heroTitle: "5 creatrici, un contratto, un'esigenza: la serietà.",
@@ -1058,11 +1355,56 @@ const I18N = {
     creatorPassPh: "O teu código",
     noPhotoYet: "Ainda sem foto",
     vitrineEnterBtn: "Entrar",
+    agencyLogout: "Sair da conta",
+    commentNamePh: "O teu nome ou apelido",
+    commentNameRequired: "Indica o teu nome ou apelido antes de publicar.",
+    paidGalleryTitle: "Galeria paga",
+    paidGalleryNote: "Vende fotos e vídeos exclusivos diretamente do teu espaço. Conteúdo permitido: lingerie, roupa sexy, dança sensual. Sem nudez.",
+    paidSalesLabel: "vendas",
+    paidTotalRevenue: "Faturação total",
+    paidTotalSales: "Vendas totais",
+    paidAddPhoto: "+ Foto paga",
+    paidAddVideo: "+ Vídeo pago",
+    paidNoItems: "Ainda sem conteúdo pago.",
+    paidOrdersTitle: "Pedidos de desbloqueio",
+    paidOrdersLoading: "A carregar…",
+    paidDescLabel: "Descrição",
+    paidDescPh: "Descreve este conteúdo para o tornar apetecível…",
+    paidPriceLabel: "Preço (€)",
+    paidTeaserLabel: "Teaser (5 segundos, visível grátis)",
+    paidFullVideoLabel: "Vídeo completo (bloqueado)",
+    paidPhotoLabel: "Foto (bloqueada)",
+    paidFileRequired: "Adiciona um ficheiro antes de guardar.",
+    paidTeaserRequired: "O teaser é obrigatório para um vídeo pago.",
+    paidNoOrders: "Nenhum pedido pendente.",
+    paidMarkPaid: "Marcar como pago",
+    paidMarkedPaidToast: "Venda confirmada!",
+    paidExclusiveTitle: "Conteúdo exclusivo",
+    paidExclusiveNote: "Pré-visualização grátis abaixo, desbloqueia o conteúdo completo.",
+    paidTeaserBadge: "Teaser grátis",
+    paidUnlockBtn: "Desbloquear por",
+    paidLockedPhoto: "Foto exclusiva bloqueada",
+    paidUnlockExplain: "Envia o teu pedido: vais receber as instruções de pagamento, e o conteúdo será enviado assim que o pagamento for confirmado.",
+    paidContactLabel: "Contacto (email, telefone ou WhatsApp)",
+    paidContactPh: "ex. email ou número de WhatsApp",
+    paidContactRequired: "Indica o teu nome e uma forma de te contactar.",
+    paidSendRequest: "Enviar pedido",
+    paidRequestSent: "Pedido enviado! Vais ser contactada para o pagamento.",
+    paidPendingAgency: "A aguardar validação da agência",
+    paidSplitLabel: "Divisão:",
+    paidSplitCreator: "parte da criadora",
+    paidInvoiceAndValidate: "Faturar e confirmar",
+    paidPaymentInstructionsIntro: "O teu pedido foi registado. Faz a transferência indicando a referência, e receberás o conteúdo assim que o pagamento for confirmado.",
+    paidRefLabel: "Referência",
+    paidAmountLabel: "Valor",
+    paidHolderLabel: "Titular da conta",
+    paidSalesPanelBtn: "Vendas",
+    paidSalesPanelTitle: "Vendas pendentes",
     adminSub: "Acesso de administrador",
     adminEnter: "Desbloquear",
     adminCancel: "Cancelar",
     adminErr: "Código de administrador incorreto.",
-    editToggleOn: "Editar o catálogo",
+    editToggleOn: "HM_Catalogue",
     editToggleOff: "Concluído",
     heroEyebrow: "Catálogo",
     heroTitle: "5 criadoras, um contrato, uma exigência: seriedade.",
@@ -1193,11 +1535,56 @@ const I18N = {
     creatorPassPh: "Nambari yako",
     noPhotoYet: "Hakuna picha bado",
     vitrineEnterBtn: "Ingia",
+    agencyLogout: "Toka",
+    commentNamePh: "Jina lako au jina la utani",
+    commentNameRequired: "Tafadhali andika jina lako kabla ya kuchapisha.",
+    paidGalleryTitle: "Ghala inayolipiwa",
+    paidGalleryNote: "Uza picha na video za kipekee moja kwa moja kutoka nafasi yako. Maudhui yanayoruhusiwa: nguo za ndani, mavazi ya kuvutia, dansi ya kihisia. Hakuna uchi.",
+    paidSalesLabel: "mauzo",
+    paidTotalRevenue: "Mapato yote",
+    paidTotalSales: "Mauzo yote",
+    paidAddPhoto: "+ Picha inayolipiwa",
+    paidAddVideo: "+ Video inayolipiwa",
+    paidNoItems: "Hakuna maudhui yanayolipiwa bado.",
+    paidOrdersTitle: "Maombi ya kufungua",
+    paidOrdersLoading: "Inapakia…",
+    paidDescLabel: "Maelezo",
+    paidDescPh: "Eleza maudhui haya ili yavutie…",
+    paidPriceLabel: "Bei (€)",
+    paidTeaserLabel: "Teaser (sekunde 5, inayoonekana bure)",
+    paidFullVideoLabel: "Video kamili (imefungwa)",
+    paidPhotoLabel: "Picha (imefungwa)",
+    paidFileRequired: "Ongeza faili kabla ya kuhifadhi.",
+    paidTeaserRequired: "Teaser inahitajika kwa video inayolipiwa.",
+    paidNoOrders: "Hakuna maombi yanayosubiri.",
+    paidMarkPaid: "Weka alama kama imelipwa",
+    paidMarkedPaidToast: "Mauzo yamethibitishwa!",
+    paidExclusiveTitle: "Maudhui ya kipekee",
+    paidExclusiveNote: "Muhtasari wa bure hapa chini, fungua maudhui kamili.",
+    paidTeaserBadge: "Teaser ya bure",
+    paidUnlockBtn: "Fungua kwa",
+    paidLockedPhoto: "Picha ya kipekee iliyofungwa",
+    paidUnlockExplain: "Tuma ombi lako: utapokea maelekezo ya malipo, na maudhui yatatumwa mara malipo yatakapothibitishwa.",
+    paidContactLabel: "Mawasiliano (barua pepe, simu au WhatsApp)",
+    paidContactPh: "mfano. barua pepe au namba ya WhatsApp",
+    paidContactRequired: "Tafadhali andika jina lako na njia ya kuwasiliana nawe.",
+    paidSendRequest: "Tuma ombi",
+    paidRequestSent: "Ombi limetumwa! Utawasiliana nawe kwa ajili ya malipo.",
+    paidPendingAgency: "Inasubiri uthibitisho wa wakala",
+    paidSplitLabel: "Mgawanyo:",
+    paidSplitCreator: "fungu la muundaji",
+    paidInvoiceAndValidate: "Toa risiti & thibitisha",
+    paidPaymentInstructionsIntro: "Ombi lako limehifadhiwa. Fanya uhamishaji hapa chini ukitaja nambari ya rejea, kisha utapokea maudhui mara malipo yatakapothibitishwa.",
+    paidRefLabel: "Nambari ya rejea",
+    paidAmountLabel: "Kiasi",
+    paidHolderLabel: "Mmiliki wa akaunti",
+    paidSalesPanelBtn: "Mauzo",
+    paidSalesPanelTitle: "Mauzo yanayosubiri",
     adminSub: "Ufikiaji wa msimamizi",
     adminEnter: "Fungua",
     adminCancel: "Ghairi",
     adminErr: "Nambari ya msimamizi sio sahihi.",
-    editToggleOn: "Hariri katalogi",
+    editToggleOn: "HM_Catalogue",
     editToggleOff: "Imekamilika",
     heroEyebrow: "Katalogi",
     heroTitle: "Waundaji 5, mkataba mmoja, sharti moja: umakini.",
@@ -1328,11 +1715,56 @@ const I18N = {
     creatorPassPh: "Ikhodi yakho",
     noPhotoYet: "Asikho isithombe okwamanje",
     vitrineEnterBtn: "Ngena",
+    agencyLogout: "Phuma",
+    commentNamePh: "Igama lakho noma isiteketiso",
+    commentNameRequired: "Sicela ufake igama lakho ngaphambi kokushicilela.",
+    paidGalleryTitle: "Igalari ekhokhelwayo",
+    paidGalleryNote: "Thengisa izithombe namavidiyo akhethekile ngokuqondile endaweni yakho. Okuqukethwe okuvunyelwe: izingubo zangaphansi, izingubo ezimnandi, umdanso onenshisekelo. Akukho ubunqunu.",
+    paidSalesLabel: "ukuthengiswa",
+    paidTotalRevenue: "Imali engenile yonke",
+    paidTotalSales: "Ukuthengiswa konke",
+    paidAddPhoto: "+ Isithombe esikhokhelwayo",
+    paidAddVideo: "+ Ividiyo ekhokhelwayo",
+    paidNoItems: "Akukho okuqukethwe okukhokhelwayo okwamanje.",
+    paidOrdersTitle: "Izicelo zokuvula",
+    paidOrdersLoading: "Iyalayisha…",
+    paidDescLabel: "Incazelo",
+    paidDescPh: "Chaza lokhu kuqukethwe ukuze kuhehe…",
+    paidPriceLabel: "Intengo (€)",
+    paidTeaserLabel: "I-teaser (imizuzwana emi-5, ibonakala mahhala)",
+    paidFullVideoLabel: "Ividiyo egcwele (ivaliwe)",
+    paidPhotoLabel: "Isithombe (sivaliwe)",
+    paidFileRequired: "Faka ifayela ngaphambi kokugcina.",
+    paidTeaserRequired: "I-teaser iyadingeka kwividiyo ekhokhelwayo.",
+    paidNoOrders: "Azikho izicelo ezilindile.",
+    paidMarkPaid: "Phawula njengokukhokhelwe",
+    paidMarkedPaidToast: "Ukuthengiswa kuqinisekisiwe!",
+    paidExclusiveTitle: "Okuqukethwe okukhethekile",
+    paidExclusiveNote: "Ukubuka kwamahhala ngezansi, vula okuqukethwe okugcwele.",
+    paidTeaserBadge: "I-teaser yamahhala",
+    paidUnlockBtn: "Vula ngo-",
+    paidLockedPhoto: "Isithombe esikhethekile esivaliwe",
+    paidUnlockExplain: "Thumela isicelo sakho: uzothola imiyalelo yenkokhelo, futhi okuqukethwe kuzothunyelwa uma inkokhelo isiqinisekisiwe.",
+    paidContactLabel: "Oxhumana naye (imeyili, ucingo noma WhatsApp)",
+    paidContactPh: "isb. imeyili noma inombolo ye-WhatsApp",
+    paidContactRequired: "Sicela ufake igama lakho nendlela yokuxhumana nawe.",
+    paidSendRequest: "Thumela isicelo",
+    paidRequestSent: "Isicelo sithunyelwe! Uzoxhunyaniswa ngenkokhelo.",
+    paidPendingAgency: "Kulindele ukuqinisekiswa yi-ejensi",
+    paidSplitLabel: "Ukwabiwa:",
+    paidSplitCreator: "isabelo somdali",
+    paidInvoiceAndValidate: "Khiqiza iresidi & qinisekisa",
+    paidPaymentInstructionsIntro: "Isicelo sakho sesibhalisiwe. Yenza inkokhelo engezansi ukhombise inombolo yereferensi, bese uzothola okuqukethwe uma inkokhelo isiqinisekisiwe.",
+    paidRefLabel: "Inombolo yereferensi",
+    paidAmountLabel: "Isamba",
+    paidHolderLabel: "Umnikazi we-akhawunti",
+    paidSalesPanelBtn: "Ukuthengiswa",
+    paidSalesPanelTitle: "Ukuthengiswa okulindile",
     adminSub: "Ukufinyelela komphathi",
     adminEnter: "Vula",
     adminCancel: "Khansela",
     adminErr: "Ikhodi yomphathi engalungile.",
-    editToggleOn: "Hlela ikhathalogu",
+    editToggleOn: "HM_Catalogue",
     editToggleOff: "Kwenziwe",
     heroEyebrow: "Ikhathalogu",
     heroTitle: "Abadali abangu-5, isivumelwano esisodwa, isidingo esisodwa: ukuzimisela.",
@@ -1463,11 +1895,56 @@ const I18N = {
     creatorPassPh: "Khoutu ya hao",
     noPhotoYet: "Ha ho na setshwantsho",
     vitrineEnterBtn: "Kena",
+    agencyLogout: "Tswa",
+    commentNamePh: "Lebitso la hao kapa la boitlolo",
+    commentNameRequired: "Ka kopo kenya lebitso la hao pele o phatlalatsa.",
+    paidGalleryTitle: "Setoro se lefellwang",
+    paidGalleryNote: "Rekisa diswantso le divideo tse ikgethang ho tswa sebakeng sa hao. Diteng tse dumelletsweng: diaparo tsa ka tlasa, diaparo tse hohelang, tantshi e nang le maikutlo. Ha ho bofeela.",
+    paidSalesLabel: "dithekiso",
+    paidTotalRevenue: "Chelete yohle e kenneng",
+    paidTotalSales: "Dithekiso tsohle",
+    paidAddPhoto: "+ Setshwantsho se lefellwang",
+    paidAddVideo: "+ Video e lefellwang",
+    paidNoItems: "Ha ho na diteng tse lefellwang ka nako ena.",
+    paidOrdersTitle: "Dikopo tsa ho bula",
+    paidOrdersLoading: "E a kenya…",
+    paidDescLabel: "Tlhaloso",
+    paidDescPh: "Hlalosa diteng tsena hore di hohele…",
+    paidPriceLabel: "Theko (€)",
+    paidTeaserLabel: "Teaser (metsotswana e 5, e bonahala mahala)",
+    paidFullVideoLabel: "Video e felletseng (e notletswe)",
+    paidPhotoLabel: "Setshwantsho (se notletswe)",
+    paidFileRequired: "Kenya faele pele o boloka.",
+    paidTeaserRequired: "Teaser e a hlokahala bakeng sa video e lefellwang.",
+    paidNoOrders: "Ha ho dikopo tse lebeletseng.",
+    paidMarkPaid: "Tshwaya e lefetswe",
+    paidMarkedPaidToast: "Thekiso e netefaditswe!",
+    paidExclusiveTitle: "Diteng tse ikgethang",
+    paidExclusiveNote: "Pono ya mahala ka tlase, bula diteng tse felletseng.",
+    paidTeaserBadge: "Teaser ya mahala",
+    paidUnlockBtn: "Bula ka",
+    paidLockedPhoto: "Setshwantsho se ikgethang se notletsweng",
+    paidUnlockExplain: "Romela kopo ya hao: o tla fumana ditaelo tsa tefo, mme diteng di tla romelwa hang ha tefo e netefaditswe.",
+    paidContactLabel: "Dintlha tsa boikopanyo (imeile, mohala kapa WhatsApp)",
+    paidContactPh: "mohlala. imeile kapa nomoro ya WhatsApp",
+    paidContactRequired: "Ka kopo kenya lebitso la hao le tsela ya ho ikopanya le wena.",
+    paidSendRequest: "Romela kopo",
+    paidRequestSent: "Kopo e rometswe! O tla ikopanngwa bakeng sa tefo.",
+    paidPendingAgency: "E lebeletse ho netefatswa ke ejensi",
+    paidSplitLabel: "Karolo:",
+    paidSplitCreator: "karolo ya mmopi",
+    paidInvoiceAndValidate: "Fana ka fekisi & netefatsa",
+    paidPaymentInstructionsIntro: "Kopo ya hao e ngodisitswe. Etsa phano ka tlase o bontshe nomoro ya referense, mme o tla fumana diteng hang ha tefo e netefaditswe.",
+    paidRefLabel: "Nomoro ya referense",
+    paidAmountLabel: "Chelete",
+    paidHolderLabel: "Mong'a akhaonto",
+    paidSalesPanelBtn: "Dithekiso",
+    paidSalesPanelTitle: "Dithekiso tse lebeletseng",
     adminSub: "Phihlelo ya motsamaisi",
     adminEnter: "Bula",
     adminCancel: "Hlakola",
     adminErr: "Khoutu ya motsamaisi e fosahetseng.",
-    editToggleOn: "Fetola lethathamo",
+    editToggleOn: "HM_Catalogue",
     editToggleOff: "Ho phethiloe",
     heroEyebrow: "Lethathamo",
     heroTitle: "Babopi ba 5, konteraka e le nngwe, tlhoko e le nngwe: botebo.",
@@ -1598,11 +2075,56 @@ const I18N = {
     creatorPassPh: "Kode na yo",
     noPhotoYet: "Foto te naino",
     vitrineEnterBtn: "Kota",
+    agencyLogout: "Bima",
+    commentNamePh: "Nkombo na yo to pseudo",
+    commentNameRequired: "Tia nkombo na yo yambo ya kobimisa.",
+    paidGalleryTitle: "Galerie ya kofuta",
+    paidGalleryNote: "Teka bafoto na bavideo ya kokesama uta na esika na yo. Bikuma bindimami: bilamba ya nse, bilamba ya kobenda miso, kobina na sensuel. Bolumbu te.",
+    paidSalesLabel: "kotekisa",
+    paidTotalRevenue: "Mbongo nyonso ekoti",
+    paidTotalSales: "Kotekisa nyonso",
+    paidAddPhoto: "+ Foto ya kofuta",
+    paidAddVideo: "+ Video ya kofuta",
+    paidNoItems: "Eloko ya kofuta ezali te sikoyo.",
+    paidOrdersTitle: "Kosenga kofungola",
+    paidOrdersLoading: "Ezali kotinda…",
+    paidDescLabel: "Description",
+    paidDescPh: "Limbola likambo oyo mpo ete elingisa…",
+    paidPriceLabel: "Ntalo (€)",
+    paidTeaserLabel: "Teaser (segondes 5, komonana ofele)",
+    paidFullVideoLabel: "Video mobimba (ekangami)",
+    paidPhotoLabel: "Foto (ekangami)",
+    paidFileRequired: "Bakisa fichier yambo ya kobomba.",
+    paidTeaserRequired: "Teaser esengeli mpo na video ya kofuta.",
+    paidNoOrders: "Kosenga moko te ezali kozela.",
+    paidMarkPaid: "Tia elembo ya kofutama",
+    paidMarkedPaidToast: "Kotekisa endimami!",
+    paidExclusiveTitle: "Bikuma ya kokesama",
+    paidExclusiveNote: "Botali ya ofele na nse, fungola bikuma mobimba.",
+    paidTeaserBadge: "Teaser ya ofele",
+    paidUnlockBtn: "Fungola na",
+    paidLockedPhoto: "Foto ya kokesama ekangami",
+    paidUnlockExplain: "Tinda kosenga na yo: okozwa malako ya kofuta, mpe bikuma ekotindama soki kofuta endimami.",
+    paidContactLabel: "Boyokani (imel, telefone to WhatsApp)",
+    paidContactPh: "ndakisa. imel to nimero ya WhatsApp",
+    paidContactRequired: "Svp tia nkombo na yo na lolenge ya koyokana na yo.",
+    paidSendRequest: "Tinda kosenga",
+    paidRequestSent: "Kosenga etindami! Bakoyokana na yo mpo na kofuta.",
+    paidPendingAgency: "Ezali kozela kondimama na agence",
+    paidSplitLabel: "Bokabwani:",
+    paidSplitCreator: "eteni ya mokeli",
+    paidInvoiceAndValidate: "Bimisa facture & ndimisa",
+    paidPaymentInstructionsIntro: "Kosenga na yo ekomami. Sala vireman na nse na kotanga référence, mpe okozwa bikuma soki kofuta endimami.",
+    paidRefLabel: "Référence",
+    paidAmountLabel: "Talo",
+    paidHolderLabel: "Nkolo ya compte",
+    paidSalesPanelBtn: "Kotekisa",
+    paidSalesPanelTitle: "Kotekisa oyo ezali kozela",
     adminSub: "Bokoti ya mokambi",
     adminEnter: "Fungola",
     adminCancel: "Tika",
     adminErr: "Kode ya mokambi ezali malamu te.",
-    editToggleOn: "Benga catalogue",
+    editToggleOn: "HM_Catalogue",
     editToggleOff: "Esili",
     heroEyebrow: "Catalogue",
     heroTitle: "Bakeli 5, kontra moko, mposa moko: bosolo.",
@@ -1733,11 +2255,56 @@ const I18N = {
     creatorPassPh: "你的代码",
     noPhotoYet: "暂无照片",
     vitrineEnterBtn: "进入",
+    agencyLogout: "退出登录",
+    commentNamePh: "你的名字或昵称",
+    commentNameRequired: "发布前请填写你的名字或昵称。",
+    paidGalleryTitle: "付费相册",
+    paidGalleryNote: "直接从你的空间出售专属照片和视频。允许的内容：内衣、性感服装、性感舞蹈。不允许裸露。",
+    paidSalesLabel: "销量",
+    paidTotalRevenue: "总收入",
+    paidTotalSales: "总销量",
+    paidAddPhoto: "+ 付费照片",
+    paidAddVideo: "+ 付费视频",
+    paidNoItems: "暂无付费内容。",
+    paidOrdersTitle: "解锁请求",
+    paidOrdersLoading: "加载中…",
+    paidDescLabel: "描述",
+    paidDescPh: "描述这个内容，让人心动…",
+    paidPriceLabel: "价格（€）",
+    paidTeaserLabel: "预告片（5秒，免费观看）",
+    paidFullVideoLabel: "完整视频（已锁定）",
+    paidPhotoLabel: "照片（已锁定）",
+    paidFileRequired: "保存前请添加文件。",
+    paidTeaserRequired: "付费视频必须有预告片。",
+    paidNoOrders: "没有待处理的请求。",
+    paidMarkPaid: "标记为已付款",
+    paidMarkedPaidToast: "销售已确认！",
+    paidExclusiveTitle: "专属内容",
+    paidExclusiveNote: "下方为免费预览，解锁完整内容。",
+    paidTeaserBadge: "免费预告片",
+    paidUnlockBtn: "解锁价格",
+    paidLockedPhoto: "已锁定的专属照片",
+    paidUnlockExplain: "发送你的请求：你将收到付款说明，付款确认后内容会发送给你。",
+    paidContactLabel: "联系方式（邮箱、电话或WhatsApp）",
+    paidContactPh: "例如邮箱或WhatsApp号码",
+    paidContactRequired: "请填写你的名字和联系方式。",
+    paidSendRequest: "发送请求",
+    paidRequestSent: "请求已发送！我们会联系你完成付款。",
+    paidPendingAgency: "等待代理审核",
+    paidSplitLabel: "分成：",
+    paidSplitCreator: "创作者份额",
+    paidInvoiceAndValidate: "开票并确认",
+    paidPaymentInstructionsIntro: "你的请求已记录。请按下方参考编号完成转账，付款确认后你将收到内容。",
+    paidRefLabel: "参考编号",
+    paidAmountLabel: "金额",
+    paidHolderLabel: "账户持有人",
+    paidSalesPanelBtn: "销售",
+    paidSalesPanelTitle: "待处理销售",
     adminSub: "管理员访问",
     adminEnter: "解锁",
     adminCancel: "取消",
     adminErr: "管理员密码错误。",
-    editToggleOn: "编辑目录",
+    editToggleOn: "HM_Catalogue",
     editToggleOff: "完成",
     heroEyebrow: "目录",
     heroTitle: "5位创作者，一份合同，一个要求：认真负责。",
@@ -1868,11 +2435,56 @@ const I18N = {
     creatorPassPh: "あなたのコード",
     noPhotoYet: "まだ写真がありません",
     vitrineEnterBtn: "入る",
+    agencyLogout: "ログアウト",
+    commentNamePh: "お名前またはニックネーム",
+    commentNameRequired: "投稿前にお名前かニックネームを入力してください。",
+    paidGalleryTitle: "有料ギャラリー",
+    paidGalleryNote: "あなたのスペースから直接、限定写真や動画を販売できます。許可されるコンテンツ：ランジェリー、セクシーな衣装、官能的なダンス。ヌードは不可。",
+    paidSalesLabel: "販売数",
+    paidTotalRevenue: "総売上",
+    paidTotalSales: "総販売数",
+    paidAddPhoto: "+ 有料写真",
+    paidAddVideo: "+ 有料動画",
+    paidNoItems: "まだ有料コンテンツがありません。",
+    paidOrdersTitle: "解除リクエスト",
+    paidOrdersLoading: "読み込み中…",
+    paidDescLabel: "説明",
+    paidDescPh: "この内容の魅力が伝わるように説明してください…",
+    paidPriceLabel: "価格（€）",
+    paidTeaserLabel: "ティザー（5秒、無料公開）",
+    paidFullVideoLabel: "完全版動画（ロック中）",
+    paidPhotoLabel: "写真（ロック中）",
+    paidFileRequired: "保存前にファイルを追加してください。",
+    paidTeaserRequired: "有料動画にはティザーが必須です。",
+    paidNoOrders: "保留中のリクエストはありません。",
+    paidMarkPaid: "支払い済みにする",
+    paidMarkedPaidToast: "販売が確認されました！",
+    paidExclusiveTitle: "限定コンテンツ",
+    paidExclusiveNote: "下に無料プレビューがあります。全編はロック解除が必要です。",
+    paidTeaserBadge: "無料ティザー",
+    paidUnlockBtn: "ロック解除：",
+    paidLockedPhoto: "ロックされた限定写真",
+    paidUnlockExplain: "リクエストを送信すると支払い方法の案内が届き、支払い確認後にコンテンツが送られます。",
+    paidContactLabel: "連絡先（メール、電話、またはWhatsApp）",
+    paidContactPh: "例：メールまたはWhatsApp番号",
+    paidContactRequired: "お名前と連絡方法を入力してください。",
+    paidSendRequest: "リクエストを送る",
+    paidRequestSent: "リクエストを送信しました！支払いについてご連絡します。",
+    paidPendingAgency: "代理店の承認待ち",
+    paidSplitLabel: "分配：",
+    paidSplitCreator: "クリエイターの取り分",
+    paidInvoiceAndValidate: "請求書発行＆確認",
+    paidPaymentInstructionsIntro: "リクエストが記録されました。以下の参照番号を記載して振込を行ってください。支払い確認後、コンテンツが届きます。",
+    paidRefLabel: "参照番号",
+    paidAmountLabel: "金額",
+    paidHolderLabel: "口座名義人",
+    paidSalesPanelBtn: "販売",
+    paidSalesPanelTitle: "保留中の販売",
     adminSub: "管理者アクセス",
     adminEnter: "ロック解除",
     adminCancel: "キャンセル",
     adminErr: "管理者コードが正しくありません。",
-    editToggleOn: "カタログを編集",
+    editToggleOn: "HM_Catalogue",
     editToggleOff: "完了",
     heroEyebrow: "カタログ",
     heroTitle: "5人のクリエイター、1つの契約、1つの条件：誠実さ。",
@@ -2003,11 +2615,56 @@ const I18N = {
     creatorPassPh: "Твой код",
     noPhotoYet: "Пока нет фото",
     vitrineEnterBtn: "Войти",
+    agencyLogout: "Выйти из аккаунта",
+    commentNamePh: "Твоё имя или ник",
+    commentNameRequired: "Пожалуйста, укажи имя или ник перед публикацией.",
+    paidGalleryTitle: "Платная галерея",
+    paidGalleryNote: "Продавай эксклюзивные фото и видео прямо из своего личного кабинета. Разрешённый контент: бельё, откровенные наряды, чувственные танцы. Никакой обнажёнки.",
+    paidSalesLabel: "продаж",
+    paidTotalRevenue: "Общая выручка",
+    paidTotalSales: "Всего продаж",
+    paidAddPhoto: "+ Платное фото",
+    paidAddVideo: "+ Платное видео",
+    paidNoItems: "Пока нет платного контента.",
+    paidOrdersTitle: "Запросы на разблокировку",
+    paidOrdersLoading: "Загрузка…",
+    paidDescLabel: "Описание",
+    paidDescPh: "Опиши этот контент, чтобы вызвать интерес…",
+    paidPriceLabel: "Цена (€)",
+    paidTeaserLabel: "Тизер (5 секунд, бесплатный просмотр)",
+    paidFullVideoLabel: "Полное видео (заблокировано)",
+    paidPhotoLabel: "Фото (заблокировано)",
+    paidFileRequired: "Добавь файл перед сохранением.",
+    paidTeaserRequired: "Для платного видео тизер обязателен.",
+    paidNoOrders: "Нет ожидающих запросов.",
+    paidMarkPaid: "Отметить как оплачено",
+    paidMarkedPaidToast: "Продажа подтверждена!",
+    paidExclusiveTitle: "Эксклюзивный контент",
+    paidExclusiveNote: "Бесплатный превью ниже, разблокируй полный контент.",
+    paidTeaserBadge: "Бесплатный тизер",
+    paidUnlockBtn: "Разблокировать за",
+    paidLockedPhoto: "Заблокированное эксклюзивное фото",
+    paidUnlockExplain: "Отправь запрос: ты получишь инструкции по оплате, а контент будет отправлен после подтверждения оплаты.",
+    paidContactLabel: "Контакт (email, телефон или WhatsApp)",
+    paidContactPh: "напр. email или номер WhatsApp",
+    paidContactRequired: "Пожалуйста, укажи имя и способ связи с тобой.",
+    paidSendRequest: "Отправить запрос",
+    paidRequestSent: "Запрос отправлен! С тобой свяжутся для оплаты.",
+    paidPendingAgency: "Ожидает подтверждения агентством",
+    paidSplitLabel: "Разделение:",
+    paidSplitCreator: "доля создательницы",
+    paidInvoiceAndValidate: "Выставить счёт и подтвердить",
+    paidPaymentInstructionsIntro: "Твой запрос зарегистрирован. Сделай перевод ниже, указав референс, и ты получишь контент после подтверждения оплаты.",
+    paidRefLabel: "Референс",
+    paidAmountLabel: "Сумма",
+    paidHolderLabel: "Владелец счёта",
+    paidSalesPanelBtn: "Продажи",
+    paidSalesPanelTitle: "Ожидающие продажи",
     adminSub: "Доступ администратора",
     adminEnter: "Разблокировать",
     adminCancel: "Отмена",
     adminErr: "Неверный код администратора.",
-    editToggleOn: "Редактировать каталог",
+    editToggleOn: "HM_Catalogue",
     editToggleOff: "Готово",
     heroEyebrow: "Каталог",
     heroTitle: "5 создательниц, один контракт, одно требование: серьёзность.",
@@ -2138,11 +2795,56 @@ const I18N = {
     creatorPassPh: "رمزك",
     noPhotoYet: "لا توجد صورة بعد",
     vitrineEnterBtn: "دخول",
+    agencyLogout: "تسجيل الخروج",
+    commentNamePh: "اسمك أو لقبك",
+    commentNameRequired: "يرجى إدخال اسمك أو لقبك قبل النشر.",
+    paidGalleryTitle: "معرض مدفوع",
+    paidGalleryNote: "بيعي صورًا وفيديوهات حصرية مباشرة من مساحتك. المحتوى المسموح به: ملابس داخلية، أزياء مثيرة، رقص حسي. لا عري.",
+    paidSalesLabel: "مبيعات",
+    paidTotalRevenue: "إجمالي الإيرادات",
+    paidTotalSales: "إجمالي المبيعات",
+    paidAddPhoto: "+ صورة مدفوعة",
+    paidAddVideo: "+ فيديو مدفوع",
+    paidNoItems: "لا يوجد محتوى مدفوع بعد.",
+    paidOrdersTitle: "طلبات فتح القفل",
+    paidOrdersLoading: "جارٍ التحميل…",
+    paidDescLabel: "الوصف",
+    paidDescPh: "صفي هذا المحتوى لجعله جذابًا…",
+    paidPriceLabel: "السعر (€)",
+    paidTeaserLabel: "المقطع الترويجي (5 ثوانٍ، يُعرض مجانًا)",
+    paidFullVideoLabel: "الفيديو الكامل (مقفل)",
+    paidPhotoLabel: "الصورة (مقفلة)",
+    paidFileRequired: "أضيفي ملفًا قبل الحفظ.",
+    paidTeaserRequired: "المقطع الترويجي إلزامي للفيديو المدفوع.",
+    paidNoOrders: "لا توجد طلبات معلقة.",
+    paidMarkPaid: "وضع علامة كمدفوع",
+    paidMarkedPaidToast: "تم تأكيد البيع!",
+    paidExclusiveTitle: "محتوى حصري",
+    paidExclusiveNote: "معاينة مجانية أدناه، افتح المحتوى الكامل.",
+    paidTeaserBadge: "مقطع ترويجي مجاني",
+    paidUnlockBtn: "فتح مقابل",
+    paidLockedPhoto: "صورة حصرية مقفلة",
+    paidUnlockExplain: "أرسلي طلبك: ستتلقين تعليمات الدفع، وسيُرسل المحتوى بمجرد تأكيد الدفع.",
+    paidContactLabel: "معلومات التواصل (بريد إلكتروني، هاتف أو واتساب)",
+    paidContactPh: "مثال: بريد إلكتروني أو رقم واتساب",
+    paidContactRequired: "يرجى إدخال اسمك وطريقة للتواصل معك.",
+    paidSendRequest: "إرسال الطلب",
+    paidRequestSent: "تم إرسال الطلب! سيتم التواصل معك بخصوص الدفع.",
+    paidPendingAgency: "في انتظار موافقة الوكالة",
+    paidSplitLabel: "التوزيع:",
+    paidSplitCreator: "حصة المنشئة",
+    paidInvoiceAndValidate: "إصدار فاتورة والتأكيد",
+    paidPaymentInstructionsIntro: "تم تسجيل طلبك. قم بالتحويل أدناه مع ذكر الرقم المرجعي، وستتلقين المحتوى بمجرد تأكيد الدفع.",
+    paidRefLabel: "الرقم المرجعي",
+    paidAmountLabel: "المبلغ",
+    paidHolderLabel: "صاحب الحساب",
+    paidSalesPanelBtn: "المبيعات",
+    paidSalesPanelTitle: "المبيعات المعلقة",
     adminSub: "وصول المسؤول",
     adminEnter: "فتح القفل",
     adminCancel: "إلغاء",
     adminErr: "رمز المسؤول غير صحيح.",
-    editToggleOn: "تعديل الكتالوج",
+    editToggleOn: "HM_Catalogue",
     editToggleOff: "تم",
     heroEyebrow: "الكتالوج",
     heroTitle: "5 منشئات محتوى، عقد واحد، شرط واحد: الجدية.",
@@ -2273,11 +2975,56 @@ const I18N = {
     creatorPassPh: "Kode na nge",
     noPhotoYet: "Kifwani ve kiantete",
     vitrineEnterBtn: "Kota",
+    agencyLogout: "Basika",
+    commentNamePh: "Nkumbu na nge to pseudo",
+    commentNameRequired: "Tula nkumbu na nge na ntwala ya kubasisa.",
+    paidGalleryTitle: "Galeri ya kofuta",
+    paidGalleryNote: "Teka bifwani ye bavideo ya kikesa uta na kisika na nge. Bima bindimama: bilele ya nsi, bilele ya kubenda meso, kina ya sensuel. Bwakabwaka ve.",
+    paidSalesLabel: "kuteka",
+    paidTotalRevenue: "Mbongo yonso ekoti",
+    paidTotalSales: "Kuteka nyonso",
+    paidAddPhoto: "+ Kifwani ya kofuta",
+    paidAddVideo: "+ Video ya kofuta",
+    paidNoItems: "Kima ya kofuta ve kutuka.",
+    paidOrdersTitle: "Kulomba kufungula",
+    paidOrdersLoading: "Ke tindisa…",
+    paidDescLabel: "Description",
+    paidDescPh: "Songa likambu yayi mpo yandima…",
+    paidPriceLabel: "Ntalu (€)",
+    paidTeaserLabel: "Teaser (segonde 5, ke monana pamba)",
+    paidFullVideoLabel: "Video mobimba (ekangami)",
+    paidPhotoLabel: "Kifwani (ekangami)",
+    paidFileRequired: "Bakisa fisye na ntwala ya kubumba.",
+    paidTeaserRequired: "Teaser ke lombama mpo na video ya kofuta.",
+    paidNoOrders: "Kulomba mosi ve ke vingila.",
+    paidMarkPaid: "Tula kidimbu ya kofutama",
+    paidMarkedPaidToast: "Kuteka kundimama!",
+    paidExclusiveTitle: "Bima ya kikesa",
+    paidExclusiveNote: "Kutala ya pamba na nsi, fungula bima mobimba.",
+    paidTeaserBadge: "Teaser ya pamba",
+    paidUnlockBtn: "Fungula na",
+    paidLockedPhoto: "Kifwani ya kikesa ekangami",
+    paidUnlockExplain: "Tinda nsenga na nge: takubaka malako ya kofuta, ye bima takutindama kana kofuta kundimama.",
+    paidContactLabel: "Boyikani (imel, telefone to WhatsApp)",
+    paidContactPh: "mbandu. imel to nimero ya WhatsApp",
+    paidContactRequired: "Nsweswe tula nkumbu na nge ye lolenge ya koyikana na nge.",
+    paidSendRequest: "Tinda nsenga",
+    paidRequestSent: "Nsenga me tindama! Bakuyikana na nge mpo na kofuta.",
+    paidPendingAgency: "Ke vingila kundima ya agence",
+    paidSplitLabel: "Kukabwana:",
+    paidSplitCreator: "kifundu ya metila",
+    paidInvoiceAndValidate: "Basisa facture & ndima",
+    paidPaymentInstructionsIntro: "Nsenga na nge me sonama. Sala vireman na nse na kutanga référence, ye takubaka bima kana kofuta kundimama.",
+    paidRefLabel: "Référence",
+    paidAmountLabel: "Ntalu",
+    paidHolderLabel: "Mfumu ya compte",
+    paidSalesPanelBtn: "Kuteka",
+    paidSalesPanelTitle: "Kuteka yina ke vingila",
     adminSub: "Nzila ya mfumu",
     adminEnter: "Kangula",
     adminCancel: "Vidisa",
     adminErr: "Kode ya mfumu kele mbote ve.",
-    editToggleOn: "Soba katalogi",
+    editToggleOn: "HM_Catalogue",
     editToggleOff: "Mene manisa",
     heroEyebrow: "Katalogi",
     heroTitle: "Bantu 5 ya kusala mambu, kontrata mosi, mfunu mosi: kieleka.",
@@ -2480,6 +3227,10 @@ function applyStaticText(){
   document.getElementById('t-back-agency').textContent = t('backAgency');
   document.getElementById('creator-pass').placeholder = t('creatorPassPh');
   document.getElementById('t-creator-logout').textContent = t('creatorLogout');
+  document.getElementById('t-agency-logout').textContent = t('agencyLogout');
+  document.getElementById('t-sales-btn').textContent = t('paidSalesPanelBtn');
+  document.getElementById('t-sales-title').textContent = t('paidSalesPanelTitle');
+  document.getElementById('t-sales-close').textContent = t('galleryClose');
   document.documentElement.lang = LANG;
   document.documentElement.dir = (LANG === 'ar') ? 'rtl' : 'ltr';
 }
@@ -2516,6 +3267,11 @@ document.getElementById('creator-logout').onclick = () => {
     auth.signOut().catch(()=>{});
   }
   document.getElementById('my-profile-shell').style.display = 'none';
+  document.getElementById('gate').style.display = 'flex';
+};
+document.getElementById('agency-logout').onclick = () => {
+  sessionStorage.removeItem('hm_gate_ok');
+  document.getElementById('app-shell').style.display = 'none';
   document.getElementById('gate').style.display = 'flex';
 };
 document.getElementById('my-lang-select').onchange = (e) => { setMyProfileLang(e.target.value); };
@@ -2563,7 +3319,7 @@ document.getElementById('gate-pass').addEventListener('keydown', (e) => {
 
 /* ---------------- admin gate (edit lock) — Firebase Auth email + mot de passe ---------------- */
 let pendingAdminAction = null;
-function isAdmin(){ return !!(auth && auth.currentUser); }
+function isAdmin(){ return !!(auth && auth.currentUser && !auth.currentUser.isAnonymous); }
 function requireAdmin(action){
   if(isAdmin()){ action(); return; }
   pendingAdminAction = action;
@@ -2607,7 +3363,7 @@ function emptySlot(i){
     id: 'm' + i, filled: false, name: '', country: '', verified18: false,
     platforms: '', audience: '', contentType: '', availability: '',
     photo: '', contract: '', galleryPhotos: [], galleryVideos: [],
-    privatePhotos: [], privateVideos: [], bio: null, likes: 0, dislikes: 0
+    privatePhotos: [], privateVideos: [], bio: null, likes: 0, dislikes: 0, paidContent: []
   };
 }
 function loadRoster(){
@@ -2655,8 +3411,12 @@ document.getElementById('edit-toggle').onclick = () => {
 function refreshEditUI(){
   document.getElementById('edit-toggle').classList.toggle('active', editMode);
   document.getElementById('t-edit-toggle').textContent = editMode ? t('editToggleOff') : t('editToggleOn');
+  document.getElementById('sales-panel-btn').style.display = isAdmin() ? '' : 'none';
   renderRoster();
 }
+document.getElementById('sales-panel-btn').onclick = () => {
+  requireAdmin(openSalesPanel);
+};
 
 document.getElementById('contact-btn').onclick = () => {
   const subject = encodeURIComponent(LANG==='fr' ? 'Demande de partenariat — Honeymoon' : 'Partnership inquiry — Honeymoon');
@@ -2705,13 +3465,25 @@ async function syncProfilesFromFirestore(){
       const galleryVideos = [];
       mediaSnap.forEach(d => {
         const md = d.data();
-        const entry = { docId: d.id, url: md.url };
+        const entry = { docId: d.id, url: md.url, likes: md.likes || 0, dislikes: md.dislikes || 0 };
         if(md.kind === 'video') galleryVideos.push(entry);
         else galleryPhotos.push(entry);
       });
       m.galleryPhotos = galleryPhotos;
       m.galleryVideos = galleryVideos;
       changed = true;
+
+      const paidSnap = await db.collection('profiles').doc(m.id).collection('paid_content').orderBy('createdAt', 'desc').get();
+      const paidContent = [];
+      paidSnap.forEach(d => {
+        const pd = d.data();
+        paidContent.push({
+          docId: d.id, kind: pd.kind, url: pd.url, teaserUrl: pd.teaserUrl || '',
+          price: pd.price || 0, description: pd.description || '',
+          salesCount: pd.salesCount || 0, revenue: pd.revenue || 0
+        });
+      });
+      m.paidContent = paidContent;
     }catch(e){
       console.error('sync error', m.id, e);
     }
@@ -2778,11 +3550,18 @@ function renderMyProfile(slotId){
       <p style="color:var(--text-muted);font-size:12.5px;max-width:460px;margin-top:8px;line-height:1.65;">${t('myVaultNote')}</p>
       <div id="my-vault-zone" style="margin-top:20px;"></div>
     </div>
+    <div style="margin-top:48px;padding-top:36px;border-top:1px solid var(--border);">
+      <h2 class="display" style="font-size:19px;">${t('paidGalleryTitle')}</h2>
+      <p style="color:var(--text-muted);font-size:12.5px;max-width:460px;margin-top:8px;line-height:1.65;">${t('paidGalleryNote')}</p>
+      <p style="color:var(--honey);font-size:11.5px;max-width:460px;margin-top:10px;line-height:1.6;">${t('contentPolicyNote')}</p>
+      <div id="my-paid-zone" style="margin-top:20px;"></div>
+    </div>
   `;
 
   document.getElementById('my-edit-btn').onclick = () => openMyProfileEdit(m);
   renderMyGallery(m);
   renderMyVault(m);
+  renderMyPaidGallery(m);
 }
 
 function renderMyVault(m){
@@ -2860,6 +3639,201 @@ function renderMyVault(m){
       }
     };
   });
+}
+
+/* ================= GALERIE PAYANTE (contenu à débloquer sur la vitrine) ================= */
+const PAID_PHOTO_MAX = 20;
+const PAID_VIDEO_MAX = 50;
+
+function renderMyPaidGallery(m){
+  const zone = document.getElementById('my-paid-zone');
+  if(!zone) return;
+  const items = m.paidContent || [];
+
+  const totalRevenue = items.reduce((sum, it) => sum + (it.revenue || 0), 0);
+  const totalSales = items.reduce((sum, it) => sum + (it.salesCount || 0), 0);
+
+  const itemCards = items.map(it => `
+    <div class="paid-item-card">
+      <div class="paid-item-thumb">
+        ${it.kind === 'video'
+          ? `<video src="${it.teaserUrl || it.url}" muted></video>`
+          : `<img src="${it.url}">`}
+        <span class="paid-item-price">${it.price}€</span>
+      </div>
+      <div class="paid-item-info">
+        <p class="paid-item-desc">${escText(it.description) || '—'}</p>
+        <div class="paid-item-stats">
+          <span>${ICON_CART}${it.salesCount || 0} ${t('paidSalesLabel')}</span>
+          <span>${ICON_COIN}${it.revenue || 0}€</span>
+        </div>
+        <button class="rm" data-docid="${it.docId}" style="position:static;margin-top:8px;width:auto;height:auto;padding:6px 10px;border-radius:8px;">✕ ${t('cancel')}</button>
+      </div>
+    </div>`).join('');
+
+  zone.innerHTML = `
+    <div class="paid-summary">
+      <div><span class="k">${t('paidTotalRevenue')}</span><span class="v">${totalRevenue}€</span></div>
+      <div><span class="k">${t('paidTotalSales')}</span><span class="v">${totalSales}</span></div>
+    </div>
+    <div class="paid-add-row">
+      <button class="btn btn-ghost btn-sm" id="add-paid-photo-btn">${ICON_CAMERA}${t('paidAddPhoto')}</button>
+      <button class="btn btn-ghost btn-sm" id="add-paid-video-btn">${ICON_VIDEO}${t('paidAddVideo')}</button>
+    </div>
+    <div class="paid-items-list">
+      ${itemCards || `<span class="gallery-empty">${t('paidNoItems')}</span>`}
+    </div>
+    <div style="margin-top:30px;padding-top:20px;border-top:1px solid var(--border);">
+      <h4 class="mono" style="font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px;">${t('paidOrdersTitle')}</h4>
+      <div id="my-orders-zone"><span class="gallery-empty">${t('paidOrdersLoading')}</span></div>
+    </div>
+  `;
+
+  document.getElementById('add-paid-photo-btn').onclick = () => openPaidContentModal(m, 'photo');
+  document.getElementById('add-paid-video-btn').onclick = () => openPaidContentModal(m, 'video');
+
+  zone.querySelectorAll('.paid-item-card .rm').forEach(btn => {
+    btn.onclick = async () => {
+      const docId = btn.dataset.docid;
+      btn.disabled = true;
+      try{
+        await db.collection('profiles').doc(m.id).collection('paid_content').doc(docId).delete();
+        m.paidContent = (m.paidContent || []).filter(x => x.docId !== docId);
+        renderMyPaidGallery(m);
+        toast(t('removedToast'));
+      }catch(e){
+        console.error(e);
+        toast(t('saveErrorToast'));
+      }
+    };
+  });
+
+  loadMyOrders(m);
+}
+
+function openPaidContentModal(m, kind){
+  document.getElementById('t-paid-modal-title').textContent = kind === 'video' ? t('paidAddVideo') : t('paidAddPhoto');
+  const max = kind === 'video' ? PAID_VIDEO_MAX : PAID_PHOTO_MAX;
+  const body = document.getElementById('paid-body');
+  body.innerHTML = `
+    <label>${t('paidDescLabel')}</label>
+    <textarea id="paid-desc" rows="3" placeholder="${t('paidDescPh')}"></textarea>
+    <label>${t('paidPriceLabel')} (1€ – ${max}€)</label>
+    <input id="paid-price" type="number" min="1" max="${max}" value="1">
+    ${kind === 'video' ? `
+      <label>${t('paidTeaserLabel')}</label>
+      <div class="upload-drop" id="paid-teaser-drop">
+        <span id="paid-teaser-label">${t('photoPrompt')}</span>
+        <input type="file" id="paid-teaser-file" accept="video/*">
+      </div>
+      <label>${t('paidFullVideoLabel')}</label>
+      <div class="upload-drop" id="paid-full-drop">
+        <span id="paid-full-label">${t('photoPrompt')}</span>
+        <input type="file" id="paid-full-file" accept="video/*">
+      </div>
+    ` : `
+      <label>${t('paidPhotoLabel')}</label>
+      <div class="upload-drop" id="paid-full-drop">
+        <span id="paid-full-label">${t('photoPrompt')}</span>
+        <input type="file" id="paid-full-file" accept="image/*">
+      </div>
+    `}
+    <div class="modal-actions">
+      <button class="btn btn-ghost btn-sm" id="paid-cancel" style="flex:1;">${t('cancel')}</button>
+      <button class="btn btn-primary btn-sm" id="paid-save" style="flex:1;">${t('save')}</button>
+    </div>
+  `;
+
+  let teaserFile = null, fullFile = null;
+  if(kind === 'video'){
+    document.getElementById('paid-teaser-drop').onclick = () => document.getElementById('paid-teaser-file').click();
+    document.getElementById('paid-teaser-file').onchange = (e) => {
+      teaserFile = e.target.files[0];
+      if(teaserFile) document.getElementById('paid-teaser-label').textContent = teaserFile.name;
+    };
+  }
+  document.getElementById('paid-full-drop').onclick = () => document.getElementById('paid-full-file').click();
+  document.getElementById('paid-full-file').onchange = (e) => {
+    fullFile = e.target.files[0];
+    if(fullFile) document.getElementById('paid-full-label').textContent = fullFile.name;
+  };
+
+  document.getElementById('paid-cancel').onclick = closePaidModal;
+  document.getElementById('paid-save').onclick = async () => {
+    const desc = document.getElementById('paid-desc').value.trim();
+    let price = parseInt(document.getElementById('paid-price').value, 10) || 1;
+    price = Math.max(1, Math.min(max, price));
+    if(!fullFile){ toast(t('paidFileRequired')); return; }
+    if(kind === 'video' && !teaserFile){ toast(t('paidTeaserRequired')); return; }
+
+    const saveBtn = document.getElementById('paid-save');
+    saveBtn.disabled = true;
+    try{
+      const fullUpload = await uploadMediaItem(m.id, fullFile, kind, {
+        collection: 'paid_content',
+        pathPrefix: 'paid/' + kind + 's',
+        extraFields: { price, description: desc, salesCount: 0, revenue: 0 }
+      });
+      let teaserUrl = '';
+      if(kind === 'video'){
+        const path = `paid/teasers/${m.id}/${Date.now()}_${teaserFile.name}`;
+        const ref = storage.ref().child(path);
+        await ref.put(teaserFile);
+        teaserUrl = await ref.getDownloadURL();
+        await db.collection('profiles').doc(m.id).collection('paid_content').doc(fullUpload.docId).set({ teaserUrl }, { merge: true });
+      }
+      m.paidContent = m.paidContent || [];
+      m.paidContent.unshift({
+        docId: fullUpload.docId, kind, url: fullUpload.url, teaserUrl,
+        price, description: desc, salesCount: 0, revenue: 0
+      });
+      closePaidModal();
+      renderMyPaidGallery(m);
+      toast(t('addedToast'));
+    }catch(e){
+      console.error('paid content save error', e);
+      toast(t('saveErrorToast'));
+    }
+    saveBtn.disabled = false;
+  };
+
+  document.getElementById('paid-backdrop').classList.add('open');
+  document.getElementById('paid-modal').classList.add('open');
+}
+function closePaidModal(){
+  document.getElementById('paid-backdrop').classList.remove('open');
+  document.getElementById('paid-modal').classList.remove('open');
+}
+document.getElementById('paid-backdrop').onclick = closePaidModal;
+
+/* Demandes de déblocage (paiement manuel) à valider par la créatrice */
+async function loadMyOrders(m){
+  const zone = document.getElementById('my-orders-zone');
+  if(!zone || !db) return;
+  try{
+    let orders = [];
+    for(const item of (m.paidContent || [])){
+      const snap = await db.collection('profiles').doc(m.id).collection('paid_content').doc(item.docId)
+        .collection('orders').where('status', '==', 'pending').orderBy('createdAt', 'desc').get();
+      snap.forEach(d => orders.push({ orderId: d.id, itemDocId: item.docId, item, ...d.data() }));
+    }
+    if(!orders.length){
+      zone.innerHTML = `<span class="gallery-empty">${t('paidNoOrders')}</span>`;
+      return;
+    }
+    // Le paiement est encaissé par l'agence — la créatrice voit le statut, sans pouvoir le valider elle-même.
+    zone.innerHTML = orders.map(o => `
+      <div class="order-card">
+        <div>
+          <div class="order-buyer">${escText(o.buyerName || '—')}</div>
+          <div class="order-meta">${o.item.kind === 'video' ? t('galleryVideos') : t('galleryPhotos')} — ${o.item.price}€ — ${formatCommentDate(o.createdAt)}</div>
+        </div>
+        <span class="mono" style="font-size:10px;color:var(--text-muted);text-transform:uppercase;">${t('paidPendingAgency')}</span>
+      </div>`).join('');
+  }catch(e){
+    console.error('load orders error', e);
+    zone.innerHTML = `<span class="gallery-empty">${(LANG==='fr'?'Erreur : ':'Error: ')}${escText(e.message||String(e))}</span>`;
+  }
 }
 
 function renderMyGallery(m){
@@ -3311,9 +4285,10 @@ async function uploadMediaItem(profileId, file, kind, opts){
   const ref = storage.ref().child(path);
   await ref.put(file);
   const url = await ref.getDownloadURL();
-  const docRef = await db.collection('profiles').doc(profileId).collection(collectionName).add({
-    kind, url, createdAt: firebase.firestore.FieldValue.serverTimestamp()
-  });
+  const docRef = await db.collection('profiles').doc(profileId).collection(collectionName).add(Object.assign(
+    { kind, url, createdAt: firebase.firestore.FieldValue.serverTimestamp() },
+    opts.extraFields || {}
+  ));
   return { docId: docRef.id, url };
 }
 async function deleteMediaItem(profileId, docId, collectionName){
@@ -3517,6 +4492,9 @@ async function openVitrine(creatorId){
   applyVitrineStaticText();
   renderVitrineGrid(); // affichage immédiat avec les données déjà en mémoire
   if(creatorId) openVitrineRoom(creatorId); // lien direct vers une créatrice précise
+  if(auth && !auth.currentUser){
+    try{ await auth.signInAnonymously(); }catch(e){ console.error('anon sign-in failed (vitrine)', e); }
+  }
   await syncProfilesFromFirestore();
   renderVitrineGrid(); // re-affichage une fois les données à jour reçues
   if(creatorId) openVitrineRoom(creatorId); // rafraîchit la room avec les données à jour
@@ -3565,6 +4543,12 @@ function renderVitrineGrid(){
   });
 }
 
+const ICON_CAMERA = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>';
+const ICON_VIDEO = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>';
+const ICON_BIO = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
+const ICON_CART = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>';
+const ICON_COIN = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M15 9.5c0-1.4-1.34-2.5-3-2.5s-3 1.1-3 2.5S10.34 12 12 12s3 1.1 3 2.5-1.34 2.5-3 2.5-3-1.1-3-2.5"/></svg>';
+const ICON_LOCK = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>';
 function vitrineCardHtml(m){
   const num = m.id.replace('m', '').padStart(2, '0');
 
@@ -3599,9 +4583,9 @@ function vitrineCardHtml(m){
         <div class="name-row"><h3>${escText(m.name) || t('nameUndefined')}</h3></div>
         <div class="meta">${escText(m.country || '—')}</div>
         <div class="tags">
-          <span>📷 ${photoCount}</span>
-          <span>🎥 ${videoCount}</span>
-          ${hasBio ? `<span>📝 ${t('bioSectionTitle')}</span>` : ''}
+          <span class="vtag">${ICON_CAMERA}${photoCount}</span>
+          <span class="vtag">${ICON_VIDEO}${videoCount}</span>
+          ${hasBio ? `<span class="vtag">${ICON_BIO}${t('bioSectionTitle')}</span>` : ''}
         </div>
         <button type="button" class="btn btn-primary vitrine-enter-btn" data-id="${m.id}" style="margin-top:6px;">${t('vitrineEnterBtn')}</button>
       </div>
@@ -3611,6 +4595,98 @@ function vitrineCardHtml(m){
 function bioRow(labelKey, value){
   if(!value) return '';
   return `<div class="vitrine-bio-row"><span class="k">${t(labelKey)}</span><span class="v">${escText(value)}</span></div>`;
+}
+
+function exclusiveCardHtml(m, item){
+  const desc = escText(item.description) || '';
+  if(item.kind === 'video'){
+    return `
+      <div class="exclusive-card">
+        ${item.teaserUrl ? `
+          <video class="exclusive-teaser" src="${item.teaserUrl}" muted autoplay loop playsinline></video>
+          <span class="exclusive-teaser-badge">${t('paidTeaserBadge')}</span>
+        ` : `<div class="exclusive-locked-overlay">${ICON_LOCK}</div>`}
+        <div class="exclusive-info">
+          ${desc ? `<p class="exclusive-desc">${desc}</p>` : ''}
+          <button type="button" class="btn btn-primary exclusive-unlock-btn" data-docid="${item.docId}" data-price="${item.price}" data-kind="video">
+            ${ICON_LOCK} ${t('paidUnlockBtn')} ${item.price}€
+          </button>
+        </div>
+      </div>`;
+  }
+  return `
+    <div class="exclusive-card">
+      <div class="exclusive-locked-overlay">${ICON_LOCK}<span class="mono" style="font-size:10px;">${t('paidLockedPhoto')}</span></div>
+      <div class="exclusive-info">
+        ${desc ? `<p class="exclusive-desc">${desc}</p>` : ''}
+        <button type="button" class="btn btn-primary exclusive-unlock-btn" data-docid="${item.docId}" data-price="${item.price}" data-kind="photo">
+          ${ICON_LOCK} ${t('paidUnlockBtn')} ${item.price}€
+        </button>
+      </div>
+    </div>`;
+}
+
+function openUnlockRequest(m, docId, price, kind){
+  document.getElementById('t-paid-modal-title').textContent = `${t('paidUnlockBtn')} ${price}€`;
+  const body = document.getElementById('paid-body');
+  body.innerHTML = `
+    <p style="color:var(--text-muted);font-size:12.5px;line-height:1.6;margin-bottom:14px;">${t('paidUnlockExplain')}</p>
+    <label>${t('commentNamePh')}</label>
+    <input id="unlock-name" value="${escText(localStorage.getItem('hm_comment_name') || '')}">
+    <label>${t('paidContactLabel')}</label>
+    <input id="unlock-contact" placeholder="${t('paidContactPh')}">
+    <div class="modal-actions">
+      <button class="btn btn-ghost btn-sm" id="unlock-cancel" style="flex:1;">${t('cancel')}</button>
+      <button class="btn btn-primary btn-sm" id="unlock-send" style="flex:1;">${t('paidSendRequest')}</button>
+    </div>
+  `;
+  document.getElementById('unlock-cancel').onclick = closePaidModal;
+  document.getElementById('unlock-send').onclick = async () => {
+    const name = document.getElementById('unlock-name').value.trim();
+    const contact = document.getElementById('unlock-contact').value.trim();
+    if(!name || !contact){ toast(t('paidContactRequired')); return; }
+    const btn = document.getElementById('unlock-send');
+    btn.disabled = true;
+    try{
+      if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
+      const orderRef = await db.collection('profiles').doc(m.id).collection('paid_content').doc(docId)
+        .collection('orders').add({
+          buyerName: name.slice(0, 40),
+          buyerContact: contact.slice(0, 80),
+          status: 'pending',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      localStorage.setItem('hm_comment_name', name);
+      showPaymentInstructions(orderRef.id, price);
+    }catch(e){
+      console.error('unlock request error', e);
+      toast((LANG==='fr' ? 'Erreur : ' : 'Error: ') + (e && e.message ? e.message : e));
+      btn.disabled = false;
+    }
+  };
+  document.getElementById('paid-backdrop').classList.add('open');
+  document.getElementById('paid-modal').classList.add('open');
+}
+
+function showPaymentInstructions(orderId, price){
+  const body = document.getElementById('paid-body');
+  const ref = orderId.slice(-6).toUpperCase();
+  document.getElementById('t-paid-modal-title').textContent = t('paidRequestSent');
+  body.innerHTML = `
+    <p style="color:var(--text-muted);font-size:12.5px;line-height:1.6;margin-bottom:14px;">${t('paidPaymentInstructionsIntro')}</p>
+    <div class="vitrine-bio-rows">
+      <div class="vitrine-bio-row"><span class="k">${t('paidRefLabel')}</span><span class="v" style="font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--honey);">${ref}</span></div>
+      <div class="vitrine-bio-row"><span class="k">${t('paidAmountLabel')}</span><span class="v">${price}€</span></div>
+      <div class="vitrine-bio-row"><span class="k">IBAN</span><span class="v" style="font-family:'JetBrains Mono',monospace;">${PAYMENT_INSTRUCTIONS.iban}</span></div>
+      <div class="vitrine-bio-row"><span class="k">BIC</span><span class="v" style="font-family:'JetBrains Mono',monospace;">${PAYMENT_INSTRUCTIONS.bic}</span></div>
+      <div class="vitrine-bio-row"><span class="k">${t('paidHolderLabel')}</span><span class="v">${escText(PAYMENT_INSTRUCTIONS.holder)}</span></div>
+    </div>
+    <p style="color:var(--text-muted);font-size:11.5px;line-height:1.6;margin-bottom:14px;">${escText(PAYMENT_INSTRUCTIONS.note)}</p>
+    <div class="modal-actions">
+      <button class="btn btn-primary btn-sm" id="paid-instructions-close" style="flex:1;">${t('galleryClose')}</button>
+    </div>
+  `;
+  document.getElementById('paid-instructions-close').onclick = closePaidModal;
 }
 
 async function openVitrineRoom(id){
@@ -3623,10 +4699,28 @@ async function openVitrineRoom(id){
   }, m.bio || {});
   const online = bio.status === 'online';
 
-  const photoThumbs = m.galleryPhotos.map(item => `
-    <div class="gallery-thumb"><img src="${item.url}" data-full="${item.url}" data-type="image"></div>`).join('');
-  const videoThumbs = m.galleryVideos.map(item => `
-    <div class="gallery-thumb"><video src="${item.url}" data-full="${item.url}" data-type="video" muted></video></div>`).join('');
+  const mediaThumb = (item, type) => {
+    const voteState = localStorage.getItem('hm_mvote_' + item.docId);
+    return `
+    <div class="gallery-thumb-wrap">
+      <div class="gallery-thumb">
+        ${type === 'video'
+          ? `<video src="${item.url}" data-full="${item.url}" data-type="video" muted></video>`
+          : `<img src="${item.url}" data-full="${item.url}" data-type="image">`}
+      </div>
+      <div class="media-votes">
+        <button class="media-vote-btn ${voteState==='like'?'active':''}" data-docid="${item.docId}" data-type="like">
+          ${ICON_LIKE}<span>${item.likes || 0}</span>
+        </button>
+        <button class="media-vote-btn ${voteState==='dislike'?'active':''}" data-docid="${item.docId}" data-type="dislike">
+          ${ICON_DISLIKE}<span>${item.dislikes || 0}</span>
+        </button>
+      </div>
+    </div>`;
+  };
+
+  const photoThumbs = m.galleryPhotos.map(item => mediaThumb(item, 'image')).join('');
+  const videoThumbs = m.galleryVideos.map(item => mediaThumb(item, 'video')).join('');
 
   const body = document.getElementById('vitrine-room-body');
   body.innerHTML = `
@@ -3655,6 +4749,13 @@ async function openVitrineRoom(id){
     </div>
     ${bio.workUrl ? `<a class="pill-link" href="${escText(bio.workUrl)}" target="_blank" rel="noopener" style="display:flex;margin-bottom:14px;">🔗 ${t('visitSiteBtn')}</a>` : ''}
 
+    ${(m.paidContent && m.paidContent.length) ? `
+      <div class="gallery-section">
+        <h4>${ICON_LOCK} ${t('paidExclusiveTitle')}</h4>
+        <p style="color:var(--text-muted);font-size:11.5px;margin:-4px 0 12px;">${t('paidExclusiveNote')}</p>
+        ${m.paidContent.map(it => exclusiveCardHtml(m, it)).join('')}
+      </div>` : ''}
+
     ${(photoThumbs || videoThumbs) ? `
       <div class="gallery-section">
         <h4>${t('galleryPhotos')} (${m.galleryPhotos.length})</h4>
@@ -3665,16 +4766,12 @@ async function openVitrineRoom(id){
         <div class="gallery-strip">${videoThumbs}</div>
       </div>` : ''}
 
-    <div class="vitrine-votes">
-      <button class="vote-btn" id="vote-like" data-id="${m.id}">👍 <span id="like-count">${m.likes || 0}</span> ${t('likeLabel')}</button>
-      <button class="vote-btn" id="vote-dislike" data-id="${m.id}">👎 <span id="dislike-count">${m.dislikes || 0}</span> ${t('dislikeLabel')}</button>
-    </div>
-
     <div class="vitrine-comments">
       <h4>${t('commentsTitle')}</h4>
       <p class="comment-rules">${t('commentRules')}</p>
       <div class="comment-list" id="comment-list"><span class="gallery-empty">${t('commentEmpty')}</span></div>
       <div class="comment-form">
+        <input type="text" id="comment-name" class="comment-name-input" maxlength="30" placeholder="${t('commentNamePh')}" value="${escText(localStorage.getItem('hm_comment_name') || '')}">
         <textarea id="comment-input" placeholder="${t('commentPlaceholder')}"></textarea>
         <button class="btn btn-primary btn-sm" id="comment-submit">${t('commentSubmit')}</button>
       </div>
@@ -3685,11 +4782,13 @@ async function openVitrineRoom(id){
     el.onclick = () => openLightbox(el.dataset.full, el.dataset.type);
   });
 
-  const voteState = localStorage.getItem('hm_vote_' + m.id);
-  document.getElementById('vote-like').classList.toggle('active', voteState === 'like');
-  document.getElementById('vote-dislike').classList.toggle('active', voteState === 'dislike');
-  document.getElementById('vote-like').onclick = () => castVote(m, 'like');
-  document.getElementById('vote-dislike').onclick = () => castVote(m, 'dislike');
+  body.querySelectorAll('.media-vote-btn').forEach(btn => {
+    btn.onclick = () => castMediaVote(m.id, btn.dataset.docid, btn.dataset.type);
+  });
+
+  body.querySelectorAll('.exclusive-unlock-btn').forEach(btn => {
+    btn.onclick = () => openUnlockRequest(m, btn.dataset.docid, btn.dataset.price, btn.dataset.kind);
+  });
 
   document.getElementById('comment-submit').onclick = () => submitComment(m.id);
 
@@ -3711,17 +4810,19 @@ function closeVitrineRoom(){
 }
 
 /* ---------------- votes (like / dislike) ---------------- */
-async function castVote(m, type){
-  if(!db) return;
-  const key = 'hm_vote_' + m.id;
+const ICON_LIKE = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>';
+const ICON_DISLIKE = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3z"/><path d="M17 2h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"/></svg>';
+
+async function castMediaVote(profileId, docId, type){
+  if(!db){ toast(t('saveErrorToast')); return; }
+  const key = 'hm_mvote_' + docId;
   const prev = localStorage.getItem(key);
-  const ref = db.collection('profiles').doc(m.id);
+  const ref = db.collection('profiles').doc(profileId).collection('media').doc(docId);
   const inc = firebase.firestore.FieldValue.increment(1);
   const dec = firebase.firestore.FieldValue.increment(-1);
   const update = {};
 
   if(prev === type){
-    // annuler le vote
     update[type === 'like' ? 'likes' : 'dislikes'] = dec;
     localStorage.removeItem(key);
   } else {
@@ -3731,21 +4832,18 @@ async function castVote(m, type){
   }
 
   try{
+    if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
     await ref.set(update, { merge: true });
-  }catch(e){ console.error('vote error', e); }
-
-  // relit les valeurs à jour depuis Firestore pour rester exact
-  try{
     const snap = await ref.get();
     const data = snap.data() || {};
-    m.likes = data.likes || 0;
-    m.dislikes = data.dislikes || 0;
-    document.getElementById('like-count').textContent = m.likes;
-    document.getElementById('dislike-count').textContent = m.dislikes;
-    const newVote = localStorage.getItem(key);
-    document.getElementById('vote-like').classList.toggle('active', newVote === 'like');
-    document.getElementById('vote-dislike').classList.toggle('active', newVote === 'dislike');
-  }catch(e){ console.error('vote refresh error', e); }
+    const btnLike = document.querySelector(`.media-vote-btn[data-docid="${docId}"][data-type="like"]`);
+    const btnDislike = document.querySelector(`.media-vote-btn[data-docid="${docId}"][data-type="dislike"]`);
+    if(btnLike){ btnLike.querySelector('span').textContent = data.likes || 0; btnLike.classList.toggle('active', localStorage.getItem(key) === 'like'); }
+    if(btnDislike){ btnDislike.querySelector('span').textContent = data.dislikes || 0; btnDislike.classList.toggle('active', localStorage.getItem(key) === 'dislike'); }
+  }catch(e){
+    console.error('media vote error', e);
+    toast((LANG==='fr' ? 'Erreur vote : ' : 'Vote error: ') + (e && e.message ? e.message : e));
+  }
 }
 
 /* ---------------- comments (public, moderated) ---------------- */
@@ -3769,6 +4867,135 @@ function containsBannedWords(text){
     }
   });
 }
+function formatCommentDate(ts){
+  let d;
+  if(ts && typeof ts.toDate === 'function') d = ts.toDate();
+  else if(ts) d = new Date(ts);
+  else d = new Date();
+  const pad = n => String(n).padStart(2, '0');
+  return `${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()} · ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+function initials(name){
+  const parts = (name || '?').trim().split(/\s+/);
+  return ((parts[0]?.[0] || '?') + (parts[1]?.[0] || '')).toUpperCase();
+}
+
+/* ================= PANNEAU ADMIN : VENTES / FACTURATION ================= */
+let invoiceCounter = 1;
+async function openSalesPanel(){
+  document.getElementById('sales-backdrop').classList.add('open');
+  document.getElementById('sales-modal').classList.add('open');
+  const body = document.getElementById('sales-body');
+  body.innerHTML = `<span class="gallery-empty">${t('paidOrdersLoading')}</span>`;
+  try{
+    const allOrders = [];
+    for(const m of roster){
+      if(!m.filled) continue;
+      const paidSnap = await db.collection('profiles').doc(m.id).collection('paid_content').get();
+      for(const itemDoc of paidSnap.docs){
+        const item = itemDoc.data();
+        const ordersSnap = await db.collection('profiles').doc(m.id).collection('paid_content').doc(itemDoc.id)
+          .collection('orders').where('status', '==', 'pending').orderBy('createdAt', 'desc').get();
+        ordersSnap.forEach(o => {
+          allOrders.push({
+            orderId: o.id, itemDocId: itemDoc.id, creatorId: m.id, creatorName: m.name || m.id,
+            item, ...o.data()
+          });
+        });
+      }
+    }
+    if(!allOrders.length){
+      body.innerHTML = `<span class="gallery-empty">${t('paidNoOrders')}</span>`;
+      return;
+    }
+    body.innerHTML = allOrders.map((o, idx) => `
+      <div class="sale-order-row" data-idx="${idx}">
+        <div class="sale-order-head">
+          <span><b>${escText(o.creatorName)}</b> — ${o.item.kind === 'video' ? t('galleryVideos') : t('galleryPhotos')} — <b>${o.item.price}€</b></span>
+          <span class="mono" style="color:var(--text-muted);">${formatCommentDate(o.createdAt)}</span>
+        </div>
+        <div style="font-size:12px;color:var(--text-muted);">${escText(o.buyerName)} · ${escText(o.buyerContact)}</div>
+        <div class="sale-split-row">
+          <span>${t('paidSplitLabel')}</span>
+          <input type="number" min="0" max="100" class="split-input" value="${DEFAULT_SPLIT_CREATOR_PERCENT}"> % ${t('paidSplitCreator')}
+        </div>
+        <button class="btn btn-primary btn-sm" data-order="${o.orderId}" data-item="${o.itemDocId}" data-creator="${o.creatorId}" data-price="${o.item.price}">${t('paidInvoiceAndValidate')}</button>
+      </div>`).join('');
+
+    body.querySelectorAll('.sale-order-row').forEach((row, idx) => {
+      const o = allOrders[idx];
+      row.querySelector('button').onclick = async (e) => {
+        const btn = e.currentTarget;
+        const splitPercent = Math.max(0, Math.min(100, parseInt(row.querySelector('.split-input').value, 10) || DEFAULT_SPLIT_CREATOR_PERCENT));
+        btn.disabled = true;
+        try{
+          const price = o.item.price;
+          const creatorShare = Math.round(price * splitPercent) / 100;
+          const platformShare = Math.round((price - creatorShare) * 100) / 100;
+          const itemRef = db.collection('profiles').doc(o.creatorId).collection('paid_content').doc(o.itemDocId);
+          await itemRef.collection('orders').doc(o.orderId).set({
+            status: 'paid', splitPercent, creatorShare, platformShare,
+            paidAt: firebase.firestore.FieldValue.serverTimestamp()
+          }, { merge: true });
+          await itemRef.set({
+            salesCount: firebase.firestore.FieldValue.increment(1),
+            revenue: firebase.firestore.FieldValue.increment(price)
+          }, { merge: true });
+          const localCreator = roster.find(x => x.id === o.creatorId);
+          if(localCreator){
+            const localItem = (localCreator.paidContent || []).find(x => x.docId === o.itemDocId);
+            if(localItem){ localItem.salesCount = (localItem.salesCount||0) + 1; localItem.revenue = (localItem.revenue||0) + price; }
+          }
+          showInvoice({
+            ref: o.orderId.slice(-6).toUpperCase(), buyerName: o.buyerName, buyerContact: o.buyerContact,
+            creatorName: o.creatorName, itemDesc: o.item.description, kind: o.item.kind,
+            price, splitPercent, creatorShare, platformShare, date: new Date()
+          });
+          toast(t('paidMarkedPaidToast'));
+          row.remove();
+        }catch(e2){
+          console.error(e2);
+          toast((LANG==='fr'?'Erreur : ':'Error: ') + (e2.message || e2));
+          btn.disabled = false;
+        }
+      };
+    });
+  }catch(e){
+    console.error('sales panel load error', e);
+    body.innerHTML = `<span class="gallery-empty">${(LANG==='fr'?'Erreur : ':'Error: ')}${escText(e.message||String(e))}</span>`;
+  }
+}
+document.getElementById('sales-close').onclick = () => {
+  document.getElementById('sales-backdrop').classList.remove('open');
+  document.getElementById('sales-modal').classList.remove('open');
+};
+document.getElementById('sales-backdrop').onclick = () => document.getElementById('sales-close').click();
+
+function showInvoice(o){
+  const num = 'HM-' + o.date.getFullYear() + '-' + o.ref;
+  const dateStr = formatCommentDate(o.date);
+  document.getElementById('invoice-body').innerHTML = `
+    <div class="invoice-paper">
+      <h2>Honeymoon</h2>
+      <div class="inv-meta">Facture n° ${num} — ${dateStr}<br>Réf. commande : ${o.ref}</div>
+      <table>
+        <tr><td>${t('paidContactLabel')}</td><td style="text-align:right;">${escText(o.buyerName)} (${escText(o.buyerContact)})</td></tr>
+        <tr><td>${t('creatorLink')}</td><td style="text-align:right;">${escText(o.creatorName)}</td></tr>
+        <tr><td>${o.kind === 'video' ? t('galleryVideos') : t('galleryPhotos')}</td><td style="text-align:right;">${escText(o.itemDesc) || '—'}</td></tr>
+        <tr class="inv-total"><td>Total</td><td style="text-align:right;">${o.price}€</td></tr>
+        <tr><td>${t('paidSplitCreator')} (${o.splitPercent}%)</td><td style="text-align:right;">${o.creatorShare}€</td></tr>
+        <tr><td>Honeymoon (${100 - o.splitPercent}%)</td><td style="text-align:right;">${o.platformShare}€</td></tr>
+      </table>
+    </div>
+  `;
+  document.getElementById('invoice-backdrop').classList.add('open');
+  document.getElementById('invoice-modal').classList.add('open');
+}
+document.getElementById('invoice-close').onclick = () => {
+  document.getElementById('invoice-backdrop').classList.remove('open');
+  document.getElementById('invoice-modal').classList.remove('open');
+};
+document.getElementById('invoice-print').onclick = () => window.print();
 
 async function loadComments(profileId){
   const list = document.getElementById('comment-list');
@@ -3782,34 +5009,50 @@ async function loadComments(profileId){
     }
     list.innerHTML = snap.docs.map(d => {
       const c = d.data();
-      return `<div class="comment-item">${escText(c.text || '')}</div>`;
+      const name = escText(c.name || '—');
+      return `
+        <div class="comment-card">
+          <div class="comment-avatar">${escText(initials(c.name))}</div>
+          <div class="comment-body">
+            <div class="comment-head"><span class="comment-name">${name}</span><span class="comment-date">${formatCommentDate(c.createdAt)}</span></div>
+            <div class="comment-text">${escText(c.text || '')}</div>
+          </div>
+        </div>`;
     }).join('');
   }catch(e){
     console.error('load comments error', e);
+    list.innerHTML = `<span class="gallery-empty">${(LANG==='fr' ? 'Erreur de chargement : ' : 'Load error: ')}${escText(e && e.message ? e.message : String(e))}</span>`;
   }
 }
 
 async function submitComment(profileId){
+  const nameInput = document.getElementById('comment-name');
   const input = document.getElementById('comment-input');
+  const name = nameInput.value.trim();
   const text = input.value.trim();
+  if(!name){ toast(t('commentNameRequired')); nameInput.focus(); return; }
   if(!text) return;
-  if(containsBannedWords(text)){
+  if(containsBannedWords(name) || containsBannedWords(text)){
     toast(t('commentModerationError'));
     return;
   }
   const btn = document.getElementById('comment-submit');
   btn.disabled = true;
   try{
+    if(!db) throw new Error('Firestore indisponible');
+    if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
     await db.collection('profiles').doc(profileId).collection('comments').add({
+      name: name.slice(0, 30),
       text: text.slice(0, 500),
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
+    localStorage.setItem('hm_comment_name', name);
     input.value = '';
     toast(t('commentPosted'));
     loadComments(profileId);
   }catch(e){
     console.error('comment post error', e);
-    toast(t('saveErrorToast'));
+    toast((LANG==='fr' ? 'Erreur : ' : 'Error: ') + (e && e.message ? e.message : e));
   }
   btn.disabled = false;
 }
