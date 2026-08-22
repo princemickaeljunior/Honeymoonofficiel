@@ -304,16 +304,35 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 .order-meta{font-size:10.5px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;margin-top:2px;}
 
 /* ---------- contenu exclusif (vitrine, verrouillé) ---------- */
-.exclusive-card{position:relative;border-radius:12px;overflow:hidden;background:var(--bg-elev-2);border:1px solid var(--border);margin-bottom:14px;}
-.exclusive-teaser{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;}
+.exclusive-card{position:relative;border-radius:12px;overflow:hidden;background:var(--bg-elev-2);border:1px solid var(--border);margin-bottom:14px;max-width:260px;}
+.exclusive-teaser{width:100%;aspect-ratio:4/5;max-height:260px;object-fit:cover;display:block;}
 .exclusive-locked-overlay{
-  position:relative;aspect-ratio:1/1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  position:relative;aspect-ratio:4/5;max-height:260px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
   background:linear-gradient(155deg, rgba(40,30,15,0.9), rgba(10,8,5,0.95));color:var(--honey);
 }
+.exclusive-locked-photo-wrap{position:relative;aspect-ratio:4/5;max-height:260px;overflow:hidden;}
+.exclusive-blurred-img{width:100%;height:100%;object-fit:cover;display:block;filter:blur(18px) brightness(0.55) saturate(1.1);transform:scale(1.15);}
+.exclusive-lock-badge{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  color:var(--honey);text-align:center;padding:0 12px;
+}
+.exclusive-lock-badge span{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.03em;}
 .exclusive-info{padding:10px 12px;}
 .exclusive-desc{font-size:12px;color:var(--text-muted);line-height:1.5;margin-bottom:8px;}
 .exclusive-unlock-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:6px;}
 .exclusive-teaser-badge{position:absolute;top:8px;left:8px;background:rgba(0,0,0,0.7);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:9px;padding:3px 8px;border-radius:999px;letter-spacing:0.04em;text-transform:uppercase;}
+.exclusive-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(140px,1fr));gap:10px;}
+.exclusive-grid .exclusive-card{max-width:none;margin-bottom:0;}
+
+/* ---------- onglets galerie gratuite / exclusive dans la room ---------- */
+.room-tabs{display:flex;gap:8px;margin:14px 0 12px;border-bottom:1px solid var(--border);}
+.room-tab-btn{
+  background:none;border:none;color:var(--text-muted);font-family:'JetBrains Mono',monospace;font-size:11px;
+  letter-spacing:0.04em;text-transform:uppercase;padding:9px 4px;border-bottom:2px solid transparent;
+}
+.room-tab-btn.active{color:var(--honey);border-color:var(--honey);}
+.room-tab-panel{display:none;}
+.room-tab-panel.active{display:block;}
 
 /* ---------- ventes / facture ---------- */
 .sale-order-row{display:flex;flex-direction:column;gap:8px;background:var(--bg-elev-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;margin-bottom:12px;}
@@ -590,6 +609,7 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 
 <div class="toast" id="toast"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
 /* =========================================================
    HONEYMOON — Catalogue (front-end only)
@@ -616,6 +636,52 @@ const PAYMENT_INSTRUCTIONS = {
   note: 'Merci d\'indiquer la référence de commande en libellé du virement.'
 };
 const DEFAULT_SPLIT_CREATOR_PERCENT = 60;
+
+/* ===== À REMPLIR : notifications automatiques (email + WhatsApp) quand
+   un client demande à débloquer un contenu payant.
+   ------------------------------------------------------------------
+   EMAIL (EmailJS — gratuit jusqu'à 200 emails/mois, sans backend) :
+   1. Crée un compte sur https://www.emailjs.com
+   2. Connecte ta boîte mail (Gmail/Outlook) comme "Email Service" → note son ID
+   3. Crée un template avec les variables : {{to_email}} {{buyer_name}}
+      {{buyer_contact}} {{creator_name}} {{item_desc}} {{price}} {{ref}}
+   4. Remplace les 3 valeurs ci-dessous par les tiennes (Account → API Keys
+      pour la clé publique)
+   ------------------------------------------------------------------
+   WHATSAPP : remplace par ton numéro Honeymoon au format international
+   sans + ni espace (ex. 33612345678 pour la France). ===== */
+const EMAILJS_PUBLIC_KEY = 'TON_EMAILJS_PUBLIC_KEY';
+const EMAILJS_SERVICE_ID = 'TON_EMAILJS_SERVICE_ID';
+const EMAILJS_TEMPLATE_ID = 'TON_EMAILJS_TEMPLATE_ID';
+const ADMIN_NOTIFY_EMAIL = 'honeymoon-official@outlook.com';
+const ADMIN_WHATSAPP_NUMBER = '33XXXXXXXXX';
+
+async function sendUnlockNotifications(o){
+  // Email — nécessite EmailJS configuré ci-dessus. Échoue silencieusement
+  // (avec log console) si non configuré, sans bloquer la commande.
+  try{
+    if(typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY !== 'TON_EMAILJS_PUBLIC_KEY'){
+      const payload = {
+        buyer_name: o.buyerName, buyer_contact: o.buyerContact, creator_name: o.creatorName,
+        item_desc: o.itemDesc || '', price: o.price, ref: o.ref
+      };
+      // Email au client (instructions de paiement)
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, Object.assign({}, payload, {
+        to_email: o.buyerContact, subject: `Honeymoon — Instructions de paiement (réf. ${o.ref})`
+      }));
+      // Email à Honeymoon (notification de commande)
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, Object.assign({}, payload, {
+        to_email: ADMIN_NOTIFY_EMAIL, subject: `Honeymoon — Nouvelle demande de déblocage (réf. ${o.ref})`
+      }));
+    }
+  }catch(e){ console.error('emailjs notification error', e); }
+}
+function buildAdminWhatsappLink(o){
+  const msg = encodeURIComponent(
+    `Honeymoon — Nouvelle demande de déblocage\nRéf: ${o.ref}\nCréatrice: ${o.creatorName}\nClient: ${o.buyerName} (${o.buyerContact})\nContenu: ${o.itemDesc || ''}\nPrix: ${o.price}€`
+  );
+  return `https://wa.me/${ADMIN_WHATSAPP_NUMBER}?text=${msg}`;
+}
 const GATE_PASSWORD = 'H25051988';
 const STORAGE_KEY = 'hm_catalogue_v3';
 const SLOT_COUNT = 6;
@@ -738,6 +804,7 @@ const I18N = {
     signedContractsTitle: "Contrats signés",
     agencyContractBtn: "Contrat agence",
     signSignatureLabel: "Signature",
+    paidWhatsappBtn: "Prévenir Honeymoon sur WhatsApp",
     adminSub: 'Accès administrateur',
     adminEnter: 'Déverrouiller',
     adminCancel: 'Annuler',
@@ -946,6 +1013,7 @@ const I18N = {
     signedContractsTitle: "Signed contracts",
     agencyContractBtn: "Agency contract",
     signSignatureLabel: "Signature",
+    paidWhatsappBtn: "Notify Honeymoon on WhatsApp",
     adminSub: 'Administrator access',
     adminEnter: 'Unlock',
     adminCancel: 'Cancel',
@@ -1154,6 +1222,7 @@ const I18N = {
     signedContractsTitle: "Contratos firmados",
     agencyContractBtn: "Contrato de agencia",
     signSignatureLabel: "Firma",
+    paidWhatsappBtn: "Avisar a Honeymoon por WhatsApp",
     adminSub: 'Acceso administrador',
     adminEnter: 'Desbloquear',
     adminCancel: 'Cancelar',
@@ -1362,6 +1431,7 @@ const I18N = {
     signedContractsTitle: "Contratti firmati",
     agencyContractBtn: "Contratto agenzia",
     signSignatureLabel: "Firma",
+    paidWhatsappBtn: "Avvisa Honeymoon su WhatsApp",
     adminSub: "Accesso amministratore",
     adminEnter: "Sblocca",
     adminCancel: "Annulla",
@@ -1570,6 +1640,7 @@ const I18N = {
     signedContractsTitle: "Contratos assinados",
     agencyContractBtn: "Contrato de agência",
     signSignatureLabel: "Assinatura",
+    paidWhatsappBtn: "Avisar a Honeymoon no WhatsApp",
     adminSub: "Acesso de administrador",
     adminEnter: "Desbloquear",
     adminCancel: "Cancelar",
@@ -1778,6 +1849,7 @@ const I18N = {
     signedContractsTitle: "Mikataba iliyosainiwa",
     agencyContractBtn: "Mkataba wa wakala",
     signSignatureLabel: "Sahihi",
+    paidWhatsappBtn: "Arifu Honeymoon kwenye WhatsApp",
     adminSub: "Ufikiaji wa msimamizi",
     adminEnter: "Fungua",
     adminCancel: "Ghairi",
@@ -1986,6 +2058,7 @@ const I18N = {
     signedContractsTitle: "Izivumelwano ezisayiniwe",
     agencyContractBtn: "Isivumelwano seejensi",
     signSignatureLabel: "Isignesha",
+    paidWhatsappBtn: "Yazisa i-Honeymoon nge-WhatsApp",
     adminSub: "Ukufinyelela komphathi",
     adminEnter: "Vula",
     adminCancel: "Khansela",
@@ -2194,6 +2267,7 @@ const I18N = {
     signedContractsTitle: "Dikonteraka tse saennweng",
     agencyContractBtn: "Konteraka ya ejensi",
     signSignatureLabel: "Saeno",
+    paidWhatsappBtn: "Tsebisa Honeymoon ho WhatsApp",
     adminSub: "Phihlelo ya motsamaisi",
     adminEnter: "Bula",
     adminCancel: "Hlakola",
@@ -2402,6 +2476,7 @@ const I18N = {
     signedContractsTitle: "Ba kontra oyo etié signature",
     agencyContractBtn: "Kontra ya agence",
     signSignatureLabel: "Signature",
+    paidWhatsappBtn: "Yebisa Honeymoon na WhatsApp",
     adminSub: "Bokoti ya mokambi",
     adminEnter: "Fungola",
     adminCancel: "Tika",
@@ -2610,6 +2685,7 @@ const I18N = {
     signedContractsTitle: "已签署的合同",
     agencyContractBtn: "经纪公司合同",
     signSignatureLabel: "签名",
+    paidWhatsappBtn: "通过WhatsApp通知Honeymoon",
     adminSub: "管理员访问",
     adminEnter: "解锁",
     adminCancel: "取消",
@@ -2818,6 +2894,7 @@ const I18N = {
     signedContractsTitle: "署名済み契約書",
     agencyContractBtn: "エージェンシー契約",
     signSignatureLabel: "署名",
+    paidWhatsappBtn: "WhatsAppでHoneymoonに知らせる",
     adminSub: "管理者アクセス",
     adminEnter: "ロック解除",
     adminCancel: "キャンセル",
@@ -3026,6 +3103,7 @@ const I18N = {
     signedContractsTitle: "Подписанные контракты",
     agencyContractBtn: "Контракт с агентством",
     signSignatureLabel: "Подпись",
+    paidWhatsappBtn: "Уведомить Honeymoon в WhatsApp",
     adminSub: "Доступ администратора",
     adminEnter: "Разблокировать",
     adminCancel: "Отмена",
@@ -3234,6 +3312,7 @@ const I18N = {
     signedContractsTitle: "العقود الموقعة",
     agencyContractBtn: "عقد الوكالة",
     signSignatureLabel: "التوقيع",
+    paidWhatsappBtn: "إخطار Honeymoon عبر واتساب",
     adminSub: "وصول المسؤول",
     adminEnter: "فتح القفل",
     adminCancel: "إلغاء",
@@ -3442,6 +3521,7 @@ const I18N = {
     signedContractsTitle: "Ba kontrata yina me sonama",
     agencyContractBtn: "Kontrata ya agence",
     signSignatureLabel: "Signature",
+    paidWhatsappBtn: "Zabisa Honeymoon na WhatsApp",
     adminSub: "Nzila ya mfumu",
     adminEnter: "Kangula",
     adminCancel: "Vidisa",
@@ -5137,7 +5217,10 @@ function exclusiveCardHtml(m, item){
   }
   return `
     <div class="exclusive-card">
-      <div class="exclusive-locked-overlay">${ICON_LOCK}<span class="mono" style="font-size:10px;">${t('paidLockedPhoto')}</span></div>
+      <div class="exclusive-locked-photo-wrap">
+        <img class="exclusive-blurred-img" src="${item.url}">
+        <div class="exclusive-lock-badge">${ICON_LOCK}<span>${t('paidLockedPhoto')}</span></div>
+      </div>
       <div class="exclusive-info">
         ${desc ? `<p class="exclusive-desc">${desc}</p>` : ''}
         <button type="button" class="btn btn-primary exclusive-unlock-btn" data-docid="${item.docId}" data-price="${item.price}" data-kind="photo">
@@ -5178,7 +5261,13 @@ function openUnlockRequest(m, docId, price, kind){
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
       localStorage.setItem('hm_comment_name', name);
-      showPaymentInstructions(orderRef.id, price);
+      const item = (m.paidContent || []).find(x => x.docId === docId);
+      const orderInfo = {
+        ref: orderRef.id.slice(-6).toUpperCase(), buyerName: name, buyerContact: contact,
+        creatorName: m.name, itemDesc: item ? item.description : '', price
+      };
+      sendUnlockNotifications(orderInfo); // email au client + à Honeymoon (si EmailJS configuré)
+      showPaymentInstructions(orderInfo);
     }catch(e){
       console.error('unlock request error', e);
       toast((LANG==='fr' ? 'Erreur : ' : 'Error: ') + (e && e.message ? e.message : e));
@@ -5189,20 +5278,20 @@ function openUnlockRequest(m, docId, price, kind){
   document.getElementById('paid-modal').classList.add('open');
 }
 
-function showPaymentInstructions(orderId, price){
+function showPaymentInstructions(o){
   const body = document.getElementById('paid-body');
-  const ref = orderId.slice(-6).toUpperCase();
   document.getElementById('t-paid-modal-title').textContent = t('paidRequestSent');
   body.innerHTML = `
     <p style="color:var(--text-muted);font-size:12.5px;line-height:1.6;margin-bottom:14px;">${t('paidPaymentInstructionsIntro')}</p>
     <div class="vitrine-bio-rows">
-      <div class="vitrine-bio-row"><span class="k">${t('paidRefLabel')}</span><span class="v" style="font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--honey);">${ref}</span></div>
-      <div class="vitrine-bio-row"><span class="k">${t('paidAmountLabel')}</span><span class="v">${price}€</span></div>
+      <div class="vitrine-bio-row"><span class="k">${t('paidRefLabel')}</span><span class="v" style="font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--honey);">${o.ref}</span></div>
+      <div class="vitrine-bio-row"><span class="k">${t('paidAmountLabel')}</span><span class="v">${o.price}€</span></div>
       <div class="vitrine-bio-row"><span class="k">IBAN</span><span class="v" style="font-family:'JetBrains Mono',monospace;">${PAYMENT_INSTRUCTIONS.iban}</span></div>
       <div class="vitrine-bio-row"><span class="k">BIC</span><span class="v" style="font-family:'JetBrains Mono',monospace;">${PAYMENT_INSTRUCTIONS.bic}</span></div>
       <div class="vitrine-bio-row"><span class="k">${t('paidHolderLabel')}</span><span class="v">${escText(PAYMENT_INSTRUCTIONS.holder)}</span></div>
     </div>
     <p style="color:var(--text-muted);font-size:11.5px;line-height:1.6;margin-bottom:14px;">${escText(PAYMENT_INSTRUCTIONS.note)}</p>
+    <a href="${buildAdminWhatsappLink(o)}" target="_blank" rel="noopener" class="btn btn-primary" style="display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:10px;">${t('paidWhatsappBtn')}</a>
     <div class="modal-actions">
       <button class="btn btn-primary btn-sm" id="paid-instructions-close" style="flex:1;">${t('galleryClose')}</button>
     </div>
@@ -5270,22 +5359,28 @@ async function openVitrineRoom(id){
     </div>
     ${bio.workUrl ? `<a class="pill-link" href="${escText(bio.workUrl)}" target="_blank" rel="noopener" style="display:flex;margin-bottom:14px;">🔗 ${t('visitSiteBtn')}</a>` : ''}
 
-    ${(m.paidContent && m.paidContent.length) ? `
-      <div class="gallery-section">
-        <h4>${ICON_LOCK} ${t('paidExclusiveTitle')}</h4>
-        <p style="color:var(--text-muted);font-size:11.5px;margin:-4px 0 12px;">${t('paidExclusiveNote')}</p>
-        ${m.paidContent.map(it => exclusiveCardHtml(m, it)).join('')}
-      </div>` : ''}
-
-    ${(photoThumbs || videoThumbs) ? `
-      <div class="gallery-section">
-        <h4>${t('galleryPhotos')} (${m.galleryPhotos.length})</h4>
-        <div class="gallery-strip">${photoThumbs}</div>
+    ${(m.paidContent && m.paidContent.length) || photoThumbs || videoThumbs ? `
+      <div class="room-tabs">
+        <button class="room-tab-btn active" id="tab-btn-free">${t('galleryTitle')}</button>
+        ${(m.paidContent && m.paidContent.length) ? `<button class="room-tab-btn" id="tab-btn-paid">${ICON_LOCK} ${t('paidExclusiveTitle')}</button>` : ''}
       </div>
-      <div class="gallery-section">
-        <h4>${t('galleryVideos')} (${m.galleryVideos.length})</h4>
-        <div class="gallery-strip">${videoThumbs}</div>
+      <div class="room-tab-panel active" id="tab-panel-free">
+        ${(photoThumbs || videoThumbs) ? `
+          <div class="gallery-section">
+            <h4>${t('galleryPhotos')} (${m.galleryPhotos.length})</h4>
+            <div class="gallery-strip">${photoThumbs}</div>
+          </div>
+          <div class="gallery-section">
+            <h4>${t('galleryVideos')} (${m.galleryVideos.length})</h4>
+            <div class="gallery-strip">${videoThumbs}</div>
+          </div>` : `<p class="gallery-empty">${t('galleryEmpty')}</p>`}
+      </div>
+      ${(m.paidContent && m.paidContent.length) ? `
+      <div class="room-tab-panel" id="tab-panel-paid">
+        <p style="color:var(--text-muted);font-size:11.5px;margin:0 0 12px;">${t('paidExclusiveNote')}</p>
+        <div class="exclusive-grid">${m.paidContent.map(it => exclusiveCardHtml(m, it)).join('')}</div>
       </div>` : ''}
+    ` : ''}
 
     <div class="vitrine-comments">
       <h4>${t('commentsTitle')}</h4>
@@ -5310,6 +5405,21 @@ async function openVitrineRoom(id){
   body.querySelectorAll('.exclusive-unlock-btn').forEach(btn => {
     btn.onclick = () => openUnlockRequest(m, btn.dataset.docid, btn.dataset.price, btn.dataset.kind);
   });
+
+  const tabFreeBtn = document.getElementById('tab-btn-free');
+  const tabPaidBtn = document.getElementById('tab-btn-paid');
+  if(tabFreeBtn && tabPaidBtn){
+    tabFreeBtn.onclick = () => {
+      tabFreeBtn.classList.add('active'); tabPaidBtn.classList.remove('active');
+      document.getElementById('tab-panel-free').classList.add('active');
+      document.getElementById('tab-panel-paid').classList.remove('active');
+    };
+    tabPaidBtn.onclick = () => {
+      tabPaidBtn.classList.add('active'); tabFreeBtn.classList.remove('active');
+      document.getElementById('tab-panel-paid').classList.add('active');
+      document.getElementById('tab-panel-free').classList.remove('active');
+    };
+  }
 
   document.getElementById('comment-submit').onclick = () => submitComment(m.id);
 
