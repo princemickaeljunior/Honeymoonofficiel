@@ -290,14 +290,14 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 .paid-summary .v{font-size:18px;font-weight:700;color:var(--honey);}
 .paid-add-row{display:flex;gap:10px;margin-bottom:18px;}
 .paid-add-row button{flex:1;}
-.paid-items-list{display:flex;flex-direction:column;gap:12px;}
-.paid-item-card{display:flex;gap:12px;background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px;}
-.paid-item-thumb{position:relative;width:80px;height:80px;flex-shrink:0;border-radius:8px;overflow:hidden;background:var(--bg-elev-2);}
-.paid-item-thumb img, .paid-item-thumb video{width:100%;height:100%;object-fit:cover;}
+.paid-items-list{display:flex;flex-direction:column;gap:16px;}
+.paid-item-row{background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;}
+.paid-item-row .gallery-strip{margin-bottom:10px;grid-template-columns:repeat(auto-fill, minmax(90px,1fr));max-width:220px;}
+.paid-thumb-tag{position:absolute;top:4px;left:4px;background:rgba(0,0,0,0.7);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:8px;padding:2px 5px;border-radius:5px;letter-spacing:0.03em;text-transform:uppercase;}
+.paid-lock-badge{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--honey);background:rgba(10,8,5,0.22);}
 .paid-item-price{position:absolute;bottom:4px;right:4px;background:rgba(0,0,0,0.75);color:var(--honey);font-family:'JetBrains Mono',monospace;font-size:10px;padding:2px 6px;border-radius:6px;}
-.paid-item-info{flex:1;min-width:0;}
-.paid-item-desc{font-size:12.5px;color:var(--text);line-height:1.4;margin-bottom:6px;}
-.paid-item-stats{display:flex;gap:12px;font-size:11px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;}
+.paid-item-desc{font-size:12.5px;color:var(--text);line-height:1.4;margin-bottom:8px;}
+.paid-item-stats{display:flex;align-items:center;gap:12px;font-size:11px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;}
 .order-card{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--bg-elev-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:8px;}
 .order-buyer{font-size:12.5px;font-weight:600;}
 .order-contact{font-weight:400;color:var(--text-muted);}
@@ -3815,6 +3815,7 @@ function setMyProfileLang(lang){
 
 /* ---------------- main gate ---------------- */
 function checkGate(){
+  closeAllModals();
   const creatorSlot = sessionStorage.getItem('hm_creator_slot');
   if(creatorSlot){
     document.getElementById('gate').style.display = 'none';
@@ -4036,6 +4037,7 @@ async function syncProfilesFromFirestore(){
 
 /* ---------------- creator read-only view ---------------- */
 async function launchCreatorView(slotId){
+  closeAllModals();
   document.getElementById('app-shell').style.display = 'none';
   document.getElementById('my-profile-shell').style.display = 'block';
   // force un rafraîchissement d'affichage immédiat (évite un écran vide tant qu'on n'a pas interagi)
@@ -4196,23 +4198,36 @@ function renderMyPaidGallery(m){
   const totalRevenue = items.reduce((sum, it) => sum + (it.revenue || 0), 0);
   const totalSales = items.reduce((sum, it) => sum + (it.salesCount || 0), 0);
 
-  const itemCards = items.map(it => `
-    <div class="paid-item-card">
-      <div class="paid-item-thumb">
-        ${it.kind === 'video'
-          ? `<video src="${it.teaserUrl || it.url}" muted></video>`
-          : `<img src="${it.url}">`}
-        <span class="paid-item-price">${it.price}€</span>
-      </div>
-      <div class="paid-item-info">
+  const itemCards = items.map(it => {
+    const priceBadge = `<span class="paid-item-price">${it.price}€</span>`;
+    const thumbs = it.kind === 'video'
+      ? `
+        <div class="gallery-thumb">
+          <video src="${it.teaserUrl}" muted></video>
+          <span class="paid-thumb-tag">${t('paidTeaserBadge')}</span>
+        </div>
+        <div class="gallery-thumb">
+          <video src="${it.url}" muted></video>
+          <div class="paid-lock-badge">${ICON_LOCK}</div>
+          ${priceBadge}
+        </div>`
+      : `
+        <div class="gallery-thumb">
+          <img src="${it.url}">
+          <div class="paid-lock-badge">${ICON_LOCK}</div>
+          ${priceBadge}
+        </div>`;
+    return `
+      <div class="paid-item-row">
+        <div class="gallery-strip">${thumbs}</div>
         <p class="paid-item-desc">${escText(it.description) || '—'}</p>
         <div class="paid-item-stats">
           <span>${ICON_CART}${it.salesCount || 0} ${t('paidSalesLabel')}</span>
           <span>${ICON_COIN}${it.revenue || 0}€</span>
+          <button class="rm" data-docid="${it.docId}" style="position:static;margin-left:auto;width:auto;height:auto;padding:5px 9px;border-radius:8px;">✕ ${t('cancel')}</button>
         </div>
-        <button class="rm" data-docid="${it.docId}" style="position:static;margin-top:8px;width:auto;height:auto;padding:6px 10px;border-radius:8px;">✕ ${t('cancel')}</button>
-      </div>
-    </div>`).join('');
+      </div>`;
+  }).join('');
 
   zone.innerHTML = `
     <div class="paid-summary">
@@ -4369,10 +4384,20 @@ async function loadMyOrders(m){
   try{
     let orders = [];
     for(const item of (m.paidContent || [])){
+      // Pas de "where" combiné à "orderBy" ici : on lit tout puis on filtre/trie
+      // nous-mêmes, pour éviter d'avoir à créer un index composite Firestore.
       const snap = await db.collection('profiles').doc(m.id).collection('paid_content').doc(item.docId)
-        .collection('orders').where('status', '==', 'pending').orderBy('createdAt', 'desc').get();
-      snap.forEach(d => orders.push({ orderId: d.id, itemDocId: item.docId, item, ...d.data() }));
+        .collection('orders').get();
+      snap.forEach(d => {
+        const data = d.data();
+        if(data.status === 'pending') orders.push({ orderId: d.id, itemDocId: item.docId, item, ...data });
+      });
     }
+    orders.sort((a, b) => {
+      const ta = a.createdAt && a.createdAt.toMillis ? a.createdAt.toMillis() : 0;
+      const tb = b.createdAt && b.createdAt.toMillis ? b.createdAt.toMillis() : 0;
+      return tb - ta;
+    });
     if(!orders.length){
       zone.innerHTML = `<span class="gallery-empty">${t('paidNoOrders')}</span>`;
       return;
@@ -5206,6 +5231,18 @@ function hideAllShells(){
   document.getElementById('my-profile-shell').style.display = 'none';
   document.getElementById('vitrine-shell').style.display = 'none';
 }
+/* Ferme tout modal potentiellement resté ouvert par erreur — évite qu'un
+   fond de modal invisible bloque les clics ailleurs sur la page. */
+function closeAllModals(){
+  ['edit', 'gallery', 'sales', 'contracts', 'invoice', 'sign', 'paid', 'vitrine'].forEach(name => {
+    const backdrop = document.getElementById(name + '-backdrop');
+    const modal = document.getElementById(name + '-modal');
+    if(backdrop) backdrop.classList.remove('open');
+    if(modal) modal.classList.remove('open');
+  });
+  const room = document.getElementById('vitrine-room');
+  if(room) room.classList.remove('open');
+}
 
 async function openVitrine(creatorId){
   hideAllShells();
@@ -5649,11 +5686,13 @@ async function openSalesPanel(){
       for(const itemDoc of paidSnap.docs){
         const item = itemDoc.data();
         const ordersSnap = await db.collection('profiles').doc(m.id).collection('paid_content').doc(itemDoc.id)
-          .collection('orders').where('status', '==', 'pending').orderBy('createdAt', 'desc').get();
+          .collection('orders').get();
         ordersSnap.forEach(o => {
+          const data = o.data();
+          if(data.status !== 'pending') return;
           allOrders.push({
             orderId: o.id, itemDocId: itemDoc.id, creatorId: m.id, creatorName: m.name || m.id,
-            item, ...o.data()
+            item, ...data
           });
         });
       }
