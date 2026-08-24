@@ -91,6 +91,7 @@ button{font-family:inherit;cursor:pointer;}
   font-size:22px;
 }
 #topbar .right{display:flex;align-items:center;gap:10px;}
+.topbar-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
 .topbar-member-badge{background:var(--bg-elev-2);border:1px solid var(--honey);color:var(--honey);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;display:flex;align-items:center;gap:6px;}
 .lang-group{display:flex;border:1px solid var(--border);border-radius:999px;overflow:hidden;}
 .lang-group button{
@@ -228,6 +229,8 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
   background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text);padding:9px;border-radius:var(--radius-sm);
 }
 .pill-link.disabled{color:var(--text-muted);cursor:default;}
+.pill-link.alert{border-color:var(--rose);color:var(--rose);animation:alertPulse 1.6s ease-in-out infinite;}
+@keyframes alertPulse{0%,100%{box-shadow:0 0 0 0 rgba(226,99,124,0.4);}50%{box-shadow:0 0 0 5px rgba(226,99,124,0);}}
 .model-body .edit-btn{
   margin-top:4px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;
   background:none;border:1px dashed var(--honey);color:var(--honey);padding:9px;border-radius:var(--radius-sm);
@@ -705,6 +708,7 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 
     <button class="pill-link" id="reports-panel-btn" style="display:none;margin-bottom:16px;">🚩 <span id="t-reports-panel-btn">Signalements</span> <span id="reports-panel-count" class="mono" style="margin-left:4px;"></span></button>
     <button class="pill-link" id="applications-panel-btn" style="display:none;margin-bottom:16px;margin-left:8px;">🧾 <span id="t-applications-panel-btn">Candidatures</span> <span id="applications-panel-count" class="mono" style="margin-left:4px;"></span></button>
+    <button class="pill-link" id="deletions-panel-btn" style="display:none;margin-bottom:16px;margin-left:8px;">🗑 <span id="t-deletions-panel-btn">Suppressions</span> <span id="deletions-panel-count" class="mono" style="margin-left:4px;"></span></button>
 
     <div class="roster-grid" id="roster-grid"></div>
 
@@ -795,6 +799,16 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
   </div>
 </div>
 
+<!-- ================= DELETION REQUESTS PANEL (admin: demandes de suppression de compte créatrice) ================= -->
+<div class="modal-backdrop" id="deletions-backdrop"></div>
+<div class="modal-box" id="deletions-modal" style="max-width:560px;max-height:80vh;overflow-y:auto;">
+  <h3 id="t-deletions-title">Suppressions</h3>
+  <div id="deletions-body"></div>
+  <div class="modal-actions">
+    <button class="btn btn-ghost btn-sm" id="deletions-close" style="flex:1;"><span id="t-deletions-close">Fermer</span></button>
+  </div>
+</div>
+
 <!-- ================= INVOICE (printable) ================= -->
 <div class="modal-backdrop" id="invoice-backdrop"></div>
 <div class="modal-box" id="invoice-modal" style="max-width:480px;">
@@ -846,9 +860,11 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 <!-- ================= VITRINE (public showcase, no gate) ================= -->
 <div id="vitrine-shell" style="display:none;">
   <div id="topbar">
-    <div class="logo">honeymoon</div>
-    <div class="right">
+    <div class="topbar-left">
+      <div class="logo">honeymoon</div>
       <button type="button" class="topbar-member-badge" id="topbar-member-badge" style="display:none;"></button>
+    </div>
+    <div class="right">
       <button class="burger-btn" id="burger-menu-btn" aria-label="Menu">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
@@ -1341,6 +1357,40 @@ const I18N = {
     memberFavoriteToggle: "Ajouter/retirer des favoris",
     memberFavoriteAdded: "Ajoutée à tes favoris.",
     memberFavoriteRemoved: "Retirée de tes favoris.",
+    myCommentsTitle: "Commentaires reçus",
+    myCommentsNote: "Les commentaires laissés sur ta fiche par les visiteurs. Tu peux supprimer un commentaire que tu juges déplacé ou outrageant.",
+    myCommentsNone: "Aucun commentaire pour le moment.",
+    myCommentsDelete: "Supprimer ce commentaire",
+    myCommentsConfirmDelete: "Supprimer définitivement ce commentaire ?",
+    logoutConfirm: "Se déconnecter de ton compte membre ?",
+    deletionsPanelBtn: "Suppressions",
+    deletionsNoneYet: "Aucune demande de suppression pour le moment.",
+    deletionStatusCancelled: "annulée",
+    deletionStatusCompleted: "supprimé",
+    deletionEligibleNow: "délai écoulé — prêt",
+    deletionDaysLeft: "encore {n} jour(s)",
+    deletionConfirmBtn: "Supprimer définitivement",
+    deletionFinalConfirm: "Supprimer DÉFINITIVEMENT le compte de {name} et tout son contenu ? Cette action est irréversible.",
+    deletionCompletedToast: "Compte supprimé définitivement.",
+    creatorRulesArticleTitle: "Règles, droits et devoirs",
+    creatorRulesArticleBody: "En tant que créatrice sur Honeymoon, tu conserves 60% de tes ventes de contenu payant (40% pour la gestion de la plateforme). Le contenu autorisé se limite à la lingerie, tenue sexy et danse sensuelle — aucun contenu nu n'est accepté. Une pièce d'identité valide est obligatoire avant toute publication. Tu restes libre de gérer ton contenu, et tu peux demander la suppression de ton compte à tout moment ci-dessous.\n\nSuppression de compte : une fois ta demande envoyée avec un délai (1 à 7 jours) et ta raison, l'équipe Honeymoon est notifiée. Tu peux annuler ta demande à tout moment tant que le délai n'est pas écoulé. Passé ce délai, la suppression devient possible et ton profil, tes photos, vidéos et commentaires sont définitivement effacés.",
+    deletionPendingBanner: "Suppression de ton compte prévue dans {n} jour(s).",
+    deletionCancelBtn: "Annuler la demande",
+    deletionCancelledToast: "Demande de suppression annulée.",
+    deletionOpenBtn: "Supprimer mon compte créatrice",
+    deletionDelayLabel: "Délai avant suppression",
+    deletionDelayOption: "{n} jour(s)",
+    deletionReasonLabel: "Raison de la suppression",
+    deletionReasonPh: "Explique pourquoi tu souhaites supprimer ton compte...",
+    deletionSubmitBtn: "Envoyer la demande",
+    deletionRequestedToast: "Demande de suppression envoyée.",
+    memberDeleteAccountTitle: "Supprimer mon compte",
+    memberDeleteAccountNote: "Cette action supprime définitivement ton compte membre, ton profil et tes photos personnelles. Un email de confirmation te sera envoyé.",
+    memberDeleteAccountBtn: "Supprimer mon compte",
+    memberDeleteAccountConfirm1: "Es-tu sûr(e) de vouloir supprimer ton compte membre ? Cette action est irréversible.",
+    memberDeleteAccountConfirm2: "Dernière confirmation : ton profil, ta bio et tes photos personnelles seront supprimés définitivement. Continuer ?",
+    memberDeleteAccountDone: "Ton compte a été supprimé. Un email de confirmation t'a été envoyé.",
+    memberDeleteRequiresRecentLogin: "Pour ta sécurité, reconnecte-toi puis réessaie de supprimer ton compte.",
     backToMenu: "Retour au menu",
     burgerLogout: "Déconnexion",
     themeToBordeaux: "Mode sombre",
@@ -1801,6 +1851,40 @@ const I18N = {
     memberFavoriteToggle: "Add/remove from favorites",
     memberFavoriteAdded: "Added to your favorites.",
     memberFavoriteRemoved: "Removed from your favorites.",
+    myCommentsTitle: "Comments received",
+    myCommentsNote: "Comments left on your profile by visitors. You can delete a comment you find inappropriate or offensive.",
+    myCommentsNone: "No comments yet.",
+    myCommentsDelete: "Delete this comment",
+    myCommentsConfirmDelete: "Permanently delete this comment?",
+    logoutConfirm: "Log out of your member account?",
+    deletionsPanelBtn: "Deletions",
+    deletionsNoneYet: "No deletion requests yet.",
+    deletionStatusCancelled: "cancelled",
+    deletionStatusCompleted: "deleted",
+    deletionEligibleNow: "delay elapsed — ready",
+    deletionDaysLeft: "{n} day(s) left",
+    deletionConfirmBtn: "Delete permanently",
+    deletionFinalConfirm: "PERMANENTLY delete {name}'s account and all their content? This cannot be undone.",
+    deletionCompletedToast: "Account permanently deleted.",
+    creatorRulesArticleTitle: "Rules, rights and duties",
+    creatorRulesArticleBody: "As a creator on Honeymoon, you keep 60% of your paid content sales (40% for platform management). Allowed content is limited to lingerie, sexy outfits and sensual dance — no nude content is accepted. A valid ID is required before any publishing. You remain free to manage your content, and you can request your account's deletion at any time below.\n\nAccount deletion: once your request is sent with a delay (1 to 7 days) and your reason, the Honeymoon team is notified. You can cancel your request at any time before the delay elapses. Once it does, deletion becomes possible and your profile, photos, videos and comments are permanently erased.",
+    deletionPendingBanner: "Your account deletion is scheduled in {n} day(s).",
+    deletionCancelBtn: "Cancel request",
+    deletionCancelledToast: "Deletion request cancelled.",
+    deletionOpenBtn: "Delete my creator account",
+    deletionDelayLabel: "Delay before deletion",
+    deletionDelayOption: "{n} day(s)",
+    deletionReasonLabel: "Reason for deletion",
+    deletionReasonPh: "Explain why you want to delete your account...",
+    deletionSubmitBtn: "Send request",
+    deletionRequestedToast: "Deletion request sent.",
+    memberDeleteAccountTitle: "Delete my account",
+    memberDeleteAccountNote: "This permanently deletes your member account, profile and personal photos. A confirmation email will be sent to you.",
+    memberDeleteAccountBtn: "Delete my account",
+    memberDeleteAccountConfirm1: "Are you sure you want to delete your member account? This cannot be undone.",
+    memberDeleteAccountConfirm2: "Final confirmation: your profile, bio and personal photos will be permanently deleted. Continue?",
+    memberDeleteAccountDone: "Your account has been deleted. A confirmation email was sent to you.",
+    memberDeleteRequiresRecentLogin: "For your security, please log back in and try deleting your account again.",
     backToMenu: "Back to menu",
     burgerLogout: "Log out",
     themeToBordeaux: "Dark mode",
@@ -6231,6 +6315,8 @@ function refreshEditUI(){
   document.getElementById('t-edit-toggle').textContent = editMode ? t('editToggleOff') : t('editToggleOn');
   document.getElementById('reports-panel-btn').style.display = isAdmin() ? 'inline-flex' : 'none';
   document.getElementById('applications-panel-btn').style.display = isAdmin() ? 'inline-flex' : 'none';
+  document.getElementById('deletions-panel-btn').style.display = isAdmin() ? 'inline-flex' : 'none';
+  if(isAdmin()) refreshDeletionsAlertBadge();
   renderRoster();
 }
 
@@ -6378,6 +6464,11 @@ function renderMyProfile(slotId){
     <p style="color:var(--honey);font-size:11.5px;max-width:460px;margin:22px auto 0;line-height:1.6;text-align:center;">${t('contentPolicyNote')}</p>
     <div id="my-gallery-zone" style="margin-top:14px;"></div>
     <div style="margin-top:48px;padding-top:36px;border-top:1px solid var(--border);">
+      <h2 class="display" style="font-size:19px;">${t('myCommentsTitle')}</h2>
+      <p style="color:var(--text-muted);font-size:12.5px;max-width:460px;margin-top:8px;line-height:1.65;">${t('myCommentsNote')}</p>
+      <div id="my-comments-zone" style="margin-top:20px;"></div>
+    </div>
+    <div style="margin-top:48px;padding-top:36px;border-top:1px solid var(--border);">
       <h2 class="display" style="font-size:19px;">${t('myVaultTitle')}</h2>
       <p style="color:var(--text-muted);font-size:12.5px;max-width:460px;margin-top:8px;line-height:1.65;">${t('myVaultNote')}</p>
       <div id="my-vault-zone" style="margin-top:20px;"></div>
@@ -6393,13 +6484,149 @@ function renderMyProfile(slotId){
       <p style="color:var(--text-muted);font-size:12.5px;max-width:460px;margin-top:8px;line-height:1.65;">${t('toolsNote')}</p>
       <div id="my-tools-zone" style="margin-top:20px;"></div>
     </div>
+    <div style="margin-top:48px;padding-top:36px;border-top:1px solid var(--border);">
+      <h2 class="display" style="font-size:19px;">${t('creatorRulesArticleTitle')}</h2>
+      <div class="apply-legal-box" style="margin-top:14px;max-width:520px;">
+        <p style="white-space:pre-line;">${t('creatorRulesArticleBody')}</p>
+      </div>
+      <div id="my-deletion-zone" style="margin-top:20px;max-width:460px;"></div>
+    </div>
   `;
 
   document.getElementById('my-edit-btn').onclick = () => openMyProfileEdit(m);
   renderMyGallery(m);
+  renderMyComments(m);
   renderMyVault(m);
   renderMyPaidGallery(m);
   renderMyTools(m);
+  renderMyDeletionZone(m);
+}
+
+async function renderMyDeletionZone(m){
+  const zone = document.getElementById('my-deletion-zone');
+  if(!zone) return;
+  zone.innerHTML = `<span class="gallery-empty">${t('paidOrdersLoading')}</span>`;
+  try{
+    if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
+    const snap = await db.collection('deletion_requests')
+      .where('profileId', '==', m.id).where('status', '==', 'pending').limit(1).get();
+    if(!snap.empty){
+      const req = snap.docs[0];
+      const r = req.data();
+      const eligibleMs = r.eligibleAt && r.eligibleAt.toDate ? r.eligibleAt.toDate().getTime() : 0;
+      const daysLeft = Math.max(0, Math.ceil((eligibleMs - Date.now()) / 86400000));
+      zone.innerHTML = `
+        <div class="member-banner-warn">
+          <span>${t('deletionPendingBanner').replace('{n}', daysLeft)}</span>
+          <button type="button" id="my-deletion-cancel-btn">${t('deletionCancelBtn')}</button>
+        </div>
+      `;
+      document.getElementById('my-deletion-cancel-btn').onclick = async () => {
+        try{
+          await req.ref.set({ status: 'cancelled' }, { merge: true });
+          toast(t('deletionCancelledToast'));
+          renderMyDeletionZone(m);
+        }catch(e){ console.error('cancel deletion error', e); toast(t('memberErrUnknown')); }
+      };
+      return;
+    }
+  }catch(e){ console.error('load deletion request error', e); }
+
+  zone.innerHTML = `
+    <button type="button" class="btn btn-ghost btn-sm" id="my-deletion-open-btn" style="border-color:var(--rose);color:var(--rose);">${t('deletionOpenBtn')}</button>
+    <div id="my-deletion-form" style="display:none;margin-top:14px;">
+      <label>${t('deletionDelayLabel')}</label>
+      <select id="my-deletion-delay">
+        ${[1,2,3,4,5,6,7].map(n => `<option value="${n}">${t('deletionDelayOption').replace('{n}', n)}</option>`).join('')}
+      </select>
+      <label>${t('deletionReasonLabel')}</label>
+      <textarea id="my-deletion-reason" rows="3" placeholder="${escAttr(t('deletionReasonPh'))}"></textarea>
+      <div class="member-err" id="my-deletion-err"></div>
+      <div class="modal-actions">
+        <button class="btn btn-primary btn-sm" id="my-deletion-submit" style="flex:1;background:var(--rose);border-color:var(--rose);">${t('deletionSubmitBtn')}</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('my-deletion-open-btn').onclick = () => {
+    document.getElementById('my-deletion-form').style.display = 'block';
+    document.getElementById('my-deletion-open-btn').style.display = 'none';
+  };
+  document.getElementById('my-deletion-submit').onclick = async () => {
+    const errEl = document.getElementById('my-deletion-err');
+    errEl.textContent = '';
+    const delayDays = parseInt(document.getElementById('my-deletion-delay').value, 10);
+    const reason = document.getElementById('my-deletion-reason').value.trim();
+    if(!reason){ errEl.textContent = t('memberErrFillAll'); return; }
+    const btn = document.getElementById('my-deletion-submit');
+    btn.disabled = true;
+    try{
+      if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
+      const eligibleAt = firebase.firestore.Timestamp.fromMillis(Date.now() + delayDays * 86400000);
+      await db.collection('deletion_requests').add({
+        profileId: m.id, creatorName: m.name || '', reason: reason.slice(0, 1000),
+        delayDays, status: 'pending',
+        requestedAt: firebase.firestore.FieldValue.serverTimestamp(), eligibleAt
+      });
+      try{
+        if(typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY !== 'TON_EMAILJS_PUBLIC_KEY'){
+          await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+            to_email: ADMIN_NOTIFY_EMAIL, subject: `Honeymoon — Demande de suppression de compte (${m.name || m.id})`,
+            buyer_name: m.name || m.id, buyer_contact: '', creator_name: m.name || '',
+            item_desc: `Raison : ${reason}\nDélai demandé : ${delayDays} jour(s)`, price: '', ref: 'SUPPRESSION'
+          });
+        }
+      }catch(e){ console.error('deletion request emailjs error', e); }
+      toast(t('deletionRequestedToast'));
+      renderMyDeletionZone(m);
+    }catch(e){
+      console.error('deletion request error', e);
+      errEl.textContent = t('memberErrUnknown') + ' (' + (e.code || e.message || e) + ')';
+    }
+    btn.disabled = false;
+  };
+}
+
+async function renderMyComments(m){
+  const zone = document.getElementById('my-comments-zone');
+  if(!zone) return;
+  zone.innerHTML = `<span class="gallery-empty">${t('paidOrdersLoading')}</span>`;
+  try{
+    if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
+    const snap = await db.collection('profiles').doc(m.id).collection('comments').orderBy('createdAt', 'desc').limit(100).get();
+    if(snap.empty){
+      zone.innerHTML = `<span class="gallery-empty">${t('myCommentsNone')}</span>`;
+      return;
+    }
+    zone.innerHTML = snap.docs.map(d => {
+      const c = d.data();
+      return `
+        <div class="comment-card">
+          <div class="comment-avatar">${escText(initials(c.name))}</div>
+          <div class="comment-body">
+            <div class="comment-head"><span class="comment-name">${escText(c.name || '—')}</span><span class="comment-date">${formatCommentDate(c.createdAt)}</span></div>
+            <div class="comment-text">${escText(c.text || '')}</div>
+          </div>
+          <button class="comment-report-btn" data-docid="${d.id}" title="${escAttr(t('myCommentsDelete'))}">🗑</button>
+        </div>`;
+    }).join('');
+    zone.querySelectorAll('.comment-report-btn').forEach(btn => {
+      btn.onclick = async () => {
+        if(!confirm(t('myCommentsConfirmDelete'))) return;
+        btn.disabled = true;
+        try{
+          await db.collection('profiles').doc(m.id).collection('comments').doc(btn.dataset.docid).delete();
+          renderMyComments(m);
+          toast(t('removedToast'));
+        }catch(e){
+          console.error('delete comment error', e);
+          toast(t('memberErrUnknown') + ' (' + (e.code || e.message || e) + ')');
+        }
+      };
+    });
+  }catch(e){
+    console.error('load my comments error', e);
+    zone.innerHTML = `<span class="gallery-empty">${(LANG==='fr' ? 'Erreur : ' : 'Error: ')}${escText(e && e.message ? e.message : String(e))}</span>`;
+  }
 }
 
 function renderMyVault(m){
@@ -8704,7 +8931,11 @@ function renderMemberProfileTab(user, data){
       </label>
     </div>
     <label>${t('memberUsernameLabel')}</label>
-    <input value="${escAttr(data.username || '')}" disabled>
+    <div style="display:flex;gap:8px;">
+      <input id="member-pf-username" placeholder="${escAttr(t('memberUsernamePh'))}" value="${escAttr(data.username || '')}" style="flex:1;" maxlength="20">
+      <button type="button" class="btn btn-ghost btn-sm" id="member-pf-username-save">${t('memberSaveBtn')}</button>
+    </div>
+    <p class="member-note" id="member-pf-username-note"></p>
     <label>${t('memberEmailLabel')}</label>
     <input value="${escAttr(data.email || user.email || '')}" disabled>
     <label>${t('memberLocationLabel')}</label>
@@ -8742,12 +8973,20 @@ function renderMemberProfileTab(user, data){
     <div class="modal-actions">
       <button class="btn btn-ghost btn-sm" id="member-pf-pass-save" style="flex:1;">${t('memberChangePasswordBtn')}</button>
     </div>
+
+    <div class="member-section-title" style="color:var(--rose);">${t('memberDeleteAccountTitle')}</div>
+    <p class="member-note">${t('memberDeleteAccountNote')}</p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost btn-sm" id="member-pf-delete-btn" style="flex:1;border-color:var(--rose);color:var(--rose);">${t('memberDeleteAccountBtn')}</button>
+    </div>
   `;
   wireEyeToggles(tabBody);
   document.getElementById('member-avatar-input').onchange = (e) => memberUploadAvatar(user, e.target.files[0]);
   document.getElementById('member-pf-save').onclick = () => memberSaveProfile(user, data);
   document.getElementById('member-pf-pass-save').onclick = () => memberChangePassword();
+  document.getElementById('member-pf-delete-btn').onclick = () => memberDeleteAccount(user, data);
   document.getElementById('member-pf-geoloc').onclick = () => memberUseGeolocation(data);
+  document.getElementById('member-pf-username-save').onclick = () => memberSaveUsername(user, data);
   wireDualUpload('member-my-photo', async (files) => {
     for(const file of Array.from(files)){
       try{
@@ -8776,6 +9015,35 @@ function renderMemberProfileTab(user, data){
       }catch(e){ console.error('remove member photo error', e); toast(t('memberErrUnknown')); }
     };
   });
+}
+
+async function memberSaveUsername(user, data){
+  const noteEl = document.getElementById('member-pf-username-note');
+  noteEl.textContent = '';
+  const newUsername = document.getElementById('member-pf-username').value.trim();
+  if(!isValidUsername(newUsername)){ noteEl.textContent = t('memberErrUsernameFormat'); return; }
+  if(newUsername === data.username) return;
+  const btn = document.getElementById('member-pf-username-save');
+  btn.disabled = true;
+  const newLower = newUsername.toLowerCase();
+  try{
+    const existing = await memberDb.collection('usernames').doc(newLower).get();
+    if(existing.exists && existing.data().uid !== user.uid){
+      noteEl.textContent = t('memberErrUsernameTaken');
+      btn.disabled = false;
+      return;
+    }
+    await memberDb.collection('usernames').doc(newLower).set({ uid: user.uid, email: user.email });
+    await memberDb.collection('members').doc(user.uid).set({ username: newUsername, usernameLower: newLower }, { merge: true });
+    try{ await user.updateProfile({ displayName: newUsername }); }catch(e){}
+    data.username = newUsername;
+    updateTopbarMemberBadge(newUsername);
+    toast(t('memberSavedToast'));
+  }catch(e){
+    console.error('save username error', e);
+    noteEl.textContent = t('memberErrUnknown') + ' (' + (e.code || e.message || e) + ')';
+  }
+  btn.disabled = false;
 }
 
 function memberUseGeolocation(data){
@@ -8871,6 +9139,42 @@ async function memberChangePassword(){
     else errEl.textContent = t('memberErrUnknown') + ' (' + (e.code || e.message || e) + ')';
   }
   btn.disabled = false;
+}
+
+async function memberDeleteAccount(user, data){
+  if(!confirm(t('memberDeleteAccountConfirm1'))) return;
+  if(!confirm(t('memberDeleteAccountConfirm2'))) return;
+  const email = user.email;
+  const uid = user.uid;
+  try{
+    // Purge des photos personnelles stockées.
+    for(const p of (data.photos || [])){
+      if(p.path){ try{ await memberStorage.ref().child(p.path).delete(); }catch(e){} }
+    }
+    if(data.photoURL){ try{ await memberStorage.ref().child('avatars/' + uid + '.jpg').delete(); }catch(e){} }
+    try{ await memberDb.collection('members').doc(uid).delete(); }catch(e){ console.error('delete member doc error', e); }
+    try{
+      if(typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY !== 'TON_EMAILJS_PUBLIC_KEY' && email){
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+          to_email: email, subject: 'Honeymoon — Ton compte a été supprimé',
+          buyer_name: data.username || '', buyer_contact: email, creator_name: '',
+          item_desc: 'Confirmation : ton compte membre Honeymoon vient d\'être supprimé, à ta demande.',
+          price: '', ref: 'COMPTE-SUPPRIME'
+        });
+      }
+    }catch(e){ console.error('deletion confirmation emailjs error', e); }
+    await user.delete();
+    closeMemberModal();
+    updateTopbarMemberBadge(null);
+    toast(t('memberDeleteAccountDone'));
+  }catch(e){
+    console.error('member self delete error', e);
+    if(e.code === 'auth/requires-recent-login'){
+      toast(t('memberDeleteRequiresRecentLogin'));
+    } else {
+      toast(t('memberErrUnknown') + ' (' + (e.code || e.message || e) + ')');
+    }
+  }
 }
 
 async function renderMemberPurchasesTab(user){
@@ -9011,6 +9315,7 @@ function refreshMemberBadgeFromSession(){
   }).catch(() => updateTopbarMemberBadge(u.displayName || ''));
 }
 function memberLogout(){
+  if(!confirm(t('logoutConfirm'))) return;
   if(memberAuth){ memberAuth.signOut().catch(() => {}); }
   updateTopbarMemberBadge(null);
   toast(t('memberLoggedOutToast'));
@@ -9250,6 +9555,100 @@ document.getElementById('applications-close').onclick = () => {
 };
 document.getElementById('applications-backdrop').onclick = () => document.getElementById('applications-close').click();
 
+/* ---------------- panneau admin : demandes de suppression de compte créatrice ---------------- */
+async function refreshDeletionsAlertBadge(){
+  const btn = document.getElementById('deletions-panel-btn');
+  if(!btn || !isAdmin()) return;
+  try{
+    const snap = await db.collection('deletion_requests').where('status', '==', 'pending').get();
+    const countEl = document.getElementById('deletions-panel-count');
+    if(snap.size > 0){
+      countEl.textContent = `(${snap.size})`;
+      btn.classList.add('alert');
+    } else {
+      countEl.textContent = '';
+      btn.classList.remove('alert');
+    }
+  }catch(e){ console.error('deletions badge error', e); }
+}
+
+async function openDeletionsPanel(){
+  document.getElementById('deletions-backdrop').classList.add('open');
+  document.getElementById('deletions-modal').classList.add('open');
+  const body = document.getElementById('deletions-body');
+  body.innerHTML = `<span class="gallery-empty">${t('paidOrdersLoading')}</span>`;
+  try{
+    const snap = await db.collection('deletion_requests').orderBy('requestedAt', 'desc').limit(100).get();
+    if(snap.empty){
+      body.innerHTML = `<span class="gallery-empty">${t('deletionsNoneYet')}</span>`;
+      document.getElementById('deletions-panel-count').textContent = '';
+      document.getElementById('deletions-panel-btn').classList.remove('alert');
+      return;
+    }
+    body.innerHTML = snap.docs.map(d => {
+      const r = d.data();
+      const now = Date.now();
+      const eligibleMs = r.eligibleAt && r.eligibleAt.toDate ? r.eligibleAt.toDate().getTime() : 0;
+      const daysLeft = Math.max(0, Math.ceil((eligibleMs - now) / 86400000));
+      const isEligible = r.status === 'pending' && now >= eligibleMs;
+      let statusHtml = '';
+      if(r.status === 'cancelled') statusHtml = `<span class="member-purchase-status pending">${t('deletionStatusCancelled')}</span>`;
+      else if(r.status === 'completed') statusHtml = `<span class="member-purchase-status paid">${t('deletionStatusCompleted')}</span>`;
+      else if(isEligible) statusHtml = `<span class="member-purchase-status paid">${t('deletionEligibleNow')}</span>`;
+      else statusHtml = `<span class="member-purchase-status pending">${t('deletionDaysLeft').replace('{n}', daysLeft)}</span>`;
+      return `
+      <div class="sale-order-row">
+        <div class="sale-order-head">
+          <span><b>${escText(r.creatorName) || r.profileId}</b></span>
+          <span class="mono" style="color:var(--text-muted);">${formatCommentDate(r.requestedAt)}</span>
+        </div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px;white-space:pre-line;">${escText(r.reason) || ''}</div>
+        <div style="margin-bottom:8px;">${statusHtml}</div>
+        ${r.status === 'pending' ? `<button class="btn btn-primary btn-sm" data-id="${d.id}" data-pid="${escAttr(r.profileId)}" data-name="${escAttr(r.creatorName || '')}" class="deletion-confirm-btn" ${isEligible ? '' : 'disabled'} style="width:100%;">${t('deletionConfirmBtn')}</button>` : ''}
+      </div>`;
+    }).join('');
+    body.querySelectorAll('[data-id]').forEach(btn => {
+      btn.onclick = () => confirmCreatorDeletion(btn.dataset.id, btn.dataset.pid, btn.dataset.name);
+    });
+  }catch(e){
+    console.error('deletions panel error', e);
+    body.innerHTML = `<span class="gallery-empty">${(LANG==='fr'?'Erreur : ':'Error: ')}${escText(e.message||String(e))}</span>`;
+  }
+}
+document.getElementById('deletions-panel-btn').onclick = () => requireAdmin(openDeletionsPanel);
+document.getElementById('deletions-close').onclick = () => {
+  document.getElementById('deletions-backdrop').classList.remove('open');
+  document.getElementById('deletions-modal').classList.remove('open');
+};
+document.getElementById('deletions-backdrop').onclick = () => document.getElementById('deletions-close').click();
+
+async function confirmCreatorDeletion(requestId, profileId, creatorName){
+  if(!confirm(t('deletionFinalConfirm').replace('{name}', creatorName || profileId))) return;
+  try{
+    // Purge des sous-collections connues du profil.
+    const profileRef = db.collection('profiles').doc(profileId);
+    const subcols = ['media', 'private_media', 'comments', 'showcase_media', 'contract_signatures'];
+    for(const col of subcols){
+      const snap = await profileRef.collection(col).get();
+      for(const doc of snap.docs){ await doc.ref.delete(); }
+    }
+    const paidSnap = await profileRef.collection('paid_content').get();
+    for(const item of paidSnap.docs){
+      const ordersSnap = await item.ref.collection('orders').get();
+      for(const o of ordersSnap.docs){ await o.ref.delete(); }
+      await item.ref.delete();
+    }
+    await profileRef.delete();
+    await db.collection('deletion_requests').doc(requestId).set({ status: 'completed', completedAt: firebase.firestore.FieldValue.serverTimestamp() }, { merge: true });
+    toast(t('deletionCompletedToast'));
+    openDeletionsPanel();
+    refreshDeletionsAlertBadge();
+  }catch(e){
+    console.error('creator deletion error', e);
+    toast(t('memberErrUnknown') + ' (' + (e.code || e.message || e) + ')');
+  }
+}
+
 document.getElementById('soon-close').onclick = () => {
   document.getElementById('soon-backdrop').classList.remove('open');
   document.getElementById('soon-modal').classList.remove('open');
@@ -9266,6 +9665,7 @@ document.getElementById('burger-report-item').onclick = () => {
 };
 document.getElementById('burger-logout-item').onclick = () => {
   closeBurgerMenu();
+  if(!confirm(t('logoutConfirm'))) return;
   sessionStorage.removeItem('hm_age_ok');
   if(memberAuth){ memberAuth.signOut().catch(() => {}); }
   hideAllShells();
@@ -10231,9 +10631,6 @@ async function openVitrineRoom(id){
         <textarea id="comment-input" placeholder="${t('commentPlaceholder')}"></textarea>
         <button class="btn btn-primary btn-sm" id="comment-submit">${t('commentSubmit')}</button>
       </div>
-      <div style="margin-top:24px;padding-top:16px;border-top:1px solid var(--border);text-align:center;">
-        <button class="legal-link-btn report-link-btn" id="room-report-btn">🚩 ${t('reportThisCreatorBtn')}</button>
-      </div>
     </div>
   `;
 
@@ -10272,7 +10669,6 @@ async function openVitrineRoom(id){
   void document.getElementById('vitrine-room').offsetHeight;
 
   loadComments(m.id, m.name);
-  document.getElementById('room-report-btn').onclick = () => openReportModal({ profile: m.name || '' });
   const roomFavBtn = document.getElementById('vitrine-room-body').querySelector('.room-fav-btn');
   if(roomFavBtn) roomFavBtn.onclick = () => toggleMemberFavorite(m.id);
   initFavoriteButtonsState();
@@ -10806,15 +11202,8 @@ async function loadComments(profileId, creatorName){
             <div class="comment-head"><span class="comment-name">${name}</span><span class="comment-date">${formatCommentDate(c.createdAt)}</span></div>
             <div class="comment-text">${escText(text)}</div>
           </div>
-          <button class="comment-report-btn" data-name="${escText(c.name || '')}" data-text="${escText(text)}" title="${t('reportLinkLabel')}">🚩</button>
         </div>`;
     }).join('');
-    list.querySelectorAll('.comment-report-btn').forEach(btn => {
-      btn.onclick = () => openReportModal({
-        profile: creatorName || '',
-        details: `${t('reportCommentPrefix')} "${btn.dataset.name}": "${btn.dataset.text}"`
-      });
-    });
   }catch(e){
     console.error('load comments error', e);
     list.innerHTML = `<span class="gallery-empty">${(LANG==='fr' ? 'Erreur de chargement : ' : 'Load error: ')}${escText(e && e.message ? e.message : String(e))}</span>`;
