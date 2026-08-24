@@ -91,6 +91,7 @@ button{font-family:inherit;cursor:pointer;}
   font-size:22px;
 }
 #topbar .right{display:flex;align-items:center;gap:10px;}
+.topbar-member-badge{background:var(--bg-elev-2);border:1px solid var(--honey);color:var(--honey);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;display:flex;align-items:center;gap:6px;}
 .lang-group{display:flex;border:1px solid var(--border);border-radius:999px;overflow:hidden;}
 .lang-group button{
   font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.08em;
@@ -193,6 +194,25 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
   background:rgba(0,0,0,0.6);border:1px solid var(--border);color:var(--text);width:26px;height:26px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
 }
+.card-report-btn{
+  position:absolute;bottom:10px;right:10px;width:28px;height:28px;border-radius:50%;
+  background:rgba(0,0,0,0.55);border:1px solid var(--border);color:var(--text);
+  display:flex;align-items:center;justify-content:center;font-size:13px;padding:0;
+}
+.card-report-btn:active{border-color:var(--rose);}
+.card-fav-btn{
+  position:absolute;bottom:10px;right:44px;width:28px;height:28px;border-radius:50%;
+  background:rgba(0,0,0,0.55);border:1px solid var(--border);color:var(--text);
+  display:flex;align-items:center;justify-content:center;font-size:15px;padding:0;
+}
+.card-fav-btn.active,.room-fav-btn.active{color:var(--rose);border-color:var(--rose);}
+.room-fav-btn{background:none;border:1px solid var(--border);color:var(--text-muted);border-radius:999px;padding:6px 12px;font-size:14px;margin-left:8px;}
+.member-favorites-list{display:flex;flex-direction:column;gap:8px;}
+.member-fav-row{display:flex;align-items:center;gap:12px;background:var(--bg-elev-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;color:var(--text);text-align:left;}
+.member-fav-photo{width:38px;height:38px;border-radius:50%;overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--bg-elev);font-size:18px;}
+.member-fav-photo img{width:100%;height:100%;object-fit:cover;}
+.member-fav-name{flex:1;font-size:13px;font-weight:600;}
+.member-fav-arrow{color:var(--text-muted);}
 .model-body{padding:16px;flex:1;display:flex;flex-direction:column;gap:10px;}
 .model-body .name-row{display:flex;align-items:baseline;justify-content:space-between;gap:8px;}
 .model-body h3{font-size:19px;}
@@ -240,7 +260,7 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 .modal-actions{display:flex;gap:10px;margin-top:20px;}
 .member-pass-wrap{position:relative;}
 .member-pass-wrap input{padding-right:44px !important;}
-.member-eye-toggle{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);font-size:16px;cursor:pointer;padding:8px;line-height:1;}
+.member-eye-toggle{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);font-size:16px;cursor:pointer;padding:8px;line-height:1;display:flex;align-items:center;}
 .member-switch-row{text-align:center;margin-top:16px;font-size:12.5px;color:var(--text-muted);}
 .member-switch-row button{background:none;border:none;color:var(--honey);cursor:pointer;font-size:12.5px;text-decoration:underline;padding:0;}
 .member-forgot-link{display:block;text-align:center;margin-top:10px;background:none;border:none;color:var(--text-muted);font-size:12px;text-decoration:underline;cursor:pointer;}
@@ -547,7 +567,7 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 .audio-record-btn svg{width:26px;height:26px;}
 .audio-record-btn.recording{background:#e06a6a;animation:audioRecPulse 1.2s infinite;}
 @keyframes audioRecPulse{0%{box-shadow:0 0 0 0 rgba(224,106,106,0.5);}70%{box-shadow:0 0 0 14px rgba(224,106,106,0);}100%{box-shadow:0 0 0 0 rgba(224,106,106,0);}}
-.dual-upload-zone{display:flex;gap:8px;}
+.dual-upload-zone{display:flex;gap:8px;margin-top:12px;}
 .dual-upload-btn{
   flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
   background:var(--bg-elev-2);border:1px dashed var(--border);border-radius:var(--radius-sm);
@@ -828,6 +848,7 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
   <div id="topbar">
     <div class="logo">honeymoon</div>
     <div class="right">
+      <button type="button" class="topbar-member-badge" id="topbar-member-badge" style="display:none;"></button>
       <button class="burger-btn" id="burger-menu-btn" aria-label="Menu">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
@@ -1308,6 +1329,18 @@ const I18N = {
     applySentClose: "Fermer",
     applicationsPanelBtn: "Candidatures",
     applicationsNoneYet: "Aucune candidature pour le moment.",
+    memberTabFavorites: "Favoris",
+    memberUseMyLocation: "Utiliser ma position",
+    memberGeolocLoading: "Localisation en cours…",
+    memberGeolocDenied: "Localisation refusée ou indisponible.",
+    memberGeolocUnsupported: "La géolocalisation n'est pas disponible sur cet appareil.",
+    memberMyPhotosTitle: "Mes photos",
+    memberMyPhotosNote: "Des photos personnelles, séparées de tes achats. Choisis ci-dessous si les créatrices peuvent les voir.",
+    memberPhotosVisibleLabel: "Rendre mes photos visibles par les créatrices",
+    memberFavoritesNone: "Aucune créatrice en favori pour le moment. Appuie sur le ♡ sur une fiche pour l'ajouter.",
+    memberFavoriteToggle: "Ajouter/retirer des favoris",
+    memberFavoriteAdded: "Ajoutée à tes favoris.",
+    memberFavoriteRemoved: "Retirée de tes favoris.",
     backToMenu: "Retour au menu",
     burgerLogout: "Déconnexion",
     themeToBordeaux: "Mode sombre",
@@ -1756,6 +1789,18 @@ const I18N = {
     applySentClose: "Close",
     applicationsPanelBtn: "Applications",
     applicationsNoneYet: "No applications yet.",
+    memberTabFavorites: "Favorites",
+    memberUseMyLocation: "Use my location",
+    memberGeolocLoading: "Locating…",
+    memberGeolocDenied: "Location denied or unavailable.",
+    memberGeolocUnsupported: "Geolocation isn't available on this device.",
+    memberMyPhotosTitle: "My photos",
+    memberMyPhotosNote: "Personal photos, separate from your purchases. Choose below whether creators can see them.",
+    memberPhotosVisibleLabel: "Make my photos visible to creators",
+    memberFavoritesNone: "No favorite creators yet. Tap ♡ on a profile to add one.",
+    memberFavoriteToggle: "Add/remove from favorites",
+    memberFavoriteAdded: "Added to your favorites.",
+    memberFavoriteRemoved: "Removed from your favorites.",
     backToMenu: "Back to menu",
     burgerLogout: "Log out",
     themeToBordeaux: "Dark mode",
@@ -8430,12 +8475,14 @@ function renderMemberError(msg){
   `;
   document.getElementById('member-error-close').onclick = closeMemberModal;
 }
+const ICON_EYE_OPEN = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z"/><circle cx="12" cy="12" r="3"/></svg>';
+const ICON_EYE_OFF = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a20.6 20.6 0 0 1 5.06-6.06M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 8 11 8a20.6 20.6 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
 function memberPassField(id, labelKey, phKey){
   return `
     <label>${t(labelKey)}</label>
     <div class="member-pass-wrap">
       <input id="${id}" type="password" placeholder="${escAttr(t(phKey))}" autocomplete="new-password">
-      <button type="button" class="member-eye-toggle" data-target="${id}">👁</button>
+      <button type="button" class="member-eye-toggle" data-target="${id}">${ICON_EYE_OPEN}</button>
     </div>
   `;
 }
@@ -8446,7 +8493,7 @@ function wireEyeToggles(root){
       if(!inp) return;
       const hidden = inp.type === 'password';
       inp.type = hidden ? 'text' : 'password';
-      btn.textContent = hidden ? '🙈' : '👁';
+      btn.innerHTML = hidden ? ICON_EYE_OFF : ICON_EYE_OPEN;
     };
   });
 }
@@ -8577,10 +8624,17 @@ async function memberSignupSubmit(){
 }
 
 async function loadMemberHome(user){
-  let data = { username: user.displayName || '', email: user.email || '', photoURL: '', location: '', bio: '', bioVisibleToCreator: false };
+  let data = { username: user.displayName || '', email: user.email || '', photoURL: '', location: '', lat: null, lng: null, bio: '', bioVisibleToCreator: false, photos: [], photosVisibleToCreator: false, favorites: [] };
   try{
     const doc = await memberDb.collection('members').doc(user.uid).get();
     if(doc.exists) data = Object.assign(data, doc.data());
+    // Auto-réparation : si le pseudo n'est pas dans le document (ancien bug de règles Firestore) mais existe sur le compte Auth, on le restaure.
+    if(!data.username && user.displayName){
+      data.username = user.displayName;
+      memberDb.collection('members').doc(user.uid).set({ username: user.displayName, usernameLower: user.displayName.toLowerCase() }, { merge: true }).catch(() => {});
+    }
+    if(!data.favorites) data.favorites = [];
+    if(!data.photos) data.photos = [];
   }catch(e){ console.error('load member doc error', e); }
   renderMemberHome(user, data, 'profile');
 }
@@ -8614,6 +8668,7 @@ function renderMemberHome(user, data, activeTab){
     <h3>${t('memberHomeWelcome').replace('{username}', escText(data.username || ''))}</h3>
     <div class="member-tabs">
       <button type="button" class="member-tab${activeTab === 'profile' ? ' active' : ''}" id="member-tab-profile">${t('memberTabProfile')}</button>
+      <button type="button" class="member-tab${activeTab === 'favorites' ? ' active' : ''}" id="member-tab-favorites">${t('memberTabFavorites')}</button>
       <button type="button" class="member-tab${activeTab === 'purchases' ? ' active' : ''}" id="member-tab-purchases">${t('memberTabPurchases')}</button>
     </div>
     <div id="member-tab-body"></div>
@@ -8624,14 +8679,22 @@ function renderMemberHome(user, data, activeTab){
   wireUnverifiedBanner();
   document.getElementById('member-home-logout').onclick = memberLogout;
   document.getElementById('member-tab-profile').onclick = () => renderMemberHome(user, data, 'profile');
+  document.getElementById('member-tab-favorites').onclick = () => renderMemberHome(user, data, 'favorites');
   document.getElementById('member-tab-purchases').onclick = () => renderMemberHome(user, data, 'purchases');
+  updateTopbarMemberBadge(data.username);
   if(activeTab === 'purchases') renderMemberPurchasesTab(user);
+  else if(activeTab === 'favorites') renderMemberFavoritesTab(user, data);
   else renderMemberProfileTab(user, data);
 }
 
 function renderMemberProfileTab(user, data){
   const tabBody = document.getElementById('member-tab-body');
   const avatarInner = data.photoURL ? `<img src="${escAttr(data.photoURL)}" alt="">` : '🙂';
+  const myPhotoThumbs = (data.photos || []).map((p, i) => `
+    <div class="member-media-thumb" style="position:relative;">
+      <img src="${escAttr(p.url)}" alt="">
+      <button type="button" class="rm" data-idx="${i}" style="position:absolute;top:4px;right:4px;">✕</button>
+    </div>`).join('');
   tabBody.innerHTML = `
     <div class="member-avatar-row">
       <div class="member-avatar" id="member-avatar-preview">${avatarInner}</div>
@@ -8645,7 +8708,11 @@ function renderMemberProfileTab(user, data){
     <label>${t('memberEmailLabel')}</label>
     <input value="${escAttr(data.email || user.email || '')}" disabled>
     <label>${t('memberLocationLabel')}</label>
-    <input id="member-pf-location" placeholder="${escAttr(t('memberLocationPh'))}" value="${escAttr(data.location || '')}">
+    <div style="display:flex;gap:8px;">
+      <input id="member-pf-location" placeholder="${escAttr(t('memberLocationPh'))}" value="${escAttr(data.location || '')}" style="flex:1;">
+      <button type="button" class="btn btn-ghost btn-sm" id="member-pf-geoloc" title="${escAttr(t('memberUseMyLocation'))}">📍</button>
+    </div>
+    <p class="member-note" id="member-pf-geoloc-note"></p>
     <label>${t('memberBioLabel')}</label>
     <textarea id="member-pf-bio" rows="3" placeholder="${escAttr(t('memberBioPh'))}">${escText(data.bio || '')}</textarea>
     <div class="member-check-row">
@@ -8653,6 +8720,16 @@ function renderMemberProfileTab(user, data){
       <label for="member-pf-bio-visible" style="margin:0;text-transform:none;font-weight:400;font-size:12px;">${t('memberBioVisibleLabel')}</label>
     </div>
     <p class="member-note">${t('memberBioHiddenNote')}</p>
+
+    <div class="member-section-title">${t('memberMyPhotosTitle')} (${(data.photos || []).length})</div>
+    <p class="member-note">${t('memberMyPhotosNote')}</p>
+    ${myPhotoThumbs ? `<div class="member-media-grid">${myPhotoThumbs}</div>` : ''}
+    ${dualUploadZoneHtml('member-my-photo', 'image/*', { multiple: true })}
+    <div class="member-check-row">
+      <input type="checkbox" id="member-pf-photos-visible" ${data.photosVisibleToCreator ? 'checked' : ''}>
+      <label for="member-pf-photos-visible" style="margin:0;text-transform:none;font-weight:400;font-size:12px;">${t('memberPhotosVisibleLabel')}</label>
+    </div>
+
     <div class="member-err" id="member-pf-err"></div>
     <div class="modal-actions">
       <button class="btn btn-primary btn-sm" id="member-pf-save" style="flex:1;">${t('memberSaveBtn')}</button>
@@ -8670,6 +8747,61 @@ function renderMemberProfileTab(user, data){
   document.getElementById('member-avatar-input').onchange = (e) => memberUploadAvatar(user, e.target.files[0]);
   document.getElementById('member-pf-save').onclick = () => memberSaveProfile(user, data);
   document.getElementById('member-pf-pass-save').onclick = () => memberChangePassword();
+  document.getElementById('member-pf-geoloc').onclick = () => memberUseGeolocation(data);
+  wireDualUpload('member-my-photo', async (files) => {
+    for(const file of Array.from(files)){
+      try{
+        const ref = memberStorage.ref().child('member_photos/' + user.uid + '/' + Date.now() + '_' + file.name);
+        await ref.put(file);
+        const url = await ref.getDownloadURL();
+        data.photos = data.photos || [];
+        data.photos.push({ url, path: ref.fullPath });
+        await memberDb.collection('members').doc(user.uid).set({ photos: data.photos }, { merge: true });
+        toast(t('addedToast'));
+      }catch(err){ console.error('member photo upload error', err); toast(t('memberErrUnknown')); }
+    }
+    renderMemberProfileTab(user, data);
+  });
+  tabBody.querySelectorAll('.rm').forEach(btn => {
+    btn.onclick = async () => {
+      const idx = parseInt(btn.dataset.idx, 10);
+      const item = data.photos[idx];
+      btn.disabled = true;
+      try{
+        if(item && item.path){ try{ await memberStorage.ref().child(item.path).delete(); }catch(e){} }
+        data.photos.splice(idx, 1);
+        await memberDb.collection('members').doc(user.uid).set({ photos: data.photos }, { merge: true });
+        renderMemberProfileTab(user, data);
+        toast(t('removedToast'));
+      }catch(e){ console.error('remove member photo error', e); toast(t('memberErrUnknown')); }
+    };
+  });
+}
+
+function memberUseGeolocation(data){
+  const note = document.getElementById('member-pf-geoloc-note');
+  if(!navigator.geolocation){ note.textContent = t('memberGeolocUnsupported'); return; }
+  note.textContent = t('memberGeolocLoading');
+  navigator.geolocation.getCurrentPosition(async (pos) => {
+    const { latitude, longitude } = pos.coords;
+    data._lat = latitude; data._lng = longitude;
+    try{
+      const resp = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+      const geo = await resp.json();
+      const a = geo.address || {};
+      const city = a.city || a.town || a.village || a.county || '';
+      const country = a.country || '';
+      const label = [city, country].filter(Boolean).join(', ') || `${latitude.toFixed(3)}, ${longitude.toFixed(3)}`;
+      document.getElementById('member-pf-location').value = label;
+      note.textContent = '';
+    }catch(e){
+      document.getElementById('member-pf-location').value = `${latitude.toFixed(3)}, ${longitude.toFixed(3)}`;
+      note.textContent = '';
+    }
+  }, (err) => {
+    console.error('geolocation error', err);
+    note.textContent = t('memberGeolocDenied');
+  });
 }
 
 async function memberUploadAvatar(user, file){
@@ -8698,11 +8830,14 @@ async function memberSaveProfile(user, data){
   const location = document.getElementById('member-pf-location').value.trim().slice(0, 80);
   const bio = document.getElementById('member-pf-bio').value.trim().slice(0, 500);
   const bioVisibleToCreator = document.getElementById('member-pf-bio-visible').checked;
+  const photosVisibleToCreator = document.getElementById('member-pf-photos-visible').checked;
   const btn = document.getElementById('member-pf-save');
   btn.disabled = true;
   try{
-    await memberDb.collection('members').doc(user.uid).set({ location, bio, bioVisibleToCreator }, { merge: true });
-    Object.assign(data, { location, bio, bioVisibleToCreator });
+    const payload = { username: data.username || '', location, bio, bioVisibleToCreator, photosVisibleToCreator };
+    if(typeof data._lat === 'number'){ payload.lat = data._lat; payload.lng = data._lng; }
+    await memberDb.collection('members').doc(user.uid).set(payload, { merge: true });
+    Object.assign(data, payload);
     toast(t('memberSavedToast'));
   }catch(e){
     console.error('save profile error', e);
@@ -8788,8 +8923,96 @@ async function renderMemberPurchasesTab(user){
   }
 }
 
+function renderMemberFavoritesTab(user, data){
+  const tabBody = document.getElementById('member-tab-body');
+  const favIds = data.favorites || [];
+  const favModels = favIds.map(id => (typeof roster !== 'undefined' ? roster.find(m => m.id === id) : null)).filter(Boolean);
+  if(!favModels.length){
+    tabBody.innerHTML = `<p class="member-note">${t('memberFavoritesNone')}</p>`;
+    return;
+  }
+  tabBody.innerHTML = `
+    <div class="member-favorites-list">
+      ${favModels.map(m => `
+        <button type="button" class="member-fav-row" data-id="${m.id}">
+          <span class="member-fav-photo">${m.photo ? `<img src="${escAttr(m.photo)}" alt="">` : '🙂'}</span>
+          <span class="member-fav-name">${escText(m.name) || t('nameUndefined')}</span>
+          <span class="member-fav-arrow">→</span>
+        </button>
+      `).join('')}
+    </div>
+  `;
+  tabBody.querySelectorAll('.member-fav-row').forEach(btn => {
+    btn.onclick = async () => {
+      closeMemberModal();
+      window.location.hash = 'vitrine/' + btn.dataset.id;
+      await openVitrineRoom(btn.dataset.id);
+    };
+  });
+}
+
+async function toggleMemberFavorite(creatorId){
+  if(!memberAuth || !memberAuth.currentUser){
+    openMemberModal();
+    return;
+  }
+  const user = memberAuth.currentUser;
+  try{
+    const ref = memberDb.collection('members').doc(user.uid);
+    const doc = await ref.get();
+    let favorites = (doc.exists && doc.data().favorites) || [];
+    const isFav = favorites.includes(creatorId);
+    favorites = isFav ? favorites.filter(id => id !== creatorId) : [...favorites, creatorId];
+    await ref.set({ favorites }, { merge: true });
+    toast(isFav ? t('memberFavoriteRemoved') : t('memberFavoriteAdded'));
+    refreshFavoriteButtons(favorites);
+  }catch(e){
+    console.error('toggle favorite error', e);
+    toast(t('memberErrUnknown'));
+  }
+}
+function refreshFavoriteButtons(favorites){
+  document.querySelectorAll('.card-fav-btn, .room-fav-btn').forEach(btn => {
+    const isFav = favorites.includes(btn.dataset.id);
+    btn.classList.toggle('active', isFav);
+    btn.textContent = isFav ? '♥' : '♡';
+  });
+}
+async function initFavoriteButtonsState(){
+  if(!memberAuth || !memberAuth.currentUser) return;
+  try{
+    const doc = await memberDb.collection('members').doc(memberAuth.currentUser.uid).get();
+    const favorites = (doc.exists && doc.data().favorites) || [];
+    refreshFavoriteButtons(favorites);
+  }catch(e){}
+}
+
+function updateTopbarMemberBadge(username){
+  const badge = document.getElementById('topbar-member-badge');
+  const burgerItem = document.getElementById('burger-become-member');
+  if(!badge) return;
+  if(username){
+    badge.style.display = 'flex';
+    badge.textContent = '👤 ' + username;
+    badge.onclick = () => openMemberModal();
+    if(burgerItem){ burgerItem.textContent = '👤 ' + username; burgerItem.removeAttribute('data-i18n'); }
+  } else {
+    badge.style.display = 'none';
+    if(burgerItem){ burgerItem.setAttribute('data-i18n', 'burgerBecomeMember'); burgerItem.textContent = t('burgerBecomeMember'); }
+  }
+}
+function refreshMemberBadgeFromSession(){
+  if(!memberAuth) return;
+  const u = memberAuth.currentUser;
+  if(!u){ updateTopbarMemberBadge(null); return; }
+  memberDb.collection('members').doc(u.uid).get().then(doc => {
+    const username = (doc.exists && doc.data().username) || u.displayName || '';
+    updateTopbarMemberBadge(username);
+  }).catch(() => updateTopbarMemberBadge(u.displayName || ''));
+}
 function memberLogout(){
   if(memberAuth){ memberAuth.signOut().catch(() => {}); }
+  updateTopbarMemberBadge(null);
   toast(t('memberLoggedOutToast'));
   renderMemberLogin();
 }
@@ -9234,6 +9457,7 @@ async function openVitrine(creatorId){
   document.getElementById('vitrine-foot-year').textContent = new Date().getFullYear();
   applyVitrineStaticText();
   renderVitrineGrid(); // affichage immédiat avec les données déjà en mémoire
+  refreshMemberBadgeFromSession();
   if(creatorId) openVitrineRoom(creatorId); // lien direct vers une créatrice précise
   if(auth && !auth.currentUser){
     try{ await auth.signInAnonymously(); }catch(e){ console.error('anon sign-in failed (vitrine)', e); }
@@ -9294,8 +9518,20 @@ function renderVitrineGrid(){
       }
     };
   });
+  grid.querySelectorAll('.card-report-btn').forEach(btn => {
+    btn.onclick = (e) => {
+      e.stopPropagation();
+      openReportModal({ profile: btn.dataset.name || '' });
+    };
+  });
+  grid.querySelectorAll('.card-fav-btn').forEach(btn => {
+    btn.onclick = (e) => {
+      e.stopPropagation();
+      toggleMemberFavorite(btn.dataset.id);
+    };
+  });
+  initFavoriteButtonsState();
 }
-
 const ICON_CAMERA = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>';
 const ICON_VIDEO = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>';
 const ICON_BIO = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
@@ -9745,6 +9981,8 @@ function vitrineCardHtml(m){
         <img src="${m.photo}">
         <span class="num-badge">${num}</span>
         <span class="status">${online ? t('statusOnline') : t('statusOffline')}</span>
+        <button type="button" class="card-report-btn" data-id="${m.id}" data-name="${escAttr(m.name || '')}" title="${escAttr(t('reportThisCreatorBtn'))}">🚩</button>
+        <button type="button" class="card-fav-btn" data-id="${m.id}" title="${escAttr(t('memberFavoriteToggle'))}">♡</button>
       </div>
       <div class="model-body">
         <div class="name-row"><h3>${escText(m.name) || t('nameUndefined')}</h3></div>
@@ -9941,7 +10179,7 @@ async function openVitrineRoom(id){
       <img src="${m.photo}">
       <span class="vitrine-status-badge ${online ? 'online' : ''}">${online ? t('statusOnline') : t('statusOffline')}</span>
     </div>
-    <h3>${escText(m.name) || t('nameUndefined')}</h3>
+    <h3>${escText(m.name) || t('nameUndefined')} <button type="button" class="room-fav-btn" data-id="${m.id}" title="${escAttr(t('memberFavoriteToggle'))}">♡</button></h3>
     <div class="meta" style="color:var(--text-muted);font-size:12px;margin-top:2px;">${escText(m.country || '—')}</div>
 
     <div class="vitrine-bio-rows">
@@ -9960,7 +10198,6 @@ async function openVitrineRoom(id){
       ${bioRow('bioAmbitions', bio.ambitions)}
       ${bioRow('bioSocials', bio.socials)}
     </div>
-    ${bio.workUrl ? `<a class="pill-link" href="${escText(bio.workUrl)}" target="_blank" rel="noopener" style="display:flex;margin-bottom:14px;">🔗 ${t('visitSiteBtn')}</a>` : ''}
 
     ${(m.paidContent && m.paidContent.length) || photoThumbs || videoThumbs ? `
       <div class="room-tabs">
@@ -9994,7 +10231,9 @@ async function openVitrineRoom(id){
         <textarea id="comment-input" placeholder="${t('commentPlaceholder')}"></textarea>
         <button class="btn btn-primary btn-sm" id="comment-submit">${t('commentSubmit')}</button>
       </div>
-      <button class="legal-link-btn report-link-btn" id="room-report-btn" style="margin-top:14px;">🚩 ${t('reportThisCreatorBtn')}</button>
+      <div style="margin-top:24px;padding-top:16px;border-top:1px solid var(--border);text-align:center;">
+        <button class="legal-link-btn report-link-btn" id="room-report-btn">🚩 ${t('reportThisCreatorBtn')}</button>
+      </div>
     </div>
   `;
 
@@ -10034,6 +10273,9 @@ async function openVitrineRoom(id){
 
   loadComments(m.id, m.name);
   document.getElementById('room-report-btn').onclick = () => openReportModal({ profile: m.name || '' });
+  const roomFavBtn = document.getElementById('vitrine-room-body').querySelector('.room-fav-btn');
+  if(roomFavBtn) roomFavBtn.onclick = () => toggleMemberFavorite(m.id);
+  initFavoriteButtonsState();
 }
 document.getElementById('vitrine-backdrop').onclick = closeVitrineRoom;
 document.getElementById('vitrine-room-close').onclick = closeVitrineRoom;
