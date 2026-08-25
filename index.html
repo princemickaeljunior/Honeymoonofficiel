@@ -192,7 +192,7 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 .creator-carousel-nav{display:flex;gap:6px;flex-shrink:0;}
 .creator-carousel-row{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-bottom:8px;padding-bottom:2px;}
 .creator-carousel-row::-webkit-scrollbar{display:none;}
-.creator-carousel-row .model-card{flex:0 0 47%;scroll-snap-align:start;min-width:150px;border-radius:4px;}
+.creator-carousel-row .model-card{flex:0 0 72%;scroll-snap-align:start;min-width:220px;border-radius:4px;}
 .creator-carousel-row .model-photo{aspect-ratio:1/1;}
 .carousel-arrow{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--honey);font-size:15px;display:flex;align-items:center;justify-content:center;padding:0;line-height:1;}
 .carousel-arrow:active{background:var(--honey);color:#1a1206;}
@@ -202,17 +202,17 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
   width:100%;aspect-ratio:1/1;background:linear-gradient(160deg,var(--bg-elev-2),var(--bg) 75%);border-bottom:1px solid var(--border);
   display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;
 }
-/* Grille compacte (3 par rang) : on resserre la carte pour qu'elle reste lisible en vignette. */
-.creator-carousel-row .model-card{ font-size:11px; }
-.creator-carousel-row .model-body{padding:8px;gap:5px;}
-.creator-carousel-row .model-body .name-row h3{font-size:12.5px;line-height:1.25;}
-.creator-carousel-row .model-body .meta{font-size:9.5px;}
-.creator-carousel-row .model-body .rows{gap:2px;}
-.creator-carousel-row .model-body .row{font-size:9px;}
-.creator-carousel-row .model-body .tags{gap:4px;}
-.creator-carousel-row .model-body .tags span{font-size:8.5px;padding:2px 6px;}
-.creator-carousel-row .model-body .pill-link{font-size:8.5px;padding:6px;}
-.creator-carousel-row .model-body .edit-btn{font-size:9.5px;padding:7px;}
+/* Grille (cartes plus larges, moins serrées) : tailles proches du rendu normal. */
+.creator-carousel-row .model-card{ font-size:12.5px; }
+.creator-carousel-row .model-body{padding:14px;gap:8px;}
+.creator-carousel-row .model-body .name-row h3{font-size:15px;line-height:1.25;}
+.creator-carousel-row .model-body .meta{font-size:11px;}
+.creator-carousel-row .model-body .rows{gap:4px;}
+.creator-carousel-row .model-body .row{font-size:11px;}
+.creator-carousel-row .model-body .tags{gap:6px;}
+.creator-carousel-row .model-body .tags span{font-size:10px;padding:4px 9px;}
+.creator-carousel-row .model-body .pill-link{font-size:10px;padding:8px;}
+.creator-carousel-row .model-body .edit-btn{font-size:10.5px;padding:8px;}
 .creator-carousel-row .model-photo .num-badge{width:20px;height:20px;font-size:9px;top:6px;left:6px;}
 .creator-carousel-row .model-photo .status{font-size:7px;padding:3px 6px;top:6px;right:6px;}
 .creator-carousel-row .card-fav-btn,.creator-carousel-row .card-report-btn{width:22px;height:22px;font-size:11px;bottom:6px;}
@@ -272,7 +272,8 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 .pill-link.disabled{color:var(--text-muted);cursor:default;}
 .pill-link.alert{border-color:var(--rose);color:var(--rose);animation:alertPulse 1.6s ease-in-out infinite;}
 @keyframes alertPulse{0%,100%{box-shadow:0 0 0 0 rgba(226,99,124,0.4);}50%{box-shadow:0 0 0 5px rgba(226,99,124,0);}}
-.contract-btn-group{display:flex;flex-direction:column;gap:8px;margin-top:12px;}
+.contract-btn-group{display:flex;flex-direction:column;gap:6px;position:fixed;z-index:200;background:var(--bg-elev);border:1px solid var(--border);border-radius:10px;padding:8px;box-shadow:0 10px 30px rgba(0,0,0,.35);min-width:220px;max-width:80vw;}
+.contract-tab-toggle, .gallery-open-btn{font-family:'Inter',sans-serif;text-transform:none;letter-spacing:normal;font-weight:600;}
 .model-body .edit-btn{
   margin-top:4px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;
   background:none;border:1px dashed var(--honey);color:var(--honey);padding:9px;border-radius:var(--radius-sm);
@@ -290,6 +291,8 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 .modal-box.open{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1);}
 #paid-backdrop{z-index:100;}
 #paid-modal{z-index:101;}
+#chat-backdrop{z-index:110;}
+#chat-modal{z-index:111;}
 .modal-box h3{font-size:18px;margin-bottom:16px;}
 .modal-box label{font-size:11px;color:var(--text-muted);display:block;margin-bottom:6px;margin-top:12px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;}
 .modal-box input, .modal-box textarea, .modal-box select{
@@ -10595,10 +10598,25 @@ function renderRoster(){
 }
 function wireCarouselCard(grid){
   grid.querySelectorAll('.contract-tab-toggle').forEach(btn => {
-    btn.onclick = () => {
+    btn.onclick = (e) => {
+      e.stopPropagation();
       const panel = document.getElementById('contract-group-' + btn.dataset.id);
       if(!panel) return;
-      panel.style.display = panel.style.display === 'none' ? 'flex' : 'none';
+      // Ferme tout autre menu contrat ouvert ailleurs sur la page.
+      document.querySelectorAll('.contract-btn-group').forEach(p => { if(p !== panel) p.style.display = 'none'; });
+      const isOpen = panel.style.display !== 'none';
+      if(isOpen){ panel.style.display = 'none'; return; }
+      const rect = btn.getBoundingClientRect();
+      panel.style.display = 'flex';
+      panel.style.top = Math.min(rect.bottom + window.scrollY + 4, window.scrollY + window.innerHeight - 10) + 'px';
+      panel.style.left = Math.max(8, Math.min(rect.left + window.scrollX, window.scrollX + window.innerWidth - 230)) + 'px';
+      const dismiss = (ev) => {
+        if(!panel.contains(ev.target) && ev.target !== btn){
+          panel.style.display = 'none';
+          document.removeEventListener('click', dismiss);
+        }
+      };
+      setTimeout(() => document.addEventListener('click', dismiss), 0);
     };
   });
   grid.querySelectorAll('.edit-btn').forEach(btn => {
@@ -10608,13 +10626,13 @@ function wireCarouselCard(grid){
     a.onclick = (e) => { e.preventDefault(); window.open(a.dataset.href, '_blank'); };
   });
   grid.querySelectorAll('.creator-contract-btn').forEach(btn => {
-    btn.onclick = () => openCreatorContract(btn.dataset.id);
+    btn.onclick = () => { document.querySelectorAll('.contract-btn-group').forEach(p => p.style.display = 'none'); openCreatorContract(btn.dataset.id); };
   });
   grid.querySelectorAll('.gallery-open-btn').forEach(btn => {
     btn.onclick = () => openGallery(btn.dataset.id);
   });
   grid.querySelectorAll('.agency-contract-btn').forEach(btn => {
-    btn.onclick = () => openAgencyContractsForCreator(btn.dataset.id, btn.dataset.type);
+    btn.onclick = () => { document.querySelectorAll('.contract-btn-group').forEach(p => p.style.display = 'none'); openAgencyContractsForCreator(btn.dataset.id, btn.dataset.type); };
   });
   grid.querySelectorAll('.featured-toggle-btn').forEach(btn => {
     btn.onclick = async () => {
@@ -13708,6 +13726,7 @@ async function openVitrineRoom(id){
       const doc = await memberDb.collection('members').doc(user.uid).get();
       username = (doc.exists && doc.data().username) || '';
     }catch(e){ console.error('load member username error', e); }
+    closeVitrineRoom();
     openChat({
       profileId: m.id, viewerType: 'member', memberUid: user.uid,
       memberUsername: username, creatorName: m.name || '',
