@@ -68,25 +68,33 @@ button{font-family:inherit;cursor:pointer;}
 }
 
 /* ---------- theme toggle (bouton flottant, visible partout) ---------- */
-#theme-toggle-btn{
-  position:fixed;right:16px;bottom:16px;z-index:200;
-  display:flex;align-items:center;gap:8px;
-  background:var(--bg-elev);border:1px solid var(--border);color:var(--text);
-  border-radius:999px;padding:10px 16px;font-size:12.5px;font-weight:600;
-  box-shadow:0 4px 18px rgba(0,0,0,0.35);cursor:pointer;
-}
-#theme-toggle-btn .swatch{width:14px;height:14px;border-radius:50%;border:1px solid var(--border);flex-shrink:0;}
 
 /* ---------- topbar ---------- */
 #topbar{
-  position:sticky;top:0;z-index:40;
+  position:fixed;top:0;left:0;right:0;z-index:40;
   display:flex;align-items:center;justify-content:space-between;
   padding:18px 24px;
   background:var(--bg-elev);
   backdrop-filter:blur(10px);
   border-bottom:1px solid var(--border);
   gap:12px;flex-wrap:wrap;
+  transition:transform .32s cubic-bezier(.22,.61,.36,1);
+  will-change:transform;
 }
+#topbar.topbar-hidden{transform:translateY(-100%);}
+#app-shell, #my-profile-shell, #vitrine-shell{padding-top:var(--topbar-h, 76px);}
+#vitrine-shell, #app-shell{padding-bottom:64px;}
+.bottom-nav{
+  position:fixed;left:0;right:0;bottom:0;z-index:39;
+  display:flex;justify-content:space-around;align-items:center;
+  background:var(--bg-elev);backdrop-filter:blur(10px);border-top:1px solid var(--border);
+  padding:8px 4px calc(8px + env(safe-area-inset-bottom));
+  transition:transform .32s cubic-bezier(.22,.61,.36,1);
+  will-change:transform;
+}
+.bottom-nav.bottom-nav-hidden{transform:translateY(100%);}
+.bottom-nav-item{background:none;border:none;color:var(--text-muted);display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9.5px;padding:4px 6px;flex:1;}
+.bottom-nav-item.active{color:var(--honey);}
 #topbar .logo{
   font-size:22px;
 }
@@ -177,13 +185,42 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 .roster-head h2{font-size:20px;}
 .roster-head .count{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;}
 
-.roster-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(240px,1fr)); gap:16px; }
+.roster-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; }
+.creator-carousel-section{margin-top:8px;}
+.creator-carousel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.creator-carousel-title{color:var(--honey);font-family:'Fraunces',serif;font-size:16px;font-weight:700;}
+.creator-carousel-nav{display:flex;gap:6px;flex-shrink:0;}
+.creator-carousel-row{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-bottom:8px;padding-bottom:2px;}
+.creator-carousel-row::-webkit-scrollbar{display:none;}
+.creator-carousel-row .model-card{flex:0 0 30%;scroll-snap-align:start;min-width:95px;}
+.carousel-arrow{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--honey);font-size:15px;display:flex;align-items:center;justify-content:center;padding:0;line-height:1;}
+.carousel-arrow:active{background:var(--honey);color:#1a1206;}
 
 .model-card{ background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius); overflow:hidden;display:flex;flex-direction:column; }
 .model-photo{
-  width:100%;aspect-ratio:4/5;background:linear-gradient(160deg,var(--bg-elev-2),var(--bg) 75%);border-bottom:1px solid var(--border);
+  width:100%;aspect-ratio:1/1;background:linear-gradient(160deg,var(--bg-elev-2),var(--bg) 75%);border-bottom:1px solid var(--border);
   display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;
 }
+/* Grille compacte (3 par rang) : on resserre la carte pour qu'elle reste lisible en vignette. */
+.creator-carousel-row .model-card{ font-size:11px; }
+.creator-carousel-row .model-body{padding:8px;gap:5px;}
+.creator-carousel-row .model-body .name-row h3{font-size:12.5px;line-height:1.25;}
+.creator-carousel-row .model-body .meta{font-size:9.5px;}
+.creator-carousel-row .model-body .rows{gap:2px;}
+.creator-carousel-row .model-body .row{font-size:9px;}
+.creator-carousel-row .model-body .tags{gap:4px;}
+.creator-carousel-row .model-body .tags span{font-size:8.5px;padding:2px 6px;}
+.creator-carousel-row .model-body .pill-link{font-size:8.5px;padding:6px;}
+.creator-carousel-row .model-body .edit-btn{font-size:9.5px;padding:7px;}
+.creator-carousel-row .model-photo .num-badge{width:20px;height:20px;font-size:9px;top:6px;left:6px;}
+.creator-carousel-row .model-photo .status{font-size:7px;padding:3px 6px;top:6px;right:6px;}
+.creator-carousel-row .card-fav-btn,.creator-carousel-row .card-report-btn{width:22px;height:22px;font-size:11px;bottom:6px;}
+.creator-carousel-row .card-fav-btn{right:32px;}
+.creator-carousel-row .card-report-btn{right:6px;}
+.empty-slot-photo{display:flex;align-items:center;justify-content:center;}
+.empty-slot-logo{font-size:14px;text-align:center;padding:0 4px;pointer-events:none;animation:none !important;background:none !important;-webkit-text-fill-color:var(--honey);color:var(--honey);}
+.empty-slot-photo .num-badge{z-index:2;}
+.empty-slot-card .model-body h3{font-size:11px !important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .model-photo img{width:100%;height:100%;object-fit:cover;display:block;}
 .model-photo .placeholder{ font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);text-align:center;padding:0 20px;line-height:1.6; }
 .model-photo .status{
@@ -192,7 +229,7 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 }
 .model-photo .num-badge{
   position:absolute;top:10px;left:10px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;
-  background:rgba(0,0,0,0.6);border:1px solid var(--border);color:var(--text);width:26px;height:26px;border-radius:50%;
+  background:rgba(0,0,0,0.6);border:1px solid var(--border);color:#fff;width:26px;height:26px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
 }
 .card-report-btn{
@@ -214,6 +251,7 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 .member-fav-photo img{width:100%;height:100%;object-fit:cover;}
 .member-fav-name{flex:1;font-size:13px;font-weight:600;}
 .member-fav-arrow{color:var(--text-muted);}
+.member-fav-chat-btn{background:none;border:1px solid var(--border);color:var(--text-muted);border-radius:50%;width:30px;height:30px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;}
 .model-body{padding:16px;flex:1;display:flex;flex-direction:column;gap:10px;}
 .model-body .name-row{display:flex;align-items:baseline;justify-content:space-between;gap:8px;}
 .model-body h3{font-size:19px;}
@@ -231,6 +269,7 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 .pill-link.disabled{color:var(--text-muted);cursor:default;}
 .pill-link.alert{border-color:var(--rose);color:var(--rose);animation:alertPulse 1.6s ease-in-out infinite;}
 @keyframes alertPulse{0%,100%{box-shadow:0 0 0 0 rgba(226,99,124,0.4);}50%{box-shadow:0 0 0 5px rgba(226,99,124,0);}}
+.contract-btn-group{display:flex;flex-direction:column;gap:8px;margin-top:12px;}
 .model-body .edit-btn{
   margin-top:4px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;
   background:none;border:1px dashed var(--honey);color:var(--honey);padding:9px;border-radius:var(--radius-sm);
@@ -307,13 +346,20 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 .chat-header-status{font-size:11px;color:var(--text-muted);min-height:14px;}
 .chat-back-btn{background:none;border:none;color:var(--text-muted);font-size:16px;padding:4px;cursor:pointer;}
 .chat-messages{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-height:280px;max-height:52vh;}
-.chat-bubble-row{display:flex;flex-direction:column;max-width:78%;margin-bottom:6px;}
-.chat-bubble-row.mine{align-self:flex-end;align-items:flex-end;}
-.chat-bubble-row.theirs{align-self:flex-start;align-items:flex-start;}
-.chat-bubble{padding:9px 13px;border-radius:16px;font-size:13.5px;line-height:1.45;word-break:break-word;white-space:pre-wrap;}
-.chat-bubble-row.mine .chat-bubble{background:var(--honey);color:#1a1206;border-bottom-right-radius:4px;}
-.chat-bubble-row.theirs .chat-bubble{background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text);border-bottom-left-radius:4px;}
-.chat-bubble-time{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--text-muted);margin-top:3px;padding:0 4px;}
+.dm-bubble-row{display:flex;flex-direction:column;max-width:78%;margin-bottom:6px;}
+.dm-bubble-row.mine{align-self:flex-end;align-items:flex-end;}
+.dm-bubble-row.theirs{align-self:flex-start;align-items:flex-start;}
+.dm-bubble{padding:9px 13px;border-radius:16px;font-size:13.5px;line-height:1.45;word-break:break-word;white-space:pre-wrap;}
+.dm-bubble-row.mine .dm-bubble{background:var(--honey);color:#1a1206;border-bottom-right-radius:4px;}
+.dm-bubble-row.theirs .dm-bubble{background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text);border-bottom-left-radius:4px;}
+.dm-bubble-time{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--text-muted);margin-top:3px;padding:0 4px;}
+.chat-rules-banner{background:rgba(230,160,60,0.1);border-bottom:1px solid var(--border);color:var(--honey);font-size:10.5px;line-height:1.5;padding:9px 16px;flex-shrink:0;}
+.dm-bubble-wrap{display:flex;align-items:flex-end;gap:4px;}
+.dm-bubble-row.mine .dm-bubble-wrap{flex-direction:row-reverse;}
+.dm-menu-btn{background:none;border:none;color:var(--text-muted);font-size:14px;padding:4px 6px;flex-shrink:0;}
+.dm-menu-popover{position:absolute;background:var(--bg-elev);border:1px solid var(--border);border-radius:10px;padding:6px;box-shadow:0 6px 18px rgba(0,0,0,0.3);z-index:50;}
+.dm-menu-popover button{display:block;width:100%;text-align:left;background:none;border:none;color:var(--text);font-size:12px;padding:8px 10px;border-radius:6px;white-space:nowrap;}
+.dm-menu-popover button:active{background:var(--bg-elev-2);}
 .chat-typing-row{display:flex;align-self:flex-start;gap:4px;padding:8px 13px;background:var(--bg-elev-2);border:1px solid var(--border);border-radius:16px;border-bottom-left-radius:4px;margin-bottom:6px;}
 .chat-typing-dot{width:6px;height:6px;border-radius:50%;background:var(--text-muted);animation:chatTypingBounce 1.2s infinite ease-in-out;}
 .chat-typing-dot:nth-child(2){animation-delay:.15s;}
@@ -468,15 +514,9 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 .exclusive-blurred-video{filter:blur(9px) brightness(0.7) saturate(1.05);transform:scale(1.12);}
 
 /* ---------- onglets galerie gratuite / exclusive dans la room ---------- */
-.room-tabs{display:flex;gap:8px;margin:14px 0 12px;border-bottom:1px solid var(--border);overflow-x:auto;overflow-y:hidden;white-space:nowrap;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
-.room-tabs::-webkit-scrollbar{display:none;}
-.room-tab-btn{
-  background:none;border:none;color:var(--text-muted);font-family:'JetBrains Mono',monospace;font-size:11px;
-  letter-spacing:0.04em;text-transform:uppercase;padding:9px 8px;border-bottom:2px solid transparent;flex-shrink:0;
-}
-.room-tab-btn.active{color:var(--honey);border-color:var(--honey);}
-.room-tab-panel{display:none;}
-.room-tab-panel.active{display:block;}
+.room-section-block{margin:18px 0;}
+.room-section-title{color:var(--honey);font-family:'Fraunces',serif;font-weight:700;font-size:16px;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.room-section-divider{height:1px;background:var(--border);margin:22px 0;}
 /* évite que le contenu de la page pousse la largeur de l'écran (ex. cadenas video-pair, grilles) */
 #my-tools-zone, .vitrine-modal, .modal-box{overflow-x:hidden;}
 
@@ -600,6 +640,8 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
   border-bottom:1px solid var(--border);font-family:'Playfair Display',serif;
 }
 .burger-nav-item:active{color:var(--honey);}
+#burger-theme-toggle{display:flex;align-items:center;gap:10px;}
+#burger-theme-toggle .swatch{width:16px;height:16px;border-radius:50%;border:1px solid var(--border);flex-shrink:0;}
 .faq-item{margin-bottom:16px;}
 .faq-question{color:var(--honey);font-size:13px;font-weight:600;margin-bottom:5px;}
 .faq-answer{color:var(--text-muted);font-size:12.5px;line-height:1.6;}
@@ -681,8 +723,6 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 </head>
 <body>
 
-<button type="button" id="theme-toggle-btn"><span class="swatch" id="theme-toggle-swatch"></span><span id="theme-toggle-label">Thème</span></button>
-
 <!-- ================= GATE ================= -->
 <div id="gate">
   <div class="gate-card">
@@ -752,7 +792,17 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
     <button class="pill-link" id="applications-panel-btn" style="display:none;margin-bottom:16px;margin-left:8px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="16" y2="16"/><line x1="8" y1="20" x2="12" y2="20"/></svg><span id="t-applications-panel-btn">Candidatures</span> <span id="applications-panel-count" class="mono" style="margin-left:4px;"></span></button>
     <button class="pill-link" id="deletions-panel-btn" style="display:none;margin-bottom:16px;margin-left:8px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg><span id="t-deletions-panel-btn">Suppressions</span> <span id="deletions-panel-count" class="mono" style="margin-left:4px;"></span></button>
 
-    <div class="roster-grid" id="roster-grid"></div>
+    <div class="creator-carousel-section">
+      <div class="creator-carousel-header">
+        <h2 class="creator-carousel-title" data-i18n="ourCreatorsTitle">Nos créatrices</h2>
+        <div class="creator-carousel-nav">
+          <button type="button" class="carousel-arrow" data-group="roster-carousel" data-dir="-1">‹</button>
+          <button type="button" class="carousel-arrow" data-group="roster-carousel" data-dir="1">›</button>
+        </div>
+      </div>
+      <div class="creator-carousel-row" id="roster-grid-row1"></div>
+      <div class="creator-carousel-row" id="roster-grid-row2"></div>
+    </div>
 
     <div class="contact">
       <h2 class="display" id="t-contact-title">Intéressé par une collaboration ?</h2>
@@ -924,23 +974,46 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
       <h1 id="t-vitrine-title">Découvre nos créatrices</h1>
       <p id="t-vitrine-body">Un aperçu public des créatrices Honeymoon. Aime, laisse un commentaire, et découvre leur univers.</p>
     </div>
-    <div class="roster-grid" id="vitrine-grid"></div>
-    <div class="legal-links-row">
-      <button class="legal-link-btn" data-doc="statement2257" id="t-legal-2257">Mention 2257</button>
-      <button class="legal-link-btn" data-doc="terms" id="t-legal-terms">CGU</button>
-      <button class="legal-link-btn" data-doc="privacy" id="t-legal-privacy">Confidentialité</button>
-      <button class="legal-link-btn" data-doc="pricing" id="t-legal-pricing">Prix &amp; remboursement</button>
-      <button class="legal-link-btn report-link-btn" id="t-report-link">🚩 Signaler un contenu</button>
+    <div class="creator-carousel-section">
+      <div class="creator-carousel-header">
+        <h2 class="creator-carousel-title" data-i18n="ourCreatorsTitle">Nos créatrices</h2>
+        <div class="creator-carousel-nav">
+          <button type="button" class="carousel-arrow" data-group="vitrine-carousel" data-dir="-1">‹</button>
+          <button type="button" class="carousel-arrow" data-group="vitrine-carousel" data-dir="1">›</button>
+        </div>
+      </div>
+      <div class="creator-carousel-row" id="vitrine-grid-row1"></div>
+      <div class="creator-carousel-row" id="vitrine-grid-row2"></div>
     </div>
-    <div class="foot">
+    <div class="foot" style="font-size:9px;opacity:.6;margin-top:24px;">
       <span>
         <span id="t-vitrine-foot-tag">Honeymoon</span>
-        <button class="legal-link-btn" id="private-access-link" style="opacity:.7;text-decoration:none;font-family:inherit;padding:0 2px;">©</button>
+        <button class="legal-link-btn" id="private-access-link" style="opacity:.7;text-decoration:none;font-family:inherit;padding:0 2px;font-size:9px;">©</button>
         <span id="vitrine-foot-year"></span>
       </span>
     </div>
   </main>
 </div>
+
+<!-- ================= BARRE DE NAVIGATION DU BAS (façon app mobile, icônes SVG) ================= -->
+<nav class="bottom-nav" id="bottom-nav" style="display:none;">
+  <button type="button" class="bottom-nav-item" id="bnav-2257">
+    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.25"/><path d="M8.5 12.5l2.3 2.3L15.7 9.6"/></svg>
+    <span data-i18n="bnav2257">Mention 2257</span>
+  </button>
+  <button type="button" class="bottom-nav-item" id="bnav-cgu">
+    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2.5h7.5L19 7v14a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1z"/><path d="M14.5 2.5V7H19"/><path d="M9 12.5h6M9 16h6M9 9h3"/></svg>
+    <span data-i18n="bnavCgu">CGU</span>
+  </button>
+  <button type="button" class="bottom-nav-item" id="bnav-privacy">
+    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l7.5 3.2v6c0 5.3-3.2 8.9-7.5 10.3-4.3-1.4-7.5-5-7.5-10.3v-6z"/><path d="M9 12l2.1 2.1L15.5 9.5"/></svg>
+    <span data-i18n="bnavPrivacy">Confidentialité</span>
+  </button>
+  <button type="button" class="bottom-nav-item" id="bnav-pricing">
+    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.4 12.9 12.4 20.9a1.5 1.5 0 0 1-2.1 0L3.5 14.1a1.5 1.5 0 0 1-.44-1.06V5.5A1.5 1.5 0 0 1 4.5 4h7.54c.4 0 .78.16 1.06.44l6.8 6.8a1.5 1.5 0 0 1 0 2.12z"/><circle cx="8" cy="9" r="1.6"/></svg>
+    <span data-i18n="bnavPricing">Prix</span>
+  </button>
+</nav>
 
 <!-- ================= BURGER MENU ================= -->
 <div class="modal-backdrop" id="burger-backdrop"></div>
@@ -953,6 +1026,7 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
     <button class="burger-nav-item" id="burger-faq" data-i18n="burgerFaq">FAQ</button>
     <button class="burger-nav-item" id="burger-rules" data-i18n="burgerRules">Règles du site</button>
     <button class="burger-nav-item" id="burger-report-item" data-i18n="reportLinkLabel">🚩 Signaler un contenu</button>
+    <button class="burger-nav-item" id="burger-theme-toggle"><span class="swatch" id="theme-toggle-swatch"></span><span id="theme-toggle-label" data-i18n="themeToLight">Mode clair</span></button>
     <button class="burger-nav-item" id="burger-logout-item" data-i18n="burgerLogout">Déconnexion</button>
   </nav>
 </div>
@@ -996,6 +1070,7 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
       <div class="chat-header-status" id="chat-header-status"></div>
     </div>
   </div>
+  <div class="chat-rules-banner" id="chat-rules-banner"></div>
   <div class="chat-messages" id="chat-messages"></div>
   <div class="chat-input-row">
     <textarea id="chat-input" rows="1" maxlength="1000"></textarea>
@@ -1128,7 +1203,7 @@ function isLocalTestEnvironment(){
   const proto = window.location.protocol;
   return proto !== 'https:' && proto !== 'http:';
 }
-const SLOT_COUNT = 6;
+const SLOT_COUNT = 12;
 
 // Un code par créatrice (par numéro de profil / "room"). Donne UNIQUEMENT
 // ce code à la créatrice concernée — il ouvre sa propre page, en lecture
@@ -1480,6 +1555,8 @@ const I18N = {
     chatEmptyNote: "Aucun message pour le moment. Dis bonjour !",
     chatNoConversations: "Aucune conversation pour le moment.",
     chatTypingIndicator: "est en train d'écrire…",
+    chatRulesBanner: "⚠️ Espace de discussion respectueux : les insultes sont interdites. L'échange de coordonnées personnelles (numéro de téléphone, réseaux sociaux, email) est interdit sur la plateforme et peut entraîner des sanctions.",
+    chatReportMessage: "Signaler ce message à l'équipe",
     chatStartBtn: "Envoyer un message",
     myFamilyContent: "Contenu",
     myFamilyMessages: "Messages",
@@ -1571,7 +1648,7 @@ const I18N = {
     heroTitle: '5 créatrices, un contrat, une exigence : le sérieux.',
     heroBody: "Le catalogue Honeymoon réunit 5 créatrices sous contrat exclusif, choisies pour leur sérieux et leur motivation. Certaines débutent dans le milieu : les attentes sont claires dès le départ, et elles s'y tiennent.",
     catalogueTitle: 'Le Catalogue',
-    emptyName: 'Profil vide',
+    emptyName: 'Profil à venir bientôt',
     emptyDesc: 'Ce profil sera bientôt disponible.',
     nameUndefined: 'Nom à définir',
     platforms: 'Plateformes',
@@ -1684,7 +1761,12 @@ const I18N = {
     commentEmpty: 'Aucun commentaire pour le moment. Sois la première !',
     commentModerationError: "Ton commentaire contient des mots non autorisés (insultes, grossièretés). Merci de le reformuler.",
     commentPosted: 'Commentaire publié',
-    commentRules: "Espace de commentaires bienveillant : pas d'injures, pas de grossièretés."
+    commentRules: "Espace de commentaires bienveillant : pas d'injures, pas de grossièretés.",
+    ourCreatorsTitle: "Nos créatrices",
+    bnav2257: "Mention 2257",
+    bnavCgu: "CGU",
+    bnavPrivacy: "Confidentialité",
+    bnavPricing: "Prix",
   },
   en: {
     gateSub: 'Private access',
@@ -1992,6 +2074,8 @@ const I18N = {
     chatEmptyNote: "No messages yet. Say hello!",
     chatNoConversations: "No conversations yet.",
     chatTypingIndicator: "is typing…",
+    chatRulesBanner: "⚠️ Respectful chat space: insults are forbidden. Exchanging personal contact details (phone number, social media, email) is not allowed on the platform and may lead to sanctions.",
+    chatReportMessage: "Report this message to the team",
     chatStartBtn: "Send a message",
     myFamilyContent: "Content",
     myFamilyMessages: "Messages",
@@ -2083,7 +2167,7 @@ const I18N = {
     heroTitle: '5 creators, one contract, one standard: seriousness.',
     heroBody: "The Honeymoon catalogue brings together 5 creators under exclusive contract, chosen for their seriousness and motivation. Some are new to the industry: expectations are made clear from the start, and they meet them.",
     catalogueTitle: 'The Catalogue',
-    emptyName: 'Empty profile',
+    emptyName: 'Profile coming soon',
     emptyDesc: 'This profile will be available soon.',
     nameUndefined: 'Name to be set',
     platforms: 'Platforms',
@@ -2196,7 +2280,12 @@ const I18N = {
     commentEmpty: 'No comments yet. Be the first!',
     commentModerationError: 'Your comment contains words that are not allowed (insults, profanity). Please rephrase it.',
     commentPosted: 'Comment posted',
-    commentRules: "Friendly comment space: no insults, no profanity."
+    commentRules: "Friendly comment space: no insults, no profanity.",
+    ourCreatorsTitle: "Our creators",
+    bnav2257: "Notice 2257",
+    bnavCgu: "Terms",
+    bnavPrivacy: "Privacy",
+    bnavPricing: "Pricing",
   },
   es: {
     gateSub: 'Acceso privado',
@@ -2412,7 +2501,7 @@ const I18N = {
     heroTitle: '5 creadoras, un contrato, una exigencia: la seriedad.',
     heroBody: 'El catálogo Honeymoon reúne a 5 creadoras bajo contrato exclusivo, elegidas por su seriedad y motivación. Algunas son nuevas en la industria: las expectativas se explican claramente desde el principio, y ellas las cumplen.',
     catalogueTitle: 'El Catálogo',
-    emptyName: 'Perfil vacío',
+    emptyName: 'Perfil próximamente',
     emptyDesc: 'Este perfil estará disponible próximamente.',
     nameUndefined: 'Nombre por definir',
     platforms: 'Plataformas',
@@ -2709,6 +2798,9 @@ const I18N = {
     themeToBordeaux: "Modo oscuro",
     themeToLight: "Modo claro",
     visitorBadgeLabel: "Visitante",
+    chatRulesBanner: "⚠️ Espacio de chat respetuoso: los insultos están prohibidos. Intercambiar datos de contacto personales (número de teléfono, redes sociales, email) no está permitido en la plataforma y puede acarrear sanciones.",
+    chatReportMessage: "Denunciar este mensaje al equipo",
+    ourCreatorsTitle: "Nuestras creadoras",
   },
   it: {
     gateSub: "Accesso privato",
@@ -2924,7 +3016,7 @@ const I18N = {
     heroTitle: "5 creatrici, un contratto, un'esigenza: la serietà.",
     heroBody: "Il catalogo Honeymoon riunisce 5 creatrici sotto contratto esclusivo, scelte per la loro serietà e motivazione. Alcune sono agli inizi: le aspettative sono chiare fin dall'inizio, e le rispettano.",
     catalogueTitle: "Il Catalogo",
-    emptyName: "Profilo vuoto",
+    emptyName: "Profilo in arrivo presto",
     emptyDesc: "Questo profilo sarà presto disponibile.",
     nameUndefined: "Nome da definire",
     platforms: "Piattaforme",
@@ -3221,6 +3313,9 @@ const I18N = {
     themeToBordeaux: "Modalità scura",
     themeToLight: "Modalità chiara",
     visitorBadgeLabel: "Visitatrice",
+    chatRulesBanner: "⚠️ Spazio di chat rispettoso: gli insulti sono vietati. Lo scambio di dati di contatto personali (numero di telefono, social media, email) non è consentito sulla piattaforma e può comportare sanzioni.",
+    chatReportMessage: "Segnala questo messaggio al team",
+    ourCreatorsTitle: "Le nostre creatrici",
   },
   pt: {
     gateSub: "Acesso privado",
@@ -3436,7 +3531,7 @@ const I18N = {
     heroTitle: "5 criadoras, um contrato, uma exigência: seriedade.",
     heroBody: "O catálogo Honeymoon reúne 5 criadoras sob contrato exclusivo, escolhidas pela sua seriedade e motivação. Algumas estão começando: as expectativas são claras desde o início, e elas as cumprem.",
     catalogueTitle: "O Catálogo",
-    emptyName: "Perfil vazio",
+    emptyName: "Perfil brevemente disponível",
     emptyDesc: "Este perfil estará disponível em breve.",
     nameUndefined: "Nome a definir",
     platforms: "Plataformas",
@@ -3733,6 +3828,9 @@ const I18N = {
     themeToBordeaux: "Modo escuro",
     themeToLight: "Modo claro",
     visitorBadgeLabel: "Visitante",
+    chatRulesBanner: "⚠️ Espaço de conversa respeitoso: insultos são proibidos. A troca de dados de contacto pessoais (número de telefone, redes sociais, email) não é permitida na plataforma e pode resultar em sanções.",
+    chatReportMessage: "Denunciar esta mensagem à equipa",
+    ourCreatorsTitle: "As nossas criadoras",
   },
   sw: {
     gateSub: "Ufikiaji wa faragha",
@@ -3948,7 +4046,7 @@ const I18N = {
     heroTitle: "Waundaji 5, mkataba mmoja, sharti moja: umakini.",
     heroBody: "Katalogi ya Honeymoon inakusanya waundaji 5 walio na mkataba wa kipekee, waliochaguliwa kwa umakini na motisha yao. Baadhi wanaanza kazini: matarajio ni wazi tangu mwanzo, nao wanayafuata.",
     catalogueTitle: "Katalogi",
-    emptyName: "Wasifu tupu",
+    emptyName: "Wasifu unakuja hivi karibuni",
     emptyDesc: "Wasifu huu utapatikana hivi karibuni.",
     nameUndefined: "Jina bado halijawekwa",
     platforms: "Majukwaa",
@@ -4245,6 +4343,9 @@ const I18N = {
     themeToBordeaux: "Hali ya giza",
     themeToLight: "Hali ya mwanga",
     visitorBadgeLabel: "Mgeni",
+    chatRulesBanner: "⚠️ Nafasi ya mazungumzo yenye heshima: matusi ni marufuku. Kubadilishana taarifa za mawasiliano binafsi (nambari ya simu, mitandao ya kijamii, barua pepe) hairuhusiwi kwenye jukwaa na inaweza kusababisha adhabu.",
+    chatReportMessage: "Ripoti ujumbe huu kwa timu",
+    ourCreatorsTitle: "Waundaji wetu",
   },
   zu: {
     gateSub: "Ukufinyelela okuyimfihlo",
@@ -4460,7 +4561,7 @@ const I18N = {
     heroTitle: "Abadali abangu-5, isivumelwano esisodwa, isidingo esisodwa: ukuzimisela.",
     heroBody: "Ikhathalogu ye-Honeymoon ihlanganisa abadali abangu-5 abangaphansi kwesivumelwano esikhethekile, abakhethwe ngokuzimisela nangokugqugquzeleka kwabo. Abanye basaqala emkhakheni: okulindelekile kucacile kusukela ekuqaleni, futhi bayakulandela.",
     catalogueTitle: "Ikhathalogu",
-    emptyName: "Iphrofayela engenalutho",
+    emptyName: "Iphrofayela izofika maduze",
     emptyDesc: "Le phrofayela izotholakala maduze.",
     nameUndefined: "Igama kusalindelwe",
     platforms: "Amasekethe",
@@ -4757,6 +4858,9 @@ const I18N = {
     themeToBordeaux: "Imodi emnyama",
     themeToLight: "Imodi ekhanyayo",
     visitorBadgeLabel: "Isivakashi",
+    chatRulesBanner: "⚠️ Isikhala sengxoxo sokuhlonipha: izinhlamba azivunyelwe. Ukushintshanisa imininingwane yokuxhumana yomuntu siqu (inombolo yocingo, amamediya enhlalo, i-imeyili) akuvunyelwe kule nkundla futhi kungaholela ezijezisweni.",
+    chatReportMessage: "Bika lo mlayezo ethimbeni",
+    ourCreatorsTitle: "Abadali bethu",
   },
   st: {
     gateSub: "Phihlelo ya lekunutu",
@@ -4972,7 +5076,7 @@ const I18N = {
     heroTitle: "Babopi ba 5, konteraka e le nngwe, tlhoko e le nngwe: botebo.",
     heroBody: "Lethathamo la Honeymoon le kopanya babopi ba 5 tlas'a konteraka e ikgethileng, ba kgethilweng ka lebaka la botebo le tlhohonolofatso ya bona. Ba bang ba qala mosebetsing: dintlha tse lebeletsweng di hlakile ho tloha qalong, mme ba di latela.",
     catalogueTitle: "Lethathamo",
-    emptyName: "Profaele e se nang letho",
+    emptyName: "Profaele e tlang haufinyane",
     emptyDesc: "Profaele ena e tla fumaneha haufinyane.",
     nameUndefined: "Lebitso ha le so behwe",
     platforms: "Diprothlaform",
@@ -5269,6 +5373,9 @@ const I18N = {
     themeToBordeaux: "Mokgwa o lefifi",
     themeToLight: "Mokgwa o hlakileng",
     visitorBadgeLabel: "Moeti",
+    chatRulesBanner: "⚠️ Sebaka sa poqo sa tlhompho: dintsho ha di dumellwe. Phapanyetsano ya dintlha tsa botho tsa dikgokahano (nomoro ya mohala, mecha ya sechaba, imeile) ha di dumellwe polatefomong mme e ka baka dikotlo.",
+    chatReportMessage: "Tlaleha molaetsa ona ho sehlopha",
+    ourCreatorsTitle: "Baetsi ba rona",
   },
   ln: {
     gateSub: "Bokoti ya sekele",
@@ -5484,7 +5591,7 @@ const I18N = {
     heroTitle: "Bakeli 5, kontra moko, mposa moko: bosolo.",
     heroBody: "Catalogue ya Honeymoon esangisi bakeli 5 na se ya kontra ya ndenge moko, baponami mpo na bosolo mpe molende na bango. Bamosusu bazali kobanda: bazwi malamu makanisi na ebandeli, mpe balandaka yango.",
     catalogueTitle: "Catalogue",
-    emptyName: "Profil ezanga eloko",
+    emptyName: "Profil ekoya kala mingi te",
     emptyDesc: "Profil oyo ekozala pene na kozwama.",
     nameUndefined: "Nkombo ezali naino te",
     platforms: "Baplatform",
@@ -5781,6 +5888,9 @@ const I18N = {
     themeToBordeaux: "Mode ya molili",
     themeToLight: "Mode ya pole",
     visitorBadgeLabel: "Mopaya",
+    chatRulesBanner: "⚠️ Esika ya lisolo na limemya: kofinga ekopekisama. Kokabola ba détails ya moto (nimero ya telefone, réseaux sociaux, email) ekopekisama te na plateforme mpe ekoki kobimisa etumbu.",
+    chatReportMessage: "Yebisa message oyo na équipe",
+    ourCreatorsTitle: "Bamokeli na biso",
   },
   zh: {
     gateSub: "私密访问",
@@ -5996,7 +6106,7 @@ const I18N = {
     heroTitle: "5位创作者，一份合同，一个要求：认真负责。",
     heroBody: "Honeymoon 目录汇集了5位签有独家合同的创作者，她们因认真负责和积极进取而被选中。有些人刚刚起步：从一开始要求就很明确，她们也会严格遵守。",
     catalogueTitle: "目录",
-    emptyName: "空档案",
+    emptyName: "资料即将上线",
     emptyDesc: "此档案即将推出。",
     nameUndefined: "姓名待定",
     platforms: "平台",
@@ -6293,6 +6403,9 @@ const I18N = {
     themeToBordeaux: "深色模式",
     themeToLight: "浅色模式",
     visitorBadgeLabel: "访客",
+    chatRulesBanner: "⚠️ 这是一个互相尊重的聊天空间：禁止侮辱。禁止在平台上交换个人联系方式（电话号码、社交媒体、邮箱），违者可能受到处罚。",
+    chatReportMessage: "向团队举报此消息",
+    ourCreatorsTitle: "我们的创作者",
   },
   ja: {
     gateSub: "プライベートアクセス",
@@ -6508,7 +6621,7 @@ const I18N = {
     heroTitle: "5人のクリエイター、1つの契約、1つの条件：誠実さ。",
     heroBody: "Honeymoon のカタログは、誠実さとモチベーションを基準に選ばれた、専属契約を結ぶ5人のクリエイターを集めています。この業界を始めたばかりの人もいますが、最初から期待値は明確にされ、それを守っています。",
     catalogueTitle: "カタログ",
-    emptyName: "空のプロフィール",
+    emptyName: "プロフィールは近日公開",
     emptyDesc: "このプロフィールは近日公開予定です。",
     nameUndefined: "名前未定",
     platforms: "プラットフォーム",
@@ -6805,6 +6918,9 @@ const I18N = {
     themeToBordeaux: "ダークモード",
     themeToLight: "ライトモード",
     visitorBadgeLabel: "訪問者",
+    chatRulesBanner: "⚠️ 互いを尊重するチャット空間です：暴言は禁止です。個人の連絡先（電話番号、SNS、メールアドレス）の交換はプラットフォーム上で禁止されており、違反すると処分の対象となる場合があります。",
+    chatReportMessage: "このメッセージをチームに報告",
+    ourCreatorsTitle: "私たちのクリエイター",
   },
   ru: {
     gateSub: "Приватный доступ",
@@ -7020,7 +7136,7 @@ const I18N = {
     heroTitle: "5 создательниц, один контракт, одно требование: серьёзность.",
     heroBody: "Каталог Honeymoon объединяет 5 создательниц по эксклюзивному контракту, отобранных за их серьёзность и мотивацию. Некоторые только начинают: ожидания чётко обозначены с самого начала, и они их придерживаются.",
     catalogueTitle: "Каталог",
-    emptyName: "Пустой профиль",
+    emptyName: "Профиль скоро появится",
     emptyDesc: "Этот профиль скоро будет доступен.",
     nameUndefined: "Имя не определено",
     platforms: "Платформы",
@@ -7317,6 +7433,9 @@ const I18N = {
     themeToBordeaux: "Тёмный режим",
     themeToLight: "Светлый режим",
     visitorBadgeLabel: "Гость",
+    chatRulesBanner: "⚠️ Пространство уважительного общения: оскорбления запрещены. Обмен личными контактными данными (номер телефона, соцсети, email) запрещён на платформе и может повлечь санкции.",
+    chatReportMessage: "Пожаловаться на это сообщение команде",
+    ourCreatorsTitle: "Наши создательницы",
   },
   ar: {
     gateSub: "وصول خاص",
@@ -7532,7 +7651,7 @@ const I18N = {
     heroTitle: "5 منشئات محتوى، عقد واحد، شرط واحد: الجدية.",
     heroBody: "يجمع كتالوج Honeymoon 5 منشئات محتوى بعقد حصري، تم اختيارهن لجديتهن وحماسهن. بعضهن بدأن للتو في هذا المجال: التوقعات واضحة منذ البداية، وهن يلتزمن بها.",
     catalogueTitle: "الكتالوج",
-    emptyName: "ملف شخصي فارغ",
+    emptyName: "ملف شخصي قريبًا",
     emptyDesc: "سيكون هذا الملف الشخصي متاحًا قريبًا.",
     nameUndefined: "الاسم غير محدد بعد",
     platforms: "المنصات",
@@ -7829,6 +7948,9 @@ const I18N = {
     themeToBordeaux: "الوضع الداكن",
     themeToLight: "الوضع الفاتح",
     visitorBadgeLabel: "زائر",
+    chatRulesBanner: "⚠️ مساحة دردشة قائمة على الاحترام: الإهانات ممنوعة. تبادل بيانات الاتصال الشخصية (رقم الهاتف، وسائل التواصل الاجتماعي، البريد الإلكتروني) غير مسموح به على المنصة وقد يؤدي إلى عقوبات.",
+    chatReportMessage: "الإبلاغ عن هذه الرسالة للفريق",
+    ourCreatorsTitle: "مبدعاتنا",
   },
   kg: {
     gateSub: "Nzila ya kinsweki",
@@ -8044,7 +8166,7 @@ const I18N = {
     heroTitle: "Bantu 5 ya kusala mambu, kontrata mosi, mfunu mosi: kieleka.",
     heroBody: "Katalogi ya Honeymoon ke kutikisa bantu 5 ya kusala mambu na nsi ya kontrata ya kikesa, bo solwaka mu kieleka ye mfunu na bo. Bankaka ke yantika kaka na kisalu: mambu ya kuvingila kele pwelele tuka na luyantiku, ye bo ke landa yo.",
     catalogueTitle: "Katalogi",
-    emptyName: "Profile ya mpamba",
+    emptyName: "Profile ke kwiza ntama ve",
     emptyDesc: "Profile yayi ta monana kutuka.",
     nameUndefined: "Nkumbu ya nkatu solwa",
     platforms: "Baplatform",
@@ -8341,6 +8463,9 @@ const I18N = {
     themeToBordeaux: "Mode ya mpimpa",
     themeToLight: "Mode ya nsemo",
     visitorBadgeLabel: "Muwizi",
+    chatRulesBanner: "⚠️ Kisika ya kusolula na luzitu: kufinga kekondimama ve. Kukabula ba détails ya muntu (nimero ya telefone, réseaux sociaux, email) kekondimama ve na plateforme mpe lenda basisa etumbu.",
+    chatReportMessage: "Zabisa message yayi na équipe",
+    ourCreatorsTitle: "Bayantiki na beto",
   },
 };
 function t(key){ const v = I18N[LANG] && I18N[LANG][key]; return (v !== undefined && v !== null) ? v : (I18N['fr'] ? I18N['fr'][key] : key); }
@@ -8490,12 +8615,16 @@ function checkGate(){
   if(creatorSlot){
     document.getElementById('gate').style.display = 'none';
     launchCreatorView(creatorSlot);
+    if(typeof updateTopbarHeight === 'function') setTimeout(updateTopbarHeight, 0);
+    if(typeof updateBottomNavVisibility === 'function') setTimeout(updateBottomNavVisibility, 0);
     return;
   }
   if(isAdmin()){
     document.getElementById('gate').style.display = 'none';
     document.getElementById('app-shell').style.display = 'block';
     initRoster();
+    if(typeof updateTopbarHeight === 'function') setTimeout(updateTopbarHeight, 0);
+    if(typeof updateBottomNavVisibility === 'function') setTimeout(updateBottomNavVisibility, 0);
     return;
   }
   // Ni session créatrice, ni session agence : le site s'ouvre directement sur
@@ -8506,6 +8635,8 @@ function checkGate(){
   document.getElementById('gate').style.display = 'none';
   document.getElementById('creator-pass').value = '';
   requireAgeGate(() => openVitrine());
+  if(typeof updateTopbarHeight === 'function') setTimeout(updateTopbarHeight, 0);
+    if(typeof updateBottomNavVisibility === 'function') setTimeout(updateBottomNavVisibility, 0);
 }
 function openPrivateAccessGate(){
   hideAllShells();
@@ -8522,6 +8653,8 @@ document.getElementById('gate-submit').onclick = () => {
     document.getElementById('gate').style.display = 'none';
     document.getElementById('app-shell').style.display = 'block';
     initRoster();
+    if(typeof updateTopbarHeight === 'function') updateTopbarHeight();
+    if(typeof updateBottomNavVisibility === 'function') updateBottomNavVisibility();
     return;
   }
   if(!auth){
@@ -8538,6 +8671,8 @@ document.getElementById('gate-submit').onclick = () => {
       document.getElementById('gate').style.display = 'none';
       document.getElementById('app-shell').style.display = 'block';
       initRoster();
+      if(typeof updateTopbarHeight === 'function') updateTopbarHeight();
+      if(typeof updateBottomNavVisibility === 'function') updateBottomNavVisibility();
     })
     .catch((err) => {
       console.error('agency code login error', err);
@@ -9042,7 +9177,7 @@ function renderMyVault(m){
 
   const photoThumbs = m.privatePhotos.map((item) => `
     <div class="gallery-thumb">
-      <img src="${item.url}" data-full="${item.url}" data-type="image">
+      <img src="${item.url}" data-full="${item.url}" data-type="image" loading="lazy">
       <button class="rm" data-kind="photo" data-docid="${item.docId}">✕</button>
     </div>`).join('');
   const videoThumbs = m.privateVideos.map((item) => `
@@ -10163,7 +10298,7 @@ function renderMyGallery(m){
 
   const photoThumbs = m.galleryPhotos.map((item) => `
     <div class="gallery-thumb">
-      <img src="${item.url}" data-full="${item.url}" data-type="image">
+      <img src="${item.url}" data-full="${item.url}" data-type="image" loading="lazy">
       <button class="rm" data-kind="photo" data-docid="${item.docId}">✕</button>
     </div>`).join('');
   const videoThumbs = m.galleryVideos.map((item) => `
@@ -10372,13 +10507,20 @@ function openMyProfileEdit(m){
 }
 
 function renderRoster(){
-  const grid = document.getElementById('roster-grid');
   const filledCount = roster.filter(m => m.filled).length;
   document.getElementById('roster-count').textContent = filledCount + ' / ' + SLOT_COUNT;
 
   const displayOrder = [...roster].sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
-  grid.innerHTML = displayOrder.map(m => modelCardHtml(m)).join('');
-
+  const half = Math.ceil(displayOrder.length / 2);
+  const row1El = document.getElementById('roster-grid-row1');
+  const row2El = document.getElementById('roster-grid-row2');
+  row1El.innerHTML = displayOrder.slice(0, half).map(m => modelCardHtml(m)).join('');
+  row2El.innerHTML = displayOrder.slice(half).map(m => modelCardHtml(m)).join('');
+  wireCarouselCard(row1El);
+  wireCarouselCard(row2El);
+  wireCarouselArrows(row1El.closest('.creator-carousel-section'));
+}
+function wireCarouselCard(grid){
   grid.querySelectorAll('.edit-btn').forEach(btn => {
     btn.onclick = () => requireAdmin(() => openEdit(btn.dataset.id));
   });
@@ -10392,7 +10534,7 @@ function renderRoster(){
     btn.onclick = () => openGallery(btn.dataset.id);
   });
   grid.querySelectorAll('.agency-contract-btn').forEach(btn => {
-    btn.onclick = () => openAgencyContractsForCreator(btn.dataset.id);
+    btn.onclick = () => openAgencyContractsForCreator(btn.dataset.id, btn.dataset.type);
   });
   grid.querySelectorAll('.featured-toggle-btn').forEach(btn => {
     btn.onclick = async () => {
@@ -10414,6 +10556,21 @@ function renderRoster(){
   });
 }
 
+function wireCarouselArrows(section){
+  if(!section || section.dataset.wired) return;
+  section.dataset.wired = '1';
+  section.querySelectorAll('.carousel-arrow').forEach(btn => {
+    btn.onclick = () => {
+      const rows = section.querySelectorAll('.creator-carousel-row');
+      rows.forEach(row => {
+        const cardEl = row.querySelector('.model-card');
+        const cardWidth = cardEl ? cardEl.offsetWidth + 8 : 200;
+        row.scrollBy({ left: cardWidth * 3 * parseInt(btn.dataset.dir, 10), behavior: 'smooth' });
+      });
+    };
+  });
+}
+
 function modelCardHtml(m){
   const num = m.id.replace('m', '').padStart(2, '0');
   const numBadge = `<span class="num-badge">${num}</span>`;
@@ -10423,10 +10580,13 @@ function modelCardHtml(m){
 
   if(!m.filled && !editMode){
     return `
-      <div class="model-card">
-        <div class="model-photo">${photoHtml}${numBadge}</div>
+      <div class="model-card empty-slot-card">
+        <div class="model-photo empty-slot-photo">
+          <span class="logo empty-slot-logo">honeymoon</span>
+          ${numBadge}
+        </div>
         <div class="model-body">
-          <h3 style="color:var(--text-muted);font-size:16px;">${t('emptyName')}</h3>
+          <h3 style="font-size:16px;">${t('emptyName')}</h3>
           <div class="meta">${t('numberPrefix')} ${num}</div>
         </div>
       </div>`;
@@ -10437,9 +10597,16 @@ function modelCardHtml(m){
     ? `<button class="pill-link creator-contract-btn" data-id="${m.id}">${ICON_DOC}${t('creatorContractBtn')} ${creatorSigned ? '✅' : ''}</button>`
     : '';
 
-  const sigCount = (m.contractSignatures || []).length;
+  const sigsAll = m.contractSignatures || [];
+  const countByType = (type) => sigsAll.filter(s => (s.contractType || 'agency') === type).length;
   const agencyContractHtml = m.filled
-    ? `<button class="pill-link agency-contract-btn" data-id="${m.id}">${ICON_SIGN}${t('agencyContractBtn')} (${sigCount})</button>`
+    ? `<button class="pill-link agency-contract-btn" data-id="${m.id}" data-type="agency">${ICON_SIGN}${t('signTypeAgency')} (${countByType('agency')})</button>`
+    : '';
+  const partnerSiteContractHtml = m.filled
+    ? `<button class="pill-link agency-contract-btn" data-id="${m.id}" data-type="partner_site">${ICON_SIGN}${t('signTypePartnerSite')} (${countByType('partner_site')})</button>`
+    : '';
+  const blankContractHtml = m.filled
+    ? `<button class="pill-link agency-contract-btn" data-id="${m.id}" data-type="other">${ICON_SIGN}${t('signTypeOther')} (${countByType('other')})</button>`
     : '';
 
   const galleryHtml = m.filled
@@ -10465,8 +10632,12 @@ function modelCardHtml(m){
           <div class="row"><span class="k">${t('content')}</span><span>${escText(m.contentType || '—')}</span></div>
         </div>
         ${m.availability ? `<div class="tags">${m.availability.split(',').map(x=>`<span>${escText(x.trim())}</span>`).join('')}</div>` : ''}
-        ${m.filled ? contractHtml : ''}
-        ${agencyContractHtml}
+        <div class="contract-btn-group">
+          ${m.filled ? contractHtml : ''}
+          ${agencyContractHtml}
+          ${partnerSiteContractHtml}
+          ${blankContractHtml}
+        </div>
         ${galleryHtml}
         ${editMode ? `<button class="edit-btn" data-id="${m.id}">${t('editProfile')}</button>` : ''}
         ${editMode && m.filled ? `<button class="pill-link featured-toggle-btn" data-id="${m.id}">${ICON_STAR} ${m.featured ? t('unfeatureBtn') : t('featureBtn')}</button>` : ''}
@@ -10745,7 +10916,7 @@ function renderGalleryBody(m){
     const thumbs = items.map(item => `
       <div class="gallery-thumb">
         ${kind === 'photo'
-          ? `<img src="${item.url}" data-full="${item.url}" data-type="image">`
+          ? `<img src="${item.url}" data-full="${item.url}" data-type="image" loading="lazy">`
           : `<video src="${item.url}" data-full="${item.url}" data-type="video" muted></video>`}
         ${canEdit ? `<button class="rm" data-showcase="${kind}" data-docid="${item.docId}">✕</button>` : ''}
       </div>`).join('');
@@ -11048,7 +11219,6 @@ document.getElementById('report-back-btn').onclick = () => {
   closeReportModal();
   openBurgerMenu();
 };
-document.getElementById('t-report-link').onclick = () => openReportModal();
 document.getElementById('private-access-link').onclick = () => {
   if(memberAuth && memberAuth.currentUser){ return; } // bloqué pour tout membre connecté, même en cas de clic malveillant
   openPrivateAccessGate();
@@ -11355,7 +11525,7 @@ function renderMemberProfileTab(user, data){
     <label>${t('memberUsernameLabel')}</label>
     <div style="display:flex;gap:8px;">
       <input id="member-pf-username" placeholder="${escAttr(t('memberUsernamePh'))}" value="${escAttr(data.username || '')}" style="flex:1;" maxlength="20">
-      <button type="button" class="btn btn-ghost btn-sm" id="member-pf-username-save">${t('memberSaveBtn')}</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="member-pf-username-save" style="width:auto;flex-shrink:0;">${t('memberSaveBtn')}</button>
     </div>
     <p class="member-note" id="member-pf-username-note"></p>
     <label>${t('memberEmailLabel')}</label>
@@ -11363,7 +11533,7 @@ function renderMemberProfileTab(user, data){
     <label>${t('memberLocationLabel')}</label>
     <div style="display:flex;gap:8px;">
       <input id="member-pf-location" placeholder="${escAttr(t('memberLocationPh'))}" value="${escAttr(data.location || '')}" style="flex:1;">
-      <button type="button" class="btn btn-ghost btn-sm" id="member-pf-geoloc" title="${escAttr(t('memberUseMyLocation'))}">📍</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="member-pf-geoloc" style="width:auto;flex-shrink:0;" title="${escAttr(t('memberUseMyLocation'))}">📍</button>
     </div>
     <p class="member-note" id="member-pf-geoloc-note"></p>
     <label>${t('memberBioLabel')}</label>
@@ -11663,6 +11833,7 @@ function renderMemberFavoritesTab(user, data){
         <button type="button" class="member-fav-row" data-id="${m.id}">
           <span class="member-fav-photo">${m.photo ? `<img src="${escAttr(m.photo)}" alt="">` : '🙂'}</span>
           <span class="member-fav-name">${escText(m.name) || t('nameUndefined')}</span>
+          <button type="button" class="member-fav-chat-btn" data-id="${m.id}" title="${escAttr(t('chatStartBtn'))}">💬</button>
           <span class="member-fav-arrow">→</span>
         </button>
       `).join('')}
@@ -11673,6 +11844,17 @@ function renderMemberFavoritesTab(user, data){
       closeMemberModal();
       window.location.hash = 'vitrine/' + btn.dataset.id;
       await openVitrineRoom(btn.dataset.id);
+    };
+  });
+  tabBody.querySelectorAll('.member-fav-chat-btn').forEach(btn => {
+    btn.onclick = (e) => {
+      e.stopPropagation();
+      const m = favModels.find(x => x.id === btn.dataset.id);
+      openChat({
+        profileId: btn.dataset.id, viewerType: 'member', memberUid: user.uid,
+        memberUsername: data.username || '', creatorName: (m && m.name) || '',
+        otherName: (m && m.name) || t('nameUndefined'), otherPhoto: m && m.photo
+      });
     };
   });
 }
@@ -11755,6 +11937,7 @@ async function openChat(ctx){
   document.getElementById('chat-header-avatar').innerHTML = ctx.otherPhoto ? `<img src="${escAttr(ctx.otherPhoto)}" alt="">` : '🙂';
   document.getElementById('chat-header-name').textContent = ctx.otherName || '';
   document.getElementById('chat-header-status').textContent = '';
+  document.getElementById('chat-rules-banner').textContent = t('chatRulesBanner');
   document.getElementById('chat-input').value = '';
   document.getElementById('chat-messages').innerHTML = `<span class="chat-empty-note">${t('chatLoading')}</span>`;
   document.getElementById('chat-backdrop').classList.add('open');
@@ -11789,11 +11972,17 @@ async function openChat(ctx){
         const m = docSnap.data();
         const mine = m.senderType === ctx.viewerType;
         return `
-          <div class="chat-bubble-row ${mine ? 'mine' : 'theirs'}">
-            <div class="chat-bubble">${escText(m.text || '')}</div>
-            <div class="chat-bubble-time">${formatChatTime(m.createdAt)}</div>
+          <div class="dm-bubble-row ${mine ? 'mine' : 'theirs'}">
+            <div class="dm-bubble-wrap">
+              <div class="dm-bubble">${escText(m.text || '')}</div>
+              <button type="button" class="dm-menu-btn" data-docid="${docSnap.id}" data-text="${escAttr(m.text || '')}">⋮</button>
+            </div>
+            <div class="dm-bubble-time">${formatChatTime(m.createdAt)}</div>
           </div>`;
       }).join('');
+      box.querySelectorAll('.dm-menu-btn').forEach(btn => {
+        btn.onclick = (e) => openChatMessageMenu(e, btn.dataset.docid, btn.dataset.text);
+      });
       if(wasNearBottom) box.scrollTop = box.scrollHeight;
       // Marque comme lu à chaque nouveau message reçu pendant que la fenêtre est ouverte.
       convRef.set({ [unreadField]: 0 }, { merge: true }).catch(() => {});
@@ -11809,6 +11998,28 @@ async function openChat(ctx){
       convRef.set({ [myTypingField]: false }, { merge: true }).catch(() => {});
     }, 2500);
   };
+}
+
+function openChatMessageMenu(e, docId, text){
+  document.querySelectorAll('.dm-menu-popover').forEach(p => p.remove());
+  const btn = e.currentTarget;
+  const rect = btn.getBoundingClientRect();
+  const pop = document.createElement('div');
+  pop.className = 'dm-menu-popover';
+  pop.style.top = (rect.bottom + window.scrollY + 4) + 'px';
+  pop.style.left = Math.max(8, rect.left + window.scrollX - 100) + 'px';
+  pop.innerHTML = `<button type="button" id="dm-menu-report">🚩 ${t('chatReportMessage')}</button>`;
+  document.body.appendChild(pop);
+  pop.querySelector('#dm-menu-report').onclick = () => {
+    pop.remove();
+    if(!chatCtx) return;
+    openReportModal({
+      profile: chatCtx.creatorName || chatCtx.otherName || '',
+      details: `${t('reportCommentPrefix')}: "${text}"`
+    });
+  };
+  const dismiss = (ev) => { if(!pop.contains(ev.target)){ pop.remove(); document.removeEventListener('click', dismiss); } };
+  setTimeout(() => document.addEventListener('click', dismiss), 0);
 }
 
 function closeChat(){
@@ -12446,11 +12657,6 @@ function applyVitrineStaticText(){
   document.getElementById('t-vitrine-body').textContent = t('vitrineHeroBody');
   document.getElementById('t-vitrine-foot-tag').textContent = 'Honeymoon';
   document.getElementById('t-vitrine-room-close').textContent = t('galleryClose');
-  document.getElementById('t-legal-2257').textContent = t('legalLink2257');
-  document.getElementById('t-legal-terms').textContent = t('legalLinkTerms');
-  document.getElementById('t-legal-privacy').textContent = t('legalLinkPrivacy');
-  document.getElementById('t-legal-pricing').textContent = t('legalLinkPricing');
-  document.getElementById('t-report-link').textContent = t('reportLinkLabel');
   document.getElementById('t-legal-modal-close').textContent = t('galleryClose');
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.dataset.i18n;
@@ -12476,11 +12682,11 @@ function updateThemeToggleLabel(){
   const swatchEl = document.getElementById('theme-toggle-swatch');
   if(!labelEl || !swatchEl) return;
   if(current === 'bordeaux'){
-    labelEl.textContent = t('themeToLight');
-    swatchEl.style.background = '#f2e6d3';
-  } else {
     labelEl.textContent = t('themeToBordeaux');
     swatchEl.style.background = '#141216';
+  } else {
+    labelEl.textContent = t('themeToLight');
+    swatchEl.style.background = '#f2e6d3';
   }
 }
 (function initTheme(){
@@ -12488,10 +12694,80 @@ function updateThemeToggleLabel(){
   try{ saved = localStorage.getItem('hm_theme') || 'bordeaux'; }catch(e){}
   document.documentElement.setAttribute('data-theme', saved === 'light' ? 'light' : '');
 })();
-document.getElementById('theme-toggle-btn').onclick = () => {
+document.getElementById('burger-theme-toggle').onclick = () => {
   const current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'bordeaux';
   applyTheme(current === 'light' ? 'bordeaux' : 'light');
 };
+
+/* Header fixe : mesure la vraie hauteur du bandeau visible (il peut varier
+   légèrement selon la langue/le contenu) et ajuste l'espace réservé en dessous,
+   pour qu'aucun contenu ne passe jamais derrière sur aucune page. */
+let activeTopbar = null;
+function updateTopbarHeight(){
+  const bars = document.querySelectorAll('#topbar');
+  let visible = null;
+  bars.forEach(b => {
+    const rect = b.getBoundingClientRect();
+    if(rect.width > 0 || rect.height > 0) visible = b;
+  });
+  activeTopbar = visible;
+  if(visible){
+    document.documentElement.style.setProperty('--topbar-h', visible.offsetHeight + 'px');
+  }
+}
+window.addEventListener('resize', updateTopbarHeight);
+window.addEventListener('load', updateTopbarHeight);
+setTimeout(updateTopbarHeight, 100);
+setTimeout(updateTopbarHeight, 600);
+
+/* Header + barre du bas façon app : se cachent en descendant, réapparaissent
+   en remontant (comme StripChat) — évite les soucis de la barre d'adresse
+   du navigateur mobile avec un header réellement figé.
+   Version fluide : un seul calcul par frame d'affichage (requestAnimationFrame),
+   pas de mesure DOM coûteuse à chaque event de scroll, et un petit seuil pour
+   ignorer les micro-tremblements du doigt. */
+let lastScrollY = window.scrollY;
+let scrollTicking = false;
+let navHiddenState = null; // true = header caché / barre du bas visible ; false = inverse
+function applyNavScrollState(hideTop){
+  if(navHiddenState === hideTop) return; // rien n'a changé, on ne touche pas au DOM
+  navHiddenState = hideTop;
+  const bar = activeTopbar;
+  if(bar) bar.classList.toggle('topbar-hidden', hideTop);
+  const bnav = document.getElementById('bottom-nav');
+  if(bnav && bnav.style.display !== 'none'){
+    bnav.classList.toggle('bottom-nav-hidden', !hideTop);
+  }
+}
+window.addEventListener('scroll', () => {
+  if(scrollTicking) return;
+  scrollTicking = true;
+  requestAnimationFrame(() => {
+    const y = window.scrollY;
+    const delta = y - lastScrollY;
+    if(Math.abs(delta) > 6){ // ignore les micro-mouvements pour éviter tout tremblement
+      if(delta > 0 && y > 80) applyNavScrollState(true);
+      else if(delta < 0) applyNavScrollState(false);
+      lastScrollY = y;
+    }
+    scrollTicking = false;
+  });
+}, { passive: true });
+
+/* Barre du bas : visible sur la vitrine (et masquée ailleurs), boutons
+   réutilisant exactement les mêmes actions que le menu burger. */
+function updateBottomNavVisibility(){
+  const bnav = document.getElementById('bottom-nav');
+  if(!bnav) return;
+  const vitrineVisible = document.getElementById('vitrine-shell').style.display !== 'none';
+  const agencyVisible = document.getElementById('app-shell').style.display !== 'none';
+  bnav.style.display = (vitrineVisible || agencyVisible) ? 'flex' : 'none';
+}
+document.getElementById('bnav-2257').onclick = () => openLegalDoc('statement2257', false);
+document.getElementById('bnav-cgu').onclick = () => openLegalDoc('terms', false);
+document.getElementById('bnav-privacy').onclick = () => openLegalDoc('privacy', false);
+document.getElementById('bnav-pricing').onclick = () => openLegalDoc('pricing', false);
+
 
 function hideAllShells(){
   document.getElementById('gate').style.display = 'none';
@@ -12499,6 +12775,7 @@ function hideAllShells(){
   document.getElementById('app-shell').style.display = 'none';
   document.getElementById('my-profile-shell').style.display = 'none';
   document.getElementById('vitrine-shell').style.display = 'none';
+  if(typeof updateBottomNavVisibility === 'function') updateBottomNavVisibility();
 }
 /* Ferme tout modal potentiellement resté ouvert par erreur — évite qu'un
    fond de modal invisible bloque les clics ailleurs sur la page. */
@@ -12518,6 +12795,8 @@ async function openVitrine(creatorId){
   document.getElementById('vitrine-shell').style.display = 'block';
   // force un rafraîchissement d'affichage immédiat (évite un écran vide tant qu'on n'a pas interagi)
   void document.getElementById('vitrine-shell').offsetHeight;
+  if(typeof updateTopbarHeight === 'function') updateTopbarHeight();
+  if(typeof updateBottomNavVisibility === 'function') updateBottomNavVisibility();
   document.getElementById('vitrine-foot-year').textContent = new Date().getFullYear();
   applyVitrineStaticText();
   renderVitrineGrid(); // affichage immédiat avec les données déjà en mémoire
@@ -12540,10 +12819,11 @@ function parseVitrineHash(){
 }
 
 window.addEventListener('hashchange', () => {
-  // Protection : si la créatrice est en train de travailler dans son espace
-  // (ex. après avoir choisi un fichier photo/vidéo), on ignore les
-  // changements d'URL involontaires pour ne pas la renvoyer sur la vitrine.
-  if(sessionStorage.getItem('hm_creator_slot') && document.getElementById('my-profile-shell').style.display !== 'none'){
+  // Protection : si une session créatrice est active (espace personnel ouvert),
+  // on ignore tout changement d'URL involontaire (ex. après avoir choisi un
+  // fichier photo/vidéo, ou pendant qu'une galerie/lightbox est ouverte
+  // par-dessus) pour ne jamais la renvoyer sur la vitrine par erreur.
+  if(sessionStorage.getItem('hm_creator_slot')){
     return;
   }
   const parsed = parseVitrineHash();
@@ -12568,32 +12848,38 @@ if(initialVitrineHash.open){
 }
 
 function renderVitrineGrid(){
-  const grid = document.getElementById('vitrine-grid');
-  if(!grid) return;
-  grid.innerHTML = roster.map(m => vitrineCardHtml(m)).join('');
-  grid.querySelectorAll('.vitrine-enter-btn').forEach(btn => {
-    btn.onclick = async () => {
-      try{
-        window.location.hash = 'vitrine/' + btn.dataset.id;
-        await openVitrineRoom(btn.dataset.id);
-      }catch(err){
-        console.error('vitrine card click error', err);
-        toast((LANG==='fr' ? 'Erreur : ' : 'Error: ') + (err && err.message ? err.message : err));
-      }
-    };
+  const row1 = document.getElementById('vitrine-grid-row1');
+  const row2 = document.getElementById('vitrine-grid-row2');
+  if(!row1 || !row2) return;
+  const half = Math.ceil(roster.length / 2);
+  row1.innerHTML = roster.slice(0, half).map(m => vitrineCardHtml(m)).join('');
+  row2.innerHTML = roster.slice(half).map(m => vitrineCardHtml(m)).join('');
+  [row1, row2].forEach(grid => {
+    grid.querySelectorAll('.vitrine-enter-btn').forEach(btn => {
+      btn.onclick = async () => {
+        try{
+          window.location.hash = 'vitrine/' + btn.dataset.id;
+          await openVitrineRoom(btn.dataset.id);
+        }catch(err){
+          console.error('vitrine card click error', err);
+          toast((LANG==='fr' ? 'Erreur : ' : 'Error: ') + (err && err.message ? err.message : err));
+        }
+      };
+    });
+    grid.querySelectorAll('.card-report-btn').forEach(btn => {
+      btn.onclick = (e) => {
+        e.stopPropagation();
+        openReportModal({ profile: btn.dataset.name || '' });
+      };
+    });
+    grid.querySelectorAll('.card-fav-btn').forEach(btn => {
+      btn.onclick = (e) => {
+        e.stopPropagation();
+        toggleMemberFavorite(btn.dataset.id);
+      };
+    });
   });
-  grid.querySelectorAll('.card-report-btn').forEach(btn => {
-    btn.onclick = (e) => {
-      e.stopPropagation();
-      openReportModal({ profile: btn.dataset.name || '' });
-    };
-  });
-  grid.querySelectorAll('.card-fav-btn').forEach(btn => {
-    btn.onclick = (e) => {
-      e.stopPropagation();
-      toggleMemberFavorite(btn.dataset.id);
-    };
-  });
+  wireCarouselArrows(row1.closest('.creator-carousel-section'));
   initFavoriteButtonsState();
 }
 const ICON_CAMERA = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>';
@@ -13027,13 +13313,13 @@ function vitrineCardHtml(m){
   // Slot pas encore rempli par la créatrice : même placeholder que la page agence.
   if(!m.filled || !m.photo){
     return `
-      <div class="model-card">
-        <div class="model-photo">
-          <div class="placeholder">${LANG==='fr' ? 'Photo à ajouter<br>(avec autorisation de la créatrice)' : 'Photo to add<br>(with the creator\'s authorization)'}</div>
+      <div class="model-card empty-slot-card">
+        <div class="model-photo empty-slot-photo">
+          <span class="logo empty-slot-logo">honeymoon</span>
           <span class="num-badge">${num}</span>
         </div>
         <div class="model-body">
-          <h3 style="color:var(--text-muted);font-size:16px;">${t('emptyName')}</h3>
+          <h3 style="font-size:16px;">${t('emptyName')}</h3>
           <div class="meta">${t('numberPrefix')} ${num}</div>
         </div>
       </div>`;
@@ -13047,7 +13333,7 @@ function vitrineCardHtml(m){
   return `
     <div class="model-card">
       <div class="model-photo">
-        <img src="${m.photo}">
+        <img src="${m.photo}" loading="lazy">
         <span class="num-badge">${num}</span>
         <span class="status">${online ? t('statusOnline') : t('statusOffline')}</span>
         <button type="button" class="card-report-btn" data-id="${m.id}" data-name="${escAttr(m.name || '')}" title="${escAttr(t('reportThisCreatorBtn'))}">🚩</button>
@@ -13226,7 +13512,7 @@ async function openVitrineRoom(id){
       <div class="gallery-thumb">
         ${type === 'video'
           ? `<video src="${item.url}" data-full="${item.url}" data-type="video" muted></video>`
-          : `<img src="${item.url}" data-full="${item.url}" data-type="image">`}
+          : `<img src="${item.url}" data-full="${item.url}" data-type="image" loading="lazy">`}
       </div>
       <div class="media-votes">
         <button class="media-vote-btn ${voteState==='like'?'active':''}" data-docid="${item.docId}" data-type="like">
@@ -13248,7 +13534,7 @@ async function openVitrineRoom(id){
       <img src="${m.photo}">
       <span class="vitrine-status-badge ${online ? 'online' : ''}">${online ? t('statusOnline') : t('statusOffline')}</span>
     </div>
-    <h3>${escText(m.name) || t('nameUndefined')} <button type="button" class="room-fav-btn" data-id="${m.id}" title="${escAttr(t('memberFavoriteToggle'))}">♡</button> <button type="button" class="room-fav-btn" id="room-chat-btn" title="${escAttr(t('chatStartBtn'))}">💬</button></h3>
+    <h3>${escText(m.name) || t('nameUndefined')} <button type="button" class="room-fav-btn" data-id="${m.id}" title="${escAttr(t('memberFavoriteToggle'))}">♡</button></h3>
     <div class="meta" style="color:var(--text-muted);font-size:12px;margin-top:2px;">${escText(m.country || '—')}</div>
 
     <div class="vitrine-bio-rows">
@@ -13269,11 +13555,8 @@ async function openVitrineRoom(id){
     </div>
 
     ${(m.paidContent && m.paidContent.length) || photoThumbs || videoThumbs ? `
-      <div class="room-tabs">
-        <button class="room-tab-btn active" id="tab-btn-free">${t('galleryTitle')}</button>
-        ${(m.paidContent && m.paidContent.length) ? `<button class="room-tab-btn" id="tab-btn-paid">${ICON_LOCK} ${t('paidExclusiveTitle')}</button>` : ''}
-      </div>
-      <div class="room-tab-panel active" id="tab-panel-free">
+      <div class="room-section-block">
+        <h3 class="room-section-title">${t('galleryTitle')}</h3>
         ${(photoThumbs || videoThumbs) ? `
           <div class="gallery-section">
             <h4>${t('galleryPhotos')} (${m.galleryPhotos.length})</h4>
@@ -13285,7 +13568,9 @@ async function openVitrineRoom(id){
           </div>` : `<p class="gallery-empty">${t('galleryEmpty')}</p>`}
       </div>
       ${(m.paidContent && m.paidContent.length) ? `
-      <div class="room-tab-panel" id="tab-panel-paid">
+      <div class="room-section-divider"></div>
+      <div class="room-section-block">
+        <h3 class="room-section-title">${ICON_LOCK} ${t('paidExclusiveTitle')}</h3>
         <p style="color:var(--text-muted);font-size:11.5px;margin:0 0 12px;">${t('paidExclusiveNote')}</p>
         <div class="exclusive-grid">${m.paidContent.map(it => exclusiveCardHtml(m, it)).join('')}</div>
       </div>` : ''}
@@ -13315,21 +13600,6 @@ async function openVitrineRoom(id){
     btn.onclick = () => openUnlockRequest(m, btn.dataset.docid, btn.dataset.price, btn.dataset.kind);
   });
 
-  const tabFreeBtn = document.getElementById('tab-btn-free');
-  const tabPaidBtn = document.getElementById('tab-btn-paid');
-  if(tabFreeBtn && tabPaidBtn){
-    tabFreeBtn.onclick = () => {
-      tabFreeBtn.classList.add('active'); tabPaidBtn.classList.remove('active');
-      document.getElementById('tab-panel-free').classList.add('active');
-      document.getElementById('tab-panel-paid').classList.remove('active');
-    };
-    tabPaidBtn.onclick = () => {
-      tabPaidBtn.classList.add('active'); tabFreeBtn.classList.remove('active');
-      document.getElementById('tab-panel-paid').classList.add('active');
-      document.getElementById('tab-panel-free').classList.remove('active');
-    };
-  }
-
   document.getElementById('comment-submit').onclick = () => submitComment(m.id);
 
   document.getElementById('vitrine-backdrop').classList.add('open');
@@ -13340,18 +13610,6 @@ async function openVitrineRoom(id){
   loadComments(m.id, m.name);
   const roomFavBtn = document.getElementById('vitrine-room-body').querySelector('.room-fav-btn[data-id]');
   if(roomFavBtn) roomFavBtn.onclick = () => toggleMemberFavorite(m.id);
-  document.getElementById('room-chat-btn').onclick = () => {
-    if(!memberAuth || !memberAuth.currentUser){ openMemberModal(); return; }
-    const u = memberAuth.currentUser;
-    memberDb.collection('members').doc(u.uid).get().then(doc => {
-      const username = (doc.exists && doc.data().username) || u.displayName || '';
-      openChat({
-        profileId: m.id, viewerType: 'member', memberUid: u.uid,
-        memberUsername: username, creatorName: m.name || '',
-        otherName: m.name || t('nameUndefined'), otherPhoto: m.photo
-      });
-    });
-  };
   initFavoriteButtonsState();
 }
 document.getElementById('vitrine-backdrop').onclick = closeVitrineRoom;
@@ -13658,20 +13916,23 @@ function openCreatorContract(creatorId){
   document.getElementById('sign-modal').classList.add('open');
 }
 
-function openContractSignModal(m){
+function openContractSignModal(m, presetType){
   const body = document.getElementById('sign-body');
-  body.innerHTML = `
-    <h3>${t('signContractBtn')} — ${escText(m.name) || t('nameUndefined')}</h3>
-    <p style="color:var(--text-muted);font-size:12px;line-height:1.6;margin-bottom:14px;">${t('signContractExplain')}</p>
+  const typeRowHtml = presetType ? '' : `
     <label>${t('signContractType')}</label>
     <select id="sign-contract-type">
       <option value="agency">${t('signTypeAgency')}</option>
       <option value="partner_site">${t('signTypePartnerSite')}</option>
       <option value="other">${t('signTypeOther')}</option>
-    </select>
-    <div id="sign-contract-text-box" class="creator-contract-text"></div>
-    <textarea id="sign-contract-custom-text" class="creator-contract-text" rows="8" style="display:none;width:100%;" placeholder="${t('signCustomTextPh')}"></textarea>
-    <label id="sign-agency-name-label">${t('signAgencyName')}</label>
+    </select>`;
+  const typeTitleKey = presetType === 'partner_site' ? 'signTypePartnerSite' : presetType === 'other' ? 'signTypeOther' : presetType === 'agency' ? 'signTypeAgency' : null;
+  body.innerHTML = `
+    <h3>${t('signContractBtn')} — ${escText(m.name) || t('nameUndefined')}${typeTitleKey ? ' · ' + t(typeTitleKey) : ''}</h3>
+    <p style="color:var(--text-muted);font-size:12px;line-height:1.6;margin-bottom:14px;">${t('signContractExplain')}</p>
+    ${typeRowHtml}
+    <div id="sign-contract-text-box" class="creator-contract-text" style="margin-top:14px;"></div>
+    <textarea id="sign-contract-custom-text" class="creator-contract-text" rows="8" style="display:none;width:100%;margin-top:14px;" placeholder="${t('signCustomTextPh')}"></textarea>
+    <label id="sign-agency-name-label" style="margin-top:16px;">${t('signAgencyName')}</label>
     <input id="sign-agency-name">
     <label>${t('signRepName')}</label>
     <input id="sign-rep-name">
@@ -13700,13 +13961,19 @@ function openContractSignModal(m){
       box.textContent = (src[LANG] || src.en);
     }
   }
-  updateContractDisplay('agency');
-  document.getElementById('sign-contract-type').onchange = (e) => {
-    const label = document.getElementById('sign-agency-name-label');
-    label.textContent = e.target.value === 'partner_site' ? t('signPartnerSiteNameLabel')
-      : e.target.value === 'other' ? t('signOtherNameLabel') : t('signAgencyName');
-    updateContractDisplay(e.target.value);
-  };
+  const initialType = presetType || 'agency';
+  updateContractDisplay(initialType);
+  const nameLabel = document.getElementById('sign-agency-name-label');
+  nameLabel.textContent = initialType === 'partner_site' ? t('signPartnerSiteNameLabel')
+    : initialType === 'other' ? t('signOtherNameLabel') : t('signAgencyName');
+  if(!presetType){
+    document.getElementById('sign-contract-type').onchange = (e) => {
+      const label = document.getElementById('sign-agency-name-label');
+      label.textContent = e.target.value === 'partner_site' ? t('signPartnerSiteNameLabel')
+        : e.target.value === 'other' ? t('signOtherNameLabel') : t('signAgencyName');
+      updateContractDisplay(e.target.value);
+    };
+  }
 
   const canvas = document.getElementById('sig-canvas');
   const ctx = canvas.getContext('2d');
@@ -13746,7 +14013,7 @@ function openContractSignModal(m){
     const agencyName = document.getElementById('sign-agency-name').value.trim();
     const repName = document.getElementById('sign-rep-name').value.trim();
     const consent = document.getElementById('sign-consent').checked;
-    const contractType = document.getElementById('sign-contract-type').value;
+    const contractType = presetType || document.getElementById('sign-contract-type').value;
     const customText = document.getElementById('sign-contract-custom-text').value.trim();
     if(!agencyName || !repName){ toast(t('signMissingFields')); return; }
     if(!hasSignature){ toast(t('signMissingSignature')); return; }
@@ -13803,18 +14070,20 @@ function showSignedConfirmation(o){
 }
 
 /* ================= PANNEAU ADMIN : CONTRATS SIGNÉS ================= */
-async function openAgencyContractsForCreator(creatorId){
+async function openAgencyContractsForCreator(creatorId, filterType){
   const m = roster.find(x => x.id === creatorId);
   if(!m) return;
-  document.getElementById('t-contracts-title').textContent = `${t('agencyContractBtn')} — ${escText(m.name) || t('nameUndefined')}`;
+  const typeLabelKey = filterType === 'partner_site' ? 'signTypePartnerSite' : filterType === 'other' ? 'signTypeOther' : filterType === 'agency' ? 'signTypeAgency' : null;
+  document.getElementById('t-contracts-title').textContent = `${t('agencyContractBtn')} — ${escText(m.name) || t('nameUndefined')}${typeLabelKey ? ' · ' + t(typeLabelKey) : ''}`;
   document.getElementById('contracts-backdrop').classList.add('open');
   document.getElementById('contracts-modal').classList.add('open');
   const body = document.getElementById('contracts-body');
   body.innerHTML = `<span class="gallery-empty">${t('paidOrdersLoading')}</span>`;
   try{
     const snap = await db.collection('profiles').doc(m.id).collection('contract_signatures').orderBy('signedAt', 'desc').get();
-    const all = [];
+    let all = [];
     snap.forEach(d => all.push({ id: d.id, ...d.data() }));
+    if(filterType) all = all.filter(o => (o.contractType || 'agency') === filterType);
     if(!all.length){
       body.innerHTML = `
         <span class="gallery-empty">${t('signNoContracts')}</span>
@@ -13822,7 +14091,7 @@ async function openAgencyContractsForCreator(creatorId){
       document.getElementById('contracts-sign-new').onclick = () => {
         document.getElementById('contracts-backdrop').classList.remove('open');
         document.getElementById('contracts-modal').classList.remove('open');
-        openContractSignModal(m);
+        openContractSignModal(m, filterType);
       };
       return;
     }
@@ -13849,7 +14118,7 @@ async function openAgencyContractsForCreator(creatorId){
     document.getElementById('contracts-sign-new').onclick = () => {
       document.getElementById('contracts-backdrop').classList.remove('open');
       document.getElementById('contracts-modal').classList.remove('open');
-      openContractSignModal(m);
+      openContractSignModal(m, filterType);
     };
   }catch(e){
     console.error('agency contracts error', e);
