@@ -190,7 +190,7 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 .creator-carousel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
 .creator-carousel-title{color:var(--honey);font-family:'Fraunces',serif;font-size:16px;font-weight:700;}
 .creator-carousel-nav{display:flex;gap:6px;flex-shrink:0;}
-.creator-carousel-row{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-bottom:8px;padding-bottom:2px;}
+.creator-carousel-row{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-bottom:8px;padding-bottom:2px;}
 .creator-carousel-row::-webkit-scrollbar{display:none;}
 .creator-carousel-row .model-card{flex:0 0 47%;scroll-snap-align:start;min-width:150px;border-radius:4px;}
 .creator-carousel-row .model-photo{aspect-ratio:1/1;}
@@ -246,6 +246,8 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 }
 .card-fav-btn.active,.room-fav-btn.active{color:var(--rose);border-color:var(--rose);}
 .room-fav-btn{background:none;border:1px solid var(--border);color:var(--text-muted);border-radius:999px;padding:6px 12px;font-size:14px;margin-left:8px;}
+.room-chat-btn{background:none;border:1px solid var(--border);color:var(--text-muted);border-radius:999px;padding:6px 12px;font-size:14px;margin-left:6px;}
+.room-chat-btn:active{background:var(--honey);color:#1a1206;border-color:var(--honey);}
 .member-favorites-list{display:flex;flex-direction:column;gap:8px;}
 .member-fav-row{display:flex;align-items:center;gap:12px;background:var(--bg-elev-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;color:var(--text);text-align:left;}
 .member-fav-photo{width:38px;height:38px;border-radius:50%;overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--bg-elev);font-size:18px;}
@@ -358,7 +360,7 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 .dm-bubble-wrap{display:flex;align-items:flex-end;gap:4px;}
 .dm-bubble-row.mine .dm-bubble-wrap{flex-direction:row-reverse;}
 .dm-menu-btn{background:none;border:none;color:var(--text-muted);font-size:14px;padding:4px 6px;flex-shrink:0;}
-.dm-menu-popover{position:absolute;background:var(--bg-elev);border:1px solid var(--border);border-radius:10px;padding:6px;box-shadow:0 6px 18px rgba(0,0,0,0.3);z-index:50;}
+.dm-menu-popover{position:absolute;background:var(--bg-elev);border:1px solid var(--border);border-radius:10px;padding:6px;box-shadow:0 6px 18px rgba(0,0,0,0.3);z-index:150;}
 .dm-menu-popover button{display:block;width:100%;text-align:left;background:none;border:none;color:var(--text);font-size:12px;padding:8px 10px;border-radius:6px;white-space:nowrap;}
 .dm-menu-popover button:active{background:var(--bg-elev-2);}
 .chat-typing-row{display:flex;align-self:flex-start;gap:4px;padding:8px 13px;background:var(--bg-elev-2);border:1px solid var(--border);border-radius:16px;border-bottom-left-radius:4px;margin-bottom:6px;}
@@ -868,6 +870,7 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 <!-- ================= EDIT MODAL (profile info) ================= -->
 <div class="modal-backdrop" id="edit-backdrop"></div>
 <div class="modal-box" id="edit-modal">
+  <button type="button" id="edit-modal-close" style="position:absolute;top:10px;right:14px;background:none;border:none;font-size:22px;line-height:1;cursor:pointer;color:inherit;">&times;</button>
   <h3 id="t-modal-title">Modifier le profil</h3>
   <div id="edit-body"></div>
 </div>
@@ -1618,6 +1621,7 @@ const I18N = {
     themeToLight: "Mode clair",
     soonApplyModelTitle: "Postuler pour être modèle — bientôt disponible",
     soonApplyModelBody: "Cette fonctionnalité arrive bientôt. Reviens vite pour découvrir comment postuler pour rejoindre le catalogue Honeymoon.",
+    contractTabLabel: "Contrat",
     creatorContractBtn: "Contrat créatrice",
     creatorContractNameLabel: "Nom de scène",
     creatorContractConsent: "Je certifie avoir lu et j'accepte l'ensemble des conditions de ce contrat.",
@@ -2137,6 +2141,7 @@ const I18N = {
     themeToLight: "Light mode",
     soonApplyModelTitle: "Apply to become a creator — coming soon",
     soonApplyModelBody: "This feature is coming soon. Check back soon to find out how to apply to join the Honeymoon catalogue.",
+    contractTabLabel: "Contract",
     creatorContractBtn: "Creator contract",
     creatorContractNameLabel: "Stage name",
     creatorContractConsent: "I certify I have read and accept all the terms of this contract.",
@@ -2471,6 +2476,7 @@ const I18N = {
     soonBecomeMemberBody: "Esta función llegará pronto. Vuelve pronto para descubrir cómo unirte a la comunidad Honeymoon como miembro.",
     soonApplyModelTitle: "Postular para ser modelo — próximamente",
     soonApplyModelBody: "Esta función llegará pronto. Vuelve pronto para descubrir cómo postular para unirte al catálogo Honeymoon.",
+    contractTabLabel: "Contrato",
     creatorContractBtn: "Contrato de creadora",
     creatorContractNameLabel: "Nombre artístico",
     creatorContractConsent: "Certifico que he leído y acepto todas las condiciones de este contrato.",
@@ -2986,6 +2992,7 @@ const I18N = {
     soonBecomeMemberBody: "Questa funzione arriverà presto. Torna presto per scoprire come unirti alla community Honeymoon come membro.",
     soonApplyModelTitle: "Candidati per diventare modella — prossimamente",
     soonApplyModelBody: "Questa funzione arriverà presto. Torna presto per scoprire come candidarti per il catalogo Honeymoon.",
+    contractTabLabel: "Contratto",
     creatorContractBtn: "Contratto creatrice",
     creatorContractNameLabel: "Nome d'arte",
     creatorContractConsent: "Certifico di aver letto e accetto tutte le condizioni di questo contratto.",
@@ -3501,6 +3508,7 @@ const I18N = {
     soonBecomeMemberBody: "Esta funcionalidade chega em breve. Volta em breve para descobrires como te juntares à comunidade Honeymoon como membro.",
     soonApplyModelTitle: "Candidatar para ser modelo — brevemente",
     soonApplyModelBody: "Esta funcionalidade chega em breve. Volta em breve para descobrires como te candidatares ao catálogo Honeymoon.",
+    contractTabLabel: "Contrato",
     creatorContractBtn: "Contrato de criadora",
     creatorContractNameLabel: "Nome artístico",
     creatorContractConsent: "Certifico que li e aceito todas as condições deste contrato.",
@@ -10586,6 +10594,13 @@ function renderRoster(){
   wireCarouselArrows(row1El.closest('.creator-carousel-section'));
 }
 function wireCarouselCard(grid){
+  grid.querySelectorAll('.contract-tab-toggle').forEach(btn => {
+    btn.onclick = () => {
+      const panel = document.getElementById('contract-group-' + btn.dataset.id);
+      if(!panel) return;
+      panel.style.display = panel.style.display === 'none' ? 'flex' : 'none';
+    };
+  });
   grid.querySelectorAll('.edit-btn').forEach(btn => {
     btn.onclick = () => requireAdmin(() => openEdit(btn.dataset.id));
   });
@@ -10697,11 +10712,14 @@ function modelCardHtml(m){
           <div class="row"><span class="k">${t('content')}</span><span>${escText(m.contentType || '—')}</span></div>
         </div>
         ${m.availability ? `<div class="tags">${m.availability.split(',').map(x=>`<span>${escText(x.trim())}</span>`).join('')}</div>` : ''}
-        <div class="contract-btn-group">
-          ${m.filled ? contractHtml : ''}
-          ${agencyContractHtml}
-          ${partnerSiteContractHtml}
-          ${blankContractHtml}
+        <div class="contract-tab-group">
+          <button type="button" class="pill-link contract-tab-toggle" data-id="${m.id}">${ICON_DOC}${t('contractTabLabel')}</button>
+          <div class="contract-btn-group" id="contract-group-${m.id}" style="display:none;">
+            ${m.filled ? contractHtml : ''}
+            ${agencyContractHtml}
+            ${partnerSiteContractHtml}
+            ${blankContractHtml}
+          </div>
         </div>
         ${galleryHtml}
         ${editMode ? `<button class="edit-btn" data-id="${m.id}">${t('editProfile')}</button>` : ''}
@@ -10939,8 +10957,13 @@ function openEdit(id){
 function closeEdit(){
   document.getElementById('edit-backdrop').classList.remove('open');
   document.getElementById('edit-modal').classList.remove('open');
+  // Ferme aussi la session admin : la prochaine action d'édition redemandera le mot de passe.
+  signedInAsAdmin = false;
+  localAdminBypass = false;
+  if(auth && auth.currentUser){ auth.signOut().catch(()=>{}); }
 }
 document.getElementById('edit-backdrop').onclick = closeEdit;
+document.getElementById('edit-modal-close').onclick = closeEdit;
 
 /* ---------------- media helpers (Firebase Storage + Firestore) ---------------- */
 async function uploadMediaItem(profileId, file, kind, opts){
@@ -13600,7 +13623,7 @@ async function openVitrineRoom(id){
       <img src="${m.photo}">
       <span class="vitrine-status-badge ${online ? 'online' : ''}">${online ? t('statusOnline') : t('statusOffline')}</span>
     </div>
-    <h3>${escText(m.name) || t('nameUndefined')} <button type="button" class="room-fav-btn" data-id="${m.id}" title="${escAttr(t('memberFavoriteToggle'))}">♡</button></h3>
+    <h3>${escText(m.name) || t('nameUndefined')} <button type="button" class="room-fav-btn" data-id="${m.id}" title="${escAttr(t('memberFavoriteToggle'))}">♡</button> <button type="button" class="room-chat-btn" data-id="${m.id}" title="${escAttr(t('chatStartBtn'))}">💬</button></h3>
     <div class="meta" style="color:var(--text-muted);font-size:12px;margin-top:2px;">${escText(m.country || '—')}</div>
 
     <div class="vitrine-bio-rows">
@@ -13676,6 +13699,21 @@ async function openVitrineRoom(id){
   loadComments(m.id, m.name);
   const roomFavBtn = document.getElementById('vitrine-room-body').querySelector('.room-fav-btn[data-id]');
   if(roomFavBtn) roomFavBtn.onclick = () => toggleMemberFavorite(m.id);
+  const roomChatBtn = document.getElementById('vitrine-room-body').querySelector('.room-chat-btn[data-id]');
+  if(roomChatBtn) roomChatBtn.onclick = async () => {
+    if(!memberAuth || !memberAuth.currentUser){ openMemberModal(); return; }
+    const user = memberAuth.currentUser;
+    let username = '';
+    try{
+      const doc = await memberDb.collection('members').doc(user.uid).get();
+      username = (doc.exists && doc.data().username) || '';
+    }catch(e){ console.error('load member username error', e); }
+    openChat({
+      profileId: m.id, viewerType: 'member', memberUid: user.uid,
+      memberUsername: username, creatorName: m.name || '',
+      otherName: m.name || t('nameUndefined'), otherPhoto: m.photo
+    });
+  };
   initFavoriteButtonsState();
 }
 document.getElementById('vitrine-backdrop').onclick = closeVitrineRoom;
