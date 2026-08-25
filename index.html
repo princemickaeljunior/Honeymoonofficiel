@@ -8736,7 +8736,7 @@ document.getElementById('gate-submit').onclick = () => {
     })
     .catch((err) => {
       console.error('agency code login error', err);
-      document.getElementById('gate-err').textContent = t('gateErr');
+      document.getElementById('gate-err').textContent = t('gateErr') + ' (' + (err.code || err.message) + ')';
     })
     .finally(() => { btn.disabled = false; });
 };
