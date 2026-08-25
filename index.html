@@ -83,7 +83,7 @@ button{font-family:inherit;cursor:pointer;}
 }
 #topbar.topbar-hidden{transform:translateY(-100%);}
 #app-shell, #my-profile-shell, #vitrine-shell{padding-top:var(--topbar-h, 76px);}
-#vitrine-shell, #app-shell{padding-bottom:64px;}
+#app-shell{}
 .bottom-nav{
   position:fixed;left:0;right:0;bottom:0;z-index:39;
   display:flex;justify-content:space-around;align-items:center;
@@ -192,7 +192,8 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 .creator-carousel-nav{display:flex;gap:6px;flex-shrink:0;}
 .creator-carousel-row{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-bottom:8px;padding-bottom:2px;}
 .creator-carousel-row::-webkit-scrollbar{display:none;}
-.creator-carousel-row .model-card{flex:0 0 30%;scroll-snap-align:start;min-width:95px;}
+.creator-carousel-row .model-card{flex:0 0 47%;scroll-snap-align:start;min-width:150px;border-radius:4px;}
+.creator-carousel-row .model-photo{aspect-ratio:1/1;}
 .carousel-arrow{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--honey);font-size:15px;display:flex;align-items:center;justify-content:center;padding:0;line-height:1;}
 .carousel-arrow:active{background:var(--honey);color:#1a1206;}
 
@@ -553,6 +554,14 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 .chat-bubble.chat-bot{align-self:flex-start;background:var(--bg-elev-2);border:1px solid var(--border);border-bottom-left-radius:4px;}
 .chat-bubble.chat-bot.show{opacity:1;transform:none;}
 
+/* ---------- room-tabs : sous-menu horizontal scrollable (outils créatrice + showcase/bio) ---------- */
+.room-tabs{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-bottom:14px;padding-bottom:2px;}
+.room-tabs::-webkit-scrollbar{display:none;}
+.room-tab-btn{display:inline-flex;align-items:center;flex-shrink:0;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text-muted);border-radius:999px;padding:9px 14px;font-size:12.5px;white-space:nowrap;}
+.room-tab-btn.active{background:var(--honey);color:#160f04;border-color:var(--honey);font-weight:600;}
+.room-tab-panel{display:none;}
+.room-tab-panel.active{display:block;}
+
 /* ---------- outils v2 : navigation, icones, listes ---------- */
 .icon-btn{background:var(--bg-elev);border:1px solid var(--border);color:var(--text-muted);width:28px;height:28px;border-radius:7px;display:inline-flex;align-items:center;justify-content:center;}
 .icon-btn:active{color:var(--honey);border-color:var(--honey);}
@@ -626,7 +635,12 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 
 /* ---------- burger menu + langue en dessous ---------- */
 .burger-btn{background:none;border:1px solid var(--border);color:var(--text);width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;}
-.vitrine-lang-row{display:flex;justify-content:flex-end;padding:10px 24px 0;gap:10px;}
+.vitrine-lang-row{display:flex;justify-content:flex-end;padding:6px 24px 0;gap:10px;margin-top:34px;margin-bottom:-8px;}
+#vitrine-shell .hero{padding-top:0;padding-bottom:44px;}
+#vitrine-shell #topbar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;}
+#vitrine-shell #topbar .topbar-left{justify-self:start;}
+#vitrine-shell #topbar .right{justify-self:end;}
+#vitrine-shell #topbar-member-badge{justify-self:center;border:none !important;background:none !important;}
 .burger-panel{
   position:fixed;top:0;right:0;height:100%;width:82%;max-width:320px;background:var(--bg-elev);
   border-left:1px solid var(--border);z-index:200;transform:translateX(100%);transition:transform .25s ease;
@@ -771,7 +785,7 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
       <div class="lang-group">
         <select class="lang-select" id="app-lang-select"></select>
       </div>
-      <button class="edit-toggle" id="edit-toggle" style="max-width:140px;"><span id="t-edit-toggle">HM_Catalogue</span></button>
+      <button class="edit-toggle" id="edit-toggle" style="max-width:140px;display:none;"><span id="t-edit-toggle">HM_Catalogue</span></button>
       <button class="creator-logout" id="agency-logout"><span id="t-agency-logout">Se déconnecter</span></button>
     </div>
   </div>
@@ -779,7 +793,7 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
   <main>
     <div class="hero">
       <div class="eyebrow" id="t-hero-eyebrow">Catalogue</div>
-      <h1 id="t-hero-title">5 créatrices, un contrat, une exigence : le sérieux.</h1>
+      <h1 id="t-hero-title">créatrices, un contrat, une exigence : le sérieux.</h1>
       <p id="t-hero-body">Le catalogue Honeymoon réunit 5 créatrices sous contrat exclusif, choisies pour leur sérieux et leur motivation. Certaines débutent dans le milieu : les attentes sont claires dès le départ, et elles s'y tiennent.</p>
     </div>
 
@@ -801,7 +815,6 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
         </div>
       </div>
       <div class="creator-carousel-row" id="roster-grid-row1"></div>
-      <div class="creator-carousel-row" id="roster-grid-row2"></div>
     </div>
 
     <div class="contact">
@@ -811,9 +824,27 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
       <div class="addr" id="contact-addr"></div>
     </div>
 
+    <div class="vitrine-legal-row" style="display:flex;justify-content:center;align-items:center;gap:5px;margin-top:16px;flex-wrap:nowrap;overflow-x:auto;white-space:nowrap;">
+      <button type="button" class="vitrine-legal-link" id="alegal-2257" style="background:none;border:none;color:var(--text-muted);font-size:7px;padding:2px;flex-shrink:0;">
+        <span data-i18n="bnav2257">Mention 2257</span>
+      </button>
+      <span style="color:var(--text-muted);font-size:7px;">·</span>
+      <button type="button" class="vitrine-legal-link" id="alegal-cgu" style="background:none;border:none;color:var(--text-muted);font-size:7px;padding:2px;flex-shrink:0;">
+        <span data-i18n="bnavCgu">CGU</span>
+      </button>
+      <span style="color:var(--text-muted);font-size:7px;">·</span>
+      <button type="button" class="vitrine-legal-link" id="alegal-privacy" style="background:none;border:none;color:var(--text-muted);font-size:7px;padding:2px;flex-shrink:0;">
+        <span data-i18n="bnavPrivacy">Confidentialité</span>
+      </button>
+      <span style="color:var(--text-muted);font-size:7px;">·</span>
+      <button type="button" class="vitrine-legal-link" id="alegal-pricing" style="background:none;border:none;color:var(--text-muted);font-size:7px;padding:2px;flex-shrink:0;">
+        <span>Prix &amp; remboursement</span>
+      </button>
+    </div>
+
     <div class="foot">
       <span id="t-foot-tag">Honeymoon — Confidentiel</span>
-      <span id="foot-year"></span>
+      <span id="foot-year" style="cursor:pointer;"></span>
     </div>
   </main>
 </div>
@@ -954,8 +985,8 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
   <div id="topbar">
     <div class="topbar-left">
       <div class="logo">honeymoon</div>
-      <button type="button" class="topbar-member-badge" id="topbar-member-badge" style="display:none;"></button>
     </div>
+    <button type="button" class="topbar-member-badge" id="topbar-member-badge" style="display:none;"></button>
     <div class="right">
       <button class="burger-btn" id="burger-menu-btn" aria-label="Menu">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
@@ -983,12 +1014,28 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
         </div>
       </div>
       <div class="creator-carousel-row" id="vitrine-grid-row1"></div>
-      <div class="creator-carousel-row" id="vitrine-grid-row2"></div>
     </div>
-    <div class="foot" style="font-size:9px;opacity:.6;margin-top:24px;">
+    <div class="vitrine-legal-row" style="display:flex;justify-content:center;align-items:center;gap:5px;margin-top:16px;flex-wrap:nowrap;overflow-x:auto;white-space:nowrap;">
+      <button type="button" class="vitrine-legal-link" id="vlegal-2257" style="background:none;border:none;color:var(--text-muted);font-size:7px;padding:2px;flex-shrink:0;">
+        <span data-i18n="bnav2257">Mention 2257</span>
+      </button>
+      <span style="color:var(--text-muted);font-size:7px;">·</span>
+      <button type="button" class="vitrine-legal-link" id="vlegal-cgu" style="background:none;border:none;color:var(--text-muted);font-size:7px;padding:2px;flex-shrink:0;">
+        <span data-i18n="bnavCgu">CGU</span>
+      </button>
+      <span style="color:var(--text-muted);font-size:7px;">·</span>
+      <button type="button" class="vitrine-legal-link" id="vlegal-privacy" style="background:none;border:none;color:var(--text-muted);font-size:7px;padding:2px;flex-shrink:0;">
+        <span data-i18n="bnavPrivacy">Confidentialité</span>
+      </button>
+      <span style="color:var(--text-muted);font-size:7px;">·</span>
+      <button type="button" class="vitrine-legal-link" id="vlegal-pricing" style="background:none;border:none;color:var(--text-muted);font-size:7px;padding:2px;flex-shrink:0;">
+        <span>Prix &amp; remboursement</span>
+      </button>
+    </div>
+    <div class="foot" style="font-size:6.5px;opacity:.6;margin-top:24px;">
       <span>
         <span id="t-vitrine-foot-tag">Honeymoon</span>
-        <button class="legal-link-btn" id="private-access-link" style="opacity:.7;text-decoration:none;font-family:inherit;padding:0 2px;font-size:9px;">©</button>
+        <button class="legal-link-btn" id="private-access-link" style="opacity:.7;text-decoration:none;font-family:inherit;padding:0 2px;font-size:6.5px;">©</button>
         <span id="vitrine-foot-year"></span>
       </span>
     </div>
@@ -1193,12 +1240,13 @@ const STORAGE_KEY = 'hm_catalogue_v3';
    Firebase Console → Authentication → Users → Add user, avec CET email exact
    et le code de ton choix comme mot de passe. Change-le à tout moment depuis
    Firebase sans jamais toucher au code du site. ===== */
-const AGENCY_ACCESS_EMAIL = 'agence-acces@honeymoon-interne.app';
+const AGENCY_ACCESS_EMAIL = 'princemoudilourungis@outlook.fr';
 /* ===== Code de test LOCAL UNIQUEMENT (pour tes essais avant hébergement).
    Ne fonctionne JAMAIS une fois le site réellement hébergé (vercel.app) —
    uniquement quand le fichier est ouvert directement (content://, file://).
    Change-le si tu veux, ou laisse tel quel : sans impact une fois en ligne. ===== */
 const LOCAL_TEST_CODE = '1988';
+const LOCAL_TEST_EMAIL = 'moudilouprincerungis@outlook.com';
 function isLocalTestEnvironment(){
   const proto = window.location.protocol;
   return proto !== 'https:' && proto !== 'http:';
@@ -1645,7 +1693,7 @@ const I18N = {
     editToggleOn: "CTA",
     editToggleOff: 'Terminé',
     heroEyebrow: 'Catalogue',
-    heroTitle: '5 créatrices, un contrat, une exigence : le sérieux.',
+    heroTitle: 'créatrices, un contrat, une exigence : le sérieux.',
     heroBody: "Le catalogue Honeymoon réunit 5 créatrices sous contrat exclusif, choisies pour leur sérieux et leur motivation. Certaines débutent dans le milieu : les attentes sont claires dès le départ, et elles s'y tiennent.",
     catalogueTitle: 'Le Catalogue',
     emptyName: 'Profil à venir bientôt',
@@ -8596,6 +8644,8 @@ document.getElementById('creator-logout').onclick = () => {
 };
 document.getElementById('agency-logout').onclick = () => {
   if(auth){ auth.signOut().catch(() => {}); }
+  signedInAsAdmin = false;
+  localAdminBypass = false;
   document.getElementById('app-shell').style.display = 'none';
   document.getElementById('gate').style.display = 'flex';
 };
@@ -8639,14 +8689,24 @@ function checkGate(){
     if(typeof updateBottomNavVisibility === 'function') setTimeout(updateBottomNavVisibility, 0);
 }
 function openPrivateAccessGate(){
+  // Force systématiquement une nouvelle authentification : jamais de bypass
+  // silencieux, même si une session (locale ou Firebase) était déjà active.
+  localAdminBypass = false;
+  signedInAsAdmin = false;
+  if(auth && auth.currentUser){
+    auth.signOut().catch(()=>{});
+  }
   hideAllShells();
   document.getElementById('creator-pass').value = '';
+  document.getElementById('gate-pass').value = '';
+  document.getElementById('gate-err').textContent = '';
   document.getElementById('gate').style.display = 'flex';
 }
 document.getElementById('gate-submit').onclick = () => {
   document.getElementById('gate-err').textContent = '';
   const code = document.getElementById('gate-pass').value;
   if(!code){ document.getElementById('gate-err').textContent = t('gateErr'); return; }
+  // Bypass LOCAL uniquement : jamais actif une fois le site réellement hébergé.
   if(isLocalTestEnvironment() && code === LOCAL_TEST_CODE){
     localAdminBypass = true;
     document.getElementById('gate-pass').value = '';
@@ -8687,7 +8747,8 @@ document.getElementById('gate-pass').addEventListener('keydown', (e) => {
 /* ---------------- admin gate (edit lock) — Firebase Auth email + mot de passe ---------------- */
 let pendingAdminAction = null;
 let localAdminBypass = false; // TEST LOCAL uniquement : jamais actif une fois le site réellement hébergé.
-function isAdmin(){ return localAdminBypass || !!(auth && auth.currentUser && !auth.currentUser.isAnonymous); }
+let signedInAsAdmin = false; // vrai uniquement après une connexion réussie sur l'écran "Accès administrateur" — le compte agence (©) ne suffit plus.
+function isAdmin(){ return localAdminBypass || signedInAsAdmin; }
 function requireAdmin(action){
   if(isAdmin()){ action(); return; }
   pendingAdminAction = action;
@@ -8699,7 +8760,8 @@ document.getElementById('admin-submit').onclick = () => {
   const email = document.getElementById('admin-email').value.trim();
   const pass = document.getElementById('admin-pass').value;
   document.getElementById('admin-err').textContent = ''; document.getElementById('admin-err').style.color = '';
-  if(isLocalTestEnvironment() && pass === LOCAL_TEST_CODE){
+  // Bypass LOCAL uniquement : exige désormais l'email ET le mot de passe, pas le mot de passe seul.
+  if(isLocalTestEnvironment() && email === LOCAL_TEST_EMAIL && pass === LOCAL_TEST_CODE){
     localAdminBypass = true;
     document.getElementById('admin-pass').value = '';
     document.getElementById('admin-gate').style.display = 'none';
@@ -8716,6 +8778,7 @@ document.getElementById('admin-submit').onclick = () => {
   }
   auth.signInWithEmailAndPassword(email, pass)
     .then(() => {
+      signedInAsAdmin = true;
       document.getElementById('admin-gate').style.display = 'none';
       const action = pendingAdminAction;
       pendingAdminAction = null;
@@ -8806,12 +8869,17 @@ document.getElementById('edit-toggle').onclick = () => {
     refreshEditUI();
   }
 };
+// Le bouton "CTA" du haut est retiré : on accède à l'administration en
+// cliquant sur "Honeymoon" en bas de page (même action, même code Firebase).
+document.getElementById('foot-year').onclick = () => {
+  document.getElementById('edit-toggle').click();
+};
 function refreshEditUI(){
   document.getElementById('edit-toggle').classList.toggle('active', editMode);
   document.getElementById('t-edit-toggle').textContent = editMode ? t('editToggleOff') : t('editToggleOn');
-  document.getElementById('reports-panel-btn').style.display = isAdmin() ? 'inline-flex' : 'none';
-  document.getElementById('applications-panel-btn').style.display = isAdmin() ? 'inline-flex' : 'none';
-  document.getElementById('deletions-panel-btn').style.display = isAdmin() ? 'inline-flex' : 'none';
+  document.getElementById('reports-panel-btn').style.display = 'none';
+  document.getElementById('applications-panel-btn').style.display = 'none';
+  document.getElementById('deletions-panel-btn').style.display = 'none';
   if(isAdmin()) refreshDeletionsAlertBadge();
   renderRoster();
 }
@@ -10513,11 +10581,8 @@ function renderRoster(){
   const displayOrder = [...roster].sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
   const half = Math.ceil(displayOrder.length / 2);
   const row1El = document.getElementById('roster-grid-row1');
-  const row2El = document.getElementById('roster-grid-row2');
   row1El.innerHTML = displayOrder.slice(0, half).map(m => modelCardHtml(m)).join('');
-  row2El.innerHTML = displayOrder.slice(half).map(m => modelCardHtml(m)).join('');
   wireCarouselCard(row1El);
-  wireCarouselCard(row2El);
   wireCarouselArrows(row1El.closest('.creator-carousel-section'));
 }
 function wireCarouselCard(grid){
@@ -10729,11 +10794,24 @@ function openEdit(id){
       <input type="checkbox" id="ed-verified" ${m.verified18 ? 'checked' : ''}>
       <label style="margin:0;text-transform:none;font-weight:400;">${t('consentText')}</label>
     </div>
+    ${isAdmin() ? `
+    <div style="margin-top:26px;padding-top:20px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:6px;">
+      <button type="button" class="pill-link" id="ed-reports-btn">${t('reportsPanelBtn')}</button>
+      <button type="button" class="pill-link" id="ed-applications-btn">${t('applicationsPanelBtn')}</button>
+      <button type="button" class="pill-link" id="ed-deletions-btn">${t('deletionsPanelBtn')}</button>
+    </div>` : ''}
+
     <div class="modal-actions">
       <button class="btn btn-ghost btn-sm" id="ed-cancel" style="flex:1;">${t('cancel')}</button>
       <button class="btn btn-primary btn-sm" id="ed-save" style="flex:1;">${t('save')}</button>
     </div>
   `;
+
+  if(isAdmin()){
+    document.getElementById('ed-reports-btn').onclick = () => requireAdmin(openReportsPanel);
+    document.getElementById('ed-applications-btn').onclick = () => requireAdmin(openApplicationsPanel);
+    document.getElementById('ed-deletions-btn').onclick = () => requireAdmin(openDeletionsPanel);
+  }
 
   document.getElementById('ed-copy-code').onclick = () => {
     const code = CREATOR_CODES[m.id];
@@ -12726,47 +12804,37 @@ setTimeout(updateTopbarHeight, 600);
    Version fluide : un seul calcul par frame d'affichage (requestAnimationFrame),
    pas de mesure DOM coûteuse à chaque event de scroll, et un petit seuil pour
    ignorer les micro-tremblements du doigt. */
+/* Le header du haut est désormais statique (toujours visible) : le
+   cache/affiche au scroll a été retiré à la demande d'Ok. On garde la
+   fonction/le listener présents mais neutralisés pour éviter de casser
+   d'autres appels existants dans le fichier. */
 let lastScrollY = window.scrollY;
 let scrollTicking = false;
-let navHiddenState = null; // true = header caché / barre du bas visible ; false = inverse
+let navHiddenState = null;
 function applyNavScrollState(hideTop){
-  if(navHiddenState === hideTop) return; // rien n'a changé, on ne touche pas au DOM
-  navHiddenState = hideTop;
-  const bar = activeTopbar;
-  if(bar) bar.classList.toggle('topbar-hidden', hideTop);
-  const bnav = document.getElementById('bottom-nav');
-  if(bnav && bnav.style.display !== 'none'){
-    bnav.classList.toggle('bottom-nav-hidden', !hideTop);
-  }
+  // no-op : header et barre du bas restent statiques.
 }
-window.addEventListener('scroll', () => {
-  if(scrollTicking) return;
-  scrollTicking = true;
-  requestAnimationFrame(() => {
-    const y = window.scrollY;
-    const delta = y - lastScrollY;
-    if(Math.abs(delta) > 6){ // ignore les micro-mouvements pour éviter tout tremblement
-      if(delta > 0 && y > 80) applyNavScrollState(true);
-      else if(delta < 0) applyNavScrollState(false);
-      lastScrollY = y;
-    }
-    scrollTicking = false;
-  });
-}, { passive: true });
+window.addEventListener('scroll', () => {}, { passive: true });
 
-/* Barre du bas : visible sur la vitrine (et masquée ailleurs), boutons
-   réutilisant exactement les mêmes actions que le menu burger. */
+/* Barre du bas fixe : plus utilisée nulle part désormais (vitrine ET agence
+   affichent leurs liens légaux en ligne, sous le contenu). */
 function updateBottomNavVisibility(){
   const bnav = document.getElementById('bottom-nav');
   if(!bnav) return;
-  const vitrineVisible = document.getElementById('vitrine-shell').style.display !== 'none';
-  const agencyVisible = document.getElementById('app-shell').style.display !== 'none';
-  bnav.style.display = (vitrineVisible || agencyVisible) ? 'flex' : 'none';
+  bnav.style.display = 'none';
 }
 document.getElementById('bnav-2257').onclick = () => openLegalDoc('statement2257', false);
 document.getElementById('bnav-cgu').onclick = () => openLegalDoc('terms', false);
 document.getElementById('bnav-privacy').onclick = () => openLegalDoc('privacy', false);
 document.getElementById('bnav-pricing').onclick = () => openLegalDoc('pricing', false);
+document.getElementById('vlegal-2257').onclick = () => openLegalDoc('statement2257', false);
+document.getElementById('vlegal-cgu').onclick = () => openLegalDoc('terms', false);
+document.getElementById('vlegal-privacy').onclick = () => openLegalDoc('privacy', false);
+document.getElementById('vlegal-pricing').onclick = () => openLegalDoc('pricing', false);
+document.getElementById('alegal-2257').onclick = () => openLegalDoc('statement2257', false);
+document.getElementById('alegal-cgu').onclick = () => openLegalDoc('terms', false);
+document.getElementById('alegal-privacy').onclick = () => openLegalDoc('privacy', false);
+document.getElementById('alegal-pricing').onclick = () => openLegalDoc('pricing', false);
 
 
 function hideAllShells(){
@@ -12849,12 +12917,10 @@ if(initialVitrineHash.open){
 
 function renderVitrineGrid(){
   const row1 = document.getElementById('vitrine-grid-row1');
-  const row2 = document.getElementById('vitrine-grid-row2');
-  if(!row1 || !row2) return;
+  if(!row1) return;
   const half = Math.ceil(roster.length / 2);
   row1.innerHTML = roster.slice(0, half).map(m => vitrineCardHtml(m)).join('');
-  row2.innerHTML = roster.slice(half).map(m => vitrineCardHtml(m)).join('');
-  [row1, row2].forEach(grid => {
+  [row1].forEach(grid => {
     grid.querySelectorAll('.vitrine-enter-btn').forEach(btn => {
       btn.onclick = async () => {
         try{
