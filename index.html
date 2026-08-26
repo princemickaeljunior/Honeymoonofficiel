@@ -480,11 +480,11 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 .dm-avatar-fallback{background:var(--honey);color:#1a1206;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;}
 .dm-avatar-logo{background:linear-gradient(135deg,var(--honey),var(--honey-deep));display:flex;align-items:center;justify-content:center;font-size:12px;}
 .dm-sender-name{font-size:11px;color:var(--text-muted);font-weight:600;}
-.dm-bubble-row.mine{align-self:flex-end;align-items:flex-end;}
+.dm-bubble-row.mine{align-self:flex-start;align-items:flex-start;}
 .dm-bubble-row.theirs{align-self:flex-start;align-items:flex-start;}
 .dm-bubble{padding:9px 13px;border-radius:16px;font-size:13.5px;line-height:1.45;word-break:break-word;white-space:pre-wrap;}
-.dm-bubble-row.mine .dm-bubble{background:rgba(212,175,55,0.55);backdrop-filter:blur(2px);color:var(--text);border-bottom-right-radius:4px;}
-.dm-bubble-row.theirs .dm-bubble{background:rgba(255,255,255,0.06);backdrop-filter:blur(2px);border:1px solid var(--border);color:var(--text);border-bottom-left-radius:4px;}
+.dm-bubble-row.mine .dm-bubble{background:rgba(255,255,255,0.10);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.18);color:var(--text);border-bottom-left-radius:4px;box-shadow:0 2px 10px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.12);}
+.dm-bubble-row.theirs .dm-bubble{background:rgba(255,255,255,0.10);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.18);color:var(--text);border-bottom-left-radius:4px;box-shadow:0 2px 10px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.12);}
 .dm-bubble-time{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--text-muted);margin-top:3px;padding:0 4px;}
 .dm-bubble-footer{display:flex;align-items:center;gap:8px;margin-top:3px;padding:0 4px;}
 .dm-like-btn{background:none;border:none;color:var(--text-muted);font-size:11px;padding:0;}
@@ -569,18 +569,24 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 }
 .vitrine-status-badge.online{border-color:#5fd67a;color:#5fd67a;}
 .vitrine-bio-rows{display:flex;flex-direction:column;gap:8px;margin:14px 0;}
+.bio-narrative{margin:16px 0;display:flex;flex-direction:column;gap:16px;}
+.bio-narrative p{margin:0;font-size:13.5px;line-height:1.7;color:var(--text);}
+.bio-narrative p b{color:var(--honey);font-size:12px;text-transform:uppercase;letter-spacing:.04em;font-weight:700;}
+.bio-narrative-lead{font-size:15px !important;line-height:1.6 !important;font-style:italic;color:var(--text) !important;padding-bottom:6px;border-bottom:1px solid var(--border);}
 .vitrine-bio-row{font-size:12.5px;background:var(--bg-elev-2);border:1px solid var(--border);border-radius:12px;padding:9px 12px;}
 .vitrine-bio-row .k{display:block;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:3px;}
 .vitrine-bio-row .v{color:var(--text);line-height:1.5;white-space:pre-wrap;}
 
 /* votes par média (sous chaque photo/vidéo) */
-.gallery-thumb-wrap{display:flex;flex-direction:column;gap:5px;}
-.media-votes{display:flex;gap:5px;}
+.gallery-thumb-wrap{position:relative;}
+.media-votes{position:absolute;right:4px;bottom:4px;display:flex;flex-direction:column;gap:6px;z-index:3;}
 .media-vote-btn{
-  flex:1;display:flex;align-items:center;justify-content:center;gap:4px;padding:5px 4px;
-  border-radius:8px;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text-muted);font-size:10.5px;
+  flex-direction:column;display:flex;align-items:center;justify-content:center;gap:1px;
+  background:none;border:none;color:#fff;font-size:8px;font-weight:700;
+  filter:drop-shadow(0 1px 3px rgba(0,0,0,0.6));
 }
-.media-vote-btn.active{border-color:var(--honey);color:var(--honey);}
+.media-vote-btn svg{width:13px;height:13px;}
+.media-vote-btn.active{color:var(--honey);}
 .media-vote-btn span{font-family:'JetBrains Mono',monospace;}
 .media-heart-btn.active{border-color:var(--rose);color:var(--rose);}
 .media-heart-icon{display:inline-flex;}
@@ -617,7 +623,12 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 .comment-name{font-size:12.5px;font-weight:600;color:var(--text);}
 .comment-date{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--text-muted);white-space:nowrap;}
 .comment-text{font-size:13px;line-height:1.55;color:var(--text);word-break:break-word;}
-.comment-like-btn{background:none;border:none;color:var(--text-muted);font-size:11px;padding:0;margin-top:6px;}
+.comment-like-btn{background:none;border:none;color:var(--text-muted);font-size:11px;padding:0;margin-top:6px;display:inline-flex;align-items:center;gap:4px;}
+.comment-like-btn svg{width:14px;height:14px;}
+.comment-like-btn.liked{color:var(--honey);}
+.comment-reply-btn{background:none;border:none;color:var(--text-muted);font-size:11px;font-weight:600;padding:0;}
+.comment-dislike-icon{background:none;border:none;color:var(--text-muted);padding:0;display:inline-flex;}
+.comment-dislike-icon svg{width:14px;height:14px;}
 .comment-like-btn.liked{color:var(--rose);}
 .comment-form{display:flex;flex-direction:column;gap:8px;background:var(--bg-elev-2);border:1px solid var(--border);border-radius:14px;padding:12px;}
 .comment-name-input{
@@ -918,6 +929,15 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 .creator-carousel-row .model-card{flex:none;min-width:0;}
 .carousel-arrow{display:none;}
 
+/* Grille agence "Nos créatrices" : infos détaillées, donc on revient au glissement horizontal avec flèches, cartes plus larges et carrées. */
+.agency-roster-row{
+  display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch;scrollbar-width:none;gap:14px;padding-bottom:2px;
+}
+.agency-roster-row .model-card{flex:0 0 82%;max-width:340px;scroll-snap-align:start;}
+.agency-roster-row .model-photo{aspect-ratio:1/1;}
+.creator-carousel-nav .carousel-arrow{display:flex;}
+
 @media (min-width: 900px){
   .burger-panel{
     left:0;right:auto;top:0;transform:none;width:240px;max-width:240px;
@@ -1023,7 +1043,7 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
           <button type="button" class="carousel-arrow" data-group="roster-carousel" data-dir="1">›</button>
         </div>
       </div>
-      <div class="creator-carousel-row" id="roster-grid-row1"></div>
+      <div class="creator-carousel-row agency-roster-row" id="roster-grid-row1"></div>
     </div>
 
     <div class="contact">
@@ -1556,9 +1576,18 @@ const I18N = {
     gatePassPh: "Code d'accès",
     creatorPassPh: "Ton code",
     noPhotoYet: "Aucune photo",
+    coverBelongsToShowcaseNote: "Ceci concerne ta page de présentation publique (différente de ta fiche profil).",
     coverPhotoTip: "Une belle photo bien éclairée, sensuelle et attractive pour attirer des intéressés et des followers.",
     mediaCommentsTitle: "Commentaires sur ce contenu",
+    bioNarrativePersonalityTitle: "Sa personnalité",
+    bioNarrativePassionsTitle: "Ses passions",
+    bioNarrativeContentTitle: "Ce qu'elle propose",
+    bioNarrativeUniverseTitle: "Son univers",
+    bioNarrativeLookingForTitle: "Ce qu'elle recherche",
+    bioNarrativeAmbitionsTitle: "Ses ambitions",
+    bioNarrativeAudienceTitle: "Où la retrouver",
     reportPrefillMediaComment: "Commentaire sur une photo/vidéo",
+    commentReplyBtn: "Répondre",
     vitrineEnterBtn: "Entrer",
     agencyLogout: "Se déconnecter",
     visitorNeedsAccountFavorite: "Inscris-toi gratuitement pour ajouter des créatrices en favoris — bientôt disponible.",
@@ -1755,7 +1784,7 @@ const I18N = {
     caThisMonthShort: "CA du mois",
     coverVideoBtn: "Mini-vidéo",
     coverVideoNote: "Tu peux mettre une photo, ou une mini-vidéo de présentation — ça attire souvent plus de vues et d'abonnés.",
-    coverVideoRules: "Vidéo de 60 secondes maximum. Pas de nudité — lingerie ou tenue sexy uniquement, comme pour tes photos.",
+    coverVideoRules: "Vidéo de 60 secondes maximum. Pas de nudité — lingerie ou tenue sexy uniquement, comme pour tes photos. Pas de gestes sexuels explicites (mime de doigtage, etc.) — le twerk, la danse et les poses sensuelles restent acceptés. Le sensuel est bienvenu, mais jamais la simulation d'un acte sexuel.",
     coverVideoTooLong: "Cette vidéo dépasse 60 secondes — choisis-en une plus courte.",
     levelDescPrefix: "Niveau",
     levelDesc_gray: "Le point de départ de toutes les créatrices.",
@@ -2176,9 +2205,18 @@ const I18N = {
     gatePassPh: "Access code",
     creatorPassPh: "Your code",
     noPhotoYet: "No photo yet",
+    coverBelongsToShowcaseNote: "This concerns your public showcase page (different from your profile sheet).",
     coverPhotoTip: "A beautiful, well-lit, sensual and attractive photo to attract interest and followers.",
     mediaCommentsTitle: "Comments on this content",
+    bioNarrativePersonalityTitle: "Her personality",
+    bioNarrativePassionsTitle: "Her passions",
+    bioNarrativeContentTitle: "What she offers",
+    bioNarrativeUniverseTitle: "Her world",
+    bioNarrativeLookingForTitle: "What she's looking for",
+    bioNarrativeAmbitionsTitle: "Her ambitions",
+    bioNarrativeAudienceTitle: "Where to find her",
     reportPrefillMediaComment: "Comment on a photo/video",
+    commentReplyBtn: "Reply",
     vitrineEnterBtn: "Enter",
     agencyLogout: "Log out",
     visitorNeedsAccountFavorite: "Sign up for free to add creators to your favorites — coming soon.",
@@ -2375,7 +2413,7 @@ const I18N = {
     caThisMonthShort: "This month's earnings",
     coverVideoBtn: "Mini video",
     coverVideoNote: "You can use a photo, or a short intro video — it often attracts more views and followers.",
-    coverVideoRules: "60 seconds maximum. No nudity — lingerie or sexy outfits only, same as your photos.",
+    coverVideoRules: "60 seconds maximum. No nudity — lingerie or sexy outfits only, same as your photos. No explicit sexual gestures (e.g. simulated fingering) — twerk, dance and sensual poses remain allowed. Sensual is welcome, but never the simulation of a sexual act.",
     coverVideoTooLong: "This video is longer than 60 seconds — please choose a shorter one.",
     levelDescPrefix: "Level",
     levelDesc_gray: "The starting point for every creator.",
@@ -2796,6 +2834,32 @@ const I18N = {
     gatePassPh: "Código de acceso",
     creatorPassPh: "Tu código",
     noPhotoYet: "Sin foto",
+    caThisMonthShort: "Ganancias de este mes",
+    levelDescPrefix: "Nivel",
+    levelDesc_gray: "El punto de partida para toda creadora.",
+    levelDesc_bronze: "Una primera comunidad empieza a formarse a tu alrededor.",
+    levelDesc_silver: "Tu popularidad crece, cada vez más miembros te siguen.",
+    levelDesc_gold: "Formas parte de las creadoras bien establecidas en Honeymoon.",
+    levelDesc_purple: "Una comunidad fuerte te apoya activamente.",
+    levelDesc_red: "El nivel máximo — formas parte de las creadoras más populares del sitio.",
+    bioNarrativePersonalityTitle: "Su personalidad",
+    bioNarrativePassionsTitle: "Sus pasiones",
+    bioNarrativeContentTitle: "Lo que ofrece",
+    bioNarrativeUniverseTitle: "Su universo",
+    bioNarrativeLookingForTitle: "Lo que busca",
+    bioNarrativeAmbitionsTitle: "Sus ambiciones",
+    bioNarrativeAudienceTitle: "Dónde encontrarla",
+    commentReplyBtn: "Responder",
+    mediaCommentsTitle: "Comentarios sobre este contenido",
+    reportPrefillMediaComment: "Comentario en una foto/video",
+    publicIntroLabel: "Descríbenos quién eres para el público",
+    publicIntroNote: "10 líneas máximo. Este texto aparecerá en tu página pública, debajo de tus seguidores.",
+    publicIntroPh: "Ej.: Soy apasionada del baile y me encanta compartir momentos traviesos contigo...",
+    coverVideoBtn: "Mini video",
+    coverVideoNote: "Puedes usar una foto, o un breve video de presentación — suele atraer más vistas y seguidores.",
+    coverVideoRules: "Máximo 60 segundos. Sin desnudez — solo lencería o ropa sexy, igual que tus fotos. Sin gestos sexuales explícitos (por ejemplo, simular tocamientos) — el twerk, el baile y las poses sensuales siguen permitidos. Lo sensual es bienvenido, pero nunca la simulación de un acto sexual.",
+    coverVideoTooLong: "Este video supera los 60 segundos — elige uno más corto.",
+    coverBelongsToShowcaseNote: "Esto concierne tu página de presentación pública (diferente de tu ficha de perfil).",
     coverPhotoTip: "Una foto hermosa, bien iluminada, sensual y atractiva para atraer interesados y seguidores.",
     vitrineEnterBtn: "Entrar",
     agencyLogout: "Cerrar sesión",
@@ -3398,6 +3462,32 @@ const I18N = {
     gatePassPh: "Codice di accesso",
     creatorPassPh: "Il tuo codice",
     noPhotoYet: "Nessuna foto",
+    caThisMonthShort: "Guadagni di questo mese",
+    levelDescPrefix: "Livello",
+    levelDesc_gray: "Il punto di partenza per ogni creatrice.",
+    levelDesc_bronze: "Una prima comunità inizia a formarsi intorno a te.",
+    levelDesc_silver: "La tua popolarità cresce, sempre più membri ti seguono.",
+    levelDesc_gold: "Fai parte delle creatrici ben affermate su Honeymoon.",
+    levelDesc_purple: "Una forte comunità ti sostiene attivamente.",
+    levelDesc_red: "Il livello massimo — fai parte delle creatrici più popolari del sito.",
+    bioNarrativePersonalityTitle: "La sua personalità",
+    bioNarrativePassionsTitle: "Le sue passioni",
+    bioNarrativeContentTitle: "Cosa propone",
+    bioNarrativeUniverseTitle: "Il suo universo",
+    bioNarrativeLookingForTitle: "Cosa cerca",
+    bioNarrativeAmbitionsTitle: "Le sue ambizioni",
+    bioNarrativeAudienceTitle: "Dove trovarla",
+    commentReplyBtn: "Rispondi",
+    mediaCommentsTitle: "Commenti su questo contenuto",
+    reportPrefillMediaComment: "Commento su una foto/video",
+    publicIntroLabel: "Descrivici chi sei per il pubblico",
+    publicIntroNote: "Massimo 10 righe. Questo testo apparirà sulla tua pagina pubblica, sotto i tuoi follower.",
+    publicIntroPh: "Es.: Sono appassionata di danza e adoro condividere momenti birichini con voi...",
+    coverVideoBtn: "Mini video",
+    coverVideoNote: "Puoi usare una foto, o un breve video di presentazione — spesso attira più visualizzazioni e follower.",
+    coverVideoRules: "Massimo 60 secondi. Niente nudità — solo lingerie o abiti sexy, come per le tue foto. Niente gesti sessuali espliciti (es. simulare atti sessuali) — twerk, danza e pose sensuali restano ammessi. Il sensuale è benvenuto, ma mai la simulazione di un atto sessuale.",
+    coverVideoTooLong: "Questo video supera i 60 secondi — scegline uno più corto.",
+    coverBelongsToShowcaseNote: "Questo riguarda la tua pagina di presentazione pubblica (diversa dalla tua scheda profilo).",
     coverPhotoTip: "Una bella foto ben illuminata, sensuale e attraente per attirare interessati e follower.",
     vitrineEnterBtn: "Entra",
     agencyLogout: "Disconnetti",
@@ -4000,6 +4090,32 @@ const I18N = {
     gatePassPh: "Código de acesso",
     creatorPassPh: "O teu código",
     noPhotoYet: "Ainda sem foto",
+    caThisMonthShort: "Ganhos deste mês",
+    levelDescPrefix: "Nível",
+    levelDesc_gray: "O ponto de partida para toda criadora.",
+    levelDesc_bronze: "Uma primeira comunidade começa a se formar ao seu redor.",
+    levelDesc_silver: "Sua popularidade cresce, cada vez mais membros te seguem.",
+    levelDesc_gold: "Você faz parte das criadoras bem estabelecidas na Honeymoon.",
+    levelDesc_purple: "Uma forte comunidade te apoia ativamente.",
+    levelDesc_red: "O nível máximo — você faz parte das criadoras mais populares do site.",
+    bioNarrativePersonalityTitle: "Sua personalidade",
+    bioNarrativePassionsTitle: "Suas paixões",
+    bioNarrativeContentTitle: "O que ela oferece",
+    bioNarrativeUniverseTitle: "Seu universo",
+    bioNarrativeLookingForTitle: "O que ela procura",
+    bioNarrativeAmbitionsTitle: "Suas ambições",
+    bioNarrativeAudienceTitle: "Onde encontrá-la",
+    commentReplyBtn: "Responder",
+    mediaCommentsTitle: "Comentários sobre este conteúdo",
+    reportPrefillMediaComment: "Comentário em uma foto/vídeo",
+    publicIntroLabel: "Descreva-nos quem você é para o público",
+    publicIntroNote: "10 linhas no máximo. Este texto aparecerá na sua página pública, abaixo dos seus seguidores.",
+    publicIntroPh: "Ex.: Sou apaixonada por dança e adoro compartilhar momentos travessos com vocês...",
+    coverVideoBtn: "Mini vídeo",
+    coverVideoNote: "Você pode usar uma foto, ou um curto vídeo de apresentação — costuma atrair mais visualizações e seguidores.",
+    coverVideoRules: "Máximo de 60 segundos. Sem nudez — apenas lingerie ou roupas sexy, assim como suas fotos. Sem gestos sexuais explícitos (ex.: simular toques íntimos) — twerk, dança e poses sensuais continuam permitidos. O sensual é bem-vindo, mas nunca a simulação de um ato sexual.",
+    coverVideoTooLong: "Este vídeo ultrapassa 60 segundos — escolha um mais curto.",
+    coverBelongsToShowcaseNote: "Isso diz respeito à sua página de apresentação pública (diferente da sua ficha de perfil).",
     coverPhotoTip: "Uma bela foto bem iluminada, sensual e atraente para atrair interessados e seguidores.",
     vitrineEnterBtn: "Entrar",
     agencyLogout: "Sair da conta",
@@ -4602,6 +4718,32 @@ const I18N = {
     gatePassPh: "Nambari ya kuingia",
     creatorPassPh: "Nambari yako",
     noPhotoYet: "Hakuna picha bado",
+    caThisMonthShort: "Mapato ya mwezi huu",
+    levelDescPrefix: "Kiwango",
+    levelDesc_gray: "Mwanzo kwa kila muundaji.",
+    levelDesc_bronze: "Jamii ya kwanza inaanza kujengeka karibu na wewe.",
+    levelDesc_silver: "Umaarufu wako unakua, wanachama zaidi na zaidi wanakufuata.",
+    levelDesc_gold: "Wewe ni miongoni mwa waundaji walioimarika vizuri kwenye Honeymoon.",
+    levelDesc_purple: "Jamii yenye nguvu inakuunga mkono kikamilifu.",
+    levelDesc_red: "Kiwango cha juu kabisa — wewe ni miongoni mwa waundaji maarufu zaidi wa tovuti.",
+    bioNarrativePersonalityTitle: "Tabia yake",
+    bioNarrativePassionsTitle: "Mapenzi yake",
+    bioNarrativeContentTitle: "Anachotoa",
+    bioNarrativeUniverseTitle: "Ulimwengu wake",
+    bioNarrativeLookingForTitle: "Anachotafuta",
+    bioNarrativeAmbitionsTitle: "Malengo yake",
+    bioNarrativeAudienceTitle: "Mahali pa kumpata",
+    commentReplyBtn: "Jibu",
+    mediaCommentsTitle: "Maoni kuhusu maudhui haya",
+    reportPrefillMediaComment: "Maoni kwenye picha/video",
+    publicIntroLabel: "Tueleze wewe ni nani kwa umma",
+    publicIntroNote: "Mistari 10 kiwango cha juu. Maandishi haya yataonekana kwenye ukurasa wako wa umma, chini ya wafuasi wako.",
+    publicIntroPh: "Mfano: Nina shauku ya kucheza densi na napenda kushiriki nyakati za kufurahisha nawe...",
+    coverVideoBtn: "Video fupi",
+    coverVideoNote: "Unaweza kutumia picha, au video fupi ya utangulizi — mara nyingi huvutia maoni na wafuasi zaidi.",
+    coverVideoRules: "Sekunde 60 kiwango cha juu. Bila uchi — nguo za ndani au mavazi ya kuvutia tu, kama picha zako. Bila ishara za kingono za wazi (mfano, kuiga kuchezea sehemu za siri) — twerk, densi na mikao ya kuvutia bado inaruhusiwa. Uzuri wa kuvutia unakubalika, lakini kamwe si kuiga tendo la ndoa.",
+    coverVideoTooLong: "Video hii inazidi sekunde 60 — chagua fupi zaidi.",
+    coverBelongsToShowcaseNote: "Hii inahusu ukurasa wako wa maonyesho ya umma (tofauti na wasifu wako).",
     coverPhotoTip: "Picha nzuri, yenye mwanga mzuri, ya kuvutia ili kuvutia watu wanaovutiwa na wafuasi.",
     vitrineEnterBtn: "Ingia",
     agencyLogout: "Toka",
@@ -5203,6 +5345,32 @@ const I18N = {
     gatePassPh: "Ikhodi yokungena",
     creatorPassPh: "Ikhodi yakho",
     noPhotoYet: "Asikho isithombe okwamanje",
+    caThisMonthShort: "Inzuzo yalenyanga",
+    levelDescPrefix: "Izinga",
+    levelDesc_gray: "Isiqalo somdwebi wonke.",
+    levelDesc_bronze: "Umphakathi wokuqala uqala ukwakheka ngakuwe.",
+    levelDesc_silver: "Ukudumile kwakho kuyakhula, amalungu amaningi ngokwengeziwe akulandela.",
+    levelDesc_gold: "Uyingxenye yabadwebi abasesimweni esihle e-Honeymoon.",
+    levelDesc_purple: "Umphakathi onamandla ukusekela ngokukhuthala.",
+    levelDesc_red: "Izinga eliphakeme kunazo zonke — uyingxenye yabadwebi abadumile kakhulu kule sayithi.",
+    bioNarrativePersonalityTitle: "Ubuntu bakhe",
+    bioNarrativePassionsTitle: "Izifiso zakhe",
+    bioNarrativeContentTitle: "Anikezayo",
+    bioNarrativeUniverseTitle: "Umhlaba wakhe",
+    bioNarrativeLookingForTitle: "Akufunayo",
+    bioNarrativeAmbitionsTitle: "Izifiso zakhe zekusasa",
+    bioNarrativeAudienceTitle: "Lapho angatholakala khona",
+    commentReplyBtn: "Phendula",
+    mediaCommentsTitle: "Amazwana ngalokhu okuqukethwe",
+    reportPrefillMediaComment: "Amazwana esithombeni/ividiyo",
+    publicIntroLabel: "Sitshele ukuthi ungubani emphakathini",
+    publicIntroNote: "Imigqa engu-10 ubuncane obuphezulu. Lo mbhalo uzovela ekhasini lakho lomphakathi, ngaphansi kwabalandeli bakho.",
+    publicIntroPh: "Isib.: Ngiyathanda ukudansa futhi ngithanda ukwabelana ngemizuzu emnandi nawe...",
+    coverVideoBtn: "Ividiyo emfushane",
+    coverVideoNote: "Ungasebenzisa isithombe, noma ividiyo emfushane yokwethula — ivamise ukuheha ukubukwa nabalandeli abaningi.",
+    coverVideoRules: "Imizuzwana engu-60 ubuncane obuphezulu. Ngaphandle kokuze — izingubo zangaphansi noma izingubo ezihehayo kuphela, njengezithombe zakho. Ngaphandle kwezimpawu zocansi ezisobala (isib. ukulingisa ukuthinta ngeminwe) — ukuxova isinqe, umdanso, nezimo ezihehayo kusavunyelwe. Ukuhehayo kuyamukelekile, kepha ungalokothi ulingise isenzo sobulili.",
+    coverVideoTooLong: "Le vidiyo yedlula imizuzwana engu-60 — khetha emfushane.",
+    coverBelongsToShowcaseNote: "Lokhu kumayelana nekhasi lakho lokubukiswa emphakathini (elihlukile kumaphrofayela akho).",
     coverPhotoTip: "Isithombe esihle, esikhanyiswe kahle, esihehayo ukuze kuhehe abathakazelelayo nabalandeli.",
     vitrineEnterBtn: "Ngena",
     agencyLogout: "Phuma",
@@ -5804,6 +5972,32 @@ const I18N = {
     gatePassPh: "Khoutu ya ho kena",
     creatorPassPh: "Khoutu ya hao",
     noPhotoYet: "Ha ho na setshwantsho",
+    caThisMonthShort: "Chelete ea khoeli ena",
+    levelDescPrefix: "Boemo",
+    levelDesc_gray: "Qalo bakeng sa mobopi e mong le e mong.",
+    levelDesc_bronze: "Sechaba sa pele se qala ho theoa ho potoloha uena.",
+    levelDesc_silver: "Botumo ba hau boa hola, litho tse ngata li ntse li u latela.",
+    levelDesc_gold: "U ka har'a babopi ba tsitsitseng ho Honeymoon.",
+    levelDesc_purple: "Sechaba se matla se u tšehetsa ka mafolofolo.",
+    levelDesc_red: "Boemo bo holimo ka ho fetisisa — u ka har'a babopi ba tumileng ho fetisisa websaeteng.",
+    bioNarrativePersonalityTitle: "Botho ba hae",
+    bioNarrativePassionsTitle: "Lithahasello tsa hae",
+    bioNarrativeContentTitle: "Seo a se fanang",
+    bioNarrativeUniverseTitle: "Lefatše la hae",
+    bioNarrativeLookingForTitle: "Seo a se batlang",
+    bioNarrativeAmbitionsTitle: "Litakatso tsa hae",
+    bioNarrativeAudienceTitle: "Moo a ka fumanoang teng",
+    commentReplyBtn: "Araba",
+    mediaCommentsTitle: "Maikutlo mabapi le litaba tsena",
+    reportPrefillMediaComment: "Maikutlo setšoantšong/videong",
+    publicIntroLabel: "Re hlalosetse hore na ke mang ho sechaba",
+    publicIntroNote: "Mela e 10 boholo bo boholo. Mongolo ona o tla hlaha leqepheng la hau la sechaba, ka tlasa balateli ba hau.",
+    publicIntroPh: "Mohl.: Ke rata ho tantsha 'me ke rata ho arolelana metsotso e monate le uena...",
+    coverVideoBtn: "Video e nyane",
+    coverVideoNote: "O ka sebelisa setšoantšo, kapa video e khuts'oane ea boitsebiso — hangata e hohela litebo le balateli ba bangata.",
+    coverVideoRules: "Metsotsoana e 60 boholo bo boholo. Ntle ho ho hlobola — liaparo tsa ka tlung kapa tse hohelang feela, joalo ka litšoantšo tsa hau. Ntle ho matšoao a thobalano a pepeneneng (mohl. ho etsisa ho ama ka menoana) — twerk, motjeko le maemo a hohelang a ntse a dumelletsoe. Ho hohela ho amohelehile, empa e seng ho etsisa tiro ya thobalano.",
+    coverVideoTooLong: "Video ena e feta metsotsoana e 60 — khetha e khuts'oane.",
+    coverBelongsToShowcaseNote: "Sena se amana le leqephe la hau la ho boniswa phatlalatsa (le fapaneng le pampiri ya hau ya profaele).",
     coverPhotoTip: "Setshwantsho se setle, se kganyang hantle, se hohelang ho hohela ba thahasellang le balateli.",
     vitrineEnterBtn: "Kena",
     agencyLogout: "Tswa",
@@ -6405,6 +6599,32 @@ const I18N = {
     gatePassPh: "Kode ya kokota",
     creatorPassPh: "Kode na yo",
     noPhotoYet: "Foto te naino",
+    caThisMonthShort: "Mbongo ya sanza oyo",
+    levelDescPrefix: "Nivo",
+    levelDesc_gray: "Ebandeli mpo na mosali nyonso.",
+    levelDesc_bronze: "Lisanga ya liboso ebandi kosalema pembeni na yo.",
+    levelDesc_silver: "Lokumu na yo ezali kokola, bandimi ebele bazali kolanda yo.",
+    levelDesc_gold: "Ozali kati ya basali oyo bakembi malamu na Honeymoon.",
+    levelDesc_purple: "Lisanga ya makasi ezali kosunga yo makasi.",
+    levelDesc_red: "Nivo ya likolo koleka — ozali kati ya basali ya lokumu koleka na site.",
+    bioNarrativePersonalityTitle: "Bizaleli na ye",
+    bioNarrativePassionsTitle: "Bolingo na ye",
+    bioNarrativeContentTitle: "Oyo apesaka",
+    bioNarrativeUniverseTitle: "Mokili na ye",
+    bioNarrativeLookingForTitle: "Oyo alukaka",
+    bioNarrativeAmbitionsTitle: "Makanisi na ye ya mikolo ekoya",
+    bioNarrativeAudienceTitle: "Esika ya kokuta ye",
+    commentReplyBtn: "Yanola",
+    mediaCommentsTitle: "Maloba na ntina ya biloko oyo",
+    reportPrefillMediaComment: "Maloba na foto/video",
+    publicIntroLabel: "Yebisa biso soki ozali nani mpo na bato nyonso",
+    publicIntroNote: "Milongo 10 ndelo ya likolo. Makomi oyo ekomonana na page na yo ya bato nyonso, na nse ya balandi na yo.",
+    publicIntroPh: "Ndakisa: Nazali na bolingo ya kobina mpe nalingaka kokabola bantango ya esengo elongo na yo...",
+    coverVideoBtn: "Video ya moke",
+    coverVideoNote: "Okoki kosalela foto, to video ya moke ya kobanda — mbala mingi ebendaka bato mingi mpe balandi.",
+    coverVideoRules: "Segonde 60 ndelo ya likolo. Kozanga bolumbu — bilamba ya nse to bilamba ya kobenda kaka, ndenge moko na bafoto na yo. Kozanga bilembo ya nzoto ya polele (ndakisa kosala lokola bazali kosimba na mosapi) — twerk, kobina mpe bikeko ya kobenda ezali kaka na nzela. Kobenda endimaka, kasi kosala lokola bazali kosala nzoto ezali te.",
+    coverVideoTooLong: "Video oyo eleki segonde 60 — pona oyo ya moke.",
+    coverBelongsToShowcaseNote: "Oyo etali page na yo ya komimonisa na miso ya bato (ekeseni na profil na yo).",
     coverPhotoTip: "Foto kitoko, oyo engengami malamu, ya kobenda mpo na kobenda baye bazali na posa mpe balandi.",
     vitrineEnterBtn: "Kota",
     agencyLogout: "Bima",
@@ -7006,6 +7226,32 @@ const I18N = {
     gatePassPh: "访问码",
     creatorPassPh: "你的代码",
     noPhotoYet: "暂无照片",
+    caThisMonthShort: "本月收益",
+    levelDescPrefix: "等级",
+    levelDesc_gray: "每位创作者的起点。",
+    levelDesc_bronze: "一个初步的社群开始围绕你形成。",
+    levelDesc_silver: "你的人气不断增长，越来越多会员关注你。",
+    levelDesc_gold: "你已跻身Honeymoon的知名创作者行列。",
+    levelDesc_purple: "一个强大的社群积极支持着你。",
+    levelDesc_red: "最高等级——你是本站最受欢迎的创作者之一。",
+    bioNarrativePersonalityTitle: "她的个性",
+    bioNarrativePassionsTitle: "她的爱好",
+    bioNarrativeContentTitle: "她提供的内容",
+    bioNarrativeUniverseTitle: "她的世界",
+    bioNarrativeLookingForTitle: "她在寻找什么",
+    bioNarrativeAmbitionsTitle: "她的抱负",
+    bioNarrativeAudienceTitle: "在哪里找到她",
+    commentReplyBtn: "回复",
+    mediaCommentsTitle: "关于此内容的评论",
+    reportPrefillMediaComment: "对照片/视频的评论",
+    publicIntroLabel: "向公众介绍你是谁",
+    publicIntroNote: "最多10行。这段文字将显示在你的公开页面上，粉丝数下方。",
+    publicIntroPh: "例如：我热爱跳舞，喜欢与你分享调皮有趣的时刻……",
+    coverVideoBtn: "迷你视频",
+    coverVideoNote: "你可以使用照片，或一段简短的自我介绍视频——通常能吸引更多浏览量和粉丝。",
+    coverVideoRules: "最长60秒。不得裸露——仅限内衣或性感服装，与照片要求相同。 不得有露骨的性暗示动作（如模拟用手指抚摸）——twerk、跳舞和性感姿势仍然允许。 性感风情可以接受，但绝不可模拟性行为。",
+    coverVideoTooLong: "该视频超过60秒——请选择较短的视频。",
+    coverBelongsToShowcaseNote: "这与你的公开展示页面有关（与你的个人资料页不同）。",
     coverPhotoTip: "一张光线好、性感又有吸引力的美照，能吸引关注和粉丝。",
     vitrineEnterBtn: "进入",
     agencyLogout: "退出登录",
@@ -7607,6 +7853,32 @@ const I18N = {
     gatePassPh: "アクセスコード",
     creatorPassPh: "あなたのコード",
     noPhotoYet: "まだ写真がありません",
+    caThisMonthShort: "今月の収益",
+    levelDescPrefix: "レベル",
+    levelDesc_gray: "すべてのクリエイターの出発点です。",
+    levelDesc_bronze: "あなたの周りに最初のコミュニティが形成され始めています。",
+    levelDesc_silver: "人気が高まり、フォロワーが増え続けています。",
+    levelDesc_gold: "あなたはHoneymoonで確立されたクリエイターの一員です。",
+    levelDesc_purple: "強力なコミュニティが積極的にあなたを支えています。",
+    levelDesc_red: "最高レベル——あなたはサイトで最も人気のあるクリエイターの一人です。",
+    bioNarrativePersonalityTitle: "彼女の性格",
+    bioNarrativePassionsTitle: "彼女の情熱",
+    bioNarrativeContentTitle: "提供する内容",
+    bioNarrativeUniverseTitle: "彼女の世界観",
+    bioNarrativeLookingForTitle: "求めているもの",
+    bioNarrativeAmbitionsTitle: "彼女の目標",
+    bioNarrativeAudienceTitle: "見つけられる場所",
+    commentReplyBtn: "返信",
+    mediaCommentsTitle: "このコンテンツへのコメント",
+    reportPrefillMediaComment: "写真・動画へのコメント",
+    publicIntroLabel: "あなたが誰なのか、公に紹介してください",
+    publicIntroNote: "最大10行。このテキストはフォロワー数の下、公開ページに表示されます。",
+    publicIntroPh: "例：ダンスが大好きで、あなたと楽しいひとときを共有するのが好きです...",
+    coverVideoBtn: "ミニ動画",
+    coverVideoNote: "写真の代わりに短い紹介動画を使うこともできます — より多くの閲覧数やフォロワーを集めやすくなります。",
+    coverVideoRules: "最大60秒。ヌードは禁止です — 写真と同様にランジェリーやセクシーな衣装のみ。 露骨な性的ジェスチャー（指での愛撫を模したものなど）は禁止です — トゥワーク、ダンス、セクシーなポーズは引き続き許可されます。 セクシーな雰囲気は歓迎されますが、性行為を模したものは決して許可されません。",
+    coverVideoTooLong: "この動画は60秒を超えています — もっと短いものを選んでください。",
+    coverBelongsToShowcaseNote: "これはあなたの公開ショーケースページに関するものです（プロフィールページとは別のものです）。",
     coverPhotoTip: "きれいに照明が当たった、セクシーで魅力的な写真は、興味を持つ人やフォロワーを引き寄せます。",
     vitrineEnterBtn: "入る",
     agencyLogout: "ログアウト",
@@ -8208,6 +8480,32 @@ const I18N = {
     gatePassPh: "Код доступа",
     creatorPassPh: "Твой код",
     noPhotoYet: "Пока нет фото",
+    caThisMonthShort: "Доход за этот месяц",
+    levelDescPrefix: "Уровень",
+    levelDesc_gray: "Отправная точка для каждой создательницы.",
+    levelDesc_bronze: "Вокруг вас начинает формироваться первое сообщество.",
+    levelDesc_silver: "Ваша популярность растёт, всё больше участников подписываются на вас.",
+    levelDesc_gold: "Вы входите в число хорошо зарекомендовавших себя создательниц на Honeymoon.",
+    levelDesc_purple: "Сильное сообщество активно вас поддерживает.",
+    levelDesc_red: "Максимальный уровень — вы среди самых популярных создательниц сайта.",
+    bioNarrativePersonalityTitle: "Её характер",
+    bioNarrativePassionsTitle: "Её увлечения",
+    bioNarrativeContentTitle: "Что она предлагает",
+    bioNarrativeUniverseTitle: "Её мир",
+    bioNarrativeLookingForTitle: "Что она ищет",
+    bioNarrativeAmbitionsTitle: "Её амбиции",
+    bioNarrativeAudienceTitle: "Где её найти",
+    commentReplyBtn: "Ответить",
+    mediaCommentsTitle: "Комментарии к этому контенту",
+    reportPrefillMediaComment: "Комментарий к фото/видео",
+    publicIntroLabel: "Расскажи, кто ты, для публики",
+    publicIntroNote: "Максимум 10 строк. Этот текст появится на вашей публичной странице, под подписчиками.",
+    publicIntroPh: "Напр.: Я увлекаюсь танцами и люблю делиться игривыми моментами с вами...",
+    coverVideoBtn: "Мини-видео",
+    coverVideoNote: "Вы можете использовать фото или короткое видео-представление — это часто привлекает больше просмотров и подписчиков.",
+    coverVideoRules: "Максимум 60 секунд. Без наготы — только бельё или сексуальная одежда, как на фото. Без откровенных сексуальных жестов (например, имитации пальцевой стимуляции) — тверк, танец и чувственные позы по-прежнему разрешены. Чувственность приветствуется, но имитация полового акта — никогда.",
+    coverVideoTooLong: "Это видео длиннее 60 секунд — выберите более короткое.",
+    coverBelongsToShowcaseNote: "Это касается вашей публичной страницы-презентации (отличается от страницы профиля).",
     coverPhotoTip: "Красивое, хорошо освещённое, чувственное и привлекательное фото притягивает интерес и подписчиков.",
     vitrineEnterBtn: "Войти",
     agencyLogout: "Выйти из аккаунта",
@@ -8809,6 +9107,32 @@ const I18N = {
     gatePassPh: "رمز الوصول",
     creatorPassPh: "رمزك",
     noPhotoYet: "لا توجد صورة بعد",
+    caThisMonthShort: "أرباح هذا الشهر",
+    levelDescPrefix: "المستوى",
+    levelDesc_gray: "نقطة البداية لكل منشئة.",
+    levelDesc_bronze: "بدأ يتشكل مجتمع أول حولك.",
+    levelDesc_silver: "شعبيتك تنمو، والمزيد من الأعضاء يتابعونك.",
+    levelDesc_gold: "أنتِ من بين المنشئات الراسخات على Honeymoon.",
+    levelDesc_purple: "مجتمع قوي يدعمك بنشاط.",
+    levelDesc_red: "المستوى الأقصى — أنتِ من بين أكثر المنشئات شعبية في الموقع.",
+    bioNarrativePersonalityTitle: "شخصيتها",
+    bioNarrativePassionsTitle: "شغفها",
+    bioNarrativeContentTitle: "ما تقدمه",
+    bioNarrativeUniverseTitle: "عالمها",
+    bioNarrativeLookingForTitle: "ما تبحث عنه",
+    bioNarrativeAmbitionsTitle: "طموحاتها",
+    bioNarrativeAudienceTitle: "أين تجدينها",
+    commentReplyBtn: "رد",
+    mediaCommentsTitle: "تعليقات على هذا المحتوى",
+    reportPrefillMediaComment: "تعليق على صورة/فيديو",
+    publicIntroLabel: "عرّفينا من أنتِ للجمهور",
+    publicIntroNote: "10 أسطر كحد أقصى. سيظهر هذا النص في صفحتك العامة، أسفل عدد متابعيك.",
+    publicIntroPh: "مثال: أنا شغوفة بالرقص وأحب مشاركة لحظات ممتعة معكم...",
+    coverVideoBtn: "فيديو قصير",
+    coverVideoNote: "يمكنك استخدام صورة، أو فيديو تعريفي قصير — غالبًا ما يجذب المزيد من المشاهدات والمتابعين.",
+    coverVideoRules: "60 ثانية كحد أقصى. بدون عري — ملابس داخلية أو ملابس مثيرة فقط، مثل صورك. بدون إيماءات جنسية صريحة (مثل محاكاة اللمس بالأصابع) — يبقى التويرك والرقص والأوضاع المثيرة مسموحًا بها. الإثارة الحسية مرحب بها، لكن لا يُسمح أبدًا بمحاكاة فعل جنسي.",
+    coverVideoTooLong: "هذا الفيديو يتجاوز 60 ثانية — اختاري فيديو أقصر.",
+    coverBelongsToShowcaseNote: "يتعلق هذا بصفحة عرضك العامة (مختلفة عن صفحة ملفك الشخصي).",
     coverPhotoTip: "صورة جميلة ومضاءة جيدًا وجذابة تجذب المهتمين والمتابعين.",
     vitrineEnterBtn: "دخول",
     agencyLogout: "تسجيل الخروج",
@@ -9410,6 +9734,32 @@ const I18N = {
     gatePassPh: "Kode ya nzila",
     creatorPassPh: "Kode na nge",
     noPhotoYet: "Kifwani ve kiantete",
+    caThisMonthShort: "Mbongo ya ngonda yai",
+    levelDescPrefix: "Kiteso",
+    levelDesc_gray: "Ntete mpo na konso musadi.",
+    levelDesc_bronze: "Kimvuka ya ntete ke yantika kusalama zingana na nge.",
+    levelDesc_silver: "Lukumu na nge ke yela, balandi mingi ke landaka nge.",
+    levelDesc_gold: "Nge kele na kati ya basadi ya mbote na Honeymoon.",
+    levelDesc_purple: "Kimvuka ya ngolo ke sadisaka nge na ngolo yonso.",
+    levelDesc_red: "Kiteso ya zulu mpenza — nge kele na kati ya basadi ya luzitu mingi ya lutiti yai.",
+    bioNarrativePersonalityTitle: "Kikalulu na yandi",
+    bioNarrativePassionsTitle: "Bangwisa na yandi",
+    bioNarrativeContentTitle: "Yina ke pesaka",
+    bioNarrativeUniverseTitle: "Nsi-ntoto na yandi",
+    bioNarrativeLookingForTitle: "Yina ke sosaka",
+    bioNarrativeAmbitionsTitle: "Bangindu na yandi ya bilumbu ke kwiza",
+    bioNarrativeAudienceTitle: "Kisika ya kumona yandi",
+    commentReplyBtn: "Vutula",
+    mediaCommentsTitle: "Bangogo ya diambu yai",
+    reportPrefillMediaComment: "Ndinga na foto/video",
+    publicIntroLabel: "Songa beto nani nge kele mpo na bantu yonso",
+    publicIntroNote: "Mikanda 10 kikilu ya zulu. Sonika yai ta monika na lutiti na nge ya bantu yonso, na nsi ya balandi na nge.",
+    publicIntroPh: "Mbandu: Mono ke zola kina ye ke zola kukabula bantangu ya kyese ye nge...",
+    coverVideoBtn: "Video ya fioti",
+    coverVideoNote: "Nge lenda sadila foto, to video ya fioti ya kuyantika nge — mbala mingi ke benda batu mingi ye balandi.",
+    coverVideoRules: "Bisekondo 60 kikilu ya zulu. Kondwa kufwa — bilamba ya nsi to bilamba ya kubenda kaka, mutindu bafoto na nge. Kondwa bimonisu ya kinzonzi ya polele (mbandu kusala mutindu ke simba na munwe) — twerk, kina ye bifwani ya kubenda kele kaka na nzila. Kubenda kele mbote, kansi ve kusala mutindu bantu ke sala nzoto.",
+    coverVideoTooLong: "Video yai me luta bisekondo 60 — sola mosi ya fioti.",
+    coverBelongsToShowcaseNote: "Yai me tala lutiti na nge ya kumonisa na bantu yonso (ekeseni na profile na nge).",
     coverPhotoTip: "Foto ya kitoko, yina kele na kwenge ya mbote, ke benda bantu ke zolaka mpe balandi.",
     vitrineEnterBtn: "Kota",
     agencyLogout: "Basika",
@@ -12310,9 +12660,23 @@ function openMyProfileEdit(m){
     ambitions:'', socials:'', workUrl:'', status:'offline'
   }, m.bio || {});
   body.innerHTML = `
-    <label>${t('publicIntroLabel')}</label>
-    <p class="member-note" style="margin:-4px 0 6px;">${t('publicIntroNote')}</p>
-    <textarea id="ed-public-intro" rows="4" maxlength="600" placeholder="${escAttr(t('publicIntroPh'))}">${escText(m.publicIntro || '')}</textarea>
+    <label>${t('photoLabel')}</label>
+    <p class="member-note" style="margin:-4px 0 8px;">${t('coverVideoNote')} ${t('coverBelongsToShowcaseNote')}</p>
+    <div class="cover-type-toggle">
+      <button type="button" class="cover-type-btn ${(m.photoType || 'image') === 'image' ? 'active' : ''}" data-type="image">${ICON_CAMERA}${t('photoLabel')}</button>
+      <button type="button" class="cover-type-btn ${m.photoType === 'video' ? 'active' : ''}" data-type="video">${ICON_VIDEO}${t('coverVideoBtn')}</button>
+    </div>
+    <div class="upload-drop ${m.photo ? 'has-file' : ''}" id="ed-drop">
+      <span id="ed-drop-label">${m.photo ? t('photoReplace') : t('photoPrompt')}</span>
+      <input type="file" id="ed-file" accept="${(m.photoType === 'video') ? 'video/*' : 'image/*'}">
+    </div>
+    <p class="tipmenu-help-text" id="ed-cover-rules">${t('coverVideoRules')}</p>
+
+    <div style="margin-top:26px;padding-top:20px;border-top:1px solid var(--border);">
+      <label>${t('publicIntroLabel')}</label>
+      <p class="member-note" style="margin:-4px 0 6px;">${t('publicIntroNote')}</p>
+      <textarea id="ed-public-intro" rows="4" maxlength="600" placeholder="${escAttr(t('publicIntroPh'))}">${escText(m.publicIntro || '')}</textarea>
+    </div>
     <label>${t('stageName')}</label>
     <input id="ed-name" value="${escText(m.name)}" placeholder="ex. Luna">
     <label>${t('country')}</label>
@@ -12325,17 +12689,6 @@ function openMyProfileEdit(m){
     <input id="ed-content" value="${escText(m.contentType)}" placeholder="${t('contentPh')}">
     <label>${t('availLabel')}</label>
     <input id="ed-avail" value="${escText(m.availability)}" placeholder="ex. Partenariats marque, Collaborations">
-    <label>${t('photoLabel')}</label>
-    <p class="member-note" style="margin:-4px 0 8px;">${t('coverVideoNote')}</p>
-    <div class="cover-type-toggle">
-      <button type="button" class="cover-type-btn ${(m.photoType || 'image') === 'image' ? 'active' : ''}" data-type="image">${ICON_CAMERA}${t('photoLabel')}</button>
-      <button type="button" class="cover-type-btn ${m.photoType === 'video' ? 'active' : ''}" data-type="video">${ICON_VIDEO}${t('coverVideoBtn')}</button>
-    </div>
-    <div class="upload-drop ${m.photo ? 'has-file' : ''}" id="ed-drop">
-      <span id="ed-drop-label">${m.photo ? t('photoReplace') : t('photoPrompt')}</span>
-      <input type="file" id="ed-file" accept="${(m.photoType === 'video') ? 'video/*' : 'image/*'}">
-    </div>
-    <p class="tipmenu-help-text" id="ed-cover-rules" style="display:${m.photoType === 'video' ? 'block' : 'none'};">${t('coverVideoRules')}</p>
 
     <div style="margin-top:26px;padding-top:20px;border-top:1px solid var(--border);">
       <h3 style="font-size:15px;margin-bottom:4px;">${t('bioSectionTitle')}</h3>
@@ -12395,7 +12748,6 @@ function openMyProfileEdit(m){
       btn.classList.add('active');
       newPhotoType = btn.dataset.type;
       document.getElementById('ed-file').setAttribute('accept', newPhotoType === 'video' ? 'video/*' : 'image/*');
-      document.getElementById('ed-cover-rules').style.display = newPhotoType === 'video' ? 'block' : 'none';
     };
   });
 
@@ -12703,7 +13055,7 @@ function openEdit(id){
       <span id="ed-drop-label">${m.photo ? t('photoReplace') : t('photoPrompt')}</span>
       <input type="file" id="ed-file" accept="${(m.photoType === 'video') ? 'video/*' : 'image/*'}">
     </div>
-    <p class="tipmenu-help-text" id="ed-cover-rules" style="display:${m.photoType === 'video' ? 'block' : 'none'};">${t('coverVideoRules')}</p>
+    <p class="tipmenu-help-text" id="ed-cover-rules">${t('coverVideoRules')}</p>
 
     <div style="margin-top:26px;padding-top:20px;border-top:1px solid var(--border);">
       <h3 style="font-size:15px;margin-bottom:4px;">${t('bioSectionTitle')}</h3>
@@ -12795,7 +13147,6 @@ function openEdit(id){
       btn.classList.add('active');
       newPhotoType = btn.dataset.type;
       document.getElementById('ed-file').setAttribute('accept', newPhotoType === 'video' ? 'video/*' : 'image/*');
-      document.getElementById('ed-cover-rules').style.display = newPhotoType === 'video' ? 'block' : 'none';
     };
   });
 
@@ -13126,28 +13477,7 @@ function renderGalleryBody(m){
     </div>
 
     <div class="room-tab-panel" id="tab-panel-bio">
-      <div class="vitrine-bio-rows">
-        ${infoRow('stageName', m.name)}
-        ${infoRow('country', m.country)}
-        ${infoRow('platforms', m.platforms)}
-        ${infoRow('audience', m.audience)}
-        ${infoRow('content', m.contentType)}
-        ${infoRow('availLabel', m.availability)}
-        ${infoRow('bioOrigin', bio.origin)}
-        ${infoRow('bioNationality', bio.nationality)}
-        ${infoRow('bioAge', bio.age)}
-        ${infoRow('bioBodyType', bio.bodyType)}
-        ${infoRow('bioOrientation', bio.orientation)}
-        ${infoRow('bioLookingFor', bio.lookingFor)}
-        ${infoRow('bioPassions', bio.passions)}
-        ${infoRow('bioUniverse', bio.universe)}
-        ${infoRow('bioHobbies', bio.hobbies)}
-        ${infoRow('bioPersonality', bio.personality)}
-        ${infoRow('bioFantasies', bio.fantasies)}
-        ${infoRow('bioFetish', bio.fetish)}
-        ${infoRow('bioAmbitions', bio.ambitions)}
-        ${infoRow('bioSocials', bio.socials)}
-      </div>
+      ${bioNarrativeHtml(m, bio)}
     </div>
 
     <div class="modal-actions">
@@ -13678,21 +14008,32 @@ function wireUnverifiedBanner(){
 
 function renderMemberHome(user, data, activeTab){
   const body = document.getElementById('member-modal-body');
+  const photoBlock = data.photoURL
+    ? `<div class="my-profile-photo"><img src="${escAttr(data.photoURL)}"></div>`
+    : `<div class="my-profile-photo home-photo-slot-empty">
+         <span class="home-video-icon">${ICON_USER}</span>
+         <span class="home-video-label">${t('noPhotoYet')}</span>
+       </div>`;
   body.innerHTML = `
     <span class="member-badge">✅ ${t('memberFreeBadge')}</span>
     ${memberUnverifiedBannerHtml(user)}
-    <h3>${t('memberHomeWelcome').replace('{username}', escText(data.username || ''))}</h3>
+    <div style="text-align:center;">
+      <div class="home-photo-row">${photoBlock}</div>
+      <h3>${t('memberHomeWelcome').replace('{username}', escText(data.username || ''))}</h3>
+    </div>
     <div class="popularity-hero">
       <div class="tiktok-stat"><span class="tiktok-stat-num">${(data.favorites || []).length}</span><span class="tiktok-stat-label">${t('followingLabel')}</span></div>
       <div class="tiktok-stat"><span class="tiktok-stat-num">${data.followersCount || 0}</span><span class="tiktok-stat-label">${t('followersLabel')}</span></div>
       <div class="tiktok-stat">${uxdBadgeHtml(data.uxd)}<span class="tiktok-stat-label">${t('uxdLabel')}</span></div>
     </div>
-    <div class="member-tabs">
-      <button type="button" class="member-tab${activeTab === 'popularity' ? ' active' : ''}" id="member-tab-popularity">⭐${t('myFamilyPopularity')}</button>
-      <button type="button" class="member-tab${activeTab === 'profile' ? ' active' : ''}" id="member-tab-profile">${ICON_USER}${t('memberTabProfile')}</button>
-      <button type="button" class="member-tab${activeTab === 'favorites' ? ' active' : ''}" id="member-tab-favorites">${ICON_LIKE}${t('memberTabFavorites')}</button>
-      <button type="button" class="member-tab${activeTab === 'messages' ? ' active' : ''}" id="member-tab-messages">${ICON_CHAT_SM}${t('memberTabMessages')} <span class="member-tab-badge" id="member-tab-messages-badge" style="display:none;"></span></button>
-      <button type="button" class="member-tab${activeTab === 'purchases' ? ' active' : ''}" id="member-tab-purchases">${ICON_CART}${t('memberTabPurchases')}</button>
+    <div class="tabs-slide-row">
+      <div class="member-tabs">
+        <button type="button" class="member-tab${activeTab === 'popularity' ? ' active' : ''}" id="member-tab-popularity">⭐${t('myFamilyPopularity')}</button>
+        <button type="button" class="member-tab${activeTab === 'profile' ? ' active' : ''}" id="member-tab-profile">${ICON_USER}${t('memberTabProfile')}</button>
+        <button type="button" class="member-tab${activeTab === 'favorites' ? ' active' : ''}" id="member-tab-favorites">${ICON_LIKE}${t('memberTabFavorites')}</button>
+        <button type="button" class="member-tab${activeTab === 'messages' ? ' active' : ''}" id="member-tab-messages">${ICON_CHAT_SM}${t('memberTabMessages')} <span class="member-tab-badge" id="member-tab-messages-badge" style="display:none;"></span></button>
+        <button type="button" class="member-tab${activeTab === 'purchases' ? ' active' : ''}" id="member-tab-purchases">${ICON_CART}${t('memberTabPurchases')}</button>
+      </div>
     </div>
     <div id="member-tab-body"></div>
     <div class="modal-actions" style="margin-top:20px;">
@@ -14292,15 +14633,18 @@ async function openChat(ctx){
       box.innerHTML = snap.docs.map(docSnap => {
         const m = docSnap.data();
         const mine = m.senderType === ctx.viewerType;
-        const avatarHtml = (!mine && ctx.otherPhoto) ? `<img class="dm-avatar" src="${escAttr(ctx.otherPhoto)}" alt="">` : (!mine ? HONEYMOON_LOGO_FALLBACK_HTML : '');
+        const avatarHtml = !mine
+          ? (ctx.otherPhoto ? `<img class="dm-avatar" src="${escAttr(ctx.otherPhoto)}" alt="">` : HONEYMOON_LOGO_FALLBACK_HTML)
+          : (ctx.myPhoto ? `<img class="dm-avatar" src="${escAttr(ctx.myPhoto)}" alt="">` : HONEYMOON_LOGO_FALLBACK_HTML);
         const otherBadgeHtml = !mine ? (ctx.viewerType === 'creator' ? uxdBadgeHtml(ctx.otherUxd) : followerBadgeHtml((typeof roster !== 'undefined' && roster.find(x => x.id === ctx.profileId) || {}).followersCount)) : '';
-        const nameHtml = !mine ? `<div class="dm-sender-name">${escText(ctx.otherName || t('nameUndefined'))} ${otherBadgeHtml}</div>` : '';
+        const myName = ctx.viewerType === 'member' ? (ctx.memberUsername || t('nameUndefined')) : (ctx.creatorName || t('nameUndefined'));
+        const nameHtml = `<div class="dm-sender-name">${escText(mine ? myName : (ctx.otherName || t('nameUndefined')))} ${otherBadgeHtml}</div>`;
         const likedBy = m.likedBy || [];
         const isLiked = likedBy.includes(ctx.viewerType);
         const likeCount = likedBy.length;
         return `
           <div class="dm-bubble-row ${mine ? 'mine' : 'theirs'}">
-            ${!mine ? `<div class="dm-sender-row">${avatarHtml}${nameHtml}</div>` : ''}
+            <div class="dm-sender-row">${avatarHtml}${nameHtml}</div>
             <div class="dm-bubble-wrap">
               <div class="dm-bubble" data-docid="${docSnap.id}">${escText(m.text || '')}</div>
               <button type="button" class="dm-menu-btn" data-docid="${docSnap.id}" data-text="${escAttr(m.text || '')}">⋮</button>
@@ -15918,6 +16262,56 @@ function vitrineCardHtml(m){
     </div>`;
 }
 
+function bioNarrativeHtml(m, bio){
+  bio = bio || {};
+  const parts = [];
+
+  const introBits = [];
+  if(bio.age) introBits.push(bio.age + ' ans');
+  if(bio.origin || bio.nationality) introBits.push(bio.origin || bio.nationality);
+  if(m.country) introBits.push(m.country);
+  if(introBits.length){
+    parts.push(`<p class="bio-narrative-lead">✨ <b>${escText(m.name || '')}</b>, ${escText(introBits.join(' · '))}.</p>`);
+  }
+
+  if(bio.personality || bio.bodyType || bio.orientation){
+    const bits = [bio.personality, bio.bodyType, bio.orientation].filter(Boolean).join(', ');
+    parts.push(`<p>💫 <b>${t('bioNarrativePersonalityTitle')}</b><br>${escText(bits)}</p>`);
+  }
+
+  if(bio.passions || bio.hobbies || bio.universe){
+    const bits = [bio.passions, bio.hobbies, bio.universe].filter(Boolean).join(' · ');
+    parts.push(`<p>🎨 <b>${t('bioNarrativePassionsTitle')}</b><br>${escText(bits)}</p>`);
+  }
+
+  if(m.contentType || m.platforms){
+    const bits = [m.contentType, m.platforms].filter(Boolean).join(' · ');
+    parts.push(`<p>🎬 <b>${t('bioNarrativeContentTitle')}</b><br>${escText(bits)}</p>`);
+  }
+
+  if(bio.fantasies || bio.fetish){
+    const bits = [bio.fantasies, bio.fetish].filter(Boolean).join(' · ');
+    parts.push(`<p>🔥 <b>${t('bioNarrativeUniverseTitle')}</b><br>${escText(bits)}</p>`);
+  }
+
+  if(bio.lookingFor || m.availability){
+    const bits = [bio.lookingFor, m.availability].filter(Boolean).join(' · ');
+    parts.push(`<p>💌 <b>${t('bioNarrativeLookingForTitle')}</b><br>${escText(bits)}</p>`);
+  }
+
+  if(bio.ambitions){
+    parts.push(`<p>🚀 <b>${t('bioNarrativeAmbitionsTitle')}</b><br>${escText(bio.ambitions)}</p>`);
+  }
+
+  if(m.audience || bio.socials){
+    const bits = [m.audience, bio.socials].filter(Boolean).join(' · ');
+    parts.push(`<p>📱 <b>${t('bioNarrativeAudienceTitle')}</b><br>${escText(bits)}</p>`);
+  }
+
+  if(!parts.length) return `<p class="gallery-empty">${t('galleryEmpty')}</p>`;
+  return `<div class="bio-narrative">${parts.join('')}</div>`;
+}
+
 function bioRow(labelKey, value){
   if(!value) return '';
   return `<div class="vitrine-bio-row"><span class="k">${t(labelKey)}</span><span class="v">${escText(value)}</span></div>`;
@@ -16123,22 +16517,7 @@ async function openVitrineRoom(id){
     </div>
 
     <div class="my-tab-panel active" id="room-tab-panel-profile">
-      <div class="vitrine-bio-rows">
-        ${bioRow('bioOrigin', bio.origin)}
-        ${bioRow('bioNationality', bio.nationality)}
-        ${bioRow('bioAge', bio.age)}
-        ${bioRow('bioBodyType', bio.bodyType)}
-        ${bioRow('bioOrientation', bio.orientation)}
-        ${bioRow('bioLookingFor', bio.lookingFor)}
-        ${bioRow('bioPassions', bio.passions)}
-        ${bioRow('bioUniverse', bio.universe)}
-        ${bioRow('bioHobbies', bio.hobbies)}
-        ${bioRow('bioPersonality', bio.personality)}
-        ${bioRow('bioFantasies', bio.fantasies)}
-        ${bioRow('bioFetish', bio.fetish)}
-        ${bioRow('bioAmbitions', bio.ambitions)}
-        ${bioRow('bioSocials', bio.socials)}
-      </div>
+      ${bioNarrativeHtml(m, bio)}
     </div>
 
     <div class="my-tab-panel" id="room-tab-panel-gallery">
@@ -16970,8 +17349,10 @@ async function loadMediaComments(){
           <div class="comment-body">
             <div class="comment-head"><span class="comment-name">${escText(c.name || '—')}</span><span class="comment-date">${formatCommentDate(c.createdAt)}</span></div>
             <div class="comment-text">${escText(c.text || '')}</div>
-            <div style="display:flex;gap:12px;margin-top:4px;">
-              <button type="button" class="comment-like-btn ${isLiked ? 'liked' : ''}" data-docid="${d.id}">❤ ${likedBy.length > 0 ? likedBy.length : ''}</button>
+            <div style="display:flex;align-items:center;gap:14px;margin-top:4px;">
+              <button type="button" class="comment-reply-btn" data-name="${escAttr(c.name || '')}">${t('commentReplyBtn')}</button>
+              <button type="button" class="comment-like-btn ${isLiked ? 'liked' : ''}" data-docid="${d.id}">${ICON_THUMBSUP} ${likedBy.length > 0 ? likedBy.length : ''}</button>
+              <button type="button" class="comment-dislike-icon">${ICON_FROWN}</button>
               <button type="button" class="comment-report-btn media-comment-report-btn" data-docid="${d.id}" data-text="${escAttr(c.text || '')}">🚩</button>
             </div>
           </div>
@@ -16979,6 +17360,13 @@ async function loadMediaComments(){
     }).join('');
     list.querySelectorAll('.comment-like-btn').forEach(btn => {
       btn.onclick = () => toggleMediaCommentLike(btn.dataset.docid);
+    });
+    list.querySelectorAll('.comment-reply-btn').forEach(btn => {
+      btn.onclick = () => {
+        const input = document.getElementById('media-comments-input');
+        input.value = '@' + btn.dataset.name + ' ';
+        input.focus();
+      };
     });
     list.querySelectorAll('.media-comment-report-btn').forEach(btn => {
       btn.onclick = () => openReportModal({ profile: ctx.profileId, details: t('reportPrefillMediaComment') + ' : ' + btn.dataset.text.slice(0, 120) });
