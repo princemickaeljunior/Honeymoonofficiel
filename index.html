@@ -293,6 +293,8 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 #paid-modal{z-index:101;}
 #chat-backdrop{z-index:110;}
 #chat-modal{z-index:111;}
+#report-backdrop{z-index:120;}
+#report-modal{z-index:121;}
 .modal-box h3{font-size:18px;margin-bottom:16px;}
 /* Pages plein écran avec en-tête fixe + flèche retour (fiche créatrice, chat). */
 .fullpage-modal{
@@ -349,6 +351,13 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 .member-purchase-status.paid{background:rgba(95,214,122,0.15);color:#5fd67a;}
 .member-purchase-status.pending{background:rgba(230,160,60,0.15);color:var(--honey);}
 .member-media-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(90px,1fr));gap:8px;}
+.member-view-card{background:var(--bg-elev-2);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:12px;}
+.member-view-head{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.member-view-avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0;}
+.member-view-avatar-fallback{background:var(--honey);color:#1a1206;font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.member-view-name{font-weight:600;font-size:14px;}
+.member-view-loc{font-size:11.5px;color:var(--text-muted);}
+.member-view-bio{font-size:13px;color:var(--text-muted);line-height:1.5;margin:6px 0;}
 .member-media-thumb{aspect-ratio:1/1;border-radius:10px;overflow:hidden;background:var(--bg-elev-2);border:1px solid var(--border);}
 .my-tabs{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:4px 2px 12px;margin-bottom:8px;border-bottom:1px solid var(--border);}
 .my-tabs::-webkit-scrollbar{display:none;}
@@ -359,7 +368,7 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 .member-media-thumb img, .member-media-thumb video{width:100%;height:100%;object-fit:cover;display:block;}
 
 /* ---------------- chat en direct membre ↔ créatrice ---------------- */
-.chat-modal-box{max-width:460px;max-height:88vh;display:flex;flex-direction:column;padding:0;overflow:hidden;}
+.chat-modal-box{display:flex;flex-direction:column;padding:0;overflow:hidden;}
 .chat-header{display:flex;align-items:center;gap:10px;padding:16px 18px;border-bottom:1px solid var(--border);flex-shrink:0;}
 .chat-header-avatar{width:36px;height:36px;border-radius:50%;overflow:hidden;flex-shrink:0;background:var(--bg-elev-2);display:flex;align-items:center;justify-content:center;font-size:16px;}
 .chat-header-avatar img{width:100%;height:100%;object-fit:cover;}
@@ -368,11 +377,15 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 .chat-back-btn{background:none;border:none;color:var(--text-muted);font-size:16px;padding:4px;cursor:pointer;}
 .chat-messages{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-height:280px;max-height:52vh;}
 .dm-bubble-row{display:flex;flex-direction:column;max-width:78%;margin-bottom:6px;}
+.dm-sender-row{display:flex;align-items:center;gap:6px;margin-bottom:3px;}
+.dm-avatar{width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0;}
+.dm-avatar-fallback{background:var(--honey);color:#1a1206;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.dm-sender-name{font-size:11px;color:var(--text-muted);font-weight:600;}
 .dm-bubble-row.mine{align-self:flex-end;align-items:flex-end;}
 .dm-bubble-row.theirs{align-self:flex-start;align-items:flex-start;}
 .dm-bubble{padding:9px 13px;border-radius:16px;font-size:13.5px;line-height:1.45;word-break:break-word;white-space:pre-wrap;}
-.dm-bubble-row.mine .dm-bubble{background:var(--honey);color:#1a1206;border-bottom-right-radius:4px;}
-.dm-bubble-row.theirs .dm-bubble{background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text);border-bottom-left-radius:4px;}
+.dm-bubble-row.mine .dm-bubble{background:rgba(212,175,55,0.55);backdrop-filter:blur(2px);color:var(--text);border-bottom-right-radius:4px;}
+.dm-bubble-row.theirs .dm-bubble{background:rgba(255,255,255,0.06);backdrop-filter:blur(2px);border:1px solid var(--border);color:var(--text);border-bottom-left-radius:4px;}
 .dm-bubble-time{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--text-muted);margin-top:3px;padding:0 4px;}
 .chat-rules-banner{background:rgba(230,160,60,0.1);border-bottom:1px solid var(--border);color:var(--honey);font-size:10.5px;line-height:1.5;padding:9px 16px;flex-shrink:0;}
 .dm-bubble-wrap{display:flex;align-items:flex-end;gap:4px;}
@@ -419,7 +432,6 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 
 /* ---------- gallery ---------- */
 .gallery-open-btn{display:flex;align-items:center;justify-content:center;gap:6px;}
-.gallery-modal{max-width:640px;}
 .gallery-section{margin-top:16px;}
 .gallery-section h4{font-size:13px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;font-family:'JetBrains Mono',monospace;margin-bottom:10px;}
 .gallery-strip{display:grid;grid-template-columns:repeat(auto-fill, minmax(90px,1fr));gap:8px;}
@@ -442,7 +454,6 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 #lightbox-close{position:absolute;top:20px;right:24px;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text);width:38px;height:38px;border-radius:50%;font-size:16px;}
 
 /* ---------- vitrine (public showcase) ---------- */
-.vitrine-modal{max-width:560px;}
 .vitrine-card-btn{ cursor:pointer; }
 .vitrine-cover{width:100%;aspect-ratio:4/5;border-radius:var(--radius-sm);overflow:hidden;background:var(--bg-elev-2);margin-bottom:14px;position:relative;}
 .vitrine-cover img{width:100%;height:100%;object-fit:cover;display:block;}
@@ -910,6 +921,16 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
   <div id="gallery-body"></div>
   <div class="modal-actions">
     <button class="btn btn-ghost btn-sm" id="gallery-close" style="flex:1;"><span id="t-gallery-close">Fermer</span></button>
+  </div>
+</div>
+
+<!-- ================= MEMBERS VIEWER (creator side: bios/photos shared by members) ================= -->
+<div class="modal-backdrop" id="members-viewer-backdrop"></div>
+<div class="modal-box" id="members-viewer-modal">
+  <h3 id="members-viewer-title"></h3>
+  <div id="members-viewer-body"></div>
+  <div class="modal-actions">
+    <button class="btn btn-ghost btn-sm" id="members-viewer-close" style="flex:1;"><span id="t-members-viewer-close">Fermer</span></button>
   </div>
 </div>
 
@@ -1536,6 +1557,13 @@ const I18N = {
     memberLocationPh: "Ville, pays...",
     memberBioLabel: "Biographie",
     memberBioPh: "Parle un peu de toi...",
+    membersViewerBtn: "Membres",
+    membersViewerTitle: "Membres qui partagent leur profil",
+    membersViewerEmpty: "Aucun membre ne partage sa bio ou ses photos pour le moment.",
+    memberVisibilityLabel: "Qui peut voir",
+    memberVisibilityEveryone: "Toutes les créatrices",
+    memberVisibilityFavorites: "Uniquement mes favoris",
+    memberVisibilityNobody: "Personne",
     memberBioVisibleLabel: "Rendre ma bio visible par la créatrice",
     memberBioHiddenNote: "Ta bio n'est visible que par toi. Le reste de ton profil (email, achats, mot de passe...) n'est jamais visible ni par les créatrices ni par les autres membres.",
     memberSaveBtn: "Enregistrer",
@@ -2069,6 +2097,13 @@ const I18N = {
     memberLocationPh: "City, country...",
     memberBioLabel: "Biography",
     memberBioPh: "Tell us about yourself...",
+    membersViewerBtn: "Members",
+    membersViewerTitle: "Members sharing their profile",
+    membersViewerEmpty: "No members are sharing their bio or photos yet.",
+    memberVisibilityLabel: "Who can see",
+    memberVisibilityEveryone: "All creators",
+    memberVisibilityFavorites: "Only my favorites",
+    memberVisibilityNobody: "Nobody",
     memberBioVisibleLabel: "Make my bio visible to the creator",
     memberBioHiddenNote: "Your bio is only visible to you. The rest of your profile (email, purchases, password...) is never visible to creators or other members.",
     memberSaveBtn: "Save",
@@ -10688,6 +10723,9 @@ function wireCarouselCard(grid){
   grid.querySelectorAll('.gallery-open-btn').forEach(btn => {
     btn.onclick = () => openGallery(btn.dataset.id);
   });
+  grid.querySelectorAll('.members-viewer-btn').forEach(btn => {
+    btn.onclick = () => openMembersViewer(btn.dataset.id, btn.dataset.name);
+  });
   grid.querySelectorAll('.agency-contract-btn').forEach(btn => {
     btn.onclick = () => { document.querySelectorAll('.contract-btn-group').forEach(p => p.style.display = 'none'); openAgencyContractsForCreator(btn.dataset.id, btn.dataset.type); };
   });
@@ -10767,6 +10805,9 @@ function modelCardHtml(m){
   const galleryHtml = m.filled
     ? `<button class="pill-link gallery-open-btn" data-id="${m.id}">${ICON_GALLERY}${t('galleryBtn')}</button>`
     : '';
+  const membersViewerHtml = m.filled
+    ? `<button class="pill-link members-viewer-btn" data-id="${m.id}" data-name="${escAttr(m.name || '')}">👥 ${t('membersViewerBtn')}</button>`
+    : '';
 
   return `
     <div class="model-card ${m.featured ? 'featured-card' : ''}">
@@ -10787,16 +10828,8 @@ function modelCardHtml(m){
           <div class="row"><span class="k">${t('content')}</span><span>${escText(m.contentType || '—')}</span></div>
         </div>
         ${m.availability ? `<div class="tags">${m.availability.split(',').map(x=>`<span>${escText(x.trim())}</span>`).join('')}</div>` : ''}
-        <div class="contract-tab-group">
-          <button type="button" class="pill-link contract-tab-toggle" data-id="${m.id}">${ICON_DOC}${t('contractTabLabel')}</button>
-          <div class="contract-btn-group" id="contract-group-${m.id}" style="display:none;">
-            ${m.filled ? contractHtml : ''}
-            ${agencyContractHtml}
-            ${partnerSiteContractHtml}
-            ${blankContractHtml}
-          </div>
-        </div>
         ${galleryHtml}
+        ${membersViewerHtml}
         ${editMode ? `<button class="edit-btn" data-id="${m.id}">${t('editProfile')}</button>` : ''}
         ${editMode && m.filled ? `<button class="pill-link featured-toggle-btn" data-id="${m.id}">${ICON_STAR} ${m.featured ? t('unfeatureBtn') : t('featureBtn')}</button>` : ''}
       </div>
@@ -11070,6 +11103,54 @@ async function deleteMediaItem(profileId, docId, collectionName){
 }
 
 /* ---------------- gallery modal (admin) ---------------- */
+async function openMembersViewer(creatorId, creatorName){
+  document.getElementById('members-viewer-title').textContent = t('membersViewerTitle') + (creatorName ? ' — ' + creatorName : '');
+  const body = document.getElementById('members-viewer-body');
+  body.innerHTML = `<span class="gallery-empty">${t('chatLoading')}</span>`;
+  document.getElementById('members-viewer-backdrop').classList.add('open');
+  document.getElementById('members-viewer-modal').classList.add('open');
+  try{
+    const snap = await memberDb.collection('members').get();
+    const rows = [];
+    snap.forEach(doc => {
+      const d = doc.data() || {};
+      const favorites = d.favorites || [];
+      const isFav = favorites.includes(creatorId);
+      const bioVis = d.bioVisibility || (d.bioVisibleToCreator ? 'everyone' : 'nobody');
+      const photosVis = d.photosVisibility || (d.photosVisibleToCreator ? 'everyone' : 'nobody');
+      const bioOk = bioVis === 'everyone' || (bioVis === 'favorites' && isFav);
+      const photosOk = photosVis === 'everyone' || (photosVis === 'favorites' && isFav);
+      if(!bioOk && !photosOk) return;
+      rows.push({ id: doc.id, username: d.username || t('nameUndefined'), photoURL: d.photoURL || '', location: d.location || '', bio: bioOk ? (d.bio || '') : '', photos: photosOk ? (d.photos || []) : [], isFav });
+    });
+    if(rows.length === 0){
+      body.innerHTML = `<span class="gallery-empty">${t('membersViewerEmpty')}</span>`;
+      return;
+    }
+    body.innerHTML = rows.map(r => `
+      <div class="member-view-card">
+        <div class="member-view-head">
+          ${r.photoURL ? `<img class="member-view-avatar" src="${escAttr(r.photoURL)}">` : `<span class="member-view-avatar member-view-avatar-fallback">${escText(r.username.charAt(0).toUpperCase())}</span>`}
+          <div>
+            <div class="member-view-name">${escText(r.username)} ${r.isFav ? '♥' : ''}</div>
+            ${r.location ? `<div class="member-view-loc">${escText(r.location)}</div>` : ''}
+          </div>
+        </div>
+        ${r.bio ? `<p class="member-view-bio">${escText(r.bio)}</p>` : ''}
+        ${r.photos.length ? `<div class="member-media-grid">${r.photos.map(p => `<img src="${escAttr(p)}">`).join('')}</div>` : ''}
+      </div>
+    `).join('');
+  }catch(e){
+    console.error('openMembersViewer error', e);
+    body.innerHTML = `<span class="gallery-empty">${(LANG==='fr'?'Erreur : ':'Error: ')}${escText(e.message||String(e))}</span>`;
+  }
+}
+document.getElementById('members-viewer-close').onclick = () => {
+  document.getElementById('members-viewer-backdrop').classList.remove('open');
+  document.getElementById('members-viewer-modal').classList.remove('open');
+};
+document.getElementById('members-viewer-backdrop').onclick = () => document.getElementById('members-viewer-close').click();
+
 function openGallery(id){
   const m = roster.find(x => x.id === id);
   renderGalleryBody(m);
@@ -11733,20 +11814,24 @@ function renderMemberProfileTab(user, data){
     <p class="member-note" id="member-pf-geoloc-note"></p>
     <label>${t('memberBioLabel')}</label>
     <textarea id="member-pf-bio" rows="3" placeholder="${escAttr(t('memberBioPh'))}">${escText(data.bio || '')}</textarea>
-    <div class="member-check-row">
-      <input type="checkbox" id="member-pf-bio-visible" ${data.bioVisibleToCreator ? 'checked' : ''}>
-      <label for="member-pf-bio-visible" style="margin:0;text-transform:none;font-weight:400;font-size:12px;">${t('memberBioVisibleLabel')}</label>
-    </div>
+    <label>${t('memberVisibilityLabel')}</label>
+    <select id="member-pf-bio-visible">
+      <option value="everyone" ${data.bioVisibility === 'everyone' || (!data.bioVisibility && data.bioVisibleToCreator) ? 'selected' : ''}>${t('memberVisibilityEveryone')}</option>
+      <option value="favorites" ${data.bioVisibility === 'favorites' ? 'selected' : ''}>${t('memberVisibilityFavorites')}</option>
+      <option value="nobody" ${data.bioVisibility === 'nobody' || (!data.bioVisibility && !data.bioVisibleToCreator) ? 'selected' : ''}>${t('memberVisibilityNobody')}</option>
+    </select>
     <p class="member-note">${t('memberBioHiddenNote')}</p>
 
     <div class="member-section-title">${t('memberMyPhotosTitle')} (${(data.photos || []).length})</div>
     <p class="member-note">${t('memberMyPhotosNote')}</p>
     ${myPhotoThumbs ? `<div class="member-media-grid">${myPhotoThumbs}</div>` : ''}
     ${dualUploadZoneHtml('member-my-photo', 'image/*', { multiple: true })}
-    <div class="member-check-row">
-      <input type="checkbox" id="member-pf-photos-visible" ${data.photosVisibleToCreator ? 'checked' : ''}>
-      <label for="member-pf-photos-visible" style="margin:0;text-transform:none;font-weight:400;font-size:12px;">${t('memberPhotosVisibleLabel')}</label>
-    </div>
+    <label>${t('memberVisibilityLabel')}</label>
+    <select id="member-pf-photos-visible">
+      <option value="everyone" ${data.photosVisibility === 'everyone' || (!data.photosVisibility && data.photosVisibleToCreator) ? 'selected' : ''}>${t('memberVisibilityEveryone')}</option>
+      <option value="favorites" ${data.photosVisibility === 'favorites' ? 'selected' : ''}>${t('memberVisibilityFavorites')}</option>
+      <option value="nobody" ${data.photosVisibility === 'nobody' || (!data.photosVisibility && !data.photosVisibleToCreator) ? 'selected' : ''}>${t('memberVisibilityNobody')}</option>
+    </select>
 
     <div class="member-err" id="member-pf-err"></div>
     <div class="modal-actions">
@@ -11884,12 +11969,16 @@ async function memberSaveProfile(user, data){
   errEl.textContent = '';
   const location = document.getElementById('member-pf-location').value.trim().slice(0, 80);
   const bio = document.getElementById('member-pf-bio').value.trim().slice(0, 500);
-  const bioVisibleToCreator = document.getElementById('member-pf-bio-visible').checked;
-  const photosVisibleToCreator = document.getElementById('member-pf-photos-visible').checked;
+  const bioVisibility = document.getElementById('member-pf-bio-visible').value;
+  const photosVisibility = document.getElementById('member-pf-photos-visible').value;
   const btn = document.getElementById('member-pf-save');
   btn.disabled = true;
   try{
-    const payload = { username: data.username || '', location, bio, bioVisibleToCreator, photosVisibleToCreator };
+    const payload = {
+      username: data.username || '', location, bio,
+      bioVisibility, photosVisibility,
+      bioVisibleToCreator: bioVisibility !== 'nobody', photosVisibleToCreator: photosVisibility !== 'nobody'
+    };
     if(typeof data._lat === 'number'){ payload.lat = data._lat; payload.lng = data._lng; }
     await memberDb.collection('members').doc(user.uid).set(payload, { merge: true });
     Object.assign(data, payload);
@@ -12179,8 +12268,11 @@ async function openChat(ctx){
       box.innerHTML = snap.docs.map(docSnap => {
         const m = docSnap.data();
         const mine = m.senderType === ctx.viewerType;
+        const avatarHtml = (!mine && ctx.otherPhoto) ? `<img class="dm-avatar" src="${escAttr(ctx.otherPhoto)}" alt="">` : (!mine ? `<span class="dm-avatar dm-avatar-fallback">${escText((ctx.otherName || '?').charAt(0).toUpperCase())}</span>` : '');
+        const nameHtml = !mine ? `<div class="dm-sender-name">${escText(ctx.otherName || t('nameUndefined'))}</div>` : '';
         return `
           <div class="dm-bubble-row ${mine ? 'mine' : 'theirs'}">
+            ${!mine ? `<div class="dm-sender-row">${avatarHtml}${nameHtml}</div>` : ''}
             <div class="dm-bubble-wrap">
               <div class="dm-bubble">${escText(m.text || '')}</div>
               <button type="button" class="dm-menu-btn" data-docid="${docSnap.id}" data-text="${escAttr(m.text || '')}">⋮</button>
@@ -12245,7 +12337,13 @@ document.getElementById('chat-backdrop').onclick = closeChat;
 document.getElementById('chat-back-btn').onclick = closeChat;
 
 /* ---------------- emojis du chat + son d'envoi ---------------- */
-const CHAT_EMOJIS = ['😏','😈','🥵','😘','💋','🔥','💦','👅','🍆','🍑','🍒','🥒','🍌','🍈','🍑','🥭','🍯','🍓','😉','🥰','😍','🤤','💕','💗','🖤','🍷','🌶️','🫦','😳','🙈'];
+const CHAT_EMOJIS = [
+  '😀','😂','🤣','😍','🥰','😘','😉','😊','😎','🤩','🥳','😏','😳','🙈','😴','🤤',
+  '😢','😭','😡','😱','🤔','😅','🙄','😴','🥵','🥶','😈','🤯','😜','🫦','🤭','😬',
+  '❤️','🧡','💛','💚','💙','💜','🖤','🤍','💕','💗','💖','💘','💝','💋','🔥','✨',
+  '👍','👎','👏','🙏','💪','🤝','👉','👌','✌️','🤞','👋','💦',
+  '🍆','🍑','🍒','🥒','🍌','🍈','🥭','🍯','🍓','🌶️'
+];
 document.getElementById('chat-emoji-picker').innerHTML = CHAT_EMOJIS.map(e => `<button type="button">${e}</button>`).join('');
 document.getElementById('chat-emoji-picker').querySelectorAll('button').forEach(btn => {
   btn.onclick = () => {
