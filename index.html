@@ -411,6 +411,15 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 .cover-type-btn.active{background:var(--honey);color:#1a1206;border-color:var(--honey);}
 .tipmenu-public-list{display:flex;flex-direction:column;gap:8px;}
 .tipmenu-public-row{background:var(--bg-elev-2);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px;}
+.tipmenu-order-btn{
+  display:flex;align-items:center;gap:6px;margin-top:10px;background:var(--honey);color:#1a1206;
+  border:none;border-radius:999px;padding:8px 16px;font-size:12px;font-weight:700;
+}
+.tipmenu-earn-note{font-size:11px;color:var(--text-muted);margin:4px 0 0;}
+.tipmenu-content-preview{position:relative;border-radius:10px;overflow:hidden;background:var(--bg-elev-2);margin-top:6px;}
+.tipmenu-content-preview img, .tipmenu-content-preview video{width:100%;max-height:220px;object-fit:cover;display:block;}
+.tipmenu-content-preview audio{width:100%;display:block;padding:10px;}
+.tipmenu-content-rm{position:absolute;top:6px;right:6px;background:rgba(0,0,0,0.6);color:#fff;border:none;border-radius:50%;width:26px;height:26px;}
 .tipmenu-public-head{display:flex;justify-content:space-between;align-items:center;font-size:13px;}
 .tipmenu-public-theme{font-weight:600;}
 .tipmenu-public-prices{font-size:12px;color:var(--honey);font-weight:700;}
@@ -489,8 +498,47 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 .dm-bubble-footer{display:flex;align-items:center;gap:8px;margin-top:3px;padding:0 4px;}
 .dm-like-btn{background:none;border:none;color:var(--text-muted);font-size:11px;padding:0;}
 .dm-like-btn.liked{color:var(--rose);}
-.chat-rules-banner{background:rgba(230,160,60,0.1);border-bottom:1px solid var(--border);color:var(--honey);font-size:10.5px;line-height:1.5;padding:9px 16px;flex-shrink:0;}
+.chat-mod-btn{
+  flex-shrink:0;display:flex;align-items:center;gap:5px;margin:6px 16px;padding:6px 12px;
+  background:rgba(230,160,60,0.1);border:1px solid var(--honey);border-radius:999px;
+  color:var(--honey);font-size:11px;font-weight:700;align-self:flex-start;
+}
+.chat-mod-btn svg{width:14px;height:14px;}
+.chat-mod-panel{
+  display:none;background:rgba(230,160,60,0.08);border-bottom:1px solid var(--border);
+  padding:10px 16px 14px;flex-shrink:0;
+}
+.chat-mod-panel.open{display:block;}
+.chat-mod-tip{color:var(--text-muted);font-size:11px;line-height:1.5;margin:0 0 6px;}
+.chat-mod-rule{color:var(--honey);font-size:10.5px;line-height:1.5;margin:8px 0 0;padding-top:8px;border-top:1px solid var(--border);}
+.chat-bot-btn{
+  flex-shrink:0;display:flex;align-items:center;gap:5px;margin:0 16px 6px;padding:6px 12px;
+  background:rgba(212,175,55,0.14);border:1px solid var(--honey);border-radius:999px;
+  color:var(--honey);font-size:11px;font-weight:700;align-self:flex-start;
+}
+.chat-bot-btn svg{width:14px;height:14px;}
+.chat-bot-panel{background:var(--bg-elev-2);border-bottom:1px solid var(--border);padding:12px 16px 16px;flex-shrink:0;}
+.chat-banner{
+  flex-shrink:0;background:linear-gradient(90deg, var(--honey-deep), var(--honey));color:#1a1206;
+  font-size:12px;font-weight:700;text-align:center;padding:8px 14px;
+}
 .dm-bubble-wrap{display:flex;align-items:flex-end;gap:4px;}
+.chat-cart-btn{flex-shrink:0;background:var(--honey);color:#1a1206;border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;}
+.chat-cart-btn svg{width:16px;height:16px;}
+.custom-order-card{
+  background:linear-gradient(155deg, var(--bg-elev-2), var(--bg-elev));border:1.5px solid var(--honey);
+  border-radius:14px;padding:12px 14px;max-width:80%;
+}
+.custom-order-card-head{display:flex;align-items:center;gap:6px;color:var(--honey);font-size:12px;margin-bottom:6px;}
+.custom-order-card-head svg{width:16px;height:16px;}
+.custom-order-card-text{font-size:13px;color:var(--text);line-height:1.5;margin:0 0 10px;}
+.custom-order-action-btn{
+  display:flex;align-items:center;gap:6px;background:var(--honey);color:#1a1206;border:none;
+  border-radius:999px;padding:8px 14px;font-size:12px;font-weight:700;
+}
+.custom-order-action-btn svg{width:14px;height:14px;}
+.custom-order-status-tag{display:inline-block;font-size:11px;color:var(--text-muted);}
+.custom-order-status-tag.pending{color:var(--honey);}
 .dm-bubble-row.mine .dm-bubble-wrap{flex-direction:row-reverse;}
 .dm-menu-btn{background:none;border:none;color:var(--text-muted);font-size:14px;padding:4px 6px;flex-shrink:0;}
 .dm-menu-popover{position:absolute;background:var(--bg-elev);border:1px solid var(--border);border-radius:10px;padding:6px;box-shadow:0 6px 18px rgba(0,0,0,0.3);z-index:150;}
@@ -569,10 +617,19 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 }
 .vitrine-status-badge.online{border-color:#5fd67a;color:#5fd67a;}
 .vitrine-bio-rows{display:flex;flex-direction:column;gap:8px;margin:14px 0;}
-.bio-narrative{margin:16px 0;display:flex;flex-direction:column;gap:16px;}
-.bio-narrative p{margin:0;font-size:13.5px;line-height:1.7;color:var(--text);}
-.bio-narrative p b{color:var(--honey);font-size:12px;text-transform:uppercase;letter-spacing:.04em;font-weight:700;}
-.bio-narrative-lead{font-size:15px !important;line-height:1.6 !important;font-style:italic;color:var(--text) !important;padding-bottom:6px;border-bottom:1px solid var(--border);}
+.bio-narrative-title{font-size:16px;margin:18px 0 4px;color:var(--text);}
+.member-presentation-header{text-align:center;padding-bottom:8px;}
+.chat-tier-shield{display:inline-flex;vertical-align:-3px;}
+.chat-tier-shield svg{width:14px;height:14px;}
+.member-presentation-name{margin-top:12px;font-size:19px;color:var(--honey);}
+.bio-narrative-cover{width:100%;border-radius:16px;overflow:hidden;margin-top:14px;background:var(--bg-elev-2);}
+.bio-narrative-cover img, .bio-narrative-cover video{width:100%;max-height:420px;object-fit:cover;display:block;}
+.bio-narrative{margin:0 0 16px;display:flex;flex-direction:column;gap:0;}
+.bio-narrative p{margin:0;font-size:13.5px;line-height:1.7;color:var(--text);padding:14px 0;display:flex;align-items:flex-start;gap:8px;}
+.bio-narrative p svg{flex-shrink:0;margin-top:2px;color:var(--honey);}
+.bio-narrative p b{display:block;color:var(--honey);font-size:12px;text-transform:uppercase;letter-spacing:.04em;font-weight:700;margin-bottom:2px;}
+.bio-narrative-divider{height:1px;background:var(--border);}
+.bio-narrative-lead{font-size:15px !important;line-height:1.6 !important;font-style:italic;color:var(--text) !important;padding-bottom:16px !important;}
 .vitrine-bio-row{font-size:12.5px;background:var(--bg-elev-2);border:1px solid var(--border);border-radius:12px;padding:9px 12px;}
 .vitrine-bio-row .k{display:block;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:3px;}
 .vitrine-bio-row .v{color:var(--text);line-height:1.5;white-space:pre-wrap;}
@@ -604,25 +661,25 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 .vitrine-comments{margin-top:22px;padding-top:18px;border-top:1px solid var(--border);}
 .vitrine-comments h4{font-size:13px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;font-family:'JetBrains Mono',monospace;margin-bottom:6px;}
 .comment-rules{font-size:11px;color:var(--text-muted);margin-bottom:12px;}
-.comment-list{display:flex;flex-direction:column;gap:10px;max-height:280px;overflow-y:auto;margin-bottom:14px;padding-right:2px;}
+.comment-list{display:flex;flex-direction:column;gap:12px;max-height:280px;overflow-y:auto;margin-bottom:14px;padding-right:2px;}
 .comment-card{
-  display:flex;gap:10px;background:linear-gradient(155deg, var(--bg-elev) 0%, var(--bg-elev-2) 100%);
-  border:1px solid var(--border);border-radius:14px;padding:12px 13px;box-shadow:0 2px 10px rgba(0,0,0,0.18);
+  display:flex;gap:11px;background:linear-gradient(155deg, var(--bg-elev) 0%, var(--bg-elev-2) 100%);
+  border:1px solid var(--border);border-radius:16px;padding:13px 14px;box-shadow:0 3px 12px rgba(0,0,0,0.22);
   position:relative;
 }
 .comment-report-btn{background:var(--bg-elev);border:1px solid var(--border);border-radius:8px;font-size:12px;padding:6px 10px;color:var(--text-muted);}
 .comment-report-btn:active{color:var(--rose);border-color:var(--rose);}
 .comment-actions-row{display:flex;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);}
 .comment-avatar{
-  flex-shrink:0;width:32px;height:32px;border-radius:50%;background:linear-gradient(140deg, var(--honey), #a9761f);
+  flex-shrink:0;width:36px;height:36px;border-radius:50%;background:linear-gradient(140deg, var(--honey), #a9761f);
   color:#160f04;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;
-  font-size:12px;font-weight:700;letter-spacing:0.02em;
+  font-size:13px;font-weight:700;letter-spacing:0.02em;box-shadow:0 0 0 2px var(--bg-elev), 0 0 0 3px var(--honey);
 }
 .comment-body{flex:1;min-width:0;}
-.comment-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:3px;}
-.comment-name{font-size:12.5px;font-weight:600;color:var(--text);}
+.comment-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:4px;}
+.comment-name{font-size:13px;font-weight:700;color:var(--honey);}
 .comment-date{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--text-muted);white-space:nowrap;}
-.comment-text{font-size:13px;line-height:1.55;color:var(--text);word-break:break-word;}
+.comment-text{font-size:13.5px;line-height:1.55;color:var(--text);word-break:break-word;}
 .comment-like-btn{background:none;border:none;color:var(--text-muted);font-size:11px;padding:0;margin-top:6px;display:inline-flex;align-items:center;gap:4px;}
 .comment-like-btn svg{width:14px;height:14px;}
 .comment-like-btn.liked{color:var(--honey);}
@@ -1257,7 +1314,7 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
           <button type="button" class="carousel-arrow" data-group="vitrine-carousel" data-dir="1">›</button>
         </div>
       </div>
-      <div class="creator-carousel-row" id="vitrine-grid-row1"></div>
+      <div class="creator-carousel-row agency-roster-row" id="vitrine-grid-row1"></div>
     </div>
     <div class="vitrine-legal-row" style="display:flex;justify-content:center;align-items:center;gap:5px;margin-top:16px;flex-wrap:nowrap;overflow-x:auto;white-space:nowrap;">
       <button type="button" class="vitrine-legal-link" id="vlegal-2257" style="background:none;border:none;color:var(--text-muted);font-size:7px;padding:2px;flex-shrink:0;">
@@ -1359,8 +1416,13 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
       <div class="chat-header-name" id="chat-header-name"></div>
       <div class="chat-header-status" id="chat-header-status"></div>
     </div>
+    <button type="button" class="chat-cart-btn" id="chat-cart-btn" style="display:none;"></button>
   </div>
-  <div class="chat-rules-banner" id="chat-rules-banner"></div>
+  <button type="button" class="chat-mod-btn" id="chat-mod-btn"></button>
+  <div class="chat-mod-panel" id="chat-mod-panel"></div>
+  <div class="chat-banner" id="chat-banner" style="display:none;"></div>
+  <button type="button" class="chat-bot-btn" id="chat-bot-btn" style="display:none;"></button>
+  <div class="chat-bot-panel" id="chat-bot-panel" style="display:none;"></div>
   <div class="chat-body-wrap">
     <div class="chat-messages" id="chat-messages"></div>
     <div class="chat-reaction-rail" id="chat-reaction-rail"></div>
@@ -1372,6 +1434,18 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
     <button type="button" class="chat-send-btn" id="chat-send-btn">➤</button>
   </div>
   <div class="chat-emoji-picker" id="chat-emoji-picker" style="display:none;"></div>
+</div>
+
+<!-- ================= COMMANDE PERSONNALISÉE (membre → créatrice, depuis le chat) ================= -->
+<div class="modal-backdrop" id="custom-order-backdrop"></div>
+<div class="modal-box" id="custom-order-modal">
+  <div id="custom-order-body"></div>
+</div>
+
+<!-- ================= LIVRAISON (créatrice répond à une commande personnalisée) ================= -->
+<div class="modal-backdrop" id="order-delivery-backdrop"></div>
+<div class="modal-box" id="order-delivery-modal">
+  <div id="order-delivery-body"></div>
 </div>
 
 <!-- ================= APPLY MODEL MODAL (candidature créatrice, ouverte à tous) ================= -->
@@ -1576,6 +1650,42 @@ const I18N = {
     gatePassPh: "Code d'accès",
     creatorPassPh: "Ton code",
     noPhotoYet: "Aucune photo",
+    tipMenuEarnNote: "Tu recevras environ {amount}€ (60%) sur ce prix.",
+    tipMenuContentLabel: "Contenu à vendre",
+    tipMenuContentNote: "Importe ou prends directement la photo/vidéo/audio que tu vas vendre pour ce thème.",
+    tipMenuOrderBtn: "Commander",
+    tipMenuOrderPrefill: "Bonjour, je souhaite commander : {theme} ({price}€)",
+    tipMenuCurrencyCompareLink: "Comparer avec ma devise (Google)",
+    chatModBtnLabel: "Conseils & règles",
+    chatModTip1: "Sois respectueux(se) et bienveillant(e) : un bon échange commence toujours par de la politesse.",
+    chatModTip2: "N'hésite pas à poser des questions ouvertes pour que la conversation reste fluide et agréable pour les deux.",
+    customOrderBtnLabel: "Commande personnalisée",
+    customOrderFormNote: "Décris précisément le genre de vidéo, photo ou audio que tu veux.",
+    customOrderFormPh: "Ex : une vidéo de 30 secondes en lingerie rouge, ambiance douce...",
+    customOrderSendBtn: "Envoyer la demande",
+    customOrderSentToast: "Ta demande a été envoyée !",
+    customOrderDeliverTitle: "Livrer cette commande",
+    customOrderDeliverBtn: "Livrer au client",
+    customOrderDeliveredToast: "Contenu livré !",
+    customOrderDeliveredNote: "Commande livrée",
+    customOrderPendingNote: "En attente de livraison",
+    customOrderViewBtn: "Voir ma commande",
+    customOrderUnauthorized: "Lien non autorisé : seule la créatrice concernée peut livrer cette commande.",
+    customOrderSavedToPurchases: "Ajouté à tes achats !",
+    customOrderPurchasesTitle: "Commandes personnalisées",
+    customOrderPurchasesNone: "Aucune commande personnalisée pour l'instant.",
+    chatBotBtnLabel: "Message auto & bannière",
+    chatBotWelcomeLabel: "Message de bienvenue automatique",
+    chatBotWelcomeNote: "Envoyé automatiquement à l'ouverture du chat, jusqu'à 4 fois maximum par personne. Ajoute des emoji pour le rendre plus chaleureux.",
+    chatBotWelcomePh: "Ex : Coucou, ravie que tu sois là 💕 Dis-moi ce qui te ferait plaisir...",
+    chatBotBannerLabel: "Bannière défilante",
+    chatBotBannerNote: "Une série de messages qui défilent en boucle en haut du chat, visibles par la personne avec qui tu discutes.",
+    chatBotBannerAddBtn: "Ajouter un message",
+    chatBotIntervalLabel: "Intervalle (secondes)",
+    levelDesc_diamond: "Un niveau de soutien remarquable envers les créatrices.",
+    bioCoverLabel: "Photo/vidéo de présentation du profil",
+    bioCoverNote: "Ceci concerne ta page de présentation de profil (différente de la photo/vidéo de couverture de ta carte).",
+    bioNarrativeMainTitle: "Profil de la créatrice",
     coverBelongsToShowcaseNote: "Ceci concerne ta page de présentation publique (différente de ta fiche profil).",
     coverPhotoTip: "Une belle photo bien éclairée, sensuelle et attractive pour attirer des intéressés et des followers.",
     mediaCommentsTitle: "Commentaires sur ce contenu",
@@ -2205,6 +2315,42 @@ const I18N = {
     gatePassPh: "Access code",
     creatorPassPh: "Your code",
     noPhotoYet: "No photo yet",
+    tipMenuEarnNote: "You'll receive about {amount}€ (60%) from this price.",
+    tipMenuContentLabel: "Content to sell",
+    tipMenuContentNote: "Import or capture directly the photo/video/audio you'll sell for this theme.",
+    tipMenuOrderBtn: "Order",
+    tipMenuOrderPrefill: "Hi, I'd like to order: {theme} ({price}€)",
+    tipMenuCurrencyCompareLink: "Compare with my currency (Google)",
+    chatModBtnLabel: "Tips & rules",
+    chatModTip1: "Be respectful and kind: a good conversation always starts with politeness.",
+    chatModTip2: "Feel free to ask open questions so the conversation stays smooth and enjoyable for both of you.",
+    customOrderBtnLabel: "Custom order",
+    customOrderFormNote: "Describe precisely the kind of video, photo or audio you want.",
+    customOrderFormPh: "E.g.: a 30-second video in red lingerie, soft mood...",
+    customOrderSendBtn: "Send request",
+    customOrderSentToast: "Your request was sent!",
+    customOrderDeliverTitle: "Deliver this order",
+    customOrderDeliverBtn: "Deliver to client",
+    customOrderDeliveredToast: "Content delivered!",
+    customOrderDeliveredNote: "Order delivered",
+    customOrderPendingNote: "Awaiting delivery",
+    customOrderViewBtn: "View my order",
+    customOrderUnauthorized: "Unauthorized link: only the relevant creator can deliver this order.",
+    customOrderSavedToPurchases: "Added to your purchases!",
+    customOrderPurchasesTitle: "Custom orders",
+    customOrderPurchasesNone: "No custom orders yet.",
+    chatBotBtnLabel: "Auto message & banner",
+    chatBotWelcomeLabel: "Automatic welcome message",
+    chatBotWelcomeNote: "Sent automatically when the chat opens, up to 4 times per person. Add emoji to make it warmer.",
+    chatBotWelcomePh: "E.g.: Hey, so glad you're here 💕 Tell me what would make you happy...",
+    chatBotBannerLabel: "Scrolling banner",
+    chatBotBannerNote: "A series of messages that cycle at the top of the chat, visible to the person you're talking with.",
+    chatBotBannerAddBtn: "Add a message",
+    chatBotIntervalLabel: "Interval (seconds)",
+    levelDesc_diamond: "A remarkable level of support toward the creators.",
+    bioCoverLabel: "Profile presentation photo/video",
+    bioCoverNote: "This concerns your profile presentation page (different from your card's cover photo/video).",
+    bioNarrativeMainTitle: "Creator's Profile",
     coverBelongsToShowcaseNote: "This concerns your public showcase page (different from your profile sheet).",
     coverPhotoTip: "A beautiful, well-lit, sensual and attractive photo to attract interest and followers.",
     mediaCommentsTitle: "Comments on this content",
@@ -2834,6 +2980,42 @@ const I18N = {
     gatePassPh: "Código de acceso",
     creatorPassPh: "Tu código",
     noPhotoYet: "Sin foto",
+    tipMenuEarnNote: "Recibirás aproximadamente {amount}€ (60%) de este precio.",
+    tipMenuContentLabel: "Contenido a vender",
+    tipMenuContentNote: "Importa o captura directamente la foto/video/audio que venderás para este tema.",
+    tipMenuOrderBtn: "Pedir",
+    tipMenuOrderPrefill: "Hola, quisiera pedir: {theme} ({price}€)",
+    tipMenuCurrencyCompareLink: "Comparar con mi moneda (Google)",
+    chatModBtnLabel: "Consejos y reglas",
+    chatModTip1: "Sé respetuoso/a y amable: una buena conversación siempre empieza con cortesía.",
+    chatModTip2: "No dudes en hacer preguntas abiertas para que la conversación fluya y sea agradable para ambos.",
+    customOrderBtnLabel: "Pedido personalizado",
+    customOrderFormNote: "Describe con precisión el tipo de video, foto o audio que quieres.",
+    customOrderFormPh: "Ej.: un video de 30 segundos en lencería roja, ambiente suave...",
+    customOrderSendBtn: "Enviar solicitud",
+    customOrderSentToast: "¡Tu solicitud fue enviada!",
+    customOrderDeliverTitle: "Entregar este pedido",
+    customOrderDeliverBtn: "Entregar al cliente",
+    customOrderDeliveredToast: "¡Contenido entregado!",
+    customOrderDeliveredNote: "Pedido entregado",
+    customOrderPendingNote: "Esperando entrega",
+    customOrderViewBtn: "Ver mi pedido",
+    customOrderUnauthorized: "Enlace no autorizado: solo la creadora correspondiente puede entregar este pedido.",
+    customOrderSavedToPurchases: "¡Añadido a tus compras!",
+    customOrderPurchasesTitle: "Pedidos personalizados",
+    customOrderPurchasesNone: "Aún no hay pedidos personalizados.",
+    chatBotBtnLabel: "Mensaje auto y banner",
+    chatBotWelcomeLabel: "Mensaje de bienvenida automático",
+    chatBotWelcomeNote: "Se envía automáticamente al abrir el chat, hasta 4 veces por persona. Añade emojis para hacerlo más cálido.",
+    chatBotWelcomePh: "Ej.: Hola, qué alegría tenerte aquí 💕 Dime qué te haría feliz...",
+    chatBotBannerLabel: "Banner rotativo",
+    chatBotBannerNote: "Una serie de mensajes que rotan en la parte superior del chat, visibles para la persona con la que hablas.",
+    chatBotBannerAddBtn: "Añadir un mensaje",
+    chatBotIntervalLabel: "Intervalo (segundos)",
+    levelDesc_diamond: "Un nivel de apoyo notable hacia las creadoras.",
+    bioCoverLabel: "Foto/video de presentación del perfil",
+    bioCoverNote: "Esto concierne tu página de presentación de perfil (diferente de la foto/video de portada de tu tarjeta).",
+    bioNarrativeMainTitle: "Perfil de la creadora",
     caThisMonthShort: "Ganancias de este mes",
     levelDescPrefix: "Nivel",
     levelDesc_gray: "El punto de partida para toda creadora.",
@@ -3462,6 +3644,42 @@ const I18N = {
     gatePassPh: "Codice di accesso",
     creatorPassPh: "Il tuo codice",
     noPhotoYet: "Nessuna foto",
+    tipMenuEarnNote: "Riceverai circa {amount}€ (60%) su questo prezzo.",
+    tipMenuContentLabel: "Contenuto da vendere",
+    tipMenuContentNote: "Importa o cattura direttamente la foto/video/audio che venderai per questo tema.",
+    tipMenuOrderBtn: "Ordina",
+    tipMenuOrderPrefill: "Ciao, vorrei ordinare: {theme} ({price}€)",
+    tipMenuCurrencyCompareLink: "Confronta con la mia valuta (Google)",
+    chatModBtnLabel: "Consigli e regole",
+    chatModTip1: "Sii rispettoso/a e gentile: una buona conversazione inizia sempre con la cortesia.",
+    chatModTip2: "Non esitare a fare domande aperte affinché la conversazione resti fluida e piacevole per entrambi.",
+    customOrderBtnLabel: "Ordine personalizzato",
+    customOrderFormNote: "Descrivi con precisione il tipo di video, foto o audio che vuoi.",
+    customOrderFormPh: "Es.: un video di 30 secondi in lingerie rossa, atmosfera dolce...",
+    customOrderSendBtn: "Invia richiesta",
+    customOrderSentToast: "La tua richiesta è stata inviata!",
+    customOrderDeliverTitle: "Consegna questo ordine",
+    customOrderDeliverBtn: "Consegna al cliente",
+    customOrderDeliveredToast: "Contenuto consegnato!",
+    customOrderDeliveredNote: "Ordine consegnato",
+    customOrderPendingNote: "In attesa di consegna",
+    customOrderViewBtn: "Vedi il mio ordine",
+    customOrderUnauthorized: "Link non autorizzato: solo la creatrice interessata può consegnare questo ordine.",
+    customOrderSavedToPurchases: "Aggiunto ai tuoi acquisti!",
+    customOrderPurchasesTitle: "Ordini personalizzati",
+    customOrderPurchasesNone: "Nessun ordine personalizzato per ora.",
+    chatBotBtnLabel: "Messaggio auto e banner",
+    chatBotWelcomeLabel: "Messaggio di benvenuto automatico",
+    chatBotWelcomeNote: "Inviato automaticamente all'apertura della chat, fino a 4 volte per persona. Aggiungi emoji per renderlo più caloroso.",
+    chatBotWelcomePh: "Es.: Ciao, che gioia averti qui 💕 Dimmi cosa ti farebbe piacere...",
+    chatBotBannerLabel: "Banner rotante",
+    chatBotBannerNote: "Una serie di messaggi che scorrono in alto nella chat, visibili alla persona con cui stai parlando.",
+    chatBotBannerAddBtn: "Aggiungi un messaggio",
+    chatBotIntervalLabel: "Intervallo (secondi)",
+    levelDesc_diamond: "Un livello di sostegno notevole verso le creatrici.",
+    bioCoverLabel: "Foto/video di presentazione del profilo",
+    bioCoverNote: "Questo riguarda la tua pagina di presentazione del profilo (diversa dalla foto/video di copertina della tua scheda).",
+    bioNarrativeMainTitle: "Profilo della creatrice",
     caThisMonthShort: "Guadagni di questo mese",
     levelDescPrefix: "Livello",
     levelDesc_gray: "Il punto di partenza per ogni creatrice.",
@@ -4090,6 +4308,42 @@ const I18N = {
     gatePassPh: "Código de acesso",
     creatorPassPh: "O teu código",
     noPhotoYet: "Ainda sem foto",
+    tipMenuEarnNote: "Você receberá cerca de {amount}€ (60%) sobre este preço.",
+    tipMenuContentLabel: "Conteúdo para vender",
+    tipMenuContentNote: "Importe ou capture diretamente a foto/vídeo/áudio que você vai vender para este tema.",
+    tipMenuOrderBtn: "Encomendar",
+    tipMenuOrderPrefill: "Olá, gostaria de encomendar: {theme} ({price}€)",
+    tipMenuCurrencyCompareLink: "Comparar com minha moeda (Google)",
+    chatModBtnLabel: "Dicas e regras",
+    chatModTip1: "Seja respeitoso(a) e gentil: uma boa conversa sempre começa com educação.",
+    chatModTip2: "Não hesite em fazer perguntas abertas para que a conversa flua e seja agradável para ambos.",
+    customOrderBtnLabel: "Pedido personalizado",
+    customOrderFormNote: "Descreva com precisão o tipo de vídeo, foto ou áudio que você quer.",
+    customOrderFormPh: "Ex.: um vídeo de 30 segundos em lingerie vermelha, clima suave...",
+    customOrderSendBtn: "Enviar pedido",
+    customOrderSentToast: "Seu pedido foi enviado!",
+    customOrderDeliverTitle: "Entregar este pedido",
+    customOrderDeliverBtn: "Entregar ao cliente",
+    customOrderDeliveredToast: "Conteúdo entregue!",
+    customOrderDeliveredNote: "Pedido entregue",
+    customOrderPendingNote: "Aguardando entrega",
+    customOrderViewBtn: "Ver meu pedido",
+    customOrderUnauthorized: "Link não autorizado: somente a criadora envolvida pode entregar este pedido.",
+    customOrderSavedToPurchases: "Adicionado às suas compras!",
+    customOrderPurchasesTitle: "Pedidos personalizados",
+    customOrderPurchasesNone: "Nenhum pedido personalizado ainda.",
+    chatBotBtnLabel: "Mensagem automática e banner",
+    chatBotWelcomeLabel: "Mensagem de boas-vindas automática",
+    chatBotWelcomeNote: "Enviada automaticamente ao abrir o chat, até 4 vezes por pessoa. Adicione emojis para deixá-la mais calorosa.",
+    chatBotWelcomePh: "Ex.: Oi, que alegria ter você aqui 💕 Me diga o que te deixaria feliz...",
+    chatBotBannerLabel: "Banner rotativo",
+    chatBotBannerNote: "Uma série de mensagens que giram no topo do chat, visíveis para a pessoa com quem você conversa.",
+    chatBotBannerAddBtn: "Adicionar uma mensagem",
+    chatBotIntervalLabel: "Intervalo (segundos)",
+    levelDesc_diamond: "Um nível de apoio notável em relação às criadoras.",
+    bioCoverLabel: "Foto/vídeo de apresentação do perfil",
+    bioCoverNote: "Isso diz respeito à sua página de apresentação de perfil (diferente da foto/vídeo de capa do seu cartão).",
+    bioNarrativeMainTitle: "Perfil da criadora",
     caThisMonthShort: "Ganhos deste mês",
     levelDescPrefix: "Nível",
     levelDesc_gray: "O ponto de partida para toda criadora.",
@@ -4718,6 +4972,42 @@ const I18N = {
     gatePassPh: "Nambari ya kuingia",
     creatorPassPh: "Nambari yako",
     noPhotoYet: "Hakuna picha bado",
+    tipMenuEarnNote: "Utapokea takriban {amount}€ (60%) kutoka bei hii.",
+    tipMenuContentLabel: "Maudhui ya kuuza",
+    tipMenuContentNote: "Leta au piga moja kwa moja picha/video/sauti utakayouza kwa mada hii.",
+    tipMenuOrderBtn: "Agiza",
+    tipMenuOrderPrefill: "Habari, ningependa kuagiza: {theme} ({price}€)",
+    tipMenuCurrencyCompareLink: "Linganisha na sarafu yangu (Google)",
+    chatModBtnLabel: "Vidokezo na kanuni",
+    chatModTip1: "Kuwa na heshima na fadhili: mazungumzo mazuri huanza kwa adabu daima.",
+    chatModTip2: "Usisite kuuliza maswali wazi ili mazungumzo yaendelee vizuri na kufurahisha kwa wote wawili.",
+    customOrderBtnLabel: "Agizo maalum",
+    customOrderFormNote: "Eleza kwa usahihi aina ya video, picha au sauti unayotaka.",
+    customOrderFormPh: "Mfano: video ya sekunde 30 katika nguo za ndani nyekundu, hali tulivu...",
+    customOrderSendBtn: "Tuma ombi",
+    customOrderSentToast: "Ombi lako limetumwa!",
+    customOrderDeliverTitle: "Wasilisha agizo hili",
+    customOrderDeliverBtn: "Wasilisha kwa mteja",
+    customOrderDeliveredToast: "Maudhui yamewasilishwa!",
+    customOrderDeliveredNote: "Agizo limewasilishwa",
+    customOrderPendingNote: "Inasubiri kuwasilishwa",
+    customOrderViewBtn: "Ona agizo langu",
+    customOrderUnauthorized: "Kiungo hakiruhusiwi: ni muundaji husika pekee anayeweza kuwasilisha agizo hili.",
+    customOrderSavedToPurchases: "Imeongezwa kwenye manunuzi yako!",
+    customOrderPurchasesTitle: "Maagizo maalum",
+    customOrderPurchasesNone: "Hakuna maagizo maalum bado.",
+    chatBotBtnLabel: "Ujumbe otomatiki na bango",
+    chatBotWelcomeLabel: "Ujumbe wa kukaribisha otomatiki",
+    chatBotWelcomeNote: "Hutumwa moja kwa moja mazungumzo yanapofunguliwa, hadi mara 4 kwa kila mtu. Ongeza emoji ili iwe ya kirafiki zaidi.",
+    chatBotWelcomePh: "Mfano: Habari, nafurahi upo hapa 💕 Niambie ni nini kingekufurahisha...",
+    chatBotBannerLabel: "Bango linalozunguka",
+    chatBotBannerNote: "Mfululizo wa ujumbe unaozunguka juu ya mazungumzo, unaonekana kwa mtu unayezungumza naye.",
+    chatBotBannerAddBtn: "Ongeza ujumbe",
+    chatBotIntervalLabel: "Muda (sekunde)",
+    levelDesc_diamond: "Kiwango cha kushangaza cha kuunga mkono waundaji.",
+    bioCoverLabel: "Picha/video ya uwasilishaji wa wasifu",
+    bioCoverNote: "Hii inahusu ukurasa wako wa uwasilishaji wa wasifu (tofauti na picha/video ya jalada ya kadi yako).",
+    bioNarrativeMainTitle: "Wasifu wa muundaji",
     caThisMonthShort: "Mapato ya mwezi huu",
     levelDescPrefix: "Kiwango",
     levelDesc_gray: "Mwanzo kwa kila muundaji.",
@@ -5345,6 +5635,42 @@ const I18N = {
     gatePassPh: "Ikhodi yokungena",
     creatorPassPh: "Ikhodi yakho",
     noPhotoYet: "Asikho isithombe okwamanje",
+    tipMenuEarnNote: "Uzothola cishe u-{amount}€ (60%) kuleli nani.",
+    tipMenuContentLabel: "Okuqukethwe okuzothengiswa",
+    tipMenuContentNote: "Ngenisa noma uthathe ngokuqondile isithombe/ividiyo/umsindo ozokuthengisa kulesi sihloko.",
+    tipMenuOrderBtn: "Odela",
+    tipMenuOrderPrefill: "Sawubona, ngingathanda uku-odela: {theme} ({price}€)",
+    tipMenuCurrencyCompareLink: "Qhathanisa nemali yami (Google)",
+    chatModBtnLabel: "Amathiphu nemithetho",
+    chatModTip1: "Yiba nenhlonipho nomusa: ingxoxo enhle iqala ngokuhlonipha njalo.",
+    chatModTip2: "Ungathikazi ukubuza imibuzo evulekile ukuze ingxoxo ihambe kahle futhi ijabulise nobabili.",
+    customOrderBtnLabel: "Ukuodela okuzenzelwe",
+    customOrderFormNote: "Chaza ngokunembile uhlobo lwevidiyo, isithombe noma umsindo owufunayo.",
+    customOrderFormPh: "Isib.: ividiyo yemizuzwana engu-30 ngezingubo zangaphansi ezibomvu, isimo esithobekile...",
+    customOrderSendBtn: "Thumela isicelo",
+    customOrderSentToast: "Isicelo sakho sithunyelwe!",
+    customOrderDeliverTitle: "Letha lolu daba",
+    customOrderDeliverBtn: "Letha kumthengi",
+    customOrderDeliveredToast: "Okuqukethwe kulethiwe!",
+    customOrderDeliveredNote: "Udaba luletiwe",
+    customOrderPendingNote: "Kulindelwe ukuletha",
+    customOrderViewBtn: "Buka udaba lwami",
+    customOrderUnauthorized: "Isixhumanisi asigunyaziwe: umdwebi ophathelene naye kuphela ongaletha lolu daba.",
+    customOrderSavedToPurchases: "Kwengeziwe ekuthengeni kwakho!",
+    customOrderPurchasesTitle: "Izicelo ezizenzelwe",
+    customOrderPurchasesNone: "Azikho izicelo ezizenzelwe okwamanje.",
+    chatBotBtnLabel: "Umlayezo ozenzakalelayo nebhena",
+    chatBotWelcomeLabel: "Umlayezo wokwamukela ozenzakalelayo",
+    chatBotWelcomeNote: "Uthunyelwa ngokuzenzakalela lapho i-chat ivulwa, kuze kufike kane ngamunye. Engeza ama-emoji ukuze ibe mnene.",
+    chatBotWelcomePh: "Isib.: Sawubona, ngiyajabula ukuthi ulapha 💕 Ngitshele ukuthi yini engakwenza ujabule...",
+    chatBotBannerLabel: "Ibhena ejikelezayo",
+    chatBotBannerNote: "Uchungechunge lwemilayezo ejikelezayo phezulu kwe-chat, ebonakala kumuntu okhuluma naye.",
+    chatBotBannerAddBtn: "Engeza umlayezo",
+    chatBotIntervalLabel: "Isikhathi (amasekhondi)",
+    levelDesc_diamond: "Izinga elidumile lokusekela abadwebi.",
+    bioCoverLabel: "Isithombe/ividiyo yokwethula iphrofayela",
+    bioCoverNote: "Lokhu kumayelana nekhasi lakho lokwethula iphrofayela (elihlukile esithombeni/ividiyo yekhava yekhadi lakho).",
+    bioNarrativeMainTitle: "Iphrofayela yomdwebi",
     caThisMonthShort: "Inzuzo yalenyanga",
     levelDescPrefix: "Izinga",
     levelDesc_gray: "Isiqalo somdwebi wonke.",
@@ -5972,6 +6298,42 @@ const I18N = {
     gatePassPh: "Khoutu ya ho kena",
     creatorPassPh: "Khoutu ya hao",
     noPhotoYet: "Ha ho na setshwantsho",
+    tipMenuEarnNote: "O tla fumana hoo e ka bang {amount}€ (60%) ho theko ena.",
+    tipMenuContentLabel: "Diteng tse rekisoang",
+    tipMenuContentNote: "Kenya kapa nka ka kotloloho setšoantšo/video/molumo oo o tlang ho o rekisa bakeng sa sehlooho sena.",
+    tipMenuOrderBtn: "Odara",
+    tipMenuOrderPrefill: "Dumela, ke ka rata ho odara: {theme} ({price}€)",
+    tipMenuCurrencyCompareLink: "Bapisa le chelete ya heso (Google)",
+    chatModBtnLabel: "Maeletsane le melao",
+    chatModTip1: "Ba le tlhompho le mosa: puisano e ntle e qala ka mekgwa e metle kamehla.",
+    chatModTip2: "O se ke wa dikadikela ho botsa dipotso tse bulehileng e le hore puisano e tswele pele hantle mme e thabise ba babedi.",
+    customOrderBtnLabel: "Odara e ikhethang",
+    customOrderFormNote: "Hlalosa ka nepo mofuta oa video, setšoantšo kapa molumo oo o o batlang.",
+    customOrderFormPh: "Mohl.: video ea metsotsoana e 30 ka liaparo tsa ka tlung tse khubelu, boemo bo bonolo...",
+    customOrderSendBtn: "Romela kopo",
+    customOrderSentToast: "Kopo ea hau e rometsoe!",
+    customOrderDeliverTitle: "Fana ka odara ena",
+    customOrderDeliverBtn: "Fana ho moreki",
+    customOrderDeliveredToast: "Diteng li fanoe!",
+    customOrderDeliveredNote: "Odara e fanoe",
+    customOrderPendingNote: "E emetse ho fanoa",
+    customOrderViewBtn: "Bona odara ea ka",
+    customOrderUnauthorized: "Khokahano e sa dumelloang: ke mobopi ea amehang feela ea ka fanang ka odara ena.",
+    customOrderSavedToPurchases: "E kentsoe litheko tsa hau!",
+    customOrderPurchasesTitle: "Liodara tse ikhethang",
+    customOrderPurchasesNone: "Ha ho liodara tse ikhethang ho fihlela joale.",
+    chatBotBtnLabel: "Molaetsa o ikhethang le pontsho",
+    chatBotWelcomeLabel: "Molaetsa oa kamohelo o ikhethang",
+    chatBotWelcomeNote: "O rometsoe ka boitlamo ha chat e buloa, ho fihlela makhetlo a mane ho motho ka mong. Kenya liemoji ho e etsa e mofuthu.",
+    chatBotWelcomePh: "Mohl.: Dumela, ke thabile hore o teng 💕 Mpolelle hore na ke eng se ka u thabisang...",
+    chatBotBannerLabel: "Pontsho e potolohang",
+    chatBotBannerNote: "Letoto la melaetsa e potolohang ka holimo ho chat, e bonahalang ho motho eo u buang le eena.",
+    chatBotBannerAddBtn: "Eketsa molaetsa",
+    chatBotIntervalLabel: "Nako (metsotsoana)",
+    levelDesc_diamond: "Boemo bo hlokomelehang ba tshehetso ho babopi.",
+    bioCoverLabel: "Setšoantšo/video ya ho hlahisa profaele",
+    bioCoverNote: "Sena se amana le leqephe la hau la ho hlahisa profaele (le fapaneng le setšoantšo/video ea sekoahelo sa karete ea hau).",
+    bioNarrativeMainTitle: "Profaele ya mobopi",
     caThisMonthShort: "Chelete ea khoeli ena",
     levelDescPrefix: "Boemo",
     levelDesc_gray: "Qalo bakeng sa mobopi e mong le e mong.",
@@ -6599,6 +6961,42 @@ const I18N = {
     gatePassPh: "Kode ya kokota",
     creatorPassPh: "Kode na yo",
     noPhotoYet: "Foto te naino",
+    tipMenuEarnNote: "Okozwa pene {amount}€ (60%) na ntalo oyo.",
+    tipMenuContentLabel: "Biloko ya koteka",
+    tipMenuContentNote: "Kotisa to kamata mbala moko foto/video/mongongo oyo okoteka mpo na motó oyo.",
+    tipMenuOrderBtn: "Sengama",
+    tipMenuOrderPrefill: "Mbote, nalingi kosengama: {theme} ({price}€)",
+    tipMenuCurrencyCompareLink: "Kokanisa na mbongo na ngai (Google)",
+    chatModBtnLabel: "Toli mpe mibeko",
+    chatModTip1: "Zala na botosi mpe boboto — lisolo ya malamu ebandaka ntango nyonso na botosi.",
+    chatModTip2: "Kokakatana te kotuna mituna oyo efungwami mpo lisolo etambola malamu mpe esepelisa bango mibale.",
+    customOrderBtnLabel: "Kosenga ya sikisiki",
+    customOrderFormNote: "Limbolela na bolingo lolenge ya video, foto to mongongo oyo olingi.",
+    customOrderFormPh: "Ndakisa: video ya segonde 30 na bilamba ya nse ya motane, ambiance ya kimia...",
+    customOrderSendBtn: "Tinda kosenga",
+    customOrderSentToast: "Kosenga na yo etindami!",
+    customOrderDeliverTitle: "Pesa kosenga oyo",
+    customOrderDeliverBtn: "Pesa na moto",
+    customOrderDeliveredToast: "Eloko epesami!",
+    customOrderDeliveredNote: "Kosenga epesami",
+    customOrderPendingNote: "Ezali kozela kopesama",
+    customOrderViewBtn: "Mona kosenga na ngai",
+    customOrderUnauthorized: "Lien esengami te: kaka mosali oyo etali ye nde akoki kopesa kosenga oyo.",
+    customOrderSavedToPurchases: "Ebakisami na masomba na yo!",
+    customOrderPurchasesTitle: "Basenga ya sikisiki",
+    customOrderPurchasesNone: "Ata kosenga moko ya sikisiki te tii sikoyo.",
+    chatBotBtnLabel: "Nsango ya sepekiseli mpe biye",
+    chatBotWelcomeLabel: "Nsango ya boyambi ya sepekiseli",
+    chatBotWelcomeNote: "Etindami na sepekiseli tango chat efungwami, kino mbala minei na moto na moto. Bakisa ba-emoji mpo na kokomisa yango ya bolingo.",
+    chatBotWelcomePh: "Ndakisa: Mbote, nazali na esengo ozali awa 💕 Yebisa ngai nini ekosepelisa yo...",
+    chatBotBannerLabel: "Biye ya kobaluka",
+    chatBotBannerNote: "Molongo ya maloba oyo ekobalukaka na likolo ya chat, emonanaka na moto oyo osoli na ye.",
+    chatBotBannerAddBtn: "Bakisa nsango",
+    chatBotIntervalLabel: "Ntango (segonde)",
+    levelDesc_diamond: "Nivo ya kokamba oyo ekamwisi mpo na basali.",
+    bioCoverLabel: "Foto/video ya kolakisa profil",
+    bioCoverNote: "Oyo etali page na yo ya kolakisa profil (ekeseni na foto/video ya kouvertire ya karte na yo).",
+    bioNarrativeMainTitle: "Profil ya mosali",
     caThisMonthShort: "Mbongo ya sanza oyo",
     levelDescPrefix: "Nivo",
     levelDesc_gray: "Ebandeli mpo na mosali nyonso.",
@@ -7226,6 +7624,42 @@ const I18N = {
     gatePassPh: "访问码",
     creatorPassPh: "你的代码",
     noPhotoYet: "暂无照片",
+    tipMenuEarnNote: "你将从此价格中获得约{amount}€（60%）。",
+    tipMenuContentLabel: "待售内容",
+    tipMenuContentNote: "导入或直接拍摄你将为此主题出售的照片/视频/音频。",
+    tipMenuOrderBtn: "下单",
+    tipMenuOrderPrefill: "你好，我想下单：{theme}（{price}€）",
+    tipMenuCurrencyCompareLink: "与我的货币比较（谷歌）",
+    chatModBtnLabel: "提示与规则",
+    chatModTip1: "请保持尊重和友善：良好的对话总是从礼貌开始。",
+    chatModTip2: "欢迎提出开放式问题，让对话对双方都顺畅愉快。",
+    customOrderBtnLabel: "定制订单",
+    customOrderFormNote: "请准确描述你想要的照片、视频或音频类型。",
+    customOrderFormPh: "例如：一段30秒的红色内衣视频，氛围柔和……",
+    customOrderSendBtn: "发送请求",
+    customOrderSentToast: "你的请求已发送！",
+    customOrderDeliverTitle: "交付此订单",
+    customOrderDeliverBtn: "交付给客户",
+    customOrderDeliveredToast: "内容已交付！",
+    customOrderDeliveredNote: "订单已交付",
+    customOrderPendingNote: "等待交付",
+    customOrderViewBtn: "查看我的订单",
+    customOrderUnauthorized: "未授权链接：只有相关创作者可以交付此订单。",
+    customOrderSavedToPurchases: "已添加到你的购买记录！",
+    customOrderPurchasesTitle: "定制订单",
+    customOrderPurchasesNone: "暂无定制订单。",
+    chatBotBtnLabel: "自动消息与横幅",
+    chatBotWelcomeLabel: "自动欢迎消息",
+    chatBotWelcomeNote: "打开聊天时自动发送，每人最多4次。添加表情符号让它更温暖。",
+    chatBotWelcomePh: "例如：嗨，很高兴你在这里💕告诉我什么会让你开心……",
+    chatBotBannerLabel: "滚动横幅",
+    chatBotBannerNote: "在聊天顶部循环显示的一系列消息，对与你聊天的人可见。",
+    chatBotBannerAddBtn: "添加消息",
+    chatBotIntervalLabel: "间隔（秒）",
+    levelDesc_diamond: "对创作者们非凡的支持水平。",
+    bioCoverLabel: "个人资料展示照片/视频",
+    bioCoverNote: "这与你的个人资料展示页面有关（与你卡片的封面照片/视频不同）。",
+    bioNarrativeMainTitle: "创作者简介",
     caThisMonthShort: "本月收益",
     levelDescPrefix: "等级",
     levelDesc_gray: "每位创作者的起点。",
@@ -7853,6 +8287,42 @@ const I18N = {
     gatePassPh: "アクセスコード",
     creatorPassPh: "あなたのコード",
     noPhotoYet: "まだ写真がありません",
+    tipMenuEarnNote: "この価格から約{amount}€（60%）を受け取れます。",
+    tipMenuContentLabel: "販売するコンテンツ",
+    tipMenuContentNote: "このテーマで販売する写真・動画・音声をインポートするか直接撮影してください。",
+    tipMenuOrderBtn: "注文する",
+    tipMenuOrderPrefill: "こんにちは、注文したいです：{theme}（{price}€）",
+    tipMenuCurrencyCompareLink: "自分の通貨と比較（Google）",
+    chatModBtnLabel: "ヒントとルール",
+    chatModTip1: "敬意と思いやりを持って接しましょう：良い会話はいつも礼儀から始まります。",
+    chatModTip2: "オープンな質問を遠慮なくしてください。会話が両者にとって心地よく続きます。",
+    customOrderBtnLabel: "カスタムオーダー",
+    customOrderFormNote: "希望する動画・写真・音声の種類を具体的に説明してください。",
+    customOrderFormPh: "例：赤いランジェリーの30秒動画、優しい雰囲気で...",
+    customOrderSendBtn: "リクエストを送信",
+    customOrderSentToast: "リクエストを送信しました！",
+    customOrderDeliverTitle: "この注文を納品する",
+    customOrderDeliverBtn: "クライアントに納品",
+    customOrderDeliveredToast: "コンテンツを納品しました！",
+    customOrderDeliveredNote: "注文納品済み",
+    customOrderPendingNote: "納品待ち",
+    customOrderViewBtn: "注文を見る",
+    customOrderUnauthorized: "権限のないリンクです：該当するクリエイターのみがこの注文を納品できます。",
+    customOrderSavedToPurchases: "購入品に追加されました！",
+    customOrderPurchasesTitle: "カスタムオーダー",
+    customOrderPurchasesNone: "まだカスタムオーダーはありません。",
+    chatBotBtnLabel: "自動メッセージとバナー",
+    chatBotWelcomeLabel: "自動ウェルカムメッセージ",
+    chatBotWelcomeNote: "チャットが開かれると自動送信されます（1人につき最大4回まで）。絵文字を加えるとより温かみが出ます。",
+    chatBotWelcomePh: "例：こんにちは、来てくれて嬉しいです💕何が嬉しいか教えてください...",
+    chatBotBannerLabel: "ローテーションバナー",
+    chatBotBannerNote: "チャット上部で切り替わるメッセージ一覧です。相手にも表示されます。",
+    chatBotBannerAddBtn: "メッセージを追加",
+    chatBotIntervalLabel: "間隔（秒）",
+    levelDesc_diamond: "クリエイターへの卓越したサポートレベルです。",
+    bioCoverLabel: "プロフィール紹介用の写真・動画",
+    bioCoverNote: "これはあなたのプロフィール紹介ページに関するものです（カードのカバー写真・動画とは別のものです）。",
+    bioNarrativeMainTitle: "クリエイタープロフィール",
     caThisMonthShort: "今月の収益",
     levelDescPrefix: "レベル",
     levelDesc_gray: "すべてのクリエイターの出発点です。",
@@ -8480,6 +8950,42 @@ const I18N = {
     gatePassPh: "Код доступа",
     creatorPassPh: "Твой код",
     noPhotoYet: "Пока нет фото",
+    tipMenuEarnNote: "Вы получите около {amount}€ (60%) от этой цены.",
+    tipMenuContentLabel: "Контент на продажу",
+    tipMenuContentNote: "Загрузите или снимите напрямую фото/видео/аудио, которое вы будете продавать по этой теме.",
+    tipMenuOrderBtn: "Заказать",
+    tipMenuOrderPrefill: "Привет, хочу заказать: {theme} ({price}€)",
+    tipMenuCurrencyCompareLink: "Сравнить с моей валютой (Google)",
+    chatModBtnLabel: "Советы и правила",
+    chatModTip1: "Будьте вежливы и доброжелательны: хороший разговор всегда начинается с вежливости.",
+    chatModTip2: "Не стесняйтесь задавать открытые вопросы, чтобы беседа была приятной и лёгкой для обоих.",
+    customOrderBtnLabel: "Индивидуальный заказ",
+    customOrderFormNote: "Опишите точно, какое видео, фото или аудио вы хотите.",
+    customOrderFormPh: "Напр.: видео 30 секунд в красном белье, мягкая атмосфера...",
+    customOrderSendBtn: "Отправить запрос",
+    customOrderSentToast: "Ваш запрос отправлен!",
+    customOrderDeliverTitle: "Доставить этот заказ",
+    customOrderDeliverBtn: "Доставить клиенту",
+    customOrderDeliveredToast: "Контент доставлен!",
+    customOrderDeliveredNote: "Заказ доставлен",
+    customOrderPendingNote: "Ожидает доставки",
+    customOrderViewBtn: "Посмотреть мой заказ",
+    customOrderUnauthorized: "Неавторизованная ссылка: только соответствующая создательница может доставить этот заказ.",
+    customOrderSavedToPurchases: "Добавлено в ваши покупки!",
+    customOrderPurchasesTitle: "Индивидуальные заказы",
+    customOrderPurchasesNone: "Пока нет индивидуальных заказов.",
+    chatBotBtnLabel: "Автосообщение и баннер",
+    chatBotWelcomeLabel: "Автоматическое приветственное сообщение",
+    chatBotWelcomeNote: "Отправляется автоматически при открытии чата, до 4 раз на человека. Добавьте эмодзи, чтобы сделать его теплее.",
+    chatBotWelcomePh: "Напр.: Привет, рада, что ты здесь 💕 Расскажи, что тебя порадует...",
+    chatBotBannerLabel: "Вращающийся баннер",
+    chatBotBannerNote: "Серия сообщений, сменяющих друг друга вверху чата, видимая собеседнику.",
+    chatBotBannerAddBtn: "Добавить сообщение",
+    chatBotIntervalLabel: "Интервал (секунды)",
+    levelDesc_diamond: "Выдающийся уровень поддержки создательниц.",
+    bioCoverLabel: "Фото/видео для презентации профиля",
+    bioCoverNote: "Это касается страницы презентации вашего профиля (отличается от обложки вашей карточки).",
+    bioNarrativeMainTitle: "Профиль создательницы",
     caThisMonthShort: "Доход за этот месяц",
     levelDescPrefix: "Уровень",
     levelDesc_gray: "Отправная точка для каждой создательницы.",
@@ -9107,6 +9613,42 @@ const I18N = {
     gatePassPh: "رمز الوصول",
     creatorPassPh: "رمزك",
     noPhotoYet: "لا توجد صورة بعد",
+    tipMenuEarnNote: "ستحصلين على حوالي {amount}€ (60%) من هذا السعر.",
+    tipMenuContentLabel: "المحتوى المراد بيعه",
+    tipMenuContentNote: "استوردي أو التقطي مباشرة الصورة/الفيديو/الصوت الذي ستبيعينه لهذا الموضوع.",
+    tipMenuOrderBtn: "اطلب",
+    tipMenuOrderPrefill: "مرحبًا، أرغب في الطلب: {theme} ({price}€)",
+    tipMenuCurrencyCompareLink: "قارني بعملتي (Google)",
+    chatModBtnLabel: "نصائح وقواعد",
+    chatModTip1: "كوني محترمة ولطيفة: أي حوار جيد يبدأ دائمًا بالأدب.",
+    chatModTip2: "لا تترددي في طرح أسئلة مفتوحة حتى يبقى الحوار سلسًا وممتعًا للطرفين.",
+    customOrderBtnLabel: "طلب مخصص",
+    customOrderFormNote: "صفي بدقة نوع الفيديو أو الصورة أو الصوت الذي تريدينه.",
+    customOrderFormPh: "مثال: فيديو مدته 30 ثانية بملابس داخلية حمراء، أجواء هادئة...",
+    customOrderSendBtn: "إرسال الطلب",
+    customOrderSentToast: "تم إرسال طلبك!",
+    customOrderDeliverTitle: "تسليم هذا الطلب",
+    customOrderDeliverBtn: "تسليم للعميل",
+    customOrderDeliveredToast: "تم تسليم المحتوى!",
+    customOrderDeliveredNote: "تم تسليم الطلب",
+    customOrderPendingNote: "في انتظار التسليم",
+    customOrderViewBtn: "عرض طلبي",
+    customOrderUnauthorized: "رابط غير مصرح به: فقط المنشئة المعنية يمكنها تسليم هذا الطلب.",
+    customOrderSavedToPurchases: "أُضيف إلى مشترياتك!",
+    customOrderPurchasesTitle: "الطلبات المخصصة",
+    customOrderPurchasesNone: "لا توجد طلبات مخصصة بعد.",
+    chatBotBtnLabel: "رسالة تلقائية وشريط",
+    chatBotWelcomeLabel: "رسالة ترحيب تلقائية",
+    chatBotWelcomeNote: "تُرسل تلقائيًا عند فتح الدردشة، حتى 4 مرات لكل شخص. أضيفي رموزًا تعبيرية لجعلها أكثر دفئًا.",
+    chatBotWelcomePh: "مثال: مرحبًا، سعيدة بوجودك هنا 💕 أخبرني بما سيسعدك...",
+    chatBotBannerLabel: "شريط متحرك",
+    chatBotBannerNote: "سلسلة من الرسائل تتناوب في أعلى الدردشة، مرئية للشخص الذي تتحدثين معه.",
+    chatBotBannerAddBtn: "إضافة رسالة",
+    chatBotIntervalLabel: "الفاصل الزمني (ثوانٍ)",
+    levelDesc_diamond: "مستوى دعم رائع تجاه المنشئات.",
+    bioCoverLabel: "صورة/فيديو تقديم الملف الشخصي",
+    bioCoverNote: "يتعلق هذا بصفحة تقديم ملفك الشخصي (مختلفة عن صورة/فيديو غلاف بطاقتك).",
+    bioNarrativeMainTitle: "الملف الشخصي للمنشئة",
     caThisMonthShort: "أرباح هذا الشهر",
     levelDescPrefix: "المستوى",
     levelDesc_gray: "نقطة البداية لكل منشئة.",
@@ -9734,6 +10276,42 @@ const I18N = {
     gatePassPh: "Kode ya nzila",
     creatorPassPh: "Kode na nge",
     noPhotoYet: "Kifwani ve kiantete",
+    tipMenuEarnNote: "Nge ta baka penepene ya {amount}€ (60%) na ntalu yai.",
+    tipMenuContentLabel: "Bima ya kuteka",
+    tipMenuContentNote: "Kotisa to bwaka mbala mosi foto/video/ndinga yina nge ta teka mpo na ntu ya diambu yai.",
+    tipMenuOrderBtn: "Lomba",
+    tipMenuOrderPrefill: "Mbote, mono ke zola kulomba: {theme} ({price}€)",
+    tipMenuCurrencyCompareLink: "Fwanisa na mbongo na mono (Google)",
+    chatModBtnLabel: "Malongi ye bansiku",
+    chatModTip1: "Vanda na luzitu ye mbote — solula ya mbote ke yantikaka ntangu yonso na luzitu.",
+    chatModTip2: "Kukala ve na boma ya kuyuvula bituna ya kufungwana mpasi solula ke tambula mbote ye ke sepedisa bantu zole.",
+    customOrderBtnLabel: "Lomba ya sikisiki",
+    customOrderFormNote: "Tendula na bunkiedika mutindu ya video, foto to ndinga yina nge ke zola.",
+    customOrderFormPh: "Mbandu: video ya bisekondo 30 na bilamba ya nsi ya mbwaki, kyese ya pima...",
+    customOrderSendBtn: "Tinda lomba",
+    customOrderSentToast: "Lomba na nge me tindusu!",
+    customOrderDeliverTitle: "Pesa lomba yai",
+    customOrderDeliverBtn: "Pesa na muntu",
+    customOrderDeliveredToast: "Kima me pesama!",
+    customOrderDeliveredNote: "Lomba me pesama",
+    customOrderPendingNote: "Ke vinga mpasi bo pesa yau",
+    customOrderViewBtn: "Mona lomba na mono",
+    customOrderUnauthorized: "Lien ve na nzila: kaka musadi yina me tala kaka lenda pesa lomba yai.",
+    customOrderSavedToPurchases: "Me yikwa na bisumbu na nge!",
+    customOrderPurchasesTitle: "Balomba ya sikisiki",
+    customOrderPurchasesNone: "Ata lomba mosi ya sikisiki ve tii bubu.",
+    chatBotBtnLabel: "Nsangu ya kibotukusu ye bendera",
+    chatBotWelcomeLabel: "Nsangu ya lukwamu ya kibotukusu",
+    chatBotWelcomeNote: "Ke tindusu na kibotukusu ntangu chat me fungwa, tii mbala iya na konso muntu. Yika ba-emoji mpasi kusala yau na mbote.",
+    chatBotWelcomePh: "Mbandu: Mbote, mono kele na kyese nge kele wau 💕 Songa mono nki ke sepedisa nge...",
+    chatBotBannerLabel: "Bendera ya kubaluka",
+    chatBotBannerNote: "Kimvuka ya mansangu ke balukaka na zulu ya chat, ke monikaka na muntu nge ke solula na yandi.",
+    chatBotBannerAddBtn: "Yika nsangu",
+    chatBotIntervalLabel: "Ntangu (bisekondo)",
+    levelDesc_diamond: "Kiteso ya lusadisu ya kuyituka mpo na basadi.",
+    bioCoverLabel: "Foto/video ya kumonisa profile",
+    bioCoverNote: "Yai me tala lutiti na nge ya kumonisa profile (ekeseni na foto/video ya kuvele ya karte na nge).",
+    bioNarrativeMainTitle: "Profile ya musadi",
     caThisMonthShort: "Mbongo ya ngonda yai",
     levelDescPrefix: "Kiteso",
     levelDesc_gray: "Ntete mpo na konso musadi.",
@@ -10685,6 +11263,10 @@ function followerBadgeHtml(count){
   const tier = getFollowerTier(count);
   return `<span class="follower-badge" style="background:${tier.color};" title="${count || 0}">${count || 0}</span>`;
 }
+function followerShieldHtml(count){
+  const tier = getFollowerTier(count);
+  return `<span class="chat-tier-shield" style="color:${tier.color};" title="${t('tierLabel_' + tier.key)} — ${count || 0} ${t('followersLabel')}">${ICON_SHIELD}</span>`;
+}
 
 /* ---------------- badges UXD (paliers de contribution/soutien, membres) ---------------- */
 const UXD_TIERS = [
@@ -10705,6 +11287,10 @@ function getUxdTier(amount){
 function uxdBadgeHtml(amount){
   const tier = getUxdTier(amount);
   return `<span class="follower-badge uxd-badge" style="background:${tier.color};" title="${amount || 0} UXD">${amount || 0} UXD</span>`;
+}
+function uxdShieldHtml(amount){
+  const tier = getUxdTier(amount);
+  return `<span class="chat-tier-shield" style="color:${tier.color};" title="${t('tierLabel_' + tier.key)} — ${amount || 0} UXD">${ICON_SHIELD}</span>`;
 }
 
 /* ---------------- Tip Menu : thèmes et prix fixés par la plateforme (jamais choisis librement par la créatrice) ---------------- */
@@ -10814,6 +11400,8 @@ async function syncProfilesFromFirestore(){
           availability: data.availability ?? m.availability,
           photo: data.photo || m.photo,
           photoType: data.photoType || m.photoType || 'image',
+          bioCoverPhoto: data.bioCoverPhoto || m.bioCoverPhoto || '',
+          bioCoverPhotoType: data.bioCoverPhotoType || m.bioCoverPhotoType || 'image',
           contract: data.contract || m.contract,
           filled: data.filled ?? m.filled,
           bio: data.bio || m.bio,
@@ -11100,49 +11688,55 @@ function wireSlideArrows(container){
   });
 }
 
-function renderLevelBar(m){
-  const wrap = document.getElementById('level-bar-' + m.id);
+function renderLevelBarGeneric(containerId, tiers, value, valueLabelKey){
+  const wrap = document.getElementById(containerId);
   if(!wrap) return;
-  const currentTier = getFollowerTier(m.followersCount);
+  let currentTier = tiers[0];
+  for(const tr of tiers){ if(value >= tr.min) currentTier = tr; }
+  const uid = containerId;
   wrap.innerHTML = `
     <div class="level-bar-row">
-      <button type="button" class="level-arrow" id="level-arrow-left-${m.id}">‹</button>
-      <div class="level-bar" id="level-bar-track-${m.id}">
-        ${FOLLOWER_TIERS.map((tr, idx) => `
-          <div class="level-step ${tr.key === currentTier.key ? 'current' : ''} ${m.followersCount >= tr.min ? 'reached' : ''}" data-idx="${idx}" data-color="${tr.color}">
-            <span class="level-shield" style="${m.followersCount >= tr.min ? `background:${tr.color};border-color:${tr.color};box-shadow:0 0 10px ${tr.color};` : ''}">${ICON_SHIELD}</span>
+      <button type="button" class="level-arrow" id="level-arrow-left-${uid}">‹</button>
+      <div class="level-bar" id="level-bar-track-${uid}">
+        ${tiers.map((tr, idx) => `
+          <div class="level-step ${tr.key === currentTier.key ? 'current' : ''} ${value >= tr.min ? 'reached' : ''}" data-idx="${idx}" data-color="${tr.color}">
+            <span class="level-shield" style="${value >= tr.min ? `background:${tr.color};border-color:${tr.color};box-shadow:0 0 10px ${tr.color};` : ''}">${ICON_SHIELD}</span>
             <span class="level-step-label">${t('tierLabel_' + tr.key)}</span>
             <span class="level-step-min">${tr.min}+</span>
           </div>
         `).join('')}
       </div>
-      <button type="button" class="level-arrow" id="level-arrow-right-${m.id}">›</button>
+      <button type="button" class="level-arrow" id="level-arrow-right-${uid}">›</button>
     </div>
-    <div class="level-desc-panel" id="level-desc-${m.id}"></div>
+    <div class="level-desc-panel" id="level-desc-${uid}"></div>
   `;
-  const track = document.getElementById('level-bar-track-' + m.id);
-  document.getElementById('level-arrow-left-' + m.id).onclick = () => track.scrollBy({ left: -140, behavior: 'smooth' });
-  document.getElementById('level-arrow-right-' + m.id).onclick = () => track.scrollBy({ left: 140, behavior: 'smooth' });
+  const track = document.getElementById('level-bar-track-' + uid);
+  document.getElementById('level-arrow-left-' + uid).onclick = () => track.scrollBy({ left: -140, behavior: 'smooth' });
+  document.getElementById('level-arrow-right-' + uid).onclick = () => track.scrollBy({ left: 140, behavior: 'smooth' });
 
-  const descPanel = document.getElementById('level-desc-' + m.id);
+  const descPanel = document.getElementById('level-desc-' + uid);
   const showTierDesc = (idx) => {
-    const tr = FOLLOWER_TIERS[idx];
-    const nextTr = FOLLOWER_TIERS[idx + 1];
+    const tr = tiers[idx];
+    const nextTr = tiers[idx + 1];
     track.querySelectorAll('.level-step').forEach((el, i) => {
-      const c = FOLLOWER_TIERS[i].color;
+      const c = tiers[i].color;
       el.classList.toggle('lit', i === idx);
       el.style.setProperty('--lit-color', c);
     });
     descPanel.innerHTML = `
       <span class="level-desc-dot" style="background:${tr.color};box-shadow:0 0 8px ${tr.color};"></span>
-      <span>${t('levelDescPrefix')} <b style="color:${tr.color};">${t('tierLabel_' + tr.key)}</b> — ${tr.min}${nextTr ? '–' + (nextTr.min - 1) : '+'} ${t('followersLabel').toLowerCase()}. ${t('levelDesc_' + tr.key)}</span>
+      <span>${t('levelDescPrefix')} <b style="color:${tr.color};">${t('tierLabel_' + tr.key)}</b> — ${tr.min}${nextTr ? '–' + (nextTr.min - 1) : '+'} ${t(valueLabelKey).toLowerCase()}. ${t('levelDesc_' + tr.key)}</span>
     `;
   };
   track.querySelectorAll('.level-step').forEach(el => {
     el.onclick = () => showTierDesc(parseInt(el.dataset.idx, 10));
     el.addEventListener('mouseenter', () => showTierDesc(parseInt(el.dataset.idx, 10)));
   });
-  showTierDesc(FOLLOWER_TIERS.findIndex(tr => tr.key === currentTier.key));
+  showTierDesc(tiers.findIndex(tr => tr.key === currentTier.key));
+}
+
+function renderLevelBar(m){
+  renderLevelBarGeneric('level-bar-' + m.id, FOLLOWER_TIERS, m.followersCount || 0, 'followersLabel');
 }
 
 async function loadMyMonthCAStat(m){
@@ -11213,6 +11807,16 @@ async function renderMyTipMenu(m){
       <label>${t('tipMenuPriceLabel')} <span class="tipmenu-help" data-help="price">${ICON_HELP}</span></label>
       <div class="tipmenu-help-text" data-help-for="price" style="display:none;">${t('tipMenuHelpPrice').replace('{min}', cap.min).replace('{max}', cap.max)}</div>
       <input type="number" class="tipmenu-price" min="${cap.min}" max="${cap.max}" step="1" value="${r.price || ''}" placeholder="${cap.min}–${cap.max}€">
+      <p class="tipmenu-earn-note">${t('tipMenuEarnNote').replace('{amount}', r.price ? Math.round(r.price * 0.6 * 100) / 100 : '—')}</p>
+
+      <label style="margin-top:10px;">${t('tipMenuContentLabel')}</label>
+      <p class="member-note" style="margin:-2px 0 6px;">${t('tipMenuContentNote')}</p>
+      ${r.contentUrl ? `
+        <div class="tipmenu-content-preview">
+          ${type === 'video' ? `<video src="${escAttr(r.contentUrl)}" controls></video>` : type === 'audio' ? `<audio src="${escAttr(r.contentUrl)}" controls></audio>` : `<img src="${escAttr(r.contentUrl)}">`}
+          <button type="button" class="tipmenu-content-rm" data-idx="${idx}">✕</button>
+        </div>` : dualUploadZoneHtml('tipmenu-content-' + idx, type === 'video' ? 'video/*' : type === 'audio' ? 'audio/*' : 'image/*')}
+
       <div class="modal-actions" style="margin-top:12px;">
         <button type="button" class="btn btn-primary btn-sm tipmenu-row-done" style="flex:1;">${t('tipMenuRowDoneBtn')}</button>
       </div>
@@ -11230,6 +11834,7 @@ async function renderMyTipMenu(m){
     <button type="button" class="btn btn-ghost btn-sm" id="tipmenu-add-row" style="margin-top:10px;">+ ${t('tipMenuAddRow')}</button>
     <div class="tipmenu-custom-preview">${ICON_CHAT_SM} ${t('tipMenuCustomNote')}</div>
     <p class="member-note" style="margin-top:16px;">${t('tipMenuPriceLockedNote')}</p>
+    <a href="https://www.google.com/search?q=euro+to" target="_blank" rel="noopener" class="btn btn-ghost btn-sm" style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:8px;text-decoration:none;">${ICON_EXTLINK} ${t('tipMenuCurrencyCompareLink')}</a>
     <div class="modal-actions">
       <button class="btn btn-primary btn-sm" id="tipmenu-publish" style="flex:1;">${t('tipMenuPublishBtn')}</button>
     </div>
@@ -11299,7 +11904,32 @@ async function renderMyTipMenu(m){
         if(v > cap.max){ v = cap.max; toast(t('tipMenuPriceClamped').replace('{max}', cap.max)); }
         if(v < cap.min) v = cap.min;
         inp.value = v;
+        const note = inp.closest('.tipmenu-card').querySelector('.tipmenu-earn-note');
+        if(note) note.textContent = t('tipMenuEarnNote').replace('{amount}', Math.round(v * 0.6 * 100) / 100);
       });
+    });
+    rowsEl.querySelectorAll('.tipmenu-content-rm').forEach(btn => {
+      btn.onclick = () => {
+        const idx = parseInt(btn.dataset.idx, 10);
+        localRows[idx].contentUrl = '';
+        refreshRows();
+      };
+    });
+    localRows.forEach((r, idx) => {
+      if(!r.contentUrl && r._open){
+        wireDualUpload('tipmenu-content-' + idx, async (files) => {
+          const file = files[0];
+          if(!file) return;
+          try{
+            const ref = storage.ref().child(`tipmenu-content/${m.id}/${Date.now()}_${file.name}`);
+            await ref.put(file);
+            const url = await ref.getDownloadURL();
+            localRows[idx].contentUrl = url;
+            toast(t('addedToast'));
+            refreshRows();
+          }catch(err){ console.error('tip menu content upload error', err); toast(t('uploadFailed')); }
+        });
+      }
     });
     rowsEl.querySelectorAll('.tipmenu-help, .tipmenu-desc-icon').forEach(btn => {
       btn.onclick = () => {
@@ -11320,7 +11950,7 @@ async function renderMyTipMenu(m){
     rowsEl.querySelectorAll('.tipmenu-card:not(.tipmenu-collapsed)').forEach(card => syncOpenCardToLocalRows(card));
     const collected = localRows.filter(r => r.theme && r.theme.trim()).map(r => ({
       emoji: r.emoji || '', type: r.type || 'photo', theme: r.theme.trim().slice(0, 15),
-      price: r.price || null, description: limitWords(r.description || '', 20)
+      price: r.price || null, description: limitWords(r.description || '', 20), contentUrl: r.contentUrl || ''
     }));
     const btn = document.getElementById('tipmenu-publish');
     btn.disabled = true;
@@ -12661,7 +13291,7 @@ function openMyProfileEdit(m){
   }, m.bio || {});
   body.innerHTML = `
     <label>${t('photoLabel')}</label>
-    <p class="member-note" style="margin:-4px 0 8px;">${t('coverVideoNote')} ${t('coverBelongsToShowcaseNote')}</p>
+    <p class="member-note" style="margin:-4px 0 8px;">${t('coverVideoNote')}</p>
     <div class="cover-type-toggle">
       <button type="button" class="cover-type-btn ${(m.photoType || 'image') === 'image' ? 'active' : ''}" data-type="image">${ICON_CAMERA}${t('photoLabel')}</button>
       <button type="button" class="cover-type-btn ${m.photoType === 'video' ? 'active' : ''}" data-type="video">${ICON_VIDEO}${t('coverVideoBtn')}</button>
@@ -12671,6 +13301,20 @@ function openMyProfileEdit(m){
       <input type="file" id="ed-file" accept="${(m.photoType === 'video') ? 'video/*' : 'image/*'}">
     </div>
     <p class="tipmenu-help-text" id="ed-cover-rules">${t('coverVideoRules')}</p>
+
+    <div style="margin-top:26px;padding-top:20px;border-top:1px solid var(--border);">
+      <label>${t('bioCoverLabel')}</label>
+      <p class="member-note" style="margin:-4px 0 8px;">${t('bioCoverNote')}</p>
+      <div class="cover-type-toggle">
+        <button type="button" class="cover-type-btn bio-cover-type-btn ${(m.bioCoverPhotoType || 'image') === 'image' ? 'active' : ''}" data-type="image">${ICON_CAMERA}${t('photoLabel')}</button>
+        <button type="button" class="cover-type-btn bio-cover-type-btn ${m.bioCoverPhotoType === 'video' ? 'active' : ''}" data-type="video">${ICON_VIDEO}${t('coverVideoBtn')}</button>
+      </div>
+      <div class="upload-drop ${m.bioCoverPhoto ? 'has-file' : ''}" id="ed-bio-cover-drop">
+        <span id="ed-bio-cover-drop-label">${m.bioCoverPhoto ? t('photoReplace') : t('photoPrompt')}</span>
+        <input type="file" id="ed-bio-cover-file" accept="${(m.bioCoverPhotoType === 'video') ? 'video/*' : 'image/*'}">
+      </div>
+      <p class="tipmenu-help-text" id="ed-bio-cover-rules">${t('coverVideoRules')}</p>
+    </div>
 
     <div style="margin-top:26px;padding-top:20px;border-top:1px solid var(--border);">
       <label>${t('publicIntroLabel')}</label>
@@ -12740,14 +13384,24 @@ function openMyProfileEdit(m){
 
   let newPhoto = m.photo;
   let newPhotoType = m.photoType || 'image';
+  let newBioCoverPhoto = m.bioCoverPhoto || '';
+  let newBioCoverPhotoType = m.bioCoverPhotoType || 'image';
   let photoUploading = false;
 
-  document.querySelectorAll('.cover-type-btn').forEach(btn => {
+  document.querySelectorAll('.cover-type-btn:not(.bio-cover-type-btn)').forEach(btn => {
     btn.onclick = () => {
-      document.querySelectorAll('.cover-type-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.cover-type-btn:not(.bio-cover-type-btn)').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       newPhotoType = btn.dataset.type;
       document.getElementById('ed-file').setAttribute('accept', newPhotoType === 'video' ? 'video/*' : 'image/*');
+    };
+  });
+  document.querySelectorAll('.bio-cover-type-btn').forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll('.bio-cover-type-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      newBioCoverPhotoType = btn.dataset.type;
+      document.getElementById('ed-bio-cover-file').setAttribute('accept', newBioCoverPhotoType === 'video' ? 'video/*' : 'image/*');
     };
   });
 
@@ -12792,6 +13446,33 @@ function openMyProfileEdit(m){
     photoUploading = false;
   };
 
+  document.getElementById('ed-bio-cover-file').onchange = async (e) => {
+    const file = e.target.files[0];
+    if(!file) return;
+    if(newBioCoverPhotoType === 'video'){
+      try{ await checkVideoDuration(file); }
+      catch(err){
+        toast(t('coverVideoTooLong'));
+        e.target.value = '';
+        return;
+      }
+    }
+    photoUploading = true;
+    document.getElementById('ed-bio-cover-drop-label').textContent = t('uploadingLabel');
+    try{
+      const ref = storage.ref().child(`bio-covers/${m.id}/${Date.now()}_${file.name}`);
+      await ref.put(file);
+      newBioCoverPhoto = await ref.getDownloadURL();
+      document.getElementById('ed-bio-cover-drop').classList.add('has-file');
+      document.getElementById('ed-bio-cover-drop-label').textContent = t('photoReplace');
+    }catch(err){
+      console.error('bio cover upload error', err);
+      toast(t('uploadFailed'));
+      document.getElementById('ed-bio-cover-drop-label').textContent = t('photoPrompt');
+    }
+    photoUploading = false;
+  };
+
   document.getElementById('ed-cancel').onclick = closeEdit;
   document.getElementById('ed-save').onclick = async () => {
     if(photoUploading){
@@ -12809,6 +13490,8 @@ function openMyProfileEdit(m){
     m.availability = document.getElementById('ed-avail').value.trim();
     m.photo = newPhoto;
     m.photoType = newPhotoType;
+    m.bioCoverPhoto = newBioCoverPhoto;
+    m.bioCoverPhotoType = newBioCoverPhotoType;
     m.filled = !!m.name;
     m.bio = {
       origin: document.getElementById('ed-bio-origin').value.trim(),
@@ -12835,7 +13518,9 @@ function openMyProfileEdit(m){
         slotNumber: parseInt(m.id.replace('m',''), 10),
         name: m.name, country: m.country, platforms: m.platforms,
         audience: m.audience, contentType: m.contentType, availability: m.availability,
-        photo: m.photo, photoType: m.photoType || 'image', filled: m.filled, bio: m.bio, publicIntro: m.publicIntro || '',
+        photo: m.photo, photoType: m.photoType || 'image',
+        bioCoverPhoto: m.bioCoverPhoto || '', bioCoverPhotoType: m.bioCoverPhotoType || 'image',
+        filled: m.filled, bio: m.bio, publicIntro: m.publicIntro || '',
         updatedAt: firebase.firestore.FieldValue.serverTimestamp()
       }, { merge: true });
     }catch(e){
@@ -14048,7 +14733,7 @@ function renderMemberHome(user, data, activeTab){
   document.getElementById('member-tab-messages').onclick = () => renderMemberHome(user, data, 'messages');
   document.getElementById('member-tab-purchases').onclick = () => renderMemberHome(user, data, 'purchases');
   updateTopbarMemberBadge(data.username);
-  if(activeTab === 'purchases') renderMemberPurchasesTab(user);
+  if(activeTab === 'purchases') renderMemberPurchasesTab(user, data);
   else if(activeTab === 'favorites') renderMemberFavoritesTab(user, data);
   else if(activeTab === 'messages') renderMemberMessagesTab(user, data);
   else if(activeTab === 'popularity') renderMemberPopularityTab(user, data);
@@ -14078,29 +14763,39 @@ function renderMemberProfileInfosSubtab(user, data){
   const tabBody = document.getElementById('member-subtab-body');
   const avatarInner = data.photoURL ? `<img src="${escAttr(data.photoURL)}" alt="">` : '🙂';
   tabBody.innerHTML = `
-    <div class="member-avatar-row">
-      <div class="member-avatar" id="member-avatar-preview">${avatarInner}</div>
-      <label class="btn btn-ghost btn-sm member-avatar-upload" style="flex:1;text-align:center;">
-        ${t('memberAvatarChange')}
-        <input type="file" accept="image/*" id="member-avatar-input">
-      </label>
+    <div class="member-presentation-header">
+      <div class="member-avatar-row">
+        <div class="member-avatar" id="member-avatar-preview">${avatarInner}</div>
+        <label class="btn btn-ghost btn-sm member-avatar-upload" style="flex:1;text-align:center;">
+          ${t('memberAvatarChange')}
+          <input type="file" accept="image/*" id="member-avatar-input">
+        </label>
+      </div>
+      <h3 class="member-presentation-name">${escText(data.username || t('nameUndefined'))}</h3>
     </div>
-    <label>${t('memberUsernameLabel')}</label>
+    <div class="bio-narrative-divider"></div>
+
+    <label>${ICON_USER}${t('memberUsernameLabel')}</label>
     <div style="display:flex;gap:8px;">
       <input id="member-pf-username" placeholder="${escAttr(t('memberUsernamePh'))}" value="${escAttr(data.username || '')}" style="flex:1;" maxlength="20">
       <button type="button" class="btn btn-ghost btn-sm" id="member-pf-username-save" style="width:auto;flex-shrink:0;">${t('memberSaveBtn')}</button>
     </div>
     <p class="member-note" id="member-pf-username-note"></p>
-    <label>${t('memberEmailLabel')}</label>
+
+    <label>${ICON_MAIL_SM}${t('memberEmailLabel')}</label>
     <input value="${escAttr(data.email || user.email || '')}" disabled>
     <p class="member-note">${t('memberPrivateFieldNote')}</p>
-    <label>${t('memberLocationLabel')}</label>
+
+    <label>${ICON_PIN_SM}${t('memberLocationLabel')}</label>
     <div style="display:flex;gap:8px;">
       <input id="member-pf-location" placeholder="${escAttr(t('memberLocationPh'))}" value="${escAttr(data.location || '')}" style="flex:1;">
       <button type="button" class="btn btn-ghost btn-sm" id="member-pf-geoloc" style="width:auto;flex-shrink:0;" title="${escAttr(t('memberUseMyLocation'))}">📍</button>
     </div>
     <p class="member-note" id="member-pf-geoloc-note"></p>
-    <label>${t('memberBioLabel')}</label>
+
+    <div class="bio-narrative-divider" style="margin:20px 0;"></div>
+
+    <label>${ICON_NOTE}${t('memberBioLabel')}</label>
     <textarea id="member-pf-bio" rows="3" placeholder="${escAttr(t('memberBioPh'))}">${escText(data.bio || '')}</textarea>
     <label>${t('memberVisibilityLabel')}</label>
     <select id="member-pf-bio-visible">
@@ -14373,7 +15068,7 @@ async function memberDeleteAccount(user, data){
   }
 }
 
-async function renderMemberPurchasesTab(user){
+async function renderMemberPurchasesTab(user, data){
   const tabBody = document.getElementById('member-tab-body');
   tabBody.innerHTML = `<p class="member-note">…</p>`;
   try{
@@ -14409,6 +15104,11 @@ async function renderMemberPurchasesTab(user){
     const videos = paidOrders.filter(o => o.item.kind === 'video');
     const photoThumbs = photos.map(o => `<div class="member-media-thumb"><img src="${escAttr(o.item.url || o.item.teaserUrl || '')}" alt=""></div>`).join('');
     const videoThumbs = videos.map(o => `<div class="member-media-thumb"><video src="${escAttr(o.item.url || o.item.teaserUrl || '')}" muted></video></div>`).join('');
+    const customPurchases = (data && data.customPurchases) || [];
+    const customThumbs = customPurchases.map(p => `
+      <div class="member-media-thumb" title="${escAttr(p.creatorName || '')}">
+        ${p.type === 'video' ? `<video src="${escAttr(p.url)}" muted></video>` : p.type === 'audio' ? `<div class="audio-thumb">${ICON_AUDIO}</div>` : `<img src="${escAttr(p.url)}" alt="">`}
+      </div>`).join('');
     tabBody.innerHTML = `
       <div class="member-section-title">${t('memberPurchaseHistoryTitle')}</div>
       ${historyRows || `<p class="member-note">${t('memberPurchaseNone')}</p>`}
@@ -14416,6 +15116,8 @@ async function renderMemberPurchasesTab(user){
       ${photoThumbs ? `<div class="member-media-grid">${photoThumbs}</div>` : `<p class="member-note">${t('memberPurchaseNoPhotos')}</p>`}
       <div class="member-section-title">${t('memberPurchaseVideosTitle')}</div>
       ${videoThumbs ? `<div class="member-media-grid">${videoThumbs}</div>` : `<p class="member-note">${t('memberPurchaseNoVideos')}</p>`}
+      <div class="member-section-title">${t('customOrderPurchasesTitle')}</div>
+      ${customThumbs ? `<div class="member-media-grid">${customThumbs}</div>` : `<p class="member-note">${t('customOrderPurchasesNone')}</p>`}
     `;
   }catch(e){
     console.error('load member purchases error', e);
@@ -14445,6 +15147,7 @@ async function renderMemberPopularityTab(user, data){
         ${uxdBadgeHtml(data.uxd)}
         <span>${t('uxdExplainNote')}</span>
       </div>
+      <div class="level-bar-wrap" id="member-uxd-level-bar"></div>
       <div class="member-section-title" style="margin-top:20px;">${t('followingListTitle')} (${followingRows.length})</div>
       <div class="member-favorites-list" style="margin-top:10px;">
         ${followingRows.length === 0 ? `<p class="member-note">${t('membersViewerEmpty')}</p>` : followingRows.map(m => `
@@ -14463,6 +15166,7 @@ async function renderMemberPopularityTab(user, data){
           </div>`).join('')}
       </div>
     `;
+    renderLevelBarGeneric('member-uxd-level-bar', UXD_TIERS, data.uxd || 0, 'uxdLabel');
   }catch(e){
     console.error('renderMemberPopularityTab error', e);
     tabBody.innerHTML = `<span class="gallery-empty">${(LANG==='fr'?'Erreur : ':'Error: ')}${escText(e.message||String(e))}</span>`;
@@ -14582,8 +15286,20 @@ async function openChat(ctx){
   document.getElementById('chat-header-avatar').innerHTML = ctx.otherPhoto ? `<img src="${escAttr(ctx.otherPhoto)}" alt="">` : '🍯';
   document.getElementById('chat-header-name').textContent = ctx.otherName || '';
   document.getElementById('chat-header-status').textContent = '';
-  document.getElementById('chat-rules-banner').textContent = t('chatRulesBanner');
-  document.getElementById('chat-input').value = '';
+  wireChatModPanel();
+  wireChatBot(ctx);
+  const cartBtn = document.getElementById('chat-cart-btn');
+  if(cartBtn){
+    if(ctx.viewerType === 'member'){
+      cartBtn.style.display = 'flex';
+      cartBtn.innerHTML = `${ICON_CART}`;
+      cartBtn.title = t('customOrderBtnLabel');
+      cartBtn.onclick = () => openCustomOrderForm(ctx);
+    }else{
+      cartBtn.style.display = 'none';
+    }
+  }
+  document.getElementById('chat-input').value = ctx.prefillText || '';
   document.getElementById('chat-messages').innerHTML = `<span class="chat-empty-note">${t('chatLoading')}</span>`;
   document.getElementById('chat-backdrop').classList.add('open');
   document.getElementById('chat-modal').classList.add('open');
@@ -14636,12 +15352,40 @@ async function openChat(ctx){
         const avatarHtml = !mine
           ? (ctx.otherPhoto ? `<img class="dm-avatar" src="${escAttr(ctx.otherPhoto)}" alt="">` : HONEYMOON_LOGO_FALLBACK_HTML)
           : (ctx.myPhoto ? `<img class="dm-avatar" src="${escAttr(ctx.myPhoto)}" alt="">` : HONEYMOON_LOGO_FALLBACK_HTML);
-        const otherBadgeHtml = !mine ? (ctx.viewerType === 'creator' ? uxdBadgeHtml(ctx.otherUxd) : followerBadgeHtml((typeof roster !== 'undefined' && roster.find(x => x.id === ctx.profileId) || {}).followersCount)) : '';
+        const otherBadgeHtml = ctx.viewerType === 'creator' ? uxdShieldHtml(ctx.otherUxd) : followerShieldHtml((typeof roster !== 'undefined' && roster.find(x => x.id === ctx.profileId) || {}).followersCount);
+        const myBadgeHtml = ctx.viewerType === 'creator' ? followerShieldHtml((typeof roster !== 'undefined' && roster.find(x => x.id === ctx.profileId) || {}).followersCount) : uxdShieldHtml(ctx.myUxd || 0);
         const myName = ctx.viewerType === 'member' ? (ctx.memberUsername || t('nameUndefined')) : (ctx.creatorName || t('nameUndefined'));
-        const nameHtml = `<div class="dm-sender-name">${escText(mine ? myName : (ctx.otherName || t('nameUndefined')))} ${otherBadgeHtml}</div>`;
+        const nameHtml = `<div class="dm-sender-name">${escText(mine ? myName : (ctx.otherName || t('nameUndefined')))} ${mine ? myBadgeHtml : otherBadgeHtml}</div>`;
         const likedBy = m.likedBy || [];
         const isLiked = likedBy.includes(ctx.viewerType);
         const likeCount = likedBy.length;
+
+        if(m.customOrderRequest){
+          const isDelivered = m.customOrderStatus === 'delivered';
+          let actionHtml = '';
+          if(ctx.viewerType === 'creator' && !isDelivered){
+            actionHtml = `<button type="button" class="custom-order-action-btn custom-order-deliver-btn" data-docid="${docSnap.id}" data-text="${escAttr(m.text || '')}">${ICON_GIFT} ${t('customOrderDeliverBtn')}</button>`;
+          }else if(ctx.viewerType === 'member' && isDelivered){
+            actionHtml = `<button type="button" class="custom-order-action-btn custom-order-unlock-btn" data-docid="${docSnap.id}" data-url="${escAttr(m.deliveredContentUrl || '')}" data-type="${escAttr(m.deliveredContentType || 'photo')}" data-text="${escAttr(m.text || '')}">${ICON_LOCK} ${t('customOrderViewBtn')}</button>`;
+          }else if(isDelivered){
+            actionHtml = `<span class="custom-order-status-tag">✓ ${t('customOrderDeliveredNote')}</span>`;
+          }else{
+            actionHtml = `<span class="custom-order-status-tag pending">${t('customOrderPendingNote')}</span>`;
+          }
+          return `
+            <div class="dm-bubble-row ${mine ? 'mine' : 'theirs'}">
+              <div class="dm-sender-row">${avatarHtml}${nameHtml}</div>
+              <div class="custom-order-card">
+                <div class="custom-order-card-head">${ICON_CART} <b>${t('customOrderBtnLabel')}</b></div>
+                <p class="custom-order-card-text">${escText(m.text || '')}</p>
+                ${actionHtml}
+              </div>
+              <div class="dm-bubble-footer">
+                <span class="dm-bubble-time">${formatChatTime(m.createdAt)}</span>
+              </div>
+            </div>`;
+        }
+
         return `
           <div class="dm-bubble-row ${mine ? 'mine' : 'theirs'}">
             <div class="dm-sender-row">${avatarHtml}${nameHtml}</div>
@@ -14660,6 +15404,15 @@ async function openChat(ctx){
       });
       box.querySelectorAll('.dm-like-btn').forEach(btn => {
         btn.onclick = () => toggleMessageLike(btn.dataset.docid);
+      });
+      box.querySelectorAll('.custom-order-deliver-btn').forEach(btn => {
+        btn.onclick = () => openOrderDelivery(ctx, btn.dataset.docid, btn.dataset.text);
+      });
+      box.querySelectorAll('.custom-order-unlock-btn').forEach(btn => {
+        btn.onclick = () => {
+          unlockDeliveredOrder(btn.dataset.url, btn.dataset.type, btn.dataset.text, ctx.otherName);
+          saveDeliveredOrderToPurchases(ctx, btn.dataset.text, btn.dataset.url, btn.dataset.type);
+        };
       });
       box.querySelectorAll('.dm-bubble').forEach(bubble => {
         let lastTap = 0;
@@ -14710,6 +15463,7 @@ function openChatMessageMenu(e, docId, text){
 
 function closeChat(){
   closeChatListeners();
+  stopChatBanner();
   if(chatCtx){
     const convRef = db.collection('profiles').doc(chatCtx.profileId).collection('conversations').doc(chatCtx.memberUid);
     const myTypingField = chatCtx.viewerType === 'member' ? 'memberTyping' : 'creatorTyping';
@@ -14800,6 +15554,312 @@ function wireChatReactionRail(){
     };
   });
 }
+function wireChatModPanel(){
+  const btn = document.getElementById('chat-mod-btn');
+  const panel = document.getElementById('chat-mod-panel');
+  if(!btn || !panel) return;
+  btn.innerHTML = `${ICON_SHIELD}<span>${t('chatModBtnLabel')}</span>`;
+  panel.innerHTML = `
+    <p class="chat-mod-tip">${t('chatModTip1')}</p>
+    <p class="chat-mod-tip">${t('chatModTip2')}</p>
+    <p class="chat-mod-rule">${t('chatRulesBanner')}</p>
+  `;
+  panel.classList.remove('open');
+  btn.onclick = () => panel.classList.toggle('open');
+}
+
+let chatBannerTimer = null;
+function stopChatBanner(){
+  if(chatBannerTimer){ clearInterval(chatBannerTimer); chatBannerTimer = null; }
+}
+function startChatBanner(messages, intervalSec){
+  stopChatBanner();
+  const el = document.getElementById('chat-banner');
+  if(!el || !messages || !messages.length) { if(el) el.style.display = 'none'; return; }
+  let i = 0;
+  const show = () => { el.textContent = messages[i % messages.length]; i++; };
+  show();
+  el.style.display = 'block';
+  chatBannerTimer = setInterval(show, Math.max(3, intervalSec || 8) * 1000);
+}
+
+async function wireChatBot(ctx){
+  const btn = document.getElementById('chat-bot-btn');
+  const panel = document.getElementById('chat-bot-panel');
+  const bannerEl = document.getElementById('chat-banner');
+  if(!btn || !panel) return;
+  stopChatBanner();
+  if(bannerEl) bannerEl.style.display = 'none';
+
+  if(ctx.viewerType !== 'creator'){
+    // Côté membre : pas de bouton de configuration, mais la bannière de la créatrice reste visible si elle en a réglé une.
+    btn.style.display = 'none';
+    panel.style.display = 'none';
+    panel.classList.remove('open');
+    try{
+      const doc = await db.collection('profiles').doc(ctx.profileId).get();
+      const d = doc.data() || {};
+      if(d.autoBannerMessages && d.autoBannerMessages.length){
+        startChatBanner(d.autoBannerMessages, d.autoBannerIntervalSec);
+      }
+    }catch(e){ console.error('load banner (member view) error', e); }
+    return;
+  }
+
+  btn.style.display = 'flex';
+  let profileData = {};
+  try{
+    const doc = await db.collection('profiles').doc(ctx.profileId).get();
+    profileData = doc.data() || {};
+  }catch(e){ console.error('load chat bot config error', e); }
+
+  if(profileData.autoBannerMessages && profileData.autoBannerMessages.length){
+    startChatBanner(profileData.autoBannerMessages, profileData.autoBannerIntervalSec);
+  }
+
+  const renderBotPanel = () => {
+    const banners = profileData.autoBannerMessages || [];
+    btn.innerHTML = `${ICON_GIFT}<span>${t('chatBotBtnLabel')}</span>`;
+    panel.innerHTML = `
+      <label>${t('chatBotWelcomeLabel')}</label>
+      <p class="member-note" style="margin:-2px 0 6px;">${t('chatBotWelcomeNote')}</p>
+      <textarea id="chat-bot-welcome-text" rows="2" maxlength="300" placeholder="${escAttr(t('chatBotWelcomePh'))}">${escText(profileData.autoWelcomeMessage || '')}</textarea>
+      <button type="button" class="btn btn-ghost btn-sm" id="chat-bot-welcome-save" style="margin-top:6px;">${t('memberSaveBtn')}</button>
+
+      <div class="bio-narrative-divider" style="margin:16px 0;"></div>
+
+      <label>${t('chatBotBannerLabel')}</label>
+      <p class="member-note" style="margin:-2px 0 6px;">${t('chatBotBannerNote')}</p>
+      <div id="chat-bot-banner-list">
+        ${banners.map((b, i) => `
+          <div style="display:flex;gap:6px;margin-bottom:6px;">
+            <input type="text" class="chat-bot-banner-item" data-idx="${i}" value="${escAttr(b)}" maxlength="120" style="flex:1;">
+            <button type="button" class="btn btn-ghost btn-sm chat-bot-banner-rm" data-idx="${i}" style="width:auto;flex-shrink:0;">✕</button>
+          </div>`).join('')}
+      </div>
+      <button type="button" class="btn btn-ghost btn-sm" id="chat-bot-banner-add">+ ${t('chatBotBannerAddBtn')}</button>
+      <label style="margin-top:12px;">${t('chatBotIntervalLabel')}</label>
+      <input type="number" id="chat-bot-interval" min="3" max="120" value="${profileData.autoBannerIntervalSec || 8}">
+      <button type="button" class="btn btn-primary btn-sm" id="chat-bot-banner-save" style="margin-top:8px;">${t('memberSaveBtn')}</button>
+    `;
+    document.getElementById('chat-bot-welcome-save').onclick = async () => {
+      const text = document.getElementById('chat-bot-welcome-text').value.trim();
+      try{
+        await db.collection('profiles').doc(ctx.profileId).set({ autoWelcomeMessage: text }, { merge: true });
+        profileData.autoWelcomeMessage = text;
+        toast(t('memberSavedToast'));
+      }catch(e){ console.error('save auto welcome error', e); toast(t('memberErrUnknown')); }
+    };
+    document.getElementById('chat-bot-banner-add').onclick = () => {
+      profileData.autoBannerMessages = profileData.autoBannerMessages || [];
+      profileData.autoBannerMessages.push('');
+      renderBotPanel();
+    };
+    panel.querySelectorAll('.chat-bot-banner-rm').forEach(b => {
+      b.onclick = () => {
+        profileData.autoBannerMessages.splice(parseInt(b.dataset.idx, 10), 1);
+        renderBotPanel();
+      };
+    });
+    document.getElementById('chat-bot-banner-save').onclick = async () => {
+      const items = Array.from(panel.querySelectorAll('.chat-bot-banner-item')).map(inp => inp.value.trim()).filter(Boolean);
+      const intervalSec = Math.max(3, parseInt(document.getElementById('chat-bot-interval').value, 10) || 8);
+      try{
+        await db.collection('profiles').doc(ctx.profileId).set({ autoBannerMessages: items, autoBannerIntervalSec: intervalSec }, { merge: true });
+        profileData.autoBannerMessages = items;
+        profileData.autoBannerIntervalSec = intervalSec;
+        startChatBanner(items, intervalSec);
+        toast(t('memberSavedToast'));
+      }catch(e){ console.error('save banner error', e); toast(t('memberErrUnknown')); }
+    };
+  };
+  renderBotPanel();
+  panel.classList.remove('open');
+  btn.onclick = () => { panel.style.display = panel.classList.contains('open') ? 'none' : 'block'; panel.classList.toggle('open'); };
+
+  // Envoi automatique du message de bienvenue, max 4 fois par conversation.
+  if(profileData.autoWelcomeMessage){
+    try{
+      const convRef = db.collection('profiles').doc(ctx.profileId).collection('conversations').doc(ctx.memberUid);
+      const convDoc = await convRef.get();
+      const sentCount = (convDoc.exists && convDoc.data().autoWelcomeSentCount) || 0;
+      if(sentCount < 4){
+        await convRef.collection('messages').add({
+          senderType: 'creator', text: profileData.autoWelcomeMessage,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        await convRef.set({
+          autoWelcomeSentCount: sentCount + 1,
+          lastMessageText: profileData.autoWelcomeMessage, lastMessageAt: firebase.firestore.FieldValue.serverTimestamp(),
+          lastSenderType: 'creator', memberUid: ctx.memberUid,
+          memberUnreadCount: firebase.firestore.FieldValue.increment(1)
+        }, { merge: true });
+      }
+    }catch(e){ console.error('auto welcome send error', e); }
+  }
+}
+
+/* ---------------- commande personnalisée (membre → créatrice, depuis le chat) ---------------- */
+function openCustomOrderForm(ctx){
+  document.getElementById('custom-order-body').innerHTML = `
+    <h3>${t('customOrderBtnLabel')}</h3>
+    <p class="member-note">${t('customOrderFormNote')}</p>
+    <textarea id="custom-order-text" rows="4" maxlength="500" placeholder="${escAttr(t('customOrderFormPh'))}"></textarea>
+    <div class="modal-actions">
+      <button class="btn btn-ghost btn-sm" id="custom-order-cancel" style="flex:1;">${t('galleryClose')}</button>
+      <button class="btn btn-primary btn-sm" id="custom-order-send" style="flex:1;">${t('customOrderSendBtn')}</button>
+    </div>
+  `;
+  document.getElementById('custom-order-backdrop').classList.add('open');
+  document.getElementById('custom-order-modal').classList.add('open');
+  const close = () => {
+    document.getElementById('custom-order-backdrop').classList.remove('open');
+    document.getElementById('custom-order-modal').classList.remove('open');
+  };
+  document.getElementById('custom-order-cancel').onclick = close;
+  document.getElementById('custom-order-backdrop').onclick = close;
+  document.getElementById('custom-order-send').onclick = async () => {
+    const text = document.getElementById('custom-order-text').value.trim();
+    if(!text) return;
+    if(containsBannedWords(text)){ toast(t('commentModerationError')); return; }
+    const btn = document.getElementById('custom-order-send');
+    btn.disabled = true;
+    try{
+      if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
+      const convRef = db.collection('profiles').doc(ctx.profileId).collection('conversations').doc(ctx.memberUid);
+      await convRef.collection('messages').add({
+        senderType: 'member', text: text, customOrderRequest: true, customOrderStatus: 'pending',
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      await convRef.set({
+        memberUid: ctx.memberUid, memberUsername: ctx.memberUsername || '', creatorName: ctx.creatorName || '',
+        lastMessageText: '📦 ' + t('customOrderBtnLabel'), lastMessageAt: firebase.firestore.FieldValue.serverTimestamp(),
+        lastSenderType: 'member', creatorUnreadCount: firebase.firestore.FieldValue.increment(1)
+      }, { merge: true });
+      toast(t('customOrderSentToast'));
+      close();
+    }catch(e){ console.error('send custom order error', e); toast(t('memberErrUnknown')); }
+    btn.disabled = false;
+  };
+}
+
+/* ---------------- livraison (créatrice répond à une commande, unique à ce message/ce membre) ---------------- */
+function openOrderDelivery(ctx, msgDocId, requestText){
+  if(ctx.viewerType !== 'creator'){
+    toast(t('customOrderUnauthorized'));
+    return;
+  }
+  const body = document.getElementById('order-delivery-body');
+  body.innerHTML = `
+    <h3>${t('customOrderDeliverTitle')}</h3>
+    <p class="member-note">${escText(requestText)}</p>
+    <label>${t('tipMenuContentLabel')}</label>
+    <div id="order-delivery-upload-zone">${dualUploadZoneHtml('order-delivery', 'image/*,video/*,audio/*')}</div>
+    <div id="order-delivery-price-zone" style="display:none;">
+      <label style="margin-top:14px;">${t('tipMenuPriceLabel')}</label>
+      <p class="member-note" id="order-delivery-price-note" style="margin:-2px 0 6px;"></p>
+      <input type="number" id="order-delivery-price" min="1" max="50" step="1">
+      <p class="tipmenu-earn-note" id="order-delivery-earn-note"></p>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost btn-sm" id="order-delivery-cancel" style="flex:1;">${t('galleryClose')}</button>
+      <button class="btn btn-primary btn-sm" id="order-delivery-confirm" style="flex:1;" disabled>${t('customOrderDeliverBtn')}</button>
+    </div>
+  `;
+  document.getElementById('order-delivery-backdrop').classList.add('open');
+  document.getElementById('order-delivery-modal').classList.add('open');
+  const close = () => {
+    document.getElementById('order-delivery-backdrop').classList.remove('open');
+    document.getElementById('order-delivery-modal').classList.remove('open');
+  };
+  document.getElementById('order-delivery-cancel').onclick = close;
+  document.getElementById('order-delivery-backdrop').onclick = close;
+
+  let uploadedUrl = '';
+  let uploadedType = 'image';
+  const priceInput = document.getElementById('order-delivery-price');
+  const updateEarnNote = () => {
+    const v = parseInt(priceInput.value, 10) || 0;
+    document.getElementById('order-delivery-earn-note').textContent = t('tipMenuEarnNote').replace('{amount}', Math.round(v * 0.6 * 100) / 100);
+  };
+  priceInput.addEventListener('change', () => {
+    const cap = TIP_MENU_PRICE_CAPS[uploadedType];
+    let v = parseInt(priceInput.value, 10);
+    if(isNaN(v)) return;
+    if(v > cap.max){ v = cap.max; toast(t('tipMenuPriceClamped').replace('{max}', cap.max)); }
+    if(v < cap.min) v = cap.min;
+    priceInput.value = v;
+    updateEarnNote();
+  });
+
+  wireDualUpload('order-delivery', async (files) => {
+    const file = files[0];
+    if(!file) return;
+    uploadedType = file.type.startsWith('video') ? 'video' : file.type.startsWith('audio') ? 'audio' : 'photo';
+    try{
+      const ref = storage.ref().child(`custom-orders/${ctx.profileId}/${ctx.memberUid}/${Date.now()}_${file.name}`);
+      await ref.put(file);
+      uploadedUrl = await ref.getDownloadURL();
+      const cap = TIP_MENU_PRICE_CAPS[uploadedType];
+      priceInput.min = cap.min; priceInput.max = cap.max; priceInput.value = cap.min;
+      priceInput.placeholder = `${cap.min}–${cap.max}€`;
+      document.getElementById('order-delivery-price-note').textContent = t('tipMenuHelpPrice').replace('{min}', cap.min).replace('{max}', cap.max);
+      document.getElementById('order-delivery-price-zone').style.display = 'block';
+      updateEarnNote();
+      document.getElementById('order-delivery-confirm').disabled = false;
+      toast(t('addedToast'));
+    }catch(err){ console.error('order delivery upload error', err); toast(t('uploadFailed')); }
+  });
+
+  document.getElementById('order-delivery-confirm').onclick = async () => {
+    if(!uploadedUrl) return;
+    const cap = TIP_MENU_PRICE_CAPS[uploadedType];
+    let price = parseInt(priceInput.value, 10) || cap.min;
+    price = Math.max(cap.min, Math.min(cap.max, price));
+    const btn = document.getElementById('order-delivery-confirm');
+    btn.disabled = true;
+    try{
+      const msgRef = db.collection('profiles').doc(ctx.profileId).collection('conversations').doc(ctx.memberUid).collection('messages').doc(msgDocId);
+      await msgRef.set({
+        customOrderStatus: 'delivered', deliveredContentUrl: uploadedUrl, deliveredContentType: uploadedType,
+        deliveredPrice: price, deliveredAt: firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge: true });
+      const convRef = db.collection('profiles').doc(ctx.profileId).collection('conversations').doc(ctx.memberUid);
+      await convRef.set({
+        lastMessageText: '📦 ' + t('customOrderDeliveredNote'), lastMessageAt: firebase.firestore.FieldValue.serverTimestamp(),
+        lastSenderType: 'creator', memberUnreadCount: firebase.firestore.FieldValue.increment(1)
+      }, { merge: true });
+      toast(t('customOrderDeliveredToast'));
+      close();
+    }catch(e){ console.error('deliver order error', e); toast(t('memberErrUnknown')); }
+    btn.disabled = false;
+  };
+}
+
+/* ---------------- déblocage côté membre : voir la livraison + l'ajouter à ses achats ---------------- */
+function unlockDeliveredOrder(url, type, requestText, creatorName){
+  if(type === 'audio'){
+    const content = document.getElementById('lightbox-content');
+    content.innerHTML = `<audio src="${url}" controls autoplay style="width:100%;"></audio>`;
+    document.getElementById('lightbox-backdrop').style.display = 'flex';
+    return;
+  }
+  openLightbox(url, type);
+}
+async function saveDeliveredOrderToPurchases(ctx, requestText, url, type){
+  if(!memberAuth || !memberAuth.currentUser) return;
+  try{
+    const uid = memberAuth.currentUser.uid;
+    await memberDb.collection('members').doc(uid).set({
+      customPurchases: firebase.firestore.FieldValue.arrayUnion({
+        creatorId: ctx.profileId, creatorName: ctx.otherName || '', requestText: requestText || '',
+        url, type, addedAt: Date.now()
+      })
+    }, { merge: true });
+    toast(t('customOrderSavedToPurchases'));
+  }catch(e){ console.error('save purchase error', e); toast(t('memberErrUnknown')); }
+}
+
 let chatSendAudioCtx = null;
 function playChatSendSound(){
   try{
@@ -14923,7 +15983,7 @@ async function renderMemberMessagesTab(user, data){
         openChat({
           profileId: btn.dataset.pid, viewerType: 'member', memberUid: user.uid,
           memberUsername: data.username || '', creatorName: (m && m.name) || '',
-          otherName: (m && m.name) || t('nameUndefined'), otherPhoto: m && m.photo
+          otherName: (m && m.name) || t('nameUndefined'), otherPhoto: m && m.photo, myUxd: data.uxd || 0
         });
       };
     });
@@ -15791,6 +16851,17 @@ const ICON_THUMBSUP = '<svg width="18" height="18" viewBox="0 0 24 24" fill="non
 const ICON_SMILE = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>';
 const ICON_FROWN = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 16s-1.5-2-4-2-4 2-4 2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>';
 const ICON_SHIELD = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>';
+const ICON_MAIL_SM = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 6 10-6"/></svg>';
+const ICON_PIN_SM = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>';
+const ICON_SPARKLE = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6.3 6.3l2.8 2.8M14.9 14.9l2.8 2.8M17.7 6.3l-2.8 2.8M9.1 14.9l-2.8 2.8"/></svg>';
+const ICON_SPARKLES2 = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v4M9 13v4M2 9h4M12 9h4M3.5 4.5l2 2M12.5 13.5l2 2M14.5 4.5l-2 2M5.5 13.5l-2 2"/><circle cx="19" cy="16" r="2"/></svg>';
+const ICON_PALETTE = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a10 10 0 1 1 0-20c5.5 0 10 4 10 8 0 2.5-2 4-4 4h-2a1.5 1.5 0 0 0-1 2.6c.5.5.5 1.4-.1 1.9-1 .8-1.9 1.5-2.9 1.5z"/><circle cx="6.5" cy="11.5" r="1"/><circle cx="9.5" cy="7.5" r="1"/><circle cx="14.5" cy="7.5" r="1"/></svg>';
+const ICON_CLAPPER = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.2 6L3 11l-.9-2.3c-.3-.9.1-1.9 1-2.2l14.5-5.4c.9-.3 1.9.1 2.2 1z"/><path d="M2 11h20v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2z"/><path d="M6 11l2-4M11.5 11l2-4M17 11l2-4"/></svg>';
+const ICON_FLAME = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2s-6 6-6 12a6 6 0 0 0 12 0c0-2-1-3-1-3s-.5 2-2 2c-2 0-1.5-3-1.5-3s-1.5 1-1.5 3c-3-2-3-6 0-11z"/></svg>';
+const ICON_ENVELOPE_HEART = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 6 10-6"/></svg>';
+const ICON_ROCKET = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>';
+const ICON_MOBILE = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>';
+const ICON_EXTLINK = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>';
 const ICON_CHAT_SM = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>';
 const ICON_VIDEO = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>';
 const ICON_BIO = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
@@ -16271,45 +17342,48 @@ function bioNarrativeHtml(m, bio){
   if(bio.origin || bio.nationality) introBits.push(bio.origin || bio.nationality);
   if(m.country) introBits.push(m.country);
   if(introBits.length){
-    parts.push(`<p class="bio-narrative-lead">✨ <b>${escText(m.name || '')}</b>, ${escText(introBits.join(' · '))}.</p>`);
+    parts.push(`<p class="bio-narrative-lead">${ICON_SPARKLES2}<span><b>${escText(m.name || '')}</b>, ${escText(introBits.join(' · '))}.</span></p>`);
   }
 
   if(bio.personality || bio.bodyType || bio.orientation){
     const bits = [bio.personality, bio.bodyType, bio.orientation].filter(Boolean).join(', ');
-    parts.push(`<p>💫 <b>${t('bioNarrativePersonalityTitle')}</b><br>${escText(bits)}</p>`);
+    parts.push(`<p>${ICON_SPARKLE}<span><b>${t('bioNarrativePersonalityTitle')}</b>${escText(bits)}</span></p>`);
   }
 
   if(bio.passions || bio.hobbies || bio.universe){
     const bits = [bio.passions, bio.hobbies, bio.universe].filter(Boolean).join(' · ');
-    parts.push(`<p>🎨 <b>${t('bioNarrativePassionsTitle')}</b><br>${escText(bits)}</p>`);
+    parts.push(`<p>${ICON_PALETTE}<span><b>${t('bioNarrativePassionsTitle')}</b>${escText(bits)}</span></p>`);
   }
 
   if(m.contentType || m.platforms){
     const bits = [m.contentType, m.platforms].filter(Boolean).join(' · ');
-    parts.push(`<p>🎬 <b>${t('bioNarrativeContentTitle')}</b><br>${escText(bits)}</p>`);
+    parts.push(`<p>${ICON_CLAPPER}<span><b>${t('bioNarrativeContentTitle')}</b>${escText(bits)}</span></p>`);
   }
 
   if(bio.fantasies || bio.fetish){
     const bits = [bio.fantasies, bio.fetish].filter(Boolean).join(' · ');
-    parts.push(`<p>🔥 <b>${t('bioNarrativeUniverseTitle')}</b><br>${escText(bits)}</p>`);
+    parts.push(`<p>${ICON_FLAME}<span><b>${t('bioNarrativeUniverseTitle')}</b>${escText(bits)}</span></p>`);
   }
 
   if(bio.lookingFor || m.availability){
     const bits = [bio.lookingFor, m.availability].filter(Boolean).join(' · ');
-    parts.push(`<p>💌 <b>${t('bioNarrativeLookingForTitle')}</b><br>${escText(bits)}</p>`);
+    parts.push(`<p>${ICON_ENVELOPE_HEART}<span><b>${t('bioNarrativeLookingForTitle')}</b>${escText(bits)}</span></p>`);
   }
 
   if(bio.ambitions){
-    parts.push(`<p>🚀 <b>${t('bioNarrativeAmbitionsTitle')}</b><br>${escText(bio.ambitions)}</p>`);
+    parts.push(`<p>${ICON_ROCKET}<span><b>${t('bioNarrativeAmbitionsTitle')}</b>${escText(bio.ambitions)}</span></p>`);
   }
 
   if(m.audience || bio.socials){
     const bits = [m.audience, bio.socials].filter(Boolean).join(' · ');
-    parts.push(`<p>📱 <b>${t('bioNarrativeAudienceTitle')}</b><br>${escText(bits)}</p>`);
+    parts.push(`<p>${ICON_MOBILE}<span><b>${t('bioNarrativeAudienceTitle')}</b>${escText(bits)}</span></p>`);
   }
 
-  if(!parts.length) return `<p class="gallery-empty">${t('galleryEmpty')}</p>`;
-  return `<div class="bio-narrative">${parts.join('')}</div>`;
+  if(!parts.length && !m.bioCoverPhoto) return `<p class="gallery-empty">${t('galleryEmpty')}</p>`;
+  const coverBlock = m.bioCoverPhoto
+    ? `<div class="bio-narrative-cover">${m.bioCoverPhotoType === 'video' ? `<video src="${m.bioCoverPhoto}" controls loop playsinline></video>` : `<img src="${m.bioCoverPhoto}">`}</div>`
+    : '';
+  return `${coverBlock}<h3 class="bio-narrative-title">${t('bioNarrativeMainTitle')}</h3><div class="bio-narrative">${parts.join('<div class="bio-narrative-divider"></div>')}</div>`;
 }
 
 function bioRow(labelKey, value){
@@ -16466,25 +17540,12 @@ async function openVitrineRoom(id){
   const online = bio.status === 'online';
 
   const mediaThumb = (item, type) => {
-    const voteState = localStorage.getItem('hm_mvote_' + item.docId);
-    const favState = localStorage.getItem('hm_mfav_' + item.docId) === '1';
     return `
     <div class="gallery-thumb-wrap">
       <div class="gallery-thumb">
         ${type === 'video'
           ? `<video src="${item.url}" data-full="${item.url}" data-type="video" muted></video>`
           : `<img src="${item.url}" data-full="${item.url}" data-type="image" loading="lazy">`}
-      </div>
-      <div class="media-votes">
-        <button class="media-vote-btn media-heart-btn ${voteState==='like'?'active':''}" data-docid="${item.docId}" data-type="like">
-          <span class="media-heart-icon">${ICON_LIKE}</span><span>${item.likes || 0}</span>
-        </button>
-        <button class="media-vote-btn media-comment-btn" data-docid="${item.docId}" data-media-type="${type}">
-          ${ICON_CHAT_SM}<span>${item.commentsCount || 0}</span>
-        </button>
-        <button class="media-vote-btn media-fav-btn ${favState ? 'active' : ''}" data-docid="${item.docId}">
-          ${ICON_BOOKMARK}<span>${item.favorites || 0}</span>
-        </button>
       </div>
     </div>`;
   };
@@ -16546,13 +17607,14 @@ async function openVitrineRoom(id){
     ${(m.tipMenu && m.tipMenu.length) ? `
     <div class="my-tab-panel" id="room-tab-panel-tipmenu">
       <div class="tipmenu-public-list">
-        ${m.tipMenu.map(r => `
+        ${m.tipMenu.map((r, idx) => `
           <div class="tipmenu-public-row">
             <div class="tipmenu-public-head">
               <span class="tipmenu-public-theme">${r.emoji ? r.emoji + ' ' : ''}${escText(r.theme)}</span>
               <span class="tipmenu-public-prices">${r.type === 'video' ? ICON_VIDEO : (r.type === 'audio' ? ICON_AUDIO : ICON_CAMERA)} ${r.price ? r.price + '€' : ''}</span>
             </div>
             ${r.description ? `<p class="tipmenu-public-desc">${escText(r.description)}</p>` : ''}
+            <button type="button" class="tipmenu-order-btn" data-id="${m.id}" data-idx="${idx}" data-theme="${escAttr(r.theme)}" data-price="${r.price || ''}">${ICON_CART} ${t('tipMenuOrderBtn')}</button>
           </div>`).join('')}
       </div>
       ${m.tipMenuRules ? `<p class="tipmenu-public-rules">${escText(m.tipMenuRules)}</p>` : ''}
@@ -16597,21 +17659,6 @@ async function openVitrineRoom(id){
     el.onclick = () => openLightbox(el.dataset.full, el.dataset.type);
   });
 
-  body.querySelectorAll('.media-heart-btn').forEach(btn => {
-    btn.onclick = () => {
-      castMediaVote(m.id, btn.dataset.docid, btn.dataset.type);
-      btn.querySelector('.media-heart-icon').classList.remove('heart-pop');
-      void btn.offsetWidth;
-      btn.querySelector('.media-heart-icon').classList.add('heart-pop');
-    };
-  });
-  body.querySelectorAll('.media-comment-btn').forEach(btn => {
-    btn.onclick = () => openMediaComments(m.id, btn.dataset.docid, btn.dataset.mediaType);
-  });
-  body.querySelectorAll('.media-fav-btn').forEach(btn => {
-    btn.onclick = () => toggleMediaFavorite(m.id, btn.dataset.docid, btn);
-  });
-
   body.querySelectorAll('.exclusive-unlock-btn').forEach(btn => {
     btn.onclick = () => openUnlockRequest(m, btn.dataset.docid, btn.dataset.price, btn.dataset.kind);
   });
@@ -16644,15 +17691,17 @@ async function openVitrineRoom(id){
     if(!memberAuth || !memberAuth.currentUser){ promptSignupForMembersOnly('chat'); return; }
     const user = memberAuth.currentUser;
     let username = '';
+    let myUxd = 0;
     try{
       const doc = await memberDb.collection('members').doc(user.uid).get();
       username = (doc.exists && doc.data().username) || '';
+      myUxd = (doc.exists && doc.data().uxd) || 0;
     }catch(e){ console.error('load member username error', e); }
     closeVitrineRoom();
     openChat({
       profileId: m.id, viewerType: 'member', memberUid: user.uid,
       memberUsername: username, creatorName: m.name || '',
-      otherName: m.name || t('nameUndefined'), otherPhoto: m.photo
+      otherName: m.name || t('nameUndefined'), otherPhoto: m.photo, myUxd
     });
   };
   initFavoriteButtonsState();
@@ -16662,17 +17711,39 @@ async function openVitrineRoom(id){
     if(!memberAuth || !memberAuth.currentUser){ promptSignupForMembersOnly('chat'); return; }
     const user = memberAuth.currentUser;
     let username = '';
+    let myUxd = 0;
     try{
       const doc = await memberDb.collection('members').doc(user.uid).get();
       username = (doc.exists && doc.data().username) || '';
+      myUxd = (doc.exists && doc.data().uxd) || 0;
     }catch(e){ console.error('load member username error', e); }
     closeVitrineRoom();
     openChat({
       profileId: m.id, viewerType: 'member', memberUid: user.uid,
       memberUsername: username, creatorName: m.name || '',
-      otherName: m.name || t('nameUndefined'), otherPhoto: m.photo
+      otherName: m.name || t('nameUndefined'), otherPhoto: m.photo, myUxd
     });
   };
+  document.getElementById('vitrine-room-body').querySelectorAll('.tipmenu-order-btn[data-id]').forEach(btn => {
+    btn.onclick = async () => {
+      if(!memberAuth || !memberAuth.currentUser){ promptSignupForMembersOnly('chat'); return; }
+      const user = memberAuth.currentUser;
+      let username = '';
+      let myUxd = 0;
+      try{
+        const doc = await memberDb.collection('members').doc(user.uid).get();
+        username = (doc.exists && doc.data().username) || '';
+        myUxd = (doc.exists && doc.data().uxd) || 0;
+      }catch(e){ console.error('load member username error', e); }
+      closeVitrineRoom();
+      openChat({
+        profileId: m.id, viewerType: 'member', memberUid: user.uid,
+        memberUsername: username, creatorName: m.name || '',
+        otherName: m.name || t('nameUndefined'), otherPhoto: m.photo, myUxd,
+        prefillText: t('tipMenuOrderPrefill').replace('{theme}', btn.dataset.theme).replace('{price}', btn.dataset.price)
+      });
+    };
+  });
 }
 async function wireRoomFollowButton(m){
   const btn = document.getElementById('room-follow-btn');
@@ -17264,12 +18335,22 @@ async function loadComments(profileId, creatorName){
           <div class="comment-body">
             <div class="comment-head"><span class="comment-name">${name}</span><span class="comment-date">${formatCommentDate(c.createdAt)}</span></div>
             <div class="comment-text">${escText(text)}</div>
-            <button type="button" class="comment-like-btn ${isLiked ? 'liked' : ''}" data-docid="${d.id}" data-profile="${profileId}">❤ ${likedBy.length > 0 ? likedBy.length : ''}</button>
+            <div style="display:flex;align-items:center;gap:14px;margin-top:6px;">
+              <button type="button" class="comment-reply-btn" data-name="${escAttr(c.name || '')}">${t('commentReplyBtn')}</button>
+              <button type="button" class="comment-like-btn ${isLiked ? 'liked' : ''}" data-docid="${d.id}" data-profile="${profileId}">${ICON_THUMBSUP} ${likedBy.length > 0 ? likedBy.length : ''}</button>
+              <button type="button" class="comment-dislike-icon">${ICON_FROWN}</button>
+            </div>
           </div>
         </div>`;
     }).join('');
     list.querySelectorAll('.comment-like-btn').forEach(btn => {
       btn.onclick = () => toggleCommentLike(btn.dataset.profile, btn.dataset.docid);
+    });
+    list.querySelectorAll('.comment-reply-btn').forEach(btn => {
+      btn.onclick = () => {
+        const input = document.getElementById('comment-input');
+        if(input){ input.value = '@' + btn.dataset.name + ' '; input.focus(); }
+      };
     });
   }catch(e){
     console.error('load comments error', e);
