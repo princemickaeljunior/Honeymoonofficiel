@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <title>Honeymoon</title>
-<script>try{document.documentElement.setAttribute('data-theme', (localStorage.getItem('hm_theme')||'bordeaux')==='light'?'light':'');}catch(e){}</script>
+<script>try{document.documentElement.setAttribute('data-theme', '');}catch(e){}</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,14 +18,14 @@
 
 <style>
 :root{
-  --bg:#141216;
-  --bg-elev:#1e1b21;
-  --bg-elev-2:#27232a;
-  --border:#332e38;
-  --text:#f3ede4;
-  --text-muted:#ab9f95;
-  --honey:#e3a23c;
-  --honey-deep:#c97f1e;
+  --bg:#0c0a0d;
+  --bg-elev:#17141a;
+  --bg-elev-2:#221d26;
+  --border:#3a3240;
+  --text:#f5ede0;
+  --text-muted:#a89a8c;
+  --honey:#d4af37;
+  --honey-deep:#b8912b;
   --rose:#e2637c;
   --radius:16px;
   --radius-sm:10px;
@@ -283,17 +283,32 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(2px);z-index:80;opacity:0;pointer-events:none;transition:opacity .2s;}
 .modal-backdrop.open{opacity:1;pointer-events:auto;}
 .modal-box{
-  position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) scale(0.97);z-index:90;
-  width:92%;max-width:460px;max-height:86vh;overflow-y:auto;
-  background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius);
-  padding:24px;opacity:0;pointer-events:none;transition:opacity .2s, transform .2s;
+  position:fixed;left:0;top:0;right:0;bottom:0;transform:none;z-index:90;
+  width:100%;max-width:100%;height:100%;max-height:100%;overflow-y:auto;
+  background:var(--bg-elev);border:none;border-radius:0;
+  padding:24px;opacity:0;pointer-events:none;transition:opacity .2s;
 }
-.modal-box.open{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1);}
+.modal-box.open{opacity:1;pointer-events:auto;}
 #paid-backdrop{z-index:100;}
 #paid-modal{z-index:101;}
 #chat-backdrop{z-index:110;}
 #chat-modal{z-index:111;}
 .modal-box h3{font-size:18px;margin-bottom:16px;}
+/* Pages plein écran avec en-tête fixe + flèche retour (fiche créatrice, chat). */
+.fullpage-modal{
+  padding:0;display:flex;flex-direction:column;overflow:hidden;
+}
+.fullpage-header{
+  flex:0 0 auto;display:flex;align-items:center;gap:12px;padding:14px 16px;
+  background:var(--bg-elev);border-bottom:1px solid var(--border);
+}
+.fullpage-back-btn{
+  background:var(--bg-elev-2);border:1px solid var(--border);color:var(--honey);
+  width:38px;height:38px;border-radius:50%;font-size:18px;flex:0 0 auto;
+  display:flex;align-items:center;justify-content:center;
+}
+.fullpage-header-title{flex:1;min-width:0;font-family:'Playfair Display',serif;font-size:16px;font-weight:600;}
+.fullpage-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px;}
 .modal-box label{font-size:11px;color:var(--text-muted);display:block;margin-bottom:6px;margin-top:12px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;}
 .modal-box input, .modal-box textarea, .modal-box select{
   width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text);
@@ -374,6 +389,14 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 .chat-input-row{display:flex;gap:8px;padding:12px 14px;border-top:1px solid var(--border);flex-shrink:0;align-items:flex-end;}
 .chat-input-row textarea{flex:1;resize:none;max-height:90px;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text);border-radius:14px;padding:10px 14px;font-size:13.5px;font-family:inherit;}
 .chat-send-btn{background:var(--honey);border:none;color:#1a1206;width:38px;height:38px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.chat-emoji-btn{background:var(--bg-elev-2);border:1px solid var(--border);width:38px;height:38px;border-radius:50%;flex-shrink:0;font-size:18px;display:flex;align-items:center;justify-content:center;}
+.chat-emoji-picker{
+  flex-shrink:0;display:grid;grid-template-columns:repeat(8,1fr);gap:4px;
+  padding:10px 12px;border-top:1px solid var(--border);background:var(--bg-elev-2);
+  max-height:160px;overflow-y:auto;
+}
+.chat-emoji-picker button{background:none;border:none;font-size:22px;padding:6px;border-radius:8px;}
+.chat-emoji-picker button:active{background:var(--bg-elev);}
 .chat-empty-note{color:var(--text-muted);font-size:12.5px;text-align:center;margin:auto;padding:20px;}
 .conv-list-row{display:flex;align-items:center;gap:12px;background:var(--bg-elev-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:8px;text-align:left;width:100%;position:relative;}
 .conv-list-avatar{width:38px;height:38px;border-radius:50%;overflow:hidden;flex-shrink:0;background:var(--bg-elev);display:flex;align-items:center;justify-content:center;font-size:16px;}
@@ -640,6 +663,8 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 
 /* ---------- burger menu + langue en dessous ---------- */
 .burger-btn{background:none;border:1px solid var(--border);color:var(--text);width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;}
+.topbar-msg-btn{background:none;border:1px solid var(--border);color:var(--honey);width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;position:relative;}
+.topbar-msg-badge{position:absolute;top:-4px;right:-4px;background:var(--rose);color:#fff;font-size:10px;font-weight:700;min-width:16px;height:16px;border-radius:999px;display:flex;align-items:center;justify-content:center;padding:0 4px;line-height:1;}
 .vitrine-lang-row{display:flex;justify-content:flex-end;padding:6px 24px 0;gap:10px;margin-top:34px;margin-bottom:-8px;}
 #vitrine-shell .hero{padding-top:0;padding-bottom:44px;}
 #vitrine-shell #topbar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;}
@@ -890,7 +915,7 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 
 <!-- ================= SALES PANEL (admin: pending orders across all creators) ================= -->
 <div class="modal-backdrop" id="sales-backdrop"></div>
-<div class="modal-box" id="sales-modal" style="max-width:560px;">
+<div class="modal-box" id="sales-modal">
   <h3 id="t-sales-title">Ventes en attente</h3>
   <div id="sales-body"></div>
   <div class="modal-actions">
@@ -900,7 +925,7 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 
 <!-- ================= CONTRACTS PANEL (admin: signed contracts across all creators) ================= -->
 <div class="modal-backdrop" id="contracts-backdrop"></div>
-<div class="modal-box" id="contracts-modal" style="max-width:560px;">
+<div class="modal-box" id="contracts-modal">
   <h3 id="t-contracts-title">Contrats signés</h3>
   <div id="contracts-body"></div>
   <div class="modal-actions">
@@ -910,7 +935,7 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 
 <!-- ================= REPORTS PANEL (admin: content reports) ================= -->
 <div class="modal-backdrop" id="reports-backdrop"></div>
-<div class="modal-box" id="reports-modal" style="max-width:560px;">
+<div class="modal-box" id="reports-modal">
   <h3 id="t-reports-title">Signalements</h3>
   <div id="reports-body"></div>
   <div class="modal-actions">
@@ -920,7 +945,7 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 
 <!-- ================= MODEL APPLICATIONS PANEL (admin: candidatures modèle) ================= -->
 <div class="modal-backdrop" id="applications-backdrop"></div>
-<div class="modal-box" id="applications-modal" style="max-width:560px;max-height:80vh;overflow-y:auto;">
+<div class="modal-box" id="applications-modal">
   <h3 id="t-applications-title">Candidatures</h3>
   <div id="applications-body"></div>
   <div class="modal-actions">
@@ -930,7 +955,7 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 
 <!-- ================= DELETION REQUESTS PANEL (admin: demandes de suppression de compte créatrice) ================= -->
 <div class="modal-backdrop" id="deletions-backdrop"></div>
-<div class="modal-box" id="deletions-modal" style="max-width:560px;max-height:80vh;overflow-y:auto;">
+<div class="modal-box" id="deletions-modal">
   <h3 id="t-deletions-title">Suppressions</h3>
   <div id="deletions-body"></div>
   <div class="modal-actions">
@@ -940,7 +965,7 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 
 <!-- ================= INVOICE (printable) ================= -->
 <div class="modal-backdrop" id="invoice-backdrop"></div>
-<div class="modal-box" id="invoice-modal" style="max-width:480px;">
+<div class="modal-box" id="invoice-modal">
   <div id="invoice-body"></div>
   <div class="modal-actions no-print">
     <button class="btn btn-ghost btn-sm" id="invoice-close" style="flex:1;">Fermer</button>
@@ -950,7 +975,7 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 
 <!-- ================= CONTRACT SIGNATURE MODAL ================= -->
 <div class="modal-backdrop" id="sign-backdrop"></div>
-<div class="modal-box" id="sign-modal" style="max-width:480px;">
+<div class="modal-box" id="sign-modal">
   <div id="sign-body"></div>
 </div>
 
@@ -994,6 +1019,10 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
     </div>
     <button type="button" class="topbar-member-badge" id="topbar-member-badge" style="display:none;"></button>
     <div class="right">
+      <button type="button" class="topbar-msg-btn" id="topbar-msg-btn" style="display:none;" aria-label="Messages">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        <span class="topbar-msg-badge" id="topbar-msg-badge" style="display:none;"></span>
+      </button>
       <button class="burger-btn" id="burger-menu-btn" aria-label="Menu">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
@@ -1079,14 +1108,13 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
     <button class="burger-nav-item" id="burger-faq" data-i18n="burgerFaq">FAQ</button>
     <button class="burger-nav-item" id="burger-rules" data-i18n="burgerRules">Règles du site</button>
     <button class="burger-nav-item" id="burger-report-item" data-i18n="reportLinkLabel">🚩 Signaler un contenu</button>
-    <button class="burger-nav-item" id="burger-theme-toggle"><span class="swatch" id="theme-toggle-swatch"></span><span id="theme-toggle-label" data-i18n="themeToLight">Mode clair</span></button>
     <button class="burger-nav-item" id="burger-logout-item" data-i18n="burgerLogout">Déconnexion</button>
   </nav>
 </div>
 
 <!-- ================= FAQ MODAL ================= -->
 <div class="modal-backdrop" id="faq-backdrop"></div>
-<div class="modal-box" id="faq-modal" style="max-width:560px;max-height:80vh;">
+<div class="modal-box" id="faq-modal">
   <button type="button" class="modal-back-btn" id="faq-back-btn">← <span data-i18n="backToMenu">Retour au menu</span></button>
   <h3 id="t-faq-title">FAQ</h3>
   <div id="faq-body" style="max-height:55vh;overflow-y:auto;padding-right:4px;"></div>
@@ -1097,7 +1125,7 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 
 <!-- ================= COMING SOON MODAL (devenir membre / postuler modèle) ================= -->
 <div class="modal-backdrop" id="soon-backdrop"></div>
-<div class="modal-box" id="soon-modal" style="max-width:420px;">
+<div class="modal-box" id="soon-modal">
   <h3 id="soon-title"></h3>
   <p id="soon-body" style="color:var(--text-muted);font-size:13px;line-height:1.6;"></p>
   <div class="modal-actions">
@@ -1107,14 +1135,14 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 
 <!-- ================= MEMBER MODAL (compte gratuit : inscription / connexion / vérification) ================= -->
 <div class="modal-backdrop" id="member-backdrop"></div>
-<div class="modal-box" id="member-modal" style="max-width:440px;max-height:85vh;overflow-y:auto;">
+<div class="modal-box" id="member-modal">
   <button type="button" class="modal-back-btn" id="member-back-btn">← <span data-i18n="backToMenu">Retour au menu</span></button>
   <div id="member-modal-body"></div>
 </div>
 
 <!-- ================= CHAT EN DIRECT (membre ↔ créatrice) ================= -->
 <div class="modal-backdrop" id="chat-backdrop"></div>
-<div class="modal-box chat-modal-box" id="chat-modal">
+<div class="modal-box chat-modal-box fullpage-modal" id="chat-modal">
   <div class="chat-header">
     <button type="button" class="chat-back-btn" id="chat-back-btn">←</button>
     <div class="chat-header-avatar" id="chat-header-avatar">🙂</div>
@@ -1126,28 +1154,30 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
   <div class="chat-rules-banner" id="chat-rules-banner"></div>
   <div class="chat-messages" id="chat-messages"></div>
   <div class="chat-input-row">
+    <button type="button" class="chat-emoji-btn" id="chat-emoji-btn">😏</button>
     <textarea id="chat-input" rows="1" maxlength="1000"></textarea>
     <button type="button" class="chat-send-btn" id="chat-send-btn">➤</button>
   </div>
+  <div class="chat-emoji-picker" id="chat-emoji-picker" style="display:none;"></div>
 </div>
 
 <!-- ================= APPLY MODEL MODAL (candidature créatrice, ouverte à tous) ================= -->
 <div class="modal-backdrop" id="apply-backdrop"></div>
-<div class="modal-box" id="apply-modal" style="max-width:460px;max-height:85vh;overflow-y:auto;">
+<div class="modal-box" id="apply-modal">
   <button type="button" class="modal-back-btn" id="apply-back-btn">← <span data-i18n="backToMenu">Retour au menu</span></button>
   <div id="apply-modal-body"></div>
 </div>
 
 <!-- ================= REPORT CONTENT MODAL ================= -->
 <div class="modal-backdrop" id="report-backdrop"></div>
-<div class="modal-box" id="report-modal" style="max-width:520px;">
+<div class="modal-box" id="report-modal">
   <button type="button" class="modal-back-btn" id="report-back-btn">← <span data-i18n="backToMenu">Retour au menu</span></button>
   <div id="report-modal-body"></div>
 </div>
 
 <!-- ================= LEGAL DOCUMENT MODAL ================= -->
 <div class="modal-backdrop" id="legal-backdrop"></div>
-<div class="modal-box" id="legal-modal" style="max-width:560px;max-height:80vh;">
+<div class="modal-box" id="legal-modal">
   <button type="button" class="modal-back-btn" id="legal-back-btn">← <span data-i18n="backToMenu">Retour au menu</span></button>
   <h3 id="legal-modal-title"></h3>
   <div id="legal-modal-body" style="max-height:55vh;overflow-y:auto;font-size:12.5px;line-height:1.7;color:var(--text-muted);white-space:pre-line;padding-right:4px;"></div>
@@ -1158,11 +1188,12 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 
 <!-- ================= VITRINE ROOM (profile detail: bio + gallery + likes + comments) ================= -->
 <div class="modal-backdrop" id="vitrine-backdrop"></div>
-<div class="modal-box vitrine-modal" id="vitrine-room">
-  <div id="vitrine-room-body"></div>
-  <div class="modal-actions">
-    <button class="btn btn-ghost btn-sm" id="vitrine-room-close" style="flex:1;"><span id="t-vitrine-room-close">Fermer</span></button>
+<div class="modal-box vitrine-modal fullpage-modal" id="vitrine-room">
+  <div class="fullpage-header">
+    <button type="button" class="fullpage-back-btn" id="vitrine-room-close">←</button>
+    <div class="fullpage-header-title" id="t-vitrine-room-close-label">Profil</div>
   </div>
+  <div class="fullpage-body" id="vitrine-room-body"></div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -1314,6 +1345,12 @@ const I18N = {
     noPhotoYet: "Aucune photo",
     vitrineEnterBtn: "Entrer",
     agencyLogout: "Se déconnecter",
+    visitorNeedsAccountFavorite: "Inscris-toi gratuitement pour ajouter des créatrices en favoris — bientôt disponible.",
+    visitorNeedsAccountChat: "Inscris-toi gratuitement pour envoyer un message à cette créatrice — bientôt disponible.",
+    commentModeAnonymous: "Anonyme",
+    commentModeVisitor: "Je suis visiteur",
+    commentModeMember: "Utiliser mon pseudo",
+    commentModeCustom: "Noter un surnom",
     commentNamePh: "Ton prénom ou pseudo",
     commentNameRequired: "Merci d'indiquer ton prénom ou pseudo avant de publier.",
     paidGalleryTitle: "Galerie payante",
@@ -1650,7 +1687,14 @@ const I18N = {
     reportReasonMinor: "Je soupçonne une personne mineure",
     reportReasonNonConsent: "Contenu publié sans consentement",
     reportReasonStolen: "Contenu volé / republié sans autorisation",
+    reportReasonHarassment: "Harcèlement / comportement abusif",
+    reportReasonScam: "Arnaque / fraude",
+    reportReasonImpersonation: "Usurpation d'identité",
+    reportReasonViolence: "Violence / menaces",
+    reportReasonSpam: "Spam / publicité non sollicitée",
+    reportReasonPrivacy: "Atteinte à la vie privée",
     reportReasonOther: "Autre raison",
+    reportAttachment: "Pièce jointe (optionnelle)",
     reportDetails: "Détails",
     reportDetailsPh: "Décris précisément le problème…",
     reportContact: "Ton contact (optionnel)",
@@ -1834,6 +1878,12 @@ const I18N = {
     noPhotoYet: "No photo yet",
     vitrineEnterBtn: "Enter",
     agencyLogout: "Log out",
+    visitorNeedsAccountFavorite: "Sign up for free to add creators to your favorites — coming soon.",
+    visitorNeedsAccountChat: "Sign up for free to message this creator — coming soon.",
+    commentModeAnonymous: "Anonymous",
+    commentModeVisitor: "I'm a visitor",
+    commentModeMember: "Use my username",
+    commentModeCustom: "Enter a nickname",
     commentNamePh: "Your name or nickname",
     commentNameRequired: "Please enter your name or nickname before posting.",
     paidGalleryTitle: "Paid gallery",
@@ -2170,7 +2220,14 @@ const I18N = {
     reportReasonMinor: "I suspect a minor is involved",
     reportReasonNonConsent: "Content published without consent",
     reportReasonStolen: "Stolen / reposted content without authorization",
+    reportReasonHarassment: "Harassment / abusive behavior",
+    reportReasonScam: "Scam / fraud",
+    reportReasonImpersonation: "Impersonation",
+    reportReasonViolence: "Violence / threats",
+    reportReasonSpam: "Spam / unsolicited advertising",
+    reportReasonPrivacy: "Privacy violation",
     reportReasonOther: "Other reason",
+    reportAttachment: "Attachment (optional)",
     reportDetails: "Details",
     reportDetailsPh: "Describe the issue precisely…",
     reportContact: "Your contact (optional)",
@@ -11281,10 +11338,18 @@ function openReportModal(prefill, fromBurger){
       <option value="minor">${t('reportReasonMinor')}</option>
       <option value="nonconsent">${t('reportReasonNonConsent')}</option>
       <option value="stolen">${t('reportReasonStolen')}</option>
+      <option value="harassment">${t('reportReasonHarassment')}</option>
+      <option value="scam">${t('reportReasonScam')}</option>
+      <option value="impersonation">${t('reportReasonImpersonation')}</option>
+      <option value="violence">${t('reportReasonViolence')}</option>
+      <option value="spam">${t('reportReasonSpam')}</option>
+      <option value="privacy">${t('reportReasonPrivacy')}</option>
       <option value="other">${t('reportReasonOther')}</option>
     </select>
     <label>${t('reportDetails')}</label>
     <textarea id="report-details" rows="4" placeholder="${t('reportDetailsPh')}">${escText(prefill.details || '')}</textarea>
+    <label>${t('reportAttachment')}</label>
+    <input id="report-file" type="file" accept="image/*,.pdf">
     <label>${t('reportContact')}</label>
     <input id="report-contact" placeholder="${t('reportContactPh')}">
     <div class="modal-actions">
@@ -11298,15 +11363,26 @@ function openReportModal(prefill, fromBurger){
     const reason = document.getElementById('report-reason').value;
     const details = document.getElementById('report-details').value.trim();
     const contact = document.getElementById('report-contact').value.trim();
+    const fileInput = document.getElementById('report-file');
+    const file = fileInput && fileInput.files && fileInput.files[0];
     if(!details){ toast(t('reportDetailsRequired')); return; }
     const btn = document.getElementById('report-send');
     btn.disabled = true;
     try{
       if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
+      let attachmentUrl = '';
+      if(file && storage){
+        try{
+          const ref = storage.ref().child(`reports/${Date.now()}_${file.name}`);
+          await ref.put(file);
+          attachmentUrl = await ref.getDownloadURL();
+        }catch(e){ console.error('report attachment upload error', e); }
+      }
       if(db){
         await db.collection('content_reports').add({
           profile: profile.slice(0, 100), reason, details: details.slice(0, 1000),
-          contact: contact.slice(0, 150), createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          contact: contact.slice(0, 150), attachmentUrl,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
           status: 'pending'
         });
       }
@@ -11315,7 +11391,7 @@ function openReportModal(prefill, fromBurger){
           await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
             to_email: ADMIN_NOTIFY_EMAIL, subject: 'Honeymoon — Signalement de contenu',
             buyer_name: contact || 'Anonyme', buyer_contact: contact, creator_name: profile,
-            item_desc: `[${reason}] ${details}`, price: '', ref: 'REPORT'
+            item_desc: `[${reason}] ${details}${attachmentUrl ? '\n\nPièce jointe : ' + attachmentUrl : ''}`, price: '', ref: 'REPORT'
           });
         }
       }catch(e){ console.error('report emailjs error', e); }
@@ -11377,7 +11453,7 @@ function escAttr(s){ return String(s == null ? '' : s).replace(/"/g, '&quot;'); 
 function isValidEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
 function isValidUsername(v){ return /^[a-zA-Z0-9._-]{3,20}$/.test(v); }
 
-function openMemberModal(){
+function openMemberModal(initialTab){
   closeBurgerMenu();
   document.getElementById('member-backdrop').classList.add('open');
   document.getElementById('member-modal').classList.add('open');
@@ -11390,7 +11466,7 @@ function openMemberModal(){
   u.reload().then(() => {
     const cu = memberAuth.currentUser;
     if(!cu){ renderMemberLogin(); return; }
-    loadMemberHome(cu);
+    loadMemberHome(cu, initialTab);
   }).catch(() => renderMemberLogin());
 }
 function closeMemberModal(){
@@ -11558,7 +11634,7 @@ async function memberSignupSubmit(){
   btn.disabled = false;
 }
 
-async function loadMemberHome(user){
+async function loadMemberHome(user, initialTab){
   let data = { username: user.displayName || '', email: user.email || '', photoURL: '', location: '', lat: null, lng: null, bio: '', bioVisibleToCreator: false, photos: [], photosVisibleToCreator: false, favorites: [] };
   try{
     const doc = await memberDb.collection('members').doc(user.uid).get();
@@ -11571,7 +11647,7 @@ async function loadMemberHome(user){
     if(!data.favorites) data.favorites = [];
     if(!data.photos) data.photos = [];
   }catch(e){ console.error('load member doc error', e); }
-  renderMemberHome(user, data, 'profile');
+  renderMemberHome(user, data, initialTab || 'profile');
 }
 
 function memberUnverifiedBannerHtml(user){
@@ -11978,9 +12054,16 @@ function renderMemberFavoritesTab(user, data){
   });
 }
 
+function promptSignupForMembersOnly(reason){
+  toast(reason === 'chat' ? t('visitorNeedsAccountChat') : t('visitorNeedsAccountFavorite'));
+  document.getElementById('member-backdrop').classList.add('open');
+  document.getElementById('member-modal').classList.add('open');
+  closeBurgerMenu();
+  renderMemberSignup();
+}
 async function toggleMemberFavorite(creatorId){
   if(!memberAuth || !memberAuth.currentUser){
-    openMemberModal();
+    promptSignupForMembersOnly('favorite');
     return;
   }
   const user = memberAuth.currentUser;
@@ -12087,6 +12170,12 @@ async function openChat(ctx){
         return;
       }
       const wasNearBottom = (box.scrollHeight - box.scrollTop - box.clientHeight) < 80;
+      const prevCount = box.dataset.msgCount ? parseInt(box.dataset.msgCount, 10) : 0;
+      if(snap.docs.length > prevCount && prevCount > 0){
+        const lastDoc = snap.docs[snap.docs.length - 1].data();
+        if(lastDoc.senderType !== ctx.viewerType) playChatReceiveSound();
+      }
+      box.dataset.msgCount = String(snap.docs.length);
       box.innerHTML = snap.docs.map(docSnap => {
         const m = docSnap.data();
         const mine = m.senderType === ctx.viewerType;
@@ -12155,12 +12244,63 @@ function closeChat(){
 document.getElementById('chat-backdrop').onclick = closeChat;
 document.getElementById('chat-back-btn').onclick = closeChat;
 
+/* ---------------- emojis du chat + son d'envoi ---------------- */
+const CHAT_EMOJIS = ['😏','😈','🥵','😘','💋','🔥','💦','👅','🍆','🍑','🍒','🥒','🍌','🍈','🍑','🥭','🍯','🍓','😉','🥰','😍','🤤','💕','💗','🖤','🍷','🌶️','🫦','😳','🙈'];
+document.getElementById('chat-emoji-picker').innerHTML = CHAT_EMOJIS.map(e => `<button type="button">${e}</button>`).join('');
+document.getElementById('chat-emoji-picker').querySelectorAll('button').forEach(btn => {
+  btn.onclick = () => {
+    const input = document.getElementById('chat-input');
+    input.value += btn.textContent;
+    input.focus();
+  };
+});
+document.getElementById('chat-emoji-btn').onclick = () => {
+  const picker = document.getElementById('chat-emoji-picker');
+  picker.style.display = picker.style.display === 'none' ? 'grid' : 'none';
+};
+let chatSendAudioCtx = null;
+function playChatSendSound(){
+  try{
+    if(!chatSendAudioCtx) chatSendAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const ctx = chatSendAudioCtx;
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(700, now);
+    osc.frequency.exponentialRampToValueAtTime(1150, now + 0.08);
+    gain.gain.setValueAtTime(0.001, now);
+    gain.gain.exponentialRampToValueAtTime(0.18, now + 0.015);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.start(now); osc.stop(now + 0.18);
+  }catch(e){}
+}
+function playChatReceiveSound(){
+  try{
+    if(!chatSendAudioCtx) chatSendAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const ctx = chatSendAudioCtx;
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(500, now);
+    osc.frequency.exponentialRampToValueAtTime(340, now + 0.11);
+    gain.gain.setValueAtTime(0.001, now);
+    gain.gain.exponentialRampToValueAtTime(0.16, now + 0.015);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.start(now); osc.stop(now + 0.22);
+  }catch(e){}
+}
+
 async function sendChatMessage(){
   if(!chatCtx) return;
   const input = document.getElementById('chat-input');
   const text = input.value.trim();
   if(!text) return;
   input.value = '';
+  document.getElementById('chat-emoji-picker').style.display = 'none';
   const ctx = chatCtx;
   const convRef = db.collection('profiles').doc(ctx.profileId).collection('conversations').doc(ctx.memberUid);
   const myTypingField = ctx.viewerType === 'member' ? 'memberTyping' : 'creatorTyping';
@@ -12177,6 +12317,7 @@ async function sendChatMessage(){
       lastSenderType: ctx.viewerType, [myTypingField]: false,
       [otherUnreadField]: firebase.firestore.FieldValue.increment(1)
     }, { merge: true });
+    playChatSendSound();
   }catch(e){
     console.error('send chat message error', e);
     toast(t('memberErrUnknown') + ' (' + (e.code || e.message || e) + ')');
@@ -12284,6 +12425,7 @@ function updateTopbarMemberBadge(username){
   const badge = document.getElementById('topbar-member-badge');
   const burgerItem = document.getElementById('burger-become-member');
   const privateLink = document.getElementById('private-access-link');
+  const msgBtn = document.getElementById('topbar-msg-btn');
   if(!badge) return;
   if(username){
     badge.style.display = 'flex';
@@ -12291,14 +12433,36 @@ function updateTopbarMemberBadge(username){
     badge.onclick = () => openMemberModal();
     if(burgerItem){ burgerItem.innerHTML = ICON_USER + escText(username); burgerItem.removeAttribute('data-i18n'); }
     if(privateLink){ privateLink.disabled = true; privateLink.style.opacity = '.25'; privateLink.style.pointerEvents = 'none'; }
+    if(msgBtn){ msgBtn.style.display = 'flex'; refreshTopbarMessageBadge(); }
   } else {
     badge.style.display = 'flex';
     badge.innerHTML = ICON_USER + escText(t('visitorBadgeLabel'));
     badge.onclick = () => openMemberModal();
     if(burgerItem){ burgerItem.setAttribute('data-i18n', 'burgerBecomeMember'); burgerItem.textContent = t('burgerBecomeMember'); }
     if(privateLink){ privateLink.disabled = false; privateLink.style.opacity = '.7'; privateLink.style.pointerEvents = ''; }
+    if(msgBtn){ msgBtn.style.display = 'none'; }
   }
 }
+let topbarMsgUnsub = null;
+async function refreshTopbarMessageBadge(){
+  const badgeEl = document.getElementById('topbar-msg-badge');
+  if(!badgeEl || !memberAuth || !memberAuth.currentUser) return;
+  try{
+    if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
+    if(topbarMsgUnsub){ topbarMsgUnsub(); topbarMsgUnsub = null; }
+    topbarMsgUnsub = db.collectionGroup('conversations').where('memberUid', '==', memberAuth.currentUser.uid)
+      .onSnapshot(snap => {
+        let total = 0;
+        snap.forEach(d => { total += (d.data().memberUnreadCount || 0); });
+        if(total > 0){ badgeEl.style.display = 'flex'; badgeEl.textContent = total > 99 ? '99+' : String(total); }
+        else { badgeEl.style.display = 'none'; }
+      }, e => console.error('topbar message badge error', e));
+  }catch(e){ console.error('refreshTopbarMessageBadge error', e); }
+}
+document.getElementById('topbar-msg-btn').onclick = () => {
+  if(!memberAuth || !memberAuth.currentUser) return;
+  openMemberModal('messages');
+};
 function refreshMemberBadgeFromSession(){
   if(!memberAuth) return;
   const u = memberAuth.currentUser;
@@ -12775,7 +12939,6 @@ function applyVitrineStaticText(){
   document.getElementById('t-vitrine-title').textContent = t('vitrineHeroTitle');
   document.getElementById('t-vitrine-body').textContent = t('vitrineHeroBody');
   document.getElementById('t-vitrine-foot-tag').textContent = 'Honeymoon';
-  document.getElementById('t-vitrine-room-close').textContent = t('galleryClose');
   document.getElementById('t-legal-modal-close').textContent = t('galleryClose');
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.dataset.i18n;
@@ -12786,37 +12949,12 @@ function applyVitrineStaticText(){
   document.getElementById('t-soon-close').textContent = t('galleryClose');
   document.documentElement.lang = LANG;
   document.documentElement.dir = (LANG === 'ar') ? 'rtl' : 'ltr';
-  updateThemeToggleLabel();
 }
 
-/* ---------------- thème (bordeaux / blanc) ---------------- */
-function applyTheme(theme){
-  document.documentElement.setAttribute('data-theme', theme === 'light' ? 'light' : '');
-  try{ localStorage.setItem('hm_theme', theme); }catch(e){}
-  updateThemeToggleLabel();
-}
-function updateThemeToggleLabel(){
-  const current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'bordeaux';
-  const labelEl = document.getElementById('theme-toggle-label');
-  const swatchEl = document.getElementById('theme-toggle-swatch');
-  if(!labelEl || !swatchEl) return;
-  if(current === 'bordeaux'){
-    labelEl.textContent = t('themeToBordeaux');
-    swatchEl.style.background = '#141216';
-  } else {
-    labelEl.textContent = t('themeToLight');
-    swatchEl.style.background = '#f2e6d3';
-  }
-}
+/* ---------------- thème : noir/or de luxe, toujours actif ---------------- */
 (function initTheme(){
-  let saved = 'bordeaux';
-  try{ saved = localStorage.getItem('hm_theme') || 'bordeaux'; }catch(e){}
-  document.documentElement.setAttribute('data-theme', saved === 'light' ? 'light' : '');
+  document.documentElement.setAttribute('data-theme', '');
 })();
-document.getElementById('burger-theme-toggle').onclick = () => {
-  const current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'bordeaux';
-  applyTheme(current === 'light' ? 'bordeaux' : 'light');
-};
 
 /* Header fixe : mesure la vraie hauteur du bandeau visible (il peut varier
    légèrement selon la langue/le contenu) et ajuste l'espace réservé en dessous,
@@ -13688,7 +13826,13 @@ async function openVitrineRoom(id){
       <p class="comment-rules">${t('commentRules')}</p>
       <div class="comment-list" id="comment-list"><span class="gallery-empty">${t('commentEmpty')}</span></div>
       <div class="comment-form">
-        <input type="text" id="comment-name" class="comment-name-input" maxlength="30" placeholder="${t('commentNamePh')}" value="${escText(localStorage.getItem('hm_comment_name') || '')}">
+        <select id="comment-name-mode" class="comment-name-input">
+          <option value="anonymous">${t('commentModeAnonymous')}</option>
+          <option value="visitor">${t('commentModeVisitor')}</option>
+          ${memberAuth && memberAuth.currentUser ? `<option value="member">${t('commentModeMember')}</option>` : ''}
+          <option value="custom" selected>${t('commentModeCustom')}</option>
+        </select>
+        <input type="text" id="comment-name" class="comment-name-input" maxlength="30" placeholder="${t('commentNamePh')}" value="">
         <textarea id="comment-input" placeholder="${t('commentPlaceholder')}"></textarea>
         <button class="btn btn-primary btn-sm" id="comment-submit">${t('commentSubmit')}</button>
       </div>
@@ -13708,6 +13852,17 @@ async function openVitrineRoom(id){
   });
 
   document.getElementById('comment-submit').onclick = () => submitComment(m.id);
+  const commentModeSel = document.getElementById('comment-name-mode');
+  const commentNameInput = document.getElementById('comment-name');
+  const applyCommentMode = () => {
+    const mode = commentModeSel.value;
+    if(mode === 'anonymous'){ commentNameInput.value = t('commentModeAnonymous'); commentNameInput.style.display = 'none'; }
+    else if(mode === 'visitor'){ commentNameInput.value = t('commentModeVisitor'); commentNameInput.style.display = 'none'; }
+    else if(mode === 'member'){ commentNameInput.value = (memberAuth && memberAuth.currentUser && memberAuth.currentUser.displayName) || ''; commentNameInput.style.display = 'none'; }
+    else { commentNameInput.value = ''; commentNameInput.style.display = ''; commentNameInput.focus(); }
+  };
+  commentModeSel.onchange = applyCommentMode;
+  applyCommentMode();
 
   document.getElementById('vitrine-backdrop').classList.add('open');
   document.getElementById('vitrine-room').classList.add('open');
@@ -13719,7 +13874,7 @@ async function openVitrineRoom(id){
   if(roomFavBtn) roomFavBtn.onclick = () => toggleMemberFavorite(m.id);
   const roomChatBtn = document.getElementById('vitrine-room-body').querySelector('.room-chat-btn[data-id]');
   if(roomChatBtn) roomChatBtn.onclick = async () => {
-    if(!memberAuth || !memberAuth.currentUser){ openMemberModal(); return; }
+    if(!memberAuth || !memberAuth.currentUser){ promptSignupForMembersOnly('chat'); return; }
     const user = memberAuth.currentUser;
     let username = '';
     try{
@@ -14304,7 +14459,6 @@ async function submitComment(profileId){
       text: text.slice(0, 500),
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
-    localStorage.setItem('hm_comment_name', name);
     input.value = '';
     toast(t('commentPosted'));
     loadComments(profileId);
