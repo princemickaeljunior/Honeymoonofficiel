@@ -337,6 +337,12 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 .member-tabs{display:flex;gap:8px;margin-bottom:16px;border-bottom:1px solid var(--border);}
 .member-tab{flex:1;background:none;border:none;color:var(--text-muted);font-size:12.5px;font-weight:600;text-transform:uppercase;letter-spacing:.03em;padding:10px 4px;cursor:pointer;border-bottom:2px solid transparent;}
 .member-tab.active{color:var(--honey);border-bottom-color:var(--honey);}
+.member-tab-badge{background:var(--rose);color:#fff;font-size:9px;font-weight:700;min-width:15px;height:15px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;padding:0 4px;vertical-align:top;}
+.creator-msg-badge{background:var(--rose);color:#fff;font-size:10px;font-weight:700;min-width:16px;height:16px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;padding:0 4px;margin-left:4px;vertical-align:middle;}
+.member-subtabs{display:flex;gap:6px;margin-bottom:14px;}
+.member-subtab{flex:1;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text-muted);font-size:11.5px;font-weight:600;padding:8px 4px;border-radius:8px;cursor:pointer;}
+.member-subtab.active{background:var(--honey);color:#1a1206;border-color:var(--honey);}
+.visibility-note{color:var(--honey);font-size:11px;margin-top:2px;}
 .member-avatar-row{display:flex;align-items:center;gap:14px;margin-bottom:6px;}
 .member-avatar{width:64px;height:64px;border-radius:50%;background:var(--bg-elev-2);border:1px solid var(--border);object-fit:cover;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--text-muted);overflow:hidden;}
 .member-avatar img{width:100%;height:100%;object-fit:cover;display:block;}
@@ -1304,7 +1310,11 @@ const AGENCY_ACCESS_EMAIL = 'princeprojet@outlook.com';
    uniquement quand le fichier est ouvert directement (content://, file://).
    Change-le si tu veux, ou laisse tel quel : sans impact une fois en ligne. ===== */
 const LOCAL_TEST_CODE = '1988';
-const LOCAL_TEST_EMAIL = 'moudilouprincerungis@outlook.com';
+const LOCAL_TEST_EMAIL = 'nakupendayangu@outlook.com';
+/* Mot de passe RÉEL du compte membre de test (à créer une fois dans Firebase Auth, projet membres,
+   avec exactement ce mot de passe — 6 caractères minimum imposés par Firebase).
+   En local, taper "1988" comme mot de passe le remplace automatiquement par celui-ci. */
+const LOCAL_TEST_MEMBER_REAL_PASSWORD = '1988TEST';
 function isLocalTestEnvironment(){
   const proto = window.location.protocol;
   return proto !== 'https:' && proto !== 'http:';
@@ -1565,6 +1575,12 @@ const I18N = {
     memberVisibilityFavorites: "Uniquement mes favoris",
     memberVisibilityNobody: "Personne",
     memberBioVisibleLabel: "Rendre ma bio visible par la créatrice",
+    memberSubtabInfos: "Mes infos",
+    memberSubtabPhotos: "Mes photos",
+    memberSubtabPassword: "Mot de passe",
+    memberPrivateFieldNote: "Jamais visible par personne d'autre que toi.",
+    memberBioVisibilityExplain: "Selon ton choix ci-dessus, ta bio peut être vue par les créatrices concernées. Le reste de ton profil (email, achats, mot de passe) n'est, lui, jamais visible.",
+    memberPhotosVisibilityExplain: "Selon ton choix ci-dessus, ces photos peuvent être vues par les créatrices concernées. Elles sont toujours séparées de tes achats.",
     memberBioHiddenNote: "Ta bio n'est visible que par toi. Le reste de ton profil (email, achats, mot de passe...) n'est jamais visible ni par les créatrices ni par les autres membres.",
     memberSaveBtn: "Enregistrer",
     memberSavedToast: "Modifications enregistrées.",
@@ -2105,6 +2121,12 @@ const I18N = {
     memberVisibilityFavorites: "Only my favorites",
     memberVisibilityNobody: "Nobody",
     memberBioVisibleLabel: "Make my bio visible to the creator",
+    memberSubtabInfos: "My info",
+    memberSubtabPhotos: "My photos",
+    memberSubtabPassword: "Password",
+    memberPrivateFieldNote: "Never visible to anyone but you.",
+    memberBioVisibilityExplain: "Based on your choice above, your bio may be seen by the relevant creators. The rest of your profile (email, purchases, password) is never visible.",
+    memberPhotosVisibilityExplain: "Based on your choice above, these photos may be seen by the relevant creators. They stay separate from your purchases.",
     memberBioHiddenNote: "Your bio is only visible to you. The rest of your profile (email, purchases, password...) is never visible to creators or other members.",
     memberSaveBtn: "Save",
     memberSavedToast: "Changes saved.",
@@ -9132,7 +9154,7 @@ function renderMyProfile(slotId){
 
     <div class="my-tabs" style="margin-top:24px;">
       <button type="button" class="my-tab-btn active" id="my-tab-btn-content">${ICON_MY_CONTENT}${t('myFamilyContent')}</button>
-      <button type="button" class="my-tab-btn" id="my-tab-btn-messages">${ICON_MY_MESSAGES}${t('myFamilyMessages')}</button>
+      <button type="button" class="my-tab-btn" id="my-tab-btn-messages">${ICON_MY_MESSAGES}${t('myFamilyMessages')} <span class="creator-msg-badge" id="creator-msg-badge-${m.id}" style="display:none;"></span></button>
       <button type="button" class="my-tab-btn" id="my-tab-btn-ca">${ICON_MY_CA}${t('myFamilyCA')}</button>
       <button type="button" class="my-tab-btn" id="my-tab-btn-tools">${ICON_MY_TOOLS}${t('myFamilyTools')}</button>
       <button type="button" class="my-tab-btn" id="my-tab-btn-rules">${ICON_MY_RULES}${t('myFamilyRules')}</button>
@@ -11596,7 +11618,7 @@ function renderMemberLogin(){
     <span class="member-badge">🔓 ${t('memberFreeBadge')}</span>
     <h3>${t('memberLoginTitle')}</h3>
     <label>${t('memberIdentifierLabel')}</label>
-    <input id="member-login-id" placeholder="${escAttr(t('memberIdentifierPh'))}" autocomplete="username">
+    <input id="member-login-id" placeholder="${escAttr(t('memberIdentifierPh'))}" autocomplete="username" value="${isLocalTestEnvironment() ? escAttr(LOCAL_TEST_EMAIL) : ''}">
     ${memberPassField('member-login-pass', 'memberPasswordLabel', 'memberPasswordLoginPh')}
     <div class="member-err" id="member-login-err"></div>
     <div class="modal-actions">
@@ -11618,7 +11640,12 @@ async function memberLoginSubmit(){
   const errEl = document.getElementById('member-login-err');
   errEl.textContent = '';
   const idRaw = document.getElementById('member-login-id').value.trim();
-  const pass = document.getElementById('member-login-pass').value;
+  let pass = document.getElementById('member-login-pass').value;
+  // TEST LOCAL UNIQUEMENT : "1988" est trop court pour Firebase (min. 6 caractères) —
+  // en local, on le remplace automatiquement par le vrai mot de passe du compte de test.
+  if(isLocalTestEnvironment() && idRaw === LOCAL_TEST_EMAIL && pass === LOCAL_TEST_CODE){
+    pass = LOCAL_TEST_MEMBER_REAL_PASSWORD;
+  }
   if(!idRaw || !pass){ errEl.textContent = t('memberErrFillAll'); return; }
   const btn = document.getElementById('member-login-submit');
   btn.disabled = true;
@@ -11761,7 +11788,7 @@ function renderMemberHome(user, data, activeTab){
     <div class="member-tabs">
       <button type="button" class="member-tab${activeTab === 'profile' ? ' active' : ''}" id="member-tab-profile">${t('memberTabProfile')}</button>
       <button type="button" class="member-tab${activeTab === 'favorites' ? ' active' : ''}" id="member-tab-favorites">${t('memberTabFavorites')}</button>
-      <button type="button" class="member-tab${activeTab === 'messages' ? ' active' : ''}" id="member-tab-messages">${t('memberTabMessages')}</button>
+      <button type="button" class="member-tab${activeTab === 'messages' ? ' active' : ''}" id="member-tab-messages">${t('memberTabMessages')} <span class="member-tab-badge" id="member-tab-messages-badge" style="display:none;"></span></button>
       <button type="button" class="member-tab${activeTab === 'purchases' ? ' active' : ''}" id="member-tab-purchases">${t('memberTabPurchases')}</button>
     </div>
     <div id="member-tab-body"></div>
@@ -11782,14 +11809,28 @@ function renderMemberHome(user, data, activeTab){
   else renderMemberProfileTab(user, data);
 }
 
-function renderMemberProfileTab(user, data){
+function renderMemberProfileTab(user, data, subTab){
+  subTab = subTab || 'infos';
   const tabBody = document.getElementById('member-tab-body');
+  tabBody.innerHTML = `
+    <div class="member-subtabs">
+      <button type="button" class="member-subtab${subTab === 'infos' ? ' active' : ''}" id="member-subtab-infos">${t('memberSubtabInfos')}</button>
+      <button type="button" class="member-subtab${subTab === 'photos' ? ' active' : ''}" id="member-subtab-photos">${t('memberSubtabPhotos')}</button>
+      <button type="button" class="member-subtab${subTab === 'password' ? ' active' : ''}" id="member-subtab-password">${t('memberSubtabPassword')}</button>
+    </div>
+    <div id="member-subtab-body"></div>
+  `;
+  document.getElementById('member-subtab-infos').onclick = () => renderMemberProfileTab(user, data, 'infos');
+  document.getElementById('member-subtab-photos').onclick = () => renderMemberProfileTab(user, data, 'photos');
+  document.getElementById('member-subtab-password').onclick = () => renderMemberProfileTab(user, data, 'password');
+  if(subTab === 'photos') renderMemberProfilePhotosSubtab(user, data);
+  else if(subTab === 'password') renderMemberProfilePasswordSubtab(user, data);
+  else renderMemberProfileInfosSubtab(user, data);
+}
+
+function renderMemberProfileInfosSubtab(user, data){
+  const tabBody = document.getElementById('member-subtab-body');
   const avatarInner = data.photoURL ? `<img src="${escAttr(data.photoURL)}" alt="">` : '🙂';
-  const myPhotoThumbs = (data.photos || []).map((p, i) => `
-    <div class="member-media-thumb" style="position:relative;">
-      <img src="${escAttr(p.url)}" alt="">
-      <button type="button" class="rm" data-idx="${i}" style="position:absolute;top:4px;right:4px;">✕</button>
-    </div>`).join('');
   tabBody.innerHTML = `
     <div class="member-avatar-row">
       <div class="member-avatar" id="member-avatar-preview">${avatarInner}</div>
@@ -11806,6 +11847,7 @@ function renderMemberProfileTab(user, data){
     <p class="member-note" id="member-pf-username-note"></p>
     <label>${t('memberEmailLabel')}</label>
     <input value="${escAttr(data.email || user.email || '')}" disabled>
+    <p class="member-note">${t('memberPrivateFieldNote')}</p>
     <label>${t('memberLocationLabel')}</label>
     <div style="display:flex;gap:8px;">
       <input id="member-pf-location" placeholder="${escAttr(t('memberLocationPh'))}" value="${escAttr(data.location || '')}" style="flex:1;">
@@ -11820,24 +11862,88 @@ function renderMemberProfileTab(user, data){
       <option value="favorites" ${data.bioVisibility === 'favorites' ? 'selected' : ''}>${t('memberVisibilityFavorites')}</option>
       <option value="nobody" ${data.bioVisibility === 'nobody' || (!data.bioVisibility && !data.bioVisibleToCreator) ? 'selected' : ''}>${t('memberVisibilityNobody')}</option>
     </select>
-    <p class="member-note">${t('memberBioHiddenNote')}</p>
-
-    <div class="member-section-title">${t('memberMyPhotosTitle')} (${(data.photos || []).length})</div>
-    <p class="member-note">${t('memberMyPhotosNote')}</p>
-    ${myPhotoThumbs ? `<div class="member-media-grid">${myPhotoThumbs}</div>` : ''}
-    ${dualUploadZoneHtml('member-my-photo', 'image/*', { multiple: true })}
-    <label>${t('memberVisibilityLabel')}</label>
-    <select id="member-pf-photos-visible">
-      <option value="everyone" ${data.photosVisibility === 'everyone' || (!data.photosVisibility && data.photosVisibleToCreator) ? 'selected' : ''}>${t('memberVisibilityEveryone')}</option>
-      <option value="favorites" ${data.photosVisibility === 'favorites' ? 'selected' : ''}>${t('memberVisibilityFavorites')}</option>
-      <option value="nobody" ${data.photosVisibility === 'nobody' || (!data.photosVisibility && !data.photosVisibleToCreator) ? 'selected' : ''}>${t('memberVisibilityNobody')}</option>
-    </select>
+    <p class="member-note visibility-note">${t('memberBioVisibilityExplain')}</p>
+    <input type="hidden" id="member-pf-photos-visible" value="${escAttr(data.photosVisibility || (data.photosVisibleToCreator ? 'everyone' : 'nobody'))}">
 
     <div class="member-err" id="member-pf-err"></div>
     <div class="modal-actions">
       <button class="btn btn-primary btn-sm" id="member-pf-save" style="flex:1;">${t('memberSaveBtn')}</button>
     </div>
+  `;
+  document.getElementById('member-avatar-input').onchange = (e) => memberUploadAvatar(user, e.target.files[0]);
+  document.getElementById('member-pf-save').onclick = () => memberSaveProfile(user, data);
+  document.getElementById('member-pf-geoloc').onclick = () => memberUseGeolocation(data);
+  document.getElementById('member-pf-username-save').onclick = () => memberSaveUsername(user, data);
+}
 
+function renderMemberProfilePhotosSubtab(user, data){
+  const tabBody = document.getElementById('member-subtab-body');
+  const myPhotoThumbs = (data.photos || []).map((p, i) => `
+    <div class="member-media-thumb" style="position:relative;">
+      <img src="${escAttr(p.url)}" alt="">
+      <button type="button" class="rm" data-idx="${i}" style="position:absolute;top:4px;right:4px;">✕</button>
+    </div>`).join('');
+  tabBody.innerHTML = `
+    <div class="member-section-title">${t('memberMyPhotosTitle')} (${(data.photos || []).length})</div>
+    <p class="member-note">${t('memberMyPhotosNote')}</p>
+    ${myPhotoThumbs ? `<div class="member-media-grid">${myPhotoThumbs}</div>` : ''}
+    ${dualUploadZoneHtml('member-my-photo', 'image/*', { multiple: true })}
+    <label>${t('memberVisibilityLabel')}</label>
+    <select id="member-pf-photos-visible-tab">
+      <option value="everyone" ${data.photosVisibility === 'everyone' || (!data.photosVisibility && data.photosVisibleToCreator) ? 'selected' : ''}>${t('memberVisibilityEveryone')}</option>
+      <option value="favorites" ${data.photosVisibility === 'favorites' ? 'selected' : ''}>${t('memberVisibilityFavorites')}</option>
+      <option value="nobody" ${data.photosVisibility === 'nobody' || (!data.photosVisibility && !data.photosVisibleToCreator) ? 'selected' : ''}>${t('memberVisibilityNobody')}</option>
+    </select>
+    <p class="member-note visibility-note">${t('memberPhotosVisibilityExplain')}</p>
+    <div class="member-err" id="member-pf-photos-err"></div>
+    <div class="modal-actions">
+      <button class="btn btn-primary btn-sm" id="member-pf-photos-save" style="flex:1;">${t('memberSaveBtn')}</button>
+    </div>
+  `;
+  document.getElementById('member-pf-photos-save').onclick = async () => {
+    const photosVisibility = document.getElementById('member-pf-photos-visible-tab').value;
+    const btn = document.getElementById('member-pf-photos-save');
+    btn.disabled = true;
+    try{
+      await memberDb.collection('members').doc(user.uid).set({ photosVisibility, photosVisibleToCreator: photosVisibility !== 'nobody' }, { merge: true });
+      data.photosVisibility = photosVisibility;
+      data.photosVisibleToCreator = photosVisibility !== 'nobody';
+      toast(t('memberSavedToast'));
+    }catch(e){ console.error('save photos visibility error', e); toast(t('memberErrUnknown')); }
+    btn.disabled = false;
+  };
+  wireDualUpload('member-my-photo', async (files) => {
+    for(const file of Array.from(files)){
+      try{
+        const ref = memberStorage.ref().child('member_photos/' + user.uid + '/' + Date.now() + '_' + file.name);
+        await ref.put(file);
+        const url = await ref.getDownloadURL();
+        data.photos = data.photos || [];
+        data.photos.push({ url, path: ref.fullPath });
+        await memberDb.collection('members').doc(user.uid).set({ photos: data.photos }, { merge: true });
+        toast(t('addedToast'));
+      }catch(err){ console.error('member photo upload error', err); toast(t('memberErrUnknown')); }
+    }
+    renderMemberProfilePhotosSubtab(user, data);
+  });
+  tabBody.querySelectorAll('.rm').forEach(btn => {
+    btn.onclick = async () => {
+      const idx = parseInt(btn.dataset.idx, 10);
+      const item = data.photos[idx];
+      btn.disabled = true;
+      try{
+        if(item.path){ try{ await memberStorage.ref().child(item.path).delete(); }catch(e){} }
+        data.photos.splice(idx, 1);
+        await memberDb.collection('members').doc(user.uid).set({ photos: data.photos }, { merge: true });
+        renderMemberProfilePhotosSubtab(user, data);
+      }catch(e){ console.error('remove member photo error', e); toast(t('memberErrUnknown')); btn.disabled = false; }
+    };
+  });
+}
+
+function renderMemberProfilePasswordSubtab(user, data){
+  const tabBody = document.getElementById('member-subtab-body');
+  tabBody.innerHTML = `
     <div class="member-section-title">${t('memberChangePasswordTitle')}</div>
     ${memberPassField('member-pf-currentpass', 'memberCurrentPasswordLabel', 'memberCurrentPasswordPh')}
     ${memberPassField('member-pf-newpass', 'memberNewPasswordLabel', 'memberNewPasswordPh')}
@@ -11853,40 +11959,8 @@ function renderMemberProfileTab(user, data){
     </div>
   `;
   wireEyeToggles(tabBody);
-  document.getElementById('member-avatar-input').onchange = (e) => memberUploadAvatar(user, e.target.files[0]);
-  document.getElementById('member-pf-save').onclick = () => memberSaveProfile(user, data);
   document.getElementById('member-pf-pass-save').onclick = () => memberChangePassword();
   document.getElementById('member-pf-delete-btn').onclick = () => memberDeleteAccount(user, data);
-  document.getElementById('member-pf-geoloc').onclick = () => memberUseGeolocation(data);
-  document.getElementById('member-pf-username-save').onclick = () => memberSaveUsername(user, data);
-  wireDualUpload('member-my-photo', async (files) => {
-    for(const file of Array.from(files)){
-      try{
-        const ref = memberStorage.ref().child('member_photos/' + user.uid + '/' + Date.now() + '_' + file.name);
-        await ref.put(file);
-        const url = await ref.getDownloadURL();
-        data.photos = data.photos || [];
-        data.photos.push({ url, path: ref.fullPath });
-        await memberDb.collection('members').doc(user.uid).set({ photos: data.photos }, { merge: true });
-        toast(t('addedToast'));
-      }catch(err){ console.error('member photo upload error', err); toast(t('memberErrUnknown')); }
-    }
-    renderMemberProfileTab(user, data);
-  });
-  tabBody.querySelectorAll('.rm').forEach(btn => {
-    btn.onclick = async () => {
-      const idx = parseInt(btn.dataset.idx, 10);
-      const item = data.photos[idx];
-      btn.disabled = true;
-      try{
-        if(item && item.path){ try{ await memberStorage.ref().child(item.path).delete(); }catch(e){} }
-        data.photos.splice(idx, 1);
-        await memberDb.collection('members').doc(user.uid).set({ photos: data.photos }, { merge: true });
-        renderMemberProfileTab(user, data);
-        toast(t('removedToast'));
-      }catch(e){ console.error('remove member photo error', e); toast(t('memberErrUnknown')); }
-    };
-  });
 }
 
 async function memberSaveUsername(user, data){
@@ -12117,7 +12191,6 @@ function renderMemberFavoritesTab(user, data){
         <button type="button" class="member-fav-row" data-id="${m.id}">
           <span class="member-fav-photo">${m.photo ? `<img src="${escAttr(m.photo)}" alt="">` : '🙂'}</span>
           <span class="member-fav-name">${escText(m.name) || t('nameUndefined')}</span>
-          <button type="button" class="member-fav-chat-btn" data-id="${m.id}" title="${escAttr(t('chatStartBtn'))}">💬</button>
           <span class="member-fav-arrow">→</span>
         </button>
       `).join('')}
@@ -12128,17 +12201,6 @@ function renderMemberFavoritesTab(user, data){
       closeMemberModal();
       window.location.hash = 'vitrine/' + btn.dataset.id;
       await openVitrineRoom(btn.dataset.id);
-    };
-  });
-  tabBody.querySelectorAll('.member-fav-chat-btn').forEach(btn => {
-    btn.onclick = (e) => {
-      e.stopPropagation();
-      const m = favModels.find(x => x.id === btn.dataset.id);
-      openChat({
-        profileId: btn.dataset.id, viewerType: 'member', memberUid: user.uid,
-        memberUsername: data.username || '', creatorName: (m && m.name) || '',
-        otherName: (m && m.name) || t('nameUndefined'), otherPhoto: m && m.photo
-      });
     };
   });
 }
@@ -12415,6 +12477,12 @@ async function sendChatMessage(){
       lastSenderType: ctx.viewerType, [myTypingField]: false,
       [otherUnreadField]: firebase.firestore.FieldValue.increment(1)
     }, { merge: true });
+    // Référence directe (fiable, sans requête collectionGroup) : la liste des conversations du membre.
+    try{
+      await memberDb.collection('members').doc(ctx.memberUid).set({
+        conversationProfileIds: firebase.firestore.FieldValue.arrayUnion(ctx.profileId)
+      }, { merge: true });
+    }catch(e){ console.error('track conversationProfileIds error', e); }
     playChatSendSound();
   }catch(e){
     console.error('send chat message error', e);
@@ -12433,20 +12501,27 @@ async function renderMemberMessagesTab(user, data){
   tabBody.innerHTML = `<span class="gallery-empty">${t('chatLoading')}</span>`;
   try{
     if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
-    const snap = await db.collectionGroup('conversations').where('memberUid', '==', user.uid).get();
-    if(snap.empty){
+    const memberDoc = await memberDb.collection('members').doc(user.uid).get();
+    const profileIds = (memberDoc.exists && memberDoc.data().conversationProfileIds) || [];
+    if(profileIds.length === 0){
       tabBody.innerHTML = `<span class="gallery-empty">${t('chatNoConversations')}</span>`;
       return;
     }
-    const rows = snap.docs.map(d => {
-      const c = d.data();
-      const profileId = d.ref.parent.parent.id;
-      return { profileId, c };
-    }).sort((a, b) => {
+    const results = await Promise.all(profileIds.map(async (profileId) => {
+      try{
+        const convDoc = await db.collection('profiles').doc(profileId).collection('conversations').doc(user.uid).get();
+        return convDoc.exists ? { profileId, c: convDoc.data() } : null;
+      }catch(e){ console.error('load conversation error', profileId, e); return null; }
+    }));
+    const rows = results.filter(Boolean).sort((a, b) => {
       const ta = a.c.lastMessageAt && a.c.lastMessageAt.toDate ? a.c.lastMessageAt.toDate().getTime() : 0;
       const tb = b.c.lastMessageAt && b.c.lastMessageAt.toDate ? b.c.lastMessageAt.toDate().getTime() : 0;
       return tb - ta;
     });
+    if(rows.length === 0){
+      tabBody.innerHTML = `<span class="gallery-empty">${t('chatNoConversations')}</span>`;
+      return;
+    }
     tabBody.innerHTML = rows.map(({ profileId, c }) => {
       const m = (typeof roster !== 'undefined') ? roster.find(x => x.id === profileId) : null;
       const unread = c.memberUnreadCount || 0;
@@ -12485,6 +12560,13 @@ async function renderMyMessages(m){
     if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
     const snap = await db.collection('profiles').doc(m.id).collection('conversations')
       .orderBy('lastMessageAt', 'desc').limit(100).get();
+    const badgeEl = document.getElementById('creator-msg-badge-' + m.id);
+    if(badgeEl){
+      let total = 0;
+      snap.forEach(d => { total += (d.data().creatorUnreadCount || 0); });
+      if(total > 0){ badgeEl.style.display = 'inline-flex'; badgeEl.textContent = total > 99 ? '99+' : String(total); }
+      else { badgeEl.style.display = 'none'; }
+    }
     if(snap.empty){
       zone.innerHTML = `<span class="gallery-empty">${t('chatNoConversations')}</span>`;
       return;
@@ -12541,20 +12623,39 @@ function updateTopbarMemberBadge(username){
     if(msgBtn){ msgBtn.style.display = 'none'; }
   }
 }
-let topbarMsgUnsub = null;
+let topbarMsgConvUnsubs = [];
 async function refreshTopbarMessageBadge(){
   const badgeEl = document.getElementById('topbar-msg-badge');
-  if(!badgeEl || !memberAuth || !memberAuth.currentUser) return;
+  if(!memberAuth || !memberAuth.currentUser) return;
   try{
     if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
-    if(topbarMsgUnsub){ topbarMsgUnsub(); topbarMsgUnsub = null; }
-    topbarMsgUnsub = db.collectionGroup('conversations').where('memberUid', '==', memberAuth.currentUser.uid)
-      .onSnapshot(snap => {
-        let total = 0;
-        snap.forEach(d => { total += (d.data().memberUnreadCount || 0); });
-        if(total > 0){ badgeEl.style.display = 'flex'; badgeEl.textContent = total > 99 ? '99+' : String(total); }
+    topbarMsgConvUnsubs.forEach(u => u());
+    topbarMsgConvUnsubs = [];
+    const memberDoc = await memberDb.collection('members').doc(memberAuth.currentUser.uid).get();
+    const profileIds = (memberDoc.exists && memberDoc.data().conversationProfileIds) || [];
+    const counts = {};
+    const updateBadges = () => {
+      const total = Object.values(counts).reduce((a, b) => a + b, 0);
+      const text = total > 99 ? '99+' : String(total);
+      if(badgeEl){
+        if(total > 0){ badgeEl.style.display = 'flex'; badgeEl.textContent = text; }
         else { badgeEl.style.display = 'none'; }
-      }, e => console.error('topbar message badge error', e));
+      }
+      const tabBadgeEl = document.getElementById('member-tab-messages-badge');
+      if(tabBadgeEl){
+        if(total > 0){ tabBadgeEl.style.display = 'inline-flex'; tabBadgeEl.textContent = text; }
+        else { tabBadgeEl.style.display = 'none'; }
+      }
+    };
+    if(profileIds.length === 0){ updateBadges(); return; }
+    profileIds.forEach(profileId => {
+      const unsub = db.collection('profiles').doc(profileId).collection('conversations').doc(memberAuth.currentUser.uid)
+        .onSnapshot(doc => {
+          counts[profileId] = (doc.exists && doc.data().memberUnreadCount) || 0;
+          updateBadges();
+        }, e => console.error('topbar message badge conv error', profileId, e));
+      topbarMsgConvUnsubs.push(unsub);
+    });
   }catch(e){ console.error('refreshTopbarMessageBadge error', e); }
 }
 document.getElementById('topbar-msg-btn').onclick = () => {
