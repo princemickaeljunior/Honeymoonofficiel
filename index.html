@@ -368,6 +368,41 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
 .member-view-name{font-weight:600;font-size:14px;}
 .member-view-loc{font-size:11.5px;color:var(--text-muted);}
 .follower-badge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 6px;border-radius:999px;color:#fff;font-size:10.5px;font-weight:700;margin-left:6px;}
+.uxd-badge{min-width:auto;padding:0 8px;font-size:9.5px;}
+.popularity-hero{display:flex;justify-content:center;gap:36px;margin-top:20px;}
+.tiktok-stat{display:flex;flex-direction:column;align-items:center;gap:2px;}
+.tiktok-stat-num{font-family:'Inter',sans-serif;font-weight:800;font-size:20px;color:var(--text);}
+.tiktok-stat-label{font-size:11px;color:var(--text-muted);}
+.popularity-summary{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--text);}
+.tipmenu-card{background:var(--bg-elev-2);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:16px;}
+.tipmenu-card label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--text-muted);margin:12px 0 6px;}
+.tipmenu-card input, .tipmenu-card select, .tipmenu-card textarea{background:var(--bg-elev);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:11px 13px;font-size:14px;width:100%;font-family:'Inter',sans-serif;}
+.tipmenu-card-top{display:flex;align-items:center;gap:10px;}
+.tipmenu-emoji{width:56px !important;flex-shrink:0;text-align:center;font-size:20px;padding:10px 4px !important;}
+.tipmenu-type-toggle{flex:1;display:flex;gap:6px;}
+.tipmenu-type-btn{flex:1;background:var(--bg-elev);border:1px solid var(--border);color:var(--text-muted);border-radius:10px;padding:10px 4px;font-size:12px;font-weight:600;}
+.tipmenu-type-btn.active{background:var(--honey);color:#1a1206;border-color:var(--honey);}
+.tipmenu-row-rm{background:none;border:none;color:var(--rose);font-size:18px;flex-shrink:0;padding:0 4px;}
+.tipmenu-collapsed .tipmenu-row-rm{font-size:16px;}
+.tipmenu-custom-preview{background:var(--bg-elev-2);border:1px dashed var(--honey);border-radius:12px;padding:12px 14px;font-size:12.5px;color:var(--honey);margin-top:20px;}
+.tipmenu-collapsed{display:flex;align-items:center;gap:10px;padding:12px 14px;}
+.tipmenu-collapsed-emoji{font-size:18px;flex-shrink:0;}
+.tipmenu-collapsed-icon{color:var(--honey);flex-shrink:0;}
+.tipmenu-collapsed-theme{flex:1;font-weight:600;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.tipmenu-collapsed-price{color:var(--honey);font-weight:700;font-size:13px;flex-shrink:0;}
+.tipmenu-edit-btn{background:var(--bg-elev);border:1px solid var(--border);color:var(--text-muted);width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.tipmenu-help{color:var(--text-muted);cursor:pointer;display:inline-flex;vertical-align:-2px;}
+.tipmenu-help-inline{margin-left:6px;flex-shrink:0;}
+.tipmenu-desc-icon{background:var(--bg-elev);border:1px solid var(--border);color:var(--text-muted);border-radius:6px;width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;margin-left:6px;vertical-align:-8px;}
+.tipmenu-help-text{background:var(--bg-elev);border:1px solid var(--honey);border-radius:8px;padding:8px 10px;font-size:11.5px;color:var(--text-muted);margin:4px 0 8px;}
+.tipmenu-public-list{display:flex;flex-direction:column;gap:8px;}
+.tipmenu-public-row{background:var(--bg-elev-2);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px;}
+.tipmenu-public-head{display:flex;justify-content:space-between;align-items:center;font-size:13px;}
+.tipmenu-public-theme{font-weight:600;}
+.tipmenu-public-prices{font-size:12px;color:var(--honey);font-weight:700;}
+.tipmenu-public-desc{color:var(--text-muted);font-size:12px;line-height:1.5;margin-top:6px;}
+.tipmenu-public-rules{color:var(--text-muted);font-size:12px;line-height:1.6;margin-top:12px;white-space:pre-wrap;}
+.tipmenu-custom-note{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:16px;padding-top:14px;border-top:1px solid var(--border);font-size:12.5px;color:var(--honey);}
 .follow-btn{background:var(--bg-elev-2);border:1px solid var(--honey);color:var(--honey);border-radius:999px;padding:6px 14px;font-size:12px;font-weight:600;}
 .follow-btn.following{background:var(--honey);color:#1a1206;}
 .member-view-bio{font-size:13px;color:var(--text-muted);line-height:1.5;margin:6px 0;}
@@ -1400,7 +1435,7 @@ try{
   console.error('Firebase init failed — le site continue de fonctionner sans synchronisation.', e);
 }
 
-let LANG = 'fr';
+let LANG = 'en';
 
 const I18N = {
   fr: {
@@ -1605,6 +1640,60 @@ const I18N = {
     memberLocationPh: "Ville, pays...",
     memberBioLabel: "Biographie",
     memberBioPh: "Parle un peu de toi...",
+    myFamilyPopularity: "Popularité",
+    popularityTabNote: "Ton badge de popularité, tes abonné(e)s et les personnes que tu suis.",
+    followingLabel: "Abonnements",
+    followersLabel: "Abonnés",
+    likesLabel: "Likes",
+    followersListTitle: "Abonné(e)s",
+    followingListTitle: "Abonnements",
+    tierLabel_gray: "Débutant",
+    tierLabel_bronze: "Bronze",
+    tierLabel_silver: "Argent",
+    tierLabel_gold: "Or",
+    tierLabel_red: "Top créatrice",
+    tierLabel_purple: "Violet",
+    tierLabel_diamond: "Diamant",
+    uxdLabel: "UXD",
+    uxdExplainNote: "UXD : ta présence de contribution envers les créatrices.",
+    tipMenuTabLabel: "Tip Menu",
+    tipMenuTabNote: "Remplis ton menu par thème (photo, vidéo, audio). Les prix sont fixés par la plateforme — choisis-les dans la liste. Publie pour qu'il apparaisse sur ta page.",
+    tipMenuThemePh: "Nom du thème (ex : lingerie)",
+    tipMenuColTheme: "Thème",
+    tipMenuColPhoto: "Photo",
+    tipMenuColVideo: "Vidéo",
+    tipMenuColAudio: "Audio",
+    tipMenuNoPrice: "—",
+    tipMenuAddRow: "Ajouter un thème",
+    tipMenuRulesLabel: "Explique les règles de chaque thème",
+    tipMenuRulesPh: "Ex : Lingerie = photo en lingerie fine, pas de nudité. Danse sensuelle = vidéo 30-60s...",
+    tipMenuPriceLockedNote: "Les prix sont fixés par Honeymoon — tu ne peux choisir que parmi les montants proposés.",
+    tipMenuPublishBtn: "Publier sur ma page",
+    tipMenuPublishedToast: "Tip Menu publié sur ta page !",
+    tipMenuCustomNote: "Une envie particulière ? Demande personnalisée à discuter directement dans le chat.",
+    tipMenuRowExplain: "Pour chaque ligne : choisis le type de contenu (photo, vidéo ou audio), donne un thème, un prix, et une description de ce que ça inclut.",
+    tipMenuPriceLabel: "Prix",
+    tipMenuDescLabel: "Description (ce que ça inclut)",
+    tipMenuDescPh: "Ex : vidéo de 30 secondes, tenue en lingerie noire, sans nudité.",
+    tipMenuEditRow: "Modifier",
+    tipMenuRowDoneBtn: "Valider cette ligne",
+    tipMenuThemeRequired: "Ajoute un nom de thème avant de valider.",
+    tipMenuHelpTheme: "Le nom de ce que tu proposes, par exemple \"Lingerie rouge\" ou \"Danse sensuelle\".",
+    tipMenuHelpPrice: "Choisis un prix entre {min}€ et {max}€ pour ce type de contenu. Si tu dépasses le maximum autorisé, il sera automatiquement ramené à {max}€.",
+    tipMenuHelpDesc: "Décris en quelques mots ce qui est inclus (durée, tenue, ce qui est montré ou non). 20 mots maximum.",
+    tipMenuPriceClamped: "Prix ramené au maximum autorisé : {max}€.",
+    tipMenuHelpEmoji: "Tu peux mettre un ou plusieurs emojis, ou laisser vide — l'emoji par défaut peut être effacé.",
+    tipMenuMaxRows: "Maximum 25 lignes dans ton Tip Menu.",
+    tipMenuTheme_lingerie: "Lingerie",
+    tipMenuTheme_danse_sensuelle: "Danse sensuelle",
+    tipMenuTheme_strip_tease: "Strip-tease",
+    tipMenuTheme_pov_intime: "POV intime",
+    tipMenuTheme_roleplay: "Jeu de rôle",
+    tipMenuTheme_fetish_pieds: "Fétiche pieds",
+    tipMenuTheme_costume_theme: "Costume à thème",
+    tipMenuTheme_exterieur: "Extérieur",
+    tipMenuTheme_duo_couple: "Duo / couple",
+    tipMenuTheme_demande_personnalisee: "Demande personnalisée",
     followBtn: "Suivre",
     followingBtn: "Suivi(e)",
     membersViewerBtn: "Membres",
@@ -2153,6 +2242,60 @@ const I18N = {
     memberLocationPh: "City, country...",
     memberBioLabel: "Biography",
     memberBioPh: "Tell us about yourself...",
+    myFamilyPopularity: "Popularity",
+    popularityTabNote: "Your popularity badge, your followers, and who you follow.",
+    followingLabel: "Following",
+    followersLabel: "Followers",
+    likesLabel: "Likes",
+    followersListTitle: "Followers",
+    followingListTitle: "Following",
+    tierLabel_gray: "Starter",
+    tierLabel_bronze: "Bronze",
+    tierLabel_silver: "Silver",
+    tierLabel_gold: "Gold",
+    tierLabel_red: "Top creator",
+    tierLabel_purple: "Purple",
+    tierLabel_diamond: "Diamond",
+    uxdLabel: "UXD",
+    uxdExplainNote: "UXD: your contribution presence toward the creators.",
+    tipMenuTabLabel: "Tip Menu",
+    tipMenuTabNote: "Fill in your menu by theme (photo, video, audio). Prices are set by the platform — pick them from the list. Publish so it appears on your page.",
+    tipMenuThemePh: "Theme name (e.g. lingerie)",
+    tipMenuColTheme: "Theme",
+    tipMenuColPhoto: "Photo",
+    tipMenuColVideo: "Video",
+    tipMenuColAudio: "Audio",
+    tipMenuNoPrice: "—",
+    tipMenuAddRow: "Add a theme",
+    tipMenuRulesLabel: "Explain the rules for each theme",
+    tipMenuRulesPh: "E.g.: Lingerie = photo in fine lingerie, no nudity. Sensual dance = 30-60s video...",
+    tipMenuPriceLockedNote: "Prices are set by Honeymoon — you can only choose among the offered amounts.",
+    tipMenuPublishBtn: "Publish to my page",
+    tipMenuPublishedToast: "Tip Menu published to your page!",
+    tipMenuCustomNote: "Something specific in mind? Custom requests can be discussed directly in chat.",
+    tipMenuRowExplain: "For each line: choose the content type (photo, video, or audio), give it a theme, a price, and a description of what's included.",
+    tipMenuPriceLabel: "Price",
+    tipMenuDescLabel: "Description (what's included)",
+    tipMenuDescPh: "E.g.: 30-second video, black lingerie outfit, no nudity.",
+    tipMenuEditRow: "Edit",
+    tipMenuRowDoneBtn: "Save this line",
+    tipMenuThemeRequired: "Add a theme name before saving.",
+    tipMenuHelpTheme: "The name of what you're offering, e.g. \"Red lingerie\" or \"Sensual dance\".",
+    tipMenuHelpPrice: "Pick a price between {min}€ and {max}€ for this content type. If you go above the allowed maximum, it will automatically be capped at {max}€.",
+    tipMenuHelpDesc: "Describe in a few words what's included (duration, outfit, what's shown or not). 20 words max.",
+    tipMenuPriceClamped: "Price capped at the allowed maximum: {max}€.",
+    tipMenuHelpEmoji: "You can add one or several emojis, or leave it empty — the default emoji can be erased.",
+    tipMenuMaxRows: "Maximum 25 lines in your Tip Menu.",
+    tipMenuTheme_lingerie: "Lingerie",
+    tipMenuTheme_danse_sensuelle: "Sensual dance",
+    tipMenuTheme_strip_tease: "Striptease",
+    tipMenuTheme_pov_intime: "Intimate POV",
+    tipMenuTheme_roleplay: "Roleplay",
+    tipMenuTheme_fetish_pieds: "Foot fetish",
+    tipMenuTheme_costume_theme: "Themed costume",
+    tipMenuTheme_exterieur: "Outdoor",
+    tipMenuTheme_duo_couple: "Duo / couple",
+    tipMenuTheme_demande_personnalisee: "Custom request",
     followBtn: "Follow",
     followingBtn: "Following",
     membersViewerBtn: "Members",
@@ -3013,6 +3156,91 @@ const I18N = {
     visitorBadgeLabel: "Visitante",
     chatRulesBanner: "⚠️ Espacio de chat respetuoso: los insultos están prohibidos. Intercambiar datos de contacto personales (número de teléfono, redes sociales, email) no está permitido en la plataforma y puede acarrear sanciones.",
     chatReportMessage: "Denunciar este mensaje al equipo",
+    bnav2257: "Mención 2257",
+    bnavCgu: "Términos",
+    bnavPricing: "Precios",
+    bnavPrivacy: "Privacidad",
+    commentModeAnonymous: "Anónimo",
+    commentModeCustom: "Escribir un apodo",
+    commentModeMember: "Usar mi nombre de usuario",
+    commentModeVisitor: "Soy visitante",
+    contractTabLabel: "Contrato",
+    followBtn: "Seguir",
+    followersLabel: "Seguidores",
+    followersListTitle: "Seguidores",
+    followingBtn: "Siguiendo",
+    followingLabel: "Siguiendo",
+    followingListTitle: "Siguiendo",
+    likesLabel: "Me gusta",
+    memberBioVisibilityExplain: "Según tu elección anterior, tu biografía puede ser vista por las creadoras correspondientes. El resto de tu perfil (email, compras, contraseña) nunca es visible.",
+    memberPhotosVisibilityExplain: "Según tu elección anterior, estas fotos pueden ser vistas por las creadoras correspondientes. Siempre están separadas de tus compras.",
+    memberPrivateFieldNote: "Nunca visible para nadie más que tú.",
+    memberSubtabInfos: "Mis datos",
+    memberSubtabPassword: "Contraseña",
+    memberSubtabPhotos: "Mis fotos",
+    memberVisibilityEveryone: "Todas las creadoras",
+    memberVisibilityFavorites: "Solo mis favoritas",
+    memberVisibilityLabel: "Quién puede ver",
+    memberVisibilityNobody: "Nadie",
+    membersViewerBtn: "Miembros",
+    membersViewerEmpty: "Ningún miembro comparte su biografía o fotos por ahora.",
+    membersViewerTitle: "Miembros que comparten su perfil",
+    myFamilyPopularity: "Popularidad",
+    popularityTabNote: "Tu insignia de popularidad, tus seguidores y las personas que sigues.",
+    reportAttachment: "Archivo adjunto (opcional)",
+    reportReasonHarassment: "Acoso / comportamiento abusivo",
+    reportReasonImpersonation: "Suplantación de identidad",
+    reportReasonPrivacy: "Violación de la privacidad",
+    reportReasonScam: "Estafa / fraude",
+    reportReasonSpam: "Spam / publicidad no solicitada",
+    reportReasonViolence: "Violencia / amenazas",
+    tierLabel_bronze: "Bronce",
+    tierLabel_diamond: "Diamante",
+    tierLabel_gold: "Oro",
+    tierLabel_gray: "Principiante",
+    tierLabel_purple: "Morado",
+    tierLabel_red: "Top creadora",
+    tierLabel_silver: "Plata",
+    tipMenuAddRow: "Añadir un tema",
+    tipMenuColAudio: "Audio",
+    tipMenuColPhoto: "Foto",
+    tipMenuColTheme: "Tema",
+    tipMenuColVideo: "Video",
+    tipMenuCustomNote: "¿Algo especial en mente? Solicitud personalizada, puedes hablarlo directamente en el chat.",
+    tipMenuDescLabel: "Descripción (qué incluye)",
+    tipMenuDescPh: "Ej.: video de 30 segundos, lencería negra, sin desnudez.",
+    tipMenuEditRow: "Editar",
+    tipMenuHelpDesc: "Describe en pocas palabras qué incluye (duración, atuendo, qué se muestra o no). 20 palabras máximo.",
+    tipMenuHelpEmoji: "Puedes poner uno o varios emojis, o dejarlo vacío — el emoji por defecto se puede borrar.",
+    tipMenuHelpPrice: "Elige un precio entre {min}€ y {max}€ para este tipo de contenido. Si superas el máximo permitido, se ajustará automáticamente a {max}€.",
+    tipMenuHelpTheme: "El nombre de lo que ofreces, por ejemplo \\\"Lencería roja\\\" o \\\"Baile sensual\\\".",
+    tipMenuMaxRows: "Máximo 25 líneas en tu Tip Menu.",
+    tipMenuNoPrice: "—",
+    tipMenuPriceClamped: "Precio ajustado al máximo permitido: {max}€.",
+    tipMenuPriceLabel: "Precio",
+    tipMenuPriceLockedNote: "Los precios los fija Honeymoon — solo puedes elegir entre los montos propuestos.",
+    tipMenuPublishBtn: "Publicar en mi página",
+    tipMenuPublishedToast: "¡Tip Menu publicado en tu página!",
+    tipMenuRowDoneBtn: "Guardar esta línea",
+    tipMenuRowExplain: "Para cada línea: elige el tipo de contenido (foto, video o audio), da un tema, un precio, y una descripción de lo que incluye.",
+    tipMenuTabLabel: "Tip Menu",
+    tipMenuTabNote: "Completa tu menú por tema (foto, video, audio). Los precios los fija la plataforma — elígelos de la lista. Publica para que aparezca en tu página.",
+    tipMenuThemePh: "Nombre del tema (ej.: lencería)",
+    tipMenuThemeRequired: "Añade un nombre de tema antes de guardar.",
+    tipMenuTheme_costume_theme: "Disfraz temático",
+    tipMenuTheme_danse_sensuelle: "Baile sensual",
+    tipMenuTheme_demande_personnalisee: "Solicitud personalizada",
+    tipMenuTheme_duo_couple: "Dúo / pareja",
+    tipMenuTheme_exterieur: "Exterior",
+    tipMenuTheme_fetish_pieds: "Fetiche de pies",
+    tipMenuTheme_lingerie: "Lencería",
+    tipMenuTheme_pov_intime: "POV íntimo",
+    tipMenuTheme_roleplay: "Juego de rol",
+    tipMenuTheme_strip_tease: "Striptease",
+    uxdExplainNote: "UXD: tu presencia de contribución hacia las creadoras.",
+    uxdLabel: "UXD",
+    visitorNeedsAccountChat: "Regístrate gratis para enviar un mensaje a esta creadora — próximamente disponible.",
+    visitorNeedsAccountFavorite: "Regístrate gratis para añadir creadoras a favoritos — próximamente disponible.",
     ourCreatorsTitle: "Nuestras creadoras",
   },
   it: {
@@ -3529,6 +3757,91 @@ const I18N = {
     visitorBadgeLabel: "Visitatrice",
     chatRulesBanner: "⚠️ Spazio di chat rispettoso: gli insulti sono vietati. Lo scambio di dati di contatto personali (numero di telefono, social media, email) non è consentito sulla piattaforma e può comportare sanzioni.",
     chatReportMessage: "Segnala questo messaggio al team",
+    bnav2257: "Menzione 2257",
+    bnavCgu: "Termini",
+    bnavPricing: "Prezzi",
+    bnavPrivacy: "Privacy",
+    commentModeAnonymous: "Anonimo",
+    commentModeCustom: "Scrivi un soprannome",
+    commentModeMember: "Usa il mio nome utente",
+    commentModeVisitor: "Sono un visitatore",
+    contractTabLabel: "Contratto",
+    followBtn: "Segui",
+    followersLabel: "Follower",
+    followersListTitle: "Follower",
+    followingBtn: "Seguito/a",
+    followingLabel: "Seguiti",
+    followingListTitle: "Seguiti",
+    likesLabel: "Mi piace",
+    memberBioVisibilityExplain: "In base alla tua scelta sopra, la tua bio può essere vista dalle creatrici interessate. Il resto del tuo profilo (email, acquisti, password) non è mai visibile.",
+    memberPhotosVisibilityExplain: "In base alla tua scelta sopra, queste foto possono essere viste dalle creatrici interessate. Restano sempre separate dai tuoi acquisti.",
+    memberPrivateFieldNote: "Mai visibile a nessuno tranne te.",
+    memberSubtabInfos: "I miei dati",
+    memberSubtabPassword: "Password",
+    memberSubtabPhotos: "Le mie foto",
+    memberVisibilityEveryone: "Tutte le creatrici",
+    memberVisibilityFavorites: "Solo i miei preferiti",
+    memberVisibilityLabel: "Chi può vedere",
+    memberVisibilityNobody: "Nessuno",
+    membersViewerBtn: "Membri",
+    membersViewerEmpty: "Nessun membro condivide la propria bio o foto al momento.",
+    membersViewerTitle: "Membri che condividono il profilo",
+    myFamilyPopularity: "Popolarità",
+    popularityTabNote: "Il tuo badge di popolarità, i tuoi follower e le persone che segui.",
+    reportAttachment: "Allegato (opzionale)",
+    reportReasonHarassment: "Molestie / comportamento abusivo",
+    reportReasonImpersonation: "Furto d'identità",
+    reportReasonPrivacy: "Violazione della privacy",
+    reportReasonScam: "Truffa / frode",
+    reportReasonSpam: "Spam / pubblicità non richiesta",
+    reportReasonViolence: "Violenza / minacce",
+    tierLabel_bronze: "Bronzo",
+    tierLabel_diamond: "Diamante",
+    tierLabel_gold: "Oro",
+    tierLabel_gray: "Principiante",
+    tierLabel_purple: "Viola",
+    tierLabel_red: "Top creatrice",
+    tierLabel_silver: "Argento",
+    tipMenuAddRow: "Aggiungi un tema",
+    tipMenuColAudio: "Audio",
+    tipMenuColPhoto: "Foto",
+    tipMenuColTheme: "Tema",
+    tipMenuColVideo: "Video",
+    tipMenuCustomNote: "Un desiderio particolare? Richiesta personalizzata da discutere direttamente in chat.",
+    tipMenuDescLabel: "Descrizione (cosa include)",
+    tipMenuDescPh: "Es.: video di 30 secondi, lingerie nera, senza nudità.",
+    tipMenuEditRow: "Modifica",
+    tipMenuHelpDesc: "Descrivi in poche parole cosa è incluso (durata, abbigliamento, cosa viene mostrato o meno). Massimo 20 parole.",
+    tipMenuHelpEmoji: "Puoi mettere una o più emoji, o lasciare vuoto — l'emoji predefinita può essere cancellata.",
+    tipMenuHelpPrice: "Scegli un prezzo tra {min}€ e {max}€ per questo tipo di contenuto. Se superi il massimo consentito, verrà riportato automaticamente a {max}€.",
+    tipMenuHelpTheme: "Il nome di ciò che proponi, ad esempio \\\"Lingerie rossa\\\" o \\\"Danza sensuale\\\".",
+    tipMenuMaxRows: "Massimo 25 righe nel tuo Tip Menu.",
+    tipMenuNoPrice: "—",
+    tipMenuPriceClamped: "Prezzo riportato al massimo consentito: {max}€.",
+    tipMenuPriceLabel: "Prezzo",
+    tipMenuPriceLockedNote: "I prezzi sono fissati da Honeymoon — puoi scegliere solo tra gli importi proposti.",
+    tipMenuPublishBtn: "Pubblica sulla mia pagina",
+    tipMenuPublishedToast: "Tip Menu pubblicato sulla tua pagina!",
+    tipMenuRowDoneBtn: "Salva questa riga",
+    tipMenuRowExplain: "Per ogni riga: scegli il tipo di contenuto (foto, video o audio), dai un tema, un prezzo, e una descrizione di cosa include.",
+    tipMenuTabLabel: "Tip Menu",
+    tipMenuTabNote: "Compila il tuo menu per tema (foto, video, audio). I prezzi sono fissati dalla piattaforma — scegli dalla lista. Pubblica affinché appaia sulla tua pagina.",
+    tipMenuThemePh: "Nome del tema (es.: lingerie)",
+    tipMenuThemeRequired: "Aggiungi un nome di tema prima di salvare.",
+    tipMenuTheme_costume_theme: "Costume a tema",
+    tipMenuTheme_danse_sensuelle: "Danza sensuale",
+    tipMenuTheme_demande_personnalisee: "Richiesta personalizzata",
+    tipMenuTheme_duo_couple: "Duo / coppia",
+    tipMenuTheme_exterieur: "Esterno",
+    tipMenuTheme_fetish_pieds: "Feticismo dei piedi",
+    tipMenuTheme_lingerie: "Lingerie",
+    tipMenuTheme_pov_intime: "POV intimo",
+    tipMenuTheme_roleplay: "Gioco di ruolo",
+    tipMenuTheme_strip_tease: "Spogliarello",
+    uxdExplainNote: "UXD: la tua presenza di contributo verso le creatrici.",
+    uxdLabel: "UXD",
+    visitorNeedsAccountChat: "Iscriviti gratuitamente per inviare un messaggio a questa creatrice — presto disponibile.",
+    visitorNeedsAccountFavorite: "Iscriviti gratuitamente per aggiungere creatrici ai preferiti — presto disponibile.",
     ourCreatorsTitle: "Le nostre creatrici",
   },
   pt: {
@@ -4045,6 +4358,91 @@ const I18N = {
     visitorBadgeLabel: "Visitante",
     chatRulesBanner: "⚠️ Espaço de conversa respeitoso: insultos são proibidos. A troca de dados de contacto pessoais (número de telefone, redes sociais, email) não é permitida na plataforma e pode resultar em sanções.",
     chatReportMessage: "Denunciar esta mensagem à equipa",
+    bnav2257: "Menção 2257",
+    bnavCgu: "Termos",
+    bnavPricing: "Preços",
+    bnavPrivacy: "Privacidade",
+    commentModeAnonymous: "Anônimo",
+    commentModeCustom: "Escrever um apelido",
+    commentModeMember: "Usar meu nome de usuário",
+    commentModeVisitor: "Sou visitante",
+    contractTabLabel: "Contrato",
+    followBtn: "Seguir",
+    followersLabel: "Seguidores",
+    followersListTitle: "Seguidores",
+    followingBtn: "Seguindo",
+    followingLabel: "Seguindo",
+    followingListTitle: "Seguindo",
+    likesLabel: "Curtidas",
+    memberBioVisibilityExplain: "De acordo com sua escolha acima, sua bio pode ser vista pelas criadoras relevantes. O resto do seu perfil (email, compras, senha) nunca é visível.",
+    memberPhotosVisibilityExplain: "De acordo com sua escolha acima, essas fotos podem ser vistas pelas criadoras relevantes. Elas ficam sempre separadas das suas compras.",
+    memberPrivateFieldNote: "Nunca visível para ninguém além de você.",
+    memberSubtabInfos: "Meus dados",
+    memberSubtabPassword: "Senha",
+    memberSubtabPhotos: "Minhas fotos",
+    memberVisibilityEveryone: "Todas as criadoras",
+    memberVisibilityFavorites: "Apenas meus favoritos",
+    memberVisibilityLabel: "Quem pode ver",
+    memberVisibilityNobody: "Ninguém",
+    membersViewerBtn: "Membros",
+    membersViewerEmpty: "Nenhum membro compartilha sua bio ou fotos no momento.",
+    membersViewerTitle: "Membros que compartilham o perfil",
+    myFamilyPopularity: "Popularidade",
+    popularityTabNote: "Seu selo de popularidade, seus seguidores e as pessoas que você segue.",
+    reportAttachment: "Anexo (opcional)",
+    reportReasonHarassment: "Assédio / comportamento abusivo",
+    reportReasonImpersonation: "Falsidade de identidade",
+    reportReasonPrivacy: "Violação de privacidade",
+    reportReasonScam: "Golpe / fraude",
+    reportReasonSpam: "Spam / publicidade não solicitada",
+    reportReasonViolence: "Violência / ameaças",
+    tierLabel_bronze: "Bronze",
+    tierLabel_diamond: "Diamante",
+    tierLabel_gold: "Ouro",
+    tierLabel_gray: "Iniciante",
+    tierLabel_purple: "Roxo",
+    tierLabel_red: "Top criadora",
+    tierLabel_silver: "Prata",
+    tipMenuAddRow: "Adicionar um tema",
+    tipMenuColAudio: "Áudio",
+    tipMenuColPhoto: "Foto",
+    tipMenuColTheme: "Tema",
+    tipMenuColVideo: "Vídeo",
+    tipMenuCustomNote: "Um desejo especial? Pedido personalizado a combinar diretamente no chat.",
+    tipMenuDescLabel: "Descrição (o que inclui)",
+    tipMenuDescPh: "Ex.: vídeo de 30 segundos, lingerie preta, sem nudez.",
+    tipMenuEditRow: "Editar",
+    tipMenuHelpDesc: "Descreva em poucas palavras o que está incluído (duração, roupa, o que é mostrado ou não). Máximo 20 palavras.",
+    tipMenuHelpEmoji: "Você pode colocar um ou vários emojis, ou deixar vazio — o emoji padrão pode ser apagado.",
+    tipMenuHelpPrice: "Escolha um preço entre {min}€ e {max}€ para este tipo de conteúdo. Se ultrapassar o máximo permitido, será ajustado automaticamente para {max}€.",
+    tipMenuHelpTheme: "O nome do que você está oferecendo, por exemplo \\\"Lingerie vermelha\\\" ou \\\"Dança sensual\\\".",
+    tipMenuMaxRows: "Máximo de 25 linhas no seu Tip Menu.",
+    tipMenuNoPrice: "—",
+    tipMenuPriceClamped: "Preço ajustado ao máximo permitido: {max}€.",
+    tipMenuPriceLabel: "Preço",
+    tipMenuPriceLockedNote: "Os preços são definidos pela Honeymoon — você só pode escolher entre os valores propostos.",
+    tipMenuPublishBtn: "Publicar na minha página",
+    tipMenuPublishedToast: "Tip Menu publicado na sua página!",
+    tipMenuRowDoneBtn: "Salvar esta linha",
+    tipMenuRowExplain: "Para cada linha: escolha o tipo de conteúdo (foto, vídeo ou áudio), dê um tema, um preço, e uma descrição do que inclui.",
+    tipMenuTabLabel: "Tip Menu",
+    tipMenuTabNote: "Preencha seu menu por tema (foto, vídeo, áudio). Os preços são definidos pela plataforma — escolha-os na lista. Publique para que apareça na sua página.",
+    tipMenuThemePh: "Nome do tema (ex.: lingerie)",
+    tipMenuThemeRequired: "Adicione um nome de tema antes de salvar.",
+    tipMenuTheme_costume_theme: "Fantasia temática",
+    tipMenuTheme_danse_sensuelle: "Dança sensual",
+    tipMenuTheme_demande_personnalisee: "Pedido personalizado",
+    tipMenuTheme_duo_couple: "Dupla / casal",
+    tipMenuTheme_exterieur: "Ao ar livre",
+    tipMenuTheme_fetish_pieds: "Fetiche de pés",
+    tipMenuTheme_lingerie: "Lingerie",
+    tipMenuTheme_pov_intime: "POV íntimo",
+    tipMenuTheme_roleplay: "Encenação",
+    tipMenuTheme_strip_tease: "Striptease",
+    uxdExplainNote: "UXD: sua presença de contribuição para as criadoras.",
+    uxdLabel: "UXD",
+    visitorNeedsAccountChat: "Cadastre-se grátis para enviar mensagem a esta criadora — em breve disponível.",
+    visitorNeedsAccountFavorite: "Cadastre-se grátis para adicionar criadoras aos favoritos — em breve disponível.",
     ourCreatorsTitle: "As nossas criadoras",
   },
   sw: {
@@ -4560,6 +4958,91 @@ const I18N = {
     visitorBadgeLabel: "Mgeni",
     chatRulesBanner: "⚠️ Nafasi ya mazungumzo yenye heshima: matusi ni marufuku. Kubadilishana taarifa za mawasiliano binafsi (nambari ya simu, mitandao ya kijamii, barua pepe) hairuhusiwi kwenye jukwaa na inaweza kusababisha adhabu.",
     chatReportMessage: "Ripoti ujumbe huu kwa timu",
+    bnav2257: "Taarifa 2257",
+    bnavCgu: "Masharti",
+    bnavPricing: "Bei",
+    bnavPrivacy: "Faragha",
+    commentModeAnonymous: "Bila jina",
+    commentModeCustom: "Andika jina la utani",
+    commentModeMember: "Tumia jina langu la mtumiaji",
+    commentModeVisitor: "Mimi ni mgeni",
+    contractTabLabel: "Mkataba",
+    followBtn: "Fuata",
+    followersLabel: "Wafuasi",
+    followersListTitle: "Wafuasi",
+    followingBtn: "Unamfuata",
+    followingLabel: "Unaowafuata",
+    followingListTitle: "Unaowafuata",
+    likesLabel: "Mapendekezo",
+    memberBioVisibilityExplain: "Kulingana na chaguo lako hapo juu, wasifu wako unaweza kuonekana na waundaji husika. Sehemu zingine za wasifu wako (barua pepe, manunuzi, nenosiri) haziwezi kuonekana kamwe.",
+    memberPhotosVisibilityExplain: "Kulingana na chaguo lako hapo juu, picha hizi zinaweza kuonekana na waundaji husika. Daima hutenganishwa na manunuzi yako.",
+    memberPrivateFieldNote: "Haionekani kamwe na mtu yeyote isipokuwa wewe.",
+    memberSubtabInfos: "Taarifa zangu",
+    memberSubtabPassword: "Nenosiri",
+    memberSubtabPhotos: "Picha zangu",
+    memberVisibilityEveryone: "Waundaji wote",
+    memberVisibilityFavorites: "Wapendwa wangu tu",
+    memberVisibilityLabel: "Nani anaweza kuona",
+    memberVisibilityNobody: "Hakuna",
+    membersViewerBtn: "Wanachama",
+    membersViewerEmpty: "Hakuna mwanachama anayeshiriki wasifu au picha zake kwa sasa.",
+    membersViewerTitle: "Wanachama wanaoshiriki wasifu wao",
+    myFamilyPopularity: "Umaarufu",
+    popularityTabNote: "Alama yako ya umaarufu, wafuasi wako, na watu unaowafuata.",
+    reportAttachment: "Kiambatisho (si lazima)",
+    reportReasonHarassment: "Unyanyasaji / tabia mbaya",
+    reportReasonImpersonation: "Kujifanya mtu mwingine",
+    reportReasonPrivacy: "Ukiukaji wa faragha",
+    reportReasonScam: "Ulaghai / udanganyifu",
+    reportReasonSpam: "Spam / matangazo yasiyoombwa",
+    reportReasonViolence: "Ukatili / vitisho",
+    tierLabel_bronze: "Shaba",
+    tierLabel_diamond: "Almasi",
+    tierLabel_gold: "Dhahabu",
+    tierLabel_gray: "Mwanzo",
+    tierLabel_purple: "Zambarau",
+    tierLabel_red: "Muundaji bora",
+    tierLabel_silver: "Fedha",
+    tipMenuAddRow: "Ongeza mada",
+    tipMenuColAudio: "Sauti",
+    tipMenuColPhoto: "Picha",
+    tipMenuColTheme: "Mada",
+    tipMenuColVideo: "Video",
+    tipMenuCustomNote: "Una hitaji maalum? Ombi maalum, ongea nalo moja kwa moja kwenye mazungumzo.",
+    tipMenuDescLabel: "Maelezo (kinachojumuisha)",
+    tipMenuDescPh: "Mfano: video ya sekunde 30, nguo za ndani nyeusi, bila uchi.",
+    tipMenuEditRow: "Hariri",
+    tipMenuHelpDesc: "Eleza kwa maneno machache kinachojumuisha (muda, mavazi, kinachoonyeshwa au la). Maneno 20 kiwango cha juu.",
+    tipMenuHelpEmoji: "Unaweza kuweka emoji moja au zaidi, au uache tupu — emoji ya kawaida inaweza kufutwa.",
+    tipMenuHelpPrice: "Chagua bei kati ya {min}€ na {max}€ kwa aina hii ya maudhui. Ukizidi kiwango cha juu kinachoruhusiwa, itapunguzwa moja kwa moja hadi {max}€.",
+    tipMenuHelpTheme: "Jina la kile unachotoa, kwa mfano \\\"Nguo za ndani nyekundu\\\" au \\\"Densi ya kuvutia\\\".",
+    tipMenuMaxRows: "Kiwango cha juu mistari 25 kwenye Tip Menu yako.",
+    tipMenuNoPrice: "—",
+    tipMenuPriceClamped: "Bei imepunguzwa hadi kiwango cha juu kinachoruhusiwa: {max}€.",
+    tipMenuPriceLabel: "Bei",
+    tipMenuPriceLockedNote: "Bei zimewekwa na Honeymoon — unaweza kuchagua tu miongoni mwa kiasi kilichopendekezwa.",
+    tipMenuPublishBtn: "Chapisha kwenye ukurasa wangu",
+    tipMenuPublishedToast: "Tip Menu imechapishwa kwenye ukurasa wako!",
+    tipMenuRowDoneBtn: "Hifadhi mstari huu",
+    tipMenuRowExplain: "Kwa kila mstari: chagua aina ya maudhui (picha, video au sauti), toa mada, bei, na maelezo ya kinachojumuisha.",
+    tipMenuTabLabel: "Tip Menu",
+    tipMenuTabNote: "Jaza menyu yako kwa mada (picha, video, sauti). Bei zimewekwa na jukwaa — zichague kutoka orodhani. Chapisha ili ionekane kwenye ukurasa wako.",
+    tipMenuThemePh: "Jina la mada (mfano: nguo za ndani)",
+    tipMenuThemeRequired: "Ongeza jina la mada kabla ya kuhifadhi.",
+    tipMenuTheme_costume_theme: "Mavazi ya mada",
+    tipMenuTheme_danse_sensuelle: "Densi ya kuvutia",
+    tipMenuTheme_demande_personnalisee: "Ombi maalum",
+    tipMenuTheme_duo_couple: "Wawili / wapenzi",
+    tipMenuTheme_exterieur: "Nje",
+    tipMenuTheme_fetish_pieds: "Miguu (fetish)",
+    tipMenuTheme_lingerie: "Nguo za ndani",
+    tipMenuTheme_pov_intime: "POV ya karibu",
+    tipMenuTheme_roleplay: "Mchezo wa kuigiza",
+    tipMenuTheme_strip_tease: "Strip-tease",
+    uxdExplainNote: "UXD: mchango wako kwa waundaji.",
+    uxdLabel: "UXD",
+    visitorNeedsAccountChat: "Jisajili bure ili kutuma ujumbe kwa muundaji huyu — inakuja hivi karibuni.",
+    visitorNeedsAccountFavorite: "Jisajili bure ili kuongeza waundaji kwenye vipendwa — inakuja hivi karibuni.",
     ourCreatorsTitle: "Waundaji wetu",
   },
   zu: {
@@ -5075,6 +5558,91 @@ const I18N = {
     visitorBadgeLabel: "Isivakashi",
     chatRulesBanner: "⚠️ Isikhala sengxoxo sokuhlonipha: izinhlamba azivunyelwe. Ukushintshanisa imininingwane yokuxhumana yomuntu siqu (inombolo yocingo, amamediya enhlalo, i-imeyili) akuvunyelwe kule nkundla futhi kungaholela ezijezisweni.",
     chatReportMessage: "Bika lo mlayezo ethimbeni",
+    bnav2257: "Isaziso 2257",
+    bnavCgu: "Imigomo",
+    bnavPricing: "Amanani",
+    bnavPrivacy: "Ubumfihlo",
+    commentModeAnonymous: "Ongaziwa",
+    commentModeCustom: "Bhala isiteketiso",
+    commentModeMember: "Sebenzisa igama lami lomsebenzisi",
+    commentModeVisitor: "Ngingumvakashi",
+    contractTabLabel: "Isivumelwano",
+    followBtn: "Landela",
+    followersLabel: "Abalandeli",
+    followersListTitle: "Abalandeli",
+    followingBtn: "Uyamlandela",
+    followingLabel: "Abalandelayo",
+    followingListTitle: "Abalandelayo",
+    likesLabel: "Okuthandiwe",
+    memberBioVisibilityExplain: "Ngokusho kokukhethile kwakho ngenhla, i-bio yakho ingabonwa abadwebi abafanele. Enye ingxenye yephrofayela yakho (i-imeyili, ukuthenga, iphasiwedi) ayibonakali neze.",
+    memberPhotosVisibilityExplain: "Ngokusho kokukhethile kwakho ngenhla, lezi zithombe zingabonwa abadwebi abafanele. Zihlala zihlukene nokuthenga kwakho.",
+    memberPrivateFieldNote: "Ayibonakali neze omunye umuntu ngaphandle kwakho.",
+    memberSubtabInfos: "Imininingwane yami",
+    memberSubtabPassword: "Iphasiwedi",
+    memberSubtabPhotos: "Izithombe zami",
+    memberVisibilityEveryone: "Bonke abadwebi",
+    memberVisibilityFavorites: "Abathandwayo bami kuphela",
+    memberVisibilityLabel: "Ubani ongabona",
+    memberVisibilityNobody: "Akekho",
+    membersViewerBtn: "Amalungu",
+    membersViewerEmpty: "Alikho ilungu elabelana ngephrofayela noma izithombe zalo okwamanje.",
+    membersViewerTitle: "Amalungu abelana ngephrofayela yawo",
+    myFamilyPopularity: "Ukudumile",
+    popularityTabNote: "Uphawu lwakho lokudumile, abalandeli bakho, kanye nabantu obalandelayo.",
+    reportAttachment: "Isithasiselo (akudingekile)",
+    reportReasonHarassment: "Ukuhlukumeza / ukuziphatha okubi",
+    reportReasonImpersonation: "Ukuzenzisa omunye umuntu",
+    reportReasonPrivacy: "Ukwephulwa kobumfihlo",
+    reportReasonScam: "Ukukhwabanisa / inkohliso",
+    reportReasonSpam: "Ama-spam / ukukhangisa okungacelwanga",
+    reportReasonViolence: "Udlame / ukusongela",
+    tierLabel_bronze: "Ithusi",
+    tierLabel_diamond: "Idayimane",
+    tierLabel_gold: "Igolide",
+    tierLabel_gray: "Osaqalayo",
+    tierLabel_purple: "Okuphuzi",
+    tierLabel_red: "Umdwebi ophezulu",
+    tierLabel_silver: "Isiliva",
+    tipMenuAddRow: "Engeza isihloko",
+    tipMenuColAudio: "Umsindo",
+    tipMenuColPhoto: "Isithombe",
+    tipMenuColTheme: "Isihloko",
+    tipMenuColVideo: "Ividiyo",
+    tipMenuCustomNote: "Ufuna okuthile okukhethekile? Isicelo esizenzelwe, sixoxe ngaso ngqo ku-chat.",
+    tipMenuDescLabel: "Incazelo (okufakiwe)",
+    tipMenuDescPh: "Isib.: ividiyo yemizuzwana engu-30, izingubo zangaphansi ezimnyama, ngaphandle kokuze.",
+    tipMenuEditRow: "Hlela",
+    tipMenuHelpDesc: "Chaza ngamagama ambalwa okufakiwe (isikhathi, izingubo, okuboniswayo noma cha). Amagama angu-20 ubuncane obuphezulu.",
+    tipMenuHelpEmoji: "Ungabeka ama-emoji amaningi noma eyodwa, noma ushiye kungenalutho — i-emoji ezenzakalelayo ingasuswa.",
+    tipMenuHelpPrice: "Khetha inani phakathi kuka-{min}€ no-{max}€ kulolu hlobo lokuqukethwe. Uma udlula okuphezulu okuvunyelwe, kuzobuyiselwa ngokuzenzakalela ku-{max}€.",
+    tipMenuHelpTheme: "Igama lokunikezayo, isib. \\\"Izingubo zangaphansi ezibomvu\\\" noma \\\"Umdanso onenkanuko\\\".",
+    tipMenuMaxRows: "Umkhawulo wemigqa engu-25 ku-Tip Menu yakho.",
+    tipMenuNoPrice: "—",
+    tipMenuPriceClamped: "Inani libuyiselwe kokuphezulu okuvunyelwe: {max}€.",
+    tipMenuPriceLabel: "Inani",
+    tipMenuPriceLockedNote: "Amanani abekwe yiHoneymoon — ungakhetha kuphela phakathi kwamanani ahlongozwayo.",
+    tipMenuPublishBtn: "Shicilela ekhasini lami",
+    tipMenuPublishedToast: "I-Tip Menu ishicilelwe ekhasini lakho!",
+    tipMenuRowDoneBtn: "Londoloza lo mugqa",
+    tipMenuRowExplain: "Kumugqa ngamunye: khetha uhlobo lokuqukethwe (isithombe, ividiyo noma umsindo), unike isihloko, inani, kanye nencazelo yalokho okufakiwe.",
+    tipMenuTabLabel: "Tip Menu",
+    tipMenuTabNote: "Gcwalisa imenyu yakho ngesihloko (isithombe, ividiyo, umsindo). Amanani abekwe yipulatifomu — akhethe ohlwini. Shicilela ukuze abonakale ekhasini lakho.",
+    tipMenuThemePh: "Igama lesihloko (isib.: izingubo zangaphansi)",
+    tipMenuThemeRequired: "Engeza igama lesihloko ngaphambi kokulondoloza.",
+    tipMenuTheme_costume_theme: "Izingubo zomcimbi",
+    tipMenuTheme_danse_sensuelle: "Umdanso onenkanuko",
+    tipMenuTheme_demande_personnalisee: "Isicelo esizenzelwe",
+    tipMenuTheme_duo_couple: "Ababili / isishoshovu",
+    tipMenuTheme_exterieur: "Ngaphandle",
+    tipMenuTheme_fetish_pieds: "Izinyawo (fetish)",
+    tipMenuTheme_lingerie: "Izingubo zangaphansi",
+    tipMenuTheme_pov_intime: "POV eseduzane",
+    tipMenuTheme_roleplay: "Umdlalo wendima",
+    tipMenuTheme_strip_tease: "Ukuhlubula",
+    uxdExplainNote: "UXD: umnikelo wakho kubadwebi.",
+    uxdLabel: "UXD",
+    visitorNeedsAccountChat: "Bhalisa mahhala ukuze uthumele umlayezo kulo mdwebi — kuzoba khona maduze.",
+    visitorNeedsAccountFavorite: "Bhalisa mahhala ukuze wengeze abadwebi kwabathandwayo — kuzoba khona maduze.",
     ourCreatorsTitle: "Abadali bethu",
   },
   st: {
@@ -5590,6 +6158,91 @@ const I18N = {
     visitorBadgeLabel: "Moeti",
     chatRulesBanner: "⚠️ Sebaka sa poqo sa tlhompho: dintsho ha di dumellwe. Phapanyetsano ya dintlha tsa botho tsa dikgokahano (nomoro ya mohala, mecha ya sechaba, imeile) ha di dumellwe polatefomong mme e ka baka dikotlo.",
     chatReportMessage: "Tlaleha molaetsa ona ho sehlopha",
+    bnav2257: "Tsebiso 2257",
+    bnavCgu: "Melawana",
+    bnavPricing: "Litheko",
+    bnavPrivacy: "Lekunutu",
+    commentModeAnonymous: "Ya sa tsejoeng",
+    commentModeCustom: "Ngola leina la boitlamo",
+    commentModeMember: "Sebelisa lebitso la ka la mosebelisi",
+    commentModeVisitor: "Ke moeti",
+    contractTabLabel: "Konteraka",
+    followBtn: "Latela",
+    followersLabel: "Balateli",
+    followersListTitle: "Balateli",
+    followingBtn: "U ea mo latela",
+    followingLabel: "Ba u ba latelang",
+    followingListTitle: "Ba u ba latelang",
+    likesLabel: "Litšenolo",
+    memberBioVisibilityExplain: "Ho latela khetho ea hau ka holimo, boitsebiso ba hau bo ka bonoa ke babopi ba amehang. Karolo e 'ngoe ea profaele ea hau (imeile, litheko, phasewete) ha e bonoe le ka mohla.",
+    memberPhotosVisibilityExplain: "Ho latela khetho ea hau ka holimo, litšoantšo tsena li ka bonoa ke babopi ba amehang. Li lula li arohane le litheko tsa hau.",
+    memberPrivateFieldNote: "Ha e bonoe le ka mohla ke motho e mong ntle ho uena.",
+    memberSubtabInfos: "Tlhaiso-leseling ea ka",
+    memberSubtabPassword: "Phasewete",
+    memberSubtabPhotos: "Litšoantšo tsa ka",
+    memberVisibilityEveryone: "Babopi bohle",
+    memberVisibilityFavorites: "Ba ratoang ba ka feela",
+    memberVisibilityLabel: "Ke mang ea ka bonang",
+    memberVisibilityNobody: "Ha ho motho",
+    membersViewerBtn: "Litho",
+    membersViewerEmpty: "Ha ho setho se abelanang boitsebiso kapa litšoantšo tsa sona hajoale.",
+    membersViewerTitle: "Litho tse abelanang profaele ea tsona",
+    myFamilyPopularity: "Botumo",
+    popularityTabNote: "Sephatha sa hau sa botumo, balateli ba hau, le batho bao u ba latelang.",
+    reportAttachment: "Setšoantšiso (ha se hlokahale)",
+    reportReasonHarassment: "Tlhekefetso / boitšoaro bo bobe",
+    reportReasonImpersonation: "Ho itšoantšisa le motho e mong",
+    reportReasonPrivacy: "Tlolo ea lekunutu",
+    reportReasonScam: "Bomenemene / bofora",
+    reportReasonSpam: "Spam / papatso e sa kopoang",
+    reportReasonViolence: "Pefo / litšokelo",
+    tierLabel_bronze: "Boronse",
+    tierLabel_diamond: "Teimane",
+    tierLabel_gold: "Kgauta",
+    tierLabel_gray: "Ea qalang",
+    tierLabel_purple: "E mmala oa purapura",
+    tierLabel_red: "Mobopi ea holimo",
+    tierLabel_silver: "Silefera",
+    tipMenuAddRow: "Eketsa sehlooho",
+    tipMenuColAudio: "Molumo",
+    tipMenuColPhoto: "Setšoantšo",
+    tipMenuColTheme: "Sehlooho",
+    tipMenuColVideo: "Video",
+    tipMenuCustomNote: "O na le takatso e khethehileng? Kopo e ikhethang, e buisane le eona ho tloha ho chat.",
+    tipMenuDescLabel: "Tlhaloso (seo se kenyelelitsoeng)",
+    tipMenuDescPh: "Mohl.: video ea metsotsoana e 30, liaparo tsa ka tlung tse ntsho, ntle ho ho hlobola.",
+    tipMenuEditRow: "Fetola",
+    tipMenuHelpDesc: "Hlalosa ka mantsoe a seng mangata seo se kenyelelitsoeng (nako, liaparo, seo se bontšoang kapa che). Mantsoe a 20 boholo bo boholo.",
+    tipMenuHelpEmoji: "O ka kenya emoji e le 'ngoe kapa tse ngata, kapa u siee e se na letho — emoji ea tlwaelo e ka hlakoloa.",
+    tipMenuHelpPrice: "Khetha theko pakeng tsa {min}€ le {max}€ bakeng sa mofuta ona oa litaba. Ha o feta boholo bo boholo bo dumelletsoeng, e tla khutlisetsoa ka boitlamo ho {max}€.",
+    tipMenuHelpTheme: "Lebitso la seo u se fanang, mohlala \\\"Liaparo tsa ka tlung tse khubelu\\\" kapa \\\"Motjeko o hohelang\\\".",
+    tipMenuMaxRows: "Boholo bo boholo bo mela e 25 ho Tip Menu ea hau.",
+    tipMenuNoPrice: "—",
+    tipMenuPriceClamped: "Theko e khutliselitsoe boholong bo boholo bo dumelletsoeng: {max}€.",
+    tipMenuPriceLabel: "Theko",
+    tipMenuPriceLockedNote: "Litheko li behoa ke Honeymoon — o ka khetha feela har'a lichelete tse hlahisitsoeng.",
+    tipMenuPublishBtn: "Phatlalatsa leqepheng la ka",
+    tipMenuPublishedToast: "Tip Menu e phatlalalitsoe leqepheng la hau!",
+    tipMenuRowDoneBtn: "Boloka mola ona",
+    tipMenuRowExplain: "Bakeng sa mola o mong le o mong: khetha mofuta oa litaba (setšoantšo, video kapa molumo), fana ka sehlooho, theko, le tlhaloso ea seo se kenyelelitsoeng.",
+    tipMenuTabLabel: "Tip Menu",
+    tipMenuTabNote: "Tlatsa lenane la hau ka sehlooho (setšoantšo, video, molumo). Litheko li behoa ke sethala — li khethe lenaneng. Phatlalatsa hore e bonahale leqepheng la hau.",
+    tipMenuThemePh: "Lebitso la sehlooho (mohl.: liaparo tsa ka tlung)",
+    tipMenuThemeRequired: "Eketsa lebitso la sehlooho pele u boloka.",
+    tipMenuTheme_costume_theme: "Liaparo tsa moetlo",
+    tipMenuTheme_danse_sensuelle: "Motjeko o hohelang",
+    tipMenuTheme_demande_personnalisee: "Kopo e ikhethang",
+    tipMenuTheme_duo_couple: "Babeli / banyalani",
+    tipMenuTheme_exterieur: "Ka ntle",
+    tipMenuTheme_fetish_pieds: "Maoto (fetish)",
+    tipMenuTheme_lingerie: "Liaparo tsa ka tlung",
+    tipMenuTheme_pov_intime: "POV e haufi",
+    tipMenuTheme_roleplay: "Papali ea karolo",
+    tipMenuTheme_strip_tease: "Ho hlobola",
+    uxdExplainNote: "UXD: seabo sa hau ho babopi.",
+    uxdLabel: "UXD",
+    visitorNeedsAccountChat: "Ingolise mahala ho romella molaetsa ho mobopi enoa — e tla fumaneha haufinyane.",
+    visitorNeedsAccountFavorite: "Ingolise mahala ho eketsa babopi ho ba ratoang — e tla fumaneha haufinyane.",
     ourCreatorsTitle: "Baetsi ba rona",
   },
   ln: {
@@ -6105,6 +6758,91 @@ const I18N = {
     visitorBadgeLabel: "Mopaya",
     chatRulesBanner: "⚠️ Esika ya lisolo na limemya: kofinga ekopekisama. Kokabola ba détails ya moto (nimero ya telefone, réseaux sociaux, email) ekopekisama te na plateforme mpe ekoki kobimisa etumbu.",
     chatReportMessage: "Yebisa message oyo na équipe",
+    bnav2257: "Nsango 2257",
+    bnavCgu: "Mibeko",
+    bnavPricing: "Ntalo",
+    bnavPrivacy: "Sekele",
+    commentModeAnonymous: "Kombo te",
+    commentModeCustom: "Koma nkombo ya bondeko",
+    commentModeMember: "Salela nkombo na ngai ya mosaleli",
+    commentModeVisitor: "Nazali mopaya",
+    contractTabLabel: "Kontra",
+    followBtn: "Landa",
+    followersLabel: "Balandi",
+    followersListTitle: "Balandi",
+    followingBtn: "Ozali kolanda ye",
+    followingLabel: "Baye olandaka",
+    followingListTitle: "Baye olandaka",
+    likesLabel: "Bolingi",
+    memberBioVisibilityExplain: "Kolanda mpona na yo likolo, lisolo na yo ekoki komonana na bato ya mosala oyo etali bango. Ndambo mosusu ya profil na yo (imeyili, kosomba, mot de passe) emonanaka ata mokolo moko te.",
+    memberPhotosVisibilityExplain: "Kolanda mpona na yo likolo, bafoto oyo ekoki komonana na bato ya mosala oyo etali bango. Ekokabwana ntango nyonso na oyo osombaki.",
+    memberPrivateFieldNote: "Emonanaka ata mokolo moko te na moto mosusu longola se yo.",
+    memberSubtabInfos: "Basango na ngai",
+    memberSubtabPassword: "Mot de passe",
+    memberSubtabPhotos: "Bafoto na ngai",
+    memberVisibilityEveryone: "Bato nyonso ya mosala",
+    memberVisibilityFavorites: "Baoyo nalingaka kaka",
+    memberVisibilityLabel: "Nani akoki komona",
+    memberVisibilityNobody: "Moto moko te",
+    membersViewerBtn: "Bandimi",
+    membersViewerEmpty: "Ata ndimi moko te akaboli lisolo to bafoto na ye sikoyo.",
+    membersViewerTitle: "Bandimi bakaboli profil na bango",
+    myFamilyPopularity: "Lokumu",
+    popularityTabNote: "Elembo na yo ya lokumu, balandi na yo, mpe bato oyo olandaka.",
+    reportAttachment: "Ebakisami (esengeli te)",
+    reportReasonHarassment: "Konyokolo / ezaleli mabe",
+    reportReasonImpersonation: "Komikomisa moto mosusu",
+    reportReasonPrivacy: "Kobuka sekele",
+    reportReasonScam: "Bokosi / lokuta",
+    reportReasonSpam: "Spam / matangazo oyo esengami te",
+    reportReasonViolence: "Mobulu / bobangisi",
+    tierLabel_bronze: "Bronze",
+    tierLabel_diamond: "Diamant",
+    tierLabel_gold: "Wolo",
+    tierLabel_gray: "Ebandeli",
+    tierLabel_purple: "Langi ya violet",
+    tierLabel_red: "Mosali ya likolo",
+    tierLabel_silver: "Palata",
+    tipMenuAddRow: "Bakisa motó",
+    tipMenuColAudio: "Mongongo",
+    tipMenuColPhoto: "Foto",
+    tipMenuColTheme: "Motó",
+    tipMenuColVideo: "Video",
+    tipMenuCustomNote: "Ozali na mposa moko ya sikisiki? Kosenga oyo ebongisami, tosolola yango kaka na chat.",
+    tipMenuDescLabel: "Ndimbola (oyo ezali kati)",
+    tipMenuDescPh: "Ndakisa: video ya segonde 30, bilamba ya nse ya moindo, kozanga bolumbu.",
+    tipMenuEditRow: "Benga lisusu",
+    tipMenuHelpDesc: "Limbolela na maloba mingi te oyo ezali kati (ntango, bilamba, oyo elakisami to te). Maloba 20 ndelo ya likolo.",
+    tipMenuHelpEmoji: "Okoki kotia emoji moko to mingi, to kotika mpamba — emoji ya kobanda ekoki kolongolama.",
+    tipMenuHelpPrice: "Pona ntalo kati na {min}€ na {max}€ mpo na lolenge oyo ya biloko. Soki oleki ndelo epesami nzela, ekozongisama yango moko na {max}€.",
+    tipMenuHelpTheme: "Kombo ya oyo opesaka, ndakisa \\\"Bilamba ya nse ya motane\\\" to \\\"Kobina ya bolingo\\\".",
+    tipMenuMaxRows: "Ndelo ya milongo 25 na Tip Menu na yo.",
+    tipMenuNoPrice: "—",
+    tipMenuPriceClamped: "Ntalo ezongisami na ndelo ya likolo epesami nzela: {max}€.",
+    tipMenuPriceLabel: "Ntalo",
+    tipMenuPriceLockedNote: "Ntalo etiami na Honeymoon — okoki kopona kaka kati na mbongo epesami.",
+    tipMenuPublishBtn: "Bimisa na page na ngai",
+    tipMenuPublishedToast: "Tip Menu ebimisami na page na yo!",
+    tipMenuRowDoneBtn: "Bomba mola oyo",
+    tipMenuRowExplain: "Mpo na mola nyonso: pona lolenge ya biloko (foto, video to mongongo), pesa motó, ntalo, mpe ndimbola ya oyo ezali kati.",
+    tipMenuTabLabel: "Tip Menu",
+    tipMenuTabNote: "Tondisa menu na yo na motó (foto, video, mongongo). Ntalo etiami na plateforme — pona yango na liste. Bimisa mpo emonana na page na yo.",
+    tipMenuThemePh: "Kombo ya motó (ndakisa: bilamba ya nse)",
+    tipMenuThemeRequired: "Bakisa kombo ya motó liboso ya kobomba.",
+    tipMenuTheme_costume_theme: "Bilamba ya motó",
+    tipMenuTheme_danse_sensuelle: "Kobina ya bolingo",
+    tipMenuTheme_demande_personnalisee: "Kosenga oyo ebongisami",
+    tipMenuTheme_duo_couple: "Mibale / balingani",
+    tipMenuTheme_exterieur: "Libanda",
+    tipMenuTheme_fetish_pieds: "Makolo (fetish)",
+    tipMenuTheme_lingerie: "Bilamba ya nse",
+    tipMenuTheme_pov_intime: "POV ya pene",
+    tipMenuTheme_roleplay: "Lisano ya mokumba",
+    tipMenuTheme_strip_tease: "Kolongola bilamba",
+    uxdExplainNote: "UXD: lisungi na yo epai ya bato ya mosala.",
+    uxdLabel: "UXD",
+    visitorNeedsAccountChat: "Komisama ofele mpo na kotindela mosali oyo nsango — ekoya kala mingi te.",
+    visitorNeedsAccountFavorite: "Komisama ofele mpo na kobakisa bato ya mosala na baoyo olingaka — ekoya kala mingi te.",
     ourCreatorsTitle: "Bamokeli na biso",
   },
   zh: {
@@ -6620,6 +7358,91 @@ const I18N = {
     visitorBadgeLabel: "访客",
     chatRulesBanner: "⚠️ 这是一个互相尊重的聊天空间：禁止侮辱。禁止在平台上交换个人联系方式（电话号码、社交媒体、邮箱），违者可能受到处罚。",
     chatReportMessage: "向团队举报此消息",
+    bnav2257: "2257条款",
+    bnavCgu: "条款",
+    bnavPricing: "价格",
+    bnavPrivacy: "隐私",
+    commentModeAnonymous: "匿名",
+    commentModeCustom: "输入昵称",
+    commentModeMember: "使用我的用户名",
+    commentModeVisitor: "我是访客",
+    contractTabLabel: "合同",
+    followBtn: "关注",
+    followersLabel: "粉丝",
+    followersListTitle: "粉丝",
+    followingBtn: "已关注",
+    followingLabel: "关注中",
+    followingListTitle: "关注中",
+    likesLabel: "点赞",
+    memberBioVisibilityExplain: "根据你上面的选择，相关创作者可以看到你的简介。你资料的其他部分（邮箱、购买记录、密码）永远不可见。",
+    memberPhotosVisibilityExplain: "根据你上面的选择，相关创作者可以看到这些照片。它们始终与你的购买记录分开。",
+    memberPrivateFieldNote: "除你之外任何人都无法看到。",
+    memberSubtabInfos: "我的信息",
+    memberSubtabPassword: "密码",
+    memberSubtabPhotos: "我的照片",
+    memberVisibilityEveryone: "所有创作者",
+    memberVisibilityFavorites: "仅我的收藏",
+    memberVisibilityLabel: "谁可以看到",
+    memberVisibilityNobody: "无人",
+    membersViewerBtn: "会员",
+    membersViewerEmpty: "目前没有会员分享简介或照片。",
+    membersViewerTitle: "分享资料的会员",
+    myFamilyPopularity: "人气",
+    popularityTabNote: "你的人气徽章、粉丝以及你关注的人。",
+    reportAttachment: "附件（可选）",
+    reportReasonHarassment: "骚扰 / 辱骂行为",
+    reportReasonImpersonation: "冒充身份",
+    reportReasonPrivacy: "侵犯隐私",
+    reportReasonScam: "诈骗 / 欺诈",
+    reportReasonSpam: "垃圾信息 / 未经请求的广告",
+    reportReasonViolence: "暴力 / 威胁",
+    tierLabel_bronze: "青铜",
+    tierLabel_diamond: "钻石",
+    tierLabel_gold: "黄金",
+    tierLabel_gray: "新手",
+    tierLabel_purple: "紫色",
+    tierLabel_red: "顶级创作者",
+    tierLabel_silver: "白银",
+    tipMenuAddRow: "添加主题",
+    tipMenuColAudio: "音频",
+    tipMenuColPhoto: "照片",
+    tipMenuColTheme: "主题",
+    tipMenuColVideo: "视频",
+    tipMenuCustomNote: "有特别想要的内容吗？可以直接在聊天中讨论定制请求。",
+    tipMenuDescLabel: "描述（包含内容）",
+    tipMenuDescPh: "例如：30秒视频，黑色内衣，无裸露。",
+    tipMenuEditRow: "编辑",
+    tipMenuHelpDesc: "用几个词描述包含的内容（时长、服装、展示与否）。最多20个词。",
+    tipMenuHelpEmoji: "你可以放一个或多个表情符号，也可以留空——默认表情符号可以删除。",
+    tipMenuHelpPrice: "为此类内容选择{min}€到{max}€之间的价格。如果超过允许的最大值，将自动调整为{max}€。",
+    tipMenuHelpTheme: "你提供内容的名称，例如\\\"红色内衣\\\"或\\\"性感舞蹈\\\"。",
+    tipMenuMaxRows: "你的Tip Menu最多25行。",
+    tipMenuNoPrice: "—",
+    tipMenuPriceClamped: "价格已调整为允许的最大值：{max}€。",
+    tipMenuPriceLabel: "价格",
+    tipMenuPriceLockedNote: "价格由Honeymoon设定——你只能在提供的金额中选择。",
+    tipMenuPublishBtn: "发布到我的主页",
+    tipMenuPublishedToast: "Tip Menu已发布到你的主页！",
+    tipMenuRowDoneBtn: "保存此行",
+    tipMenuRowExplain: "每一行：选择内容类型（照片、视频或音频），设定主题、价格和包含内容的描述。",
+    tipMenuTabLabel: "Tip Menu",
+    tipMenuTabNote: "按主题填写你的菜单（照片、视频、音频）。价格由平台设定——从列表中选择。发布后将显示在你的主页上。",
+    tipMenuThemePh: "主题名称（例如：内衣）",
+    tipMenuThemeRequired: "保存前请添加主题名称。",
+    tipMenuTheme_costume_theme: "主题服装",
+    tipMenuTheme_danse_sensuelle: "性感舞蹈",
+    tipMenuTheme_demande_personnalisee: "定制请求",
+    tipMenuTheme_duo_couple: "双人 / 情侣",
+    tipMenuTheme_exterieur: "户外",
+    tipMenuTheme_fetish_pieds: "恋足",
+    tipMenuTheme_lingerie: "内衣",
+    tipMenuTheme_pov_intime: "第一视角亲密",
+    tipMenuTheme_roleplay: "角色扮演",
+    tipMenuTheme_strip_tease: "脱衣舞",
+    uxdExplainNote: "UXD：你对创作者的支持贡献值。",
+    uxdLabel: "UXD",
+    visitorNeedsAccountChat: "免费注册即可给这位创作者发消息——即将推出。",
+    visitorNeedsAccountFavorite: "免费注册即可将创作者加入收藏——即将推出。",
     ourCreatorsTitle: "我们的创作者",
   },
   ja: {
@@ -7135,6 +7958,91 @@ const I18N = {
     visitorBadgeLabel: "訪問者",
     chatRulesBanner: "⚠️ 互いを尊重するチャット空間です：暴言は禁止です。個人の連絡先（電話番号、SNS、メールアドレス）の交換はプラットフォーム上で禁止されており、違反すると処分の対象となる場合があります。",
     chatReportMessage: "このメッセージをチームに報告",
+    bnav2257: "2257条項",
+    bnavCgu: "利用規約",
+    bnavPricing: "料金",
+    bnavPrivacy: "プライバシー",
+    commentModeAnonymous: "匿名",
+    commentModeCustom: "ニックネームを入力",
+    commentModeMember: "自分のユーザー名を使う",
+    commentModeVisitor: "訪問者です",
+    contractTabLabel: "契約書",
+    followBtn: "フォロー",
+    followersLabel: "フォロワー",
+    followersListTitle: "フォロワー",
+    followingBtn: "フォロー中",
+    followingLabel: "フォロー中",
+    followingListTitle: "フォロー中",
+    likesLabel: "いいね",
+    memberBioVisibilityExplain: "上記の選択に応じて、あなたの自己紹介は該当するクリエイターに見える場合があります。プロフィールの他の部分（メール、購入履歴、パスワード）は決して表示されません。",
+    memberPhotosVisibilityExplain: "上記の選択に応じて、これらの写真は該当するクリエイターに見える場合があります。購入履歴とは常に分けられています。",
+    memberPrivateFieldNote: "あなた以外の誰にも表示されません。",
+    memberSubtabInfos: "マイ情報",
+    memberSubtabPassword: "パスワード",
+    memberSubtabPhotos: "マイ写真",
+    memberVisibilityEveryone: "すべてのクリエイター",
+    memberVisibilityFavorites: "お気に入りのみ",
+    memberVisibilityLabel: "閲覧できる人",
+    memberVisibilityNobody: "誰にも見せない",
+    membersViewerBtn: "メンバー",
+    membersViewerEmpty: "現在プロフィールや写真を共有しているメンバーはいません。",
+    membersViewerTitle: "プロフィールを共有しているメンバー",
+    myFamilyPopularity: "人気度",
+    popularityTabNote: "あなたの人気バッジ、フォロワー、そしてフォローしている人々。",
+    reportAttachment: "添付ファイル（任意）",
+    reportReasonHarassment: "嫌がらせ / 迷惑行為",
+    reportReasonImpersonation: "なりすまし",
+    reportReasonPrivacy: "プライバシー侵害",
+    reportReasonScam: "詐欺",
+    reportReasonSpam: "スパム / 迷惑広告",
+    reportReasonViolence: "暴力 / 脅迫",
+    tierLabel_bronze: "ブロンズ",
+    tierLabel_diamond: "ダイヤモンド",
+    tierLabel_gold: "ゴールド",
+    tierLabel_gray: "初心者",
+    tierLabel_purple: "パープル",
+    tierLabel_red: "トップクリエイター",
+    tierLabel_silver: "シルバー",
+    tipMenuAddRow: "テーマを追加",
+    tipMenuColAudio: "音声",
+    tipMenuColPhoto: "写真",
+    tipMenuColTheme: "テーマ",
+    tipMenuColVideo: "動画",
+    tipMenuCustomNote: "特別なご希望がありますか？カスタムリクエストはチャットで直接ご相談いただけます。",
+    tipMenuDescLabel: "説明（含まれる内容）",
+    tipMenuDescPh: "例：30秒の動画、黒のランジェリー、ヌードなし。",
+    tipMenuEditRow: "編集",
+    tipMenuHelpDesc: "含まれる内容を短く説明してください（長さ、衣装、見せる内容など）。最大20単語。",
+    tipMenuHelpEmoji: "絵文字は1つでも複数でも設定でき、空にすることもできます — デフォルトの絵文字は削除できます。",
+    tipMenuHelpPrice: "このコンテンツタイプの価格を{min}€〜{max}€の間で選んでください。許可された上限を超えると、自動的に{max}€に調整されます。",
+    tipMenuHelpTheme: "提供する内容の名前（例：\\\"赤いランジェリー\\\"、\\\"セクシーダンス\\\"）。",
+    tipMenuMaxRows: "Tip Menuは最大25行までです。",
+    tipMenuNoPrice: "—",
+    tipMenuPriceClamped: "価格は許可された上限に調整されました：{max}€。",
+    tipMenuPriceLabel: "価格",
+    tipMenuPriceLockedNote: "価格はHoneymoonが設定しています — 提示された金額の中からのみ選択できます。",
+    tipMenuPublishBtn: "自分のページに公開",
+    tipMenuPublishedToast: "Tip Menuがページに公開されました！",
+    tipMenuRowDoneBtn: "この行を保存",
+    tipMenuRowExplain: "各行で：コンテンツの種類（写真、動画、音声）、テーマ、価格、含まれる内容の説明を設定してください。",
+    tipMenuTabLabel: "Tip Menu",
+    tipMenuTabNote: "テーマごとにメニューを入力してください（写真、動画、音声）。価格はプラットフォームが設定しています — リストから選んでください。公開するとページに表示されます。",
+    tipMenuThemePh: "テーマ名（例：ランジェリー）",
+    tipMenuThemeRequired: "保存する前にテーマ名を入力してください。",
+    tipMenuTheme_costume_theme: "コスチュームテーマ",
+    tipMenuTheme_danse_sensuelle: "セクシーダンス",
+    tipMenuTheme_demande_personnalisee: "カスタムリクエスト",
+    tipMenuTheme_duo_couple: "デュオ / カップル",
+    tipMenuTheme_exterieur: "屋外",
+    tipMenuTheme_fetish_pieds: "足フェチ",
+    tipMenuTheme_lingerie: "ランジェリー",
+    tipMenuTheme_pov_intime: "親密なPOV",
+    tipMenuTheme_roleplay: "ロールプレイ",
+    tipMenuTheme_strip_tease: "ストリップティーズ",
+    uxdExplainNote: "UXD：クリエイターへのあなたの貢献の証です。",
+    uxdLabel: "UXD",
+    visitorNeedsAccountChat: "このクリエイターにメッセージを送るには無料登録してください — 近日公開。",
+    visitorNeedsAccountFavorite: "クリエイターをお気に入りに追加するには無料登録してください — 近日公開。",
     ourCreatorsTitle: "私たちのクリエイター",
   },
   ru: {
@@ -7650,6 +8558,91 @@ const I18N = {
     visitorBadgeLabel: "Гость",
     chatRulesBanner: "⚠️ Пространство уважительного общения: оскорбления запрещены. Обмен личными контактными данными (номер телефона, соцсети, email) запрещён на платформе и может повлечь санкции.",
     chatReportMessage: "Пожаловаться на это сообщение команде",
+    bnav2257: "Уведомление 2257",
+    bnavCgu: "Условия",
+    bnavPricing: "Цены",
+    bnavPrivacy: "Конфиденциальность",
+    commentModeAnonymous: "Анонимно",
+    commentModeCustom: "Указать прозвище",
+    commentModeMember: "Использовать моё имя пользователя",
+    commentModeVisitor: "Я посетитель",
+    contractTabLabel: "Контракт",
+    followBtn: "Подписаться",
+    followersLabel: "Подписчики",
+    followersListTitle: "Подписчики",
+    followingBtn: "Подписан(а)",
+    followingLabel: "Подписки",
+    followingListTitle: "Подписки",
+    likesLabel: "Лайки",
+    memberBioVisibilityExplain: "В зависимости от вашего выбора выше, вашу био могут видеть соответствующие создательницы. Остальная часть профиля (email, покупки, пароль) никогда не видна.",
+    memberPhotosVisibilityExplain: "В зависимости от вашего выбора выше, эти фото могут видеть соответствующие создательницы. Они всегда отделены от ваших покупок.",
+    memberPrivateFieldNote: "Никогда не видно никому, кроме вас.",
+    memberSubtabInfos: "Мои данные",
+    memberSubtabPassword: "Пароль",
+    memberSubtabPhotos: "Мои фото",
+    memberVisibilityEveryone: "Все создательницы",
+    memberVisibilityFavorites: "Только избранные",
+    memberVisibilityLabel: "Кто может видеть",
+    memberVisibilityNobody: "Никто",
+    membersViewerBtn: "Участники",
+    membersViewerEmpty: "Пока никто не делится своим био или фото.",
+    membersViewerTitle: "Участники, делящиеся профилем",
+    myFamilyPopularity: "Популярность",
+    popularityTabNote: "Ваш значок популярности, ваши подписчики и люди, на которых вы подписаны.",
+    reportAttachment: "Вложение (необязательно)",
+    reportReasonHarassment: "Домогательства / оскорбительное поведение",
+    reportReasonImpersonation: "Выдача себя за другого человека",
+    reportReasonPrivacy: "Нарушение конфиденциальности",
+    reportReasonScam: "Мошенничество / обман",
+    reportReasonSpam: "Спам / нежелательная реклама",
+    reportReasonViolence: "Насилие / угрозы",
+    tierLabel_bronze: "Бронза",
+    tierLabel_diamond: "Бриллиант",
+    tierLabel_gold: "Золото",
+    tierLabel_gray: "Новичок",
+    tierLabel_purple: "Фиолетовый",
+    tierLabel_red: "Топ-создательница",
+    tierLabel_silver: "Серебро",
+    tipMenuAddRow: "Добавить тему",
+    tipMenuColAudio: "Аудио",
+    tipMenuColPhoto: "Фото",
+    tipMenuColTheme: "Тема",
+    tipMenuColVideo: "Видео",
+    tipMenuCustomNote: "Есть особое пожелание? Индивидуальный запрос можно обсудить прямо в чате.",
+    tipMenuDescLabel: "Описание (что входит)",
+    tipMenuDescPh: "Напр.: видео 30 секунд, чёрное бельё, без наготы.",
+    tipMenuEditRow: "Изменить",
+    tipMenuHelpDesc: "Опишите в нескольких словах, что входит (длительность, наряд, что показывается или нет). Максимум 20 слов.",
+    tipMenuHelpEmoji: "Можно поставить один или несколько эмодзи, либо оставить пустым — эмодзи по умолчанию можно удалить.",
+    tipMenuHelpPrice: "Выберите цену от {min}€ до {max}€ для этого типа контента. Если превысите допустимый максимум, она автоматически будет снижена до {max}€.",
+    tipMenuHelpTheme: "Название того, что вы предлагаете, например \\\"Красное бельё\\\" или \\\"Чувственный танец\\\".",
+    tipMenuMaxRows: "Максимум 25 строк в вашем Tip Menu.",
+    tipMenuNoPrice: "—",
+    tipMenuPriceClamped: "Цена снижена до допустимого максимума: {max}€.",
+    tipMenuPriceLabel: "Цена",
+    tipMenuPriceLockedNote: "Цены устанавливает Honeymoon — вы можете выбирать только из предложенных сумм.",
+    tipMenuPublishBtn: "Опубликовать на моей странице",
+    tipMenuPublishedToast: "Tip Menu опубликован на вашей странице!",
+    tipMenuRowDoneBtn: "Сохранить эту строку",
+    tipMenuRowExplain: "Для каждой строки: выберите тип контента (фото, видео или аудио), укажите тему, цену и описание того, что входит.",
+    tipMenuTabLabel: "Tip Menu",
+    tipMenuTabNote: "Заполните меню по темам (фото, видео, аудио). Цены устанавливает платформа — выбирайте из списка. Опубликуйте, чтобы это появилось на вашей странице.",
+    tipMenuThemePh: "Название темы (напр.: бельё)",
+    tipMenuThemeRequired: "Добавьте название темы перед сохранением.",
+    tipMenuTheme_costume_theme: "Тематический костюм",
+    tipMenuTheme_danse_sensuelle: "Чувственный танец",
+    tipMenuTheme_demande_personnalisee: "Индивидуальный запрос",
+    tipMenuTheme_duo_couple: "Дуэт / пара",
+    tipMenuTheme_exterieur: "На улице",
+    tipMenuTheme_fetish_pieds: "Фетиш стоп",
+    tipMenuTheme_lingerie: "Бельё",
+    tipMenuTheme_pov_intime: "Интимный POV",
+    tipMenuTheme_roleplay: "Ролевая игра",
+    tipMenuTheme_strip_tease: "Стриптиз",
+    uxdExplainNote: "UXD: ваш вклад в поддержку создательниц.",
+    uxdLabel: "UXD",
+    visitorNeedsAccountChat: "Зарегистрируйтесь бесплатно, чтобы написать этой создательнице — скоро будет доступно.",
+    visitorNeedsAccountFavorite: "Зарегистрируйтесь бесплатно, чтобы добавлять создательниц в избранное — скоро будет доступно.",
     ourCreatorsTitle: "Наши создательницы",
   },
   ar: {
@@ -8165,6 +9158,91 @@ const I18N = {
     visitorBadgeLabel: "زائر",
     chatRulesBanner: "⚠️ مساحة دردشة قائمة على الاحترام: الإهانات ممنوعة. تبادل بيانات الاتصال الشخصية (رقم الهاتف، وسائل التواصل الاجتماعي، البريد الإلكتروني) غير مسموح به على المنصة وقد يؤدي إلى عقوبات.",
     chatReportMessage: "الإبلاغ عن هذه الرسالة للفريق",
+    bnav2257: "بيان 2257",
+    bnavCgu: "الشروط",
+    bnavPricing: "الأسعار",
+    bnavPrivacy: "الخصوصية",
+    commentModeAnonymous: "مجهول",
+    commentModeCustom: "كتابة لقب",
+    commentModeMember: "استخدام اسم المستخدم الخاص بي",
+    commentModeVisitor: "أنا زائر",
+    contractTabLabel: "العقد",
+    followBtn: "متابعة",
+    followersLabel: "المتابعون",
+    followersListTitle: "المتابعون",
+    followingBtn: "متابَع",
+    followingLabel: "المتابَعون",
+    followingListTitle: "المتابَعون",
+    likesLabel: "الإعجابات",
+    memberBioVisibilityExplain: "حسب اختيارك أعلاه، يمكن أن تظهر نبذتك للمنشئات المعنيات. باقي ملفك الشخصي (البريد الإلكتروني، المشتريات، كلمة المرور) لا يظهر أبدًا.",
+    memberPhotosVisibilityExplain: "حسب اختيارك أعلاه، يمكن أن تظهر هذه الصور للمنشئات المعنيات. تبقى دائمًا منفصلة عن مشترياتك.",
+    memberPrivateFieldNote: "لا يظهر أبدًا لأي شخص سواك.",
+    memberSubtabInfos: "معلوماتي",
+    memberSubtabPassword: "كلمة المرور",
+    memberSubtabPhotos: "صوري",
+    memberVisibilityEveryone: "جميع المنشئات",
+    memberVisibilityFavorites: "المفضلات فقط",
+    memberVisibilityLabel: "من يمكنه الرؤية",
+    memberVisibilityNobody: "لا أحد",
+    membersViewerBtn: "الأعضاء",
+    membersViewerEmpty: "لا يوجد عضو يشارك نبذته أو صوره حاليًا.",
+    membersViewerTitle: "الأعضاء الذين يشاركون ملفهم",
+    myFamilyPopularity: "الشعبية",
+    popularityTabNote: "شارة شعبيتك، متابعيك، والأشخاص الذين تتابعهم.",
+    reportAttachment: "مرفق (اختياري)",
+    reportReasonHarassment: "مضايقة / سلوك مسيء",
+    reportReasonImpersonation: "انتحال الهوية",
+    reportReasonPrivacy: "انتهاك الخصوصية",
+    reportReasonScam: "احتيال / نصب",
+    reportReasonSpam: "رسائل مزعجة / إعلانات غير مرغوبة",
+    reportReasonViolence: "عنف / تهديدات",
+    tierLabel_bronze: "برونزي",
+    tierLabel_diamond: "ماسي",
+    tierLabel_gold: "ذهبي",
+    tierLabel_gray: "مبتدئة",
+    tierLabel_purple: "بنفسجي",
+    tierLabel_red: "أفضل منشئة",
+    tierLabel_silver: "فضي",
+    tipMenuAddRow: "إضافة موضوع",
+    tipMenuColAudio: "صوت",
+    tipMenuColPhoto: "صورة",
+    tipMenuColTheme: "الموضوع",
+    tipMenuColVideo: "فيديو",
+    tipMenuCustomNote: "لديك رغبة خاصة؟ يمكن مناقشة طلب مخصص مباشرة في الدردشة.",
+    tipMenuDescLabel: "الوصف (ما يتضمنه)",
+    tipMenuDescPh: "مثال: فيديو مدته 30 ثانية، ملابس داخلية سوداء، بدون عري.",
+    tipMenuEditRow: "تعديل",
+    tipMenuHelpDesc: "صِف بكلمات قليلة ما هو متضمن (المدة، الملابس، ما يُعرض أو لا). 20 كلمة كحد أقصى.",
+    tipMenuHelpEmoji: "يمكنك وضع رمز تعبيري واحد أو أكثر، أو تركه فارغًا — يمكن حذف الرمز التعبيري الافتراضي.",
+    tipMenuHelpPrice: "اختاري سعرًا بين {min}€ و{max}€ لهذا النوع من المحتوى. إذا تجاوزتِ الحد الأقصى المسموح به، سيتم تعديله تلقائيًا إلى {max}€.",
+    tipMenuHelpTheme: "اسم ما تقدمينه، مثلاً \\\"ملابس داخلية حمراء\\\" أو \\\"رقص مثير\\\".",
+    tipMenuMaxRows: "الحد الأقصى 25 سطرًا في Tip Menu الخاص بك.",
+    tipMenuNoPrice: "—",
+    tipMenuPriceClamped: "تم تعديل السعر إلى الحد الأقصى المسموح: {max}€.",
+    tipMenuPriceLabel: "السعر",
+    tipMenuPriceLockedNote: "الأسعار يحددها Honeymoon — يمكنك الاختيار فقط من المبالغ المقترحة.",
+    tipMenuPublishBtn: "نشر على صفحتي",
+    tipMenuPublishedToast: "تم نشر Tip Menu على صفحتك!",
+    tipMenuRowDoneBtn: "حفظ هذا السطر",
+    tipMenuRowExplain: "لكل سطر: اختاري نوع المحتوى (صورة، فيديو أو صوت)، وأعطي موضوعًا وسعرًا ووصفًا لما يتضمنه.",
+    tipMenuTabLabel: "Tip Menu",
+    tipMenuTabNote: "املئي قائمتك حسب الموضوع (صورة، فيديو، صوت). الأسعار يحددها الموقع — اختاريها من القائمة. انشري ليظهر في صفحتك.",
+    tipMenuThemePh: "اسم الموضوع (مثال: ملابس داخلية)",
+    tipMenuThemeRequired: "أضيفي اسم موضوع قبل الحفظ.",
+    tipMenuTheme_costume_theme: "زي تنكري",
+    tipMenuTheme_danse_sensuelle: "رقص مثير",
+    tipMenuTheme_demande_personnalisee: "طلب مخصص",
+    tipMenuTheme_duo_couple: "ثنائي / زوجي",
+    tipMenuTheme_exterieur: "خارجي",
+    tipMenuTheme_fetish_pieds: "فيتيش القدمين",
+    tipMenuTheme_lingerie: "ملابس داخلية",
+    tipMenuTheme_pov_intime: "منظور حميمي",
+    tipMenuTheme_roleplay: "تمثيل أدوار",
+    tipMenuTheme_strip_tease: "تعري تدريجي",
+    uxdExplainNote: "UXD: حضورك ودعمك للمنشئات.",
+    uxdLabel: "UXD",
+    visitorNeedsAccountChat: "سجلي مجانًا لإرسال رسالة إلى هذه المنشئة — قريبًا.",
+    visitorNeedsAccountFavorite: "سجلي مجانًا لإضافة منشئات إلى المفضلة — قريبًا.",
     ourCreatorsTitle: "مبدعاتنا",
   },
   kg: {
@@ -8680,6 +9758,91 @@ const I18N = {
     visitorBadgeLabel: "Muwizi",
     chatRulesBanner: "⚠️ Kisika ya kusolula na luzitu: kufinga kekondimama ve. Kukabula ba détails ya muntu (nimero ya telefone, réseaux sociaux, email) kekondimama ve na plateforme mpe lenda basisa etumbu.",
     chatReportMessage: "Zabisa message yayi na équipe",
+    bnav2257: "Nsangu 2257",
+    bnavCgu: "Bansiku",
+    bnavPricing: "Ntalu",
+    bnavPrivacy: "Sekele",
+    commentModeAnonymous: "Kondwa nkumbu",
+    commentModeCustom: "Sonika nkumbu ya kikundi",
+    commentModeMember: "Sadila nkumbu na mono ya musadi",
+    commentModeVisitor: "Mono kele mpaya",
+    contractTabLabel: "Kontrata",
+    followBtn: "Landa",
+    followersLabel: "Balandi",
+    followersListTitle: "Balandi",
+    followingBtn: "Ke landa",
+    followingLabel: "Bantu ke landaka",
+    followingListTitle: "Bantu ke landaka",
+    likesLabel: "Bikuma",
+    memberBioVisibilityExplain: "Na kutadila mpona na nge na zulu, lisolo na nge lenda monika na basadi yina me tala yawu. Ndambu ya nkaka ya profile na nge (imeyili, kusumba, mot de passe) ke monikaka ata mbala mosi ve.",
+    memberPhotosVisibilityExplain: "Na kutadila mpona na nge na zulu, bafoto yai lenda monika na basadi yina me tala yawu. Bo ke vandaka ntangu yonso ya kukabwana na kusumba na nge.",
+    memberPrivateFieldNote: "Ke monikaka ata mbala mosi ve na muntu ya nkaka kaka nge.",
+    memberSubtabInfos: "Bansangu na mono",
+    memberSubtabPassword: "Mot de passe",
+    memberSubtabPhotos: "Bafoto na mono",
+    memberVisibilityEveryone: "Basadi yonso",
+    memberVisibilityFavorites: "Bawu mono ke zolaka kaka",
+    memberVisibilityLabel: "Nani lenda mona",
+    memberVisibilityNobody: "Muntu mosi ve",
+    membersViewerBtn: "Bandimi",
+    membersViewerEmpty: "Ata ndimi mosi ve ke kabula lisolo to bafoto na yandi ntangu yai.",
+    membersViewerTitle: "Bandimi ke kabula profile na bo",
+    myFamilyPopularity: "Lukumu",
+    popularityTabNote: "Kidimbu na nge ya lukumu, balandi na nge, ye bantu yina nge ke landaka.",
+    reportAttachment: "Kisalu ya kubaka (ve mfunu)",
+    reportReasonHarassment: "Kunyokula / kinzonzi ya mbi",
+    reportReasonImpersonation: "Kudikitula muntu ya nkaka",
+    reportReasonPrivacy: "Kubuka sekele",
+    reportReasonScam: "Bukosi / luvunu",
+    reportReasonSpam: "Spam / lusakumunu ke lombamaka ve",
+    reportReasonViolence: "Kingolo / bikanu",
+    tierLabel_bronze: "Bronze",
+    tierLabel_diamond: "Diyama",
+    tierLabel_gold: "Wolo",
+    tierLabel_gray: "Ntete",
+    tierLabel_purple: "Langi ya violet",
+    tierLabel_red: "Musadi ya zulu",
+    tierLabel_silver: "Palata",
+    tipMenuAddRow: "Yika ntu ya diambu",
+    tipMenuColAudio: "Ndinga",
+    tipMenuColPhoto: "Foto",
+    tipMenuColTheme: "Ntu ya diambu",
+    tipMenuColVideo: "Video",
+    tipMenuCustomNote: "Nge kele ye lusakumunu ya sipesiali? Lusekwa ya bo bongisa, solula yau kaka na chat.",
+    tipMenuDescLabel: "Lutendulu (yina kele na kati)",
+    tipMenuDescPh: "Mbandu: video ya bisekondo 30, bilamba ya nsi ya mpimpa, kondwa kufwa.",
+    tipMenuEditRow: "Soba",
+    tipMenuHelpDesc: "Tendula na bangogo fioti yina kele na kati (ntangu, bilamba, yina ke monikaka to ve). Bangogo 20 kikilu ya zulu.",
+    tipMenuHelpEmoji: "Nge lenda tula emoji mosi to mingi, to bika mpamba — emoji ya kala lenda katulwa.",
+    tipMenuHelpPrice: "Sola ntalu na kati ya {min}€ ye {max}€ mpo na mutindu yai ya bima. Kana nge me luta kikilu ya zulu me pesama nzila, yo ta vutuka na kiyeka na {max}€.",
+    tipMenuHelpTheme: "Nkumbu ya kima yina nge ke pesa, mbandu \\\"Bilamba ya nsi ya mbwaki\\\" to \\\"Kina ya kinzuzi\\\".",
+    tipMenuMaxRows: "Kikilu ya zulu ya mikanda 25 na Tip Menu na nge.",
+    tipMenuNoPrice: "—",
+    tipMenuPriceClamped: "Ntalu me vutuka na kikilu ya zulu me pesama nzila: {max}€.",
+    tipMenuPriceLabel: "Ntalu",
+    tipMenuPriceLockedNote: "Ntalu ke tulamaka na Honeymoon — nge lenda sola kaka na kati ya mbongo yina me songwa.",
+    tipMenuPublishBtn: "Basisa na lutiti na mono",
+    tipMenuPublishedToast: "Tip Menu me basiswa na lutiti na nge!",
+    tipMenuRowDoneBtn: "Bumba mola yai",
+    tipMenuRowExplain: "Mpo na mola konso: sola mutindu ya bima (foto, video to ndinga), pesa ntu ya diambu, ntalu, ye lutendulu ya yina kele na kati.",
+    tipMenuTabLabel: "Tip Menu",
+    tipMenuTabNote: "Fulusa menu na nge na ntu ya diambu (foto, video, ndinga). Ntalu ke tulamaka na plateforme — sola yau na lisiti. Basisa mpasi yo monika na lutiti na nge.",
+    tipMenuThemePh: "Nkumbu ya ntu ya diambu (mbandu: bilamba ya nsi)",
+    tipMenuThemeRequired: "Yika nkumbu ya ntu ya diambu na ntwala ya kubumba.",
+    tipMenuTheme_costume_theme: "Bilamba ya ntu ya diambu",
+    tipMenuTheme_danse_sensuelle: "Kina ya kinzuzi",
+    tipMenuTheme_demande_personnalisee: "Lusekwa ya bo bongisa",
+    tipMenuTheme_duo_couple: "Zole / bakala ye nkento",
+    tipMenuTheme_exterieur: "Na nganda",
+    tipMenuTheme_fetish_pieds: "Malu (fetish)",
+    tipMenuTheme_lingerie: "Bilamba ya nsi",
+    tipMenuTheme_pov_intime: "POV ya penepene",
+    tipMenuTheme_roleplay: "Kisalu ya mbedi",
+    tipMenuTheme_strip_tease: "Kukatula bilamba",
+    uxdExplainNote: "UXD: lusadisu na nge na basadi.",
+    uxdLabel: "UXD",
+    visitorNeedsAccountChat: "Sonika na mfunu ve mpo na kutinda nsangu na musadi yai — ta vanda kuna nsuka.",
+    visitorNeedsAccountFavorite: "Sonika na mfunu ve mpo na kuyika basadi na bawu nge ke zolaka — ta vanda kuna nsuka.",
     ourCreatorsTitle: "Bayantiki na beto",
   },
 };
@@ -8998,11 +10161,12 @@ function emptySlot(i){
 }
 /* ---------------- badges de popularité (paliers de couleur selon le nombre de suiveurs) ---------------- */
 const FOLLOWER_TIERS = [
-  { min: 0,    color: '#8a8a8a', key: 'gray' },
-  { min: 10,   color: '#cd7f32', key: 'bronze' },
-  { min: 50,   color: '#c0c0c0', key: 'silver' },
-  { min: 150,  color: '#d4af37', key: 'gold' },
-  { min: 500,  color: '#e0402c', key: 'red' }
+  { min: 0,    level: 0, color: '#8a8a8a', key: 'gray' },
+  { min: 100,  level: 1, color: '#cd7f32', key: 'bronze' },
+  { min: 500,  level: 2, color: '#c0c0c0', key: 'silver' },
+  { min: 1000, level: 3, color: '#d4af37', key: 'gold' },
+  { min: 2000, level: 4, color: '#7c5cff', key: 'purple' },
+  { min: 5000, level: 5, color: '#e0402c', key: 'red' }
 ];
 function getFollowerTier(count){
   count = count || 0;
@@ -9014,6 +10178,38 @@ function followerBadgeHtml(count){
   const tier = getFollowerTier(count);
   return `<span class="follower-badge" style="background:${tier.color};" title="${count || 0}">${count || 0}</span>`;
 }
+
+/* ---------------- badges UXD (paliers de contribution/soutien, membres) ---------------- */
+const UXD_TIERS = [
+  { min: 0,    level: 0, color: '#8a8a8a', key: 'gray' },
+  { min: 10,   level: 1, color: '#cd7f32', key: 'bronze' },
+  { min: 50,   level: 2, color: '#c0c0c0', key: 'silver' },
+  { min: 100,  level: 3, color: '#d4af37', key: 'gold' },
+  { min: 500,  level: 4, color: '#7c5cff', key: 'purple' },
+  { min: 1000, level: 5, color: '#2fb8e0', key: 'diamond' },
+  { min: 5000, level: 6, color: '#e0402c', key: 'red' }
+];
+function getUxdTier(amount){
+  amount = amount || 0;
+  let tier = UXD_TIERS[0];
+  for(const tr of UXD_TIERS){ if(amount >= tr.min) tier = tr; }
+  return tier;
+}
+function uxdBadgeHtml(amount){
+  const tier = getUxdTier(amount);
+  return `<span class="follower-badge uxd-badge" style="background:${tier.color};" title="${amount || 0} UXD">${amount || 0} UXD</span>`;
+}
+
+/* ---------------- Tip Menu : thèmes et prix fixés par la plateforme (jamais choisis librement par la créatrice) ---------------- */
+const TIP_MENU_THEMES = [
+  'lingerie', 'danse_sensuelle', 'strip_tease', 'pov_intime', 'roleplay',
+  'fetish_pieds', 'costume_theme', 'exterieur', 'duo_couple', 'demande_personnalisee'
+];
+const TIP_MENU_PRICE_CAPS = {
+  photo: { min: 1, max: 20 },
+  video: { min: 1, max: 50 },
+  audio: { min: 1, max: 50 }
+};
 
 function loadRoster(){
   try{
@@ -9090,9 +10286,15 @@ function initRoster(){
 async function syncProfilesFromFirestore(){
   if(!db) return;
   let changed = false;
-  for(const m of roster){
+  await Promise.all(roster.map(async (m) => {
     try{
-      const snap = await db.collection('profiles').doc(m.id).get();
+      const [snap, mediaSnap, paidSnap, showcaseSnap, contractSigSnap] = await Promise.all([
+        db.collection('profiles').doc(m.id).get(),
+        db.collection('profiles').doc(m.id).collection('media').orderBy('createdAt').get(),
+        db.collection('profiles').doc(m.id).collection('paid_content').orderBy('createdAt', 'desc').get(),
+        db.collection('profiles').doc(m.id).collection('showcase_media').orderBy('createdAt').get(),
+        db.collection('profiles').doc(m.id).collection('contract_signatures').orderBy('signedAt', 'desc').get()
+      ]);
       if(snap.exists){
         const data = snap.data();
         Object.assign(m, {
@@ -9110,11 +10312,14 @@ async function syncProfilesFromFirestore(){
           likes: data.likes || 0,
           dislikes: data.dislikes || 0,
           featured: data.featured || false,
+          followersCount: data.followersCount || 0,
+          followingMembers: data.followingMembers || [],
+          tipMenu: data.tipMenu || m.tipMenu || [],
+          tipMenuRules: data.tipMenuRules || m.tipMenuRules || '',
           creatorContractSignature: data.creatorContractSignature || m.creatorContractSignature
         });
         changed = true;
       }
-      const mediaSnap = await db.collection('profiles').doc(m.id).collection('media').orderBy('createdAt').get();
       const galleryPhotos = [];
       const galleryVideos = [];
       mediaSnap.forEach(d => {
@@ -9127,7 +10332,6 @@ async function syncProfilesFromFirestore(){
       m.galleryVideos = galleryVideos;
       changed = true;
 
-      const paidSnap = await db.collection('profiles').doc(m.id).collection('paid_content').orderBy('createdAt', 'desc').get();
       const paidContent = [];
       paidSnap.forEach(d => {
         const pd = d.data();
@@ -9139,7 +10343,6 @@ async function syncProfilesFromFirestore(){
       });
       m.paidContent = paidContent;
 
-      const showcaseSnap = await db.collection('profiles').doc(m.id).collection('showcase_media').orderBy('createdAt').get();
       const showcaseMedia = [];
       showcaseSnap.forEach(d => {
         const sd = d.data();
@@ -9147,14 +10350,13 @@ async function syncProfilesFromFirestore(){
       });
       m.showcaseMedia = showcaseMedia;
 
-      const contractSigSnap = await db.collection('profiles').doc(m.id).collection('contract_signatures').orderBy('signedAt', 'desc').get();
       const contractSignatures = [];
       contractSigSnap.forEach(d => contractSignatures.push({ id: d.id, ...d.data() }));
       m.contractSignatures = contractSignatures;
     }catch(e){
       console.error('sync error', m.id, e);
     }
-  }
+  }));
   if(changed) renderRoster();
 }
 
@@ -9171,9 +10373,15 @@ async function launchCreatorView(slotId){
   if(auth && !auth.currentUser){
     try{ await auth.signInAnonymously(); }catch(e){ console.error('anon sign-in failed', e); }
   }
-  syncProfilesFromFirestore().then(() => renderMyProfile(slotId));
   const m0 = roster.find(x => x.id === slotId);
-  if(m0){ fetchPrivateVault(m0).then(() => renderMyProfile(slotId)); }
+  // Un seul nouveau rendu une fois que TOUT est chargé (au lieu d'un rendu par requête) : évite le clignotement.
+  await Promise.all([
+    syncProfilesFromFirestore(),
+    m0 ? fetchPrivateVault(m0) : Promise.resolve()
+  ]);
+  const scrollY = window.scrollY;
+  renderMyProfile(slotId);
+  window.scrollTo(0, scrollY);
 }
 
 async function fetchPrivateVault(m){
@@ -9211,9 +10419,16 @@ function renderMyProfile(slotId){
       <p style="color:var(--text-muted);font-size:13px;max-width:420px;margin:10px auto 0;line-height:1.7;">${t('myProfileManageNote')}</p>
       <button class="btn btn-primary" id="my-edit-btn" style="max-width:280px;margin:18px auto 0;">${t('myEditBtn')}</button>
     </div>
+    <div class="popularity-hero" id="popularity-hero-${m.id}">
+      <div class="tiktok-stat"><span class="tiktok-stat-num">${(m.followingMembers || []).length}</span><span class="tiktok-stat-label">${t('followingLabel')}</span></div>
+      <div class="tiktok-stat"><span class="tiktok-stat-num">${m.followersCount || 0}</span><span class="tiktok-stat-label">${t('followersLabel')}</span></div>
+      <div class="tiktok-stat"><span class="tiktok-stat-num">${[...(m.galleryPhotos||[]), ...(m.galleryVideos||[])].reduce((s,it) => s + (it.likes||0), 0)}</span><span class="tiktok-stat-label">${t('likesLabel')}</span></div>
+    </div>
     <p style="color:var(--honey);font-size:11.5px;max-width:460px;margin:22px auto 0;line-height:1.6;text-align:center;">${t('contentPolicyNote')}</p>
 
     <div class="my-tabs" style="margin-top:24px;">
+      <button type="button" class="my-tab-btn" id="my-tab-btn-popularity">⭐${t('myFamilyPopularity')}</button>
+      <button type="button" class="my-tab-btn" id="my-tab-btn-tipmenu">🍯${t('tipMenuTabLabel')}</button>
       <button type="button" class="my-tab-btn active" id="my-tab-btn-content">${ICON_MY_CONTENT}${t('myFamilyContent')}</button>
       <button type="button" class="my-tab-btn" id="my-tab-btn-messages">${ICON_MY_MESSAGES}${t('myFamilyMessages')} <span class="creator-msg-badge" id="creator-msg-badge-${m.id}" style="display:none;"></span></button>
       <button type="button" class="my-tab-btn" id="my-tab-btn-ca">${ICON_MY_CA}${t('myFamilyCA')}</button>
@@ -9253,6 +10468,18 @@ function renderMyProfile(slotId){
       <div id="my-ca-zone" style="margin-top:20px;"></div>
     </div>
 
+    <div class="my-tab-panel" id="my-tab-panel-popularity">
+      <h2 class="display" style="font-size:19px;">${t('myFamilyPopularity')}</h2>
+      <p style="color:var(--text-muted);font-size:12.5px;max-width:460px;margin-top:8px;line-height:1.65;">${t('popularityTabNote')}</p>
+      <div id="my-popularity-zone" style="margin-top:20px;max-width:460px;"></div>
+    </div>
+
+    <div class="my-tab-panel" id="my-tab-panel-tipmenu">
+      <h2 class="display" style="font-size:19px;">${t('tipMenuTabLabel')}</h2>
+      <p style="color:var(--text-muted);font-size:12.5px;max-width:460px;margin-top:8px;line-height:1.65;">${t('tipMenuTabNote')}</p>
+      <div id="my-tipmenu-zone" style="margin-top:20px;"></div>
+    </div>
+
     <div class="my-tab-panel" id="my-tab-panel-tools">
       <h2 class="display" style="font-size:19px;">${t('toolsTitle')}</h2>
       <p style="color:var(--text-muted);font-size:12.5px;max-width:460px;margin-top:8px;line-height:1.65;">${t('toolsNote')}</p>
@@ -9268,7 +10495,7 @@ function renderMyProfile(slotId){
     </div>
   `;
 
-  const myTabs = ['content', 'messages', 'ca', 'tools', 'rules'];
+  const myTabs = ['content', 'messages', 'ca', 'popularity', 'tipmenu', 'tools', 'rules'];
   function showMyTab(name){
     myTabs.forEach(n => {
       document.getElementById('my-tab-panel-' + n).classList.toggle('active', n === name);
@@ -9287,6 +10514,175 @@ function renderMyProfile(slotId){
   renderMyPaidGallery(m);
   renderMyTools(m);
   renderMyDeletionZone(m);
+  renderMyPopularity(m);
+  renderMyTipMenu(m);
+}
+
+async function renderMyTipMenu(m){
+  const zone = document.getElementById('my-tipmenu-zone');
+  if(!zone) return;
+  const rows = (m.tipMenu && m.tipMenu.length ? m.tipMenu : []).map(r => Object.assign({ _open: false }, r));
+  const typeIconSvg = { photo: ICON_CAMERA, video: ICON_VIDEO, audio: ICON_AUDIO };
+  const limitWords = (str, n) => { const words = (str || '').trim().split(/\s+/).filter(Boolean); return words.length > n ? words.slice(0, n).join(' ') : str; };
+
+  const collapsedRowHtml = (r, idx) => `
+    <div class="tipmenu-card tipmenu-collapsed" data-idx="${idx}">
+      <span class="tipmenu-collapsed-emoji">${escText(r.emoji || '')}</span>
+      <span class="tipmenu-collapsed-icon">${typeIconSvg[r.type || 'photo']}</span>
+      <span class="tipmenu-collapsed-theme">${escText(r.theme || t('tipMenuThemePh'))}</span>
+      <span class="tipmenu-collapsed-price">${r.price ? r.price + '€' : '—'}</span>
+      <button type="button" class="tipmenu-edit-btn" title="${escAttr(t('tipMenuEditRow'))}">${ICON_EDIT}</button>
+      <button type="button" class="tipmenu-row-rm">✕</button>
+    </div>`;
+
+  const openRowHtml = (r, idx) => {
+    const type = r.type || 'photo';
+    const cap = TIP_MENU_PRICE_CAPS[type];
+    return `
+    <div class="tipmenu-card" data-idx="${idx}">
+      <div class="tipmenu-card-top">
+        <input type="text" class="tipmenu-emoji" maxlength="8" value="${escAttr(r.emoji || '')}" placeholder="🌸">
+        <span class="tipmenu-help tipmenu-help-inline" data-help="emoji">${ICON_HELP}</span>
+        <div class="tipmenu-type-toggle">
+          <button type="button" class="tipmenu-type-btn ${type==='photo'?'active':''}" data-type="photo">${ICON_CAMERA} ${t('tipMenuColPhoto')}</button>
+          <button type="button" class="tipmenu-type-btn ${type==='video'?'active':''}" data-type="video">${ICON_VIDEO} ${t('tipMenuColVideo')}</button>
+          <button type="button" class="tipmenu-type-btn ${type==='audio'?'active':''}" data-type="audio">${ICON_AUDIO} ${t('tipMenuColAudio')}</button>
+        </div>
+        <button type="button" class="tipmenu-row-rm">✕</button>
+      </div>
+      <div class="tipmenu-help-text" data-help-for="emoji" style="display:none;">${t('tipMenuHelpEmoji')}</div>
+      <label>${t('tipMenuColTheme')}
+        <span class="tipmenu-help" data-help="theme">${ICON_HELP}</span>
+        <button type="button" class="tipmenu-desc-icon" data-help="desc" title="${escAttr(t('tipMenuDescLabel'))}">${ICON_NOTE}</button>
+      </label>
+      <div class="tipmenu-help-text" data-help-for="theme" style="display:none;">${t('tipMenuHelpTheme')}</div>
+      <input type="text" class="tipmenu-theme" list="tipmenu-theme-suggestions" maxlength="15" value="${escAttr(r.theme || '')}" placeholder="${escAttr(t('tipMenuThemePh'))}">
+      <div class="tipmenu-help-text" data-help-for="desc" style="display:none;">
+        <label style="margin-top:0;">${t('tipMenuDescLabel')}</label>
+        <textarea class="tipmenu-desc" rows="2" maxlength="200" placeholder="${escAttr(t('tipMenuDescPh'))}">${escText(r.description || '')}</textarea>
+      </div>
+      <label>${t('tipMenuPriceLabel')} <span class="tipmenu-help" data-help="price">${ICON_HELP}</span></label>
+      <div class="tipmenu-help-text" data-help-for="price" style="display:none;">${t('tipMenuHelpPrice').replace('{min}', cap.min).replace('{max}', cap.max)}</div>
+      <input type="number" class="tipmenu-price" min="${cap.min}" max="${cap.max}" step="1" value="${r.price || ''}" placeholder="${cap.min}–${cap.max}€">
+      <div class="modal-actions" style="margin-top:12px;">
+        <button type="button" class="btn btn-primary btn-sm tipmenu-row-done" style="flex:1;">${t('tipMenuRowDoneBtn')}</button>
+      </div>
+    </div>`;
+  };
+
+  const rowHtml = (r, idx) => r._open ? openRowHtml(r, idx) : collapsedRowHtml(r, idx);
+
+  zone.innerHTML = `
+    <datalist id="tipmenu-theme-suggestions">
+      ${TIP_MENU_THEMES.map(th => `<option value="${escAttr(t('tipMenuTheme_' + th))}">`).join('')}
+    </datalist>
+    <p class="member-note" style="margin-bottom:16px;">${t('tipMenuRowExplain')}</p>
+    <div id="tipmenu-rows">${rows.map(rowHtml).join('')}</div>
+    <button type="button" class="btn btn-ghost btn-sm" id="tipmenu-add-row" style="margin-top:10px;">+ ${t('tipMenuAddRow')}</button>
+    <div class="tipmenu-custom-preview">${ICON_CHAT_SM} ${t('tipMenuCustomNote')}</div>
+    <p class="member-note" style="margin-top:16px;">${t('tipMenuPriceLockedNote')}</p>
+    <div class="modal-actions">
+      <button class="btn btn-primary btn-sm" id="tipmenu-publish" style="flex:1;">${t('tipMenuPublishBtn')}</button>
+    </div>
+  `;
+  let localRows = rows.slice();
+  const rowsEl = document.getElementById('tipmenu-rows');
+
+  function syncOpenCardToLocalRows(card){
+    const idx = parseInt(card.dataset.idx, 10);
+    if(!localRows[idx]) return;
+    const priceInput = card.querySelector('.tipmenu-price');
+    const type = card.querySelector('.tipmenu-type-btn.active').dataset.type;
+    const cap = TIP_MENU_PRICE_CAPS[type];
+    let price = priceInput.value ? parseInt(priceInput.value, 10) : null;
+    // Plafond automatique : jamais au-dessus du maximum autorisé par la plateforme pour ce type.
+    if(price !== null){ price = Math.max(cap.min, Math.min(cap.max, price)); }
+    localRows[idx].emoji = card.querySelector('.tipmenu-emoji').value.trim();
+    localRows[idx].theme = card.querySelector('.tipmenu-theme').value.trim();
+    localRows[idx].type = type;
+    localRows[idx].price = price;
+    localRows[idx].description = limitWords(card.querySelector('.tipmenu-desc').value.trim(), 20);
+  }
+
+  function refreshRows(){ rowsEl.innerHTML = localRows.map(rowHtml).join(''); wireRows(); }
+
+  function wireRows(){
+    rowsEl.querySelectorAll('.tipmenu-row-rm').forEach(btn => {
+      btn.onclick = () => {
+        localRows.splice(parseInt(btn.closest('.tipmenu-card').dataset.idx, 10), 1);
+        refreshRows();
+      };
+    });
+    rowsEl.querySelectorAll('.tipmenu-edit-btn').forEach(btn => {
+      btn.onclick = () => {
+        const idx = parseInt(btn.closest('.tipmenu-card').dataset.idx, 10);
+        localRows[idx]._open = true;
+        refreshRows();
+      };
+    });
+    rowsEl.querySelectorAll('.tipmenu-row-done').forEach(btn => {
+      btn.onclick = () => {
+        const card = btn.closest('.tipmenu-card');
+        syncOpenCardToLocalRows(card);
+        const idx = parseInt(card.dataset.idx, 10);
+        if(!localRows[idx].theme){ toast(t('tipMenuThemeRequired')); return; }
+        localRows[idx]._open = false;
+        refreshRows();
+      };
+    });
+    rowsEl.querySelectorAll('.tipmenu-type-btn').forEach(btn => {
+      btn.onclick = () => {
+        const card = btn.closest('.tipmenu-card');
+        const idx = parseInt(card.dataset.idx, 10);
+        localRows[idx].emoji = card.querySelector('.tipmenu-emoji').value;
+        localRows[idx].theme = card.querySelector('.tipmenu-theme').value;
+        localRows[idx].description = card.querySelector('.tipmenu-desc').value;
+        localRows[idx].type = btn.dataset.type;
+        localRows[idx].price = null; // le prix dépend du type, on réinitialise
+        refreshRows();
+      };
+    });
+    rowsEl.querySelectorAll('.tipmenu-price').forEach(inp => {
+      inp.addEventListener('change', () => {
+        const cap = TIP_MENU_PRICE_CAPS[inp.closest('.tipmenu-card').querySelector('.tipmenu-type-btn.active').dataset.type];
+        let v = parseInt(inp.value, 10);
+        if(isNaN(v)) return;
+        if(v > cap.max){ v = cap.max; toast(t('tipMenuPriceClamped').replace('{max}', cap.max)); }
+        if(v < cap.min) v = cap.min;
+        inp.value = v;
+      });
+    });
+    rowsEl.querySelectorAll('.tipmenu-help, .tipmenu-desc-icon').forEach(btn => {
+      btn.onclick = () => {
+        const card = btn.closest('.tipmenu-card');
+        const el = card.querySelector(`.tipmenu-help-text[data-help-for="${btn.dataset.help}"]`);
+        if(el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+      };
+    });
+  }
+  wireRows();
+  document.getElementById('tipmenu-add-row').onclick = () => {
+    if(localRows.length >= 25){ toast(t('tipMenuMaxRows')); return; }
+    localRows.push({ emoji: '🌸', type: 'photo', theme: '', price: null, description: '', _open: true });
+    refreshRows();
+  };
+  document.getElementById('tipmenu-publish').onclick = async () => {
+    // Ferme et valide toute ligne encore en cours d'édition avant de publier.
+    rowsEl.querySelectorAll('.tipmenu-card:not(.tipmenu-collapsed)').forEach(card => syncOpenCardToLocalRows(card));
+    const collected = localRows.filter(r => r.theme && r.theme.trim()).map(r => ({
+      emoji: r.emoji || '', type: r.type || 'photo', theme: r.theme.trim().slice(0, 15),
+      price: r.price || null, description: limitWords(r.description || '', 20)
+    }));
+    const btn = document.getElementById('tipmenu-publish');
+    btn.disabled = true;
+    try{
+      await db.collection('profiles').doc(m.id).set({ tipMenu: collected }, { merge: true });
+      m.tipMenu = collected;
+      toast(t('tipMenuPublishedToast'));
+      renderMyTipMenu(m);
+    }catch(e){ console.error('publish tip menu error', e); toast(t('memberErrUnknown')); }
+    btn.disabled = false;
+  };
 }
 
 async function renderMyDeletionZone(m){
@@ -11896,7 +13292,13 @@ function renderMemberHome(user, data, activeTab){
     <span class="member-badge">✅ ${t('memberFreeBadge')}</span>
     ${memberUnverifiedBannerHtml(user)}
     <h3>${t('memberHomeWelcome').replace('{username}', escText(data.username || ''))}</h3>
+    <div class="popularity-hero">
+      <div class="tiktok-stat"><span class="tiktok-stat-num">${(data.favorites || []).length}</span><span class="tiktok-stat-label">${t('followingLabel')}</span></div>
+      <div class="tiktok-stat"><span class="tiktok-stat-num">${data.followersCount || 0}</span><span class="tiktok-stat-label">${t('followersLabel')}</span></div>
+      <div class="tiktok-stat">${uxdBadgeHtml(data.uxd)}<span class="tiktok-stat-label">${t('uxdLabel')}</span></div>
+    </div>
     <div class="member-tabs">
+      <button type="button" class="member-tab${activeTab === 'popularity' ? ' active' : ''}" id="member-tab-popularity">⭐${t('myFamilyPopularity')}</button>
       <button type="button" class="member-tab${activeTab === 'profile' ? ' active' : ''}" id="member-tab-profile">${t('memberTabProfile')}</button>
       <button type="button" class="member-tab${activeTab === 'favorites' ? ' active' : ''}" id="member-tab-favorites">${t('memberTabFavorites')}</button>
       <button type="button" class="member-tab${activeTab === 'messages' ? ' active' : ''}" id="member-tab-messages">${t('memberTabMessages')} <span class="member-tab-badge" id="member-tab-messages-badge" style="display:none;"></span></button>
@@ -11909,6 +13311,7 @@ function renderMemberHome(user, data, activeTab){
   `;
   wireUnverifiedBanner();
   document.getElementById('member-home-logout').onclick = memberLogout;
+  document.getElementById('member-tab-popularity').onclick = () => renderMemberHome(user, data, 'popularity');
   document.getElementById('member-tab-profile').onclick = () => renderMemberHome(user, data, 'profile');
   document.getElementById('member-tab-favorites').onclick = () => renderMemberHome(user, data, 'favorites');
   document.getElementById('member-tab-messages').onclick = () => renderMemberHome(user, data, 'messages');
@@ -11917,6 +13320,7 @@ function renderMemberHome(user, data, activeTab){
   if(activeTab === 'purchases') renderMemberPurchasesTab(user);
   else if(activeTab === 'favorites') renderMemberFavoritesTab(user, data);
   else if(activeTab === 'messages') renderMemberMessagesTab(user, data);
+  else if(activeTab === 'popularity') renderMemberPopularityTab(user, data);
   else renderMemberProfileTab(user, data);
 }
 
@@ -12288,6 +13692,52 @@ async function renderMemberPurchasesTab(user){
   }
 }
 
+async function renderMemberPopularityTab(user, data){
+  const tabBody = document.getElementById('member-tab-body');
+  tabBody.innerHTML = `<span class="gallery-empty">${t('chatLoading')}</span>`;
+  try{
+    if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
+    const followingCreators = data.followingCreators || [];
+    const followingRows = followingCreators
+      .map(id => (typeof roster !== 'undefined' ? roster.find(m => m.id === id) : null))
+      .filter(Boolean);
+    const followersSnap = await db.collection('profiles').where('followingMembers', 'array-contains', user.uid).get();
+    const followerRows = followersSnap.docs
+      .map(d => (typeof roster !== 'undefined' ? roster.find(m => m.id === d.id) : null))
+      .filter(Boolean);
+    tabBody.innerHTML = `
+      <div class="popularity-summary">
+        ${followerBadgeHtml(data.followersCount)}
+        <span>${data.followersCount || 0} ${t('followersLabel')}</span>
+      </div>
+      <div class="popularity-summary" style="margin-top:8px;">
+        ${uxdBadgeHtml(data.uxd)}
+        <span>${t('uxdExplainNote')}</span>
+      </div>
+      <div class="member-section-title" style="margin-top:20px;">${t('followingListTitle')} (${followingRows.length})</div>
+      <div class="member-favorites-list" style="margin-top:10px;">
+        ${followingRows.length === 0 ? `<p class="member-note">${t('membersViewerEmpty')}</p>` : followingRows.map(m => `
+          <div class="member-fav-row">
+            <span class="member-fav-photo">${m.photo ? `<img src="${escAttr(m.photo)}">` : '🙂'}</span>
+            <span class="member-fav-name">${escText(m.name) || t('nameUndefined')}</span>
+            ${followerBadgeHtml(m.followersCount)}
+          </div>`).join('')}
+      </div>
+      <div class="member-section-title" style="margin-top:24px;">${t('followersListTitle')} (${followerRows.length})</div>
+      <div class="member-favorites-list" style="margin-top:10px;">
+        ${followerRows.length === 0 ? `<p class="member-note">${t('membersViewerEmpty')}</p>` : followerRows.map(m => `
+          <div class="member-fav-row">
+            <span class="member-fav-photo">${m.photo ? `<img src="${escAttr(m.photo)}">` : '🙂'}</span>
+            <span class="member-fav-name">${escText(m.name) || t('nameUndefined')}</span>
+          </div>`).join('')}
+      </div>
+    `;
+  }catch(e){
+    console.error('renderMemberPopularityTab error', e);
+    tabBody.innerHTML = `<span class="gallery-empty">${(LANG==='fr'?'Erreur : ':'Error: ')}${escText(e.message||String(e))}</span>`;
+  }
+}
+
 function renderMemberFavoritesTab(user, data){
   const tabBody = document.getElementById('member-tab-body');
   const favIds = data.favorites || [];
@@ -12445,7 +13895,8 @@ async function openChat(ctx){
         const m = docSnap.data();
         const mine = m.senderType === ctx.viewerType;
         const avatarHtml = (!mine && ctx.otherPhoto) ? `<img class="dm-avatar" src="${escAttr(ctx.otherPhoto)}" alt="">` : (!mine ? HONEYMOON_LOGO_FALLBACK_HTML : '');
-        const nameHtml = !mine ? `<div class="dm-sender-name">${escText(ctx.otherName || t('nameUndefined'))}</div>` : '';
+        const otherBadgeHtml = !mine ? (ctx.viewerType === 'creator' ? uxdBadgeHtml(ctx.otherUxd) : followerBadgeHtml((typeof roster !== 'undefined' && roster.find(x => x.id === ctx.profileId) || {}).followersCount)) : '';
+        const nameHtml = !mine ? `<div class="dm-sender-name">${escText(ctx.otherName || t('nameUndefined'))} ${otherBadgeHtml}</div>` : '';
         const likedBy = m.likedBy || [];
         const isLiked = likedBy.includes(ctx.viewerType);
         const likeCount = likedBy.length;
@@ -12749,6 +14200,51 @@ async function resolveMemberAvatarForCreator(memberUid, creatorId){
   }catch(e){ console.error('resolveMemberAvatarForCreator error', e); return { photoURL: '', consented: false }; }
 }
 
+async function renderMyPopularity(m){
+  const zone = document.getElementById('my-popularity-zone');
+  if(!zone) return;
+  zone.innerHTML = `<span class="gallery-empty">${t('chatLoading')}</span>`;
+  try{
+    if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
+    // Qui la suit : requête sur les membres dont followingCreators contient son id.
+    const followersSnap = await memberDb.collection('members').where('followingCreators', 'array-contains', m.id).get();
+    const followingIds = m.followingMembers || [];
+    let followingRows = [];
+    if(followingIds.length > 0){
+      const docs = await Promise.all(followingIds.map(uid => memberDb.collection('members').doc(uid).get()));
+      followingRows = docs.filter(d => d.exists).map(d => ({ id: d.id, username: d.data().username || t('nameUndefined'), photoURL: d.data().photoURL || '' }));
+    }
+    const tier = getFollowerTier(m.followersCount);
+    zone.innerHTML = `
+      <div class="popularity-summary">
+        ${followerBadgeHtml(m.followersCount)}
+        <span>${m.followersCount || 0} ${t('followersLabel')} — ${t('tierLabel_' + tier.key)}</span>
+      </div>
+      <div class="member-section-title" style="margin-top:20px;">${t('followersListTitle')} (${followersSnap.size})</div>
+      <div class="member-favorites-list" style="margin-top:10px;">
+        ${followersSnap.empty ? `<p class="member-note">${t('membersViewerEmpty')}</p>` : followersSnap.docs.map(d => {
+          const dd = d.data();
+          return `<div class="member-fav-row">
+            ${dd.photoURL ? `<span class="member-fav-photo"><img src="${escAttr(dd.photoURL)}"></span>` : honeymoonLogoFallbackHtml('member-fav-photo')}
+            <span class="member-fav-name">${escText(dd.username || t('nameUndefined'))}</span>
+          </div>`;
+        }).join('')}
+      </div>
+      <div class="member-section-title" style="margin-top:24px;">${t('followingListTitle')} (${followingRows.length})</div>
+      <div class="member-favorites-list" style="margin-top:10px;">
+        ${followingRows.length === 0 ? `<p class="member-note">${t('membersViewerEmpty')}</p>` : followingRows.map(r => `
+          <div class="member-fav-row">
+            ${r.photoURL ? `<span class="member-fav-photo"><img src="${escAttr(r.photoURL)}"></span>` : honeymoonLogoFallbackHtml('member-fav-photo')}
+            <span class="member-fav-name">${escText(r.username)}</span>
+          </div>`).join('')}
+      </div>
+    `;
+  }catch(e){
+    console.error('renderMyPopularity error', e);
+    zone.innerHTML = `<span class="gallery-empty">${(LANG==='fr'?'Erreur : ':'Error: ')}${escText(e.message||String(e))}</span>`;
+  }
+}
+
 async function renderMyMessages(m){
   const zone = document.getElementById('my-messages-zone');
   if(!zone) return;
@@ -12785,10 +14281,15 @@ async function renderMyMessages(m){
       btn.onclick = async () => {
         const c = snap.docs.find(d => d.id === btn.dataset.uid).data();
         const avatarInfo = await resolveMemberAvatarForCreator(btn.dataset.uid, m.id);
+        let otherUxd = 0;
+        try{
+          const memberDoc = await memberDb.collection('members').doc(btn.dataset.uid).get();
+          otherUxd = (memberDoc.exists && memberDoc.data().uxd) || 0;
+        }catch(e){ console.error('load member uxd error', e); }
         openChat({
           profileId: m.id, viewerType: 'creator', memberUid: btn.dataset.uid,
           memberUsername: c.memberUsername || '', creatorName: m.name || '',
-          otherName: c.memberUsername || t('nameUndefined'), otherPhoto: avatarInfo.photoURL || null
+          otherName: c.memberUsername || t('nameUndefined'), otherPhoto: avatarInfo.photoURL || null, otherUxd
         });
       };
     });
@@ -13525,6 +15026,9 @@ function renderVitrineGrid(){
   initFavoriteButtonsState();
 }
 const ICON_CAMERA = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>';
+const ICON_AUDIO = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>';
+const ICON_HELP = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';
+const ICON_CHAT_SM = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>';
 const ICON_VIDEO = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>';
 const ICON_BIO = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
 const ICON_CART = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>';
@@ -14219,6 +15723,28 @@ async function openVitrineRoom(id){
       </div>` : ''}
     ` : ''}
 
+    ${(m.tipMenu && m.tipMenu.length) ? `
+      <div class="room-section-divider"></div>
+      <div class="room-section-block">
+        <h3 class="room-section-title">🍯 ${t('tipMenuTabLabel')}</h3>
+        <div class="tipmenu-public-list">
+          ${m.tipMenu.map(r => `
+            <div class="tipmenu-public-row">
+              <div class="tipmenu-public-head">
+                <span class="tipmenu-public-theme">${r.emoji ? r.emoji + ' ' : ''}${escText(r.theme)}</span>
+                <span class="tipmenu-public-prices">${r.type === 'video' ? ICON_VIDEO : (r.type === 'audio' ? ICON_AUDIO : ICON_CAMERA)} ${r.price ? r.price + '€' : ''}</span>
+              </div>
+              ${r.description ? `<p class="tipmenu-public-desc">${escText(r.description)}</p>` : ''}
+            </div>`).join('')}
+        </div>
+        ${m.tipMenuRules ? `<p class="tipmenu-public-rules">${escText(m.tipMenuRules)}</p>` : ''}
+        <div class="tipmenu-custom-note">
+          <span>${t('tipMenuCustomNote')}</span>
+          <button type="button" class="btn btn-ghost btn-sm tipmenu-custom-chat-btn" data-id="${m.id}">${t('chatStartBtn')}</button>
+        </div>
+      </div>
+    ` : ''}
+
     <div class="vitrine-comments">
       <h4>${t('commentsTitle')}</h4>
       <p class="comment-rules">${t('commentRules')}</p>
@@ -14264,6 +15790,8 @@ async function openVitrineRoom(id){
 
   document.getElementById('vitrine-backdrop').classList.add('open');
   document.getElementById('vitrine-room').classList.add('open');
+  // La position de scroll de l'ancienne fiche restait affichée : on revient toujours en haut à l'ouverture.
+  document.getElementById('vitrine-room-body').scrollTop = 0;
   // force un rafraîchissement d'affichage immédiat (même correctif que sur les autres pages)
   void document.getElementById('vitrine-room').offsetHeight;
 
@@ -14288,6 +15816,22 @@ async function openVitrineRoom(id){
   };
   initFavoriteButtonsState();
   wireRoomFollowButton(m);
+  const tipMenuChatBtn = document.getElementById('vitrine-room-body').querySelector('.tipmenu-custom-chat-btn[data-id]');
+  if(tipMenuChatBtn) tipMenuChatBtn.onclick = async () => {
+    if(!memberAuth || !memberAuth.currentUser){ promptSignupForMembersOnly('chat'); return; }
+    const user = memberAuth.currentUser;
+    let username = '';
+    try{
+      const doc = await memberDb.collection('members').doc(user.uid).get();
+      username = (doc.exists && doc.data().username) || '';
+    }catch(e){ console.error('load member username error', e); }
+    closeVitrineRoom();
+    openChat({
+      profileId: m.id, viewerType: 'member', memberUid: user.uid,
+      memberUsername: username, creatorName: m.name || '',
+      otherName: m.name || t('nameUndefined'), otherPhoto: m.photo
+    });
+  };
 }
 async function wireRoomFollowButton(m){
   const btn = document.getElementById('room-follow-btn');
@@ -14475,6 +16019,14 @@ async function openSalesPanel(){
             salesCount: firebase.firestore.FieldValue.increment(1),
             revenue: firebase.firestore.FieldValue.increment(price)
           }, { merge: true });
+          // Crédite le membre acheteur en UXD (1 UXD = 1€ dépensé) — jamais affiché en euros côté membre.
+          if(o.buyerUid){
+            try{
+              await memberDb.collection('members').doc(o.buyerUid).set({
+                uxd: firebase.firestore.FieldValue.increment(price)
+              }, { merge: true });
+            }catch(e){ console.error('credit UXD error', e); }
+          }
           const localCreator = roster.find(x => x.id === o.creatorId);
           if(localCreator){
             const localItem = (localCreator.paidContent || []).find(x => x.docId === o.itemDocId);
