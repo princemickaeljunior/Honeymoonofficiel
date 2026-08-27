@@ -419,6 +419,17 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
   display:flex;align-items:center;gap:6px;margin-top:10px;background:var(--honey);color:#1a1206;
   border:none;border-radius:999px;padding:8px 16px;font-size:12px;font-weight:700;
 }
+.tipmenu-public-preview{position:relative;width:100%;aspect-ratio:4/3;border-radius:12px;overflow:hidden;background:var(--bg-elev-2);margin-bottom:10px;}
+.tipmenu-public-preview img, .tipmenu-public-preview video{width:100%;height:100%;object-fit:cover;filter:blur(9px) brightness(0.75);transform:scale(1.08);}
+.tipmenu-audio-lock-bg{width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--honey);opacity:0.35;}
+.tipmenu-audio-lock-bg svg{width:40px;height:40px;}
+.tipmenu-public-preview.audio-only{aspect-ratio:5/2;}
+.tipmenu-preview-lock{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  background:rgba(0,0,0,0.55);border:2px solid var(--honey);color:var(--honey);
+  width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+}
+.tipmenu-preview-lock svg{width:20px;height:20px;}
 .tipmenu-earn-note{font-size:11px;color:var(--text-muted);margin:4px 0 0;}
 .tipmenu-how-it-works{background:var(--bg-elev-2);border:1px solid var(--honey);border-radius:14px;padding:14px 16px;margin-bottom:18px;}
 .tipmenu-how-it-works h4{color:var(--honey);font-size:13px;margin:0 0 8px;}
@@ -982,6 +993,7 @@ main{max-width:var(--max);margin:0 auto;padding:0 20px 60px;}
   max-width:88%;text-align:center;
 }
 .toast.show{opacity:1;transform:translateX(-50%) translateY(-6px);}
+.toast.mock-purchase{border-color:#e0a832;border-width:2px;font-weight:700;padding:12px 22px;border-radius:14px;}
 
 /* ---------------- Tout le site : menus par onglets en liste verticale, cartes en grille 3 colonnes ---------------- */
 .my-tabs, .member-tabs{
@@ -1671,6 +1683,9 @@ const I18N = {
     gatePassPh: "Code d'accès",
     creatorPassPh: "Ton code",
     noPhotoYet: "Aucune photo",
+    tipMenuContentRequired: "Ajoute un contenu (photo, vidéo ou audio) avant d'enregistrer cette ligne.",
+    mockPurchaseNotice: "🔧 Achat fictif — le vrai système de paiement arrive bientôt. Aucun montant n'a été prélevé.",
+    visitorNeedsAccountPurchase: "Inscris-toi gratuitement pour acheter du contenu — un compte est nécessaire pour le stocker dans ta galerie personnelle.",
     memberLoggedInToast: "Connexion réussie !",
     memberBioEditBtn: "Modifier",
     memberBioCancelBtn: "Annuler",
@@ -2355,6 +2370,9 @@ const I18N = {
     gatePassPh: "Access code",
     creatorPassPh: "Your code",
     noPhotoYet: "No photo yet",
+    tipMenuContentRequired: "Add content (photo, video or audio) before saving this line.",
+    mockPurchaseNotice: "🔧 Mock purchase — the real payment system is coming soon. No amount was charged.",
+    visitorNeedsAccountPurchase: "Sign up for free to purchase content — an account is required to store it in your personal gallery.",
     memberLoggedInToast: "Logged in!",
     memberBioEditBtn: "Edit",
     memberBioCancelBtn: "Cancel",
@@ -3039,6 +3057,9 @@ const I18N = {
     gatePassPh: "Código de acceso",
     creatorPassPh: "Tu código",
     noPhotoYet: "Sin foto",
+    tipMenuContentRequired: "Añade contenido (foto, video o audio) antes de guardar esta línea.",
+    mockPurchaseNotice: "🔧 Compra ficticia — el sistema de pago real llegará pronto. No se cobró ningún importe.",
+    visitorNeedsAccountPurchase: "Regístrate gratis para comprar contenido — se necesita una cuenta para guardarlo en tu galería personal.",
     memberLoggedInToast: "¡Sesión iniciada!",
     memberBioEditBtn: "Editar",
     memberBioCancelBtn: "Cancelar",
@@ -3722,6 +3743,9 @@ const I18N = {
     gatePassPh: "Codice di accesso",
     creatorPassPh: "Il tuo codice",
     noPhotoYet: "Nessuna foto",
+    tipMenuContentRequired: "Aggiungi un contenuto (foto, video o audio) prima di salvare questa riga.",
+    mockPurchaseNotice: "🔧 Acquisto fittizio — il vero sistema di pagamento arriverà presto. Nessun importo è stato addebitato.",
+    visitorNeedsAccountPurchase: "Iscriviti gratuitamente per acquistare contenuti — è necessario un account per salvarli nella tua galleria personale.",
     memberLoggedInToast: "Accesso effettuato!",
     memberBioEditBtn: "Modifica",
     memberBioCancelBtn: "Annulla",
@@ -4405,6 +4429,9 @@ const I18N = {
     gatePassPh: "Código de acesso",
     creatorPassPh: "O teu código",
     noPhotoYet: "Ainda sem foto",
+    tipMenuContentRequired: "Adicione um conteúdo (foto, vídeo ou áudio) antes de salvar esta linha.",
+    mockPurchaseNotice: "🔧 Compra fictícia — o sistema de pagamento real chega em breve. Nenhum valor foi cobrado.",
+    visitorNeedsAccountPurchase: "Cadastre-se grátis para comprar conteúdo — é necessária uma conta para guardá-lo na sua galeria pessoal.",
     memberLoggedInToast: "Login realizado!",
     memberBioEditBtn: "Editar",
     memberBioCancelBtn: "Cancelar",
@@ -5088,6 +5115,9 @@ const I18N = {
     gatePassPh: "Nambari ya kuingia",
     creatorPassPh: "Nambari yako",
     noPhotoYet: "Hakuna picha bado",
+    tipMenuContentRequired: "Ongeza maudhui (picha, video au sauti) kabla ya kuhifadhi mstari huu.",
+    mockPurchaseNotice: "🔧 Ununuzi wa kudhaniwa — mfumo halisi wa malipo unakuja hivi karibuni. Hakuna kiasi kilichotozwa.",
+    visitorNeedsAccountPurchase: "Jisajili bure ili kununua maudhui — akaunti inahitajika kuyahifadhi kwenye galeri yako binafsi.",
     memberLoggedInToast: "Umeingia!",
     memberBioEditBtn: "Hariri",
     memberBioCancelBtn: "Ghairi",
@@ -5770,6 +5800,9 @@ const I18N = {
     gatePassPh: "Ikhodi yokungena",
     creatorPassPh: "Ikhodi yakho",
     noPhotoYet: "Asikho isithombe okwamanje",
+    tipMenuContentRequired: "Engeza okuqukethwe (isithombe, ividiyo noma umsindo) ngaphambi kokulondoloza lo mugqa.",
+    mockPurchaseNotice: "🔧 Ukuthenga okungeyikho — uhlelo lokukhokha lweqiniso luzofika maduze. Alikho inani elikhokhiwe.",
+    visitorNeedsAccountPurchase: "Bhalisa mahhala ukuze uthenge okuqukethwe — kudingeka i-akhawunti ukuze ukugcine ku-gallery yakho.",
     memberLoggedInToast: "Ungenile!",
     memberBioEditBtn: "Hlela",
     memberBioCancelBtn: "Khansela",
@@ -6452,6 +6485,9 @@ const I18N = {
     gatePassPh: "Khoutu ya ho kena",
     creatorPassPh: "Khoutu ya hao",
     noPhotoYet: "Ha ho na setshwantsho",
+    tipMenuContentRequired: "Eketsa diteng (setšoantšo, video kapa molumo) pele o boloka mola ona.",
+    mockPurchaseNotice: "🔧 Theko ea maiketsetso — tsamaiso ea nnete ea ho lefa e tla e tla haufinyane. Ha ho chelete e lefuoeng.",
+    visitorNeedsAccountPurchase: "Ingolisa mahala ho reka diteng — ho hlokahala ak'haonto ho li boloka ka har'a kariki ea hau.",
     memberLoggedInToast: "O kene!",
     memberBioEditBtn: "Fetola",
     memberBioCancelBtn: "Hlakola",
@@ -7134,6 +7170,9 @@ const I18N = {
     gatePassPh: "Kode ya kokota",
     creatorPassPh: "Kode na yo",
     noPhotoYet: "Foto te naino",
+    tipMenuContentRequired: "Bakisa biloko (foto, video to mongongo) liboso ya kobomba mola oyo.",
+    mockPurchaseNotice: "🔧 Kosomba ya lokuta — ebongiseli ya solo ya kofuta ekoya kala mingi te. Mbongo moko te efutami.",
+    visitorNeedsAccountPurchase: "Komisama ofele mpo na kosomba biloko — esengeli na kompte mpo na kobomba yango na galerie na yo.",
     memberLoggedInToast: "Okoti!",
     memberBioEditBtn: "Benga lisusu",
     memberBioCancelBtn: "Boya nsima",
@@ -7816,6 +7855,9 @@ const I18N = {
     gatePassPh: "访问码",
     creatorPassPh: "你的代码",
     noPhotoYet: "暂无照片",
+    tipMenuContentRequired: "在保存此行之前，请添加内容（照片、视频或音频）。",
+    mockPurchaseNotice: "🔧 模拟购买——真正的支付系统即将上线。未产生任何费用。",
+    visitorNeedsAccountPurchase: "免费注册即可购买内容——需要账户才能将其保存到你的个人相册中。",
     memberLoggedInToast: "登录成功！",
     memberBioEditBtn: "编辑",
     memberBioCancelBtn: "取消",
@@ -8498,6 +8540,9 @@ const I18N = {
     gatePassPh: "アクセスコード",
     creatorPassPh: "あなたのコード",
     noPhotoYet: "まだ写真がありません",
+    tipMenuContentRequired: "この行を保存する前にコンテンツ（写真・動画・音声）を追加してください。",
+    mockPurchaseNotice: "🔧 模擬購入 — 本物の決済システムは近日公開予定です。料金は発生していません。",
+    visitorNeedsAccountPurchase: "無料登録でコンテンツを購入できます — 個人ギャラリーに保存するにはアカウントが必要です。",
     memberLoggedInToast: "ログインしました！",
     memberBioEditBtn: "編集",
     memberBioCancelBtn: "キャンセル",
@@ -9180,6 +9225,9 @@ const I18N = {
     gatePassPh: "Код доступа",
     creatorPassPh: "Твой код",
     noPhotoYet: "Пока нет фото",
+    tipMenuContentRequired: "Добавьте контент (фото, видео или аудио) перед сохранением этой строки.",
+    mockPurchaseNotice: "🔧 Пробная покупка — настоящая система оплаты скоро появится. Списание не производилось.",
+    visitorNeedsAccountPurchase: "Зарегистрируйтесь бесплатно, чтобы покупать контент — для его хранения в личной галерее нужен аккаунт.",
     memberLoggedInToast: "Вход выполнен!",
     memberBioEditBtn: "Изменить",
     memberBioCancelBtn: "Отмена",
@@ -9862,6 +9910,9 @@ const I18N = {
     gatePassPh: "رمز الوصول",
     creatorPassPh: "رمزك",
     noPhotoYet: "لا توجد صورة بعد",
+    tipMenuContentRequired: "أضيفي محتوى (صورة أو فيديو أو صوت) قبل حفظ هذا السطر.",
+    mockPurchaseNotice: "🔧 عملية شراء وهمية — نظام الدفع الحقيقي قادم قريبًا. لم يتم خصم أي مبلغ.",
+    visitorNeedsAccountPurchase: "سجلي مجانًا لشراء المحتوى — يلزم وجود حساب لتخزينه في معرضك الشخصي.",
     memberLoggedInToast: "تم تسجيل الدخول!",
     memberBioEditBtn: "تعديل",
     memberBioCancelBtn: "إلغاء",
@@ -10544,6 +10595,9 @@ const I18N = {
     gatePassPh: "Kode ya nzila",
     creatorPassPh: "Kode na nge",
     noPhotoYet: "Kifwani ve kiantete",
+    tipMenuContentRequired: "Yika bima (foto, video to ndinga) na ntwala ya kubumba mola yai.",
+    mockPurchaseNotice: "🔧 Kusumba ya luvunu — nzila ya kyeleka ya kufuta ke kwiza kala mingi ve. Ata mbongo mosi ve me katulama.",
+    visitorNeedsAccountPurchase: "Sonika na mfunu ve mpo na kusumba bima — kele na mfunu ya compte mpasi kubumba yau na galerie na nge.",
     memberLoggedInToast: "Nge me kota!",
     memberBioEditBtn: "Soba",
     memberBioCancelBtn: "Katula",
@@ -11229,6 +11283,12 @@ function toast(msg){
   el.textContent = msg;
   el.classList.add('show');
   setTimeout(()=>el.classList.remove('show'), 2600);
+}
+function mockPurchaseNotice(){
+  const el = document.getElementById('toast');
+  el.textContent = t('mockPurchaseNotice');
+  el.classList.add('show', 'mock-purchase');
+  setTimeout(()=>{ el.classList.remove('show'); el.classList.remove('mock-purchase'); }, 4200);
 }
 function esc(s){ return (s||'').replace(/[&<>"']/g, c => ({'&':'&lt;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 // fix: proper escape map
@@ -12175,6 +12235,7 @@ async function renderMyTipMenu(m){
         syncOpenCardToLocalRows(card);
         const idx = parseInt(card.dataset.idx, 10);
         if(!localRows[idx].theme){ toast(t('tipMenuThemeRequired')); return; }
+        if(!localRows[idx].contentUrl){ toast(t('tipMenuContentRequired')); return; }
         localRows[idx]._open = false;
         refreshRows();
       };
@@ -12243,7 +12304,7 @@ async function renderMyTipMenu(m){
   document.getElementById('tipmenu-publish').onclick = async () => {
     // Ferme et valide toute ligne encore en cours d'édition avant de publier.
     rowsEl.querySelectorAll('.tipmenu-card:not(.tipmenu-collapsed)').forEach(card => syncOpenCardToLocalRows(card));
-    const collected = localRows.filter(r => r.theme && r.theme.trim()).map(r => ({
+    const collected = localRows.filter(r => r.theme && r.theme.trim() && r.contentUrl).map(r => ({
       emoji: r.emoji || '', type: r.type || 'photo', theme: r.theme.trim().slice(0, 15),
       price: r.price || null, description: limitWords(r.description || '', 20), contentUrl: r.contentUrl || ''
     }));
@@ -15552,7 +15613,7 @@ function renderMemberFavoritesTab(user, data){
 }
 
 function promptSignupForMembersOnly(reason){
-  toast(reason === 'chat' ? t('visitorNeedsAccountChat') : t('visitorNeedsAccountFavorite'));
+  toast(reason === 'chat' ? t('visitorNeedsAccountChat') : reason === 'purchase' ? t('visitorNeedsAccountPurchase') : t('visitorNeedsAccountFavorite'));
   document.getElementById('member-backdrop').classList.add('open');
   document.getElementById('member-modal').classList.add('open');
   closeBurgerMenu();
@@ -16223,6 +16284,7 @@ function openOrderDelivery(ctx, msgDocId, requestText){
 
 /* ---------------- déblocage côté membre : voir la livraison + l'ajouter à ses achats ---------------- */
 function unlockDeliveredOrder(url, type, requestText, creatorName){
+  mockPurchaseNotice();
   if(type === 'audio'){
     const content = document.getElementById('lightbox-content');
     content.innerHTML = `<audio src="${url}" controls autoplay style="width:100%;"></audio>`;
@@ -16514,7 +16576,7 @@ function updateTopbarMemberBadge(username){
   } else {
     badge.style.display = 'flex';
     badge.innerHTML = ICON_USER + escText(t('visitorBadgeLabel'));
-    badge.onclick = () => openMemberModal();
+    badge.onclick = null;
     if(burgerItem){ burgerItem.setAttribute('data-i18n', 'burgerBecomeMember'); burgerItem.textContent = t('burgerBecomeMember'); }
     if(privateLink){ privateLink.disabled = false; privateLink.style.opacity = '.7'; privateLink.style.pointerEvents = ''; }
     if(msgBtn){ msgBtn.style.display = 'none'; }
@@ -17822,6 +17884,8 @@ function exclusiveCardHtml(m, item){
 }
 
 function openUnlockRequest(m, docId, price, kind){
+  if(!memberAuth || !memberAuth.currentUser){ promptSignupForMembersOnly('purchase'); return; }
+  mockPurchaseNotice();
   document.getElementById('t-paid-modal-title').textContent = `${t('paidUnlockBtn')} ${price}€`;
   const body = document.getElementById('paid-body');
   body.innerHTML = `
@@ -18003,6 +18067,13 @@ async function openVitrineRoom(id){
       <div class="tipmenu-public-list">
         ${m.tipMenu.map((r, idx) => `
           <div class="tipmenu-public-row">
+            ${r.contentUrl ? `
+            <div class="tipmenu-public-preview ${r.type === 'audio' ? 'audio-only' : ''}">
+              ${r.type === 'video' ? `<video src="${escAttr(r.contentUrl)}" muted></video>`
+                : r.type === 'audio' ? `<div class="tipmenu-audio-lock-bg">${ICON_AUDIO}</div>`
+                : `<img src="${escAttr(r.contentUrl)}">`}
+              <span class="tipmenu-preview-lock">${ICON_LOCK}</span>
+            </div>` : ''}
             <div class="tipmenu-public-head">
               <span class="tipmenu-public-theme">${r.emoji ? r.emoji + ' ' : ''}${escText(r.theme)}</span>
               <span class="tipmenu-public-prices">${r.type === 'video' ? ICON_VIDEO : (r.type === 'audio' ? ICON_AUDIO : ICON_CAMERA)} ${r.price ? r.price + '€' : ''}</span>
@@ -18130,6 +18201,7 @@ async function openVitrineRoom(id){
         myUxd = (doc.exists && doc.data().uxd) || 0;
       }catch(e){ console.error('load member username error', e); }
       closeVitrineRoom();
+      mockPurchaseNotice();
       openChat({
         profileId: m.id, viewerType: 'member', memberUid: user.uid,
         memberUsername: username, creatorName: m.name || '',
