@@ -14352,7 +14352,7 @@ function switchChatTab(tab){
   const topicsRow = document.getElementById('chat-topics-row');
   if(topicsRow) topicsRow.style.display = tab === 'libre' ? 'flex' : 'none';
   if(chatCtx){
-    const convRef = db.collection('profiles').doc(chatCtx.profileId).collection('conversations').doc(chatCtx.memberUid);
+    const convRef = chatDb(chatCtx.viewerType).collection('profiles').doc(chatCtx.profileId).collection('conversations').doc(chatCtx.memberUid);
     const unreadField = chatCtx.viewerType === 'member' ? 'memberUnreadCount' : 'creatorUnreadCount';
     renderChatMessages(chatCtx, convRef, unreadField);
   }
@@ -14409,10 +14409,16 @@ function closeChatListeners(){
   if(chatMyTypingTimer){ clearTimeout(chatMyTypingTimer); chatMyTypingTimer = null; }
 }
 
+// Choisit la bonne instance Firestore selon qui écrit dans la conversation :
+// un membre est authentifié via memberAuth/memberDb, jamais via auth/db
+// (réservée à la créatrice/admin) — sinon les Firestore Rules voient
+// request.auth.uid ne correspondant à rien et renvoient permission-denied.
+function chatDb(viewerType){
+  return viewerType === 'member' ? memberDb : db;
+}
 async function openChat(ctx){
   chatCtx = ctx;
   closeChatListeners();
-  if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
 
   document.getElementById('chat-header-avatar').innerHTML = ctx.otherPhoto ? `<img src="${escAttr(ctx.otherPhoto)}" alt="" loading="lazy" decoding="async">` : '🍯';
   document.getElementById('chat-header-name').textContent = ctx.otherName || '';
@@ -14454,7 +14460,7 @@ async function openChat(ctx){
   wireChatReactionRail();
   wireChatTopics();
 
-  const convRef = db.collection('profiles').doc(ctx.profileId).collection('conversations').doc(ctx.memberUid);
+  const convRef = chatDb(ctx.viewerType).collection('profiles').doc(ctx.profileId).collection('conversations').doc(ctx.memberUid);
   const unreadField = ctx.viewerType === 'member' ? 'memberUnreadCount' : 'creatorUnreadCount';
   const typingField = ctx.viewerType === 'member' ? 'creatorTyping' : 'memberTyping';
   const myTypingField = ctx.viewerType === 'member' ? 'memberTyping' : 'creatorTyping';
@@ -14486,7 +14492,7 @@ async function openChat(ctx){
     }
   }, (e) => console.error('chat conv listener error', e));
 
-  chatUnsubMessages = db.collection('profiles').doc(ctx.profileId).collection('conversations').doc(ctx.memberUid)
+  chatUnsubMessages = chatDb(ctx.viewerType).collection('profiles').doc(ctx.profileId).collection('conversations').doc(ctx.memberUid)
     .collection('messages').orderBy('createdAt', 'asc').limit(200)
     .onSnapshot(snap => {
       const prevCount = chatLastSnapDocs.length;
@@ -14537,7 +14543,7 @@ function closeChat(){
   closeChatListeners();
   stopChatBanner();
   if(chatCtx){
-    const convRef = db.collection('profiles').doc(chatCtx.profileId).collection('conversations').doc(chatCtx.memberUid);
+    const convRef = chatDb(chatCtx.viewerType).collection('profiles').doc(chatCtx.profileId).collection('conversations').doc(chatCtx.memberUid);
     const myTypingField = chatCtx.viewerType === 'member' ? 'memberTyping' : 'creatorTyping';
     convRef.set({ [myTypingField]: false }, { merge: true }).catch(() => {});
   }
@@ -14586,9 +14592,8 @@ function spawnFloatingReaction(key){
 async function toggleMessageLike(docId){
   if(!chatCtx || !docId) return;
   const ctx = chatCtx;
-  const msgRef = db.collection('profiles').doc(ctx.profileId).collection('conversations').doc(ctx.memberUid).collection('messages').doc(docId);
+  const msgRef = chatDb(ctx.viewerType).collection('profiles').doc(ctx.profileId).collection('conversations').doc(ctx.memberUid).collection('messages').doc(docId);
   try{
-    if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
     const doc = await msgRef.get();
     const likedBy = (doc.exists && doc.data().likedBy) || [];
     const isLiked = likedBy.includes(ctx.viewerType);
@@ -14616,9 +14621,8 @@ function wireChatReactionRail(){
       if(!chatCtx) return;
       const ctx = chatCtx;
       try{
-        if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
         // Réaction éphémère : signal en direct, jamais enregistrée dans l'historique des messages.
-        const convRef = db.collection('profiles').doc(ctx.profileId).collection('conversations').doc(ctx.memberUid);
+        const convRef = chatDb(ctx.viewerType).collection('profiles').doc(ctx.profileId).collection('conversations').doc(ctx.memberUid);
         await convRef.set({
           liveReaction: { key: btn.dataset.reaction, from: ctx.viewerType, at: Date.now() }
         }, { merge: true });
@@ -14797,8 +14801,7 @@ function openCustomOrderForm(ctx){
     const btn = document.getElementById('custom-order-send');
     btn.disabled = true;
     try{
-      if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
-      const convRef = db.collection('profiles').doc(ctx.profileId).collection('conversations').doc(ctx.memberUid);
+      const convRef = memberDb.collection('profiles').doc(ctx.profileId).collection('conversations').doc(ctx.memberUid);
       await convRef.collection('messages').add({
         senderType: 'member', text: text, customOrderRequest: true, customOrderStatus: 'pending',
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
@@ -15024,11 +15027,10 @@ async function sendChatMessage(){
   input.value = '';
   document.getElementById('chat-emoji-picker').style.display = 'none';
   const ctx = chatCtx;
-  const convRef = db.collection('profiles').doc(ctx.profileId).collection('conversations').doc(ctx.memberUid);
+  const convRef = chatDb(ctx.viewerType).collection('profiles').doc(ctx.profileId).collection('conversations').doc(ctx.memberUid);
   const myTypingField = ctx.viewerType === 'member' ? 'memberTyping' : 'creatorTyping';
   const otherUnreadField = ctx.viewerType === 'member' ? 'creatorUnreadCount' : 'memberUnreadCount';
   try{
-    if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
     await convRef.collection('messages').add({
       senderType: ctx.viewerType, text: text.slice(0, 1000),
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
@@ -15103,7 +15105,7 @@ async function renderMemberMessagesTab(user, data){
     }
     const results = await Promise.all(profileIds.map(async (profileId) => {
       try{
-        const convDoc = await db.collection('profiles').doc(profileId).collection('conversations').doc(user.uid).get();
+        const convDoc = await memberDb.collection('profiles').doc(profileId).collection('conversations').doc(user.uid).get();
         return convDoc.exists ? { profileId, c: convDoc.data() } : null;
       }catch(e){ console.error('load conversation error', profileId, e); return null; }
     }));
@@ -15494,7 +15496,7 @@ async function refreshTopbarMessageBadge(){
     };
     if(profileIds.length === 0){ updateBadges(); return; }
     profileIds.forEach(profileId => {
-      const unsub = db.collection('profiles').doc(profileId).collection('conversations').doc(memberAuth.currentUser.uid)
+      const unsub = memberDb.collection('profiles').doc(profileId).collection('conversations').doc(memberAuth.currentUser.uid)
         .onSnapshot(doc => {
           counts[profileId] = (doc.exists && doc.data().memberUnreadCount) || 0;
           updateBadges();
@@ -17125,8 +17127,7 @@ async function openVitrineRoom(id, isBackgroundRefresh){
       const row = (m.tipMenu && m.tipMenu[idx]) || {};
       const orderText = t('tipMenuOrderPrefill').replace('{theme}', btn.dataset.theme).replace('{price}', btn.dataset.price);
       try{
-        if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
-        const convRef = db.collection('profiles').doc(m.id).collection('conversations').doc(user.uid);
+        const convRef = memberDb.collection('profiles').doc(m.id).collection('conversations').doc(user.uid);
         await convRef.collection('messages').add({
           senderType: 'member', text: orderText, customOrderRequest: true, customOrderStatus: 'pending',
           orderKind: 'tip', tipTheme: row.theme || btn.dataset.theme || '', tipPrice: row.price || btn.dataset.price || '',
