@@ -27,6 +27,7 @@
   --honey:#d4af37;
   --honey-deep:#b8912b;
   --rose:#e2637c;
+  --wine:#7a2340;
   --radius:16px;
   --radius-sm:10px;
   --max:1040px;
@@ -41,6 +42,7 @@ html[data-theme="light"]{
   --honey:#8a4f14;
   --honey-deep:#6e3d0e;
   --rose:#a83850;
+  --wine:#5c1530;
 }
 *{box-sizing:border-box;}
 html,body{margin:0;padding:0;}
@@ -204,6 +206,92 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .hero h1{font-size:clamp(26px,5vw,40px);line-height:1.15;max-width:680px;}
 .hero p{color:var(--text-muted);font-size:14.5px;margin-top:16px;max-width:540px;line-height:1.7;}
 
+/* ---------- vitrine (page publique) : atmosphère, hero éditorial, signature dorée ---------- */
+#vitrine-shell{
+  position:relative;isolation:isolate;
+  background:
+    radial-gradient(680px 420px at 12% -6%, color-mix(in srgb, var(--honey) 20%, transparent), transparent 65%),
+    radial-gradient(560px 480px at 108% 18%, color-mix(in srgb, var(--wine) 38%, transparent), transparent 68%),
+    var(--bg);
+  min-height:100vh;
+}
+#vitrine-shell .hero{padding:64px 0 8px;position:relative;}
+#vitrine-shell .hero .eyebrow{
+  display:flex;align-items:center;gap:8px;color:var(--honey);
+}
+#vitrine-shell .hero .eyebrow::before{
+  content:'';width:6px;height:6px;border-radius:50%;background:var(--honey);
+  box-shadow:0 0 0 3px color-mix(in srgb, var(--honey) 22%, transparent);
+}
+#vitrine-shell .hero h1{
+  font-family:'Fraunces',serif;font-weight:600;letter-spacing:-0.01em;
+  font-size:clamp(32px,7.2vw,54px);max-width:620px;
+}
+#vitrine-shell .hero h1 em{
+  font-style:italic;font-weight:500;
+  background:linear-gradient(100deg,var(--honey-deep) 0%,var(--honey) 35%,#f2dba8 50%,var(--honey) 65%,var(--honey-deep) 100%);
+  background-size:260% auto;-webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:logoShine 16s linear infinite;
+}
+#vitrine-shell .hero p{font-size:15.5px;max-width:480px;}
+.vitrine-hero-actions{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:26px;}
+.vitrine-hero-cta{
+  font-family:'Inter',sans-serif;font-weight:700;font-size:13.5px;letter-spacing:0.01em;
+  background:linear-gradient(120deg,var(--honey-deep),var(--honey));color:#1a1206;
+  border:none;border-radius:999px;padding:13px 26px;box-shadow:0 8px 22px -8px color-mix(in srgb, var(--honey) 65%, transparent);
+}
+.vitrine-hero-cta:active{transform:translateY(1px);}
+.vitrine-hero-trust{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.06em;color:var(--text-muted);
+  display:flex;align-items:center;gap:7px;
+}
+.vitrine-hero-trust b{color:var(--honey);font-weight:600;}
+
+/* ---------- espace agence (catalogue privé) : même signature éditoriale, ton professionnel ---------- */
+#app-shell{
+  position:relative;isolation:isolate;
+  background:
+    radial-gradient(680px 420px at 12% -6%, color-mix(in srgb, var(--honey) 16%, transparent), transparent 65%),
+    radial-gradient(560px 480px at 108% 18%, color-mix(in srgb, var(--wine) 30%, transparent), transparent 68%),
+    var(--bg);
+  min-height:100vh;
+}
+#app-shell .hero{padding:64px 0 8px;position:relative;}
+#app-shell .hero .eyebrow{display:flex;align-items:center;gap:8px;color:var(--honey);}
+#app-shell .hero .eyebrow::before{
+  content:'';width:6px;height:6px;border-radius:50%;background:var(--honey);
+  box-shadow:0 0 0 3px color-mix(in srgb, var(--honey) 22%, transparent);
+}
+#app-shell .hero h1{
+  font-family:'Fraunces',serif;font-weight:600;letter-spacing:-0.01em;
+  font-size:clamp(28px,5.6vw,44px);max-width:680px;
+}
+#app-shell .hero h1 em{
+  font-style:italic;font-weight:500;
+  background:linear-gradient(100deg,var(--honey-deep) 0%,var(--honey) 35%,#f2dba8 50%,var(--honey) 65%,var(--honey-deep) 100%);
+  background-size:260% auto;-webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:logoShine 16s linear infinite;
+}
+#app-shell .hero p{font-size:15.5px;max-width:560px;}
+#app-shell .roster-head h2, #app-shell .creator-carousel-title{font-family:'Fraunces',serif;font-weight:600;}
+#app-shell .model-card{
+  transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+#app-shell .model-card:active{
+  transform:translateY(-2px);border-color:var(--honey);
+  box-shadow:0 14px 30px -14px color-mix(in srgb, var(--honey) 55%, transparent);
+}
+#app-shell .model-body h3{font-family:'Fraunces',serif;font-weight:600;}
+.agency-trust-row{
+  display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;
+}
+.agency-trust-chip{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.04em;color:var(--text-muted);
+  background:var(--bg-elev-2);border:1px solid var(--border);border-radius:999px;padding:7px 13px;
+  display:flex;align-items:center;gap:6px;
+}
+.agency-trust-chip b{color:var(--honey);}
+
 /* ---------- roster grid ---------- */
 .roster-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin:36px 0 18px;flex-wrap:wrap;}
 .roster-head h2{font-size:20px;}
@@ -213,6 +301,8 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .creator-carousel-section{margin-top:8px;}
 .creator-carousel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
 .creator-carousel-title{color:var(--honey);font-family:'Inter',sans-serif;font-size:16px;font-weight:800;}
+#vitrine-shell .creator-carousel-title{font-family:'Fraunces',serif;font-weight:600;font-size:19px;letter-spacing:-0.005em;}
+#vitrine-shell .roster-head h2{font-family:'Fraunces',serif;font-weight:600;}
 .creator-carousel-nav{display:flex;gap:6px;flex-shrink:0;}
 .creator-carousel-row{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-bottom:8px;padding-bottom:2px;}
 .creator-carousel-row::-webkit-scrollbar{display:none;}
@@ -222,12 +312,21 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .carousel-arrow:active{background:var(--honey);color:#1a1206;}
 
 .model-card{ background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius); overflow:hidden;display:flex;flex-direction:column; }
+#vitrine-shell .model-card{
+  transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  transform:translateZ(0);
+}
+#vitrine-shell .model-card:active{
+  transform:translateY(-2px);border-color:var(--honey);
+  box-shadow:0 14px 30px -14px color-mix(in srgb, var(--honey) 55%, transparent);
+}
 .social-feed-card{border-radius:20px;box-shadow:0 4px 18px rgba(0,0,0,0.35);}
 .social-feed-card:active{box-shadow:0 2px 10px rgba(0,0,0,0.45);}
 .social-feed-scrim{position:absolute;left:0;right:0;bottom:0;height:45%;background:linear-gradient(to top, rgba(0,0,0,0.55), transparent);pointer-events:none;}
 .model-photo{
   width:100%;aspect-ratio:1/1;background:linear-gradient(160deg,var(--bg-elev-2),var(--bg) 75%);border-bottom:1px solid var(--border);
   display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;
+  contain:layout style paint;
 }
 /* Grille (cartes plus larges, moins serrées) : tailles proches du rendu normal. */
 .creator-carousel-row .model-card{ font-size:12.5px; }
@@ -249,33 +348,63 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .empty-slot-logo{font-size:14px;text-align:center;padding:0 4px;pointer-events:none;animation:none !important;background:none !important;-webkit-text-fill-color:var(--honey);color:var(--honey);}
 .empty-slot-photo .num-badge{z-index:2;}
 .empty-slot-card .model-body h3{font-size:11px !important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#vitrine-shell .empty-slot-photo{
+  position:relative;
+  background:
+    linear-gradient(100deg, transparent 0%, color-mix(in srgb, var(--honey) 14%, transparent) 50%, transparent 100%),
+    linear-gradient(160deg,var(--bg-elev-2),var(--bg) 75%);
+  background-size:220% 100%, 100% 100%;
+  animation:vitrineRevealShimmer 5.5s ease-in-out infinite;
+}
+#vitrine-shell .empty-slot-logo{
+  animation:logoShine 16s linear infinite !important;
+  background:linear-gradient(100deg,var(--honey-deep) 0%,var(--honey) 35%,#f2dba8 50%,var(--honey) 65%,var(--honey-deep) 100%) !important;
+  background-size:260% auto !important;
+  -webkit-background-clip:text !important;background-clip:text !important;-webkit-text-fill-color:transparent !important;color:transparent !important;
+  font-size:16px;font-weight:700;
+}
+@keyframes vitrineRevealShimmer{
+  0%,100%{background-position:220% 0, 0 0;}
+  50%{background-position:-20% 0, 0 0;}
+}
 .model-photo img{width:100%;height:100%;object-fit:cover;display:block;}
 .model-photo video{width:100%;height:100%;object-fit:cover;display:block;}
 .model-photo .placeholder{ font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);text-align:center;padding:0 20px;line-height:1.6; }
 .model-photo .status{
   position:absolute;top:10px;right:10px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.08em;text-transform:uppercase;
   background:rgba(0,0,0,0.55);border:1px solid var(--honey);color:var(--honey);padding:4px 9px;border-radius:999px;
+  transform:translateZ(0);-webkit-transform:translateZ(0);backface-visibility:hidden;-webkit-backface-visibility:hidden;will-change:transform;
 }
 .model-photo .num-badge{
   position:absolute;top:10px;left:10px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;
   background:rgba(0,0,0,0.6);border:1px solid var(--border);color:#fff;width:26px;height:26px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
+  transform:translateZ(0);-webkit-transform:translateZ(0);backface-visibility:hidden;-webkit-backface-visibility:hidden;will-change:transform;
 }
 .card-report-btn{
   position:absolute;bottom:10px;right:10px;width:28px;height:28px;border-radius:50%;
   background:rgba(0,0,0,0.55);border:1px solid var(--border);color:var(--text);
   display:flex;align-items:center;justify-content:center;font-size:13px;padding:0;
+  transform:translateZ(0);-webkit-transform:translateZ(0);backface-visibility:hidden;-webkit-backface-visibility:hidden;will-change:transform;
 }
 .card-report-btn:active{border-color:var(--rose);}
 .card-fav-btn{
   position:absolute;bottom:10px;right:44px;width:28px;height:28px;border-radius:50%;
   background:rgba(0,0,0,0.55);border:1px solid var(--border);color:var(--text);
   display:flex;align-items:center;justify-content:center;font-size:15px;padding:0;
+  transform:translateZ(0);-webkit-transform:translateZ(0);backface-visibility:hidden;-webkit-backface-visibility:hidden;will-change:transform;
 }
 .card-fav-btn.active,.room-fav-btn.active{color:var(--rose);border-color:var(--rose);}
-.room-fav-btn{background:none;border:1px solid var(--border);color:var(--text-muted);border-radius:999px;padding:6px 12px;font-size:14px;margin-left:8px;}
+.room-fav-btn{background:none;border:1px solid var(--border);color:var(--text-muted);border-radius:999px;padding:6px 12px;font-size:14px;margin-left:8px;transform:translateZ(0);-webkit-transform:translateZ(0);backface-visibility:hidden;-webkit-backface-visibility:hidden;}
 .room-chat-btn{background:none;border:1px solid var(--border);color:var(--text-muted);border-radius:999px;padding:6px 12px;font-size:14px;margin-left:6px;}
 .room-chat-btn:active{background:var(--honey);color:#1a1206;border-color:var(--honey);}
+.room-chat-cta{
+  display:inline-flex;align-items:center;gap:7px;background:var(--bg-elev-2);border:1px solid var(--honey);
+  color:var(--honey);border-radius:999px;padding:9px 16px;font-size:12.5px;font-weight:700;
+  font-family:'Inter',sans-serif;margin-top:12px;
+}
+.room-chat-cta:active{background:var(--honey);color:#1a1206;}
+.room-chat-cta svg{width:15px;height:15px;}
 .member-favorites-list{display:flex;flex-direction:column;gap:8px;}
 .member-fav-row{display:flex;align-items:center;gap:12px;background:var(--bg-elev-2);border:1px solid var(--border);border-radius:16px;padding:10px 12px;color:var(--text);text-align:left;box-shadow:0 2px 8px rgba(0,0,0,0.15);}
 .member-fav-row:active{background:var(--bg-elev);}
@@ -318,6 +447,19 @@ img[data-hm-loaded], video[data-hm-loaded]{
   padding:24px;opacity:0;pointer-events:none;transition:opacity .2s;
 }
 .modal-box.open{opacity:1;pointer-events:auto;}
+/* ===== ESPACE MEMBRE UNIQUEMENT — navigation fluide type Instagram/Facebook =====
+   Cette classe ajoute un fondu + léger glissement au lieu du fondu plat brut de .modal-box.
+   Volontairement PAS appliquée à .modal-box en général (ça toucherait aussi les modales
+   du tableau de bord créatrice/agence : edit-modal, sales-modal, contracts-modal, etc.).
+   Elle est posée uniquement sur : la fenêtre compte membre (icône membre + icône message,
+   qui ouvrent toutes les deux #member-modal), et la fiche/room d'une créatrice consultée
+   par un membre ou visiteur (#vitrine-room). Pour le chat (#chat-modal), elle est ajoutée/
+   retirée dynamiquement en JS selon ctx.viewerType === 'member' (voir openChat). */
+.member-space-modal{
+  transform:translateY(8px);
+  transition:opacity .22s cubic-bezier(.22,.68,0,1), transform .22s cubic-bezier(.22,.68,0,1);
+}
+.member-space-modal.open{transform:translateY(0);}
 #paid-backdrop{z-index:100;}
 #paid-modal{z-index:101;}
 #chat-backdrop{z-index:110;}
@@ -329,6 +471,15 @@ img[data-hm-loaded], video[data-hm-loaded]{
 #report-backdrop{z-index:130;}
 #report-modal{z-index:131;}
 .modal-box h3{font-size:18px;margin-bottom:16px;}
+/* ---------- espace membre : même signature éditoriale que la vitrine (halo doré + Fraunces) ---------- */
+#member-modal{
+  background:
+    radial-gradient(520px 340px at 100% -6%, color-mix(in srgb, var(--honey) 14%, transparent), transparent 65%),
+    radial-gradient(460px 380px at -10% 30%, color-mix(in srgb, var(--wine) 26%, transparent), transparent 68%),
+    var(--bg-elev);
+}
+#member-modal h3{font-family:'Fraunces',serif;font-weight:600;font-size:22px;letter-spacing:-0.005em;}
+#member-modal .member-section-title{font-family:'JetBrains Mono',monospace;}
 /* Pages plein écran avec en-tête fixe + flèche retour (fiche créatrice, chat). */
 .fullpage-modal{
   padding:0;display:flex;flex-direction:column;overflow:hidden;
@@ -364,7 +515,8 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .member-forgot-link{display:block;text-align:center;margin-top:10px;background:none;border:none;color:var(--text-muted);font-size:12px;text-decoration:underline;cursor:pointer;}
 .member-err{color:var(--rose);font-size:12.5px;margin-top:10px;min-height:1px;}
 .member-note{color:var(--text-muted);font-size:12.5px;line-height:1.6;margin-top:2px;}
-.member-badge{display:inline-flex;align-items:center;gap:6px;background:var(--bg-elev-2);border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-size:12px;color:var(--honey);margin-bottom:14px;}
+.member-badge{display:inline-flex;align-items:center;gap:6px;background:var(--bg-elev-2);border:1px solid var(--honey);border-radius:20px;padding:6px 14px;font-size:12px;color:var(--honey);margin-bottom:14px;font-weight:600;}
+.member-welcome-line{color:var(--text-muted);font-size:13px;line-height:1.6;margin:6px 0 4px;max-width:420px;}
 .member-banner-warn{display:flex;align-items:center;justify-content:space-between;gap:10px;background:rgba(230,160,60,0.12);border:1px solid rgba(230,160,60,0.35);border-radius:10px;padding:10px 12px;font-size:11.5px;color:var(--honey);margin-bottom:14px;line-height:1.4;}
 .member-banner-warn button{flex-shrink:0;background:none;border:1px solid rgba(230,160,60,0.5);color:var(--honey);border-radius:8px;padding:6px 10px;font-size:11px;cursor:pointer;}
 .member-tabs{display:flex;gap:8px;margin-bottom:16px;border-bottom:1px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
@@ -396,6 +548,9 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .member-view-avatar-fallback{background:var(--honey);color:#1a1206;font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;}
 .member-view-name{font-weight:600;font-size:14px;}
 .member-view-loc{font-size:11.5px;color:var(--text-muted);}
+.member-view-actions{display:flex;gap:8px;margin-top:10px;}
+.my-member-favorite-btn.is-favorite{background:var(--honey);color:#1a1206;border-color:var(--honey);}
+.my-members-filter-row{display:flex;gap:8px;margin-top:14px;max-width:280px;}
 .follower-badge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 6px;border-radius:999px;color:#fff;font-size:10.5px;font-weight:700;margin-left:6px;}
 .uxd-badge{min-width:auto;padding:0 8px;font-size:9.5px;}
 .popularity-hero{display:flex;justify-content:center;gap:36px;margin-top:20px;}
@@ -459,8 +614,9 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .tipmenu-public-desc{color:var(--text-muted);font-size:12px;line-height:1.5;margin-top:6px;}
 .tipmenu-public-rules{color:var(--text-muted);font-size:12px;line-height:1.6;margin-top:12px;white-space:pre-wrap;}
 .tipmenu-custom-note{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:16px;padding-top:14px;border-top:1px solid var(--border);font-size:12.5px;color:var(--honey);}
-.follow-btn{background:var(--bg-elev-2);border:1px solid var(--honey);color:var(--honey);border-radius:999px;padding:6px 14px;font-size:12px;font-weight:600;}
+.follow-btn{background:var(--bg-elev-2);border:1px solid var(--honey);color:var(--honey);border-radius:999px;padding:6px 14px;font-size:12px;font-weight:600;transition:transform .12s ease;}
 .follow-btn.following{background:var(--honey);color:#1a1206;}
+.follow-btn:active{transform:scale(0.94);}
 .member-view-bio{font-size:13px;color:var(--text-muted);line-height:1.5;margin:6px 0;}
 .member-media-thumb{aspect-ratio:1/1;border-radius:10px;overflow:hidden;background:var(--bg-elev-2);border:1px solid var(--border);}
 .my-tabs{display:flex;gap:10px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:4px 2px 12px;margin-bottom:8px;border-bottom:1px solid var(--border);flex:1;}
@@ -471,9 +627,31 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .my-tab-btn{flex-shrink:0;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text-muted);border-radius:999px;padding:9px 16px;font-size:12.5px;font-weight:600;white-space:nowrap;display:flex;align-items:center;gap:6px;}
 .my-tab-btn.active{background:var(--honey);color:#1a1206;border-color:var(--honey);}
 .my-tab-panel{display:none;}
-.my-tab-panel.active{animation:tabFadeIn .18s ease;}
-.tab-fade-in{animation:tabFadeIn .18s ease;}
-@keyframes tabFadeIn{from{opacity:0;}to{opacity:1;}}
+.my-tab-panel.active{animation:tabFadeIn .22s cubic-bezier(.22,.68,0,1);}
+.tab-fade-in{animation:tabFadeIn .22s cubic-bezier(.22,.68,0,1);}
+@keyframes tabFadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+/* ===== ESPACE MEMBRE UNIQUEMENT — retour tactile immédiat type Instagram/Facebook =====
+   Portée volontairement limitée par sélecteur de conteneur pour NE PAS toucher au
+   tableau de bord créatrice/agence (#app-shell, #my-profile-shell), qui partage les
+   mêmes classes de boutons (.btn, .my-tab-btn, .level-arrow, etc.).
+   Conteneurs concernés : #member-modal (compte membre, icône membre + icône message),
+   #vitrine-room (fiche/room d'une créatrice consultée par un membre ou visiteur),
+   #vitrine-shell (cartes de la vitrine publique), #bottom-nav (nav publique). */
+#member-modal .member-tab, #member-modal .member-subtab, #member-modal .btn, #member-modal .member-bio-icon-btn,
+#member-modal .level-arrow, #member-modal .my-tab-btn,
+#vitrine-room .btn, #vitrine-room .my-tab-btn, #vitrine-room .level-arrow, #vitrine-room .room-fav-btn,
+#vitrine-shell .card-fav-btn, #vitrine-shell .card-report-btn,
+#bottom-nav .bottom-nav-item{
+  transition: transform .12s ease, opacity .12s ease, background .15s ease, color .15s ease, border-color .15s ease;
+}
+#member-modal .member-tab:active, #member-modal .member-subtab:active, #member-modal .btn:active,
+#member-modal .member-bio-icon-btn:active, #member-modal .level-arrow:active, #member-modal .my-tab-btn:active,
+#vitrine-room .btn:active, #vitrine-room .my-tab-btn:active, #vitrine-room .level-arrow:active, #vitrine-room .room-fav-btn:active,
+#vitrine-shell .card-fav-btn:active, #vitrine-shell .card-report-btn:active,
+#bottom-nav .bottom-nav-item:active{
+  transform: scale(.94);
+  opacity: .85;
+}
 .room-support-block{display:flex;align-items:center;gap:14px;margin-top:10px;}
 .room-support-btn{padding:8px 18px;}
 .room-follower-count{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-muted);}
@@ -487,7 +665,8 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .level-step{display:flex;flex-direction:column;align-items:center;gap:3px;flex:0 0 auto;opacity:.4;cursor:pointer;transition:opacity .2s;}
 .level-step.reached{opacity:1;}
 .level-step.lit{opacity:1;}
-.level-shield{width:30px;height:30px;border-radius:8px;background:var(--bg-elev-2);border:1.5px solid var(--border);color:#fff;display:flex;align-items:center;justify-content:center;transition:box-shadow .2s, background .2s;}
+.level-shield{width:32px;height:32px;border-radius:9px;background:linear-gradient(160deg,#3a3a3a,#232323);border:1.5px solid var(--border);color:#b8b8b8;display:flex;align-items:center;justify-content:center;transition:box-shadow .2s, background .2s, color .2s;}
+.level-step.reached .level-shield{color:#fff;}
 .level-step.lit .level-shield{box-shadow:0 0 22px 4px var(--lit-color), 0 0 6px 2px var(--lit-color) inset;}
 .level-step.current .level-shield{outline:2px solid var(--honey);outline-offset:2px;}
 .level-step-label{font-size:8.5px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.02em;white-space:nowrap;}
@@ -499,16 +678,27 @@ img[data-hm-loaded], video[data-hm-loaded]{
 
 /* ---------------- chat en direct membre ↔ créatrice ---------------- */
 .chat-modal-box{display:flex;flex-direction:column;padding:0;overflow:hidden;}
-.chat-header{display:flex;align-items:center;gap:10px;padding:16px 18px;border-bottom:1px solid var(--border);flex-shrink:0;}
-.chat-header-avatar{width:36px;height:36px;border-radius:50%;overflow:hidden;flex-shrink:0;background:var(--bg-elev-2);display:flex;align-items:center;justify-content:center;font-size:16px;}
+.chat-header{
+  display:flex;align-items:center;gap:10px;padding:16px 18px;border-bottom:1px solid var(--border);flex-shrink:0;
+  background:linear-gradient(180deg, color-mix(in srgb, var(--honey) 7%, transparent), transparent);
+}
+.chat-header-avatar{width:36px;height:36px;border-radius:50%;overflow:hidden;flex-shrink:0;background:var(--bg-elev-2);display:flex;align-items:center;justify-content:center;font-size:16px;border:1.5px solid var(--honey);}
 .chat-header-avatar img{width:100%;height:100%;object-fit:cover;}
 .chat-header-name{font-weight:700;font-size:14px;}
-.chat-header-status{font-size:11px;color:var(--text-muted);min-height:14px;}
+.chat-header-status{font-size:11px;color:var(--honey);min-height:14px;font-weight:600;}
 .chat-back-btn{background:none;border:none;color:var(--text-muted);font-size:16px;padding:4px;cursor:pointer;}
 .chat-body-wrap{flex:1;position:relative;display:flex;flex-direction:column;overflow:hidden;}
-.chat-messages{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-height:280px;max-height:52vh;}
-.chat-reaction-rail{position:absolute;right:8px;bottom:14px;display:flex;flex-direction:column;gap:10px;z-index:5;}
-.chat-reaction-btn{background:rgba(0,0,0,0.35);backdrop-filter:blur(3px);border:1px solid rgba(255,255,255,0.15);width:38px;height:38px;border-radius:50%;font-size:18px;display:flex;align-items:center;justify-content:center;color:#fff;}
+.chat-messages{
+  flex:1;overflow-y:auto;padding:14px 58px 14px 16px;display:flex;flex-direction:column;gap:4px;min-height:280px;max-height:52vh;
+  background:radial-gradient(420px 260px at 100% 0%, color-mix(in srgb, var(--honey) 5%, transparent), transparent 70%);
+}
+.chat-reaction-rail{
+  position:absolute;right:8px;bottom:14px;top:14px;width:38px;
+  display:flex;flex-direction:column;justify-content:flex-end;gap:10px;z-index:5;
+  pointer-events:none;
+}
+.chat-reaction-rail .chat-reaction-btn{pointer-events:auto;}
+.chat-reaction-btn{background:rgba(0,0,0,0.35);backdrop-filter:blur(3px);border:1px solid rgba(255,255,255,0.15);width:38px;height:38px;border-radius:50%;font-size:18px;display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;}
 .chat-reaction-btn:active{transform:scale(1.15);}
 .chat-float-layer{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:4;}
 .chat-float-emoji{position:absolute;bottom:20px;right:26px;font-size:24px;animation:chatFloatUp 2.2s ease-out forwards;color:var(--honey);}
@@ -518,17 +708,26 @@ img[data-hm-loaded], video[data-hm-loaded]{
   15%{opacity:1;transform:translateY(-30px) scale(1.1) rotate(-8deg);}
   100%{opacity:0;transform:translateY(-260px) scale(0.9) rotate(10deg);}
 }
-.dm-bubble-row{display:flex;flex-direction:column;max-width:78%;margin-bottom:6px;}
+@keyframes dmBubbleIn{
+  0%{opacity:0;transform:translateY(6px);}
+  100%{opacity:1;transform:translateY(0);}
+}
+.dm-bubble-row{display:flex;flex-direction:column;max-width:74%;margin-bottom:6px;animation:dmBubbleIn .22s ease-out;}
 .dm-sender-row{display:flex;align-items:center;gap:6px;margin-bottom:3px;}
 .dm-avatar{width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0;}
 .dm-avatar.member-view-avatar{width:44px;height:44px;}
 .dm-avatar-fallback{background:var(--honey);color:#1a1206;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;}
 .dm-avatar-logo{background:linear-gradient(135deg,var(--honey),var(--honey-deep));display:flex;align-items:center;justify-content:center;font-size:12px;}
 .dm-sender-name{font-size:11px;color:var(--text-muted);font-weight:600;}
-.dm-bubble-row.mine{align-self:flex-start;align-items:flex-start;}
+.dm-bubble-row.mine{align-self:flex-end;align-items:flex-end;}
+.dm-bubble-row.mine .dm-sender-row{flex-direction:row-reverse;}
 .dm-bubble-row.theirs{align-self:flex-start;align-items:flex-start;}
 .dm-bubble{padding:9px 13px;border-radius:16px;font-size:13.5px;line-height:1.45;word-break:break-word;white-space:pre-wrap;}
-.dm-bubble-row.mine .dm-bubble{background:rgba(255,255,255,0.10);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.18);color:var(--text);border-bottom-left-radius:4px;box-shadow:0 2px 10px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.12);}
+.dm-bubble-row.mine .dm-bubble{
+  background:linear-gradient(155deg, color-mix(in srgb, var(--honey) 26%, var(--bg-elev-2)), color-mix(in srgb, var(--honey) 14%, var(--bg-elev-2)));
+  border:1px solid color-mix(in srgb, var(--honey) 45%, transparent);color:var(--text);
+  border-bottom-right-radius:4px;box-shadow:0 2px 10px rgba(0,0,0,0.15);
+}
 .dm-bubble-row.theirs .dm-bubble{background:rgba(255,255,255,0.10);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.18);color:var(--text);border-bottom-left-radius:4px;box-shadow:0 2px 10px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.12);}
 .dm-bubble-time{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--text-muted);margin-top:3px;padding:0 4px;}
 .dm-bubble-footer{display:flex;align-items:center;gap:8px;margin-top:3px;padding:0 4px;}
@@ -578,6 +777,25 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .custom-order-action-btn svg{width:14px;height:14px;}
 .custom-order-status-tag{display:inline-block;font-size:11px;color:var(--text-muted);}
 .custom-order-status-tag.pending{color:var(--honey);}
+.custom-order-card.tip-order-card{
+  border-color:#4fa3e0;
+}
+.custom-order-card.tip-order-card .custom-order-card-head{color:#4fa3e0;}
+.custom-order-card.tip-order-card .custom-order-status-tag.pending{color:#4fa3e0;}
+.tip-order-deliver-btn{background:#4fa3e0;color:#0c1a26;}
+.conv-order-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-left:5px;vertical-align:middle;}
+.conv-order-dot-custom{background:var(--honey);}
+.conv-order-dot-tip{background:#4fa3e0;}
+.order-row-card{
+  background:linear-gradient(155deg, var(--bg-elev-2), var(--bg-elev));border:1.5px solid var(--honey);
+  border-radius:14px;padding:12px 14px;margin-bottom:12px;
+}
+.order-row-card.tip-order-card{border-color:#4fa3e0;}
+.order-row-head{display:flex;align-items:center;gap:6px;margin-bottom:6px;}
+.order-row-name{font-size:13px;font-weight:700;color:var(--text);}
+.order-row-text{font-size:13px;color:var(--text-muted);line-height:1.5;margin:0 0 10px;}
+.order-row-actions{display:flex;gap:8px;flex-wrap:wrap;}
+.order-row-discuss-btn{background:var(--bg-elev-2);color:var(--text);border:1px solid var(--border);}
 .dm-bubble-row.mine .dm-bubble-wrap{flex-direction:row-reverse;}
 .dm-menu-btn{background:none;border:none;color:var(--text-muted);font-size:14px;padding:4px 6px;flex-shrink:0;}
 .dm-menu-popover{position:absolute;background:var(--bg-elev);border:1px solid var(--border);border-radius:10px;padding:6px;box-shadow:0 6px 18px rgba(0,0,0,0.3);z-index:150;}
@@ -589,8 +807,10 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .chat-typing-dot:nth-child(3){animation-delay:.3s;}
 @keyframes chatTypingBounce{0%,60%,100%{transform:translateY(0);opacity:.4;}30%{transform:translateY(-4px);opacity:1;}}
 .chat-input-row{display:flex;gap:8px;padding:12px 14px;border-top:1px solid var(--border);flex-shrink:0;align-items:flex-end;}
-.chat-input-row textarea{flex:1;resize:none;max-height:90px;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text);border-radius:14px;padding:10px 14px;font-size:13.5px;font-family:inherit;}
-.chat-send-btn{background:var(--honey);border:none;color:#1a1206;width:38px;height:38px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.chat-input-row textarea{flex:1;resize:none;max-height:90px;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text);border-radius:14px;padding:10px 14px;font-size:13.5px;font-family:inherit;transition:border-color .15s ease;}
+.chat-input-row textarea:focus{outline:none;border-color:var(--honey);}
+.chat-send-btn{background:var(--honey);border:none;color:#1a1206;width:38px;height:38px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:transform .12s ease;}
+.chat-send-btn:active{transform:scale(0.88);}
 .chat-emoji-btn{background:var(--bg-elev-2);border:1px solid var(--border);width:38px;height:38px;border-radius:50%;flex-shrink:0;font-size:18px;display:flex;align-items:center;justify-content:center;}
 .chat-emoji-picker{
   flex-shrink:0;display:grid;grid-template-columns:repeat(8,1fr);gap:4px;
@@ -643,20 +863,27 @@ img[data-hm-loaded], video[data-hm-loaded]{
 #lightbox-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:140;display:none;align-items:center;justify-content:center;padding:24px;}
 #lightbox-backdrop img, #lightbox-backdrop video{max-width:100%;max-height:88vh;border-radius:8px;}
 #lightbox-close{position:absolute;top:20px;right:24px;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text);width:38px;height:38px;border-radius:50%;font-size:16px;}
+.lightbox-delete-btn{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);background:var(--rose);color:#fff;border:none;border-radius:999px;padding:12px 26px;font-size:13.5px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;box-shadow:0 6px 18px rgba(0,0,0,0.4);}
+.lightbox-delete-btn:active{transform:translateX(-50%) scale(.95);}
 
 /* ---------- vitrine (public showcase) ---------- */
 .vitrine-card-btn{ cursor:pointer; }
-.vitrine-cover{width:100%;aspect-ratio:4/5;border-radius:20px;overflow:hidden;background:var(--bg-elev-2);margin-bottom:14px;position:relative;box-shadow:0 6px 24px rgba(0,0,0,0.35);}
+.vitrine-cover{width:100%;aspect-ratio:4/5;border-radius:20px;overflow:hidden;background:var(--bg-elev-2);margin-bottom:14px;position:relative;box-shadow:0 6px 24px rgba(0,0,0,0.35);contain:layout style paint;}
 .vitrine-cover img{width:100%;height:100%;object-fit:cover;display:block;}
 .vitrine-cover video{width:100%;height:100%;object-fit:cover;display:block;}
-.vitrine-cover::after{content:'';position:absolute;left:0;right:0;bottom:0;height:35%;background:linear-gradient(to top, rgba(0,0,0,0.5), transparent);pointer-events:none;}
+.vitrine-cover::after{content:'';position:absolute;left:0;right:0;bottom:0;height:42%;background:linear-gradient(to top, rgba(0,0,0,0.6), transparent);pointer-events:none;}
+#vitrine-room-body .vitrine-cover{
+  box-shadow:0 10px 32px rgba(0,0,0,0.4), 0 0 0 1px color-mix(in srgb, var(--honey) 35%, transparent);
+}
 .vitrine-status-badge{
+  transform:translateZ(0);-webkit-transform:translateZ(0);backface-visibility:hidden;-webkit-backface-visibility:hidden;will-change:transform;
   position:absolute;top:10px;right:10px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.08em;text-transform:uppercase;
   padding:4px 9px;border-radius:999px;background:rgba(0,0,0,0.6);border:1px solid var(--border);color:var(--text-muted);
 }
 .vitrine-status-badge.online{border-color:#5fd67a;color:#5fd67a;}
 .vitrine-bio-rows{display:flex;flex-direction:column;gap:8px;margin:14px 0;}
 .bio-narrative-title{font-size:16px;margin:18px 0 4px;color:var(--text);}
+#vitrine-room-body .bio-narrative-title{font-family:'Fraunces',serif;font-weight:600;font-size:18px;}
 .member-presentation-header{text-align:center;padding-bottom:8px;}
 .member-bio-header{display:flex;align-items:center;justify-content:space-between;margin-top:14px;}
 .member-bio-icons{display:flex;gap:6px;}
@@ -778,6 +1005,8 @@ img[data-hm-loaded], video[data-hm-loaded]{
   font-family:'JetBrains Mono',monospace;font-size:9.5px;padding:2px 6px;border-radius:6px;
 }
 .exclusive-thumb-desc{font-size:10px;color:var(--text-muted);line-height:1.3;margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.exclusive-sales-badge{display:inline-flex;align-items:center;gap:4px;font-size:9.5px;color:var(--honey);font-weight:600;}
+.exclusive-sales-badge svg{width:10px;height:10px;}
 .exclusive-video-wrap{grid-column:span 2;}
 .exclusive-video-pair{display:flex;gap:4px;}
 .exclusive-video-pair .exclusive-thumb{flex:1;}
@@ -788,6 +1017,8 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .room-section-block{margin:18px 0;}
 .room-section-title{color:var(--honey);font-family:'Inter',sans-serif;font-weight:800;font-size:16px;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
 .room-section-divider{height:1px;background:var(--border);margin:22px 0;}
+#vitrine-room-body .room-section-title{font-family:'Fraunces',serif;font-weight:600;font-size:18px;}
+#vitrine-room-body h3{font-family:'Fraunces',serif;font-weight:600;font-size:21px;}
 /* évite que le contenu de la page pousse la largeur de l'écran (ex. cadenas video-pair, grilles) */
 #my-tools-zone, .vitrine-modal, .modal-box{overflow-x:hidden;}
 
@@ -867,6 +1098,8 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .chat-typing-dots span{width:6px;height:6px;border-radius:50%;background:var(--text-muted);animation:chatTypingBlink 1s infinite ease-in-out;}
 .chat-typing-dots span:nth-child(2){animation-delay:.15s;}
 .chat-typing-dots span:nth-child(3){animation-delay:.3s;}
+.chat-header-status{display:inline-flex;align-items:center;gap:5px;}
+.chat-header-status .chat-typing-dots span{background:var(--honey);}
 @keyframes chatTypingBlink{0%,80%,100%{opacity:.3;}40%{opacity:1;}}
 .chat-time{display:block;font-size:9px;opacity:.6;margin-top:4px;text-align:right;font-family:'JetBrains Mono',monospace;}
 .chat-bubble.chat-user .chat-time{color:#160f04;}
@@ -917,20 +1150,50 @@ img[data-hm-loaded], video[data-hm-loaded]{
   position:fixed;top:0;right:0;height:100%;width:82%;max-width:320px;background:var(--bg-elev);
   border-left:1px solid var(--border);z-index:200;transform:translateX(100%);transition:transform .25s ease;
   padding:24px 20px;box-sizing:border-box;
+  display:flex;flex-direction:column;
 }
 .burger-panel.open{transform:translateX(0);}
-.burger-close-btn{background:none;border:none;color:var(--text-muted);font-size:18px;margin-bottom:20px;}
+.burger-close-btn{background:none;border:none;color:var(--text-muted);font-size:18px;margin-bottom:8px;}
+.burger-panel-head{margin:4px 0 22px;}
+.burger-panel-logo{font-family:'Fraunces',serif;font-weight:700;font-size:20px;color:var(--honey);}
+.burger-panel-tagline{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.08em;color:var(--text-muted);margin-top:5px;text-transform:uppercase;}
 .burger-nav{display:flex;flex-direction:column;gap:4px;}
 .burger-nav-item{
   text-align:left;background:none;border:none;color:var(--text);font-size:14px;padding:14px 12px;
   border-bottom:1px solid var(--border);font-family:'Inter',sans-serif;font-weight:600;border-radius:12px;
+  display:flex;align-items:center;gap:10px;min-height:48px;
 }
 .burger-nav-item:active{color:var(--honey);background:var(--bg-elev-2);}
+.burger-nav-item .burger-nav-icon{width:17px;flex-shrink:0;text-align:center;opacity:0.85;}
+.burger-nav-primary{
+  border:1px solid var(--honey) !important;background:var(--bg-elev-2) !important;color:var(--honey) !important;
+  font-weight:700;margin-bottom:10px;
+}
+.burger-nav-section-label{
+  font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--text-muted);padding:16px 12px 6px;
+}
 #burger-theme-toggle{display:flex;align-items:center;gap:10px;}
 #burger-theme-toggle .swatch{width:16px;height:16px;border-radius:50%;border:1px solid var(--border);flex-shrink:0;}
 .faq-item{margin-bottom:16px;}
 .faq-question{color:var(--honey);font-size:13px;font-weight:600;margin-bottom:5px;}
 .faq-answer{color:var(--text-muted);font-size:12.5px;line-height:1.6;}
+/* ---------- pages du menu (FAQ, règles/CGU/confidentialité/prix, candidature) : même signature éditoriale que la vitrine ---------- */
+#faq-modal, #legal-modal, #apply-modal{
+  background:
+    radial-gradient(520px 320px at 8% -8%, color-mix(in srgb, var(--honey) 12%, transparent), transparent 65%),
+    var(--bg-elev);
+}
+#faq-modal h3, #legal-modal h3, #apply-modal h3{
+  font-family:'Fraunces',serif;font-weight:600;font-size:22px;letter-spacing:-0.005em;
+  padding-bottom:14px;margin-bottom:18px;border-bottom:1px solid var(--border);
+}
+#faq-modal .faq-item{
+  background:var(--bg-elev-2);border:1px solid var(--border);border-radius:var(--radius-sm);
+  padding:14px 16px;transition:border-color .2s ease;
+}
+#faq-modal .faq-item:active{border-color:var(--honey);}
+#faq-modal .faq-question{font-family:'Inter',sans-serif;font-size:13.5px;}
 .audio-mode-tabs{display:flex;gap:8px;margin-bottom:10px;}
 .audio-mode-btn{flex:1;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text-muted);border-radius:8px;padding:8px;font-size:11.5px;}
 .audio-mode-btn.active{background:var(--honey);color:#160f04;border-color:var(--honey);font-weight:600;}
@@ -989,10 +1252,11 @@ img[data-hm-loaded], video[data-hm-loaded]{
 
 /* ---------- contact ---------- */
 .contact{
-  margin-top:56px;background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius);
-  padding:32px 26px;text-align:center;
+  margin-top:56px;background:linear-gradient(155deg, var(--bg-elev-2), var(--bg-elev));border:1px solid var(--honey);border-radius:20px;
+  padding:32px 26px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,0.25);
 }
 .contact h2{font-size:22px;}
+#app-shell .contact h2{font-family:'Fraunces',serif;font-weight:600;}
 .contact p{color:var(--text-muted);font-size:13.5px;margin-top:8px;max-width:420px;margin-left:auto;margin-right:auto;line-height:1.7;}
 .contact .btn{max-width:280px;margin:18px auto 0;}
 .contact .addr{margin-top:12px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--honey);}
@@ -1083,13 +1347,26 @@ img[data-hm-loaded], video[data-hm-loaded]{
 
 <!-- ================= CREATOR GATE ================= -->
 <div id="creator-gate" style="display:none;min-height:100vh;align-items:center;justify-content:center;padding:24px;">
-  <div class="gate-card">
+  <div class="gate-card" id="creator-login-view">
     <div class="logo">honeymoon</div>
     <p class="sub mono" id="t-creator-gate-sub">Accès créatrice</p>
-    <input id="creator-pass" type="password" placeholder="Ton code">
+    <input id="creator-email" type="email" placeholder="Email" autocomplete="username" style="margin-bottom:8px;">
+    <input id="creator-pass" type="password" placeholder="Mot de passe" autocomplete="current-password">
     <button class="btn btn-primary" id="creator-submit"><span id="t-creator-enter">Entrer</span></button>
     <div class="gate-err" id="creator-err"></div>
+    <button class="gate-switch" id="show-creator-signup"><span id="t-creator-signup-link">Pas encore de compte ? Créer mon compte créatrice</span></button>
     <button class="gate-switch" id="show-agency-gate"><span id="t-back-agency">← Retour</span></button>
+  </div>
+  <div class="gate-card" id="creator-signup-view" style="display:none;">
+    <div class="logo">honeymoon</div>
+    <p class="sub mono" id="t-creator-signup-sub">Créer mon compte créatrice</p>
+    <p class="member-note" style="margin:-4px 0 10px;" id="t-creator-signup-note">Crée ton compte toi-même. Ton profil sera activé par l'équipe Honeymoon une fois ta candidature validée.</p>
+    <input id="creator-su-email" type="email" placeholder="Email" autocomplete="username" style="margin-bottom:8px;">
+    <input id="creator-su-pass" type="password" placeholder="Mot de passe" autocomplete="new-password" style="margin-bottom:8px;">
+    <input id="creator-su-pass2" type="password" placeholder="Confirmer le mot de passe" autocomplete="new-password">
+    <button class="btn btn-primary" id="creator-su-submit"><span id="t-creator-su-submit">Créer mon compte</span></button>
+    <div class="gate-err" id="creator-su-err"></div>
+    <button class="gate-switch" id="show-creator-login"><span id="t-creator-login-link">← Retour à la connexion</span></button>
   </div>
 </div>
 
@@ -1125,6 +1402,11 @@ img[data-hm-loaded], video[data-hm-loaded]{
       <div class="eyebrow" id="t-hero-eyebrow">Catalogue</div>
       <h1 id="t-hero-title">créatrices, un contrat, une exigence : le sérieux.</h1>
       <p id="t-hero-body">Le catalogue Honeymoon réunit 5 créatrices sous contrat exclusif, choisies pour leur sérieux et leur motivation. Certaines débutent dans le milieu : les attentes sont claires dès le départ, et elles s'y tiennent.</p>
+      <div class="agency-trust-row">
+        <span class="agency-trust-chip">✒️ <span id="t-agency-trust-contract">Contrat signé pour chaque créatrice</span></span>
+        <span class="agency-trust-chip">🔞 <span id="t-agency-trust-verified">Profils vérifiés 18+</span></span>
+        <span class="agency-trust-chip"><b id="agency-trust-count">–</b> <span id="t-agency-trust-count-label">créatrices sous contrat</span></span>
+      </div>
     </div>
 
     <div class="roster-head">
@@ -1305,6 +1587,7 @@ img[data-hm-loaded], video[data-hm-loaded]{
 <!-- ================= AGE GATE (18+, avant l'entrée sur le site vitrine) ================= -->
 <div id="age-gate" style="display:none;position:fixed;inset:0;z-index:98;background:rgba(0,0,0,0.85);align-items:center;justify-content:center;padding:24px;">
   <div style="max-width:380px;width:100%;background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius);padding:28px 24px;text-align:center;">
+    <select class="lang-select" id="age-gate-lang-select" style="margin:0 auto 18px;display:block;"></select>
     <h2 class="display" style="font-size:20px;margin-bottom:12px;" id="t-age-gate-title">Vérification d'âge</h2>
     <p style="color:var(--text-muted);font-size:13px;line-height:1.7;margin-bottom:22px;" id="t-age-gate-body">Ce site présente du contenu réservé aux personnes majeures (18 ans et plus). Confirmez votre âge pour continuer.</p>
     <button class="btn btn-primary" id="age-yes-btn" style="margin-bottom:10px;"><span id="t-age-yes">Oui, j'ai 18 ans ou plus</span></button>
@@ -1349,6 +1632,10 @@ img[data-hm-loaded], video[data-hm-loaded]{
       <div class="eyebrow" id="t-vitrine-eyebrow">Site vitrine</div>
       <h1 id="t-vitrine-title">Découvre nos créatrices</h1>
       <p id="t-vitrine-body">Un aperçu public des créatrices Honeymoon. Aime, laisse un commentaire, et découvre leur univers.</p>
+      <div class="vitrine-hero-actions">
+        <button type="button" class="vitrine-hero-cta" id="vitrine-hero-cta"><span id="t-vitrine-cta">Rejoindre</span></button>
+        <span class="vitrine-hero-trust"><span id="t-vitrine-trust-prefix">✦</span>&nbsp;<b id="vitrine-hero-stat-count">–</b>&nbsp;<span id="t-vitrine-trust-suffix">créatrices actives</span></span>
+      </div>
     </div>
     <div class="creator-carousel-section">
       <div class="creator-carousel-header">
@@ -1411,16 +1698,22 @@ img[data-hm-loaded], video[data-hm-loaded]{
 <div class="modal-backdrop" id="burger-backdrop"></div>
 <div class="burger-panel" id="burger-panel">
   <button class="burger-close-btn" id="burger-close-btn">✕</button>
+  <div class="burger-panel-head">
+    <div class="burger-panel-logo">honeymoon</div>
+    <div class="burger-panel-tagline" data-i18n="burgerTagline">Univers exclusif de créatrices</div>
+  </div>
   <nav class="burger-nav">
-    <button class="burger-nav-item" id="burger-home" data-i18n="burgerHome">Accueil</button>
-    <button class="burger-nav-item" id="burger-become-member" data-i18n="burgerBecomeMember">Devenir membre</button>
-    <button class="burger-nav-item" id="burger-apply-model" data-i18n="burgerApplyModel">Postuler pour être modèle</button>
-    <button class="burger-nav-item" id="burger-faq" data-i18n="burgerFaq">FAQ</button>
-    <button class="burger-nav-item" id="burger-rules" data-i18n="burgerRules">Règles du site</button>
-    <button class="burger-nav-item" id="burger-report-item" data-i18n="reportLinkLabel">🚩 Signaler un contenu</button>
-    <button class="burger-nav-item" id="burger-creator-login" data-i18n="burgerCreatorLogin">Connexion espace créatrice</button>
-    <button class="burger-nav-item" id="burger-agency-login" data-i18n="burgerAgencyLogin">Accès privé agences</button>
-    <button class="burger-nav-item" id="burger-logout-item" data-i18n="burgerLogout">Déconnexion</button>
+    <button class="burger-nav-item burger-nav-primary" id="burger-become-member"><span class="burger-nav-icon">✦</span><span data-i18n="burgerBecomeMember">Devenir membre</span></button>
+    <button class="burger-nav-item" id="burger-home"><span class="burger-nav-icon">⌂</span><span data-i18n="burgerHome">Accueil</span></button>
+    <button class="burger-nav-item" id="burger-apply-model"><span class="burger-nav-icon">◆</span><span data-i18n="burgerApplyModel">Postuler pour être modèle</span></button>
+    <div class="burger-nav-section-label" data-i18n="burgerSectionInfo">Informations</div>
+    <button class="burger-nav-item" id="burger-faq"><span class="burger-nav-icon">?</span><span data-i18n="burgerFaq">FAQ</span></button>
+    <button class="burger-nav-item" id="burger-rules"><span class="burger-nav-icon">§</span><span data-i18n="burgerRules">Règles du site</span></button>
+    <button class="burger-nav-item" id="burger-report-item"><span data-i18n="reportLinkLabel">🚩 Signaler un contenu</span></button>
+    <div class="burger-nav-section-label" data-i18n="burgerSectionAccount">Compte</div>
+    <button class="burger-nav-item" id="burger-creator-login"><span class="burger-nav-icon">🔑</span><span data-i18n="burgerCreatorLogin">Connexion espace créatrice</span></button>
+    <button class="burger-nav-item" id="burger-agency-login"><span class="burger-nav-icon">🏢</span><span data-i18n="burgerAgencyLogin">Accès privé agences</span></button>
+    <button class="burger-nav-item" id="burger-logout-item"><span class="burger-nav-icon">↩</span><span data-i18n="burgerLogout">Déconnexion</span></button>
   </nav>
 </div>
 
@@ -1447,7 +1740,7 @@ img[data-hm-loaded], video[data-hm-loaded]{
 
 <!-- ================= MEMBER MODAL (compte gratuit : inscription / connexion / vérification) ================= -->
 <div class="modal-backdrop" id="member-backdrop"></div>
-<div class="modal-box" id="member-modal">
+<div class="modal-box member-space-modal" id="member-modal">
   <button type="button" class="modal-back-btn" id="member-back-btn">← <span data-i18n="backToMenu">Retour au menu</span></button>
   <div id="member-modal-body"></div>
 </div>
@@ -1539,7 +1832,7 @@ img[data-hm-loaded], video[data-hm-loaded]{
 
 <!-- ================= VITRINE ROOM (profile detail: bio + gallery + likes + comments) ================= -->
 <div class="modal-backdrop" id="vitrine-backdrop"></div>
-<div class="modal-box vitrine-modal fullpage-modal" id="vitrine-room">
+<div class="modal-box vitrine-modal fullpage-modal member-space-modal" id="vitrine-room">
   <div class="fullpage-header">
     <button type="button" class="fullpage-back-btn" id="vitrine-room-close">←</button>
     <div class="fullpage-header-title" id="t-vitrine-room-close-label">Profil</div>
@@ -1676,19 +1969,16 @@ function isLocalTestEnvironment(){
   const proto = window.location.protocol;
   return proto !== 'https:' && proto !== 'http:';
 }
-const SLOT_COUNT = 12;
+const SLOT_COUNT = 150; // marge large : ajouter une créatrice = juste remplir un nouveau slot, jamais besoin de toucher au code
 
-// Un code par créatrice (par numéro de profil / "room"). Donne UNIQUEMENT
-// ce code à la créatrice concernée — il ouvre sa propre page, en lecture
-// seule (elle voit sa photo et ses vidéos, mais ne peut rien changer).
-const CREATOR_CODES = {
-  m1: 'HM01-7X2K',
-  m2: 'HM02-9F3T',
-  m3: 'HM03-2Q8R',
-  m4: 'HM04-5N1V',
-  m5: 'HM05-8L4Z',
-  m6: 'HM06-TEST'
-};
+// ===== Ancien système (codes fixes par créatrice, comparés côté client) — retiré :
+// ne passait pas à l'échelle au-delà d'une poignée de créatrices, et n'offrait
+// aucune vraie sécurité côté serveur. Remplacé par un vrai compte Firebase Auth
+// par créatrice (email + mot de passe), identifié via le champ "ownerEmail" sur
+// son propre document profils/{id} — voir le formulaire d'édition (admin) et
+// firestore.rules. Ajouter une nouvelle créatrice ne demande plus AUCUNE
+// modification de code, quel que soit leur nombre : juste un compte Firebase
+// Auth + le champ ownerEmail rempli dans son profil.
 
 // Connexion à Firebase — utilisée UNIQUEMENT pour le login admin à cette étape.
 // Les profils, photos, vidéos restent stockés comme avant (aucun changement).
@@ -1719,7 +2009,22 @@ try{
   console.error('Firebase init failed — le site continue de fonctionner sans synchronisation.', e);
 }
 
-let LANG = 'en';
+const SUPPORTED_LANGS = ['fr','en','es','it','pt','sw','zu','st','ln','kg'];
+function detectInitialLang(){
+  try{
+    const saved = localStorage.getItem('hm_lang');
+    if(saved && SUPPORTED_LANGS.includes(saved)) return saved;
+  }catch(e){}
+  try{
+    const browserLangs = navigator.languages || [navigator.language || 'en'];
+    for(const bl of browserLangs){
+      const code = (bl || '').slice(0, 2).toLowerCase();
+      if(SUPPORTED_LANGS.includes(code)) return code;
+    }
+  }catch(e){}
+  return 'en';
+}
+let LANG = detectInitialLang();
 
 const I18N = {
   fr: {
@@ -1729,7 +2034,17 @@ const I18N = {
     gateNote: "ce code d'accès est une simple barrière côté navigateur, pas une vraie authentification.",
     gateErr: 'Code incorrect.',
     gatePassPh: "Code d'accès",
-    creatorPassPh: "Ton code",
+    creatorPassPh: "Mot de passe",
+    creatorEmailPh: "Email",
+    creatorEmailLabel: "Email de connexion (créatrice)",
+    creatorEmailNote: "La créatrice crée elle-même son compte (lien \"Créer mon compte créatrice\" sur l'écran de connexion) — colle ici l'email qu'elle a choisi pour activer son profil. Fonctionne pour un nombre illimité de créatrices, sans jamais toucher au code.",
+    creatorSignupLink: "Pas encore de compte ? Créer mon compte créatrice",
+    creatorSignupSub: "Créer mon compte créatrice",
+    creatorSignupNote: "Crée ton compte toi-même. Ton profil sera activé par l'équipe Honeymoon une fois ta candidature validée.",
+    creatorSuSubmit: "Créer mon compte",
+    creatorLoginLink: "← Retour à la connexion",
+    creatorSignupSuccessToast: "Compte créé ! L'équipe va maintenant activer ton profil.",
+    creatorNotActivatedErr: "Compte trouvé, mais aucun profil ne t'est encore rattaché. Contacte l'équipe Honeymoon.",
     noPhotoYet: "Aucune photo",
     tipMenuContentRequired: "Ajoute un contenu (photo, vidéo ou audio) avant d'enregistrer cette ligne.",
     mockPurchaseNotice: "🔧 Achat fictif — le vrai système de paiement arrive bientôt. Aucun montant n'a été prélevé.",
@@ -1745,6 +2060,15 @@ const I18N = {
     tipMenuContentNote: "Importe ou prends directement la photo/vidéo/audio que tu vas vendre pour ce thème.",
     tipMenuOrderBtn: "Commander",
     tipMenuOrderPrefill: "Bonjour, je souhaite commander : {theme} ({price}€)",
+    tipOrderCardLabel: "Commande Tip Menu",
+    tipOrderDeliverBtn: "Livrer / Réglé",
+    ordersCustomTabLabel: "Commandes perso",
+    ordersTipTabLabel: "Commandes Tip Menu",
+    ordersCustomTabNote: "Toutes les demandes personnalisées reçues, avec le nom du membre et sa demande. Livre le contenu ou lance une discussion pour préciser les détails.",
+    ordersTipTabNote: "Toutes les commandes passées depuis ton Tip Menu, avec le nom du membre. Le contenu existe déjà : clique sur Livrer / Réglé pour le débloquer, ou discute du délai de livraison.",
+    ordersCustomEmpty: "Aucune commande personnalisée en attente.",
+    ordersTipEmpty: "Aucune commande Tip Menu en attente.",
+    ordersDiscussBtn: "💬 Discuter",
     tipMenuCurrencyCompareLink: "Comparer avec ma devise (Google)",
     chatModBtnLabel: "Conseils & règles",
     chatModTip1: "Sois respectueux(se) et bienveillant(e) : un bon échange commence toujours par de la politesse.",
@@ -1834,6 +2158,7 @@ const I18N = {
     paidMarkedPaidToast: "Vente confirmée !",
     paidExclusiveTitle: "Contenu exclusif",
     paidExclusiveNote: "Aperçu gratuit ci-dessous, contenu complet à débloquer.",
+    exclusiveSalesCount: "déjà débloqué {count} fois",
     paidTeaserBadge: "Teaser gratuit",
     paidUnlockBtn: "Débloquer pour",
     paidLockedPhoto: "Photo exclusive verrouillée",
@@ -1925,6 +2250,9 @@ const I18N = {
     legalDocTitlePrivacy: "Politique de confidentialité",
     legalDocTitlePricing: "Politique de prix et de remboursement",
     burgerHome: "Accueil",
+    burgerTagline: "Univers exclusif de créatrices",
+    burgerSectionInfo: "Informations",
+    burgerSectionAccount: "Compte",
     burgerCreatorLogin: "Connexion espace créatrice",
     burgerAgencyLogin: "Accès privé agences",
     burgerBecomeMember: "Devenir membre",
@@ -1937,6 +2265,9 @@ const I18N = {
     memberFreeBadge: "Compte 100% gratuit — sans frais d'inscription",
     memberLoginTitle: "Se connecter",
     memberSignupTitle: "Créer un compte membre",
+    memberSignupLine: "Discute avec tes créatrices favorites et débloque leur Tip Menu. Compte gratuit — tu ne payes que ce que tu choisis d'acheter.",
+    memberHomeWelcomeLine: "Suis tes créatrices favorites, discute avec elles, et retrouve tous tes achats ici.",
+    memberDiscoverCreatorsBtn: "Découvrir les créatrices",
     memberIdentifierLabel: "Nom d'utilisateur ou email",
     memberIdentifierPh: "ton_pseudo ou ton@email.com",
     memberUsernameLabel: "Nom d'utilisateur",
@@ -2026,7 +2357,13 @@ const I18N = {
     tierLabel_purple: "Violet",
     tierLabel_diamond: "Diamant",
     uxdLabel: "UXD",
-    uxdExplainNote: "UXD : ta présence de contribution envers les créatrices.",
+    uxdExplainNote: "UXD : ton statut de soutien. Plus tu montes, plus ton rang grandit.",
+    uxdLevelDesc_gray: "Le point de départ de tout nouveau membre.",
+    uxdLevelDesc_silver: "Tu commences à te démarquer parmi les fans.",
+    uxdLevelDesc_bronze: "Ton statut grimpe, tu entres dans le cercle des membres reconnus.",
+    uxdLevelDesc_gold: "Tu fais partie des membres les plus en vue de la communauté.",
+    uxdLevelDesc_purple: "Un rang d'élite, réservé à une poignée de membres.",
+    uxdLevelDesc_red: "Le rang suprême — ton statut est au sommet de Honeymoon.",
     tipMenuTabLabel: "Tip Menu",
     tipMenuTabNote: "Remplis ton menu par thème (photo, vidéo, audio). Les prix sont fixés par la plateforme — choisis-les dans la liste. Publie pour qu'il apparaisse sur ta page.",
     tipMenuThemePh: "Nom du thème (ex : lingerie)",
@@ -2070,6 +2407,12 @@ const I18N = {
     membersViewerBtn: "Membres",
     membersViewerTitle: "Membres qui partagent leur profil",
     membersViewerEmpty: "Aucun membre ne partage sa bio ou ses photos pour le moment.",
+    myMembersTabNote: "Retrouve ici les membres qui ont choisi de partager leur bio ou leurs photos avec toi, ceux que tu suis, et tes favoris.",
+    myMembersFilterAll: "Tous",
+    myMembersFilterFavorites: "Favoris",
+    myMembersNoFavorites: "Aucun favori pour le moment.",
+    myMembersFavoriteBtn: "Favori",
+    myMembersUnfavoriteBtn: "Retirer",
     memberVisibilityLabel: "Qui peut voir",
     memberVisibilityEveryone: "Toutes les créatrices",
     memberVisibilityFavorites: "Uniquement mes favoris",
@@ -2140,6 +2483,8 @@ const I18N = {
     memberGeolocUnsupported: "La géolocalisation n'est pas disponible sur cet appareil.",
     memberMyPhotosTitle: "Mes photos",
     memberMyPhotosNote: "Des photos personnelles, séparées de tes achats. Choisis ci-dessous si les créatrices peuvent les voir.",
+    memberPhotoDeleteBtn: "Supprimer cette photo",
+    memberPhotoDeleteConfirm: "Supprimer définitivement cette photo ?",
     memberPhotosVisibleLabel: "Rendre mes photos visibles par les créatrices",
     memberFavoritesNone: "Aucune créatrice en favori pour le moment. Appuie sur le ♡ sur une fiche pour l'ajouter.",
     memberFavoriteToggle: "Ajouter/retirer des favoris",
@@ -2288,7 +2633,7 @@ const I18N = {
     editToggleOn: "CTA",
     editToggleOff: 'Terminé',
     heroEyebrow: 'Catalogue',
-    heroTitle: 'créatrices, un contrat, une exigence : le sérieux.',
+    heroTitle: 'créatrices, un contrat, une exigence : <em>le sérieux</em>.',
     heroBody: "Le catalogue Honeymoon réunit 5 créatrices sous contrat exclusif, choisies pour leur sérieux et leur motivation. Certaines débutent dans le milieu : les attentes sont claires dès le départ, et elles s'y tiennent.",
     catalogueTitle: 'Le Catalogue',
     emptyName: 'Profil à venir bientôt',
@@ -2312,6 +2657,9 @@ const I18N = {
     contactTitle: 'Intéressé par une collaboration ?',
     contactBody: "Contactez l'équipe Honeymoon pour discuter d'un partenariat, obtenir plus d'informations sur une créatrice ou organiser une présentation.",
     contactBtn: 'Contacter Honeymoon',
+    agencyTrustContract: "Contrat signé pour chaque créatrice",
+    agencyTrustVerified: "Profils vérifiés 18+",
+    agencyTrustCountLabel: "créatrices sous contrat",
     footTag: 'Honeymoon — Confidentiel',
     modalTitle: 'Modifier le profil',
     stageName: 'Nom de scène',
@@ -2391,8 +2739,10 @@ const I18N = {
     statusOffline: 'Hors ligne',
     contentPolicyNote: "Photos et vidéos : lingerie ou tenue sexy uniquement (danse, twerk, sensuel, aguicheur autorisés). Aucun contenu nu — photo ou vidéo — n'est accepté.",
     vitrineHeroEyebrow: 'Site vitrine',
-    vitrineHeroTitle: 'Découvre nos créatrices',
+    vitrineHeroTitle: 'Découvre nos <em>créatrices</em>',
     vitrineHeroBody: "Un aperçu public des créatrices Honeymoon. Aime, laisse un commentaire, et découvre leur univers.",
+    vitrineHeroCta: "Rejoindre",
+    vitrineHeroTrustSuffix: "créatrices actives",
     vitrineBack: '← Retour',
     vitrineEmpty: 'Aucune créatrice publiée pour le moment.',
     visitSiteBtn: 'Visiter son site',
@@ -2418,7 +2768,17 @@ const I18N = {
     gateNote: 'this access code is a simple browser-side barrier, not real authentication.',
     gateErr: 'Incorrect code.',
     gatePassPh: "Access code",
-    creatorPassPh: "Your code",
+    creatorPassPh: "Password",
+    creatorEmailPh: "Email",
+    creatorEmailLabel: "Login email (creator)",
+    creatorEmailNote: "The creator creates her own account (\"Create my creator account\" link on the login screen) — paste here the email she chose to activate her profile. Works for an unlimited number of creators, without ever touching the code.",
+    creatorSignupLink: "No account yet? Create my creator account",
+    creatorSignupSub: "Create my creator account",
+    creatorSignupNote: "Create your own account. Your profile will be activated by the Honeymoon team once your application is approved.",
+    creatorSuSubmit: "Create my account",
+    creatorLoginLink: "← Back to login",
+    creatorSignupSuccessToast: "Account created! The team will now activate your profile.",
+    creatorNotActivatedErr: "Account found, but no profile is linked to it yet. Contact the Honeymoon team.",
     noPhotoYet: "No photo yet",
     tipMenuContentRequired: "Add content (photo, video or audio) before saving this line.",
     mockPurchaseNotice: "🔧 Mock purchase — the real payment system is coming soon. No amount was charged.",
@@ -2434,6 +2794,15 @@ const I18N = {
     tipMenuContentNote: "Import or capture directly the photo/video/audio you'll sell for this theme.",
     tipMenuOrderBtn: "Order",
     tipMenuOrderPrefill: "Hi, I'd like to order: {theme} ({price}€)",
+    tipOrderCardLabel: "Tip Menu order",
+    tipOrderDeliverBtn: "Deliver / Paid",
+    ordersCustomTabLabel: "Custom orders",
+    ordersTipTabLabel: "Tip Menu orders",
+    ordersCustomTabNote: "All custom requests you've received, with the member's name and their request. Deliver the content or open a discussion to nail down the details.",
+    ordersTipTabNote: "All orders placed from your Tip Menu, with the member's name. The content already exists: click Deliver / Paid to unlock it, or discuss delivery timing.",
+    ordersCustomEmpty: "No pending custom orders.",
+    ordersTipEmpty: "No pending Tip Menu orders.",
+    ordersDiscussBtn: "💬 Discuss",
     tipMenuCurrencyCompareLink: "Compare with my currency (Google)",
     chatModBtnLabel: "Tips & rules",
     chatModTip1: "Be respectful and kind: a good conversation always starts with politeness.",
@@ -2523,6 +2892,7 @@ const I18N = {
     paidMarkedPaidToast: "Sale confirmed!",
     paidExclusiveTitle: "Exclusive content",
     paidExclusiveNote: "Free preview below, unlock the full content.",
+    exclusiveSalesCount: "already unlocked {count} times",
     paidTeaserBadge: "Free teaser",
     paidUnlockBtn: "Unlock for",
     paidLockedPhoto: "Locked exclusive photo",
@@ -2614,6 +2984,9 @@ const I18N = {
     legalDocTitlePrivacy: "Privacy Policy",
     legalDocTitlePricing: "Pricing and Refund Policy",
     burgerHome: "Home",
+    burgerTagline: "An exclusive world of creators",
+    burgerSectionInfo: "Information",
+    burgerSectionAccount: "Account",
     burgerBecomeMember: "Become a member",
     burgerApplyModel: "Apply to become a creator",
     burgerFaq: "FAQ",
@@ -2626,6 +2999,9 @@ const I18N = {
     memberFreeBadge: "100% free account — no sign-up fees",
     memberLoginTitle: "Log in",
     memberSignupTitle: "Create a member account",
+    memberSignupLine: "Chat with your favorite creators and unlock their Tip Menu. Free account — you only pay for what you choose to buy.",
+    memberHomeWelcomeLine: "Follow your favorite creators, chat with them, and find all your purchases here.",
+    memberDiscoverCreatorsBtn: "Discover creators",
     memberIdentifierLabel: "Username or email",
     memberIdentifierPh: "your_username or you@email.com",
     memberUsernameLabel: "Username",
@@ -2715,7 +3091,13 @@ const I18N = {
     tierLabel_purple: "Purple",
     tierLabel_diamond: "Diamond",
     uxdLabel: "UXD",
-    uxdExplainNote: "UXD: your contribution presence toward the creators.",
+    uxdExplainNote: "UXD: your supporter status. The higher you climb, the more your rank grows.",
+    uxdLevelDesc_gray: "The starting point for every new member.",
+    uxdLevelDesc_silver: "You're starting to stand out among fans.",
+    uxdLevelDesc_bronze: "Your status is climbing — you're entering the circle of recognized members.",
+    uxdLevelDesc_gold: "You're among the most visible members of the community.",
+    uxdLevelDesc_purple: "An elite rank, reserved for a handful of members.",
+    uxdLevelDesc_red: "The top rank — your status sits at the summit of Honeymoon.",
     tipMenuTabLabel: "Tip Menu",
     tipMenuTabNote: "Fill in your menu by theme (photo, video, audio). Prices are set by the platform — pick them from the list. Publish so it appears on your page.",
     tipMenuThemePh: "Theme name (e.g. lingerie)",
@@ -2759,6 +3141,12 @@ const I18N = {
     membersViewerBtn: "Members",
     membersViewerTitle: "Members sharing their profile",
     membersViewerEmpty: "No members are sharing their bio or photos yet.",
+    myMembersTabNote: "Find members who chose to share their bio or photos with you, the ones you follow, and your favorites.",
+    myMembersFilterAll: "All",
+    myMembersFilterFavorites: "Favorites",
+    myMembersNoFavorites: "No favorites yet.",
+    myMembersFavoriteBtn: "Favorite",
+    myMembersUnfavoriteBtn: "Remove",
     memberVisibilityLabel: "Who can see",
     memberVisibilityEveryone: "All creators",
     memberVisibilityFavorites: "Only my favorites",
@@ -2829,6 +3217,8 @@ const I18N = {
     memberGeolocUnsupported: "Geolocation isn't available on this device.",
     memberMyPhotosTitle: "My photos",
     memberMyPhotosNote: "Personal photos, separate from your purchases. Choose below whether creators can see them.",
+    memberPhotoDeleteBtn: "Delete this photo",
+    memberPhotoDeleteConfirm: "Permanently delete this photo?",
     memberPhotosVisibleLabel: "Make my photos visible to creators",
     memberFavoritesNone: "No favorite creators yet. Tap ♡ on a profile to add one.",
     memberFavoriteToggle: "Add/remove from favorites",
@@ -2977,7 +3367,7 @@ const I18N = {
     editToggleOn: "CTA",
     editToggleOff: 'Done',
     heroEyebrow: 'Catalogue',
-    heroTitle: '5 creators, one contract, one standard: seriousness.',
+    heroTitle: '5 creators, one contract, one standard: <em>seriousness</em>.',
     heroBody: "The Honeymoon catalogue brings together 5 creators under exclusive contract, chosen for their seriousness and motivation. Some are new to the industry: expectations are made clear from the start, and they meet them.",
     catalogueTitle: 'The Catalogue',
     emptyName: 'Profile coming soon',
@@ -3001,6 +3391,9 @@ const I18N = {
     contactTitle: 'Interested in a collaboration?',
     contactBody: 'Contact the Honeymoon team to discuss a partnership, get more information about a creator, or arrange an introduction.',
     contactBtn: 'Contact Honeymoon',
+    agencyTrustContract: "Signed contract for every creator",
+    agencyTrustVerified: "18+ verified profiles",
+    agencyTrustCountLabel: "creators under contract",
     footTag: 'Honeymoon — Confidential',
     modalTitle: 'Edit profile',
     stageName: 'Stage name',
@@ -3080,8 +3473,10 @@ const I18N = {
     statusOffline: 'Offline',
     contentPolicyNote: 'Photos and videos: lingerie or sexy outfits only (dance, twerk, sensual, teasing content allowed). No nude content — photo or video — is accepted.',
     vitrineHeroEyebrow: 'Showcase site',
-    vitrineHeroTitle: 'Discover our creators',
+    vitrineHeroTitle: 'Discover our <em>creators</em>',
     vitrineHeroBody: 'A public preview of the Honeymoon creators. Like, leave a comment, and discover their world.',
+    vitrineHeroCta: 'Join',
+    vitrineHeroTrustSuffix: 'active creators',
     vitrineBack: '← Back',
     vitrineEmpty: 'No creator published yet.',
     visitSiteBtn: 'Visit her site',
@@ -3107,7 +3502,17 @@ const I18N = {
     gateNote: 'este código de acceso es una simple barrera del navegador, no una autenticación real.',
     gateErr: 'Código incorrecto.',
     gatePassPh: "Código de acceso",
-    creatorPassPh: "Tu código",
+    creatorPassPh: "Contraseña",
+    creatorEmailPh: "Email",
+    creatorEmailLabel: "Email de acceso (creadora)",
+    creatorEmailNote: "La creadora crea su propia cuenta (enlace \"Crear mi cuenta de creadora\" en la pantalla de acceso) — pega aquí el email que eligió para activar su perfil. Funciona para un número ilimitado de creadoras, sin tocar nunca el código.",
+    creatorSignupLink: "¿Aún no tienes cuenta? Crear mi cuenta de creadora",
+    creatorSignupSub: "Crear mi cuenta de creadora",
+    creatorSignupNote: "Crea tu propia cuenta. Tu perfil será activado por el equipo de Honeymoon una vez aprobada tu solicitud.",
+    creatorSuSubmit: "Crear mi cuenta",
+    creatorLoginLink: "← Volver al acceso",
+    creatorSignupSuccessToast: "¡Cuenta creada! El equipo activará ahora tu perfil.",
+    creatorNotActivatedErr: "Cuenta encontrada, pero aún no hay ningún perfil vinculado. Contacta al equipo de Honeymoon.",
     noPhotoYet: "Sin foto",
     tipMenuContentRequired: "Añade contenido (foto, video o audio) antes de guardar esta línea.",
     mockPurchaseNotice: "🔧 Compra ficticia — el sistema de pago real llegará pronto. No se cobró ningún importe.",
@@ -3123,6 +3528,15 @@ const I18N = {
     tipMenuContentNote: "Importa o captura directamente la foto/video/audio que venderás para este tema.",
     tipMenuOrderBtn: "Pedir",
     tipMenuOrderPrefill: "Hola, quisiera pedir: {theme} ({price}€)",
+    tipOrderCardLabel: "Pedido del Tip Menu",
+    tipOrderDeliverBtn: "Entregar / Pagado",
+    ordersCustomTabLabel: "Pedidos personalizados",
+    ordersTipTabLabel: "Pedidos del Tip Menu",
+    ordersCustomTabNote: "Todas las solicitudes personalizadas recibidas, con el nombre del miembro y su pedido. Entrega el contenido o abre una conversación para precisar los detalles.",
+    ordersTipTabNote: "Todos los pedidos hechos desde tu Tip Menu, con el nombre del miembro. El contenido ya existe: pulsa Entregar / Pagado para desbloquearlo, o habla sobre el plazo de entrega.",
+    ordersCustomEmpty: "No hay pedidos personalizados pendientes.",
+    ordersTipEmpty: "No hay pedidos del Tip Menu pendientes.",
+    ordersDiscussBtn: "💬 Hablar",
     tipMenuCurrencyCompareLink: "Comparar con mi moneda (Google)",
     chatModBtnLabel: "Consejos y reglas",
     chatModTip1: "Sé respetuoso/a y amable: una buena conversación siempre empieza con cortesía.",
@@ -3221,6 +3635,7 @@ const I18N = {
     paidMarkedPaidToast: "¡Venta confirmada!",
     paidExclusiveTitle: "Contenido exclusivo",
     paidExclusiveNote: "Vista previa gratis abajo, desbloquea el contenido completo.",
+    exclusiveSalesCount: "ya desbloqueado {count} veces",
     paidTeaserBadge: "Teaser gratis",
     paidUnlockBtn: "Desbloquear por",
     paidLockedPhoto: "Foto exclusiva bloqueada",
@@ -3312,6 +3727,9 @@ const I18N = {
     legalDocTitlePrivacy: "Política de privacidad",
     legalDocTitlePricing: "Política de precios y reembolsos",
     burgerHome: "Inicio",
+    burgerTagline: "Un universo exclusivo de creadoras",
+    burgerSectionInfo: "Información",
+    burgerSectionAccount: "Cuenta",
     burgerBecomeMember: "Hacerse miembro",
     burgerApplyModel: "Postular para ser modelo",
     burgerFaq: "FAQ",
@@ -3397,7 +3815,7 @@ const I18N = {
     editToggleOn: "CTA",
     editToggleOff: 'Listo',
     heroEyebrow: 'Catálogo',
-    heroTitle: '5 creadoras, un contrato, una exigencia: la seriedad.',
+    heroTitle: '5 creadoras, un contrato, una exigencia: <em>la seriedad</em>.',
     heroBody: 'El catálogo Honeymoon reúne a 5 creadoras bajo contrato exclusivo, elegidas por su seriedad y motivación. Algunas son nuevas en la industria: las expectativas se explican claramente desde el principio, y ellas las cumplen.',
     catalogueTitle: 'El Catálogo',
     emptyName: 'Perfil próximamente',
@@ -3421,6 +3839,9 @@ const I18N = {
     contactTitle: '¿Interesado en una colaboración?',
     contactBody: 'Contacta al equipo de Honeymoon para hablar de una colaboración, obtener más información sobre una creadora u organizar una presentación.',
     contactBtn: 'Contactar Honeymoon',
+    agencyTrustContract: "Contrato firmado por cada creadora",
+    agencyTrustVerified: "Perfiles verificados 18+",
+    agencyTrustCountLabel: "creadoras bajo contrato",
     footTag: 'Honeymoon — Confidencial',
     modalTitle: 'Editar perfil',
     stageName: 'Nombre artístico',
@@ -3500,8 +3921,10 @@ const I18N = {
     statusOffline: 'Desconectada',
     contentPolicyNote: 'Fotos y videos: solo lencería o ropa sexy (baile, twerk, sensual, provocador permitido). No se acepta contenido desnudo, ni foto ni video.',
     vitrineHeroEyebrow: 'Sitio vitrina',
-    vitrineHeroTitle: 'Descubre a nuestras creadoras',
+    vitrineHeroTitle: 'Descubre a nuestras <em>creadoras</em>',
     vitrineHeroBody: 'Una vista pública de las creadoras Honeymoon. Da like, deja un comentario y descubre su universo.',
+    vitrineHeroCta: 'Unirme',
+    vitrineHeroTrustSuffix: 'creadoras activas',
     vitrineBack: '← Volver',
     vitrineEmpty: 'Ninguna creadora publicada por el momento.',
     visitSiteBtn: 'Visitar su sitio',
@@ -3641,6 +4064,8 @@ const I18N = {
     memberLoginInstead: "Inicia sesión",
     memberLoginTitle: "Iniciar sesión",
     memberMyPhotosNote: "Fotos personales, separadas de tus compras. Elige abajo si las creadoras pueden verlas.",
+    memberPhotoDeleteBtn: "Eliminar esta foto",
+    memberPhotoDeleteConfirm: "¿Eliminar esta foto definitivamente?",
     memberMyPhotosTitle: "Mis fotos",
     memberNewPasswordLabel: "Nueva contraseña",
     memberNewPasswordPh: "Nueva contraseña (6 caracteres mín.)",
@@ -3666,6 +4091,9 @@ const I18N = {
     memberSignupBtn: "Crear mi cuenta",
     memberSignupSuccessToast: "Cuenta creada con éxito.",
     memberSignupTitle: "Crear una cuenta de miembro",
+    memberSignupLine: "Habla con tus creadoras favoritas y desbloquea su Tip Menu. Cuenta gratuita — solo pagas lo que decides comprar.",
+    memberHomeWelcomeLine: "Sigue a tus creadoras favoritas, habla con ellas y encuentra aquí todas tus compras.",
+    memberDiscoverCreatorsBtn: "Descubrir creadoras",
     memberTabFavorites: "Favoritos",
     memberTabMessages: "Mensajes",
     memberTabProfile: "Perfil",
@@ -3727,6 +4155,12 @@ const I18N = {
     memberVisibilityNobody: "Nadie",
     membersViewerBtn: "Miembros",
     membersViewerEmpty: "Ningún miembro comparte su biografía o fotos por ahora.",
+    myMembersTabNote: "Encuentra aquí a los miembros que eligieron compartir su bio o fotos contigo, a los que sigues y tus favoritos.",
+    myMembersFilterAll: "Todos",
+    myMembersFilterFavorites: "Favoritos",
+    myMembersNoFavorites: "Aún no hay favoritos.",
+    myMembersFavoriteBtn: "Favorito",
+    myMembersUnfavoriteBtn: "Quitar",
     membersViewerTitle: "Miembros que comparten su perfil",
     myFamilyPopularity: "Popularidad",
     popularityTabNote: "Tu insignia de popularidad, tus seguidores y las personas que sigues.",
@@ -3780,7 +4214,13 @@ const I18N = {
     tipMenuTheme_pov_intime: "POV íntimo",
     tipMenuTheme_roleplay: "Juego de rol",
     tipMenuTheme_strip_tease: "Striptease",
-    uxdExplainNote: "UXD: tu presencia de contribución hacia las creadoras.",
+    uxdExplainNote: "UXD: tu estatus de fan. Cuanto más subes, más crece tu rango.",
+    uxdLevelDesc_gray: "El punto de partida para todo nuevo miembro.",
+    uxdLevelDesc_silver: "Empiezas a destacar entre los fans.",
+    uxdLevelDesc_bronze: "Tu estatus sube — entras en el círculo de miembros reconocidos.",
+    uxdLevelDesc_gold: "Formas parte de los miembros más destacados de la comunidad.",
+    uxdLevelDesc_purple: "Un rango de élite, reservado a unos pocos miembros.",
+    uxdLevelDesc_red: "El rango supremo — tu estatus está en la cima de Honeymoon.",
     uxdLabel: "UXD",
     visitorNeedsAccountChat: "Regístrate gratis para enviar un mensaje a esta creadora — próximamente disponible.",
     visitorNeedsAccountFavorite: "Regístrate gratis para añadir creadoras a favoritos — próximamente disponible.",
@@ -3793,7 +4233,17 @@ const I18N = {
     gateNote: "questo codice di accesso è una semplice barriera lato browser, non una vera autenticazione.",
     gateErr: "Codice errato.",
     gatePassPh: "Codice di accesso",
-    creatorPassPh: "Il tuo codice",
+    creatorPassPh: "Password",
+    creatorEmailPh: "Email",
+    creatorEmailLabel: "Email di accesso (creatrice)",
+    creatorEmailNote: "La creatrice crea da sola il proprio account (link \"Crea il mio account creatrice\" nella schermata di accesso) — incolla qui l'email che ha scelto per attivare il suo profilo. Funziona per un numero illimitato di creatrici, senza mai toccare il codice.",
+    creatorSignupLink: "Non hai ancora un account? Crea il mio account creatrice",
+    creatorSignupSub: "Crea il mio account creatrice",
+    creatorSignupNote: "Crea il tuo account da sola. Il tuo profilo sarà attivato dal team Honeymoon una volta approvata la tua candidatura.",
+    creatorSuSubmit: "Crea il mio account",
+    creatorLoginLink: "← Torna all'accesso",
+    creatorSignupSuccessToast: "Account creato! Il team attiverà ora il tuo profilo.",
+    creatorNotActivatedErr: "Account trovato, ma nessun profilo è ancora collegato. Contatta il team Honeymoon.",
     noPhotoYet: "Nessuna foto",
     tipMenuContentRequired: "Aggiungi un contenuto (foto, video o audio) prima di salvare questa riga.",
     mockPurchaseNotice: "🔧 Acquisto fittizio — il vero sistema di pagamento arriverà presto. Nessun importo è stato addebitato.",
@@ -3809,6 +4259,15 @@ const I18N = {
     tipMenuContentNote: "Importa o cattura direttamente la foto/video/audio che venderai per questo tema.",
     tipMenuOrderBtn: "Ordina",
     tipMenuOrderPrefill: "Ciao, vorrei ordinare: {theme} ({price}€)",
+    tipOrderCardLabel: "Ordine dal Tip Menu",
+    tipOrderDeliverBtn: "Consegna / Pagato",
+    ordersCustomTabLabel: "Ordini personalizzati",
+    ordersTipTabLabel: "Ordini Tip Menu",
+    ordersCustomTabNote: "Tutte le richieste personalizzate ricevute, con il nome del membro e la sua richiesta. Consegna il contenuto o apri una discussione per definire i dettagli.",
+    ordersTipTabNote: "Tutti gli ordini effettuati dal tuo Tip Menu, con il nome del membro. Il contenuto esiste già: clicca su Consegna / Pagato per sbloccarlo, oppure discuti i tempi di consegna.",
+    ordersCustomEmpty: "Nessun ordine personalizzato in attesa.",
+    ordersTipEmpty: "Nessun ordine Tip Menu in attesa.",
+    ordersDiscussBtn: "💬 Discuti",
     tipMenuCurrencyCompareLink: "Confronta con la mia valuta (Google)",
     chatModBtnLabel: "Consigli e regole",
     chatModTip1: "Sii rispettoso/a e gentile: una buona conversazione inizia sempre con la cortesia.",
@@ -3907,6 +4366,7 @@ const I18N = {
     paidMarkedPaidToast: "Vendita confermata!",
     paidExclusiveTitle: "Contenuto esclusivo",
     paidExclusiveNote: "Anteprima gratuita qui sotto, sblocca il contenuto completo.",
+    exclusiveSalesCount: "già sbloccato {count} volte",
     paidTeaserBadge: "Teaser gratuito",
     paidUnlockBtn: "Sblocca per",
     paidLockedPhoto: "Foto esclusiva bloccata",
@@ -3998,6 +4458,9 @@ const I18N = {
     legalDocTitlePrivacy: "Informativa sulla privacy",
     legalDocTitlePricing: "Politica dei prezzi e dei rimborsi",
     burgerHome: "Home",
+    burgerTagline: "Un universo esclusivo di creatrici",
+    burgerSectionInfo: "Informazioni",
+    burgerSectionAccount: "Account",
     burgerBecomeMember: "Diventare membro",
     burgerApplyModel: "Candidati per diventare modella",
     burgerFaq: "FAQ",
@@ -4083,7 +4546,7 @@ const I18N = {
     editToggleOn: "CTA",
     editToggleOff: "Fatto",
     heroEyebrow: "Catalogo",
-    heroTitle: "5 creatrici, un contratto, un'esigenza: la serietà.",
+    heroTitle: "5 creatrici, un contratto, un'esigenza: <em>la serietà</em>.",
     heroBody: "Il catalogo Honeymoon riunisce 5 creatrici sotto contratto esclusivo, scelte per la loro serietà e motivazione. Alcune sono agli inizi: le aspettative sono chiare fin dall'inizio, e le rispettano.",
     catalogueTitle: "Il Catalogo",
     emptyName: "Profilo in arrivo presto",
@@ -4107,6 +4570,9 @@ const I18N = {
     contactTitle: "Interessato a una collaborazione?",
     contactBody: "Contatta il team Honeymoon per discutere di una partnership, ottenere maggiori informazioni su una creatrice o organizzare una presentazione.",
     contactBtn: "Contatta Honeymoon",
+    agencyTrustContract: "Contratto firmato per ogni creatrice",
+    agencyTrustVerified: "Profili verificati 18+",
+    agencyTrustCountLabel: "creatrici sotto contratto",
     footTag: "Honeymoon — Riservato",
     modalTitle: "Modifica il profilo",
     stageName: "Nome d'arte",
@@ -4186,8 +4652,10 @@ const I18N = {
     statusOffline: "Offline",
     contentPolicyNote: "Foto e video: solo lingerie o abiti sexy (ballo, twerk, sensuale, provocante permessi). Nessun contenuto nudo — foto o video — è accettato.",
     vitrineHeroEyebrow: "Sito vetrina",
-    vitrineHeroTitle: "Scopri le nostre creatrici",
+    vitrineHeroTitle: "Scopri le nostre <em>creatrici</em>",
     vitrineHeroBody: "Un'anteprima pubblica delle creatrici Honeymoon. Metti mi piace, lascia un commento e scopri il loro universo.",
+    vitrineHeroCta: "Iscriviti",
+    vitrineHeroTrustSuffix: "creatrici attive",
     vitrineBack: "← Indietro",
     vitrineEmpty: "Nessuna creatrice pubblicata per ora.",
     visitSiteBtn: "Visita il suo sito",
@@ -4327,6 +4795,8 @@ const I18N = {
     memberLoginInstead: "Accedi",
     memberLoginTitle: "Accedi",
     memberMyPhotosNote: "Foto personali, separate dai tuoi acquisti. Scegli qui sotto se le creatrici possono vederle.",
+    memberPhotoDeleteBtn: "Elimina questa foto",
+    memberPhotoDeleteConfirm: "Eliminare definitivamente questa foto?",
     memberMyPhotosTitle: "Le mie foto",
     memberNewPasswordLabel: "Nuova password",
     memberNewPasswordPh: "Nuova password (min. 6 caratteri)",
@@ -4352,6 +4822,9 @@ const I18N = {
     memberSignupBtn: "Crea il mio account",
     memberSignupSuccessToast: "Account creato con successo.",
     memberSignupTitle: "Crea un account membro",
+    memberSignupLine: "Chatta con le tue creatrici preferite e sblocca il loro Tip Menu. Account gratuito — paghi solo ciò che scegli di acquistare.",
+    memberHomeWelcomeLine: "Segui le tue creatrici preferite, chatta con loro e ritrova qui tutti i tuoi acquisti.",
+    memberDiscoverCreatorsBtn: "Scopri le creatrici",
     memberTabFavorites: "Preferiti",
     memberTabMessages: "Messaggi",
     memberTabProfile: "Profilo",
@@ -4413,6 +4886,12 @@ const I18N = {
     memberVisibilityNobody: "Nessuno",
     membersViewerBtn: "Membri",
     membersViewerEmpty: "Nessun membro condivide la propria bio o foto al momento.",
+    myMembersTabNote: "Trova qui i membri che hanno scelto di condividere la loro bio o foto con te, quelli che segui e i tuoi preferiti.",
+    myMembersFilterAll: "Tutti",
+    myMembersFilterFavorites: "Preferiti",
+    myMembersNoFavorites: "Nessun preferito per ora.",
+    myMembersFavoriteBtn: "Preferito",
+    myMembersUnfavoriteBtn: "Rimuovi",
     membersViewerTitle: "Membri che condividono il profilo",
     myFamilyPopularity: "Popolarità",
     popularityTabNote: "Il tuo badge di popolarità, i tuoi follower e le persone che segui.",
@@ -4466,7 +4945,13 @@ const I18N = {
     tipMenuTheme_pov_intime: "POV intimo",
     tipMenuTheme_roleplay: "Gioco di ruolo",
     tipMenuTheme_strip_tease: "Spogliarello",
-    uxdExplainNote: "UXD: la tua presenza di contributo verso le creatrici.",
+    uxdExplainNote: "UXD: il tuo status di sostenitore. Più sali, più cresce il tuo rango.",
+    uxdLevelDesc_gray: "Il punto di partenza per ogni nuovo membro.",
+    uxdLevelDesc_silver: "Inizi a distinguerti tra i fan.",
+    uxdLevelDesc_bronze: "Il tuo status sale — entri nella cerchia dei membri riconosciuti.",
+    uxdLevelDesc_gold: "Fai parte dei membri più in vista della community.",
+    uxdLevelDesc_purple: "Un rango d'élite, riservato a pochi membri.",
+    uxdLevelDesc_red: "Il rango supremo — il tuo status è al vertice di Honeymoon.",
     uxdLabel: "UXD",
     visitorNeedsAccountChat: "Iscriviti gratuitamente per inviare un messaggio a questa creatrice — presto disponibile.",
     visitorNeedsAccountFavorite: "Iscriviti gratuitamente per aggiungere creatrici ai preferiti — presto disponibile.",
@@ -4479,7 +4964,17 @@ const I18N = {
     gateNote: "este código de acesso é apenas uma barreira do lado do navegador, não uma autenticação real.",
     gateErr: "Código incorreto.",
     gatePassPh: "Código de acesso",
-    creatorPassPh: "O teu código",
+    creatorPassPh: "Palavra-passe",
+    creatorEmailPh: "Email",
+    creatorEmailLabel: "Email de acesso (criadora)",
+    creatorEmailNote: "A criadora cria a sua própria conta (link \"Criar a minha conta de criadora\" no ecrã de acesso) — cola aqui o email que ela escolheu para ativar o perfil. Funciona para um número ilimitado de criadoras, sem nunca tocar no código.",
+    creatorSignupLink: "Ainda não tens conta? Criar a minha conta de criadora",
+    creatorSignupSub: "Criar a minha conta de criadora",
+    creatorSignupNote: "Cria a tua própria conta. O teu perfil será ativado pela equipa Honeymoon assim que a tua candidatura for aprovada.",
+    creatorSuSubmit: "Criar a minha conta",
+    creatorLoginLink: "← Voltar ao acesso",
+    creatorSignupSuccessToast: "Conta criada! A equipa vai agora ativar o teu perfil.",
+    creatorNotActivatedErr: "Conta encontrada, mas ainda nenhum perfil está associado. Contacta a equipa Honeymoon.",
     noPhotoYet: "Ainda sem foto",
     tipMenuContentRequired: "Adicione um conteúdo (foto, vídeo ou áudio) antes de salvar esta linha.",
     mockPurchaseNotice: "🔧 Compra fictícia — o sistema de pagamento real chega em breve. Nenhum valor foi cobrado.",
@@ -4495,6 +4990,15 @@ const I18N = {
     tipMenuContentNote: "Importe ou capture diretamente a foto/vídeo/áudio que você vai vender para este tema.",
     tipMenuOrderBtn: "Encomendar",
     tipMenuOrderPrefill: "Olá, gostaria de encomendar: {theme} ({price}€)",
+    tipOrderCardLabel: "Pedido do Tip Menu",
+    tipOrderDeliverBtn: "Entregar / Pago",
+    ordersCustomTabLabel: "Pedidos personalizados",
+    ordersTipTabLabel: "Pedidos do Tip Menu",
+    ordersCustomTabNote: "Todos os pedidos personalizados recebidos, com o nome do membro e o pedido. Entrega o conteúdo ou abre uma conversa para definir os detalhes.",
+    ordersTipTabNote: "Todos os pedidos feitos a partir do teu Tip Menu, com o nome do membro. O conteúdo já existe: clica em Entregar / Pago para desbloquear, ou conversa sobre o prazo de entrega.",
+    ordersCustomEmpty: "Nenhum pedido personalizado pendente.",
+    ordersTipEmpty: "Nenhum pedido do Tip Menu pendente.",
+    ordersDiscussBtn: "💬 Conversar",
     tipMenuCurrencyCompareLink: "Comparar com minha moeda (Google)",
     chatModBtnLabel: "Dicas e regras",
     chatModTip1: "Seja respeitoso(a) e gentil: uma boa conversa sempre começa com educação.",
@@ -4593,6 +5097,7 @@ const I18N = {
     paidMarkedPaidToast: "Venda confirmada!",
     paidExclusiveTitle: "Conteúdo exclusivo",
     paidExclusiveNote: "Pré-visualização grátis abaixo, desbloqueia o conteúdo completo.",
+    exclusiveSalesCount: "já desbloqueado {count} vezes",
     paidTeaserBadge: "Teaser grátis",
     paidUnlockBtn: "Desbloquear por",
     paidLockedPhoto: "Foto exclusiva bloqueada",
@@ -4684,6 +5189,9 @@ const I18N = {
     legalDocTitlePrivacy: "Política de privacidade",
     legalDocTitlePricing: "Política de preços e reembolsos",
     burgerHome: "Início",
+    burgerTagline: "Um universo exclusivo de criadoras",
+    burgerSectionInfo: "Informações",
+    burgerSectionAccount: "Conta",
     burgerBecomeMember: "Tornar-se membro",
     burgerApplyModel: "Candidatar para ser modelo",
     burgerFaq: "FAQ",
@@ -4769,7 +5277,7 @@ const I18N = {
     editToggleOn: "CTA",
     editToggleOff: "Concluído",
     heroEyebrow: "Catálogo",
-    heroTitle: "5 criadoras, um contrato, uma exigência: seriedade.",
+    heroTitle: "5 criadoras, um contrato, uma exigência: <em>seriedade</em>.",
     heroBody: "O catálogo Honeymoon reúne 5 criadoras sob contrato exclusivo, escolhidas pela sua seriedade e motivação. Algumas estão começando: as expectativas são claras desde o início, e elas as cumprem.",
     catalogueTitle: "O Catálogo",
     emptyName: "Perfil brevemente disponível",
@@ -4793,6 +5301,9 @@ const I18N = {
     contactTitle: "Interessado numa colaboração?",
     contactBody: "Contacte a equipa Honeymoon para discutir uma parceria, obter mais informações sobre uma criadora ou organizar uma apresentação.",
     contactBtn: "Contactar Honeymoon",
+    agencyTrustContract: "Contrato assinado por cada criadora",
+    agencyTrustVerified: "Perfis verificados 18+",
+    agencyTrustCountLabel: "criadoras sob contrato",
     footTag: "Honeymoon — Confidencial",
     modalTitle: "Editar o perfil",
     stageName: "Nome artístico",
@@ -4872,8 +5383,10 @@ const I18N = {
     statusOffline: "Offline",
     contentPolicyNote: "Fotos e vídeos: apenas lingerie ou roupa sexy (dança, twerk, sensual, provocante permitido). Nenhum conteúdo nu — foto ou vídeo — é aceite.",
     vitrineHeroEyebrow: "Site vitrine",
-    vitrineHeroTitle: "Descobre as nossas criadoras",
+    vitrineHeroTitle: "Descobre as nossas <em>criadoras</em>",
     vitrineHeroBody: "Uma pré-visualização pública das criadoras Honeymoon. Gosta, deixa um comentário e descobre o seu universo.",
+    vitrineHeroCta: "Aderir",
+    vitrineHeroTrustSuffix: "criadoras ativas",
     vitrineBack: "← Voltar",
     vitrineEmpty: "Nenhuma criadora publicada por enquanto.",
     visitSiteBtn: "Visitar o seu site",
@@ -5013,6 +5526,8 @@ const I18N = {
     memberLoginInstead: "Inicia sessão",
     memberLoginTitle: "Iniciar sessão",
     memberMyPhotosNote: "Fotos pessoais, separadas das tuas compras. Escolhe abaixo se as criadoras as podem ver.",
+    memberPhotoDeleteBtn: "Excluir esta foto",
+    memberPhotoDeleteConfirm: "Excluir definitivamente esta foto?",
     memberMyPhotosTitle: "As minhas fotos",
     memberNewPasswordLabel: "Nova palavra-passe",
     memberNewPasswordPh: "Nova palavra-passe (mín. 6 caracteres)",
@@ -5038,6 +5553,9 @@ const I18N = {
     memberSignupBtn: "Criar a minha conta",
     memberSignupSuccessToast: "Conta criada com sucesso.",
     memberSignupTitle: "Criar uma conta de membro",
+    memberSignupLine: "Conversa com as tuas criadoras favoritas e desbloqueia o Tip Menu delas. Conta gratuita — só pagas o que escolheres comprar.",
+    memberHomeWelcomeLine: "Segue as tuas criadoras favoritas, conversa com elas e encontra aqui todas as tuas compras.",
+    memberDiscoverCreatorsBtn: "Descobrir criadoras",
     memberTabFavorites: "Favoritos",
     memberTabMessages: "Mensagens",
     memberTabProfile: "Perfil",
@@ -5099,6 +5617,12 @@ const I18N = {
     memberVisibilityNobody: "Ninguém",
     membersViewerBtn: "Membros",
     membersViewerEmpty: "Nenhum membro compartilha sua bio ou fotos no momento.",
+    myMembersTabNote: "Encontra aqui os membros que escolheram partilhar a bio ou fotos contigo, os que segues e os teus favoritos.",
+    myMembersFilterAll: "Todos",
+    myMembersFilterFavorites: "Favoritos",
+    myMembersNoFavorites: "Ainda sem favoritos.",
+    myMembersFavoriteBtn: "Favorito",
+    myMembersUnfavoriteBtn: "Remover",
     membersViewerTitle: "Membros que compartilham o perfil",
     myFamilyPopularity: "Popularidade",
     popularityTabNote: "Seu selo de popularidade, seus seguidores e as pessoas que você segue.",
@@ -5152,7 +5676,13 @@ const I18N = {
     tipMenuTheme_pov_intime: "POV íntimo",
     tipMenuTheme_roleplay: "Encenação",
     tipMenuTheme_strip_tease: "Striptease",
-    uxdExplainNote: "UXD: sua presença de contribuição para as criadoras.",
+    uxdExplainNote: "UXD: seu status de apoiador. Quanto mais você sobe, mais cresce seu ranking.",
+    uxdLevelDesc_gray: "O ponto de partida para todo novo membro.",
+    uxdLevelDesc_silver: "Você começa a se destacar entre os fãs.",
+    uxdLevelDesc_bronze: "Seu status sobe — você entra no círculo dos membros reconhecidos.",
+    uxdLevelDesc_gold: "Você está entre os membros mais em destaque da comunidade.",
+    uxdLevelDesc_purple: "Um rank de elite, reservado a poucos membros.",
+    uxdLevelDesc_red: "O rank supremo — seu status está no topo da Honeymoon.",
     uxdLabel: "UXD",
     visitorNeedsAccountChat: "Cadastre-se grátis para enviar mensagem a esta criadora — em breve disponível.",
     visitorNeedsAccountFavorite: "Cadastre-se grátis para adicionar criadoras aos favoritos — em breve disponível.",
@@ -5165,7 +5695,17 @@ const I18N = {
     gateNote: "nambari hii ya ufikiaji ni kizuizi rahisi cha kivinjari tu, si uthibitishaji halisi.",
     gateErr: "Nambari sio sahihi.",
     gatePassPh: "Nambari ya kuingia",
-    creatorPassPh: "Nambari yako",
+    creatorPassPh: "Nenosiri",
+    creatorEmailPh: "Email",
+    creatorEmailLabel: "Barua pepe ya kuingia (muundaji)",
+    creatorEmailNote: "Muundaji anaunda akaunti yake mwenyewe (kiungo \"Tengeneza akaunti yangu ya muundaji\" kwenye skrini ya kuingia) — bandika hapa barua pepe aliyochagua kuamsha wasifu wake. Inafanya kazi kwa idadi isiyo na kikomo ya waundaji, bila kugusa msimbo kamwe.",
+    creatorSignupLink: "Huna akaunti bado? Tengeneza akaunti yangu ya muundaji",
+    creatorSignupSub: "Tengeneza akaunti yangu ya muundaji",
+    creatorSignupNote: "Tengeneza akaunti yako mwenyewe. Wasifu wako utaamshwa na timu ya Honeymoon mara ombi lako litakapokubaliwa.",
+    creatorSuSubmit: "Tengeneza akaunti yangu",
+    creatorLoginLink: "← Rudi kuingia",
+    creatorSignupSuccessToast: "Akaunti imeundwa! Timu itaamsha sasa wasifu wako.",
+    creatorNotActivatedErr: "Akaunti imepatikana, lakini hakuna wasifu uliounganishwa bado. Wasiliana na timu ya Honeymoon.",
     noPhotoYet: "Hakuna picha bado",
     tipMenuContentRequired: "Ongeza maudhui (picha, video au sauti) kabla ya kuhifadhi mstari huu.",
     mockPurchaseNotice: "🔧 Ununuzi wa kudhaniwa — mfumo halisi wa malipo unakuja hivi karibuni. Hakuna kiasi kilichotozwa.",
@@ -5181,6 +5721,15 @@ const I18N = {
     tipMenuContentNote: "Leta au piga moja kwa moja picha/video/sauti utakayouza kwa mada hii.",
     tipMenuOrderBtn: "Agiza",
     tipMenuOrderPrefill: "Habari, ningependa kuagiza: {theme} ({price}€)",
+    tipOrderCardLabel: "Agizo la Tip Menu",
+    tipOrderDeliverBtn: "Peleka / Imelipwa",
+    ordersCustomTabLabel: "Maagizo maalum",
+    ordersTipTabLabel: "Maagizo ya Tip Menu",
+    ordersCustomTabNote: "Maombi yote maalum uliyopokea, pamoja na jina la mwanachama na ombi lake. Peleka maudhui au fungua mazungumzo kufafanua maelezo.",
+    ordersTipTabNote: "Maagizo yote yaliyotolewa kutoka Tip Menu yako, pamoja na jina la mwanachama. Maudhui tayari yapo: bofya Peleka / Imelipwa kufungua, au zungumza kuhusu muda wa kupeleka.",
+    ordersCustomEmpty: "Hakuna maagizo maalum yanayosubiri.",
+    ordersTipEmpty: "Hakuna maagizo ya Tip Menu yanayosubiri.",
+    ordersDiscussBtn: "💬 Zungumza",
     tipMenuCurrencyCompareLink: "Linganisha na sarafu yangu (Google)",
     chatModBtnLabel: "Vidokezo na kanuni",
     chatModTip1: "Kuwa na heshima na fadhili: mazungumzo mazuri huanza kwa adabu daima.",
@@ -5279,6 +5828,7 @@ const I18N = {
     paidMarkedPaidToast: "Mauzo yamethibitishwa!",
     paidExclusiveTitle: "Maudhui ya kipekee",
     paidExclusiveNote: "Muhtasari wa bure hapa chini, fungua maudhui kamili.",
+    exclusiveSalesCount: "tayari imefunguliwa mara {count}",
     paidTeaserBadge: "Teaser ya bure",
     paidUnlockBtn: "Fungua kwa",
     paidLockedPhoto: "Picha ya kipekee iliyofungwa",
@@ -5370,6 +5920,9 @@ const I18N = {
     legalDocTitlePrivacy: "Sera ya Faragha",
     legalDocTitlePricing: "Sera ya Bei na Marejesho",
     burgerHome: "Nyumbani",
+    burgerTagline: "Ulimwengu wa kipekee wa waundaji",
+    burgerSectionInfo: "Taarifa",
+    burgerSectionAccount: "Akaunti",
     burgerBecomeMember: "Kuwa mwanachama",
     burgerApplyModel: "Omba kuwa muundaji",
     burgerFaq: "FAQ",
@@ -5454,7 +6007,7 @@ const I18N = {
     editToggleOn: "CTA",
     editToggleOff: "Imekamilika",
     heroEyebrow: "Katalogi",
-    heroTitle: "Waundaji 5, mkataba mmoja, sharti moja: umakini.",
+    heroTitle: "Waundaji 5, mkataba mmoja, sharti moja: <em>umakini</em>.",
     heroBody: "Katalogi ya Honeymoon inakusanya waundaji 5 walio na mkataba wa kipekee, waliochaguliwa kwa umakini na motisha yao. Baadhi wanaanza kazini: matarajio ni wazi tangu mwanzo, nao wanayafuata.",
     catalogueTitle: "Katalogi",
     emptyName: "Wasifu unakuja hivi karibuni",
@@ -5478,6 +6031,9 @@ const I18N = {
     contactTitle: "Una nia ya kushirikiana?",
     contactBody: "Wasiliana na timu ya Honeymoon kuzungumzia ushirikiano, kupata maelezo zaidi kuhusu muundaji au kupanga uwasilishaji.",
     contactBtn: "Wasiliana na Honeymoon",
+    agencyTrustContract: "Mkataba umesainiwa kwa kila muundaji",
+    agencyTrustVerified: "Wasifu waliohakikiwa 18+",
+    agencyTrustCountLabel: "waundaji chini ya mkataba",
     footTag: "Honeymoon — Siri",
     modalTitle: "Hariri wasifu",
     stageName: "Jina la jukwaani",
@@ -5557,8 +6113,10 @@ const I18N = {
     statusOffline: "Nje ya mtandao",
     contentPolicyNote: "Picha na video: nguo za ndani au mavazi ya kuvutia pekee (dansi, twerk, hisia, kuvutia zinaruhusiwa). Hakuna maudhui ya uchi — picha au video — yanayokubaliwa.",
     vitrineHeroEyebrow: "Tovuti ya maonyesho",
-    vitrineHeroTitle: "Gundua waundaji wetu",
+    vitrineHeroTitle: "Gundua <em>waundaji</em> wetu",
     vitrineHeroBody: "Muhtasari wa umma wa waundaji wa Honeymoon. Penda, acha maoni, na gundua ulimwengu wao.",
+    vitrineHeroCta: "Jiunge",
+    vitrineHeroTrustSuffix: "waundaji hai",
     vitrineBack: "← Rudi",
     vitrineEmpty: "Hakuna muundaji aliyechapishwa bado.",
     visitSiteBtn: "Tembelea tovuti yake",
@@ -5698,6 +6256,8 @@ const I18N = {
     memberLoginInstead: "Ingia",
     memberLoginTitle: "Ingia",
     memberMyPhotosNote: "Picha binafsi, tofauti na ununuzi wako. Chagua hapa chini kama waundaji wanaweza kuziona.",
+    memberPhotoDeleteBtn: "Futa picha hii",
+    memberPhotoDeleteConfirm: "Futa picha hii kabisa?",
     memberMyPhotosTitle: "Picha zangu",
     memberNewPasswordLabel: "Nenosiri jipya",
     memberNewPasswordPh: "Nenosiri jipya (herufi 6 chini zaidi)",
@@ -5723,6 +6283,9 @@ const I18N = {
     memberSignupBtn: "Tengeneza akaunti yangu",
     memberSignupSuccessToast: "Akaunti imetengenezwa kwa mafanikio.",
     memberSignupTitle: "Tengeneza akaunti ya mwanachama",
+    memberSignupLine: "Ongea na waundaji unaowapenda na fungua Tip Menu yao. Akaunti bure — unalipa tu kile unachochagua kununua.",
+    memberHomeWelcomeLine: "Fuata waundaji unaowapenda, ongea nao, na pata ununuzi wako wote hapa.",
+    memberDiscoverCreatorsBtn: "Gundua waundaji",
     memberTabFavorites: "Vipendwa",
     memberTabMessages: "Ujumbe",
     memberTabProfile: "Wasifu",
@@ -5784,6 +6347,12 @@ const I18N = {
     memberVisibilityNobody: "Hakuna",
     membersViewerBtn: "Wanachama",
     membersViewerEmpty: "Hakuna mwanachama anayeshiriki wasifu au picha zake kwa sasa.",
+    myMembersTabNote: "Pata hapa wanachama waliochagua kushiriki wasifu au picha zao nawe, wale unaowafuata, na vipendwa vyako.",
+    myMembersFilterAll: "Wote",
+    myMembersFilterFavorites: "Vipendwa",
+    myMembersNoFavorites: "Hakuna vipendwa bado.",
+    myMembersFavoriteBtn: "Pendwa",
+    myMembersUnfavoriteBtn: "Ondoa",
     membersViewerTitle: "Wanachama wanaoshiriki wasifu wao",
     myFamilyPopularity: "Umaarufu",
     popularityTabNote: "Alama yako ya umaarufu, wafuasi wako, na watu unaowafuata.",
@@ -5837,7 +6406,13 @@ const I18N = {
     tipMenuTheme_pov_intime: "POV ya karibu",
     tipMenuTheme_roleplay: "Mchezo wa kuigiza",
     tipMenuTheme_strip_tease: "Strip-tease",
-    uxdExplainNote: "UXD: mchango wako kwa waundaji.",
+    uxdExplainNote: "UXD: cheo chako cha msaidizi. Kadiri unavyopanda, ndivyo cheo chako kinavyokua.",
+    uxdLevelDesc_gray: "Mwanzo kwa kila mwanachama mpya.",
+    uxdLevelDesc_silver: "Unaanza kujitokeza miongoni mwa mashabiki.",
+    uxdLevelDesc_bronze: "Cheo chako kinapanda — unaingia kwenye kundi la wanachama wanaotambulika.",
+    uxdLevelDesc_gold: "Uko miongoni mwa wanachama mashuhuri zaidi wa jamii.",
+    uxdLevelDesc_purple: "Cheo cha hali ya juu, kwa wanachama wachache tu.",
+    uxdLevelDesc_red: "Cheo cha juu kabisa — cheo chako kiko juu kabisa Honeymoon.",
     uxdLabel: "UXD",
     visitorNeedsAccountChat: "Jisajili bure ili kutuma ujumbe kwa muundaji huyu — inakuja hivi karibuni.",
     visitorNeedsAccountFavorite: "Jisajili bure ili kuongeza waundaji kwenye vipendwa — inakuja hivi karibuni.",
@@ -5850,7 +6425,17 @@ const I18N = {
     gateNote: "le khodi yokufinyelela iyisithiyo esilula sesiphequluli, hhayi ukuqinisekiswa kwangempela.",
     gateErr: "Ikhodi engalungile.",
     gatePassPh: "Ikhodi yokungena",
-    creatorPassPh: "Ikhodi yakho",
+    creatorPassPh: "Iphasiwedi",
+    creatorEmailPh: "I-imeyili",
+    creatorEmailLabel: "I-imeyili yokungena (umdali)",
+    creatorEmailNote: "Umdali uzenzela i-akhawunti yakhe (isixhumanisi \"Dala i-akhawunti yami yomdali\" esikrinini sokungena) — namathisela lapha i-imeyili akhethe yona ukuvusa iphrofayela yakhe. Isebenza kunoma yiliphi inani labadali, ngaphandle kokuthinta ikhodi.",
+    creatorSignupLink: "Awukabi na-akhawunti? Dala i-akhawunti yami yomdali",
+    creatorSignupSub: "Dala i-akhawunti yami yomdali",
+    creatorSignupNote: "Zidalele i-akhawunti yakho. Iphrofayela yakho izovuswa yithimba le-Honeymoon uma isicelo sakho sesamukelwe.",
+    creatorSuSubmit: "Dala i-akhawunti yami",
+    creatorLoginLink: "← Buyela ekungeneni",
+    creatorSignupSuccessToast: "I-akhawunti idaliwe! Ithimba manje lizovusa iphrofayela yakho.",
+    creatorNotActivatedErr: "I-akhawunti itholakele, kodwa akukho phrofayela exhunyiwe okwamanje. Xhumana nethimba le-Honeymoon.",
     noPhotoYet: "Asikho isithombe okwamanje",
     tipMenuContentRequired: "Engeza okuqukethwe (isithombe, ividiyo noma umsindo) ngaphambi kokulondoloza lo mugqa.",
     mockPurchaseNotice: "🔧 Ukuthenga okungeyikho — uhlelo lokukhokha lweqiniso luzofika maduze. Alikho inani elikhokhiwe.",
@@ -5866,6 +6451,15 @@ const I18N = {
     tipMenuContentNote: "Ngenisa noma uthathe ngokuqondile isithombe/ividiyo/umsindo ozokuthengisa kulesi sihloko.",
     tipMenuOrderBtn: "Odela",
     tipMenuOrderPrefill: "Sawubona, ngingathanda uku-odela: {theme} ({price}€)",
+    tipOrderCardLabel: "I-oda ye-Tip Menu",
+    tipOrderDeliverBtn: "Letha / Ikhokhelwe",
+    ordersCustomTabLabel: "Ama-oda azenzelwe",
+    ordersTipTabLabel: "Ama-oda e-Tip Menu",
+    ordersCustomTabNote: "Zonke izicelo ezenzelwe owuzitholile, kunye negama lelungu nesicelo saso. Letha okuqukethwe noma uvule ingxoxo ukucacisa imininingwane.",
+    ordersTipTabNote: "Wonke ama-oda enziwe kusuka ku-Tip Menu yakho, kunye negama lelungu. Okuqukethwe sekukhona: chofoza u-Letha / Ikhokhelwe ukuvula, noma uxoxe ngesikhathi sokulethwa.",
+    ordersCustomEmpty: "Awekho ama-oda azenzelwe alindile.",
+    ordersTipEmpty: "Awekho ama-oda e-Tip Menu alindile.",
+    ordersDiscussBtn: "💬 Xoxa",
     tipMenuCurrencyCompareLink: "Qhathanisa nemali yami (Google)",
     chatModBtnLabel: "Amathiphu nemithetho",
     chatModTip1: "Yiba nenhlonipho nomusa: ingxoxo enhle iqala ngokuhlonipha njalo.",
@@ -5964,6 +6558,7 @@ const I18N = {
     paidMarkedPaidToast: "Ukuthengiswa kuqinisekisiwe!",
     paidExclusiveTitle: "Okuqukethwe okukhethekile",
     paidExclusiveNote: "Ukubuka kwamahhala ngezansi, vula okuqukethwe okugcwele.",
+    exclusiveSalesCount: "sekuvuliwe izikhathi ezingu-{count}",
     paidTeaserBadge: "I-teaser yamahhala",
     paidUnlockBtn: "Vula ngo-",
     paidLockedPhoto: "Isithombe esikhethekile esivaliwe",
@@ -6055,6 +6650,9 @@ const I18N = {
     legalDocTitlePrivacy: "Inqubomgomo Yobumfihlo",
     legalDocTitlePricing: "Inqubomgomo Yamanani Nemibuyiselo",
     burgerHome: "Ekhaya",
+    burgerTagline: "Umhlaba okhethekile wabadali",
+    burgerSectionInfo: "Ulwazi",
+    burgerSectionAccount: "I-akhawunti",
     burgerBecomeMember: "Yiba yilungu",
     burgerApplyModel: "Faka isicelo sokuba umdali",
     burgerFaq: "FAQ",
@@ -6139,7 +6737,7 @@ const I18N = {
     editToggleOn: "CTA",
     editToggleOff: "Kwenziwe",
     heroEyebrow: "Ikhathalogu",
-    heroTitle: "Abadali abangu-5, isivumelwano esisodwa, isidingo esisodwa: ukuzimisela.",
+    heroTitle: "Abadali abangu-5, isivumelwano esisodwa, isidingo esisodwa: <em>ukuzimisela</em>.",
     heroBody: "Ikhathalogu ye-Honeymoon ihlanganisa abadali abangu-5 abangaphansi kwesivumelwano esikhethekile, abakhethwe ngokuzimisela nangokugqugquzeleka kwabo. Abanye basaqala emkhakheni: okulindelekile kucacile kusukela ekuqaleni, futhi bayakulandela.",
     catalogueTitle: "Ikhathalogu",
     emptyName: "Iphrofayela izofika maduze",
@@ -6163,6 +6761,9 @@ const I18N = {
     contactTitle: "Uyathakazelela ukubambisana?",
     contactBody: "Xhumana neqembu le-Honeymoon ukuxoxa ngobambiswano, ukuthola ulwazi olwengeziwe ngomdali noma ukuhlela isethulo.",
     contactBtn: "Xhumana ne-Honeymoon",
+    agencyTrustContract: "Isivumelwano esisayiniwe kumdali ngamunye",
+    agencyTrustVerified: "Amaphrofayela aqinisekisiwe angu-18+",
+    agencyTrustCountLabel: "abadali abangaphansi kwesivumelwano",
     footTag: "Honeymoon — Okuyimfihlo",
     modalTitle: "Hlela iphrofayela",
     stageName: "Igama lasesiteji",
@@ -6242,8 +6843,10 @@ const I18N = {
     statusOffline: "Ngaphandle kwe-inthanethi",
     contentPolicyNote: "Izithombe namavidiyo: izingubo zangaphansi noma ezimnandi kuphela (umdanso, i-twerk, ukudlala, ukuheha kuvunyelwe). Akukho okuqukethwe okunqunu — isithombe noma ividiyo — okwamukelekile.",
     vitrineHeroEyebrow: "Isayithi yesitolo",
-    vitrineHeroTitle: "Thola abadali bethu",
+    vitrineHeroTitle: "Thola <em>abadali</em> bethu",
     vitrineHeroBody: "Ukubukwa komphakathi kwabadali be-Honeymoon. Thanda, shiya umbono, futhi uthole umhlaba wabo.",
+    vitrineHeroCta: "Joyina",
+    vitrineHeroTrustSuffix: "abadali abasebenzayo",
     vitrineBack: "← Buyela",
     vitrineEmpty: "Akekho umdali oshicilelwe okwamanje.",
     visitSiteBtn: "Vakashela isayithi yakhe",
@@ -6383,6 +6986,8 @@ const I18N = {
     memberLoginInstead: "Ngena",
     memberLoginTitle: "Ngena",
     memberMyPhotosNote: "Izithombe zomuntu siqu, ezihlukile kokuthengiwe kwakho. Khetha ngezansi ukuthi abadali bangazibona yini.",
+    memberPhotoDeleteBtn: "Susa lesi sithombe",
+    memberPhotoDeleteConfirm: "Susa lesi sithombe unomphela?",
     memberMyPhotosTitle: "Izithombe zami",
     memberNewPasswordLabel: "Iphasiwedi entsha",
     memberNewPasswordPh: "Iphasiwedi entsha (izinhlamvu ezingu-6 okungenani)",
@@ -6408,6 +7013,9 @@ const I18N = {
     memberSignupBtn: "Dala i-akhawunti yami",
     memberSignupSuccessToast: "I-akhawunti idaliwe ngempumelelo.",
     memberSignupTitle: "Dala i-akhawunti yelungu",
+    memberSignupLine: "Xoxa nabadali abathandwayo futhi uvule i-Tip Menu yabo. I-akhawunti yamahhala — ukhokha kuphela lokho okhetha ukukuthenga.",
+    memberHomeWelcomeLine: "Landela abadali abathandwayo, uxoxe nabo, futhi uthole yonke imithengo yakho lapha.",
+    memberDiscoverCreatorsBtn: "Thola abadali",
     memberTabFavorites: "Okuthandiwe",
     memberTabMessages: "Imilayezo",
     memberTabProfile: "Iphrofayela",
@@ -6469,6 +7077,12 @@ const I18N = {
     memberVisibilityNobody: "Akekho",
     membersViewerBtn: "Amalungu",
     membersViewerEmpty: "Alikho ilungu elabelana ngephrofayela noma izithombe zalo okwamanje.",
+    myMembersTabNote: "Thola lapha amalungu akhethe ukwabelana ngephrofayela noma izithombe zawo nawe, lawo owalandelayo, kanye nezinto zakho ezithandwayo.",
+    myMembersFilterAll: "Konke",
+    myMembersFilterFavorites: "Ezithandwayo",
+    myMembersNoFavorites: "Azikho ezithandwayo okwamanje.",
+    myMembersFavoriteBtn: "Thanda",
+    myMembersUnfavoriteBtn: "Susa",
     membersViewerTitle: "Amalungu abelana ngephrofayela yawo",
     myFamilyPopularity: "Ukudumile",
     popularityTabNote: "Uphawu lwakho lokudumile, abalandeli bakho, kanye nabantu obalandelayo.",
@@ -6522,7 +7136,13 @@ const I18N = {
     tipMenuTheme_pov_intime: "POV eseduzane",
     tipMenuTheme_roleplay: "Umdlalo wendima",
     tipMenuTheme_strip_tease: "Ukuhlubula",
-    uxdExplainNote: "UXD: umnikelo wakho kubadwebi.",
+    uxdExplainNote: "UXD: isikhundla sakho sabaseki. Uma ukhuphuka, isikhundla sakho siyakhula.",
+    uxdLevelDesc_gray: "Isiqalo salo lonke ilungu elisha.",
+    uxdLevelDesc_silver: "Uqala ukuvela phakathi kwabalandeli.",
+    uxdLevelDesc_bronze: "Isikhundla sakho siyenyuka — ungena esigabeni samalungu adumile.",
+    uxdLevelDesc_gold: "Ungomunye wamalungu abonakala kakhulu emphakathini.",
+    uxdLevelDesc_purple: "Isikhundla esiphezulu, esigcinelwe amalungu ambalwa.",
+    uxdLevelDesc_red: "Isikhundla esiphakeme kunazo zonke — isikhundla sakho sisesicongweni se-Honeymoon.",
     uxdLabel: "UXD",
     visitorNeedsAccountChat: "Bhalisa mahhala ukuze uthumele umlayezo kulo mdwebi — kuzoba khona maduze.",
     visitorNeedsAccountFavorite: "Bhalisa mahhala ukuze wengeze abadwebi kwabathandwayo — kuzoba khona maduze.",
@@ -6535,7 +7155,17 @@ const I18N = {
     gateNote: "khoutu ena ya phihlelo ke sebaka se bonolo sa browser, eseng netefatso ya sebele.",
     gateErr: "Khoutu e fosahetseng.",
     gatePassPh: "Khoutu ya ho kena",
-    creatorPassPh: "Khoutu ya hao",
+    creatorPassPh: "Phasewete",
+    creatorEmailPh: "Imeile",
+    creatorEmailLabel: "Imeile ya ho kena (mmopi)",
+    creatorEmailNote: "Mmopi o iketsetsa akhaonto ya hae ('link' ya \"Etsa akhaonto ya ka ya mmopi\" skrineng sa ho kena) — kgomaretsa mona imeile eo a e kgethileng ho vusa profaele ya hae. E sebetsa bakeng sa palo e sa lekanyetsoang ya babopi, ntle le ho ama khoutu.",
+    creatorSignupLink: "Ha o na akhaonto? Etsa akhaonto ya ka ya mmopi",
+    creatorSignupSub: "Etsa akhaonto ya ka ya mmopi",
+    creatorSignupNote: "Iketsetse akhaonto ya hao. Profaele ya hao e tla vuswa ke sehlopha sa Honeymoon ha kopo ya hao e amoheloa.",
+    creatorSuSubmit: "Etsa akhaonto ya ka",
+    creatorLoginLink: "← Khutlela ho kena",
+    creatorSignupSuccessToast: "Akhaonto e entsoe! Sehlopha se tla vusa jwale profaele ya hao.",
+    creatorNotActivatedErr: "Akhaonto e fumanwe, empa ha ho profaele e hokahantsweng le yona hajoale. Ikopanye le sehlopha sa Honeymoon.",
     noPhotoYet: "Ha ho na setshwantsho",
     tipMenuContentRequired: "Eketsa diteng (setšoantšo, video kapa molumo) pele o boloka mola ona.",
     mockPurchaseNotice: "🔧 Theko ea maiketsetso — tsamaiso ea nnete ea ho lefa e tla e tla haufinyane. Ha ho chelete e lefuoeng.",
@@ -6551,6 +7181,15 @@ const I18N = {
     tipMenuContentNote: "Kenya kapa nka ka kotloloho setšoantšo/video/molumo oo o tlang ho o rekisa bakeng sa sehlooho sena.",
     tipMenuOrderBtn: "Odara",
     tipMenuOrderPrefill: "Dumela, ke ka rata ho odara: {theme} ({price}€)",
+    tipOrderCardLabel: "Odara ea Tip Menu",
+    tipOrderDeliverBtn: "Fana / E lefetsoe",
+    ordersCustomTabLabel: "Odara tse ikgethehileng",
+    ordersTipTabLabel: "Odara tsa Tip Menu",
+    ordersCustomTabNote: "Dikopo tsohle tse ikgethehileng tseo o li fumaneng, ka lebitso la setho le kopo ya sona. Fana ka diteng kapa o bule puisano ho hlakisa dintlha.",
+    ordersTipTabNote: "Odara tsohle tse entsweng ho tswa ho Tip Menu ya hao, ka lebitso la setho. Diteng di se di le teng: tobetsa Fana / E lefetsoe ho e bula, kapa o buisane ka nako ya ho fana.",
+    ordersCustomEmpty: "Ha hona odara e ikgethehileng e emetseng.",
+    ordersTipEmpty: "Ha hona odara ya Tip Menu e emetseng.",
+    ordersDiscussBtn: "💬 Bua",
     tipMenuCurrencyCompareLink: "Bapisa le chelete ya heso (Google)",
     chatModBtnLabel: "Maeletsane le melao",
     chatModTip1: "Ba le tlhompho le mosa: puisano e ntle e qala ka mekgwa e metle kamehla.",
@@ -6649,6 +7288,7 @@ const I18N = {
     paidMarkedPaidToast: "Thekiso e netefaditswe!",
     paidExclusiveTitle: "Diteng tse ikgethang",
     paidExclusiveNote: "Pono ya mahala ka tlase, bula diteng tse felletseng.",
+    exclusiveSalesCount: "e se e bulehile ka makhetlo a {count}",
     paidTeaserBadge: "Teaser ya mahala",
     paidUnlockBtn: "Bula ka",
     paidLockedPhoto: "Setshwantsho se ikgethang se notletsweng",
@@ -6740,6 +7380,9 @@ const I18N = {
     legalDocTitlePrivacy: "Leano la Lekunutu",
     legalDocTitlePricing: "Leano la Ditheko le Dipoelo",
     burgerHome: "Lehae",
+    burgerTagline: "Lefatshe le ikgethileng la babopi",
+    burgerSectionInfo: "Tlhahisoleseding",
+    burgerSectionAccount: "Akhaonto",
     burgerBecomeMember: "Ho ba setho",
     burgerApplyModel: "Kopa ho ba mmopi",
     burgerFaq: "FAQ",
@@ -6824,7 +7467,7 @@ const I18N = {
     editToggleOn: "CTA",
     editToggleOff: "Ho phethiloe",
     heroEyebrow: "Lethathamo",
-    heroTitle: "Babopi ba 5, konteraka e le nngwe, tlhoko e le nngwe: botebo.",
+    heroTitle: "Babopi ba 5, konteraka e le nngwe, tlhoko e le nngwe: <em>botebo</em>.",
     heroBody: "Lethathamo la Honeymoon le kopanya babopi ba 5 tlas'a konteraka e ikgethileng, ba kgethilweng ka lebaka la botebo le tlhohonolofatso ya bona. Ba bang ba qala mosebetsing: dintlha tse lebeletsweng di hlakile ho tloha qalong, mme ba di latela.",
     catalogueTitle: "Lethathamo",
     emptyName: "Profaele e tlang haufinyane",
@@ -6848,6 +7491,9 @@ const I18N = {
     contactTitle: "O na le thahasello ya tshebedisano?",
     contactBody: "Ikopanye le sehlopha sa Honeymoon ho bua ka tshebedisano, ho fumana lesedi le leng ka mmopi, kapa ho rulaganya tlhahiso.",
     contactBtn: "Ikopanye le Honeymoon",
+    agencyTrustContract: "Konteraka e saenneng bakeng sa mmopi ka mong",
+    agencyTrustVerified: "Diprofaele tse netefaditsweng tsa 18+",
+    agencyTrustCountLabel: "babopi ba tlas'a konteraka",
     footTag: "Honeymoon — Sephiri",
     modalTitle: "Fetola profaele",
     stageName: "Lebitso la sethaeng",
@@ -6927,8 +7573,10 @@ const I18N = {
     statusOffline: "Ha a inthaneteng",
     contentPolicyNote: "Diswantso le divideo: diaparo tsa ka tlasa feela kapa diaparo tse hohelang (tantshi, twerk, tse hohelang di dumeletswe). Ha ho diteng tsa bofeela — setshwantsho kapa video — tse amohelwang.",
     vitrineHeroEyebrow: "Websaete ya pontsho",
-    vitrineHeroTitle: "Sibolla babopi ba rona",
+    vitrineHeroTitle: "Sibolla <em>babopi</em> ba rona",
     vitrineHeroBody: "Pono ya sechaba ya babopi ba Honeymoon. Rata, siya maikutlo, mme o sibolle lefatshe la bona.",
+    vitrineHeroCta: "Kenela",
+    vitrineHeroTrustSuffix: "babopi ba sebetsang",
     vitrineBack: "← Kgutlela",
     vitrineEmpty: "Ha ho mmopi ya phatlaladitsweng ka nako ena.",
     visitSiteBtn: "Etela websaete ya hae",
@@ -7068,6 +7716,8 @@ const I18N = {
     memberLoginInstead: "Kena",
     memberLoginTitle: "Kena",
     memberMyPhotosNote: "Diswantso tsa botho, tse arohaneng le dithekiso tsa hao. Kgetha ka tlase haeba baetsi ba ka di bona.",
+    memberPhotoDeleteBtn: "Hlakola setšoantšo sena",
+    memberPhotoDeleteConfirm: "Hlakola setšoantšo sena ka ho sa feleng?",
     memberMyPhotosTitle: "Diswantso tsa ka",
     memberNewPasswordLabel: "Phasewete e ncha",
     memberNewPasswordPh: "Phasewete e ncha (ditlhaku tse 6 bonyane)",
@@ -7093,6 +7743,9 @@ const I18N = {
     memberSignupBtn: "Etsa akhaonto ya ka",
     memberSignupSuccessToast: "Akhaonto e entswe ka katleho.",
     memberSignupTitle: "Etsa akhaonto ya setho",
+    memberSignupLine: "Bua le babopi bao o ba ratang mme o bule Tip Menu ya bona. Akhaonto ya mahala — o lefa feela seo o se khethang ho se reka.",
+    memberHomeWelcomeLine: "Latela babopi bao o ba ratang, bua le bona, mme o fumane direko tsa hao tsohle mona.",
+    memberDiscoverCreatorsBtn: "Sibolla babopi",
     memberTabFavorites: "Tse Ratehang",
     memberTabMessages: "Melaetsa",
     memberTabProfile: "Profaele",
@@ -7154,6 +7807,12 @@ const I18N = {
     memberVisibilityNobody: "Ha ho motho",
     membersViewerBtn: "Litho",
     membersViewerEmpty: "Ha ho setho se abelanang boitsebiso kapa litšoantšo tsa sona hajoale.",
+    myMembersTabNote: "Fumana mona litho tse ikgethetseng ho arolelana boitsebiso kapa ditšoantšo tsa tsona le wena, tseo o li lateletseng, le tse o li ratang.",
+    myMembersFilterAll: "Tsohle",
+    myMembersFilterFavorites: "Tse ratehang",
+    myMembersNoFavorites: "Ha ho tse ratehang hajoale.",
+    myMembersFavoriteBtn: "Rata",
+    myMembersUnfavoriteBtn: "Tlosa",
     membersViewerTitle: "Litho tse abelanang profaele ea tsona",
     myFamilyPopularity: "Botumo",
     popularityTabNote: "Sephatha sa hau sa botumo, balateli ba hau, le batho bao u ba latelang.",
@@ -7207,7 +7866,13 @@ const I18N = {
     tipMenuTheme_pov_intime: "POV e haufi",
     tipMenuTheme_roleplay: "Papali ea karolo",
     tipMenuTheme_strip_tease: "Ho hlobola",
-    uxdExplainNote: "UXD: seabo sa hau ho babopi.",
+    uxdExplainNote: "UXD: boemo ba hau ba mothusi. Ha o ntse o nyoloha, boemo ba hau bo ntse bo hola.",
+    uxdLevelDesc_gray: "Qalo bakeng sa setho se seng le se seng se secha.",
+    uxdLevelDesc_silver: "O qala ho hlaha har'a balateli.",
+    uxdLevelDesc_bronze: "Boemo ba hau boa nyoloha — o kena sehlopheng sa litho tse tsebahalang.",
+    uxdLevelDesc_gold: "O ka har'a litho tse bonahalang haholo sechabeng.",
+    uxdLevelDesc_purple: "Boemo bo phahameng, bo behetsoeng litho tse seng kae.",
+    uxdLevelDesc_red: "Boemo bo holimo ka ho fetisisa — boemo ba hau bo sehlohlolong sa Honeymoon.",
     uxdLabel: "UXD",
     visitorNeedsAccountChat: "Ingolise mahala ho romella molaetsa ho mobopi enoa — e tla fumaneha haufinyane.",
     visitorNeedsAccountFavorite: "Ingolise mahala ho eketsa babopi ho ba ratoang — e tla fumaneha haufinyane.",
@@ -7220,7 +7885,17 @@ const I18N = {
     gateNote: "kode oyo ya bokoti ezali kaka ekangeli ya pete na navigateur, ezali te bondimi ya solo.",
     gateErr: "Kode ezali malamu te.",
     gatePassPh: "Kode ya kokota",
-    creatorPassPh: "Kode na yo",
+    creatorPassPh: "Mot de passe",
+    creatorEmailPh: "Email",
+    creatorEmailLabel: "Email ya kokota (bakeli)",
+    creatorEmailNote: "Mubongisi asali compte na ye moko (lien \"Sala compte na ngai ya mubongisi\" na écran ya kokota) — tia awa email oyo aponi mpo na kofungola profil na ye. Esalaka mpo na motango oyo ezali na ndelo te ya bakeli, kozanga kosimba code ata mokolo moko.",
+    creatorSignupLink: "Ozali naino na compte te ? Sala compte na ngai ya mubongisi",
+    creatorSignupSub: "Sala compte na ngai ya mubongisi",
+    creatorSignupNote: "Misala compte na yo moko. Profil na yo ekofungwama na ekipe ya Honeymoon soki demande na yo endimami.",
+    creatorSuSubmit: "Sala compte na ngai",
+    creatorLoginLink: "← Zonga na kokota",
+    creatorSignupSuccessToast: "Compte esalemi ! Ekipe ekofungola sikoyo profil na yo.",
+    creatorNotActivatedErr: "Compte ezwami, kasi ata profil moko ekangani na yango te. Benga ekipe ya Honeymoon.",
     noPhotoYet: "Foto te naino",
     tipMenuContentRequired: "Bakisa biloko (foto, video to mongongo) liboso ya kobomba mola oyo.",
     mockPurchaseNotice: "🔧 Kosomba ya lokuta — ebongiseli ya solo ya kofuta ekoya kala mingi te. Mbongo moko te efutami.",
@@ -7236,6 +7911,15 @@ const I18N = {
     tipMenuContentNote: "Kotisa to kamata mbala moko foto/video/mongongo oyo okoteka mpo na motó oyo.",
     tipMenuOrderBtn: "Sengama",
     tipMenuOrderPrefill: "Mbote, nalingi kosengama: {theme} ({price}€)",
+    tipOrderCardLabel: "Commande ya Tip Menu",
+    tipOrderDeliverBtn: "Kopesa / Efutami",
+    ordersCustomTabLabel: "Ba-commande ya moko",
+    ordersTipTabLabel: "Ba-commande ya Tip Menu",
+    ordersCustomTabNote: "Bosenga nyonso ya moko oyo ozwi, elongo na kombo ya moto na bosenga na ye. Pesa content to fungola lisolo mpo na koyeba malamu.",
+    ordersTipTabNote: "Ba-commande nyonso oyo esalemi longwa na Tip Menu na yo, elongo na kombo ya moto. Content esili kozala: finá Kopesa / Efutami mpo na kofungola, to solola na tango ya kopesa.",
+    ordersCustomEmpty: "Ba-commande ya moko ezali te oyo ezali kozela.",
+    ordersTipEmpty: "Ba-commande ya Tip Menu ezali te oyo ezali kozela.",
+    ordersDiscussBtn: "💬 Solola",
     tipMenuCurrencyCompareLink: "Kokanisa na mbongo na ngai (Google)",
     chatModBtnLabel: "Toli mpe mibeko",
     chatModTip1: "Zala na botosi mpe boboto — lisolo ya malamu ebandaka ntango nyonso na botosi.",
@@ -7334,6 +8018,7 @@ const I18N = {
     paidMarkedPaidToast: "Kotekisa endimami!",
     paidExclusiveTitle: "Bikuma ya kokesama",
     paidExclusiveNote: "Botali ya ofele na nse, fungola bikuma mobimba.",
+    exclusiveSalesCount: "esili kofungolama mbala {count}",
     paidTeaserBadge: "Teaser ya ofele",
     paidUnlockBtn: "Fungola na",
     paidLockedPhoto: "Foto ya kokesama ekangami",
@@ -7425,6 +8110,9 @@ const I18N = {
     legalDocTitlePrivacy: "Politiki ya Sekele",
     legalDocTitlePricing: "Politiki ya ba Prix na ba Remboursement",
     burgerHome: "Ekomelo",
+    burgerTagline: "Mokili ya sipesiale ya bakeli",
+    burgerSectionInfo: "Bosolo",
+    burgerSectionAccount: "Compte",
     burgerBecomeMember: "Kokoma membre",
     burgerApplyModel: "Kosenga kokoma modèle",
     burgerFaq: "FAQ",
@@ -7509,7 +8197,7 @@ const I18N = {
     editToggleOn: "CTA",
     editToggleOff: "Esili",
     heroEyebrow: "Catalogue",
-    heroTitle: "Bakeli 5, kontra moko, mposa moko: bosolo.",
+    heroTitle: "Bakeli 5, kontra moko, mposa moko: <em>bosolo</em>.",
     heroBody: "Catalogue ya Honeymoon esangisi bakeli 5 na se ya kontra ya ndenge moko, baponami mpo na bosolo mpe molende na bango. Bamosusu bazali kobanda: bazwi malamu makanisi na ebandeli, mpe balandaka yango.",
     catalogueTitle: "Catalogue",
     emptyName: "Profil ekoya kala mingi te",
@@ -7533,6 +8221,9 @@ const I18N = {
     contactTitle: "Olingi kosala boyokani?",
     contactBody: "Benga ekipe ya Honeymoon mpo na kosolola na ntina ya boyokani, kozwa nsango mingi na ntina ya mokeli to kobongisa presentation.",
     contactBtn: "Benga Honeymoon",
+    agencyTrustContract: "Kontra esignami mpo na bakeli nyonso",
+    agencyTrustVerified: "Ba-profil ndimama 18+",
+    agencyTrustCountLabel: "bakeli oyo bazali na se kontra",
     footTag: "Honeymoon — Sekele",
     modalTitle: "Benga profil",
     stageName: "Nkombo ya scène",
@@ -7612,8 +8303,10 @@ const I18N = {
     statusOffline: "Na ligne te",
     contentPolicyNote: "Bifoto na bavideo: bilamba ya nse to bilamba ya kobenda miso kaka (kobina, twerk, sensuel, kobenda miso endimami). Eloko ya bolumbu te — foto to video — endimami te.",
     vitrineHeroEyebrow: "Site ya vitrine",
-    vitrineHeroTitle: "Yeba bakeli na biso",
+    vitrineHeroTitle: "Yeba <em>bakeli</em> na biso",
     vitrineHeroBody: "Botali ya bato nyonso ya bakeli ya Honeymoon. Sepela, tika commentaire, mpe yeba mokili na bango.",
+    vitrineHeroCta: "Kota",
+    vitrineHeroTrustSuffix: "bakeli oyo bazali kosala",
     vitrineBack: "← Zonga",
     vitrineEmpty: "Mokeli moko te abimisami sikoyo.",
     visitSiteBtn: "Kende na site na ye",
@@ -7753,6 +8446,8 @@ const I18N = {
     memberLoginInstead: "Kota",
     memberLoginTitle: "Kokota",
     memberMyPhotosNote: "Bifoto ya moto, ekabwani na ba achats na yo. Pona na se soki bamokeli bakoki komona yango.",
+    memberPhotoDeleteBtn: "Longola fɔtɔ oyo",
+    memberPhotoDeleteConfirm: "Olingi kolongola fɔtɔ oyo mpo na libela?",
     memberMyPhotosTitle: "Bifoto na ngai",
     memberNewPasswordLabel: "Mot de passe ya sika",
     memberNewPasswordPh: "Mot de passe ya sika (ba lettre 6 ata moke)",
@@ -7778,6 +8473,9 @@ const I18N = {
     memberSignupBtn: "Sala compte na ngai",
     memberSignupSuccessToast: "Compte esalemi malamu.",
     memberSignupTitle: "Sala compte ya membre",
+    memberSignupLine: "Solola na bakeli oyo olingaka mpe fungola Tip Menu na bango. Compte ya ofele — ofuti kaka oyo oponi kosomba.",
+    memberHomeWelcomeLine: "Landa bakeli oyo olingaka, solola na bango, mpe zwa ba achats na yo nyonso awa.",
+    memberDiscoverCreatorsBtn: "Yeba bakeli",
     memberTabFavorites: "Ba Favoris",
     memberTabMessages: "Ba Message",
     memberTabProfile: "Profil",
@@ -7839,6 +8537,12 @@ const I18N = {
     memberVisibilityNobody: "Moto moko te",
     membersViewerBtn: "Bandimi",
     membersViewerEmpty: "Ata ndimi moko te akaboli lisolo to bafoto na ye sikoyo.",
+    myMembersTabNote: "Zwa awa bandimi oyo baponi kokabola lisolo to bafoto na bango na yo, baye ozali kolanda, mpe ba favoris na yo.",
+    myMembersFilterAll: "Nyonso",
+    myMembersFilterFavorites: "Ba Favoris",
+    myMembersNoFavorites: "Ata favori moko te sikoyo.",
+    myMembersFavoriteBtn: "Favori",
+    myMembersUnfavoriteBtn: "Longola",
     membersViewerTitle: "Bandimi bakaboli profil na bango",
     myFamilyPopularity: "Lokumu",
     popularityTabNote: "Elembo na yo ya lokumu, balandi na yo, mpe bato oyo olandaka.",
@@ -7892,7 +8596,13 @@ const I18N = {
     tipMenuTheme_pov_intime: "POV ya pene",
     tipMenuTheme_roleplay: "Lisano ya mokumba",
     tipMenuTheme_strip_tease: "Kolongola bilamba",
-    uxdExplainNote: "UXD: lisungi na yo epai ya bato ya mosala.",
+    uxdExplainNote: "UXD: molongo na yo ya mosungi. Soki omati likolo, molongo na yo ekomi monene.",
+    uxdLevelDesc_gray: "Ebandeli mpo na moto nyonso ya sika.",
+    uxdLevelDesc_silver: "Obandi komonana kati ya bandimi.",
+    uxdLevelDesc_bronze: "Lokumu na yo ezali komata — okoti na molongo ya bato ya lokumu.",
+    uxdLevelDesc_gold: "Ozali kati ya bandimi oyo bamonanaka mingi na lisanga.",
+    uxdLevelDesc_purple: "Molongo ya likolo, mpo na bandimi moke.",
+    uxdLevelDesc_red: "Molongo ya likolo koleka — lokumu na yo ezali na songe ya Honeymoon.",
     uxdLabel: "UXD",
     visitorNeedsAccountChat: "Komisama ofele mpo na kotindela mosali oyo nsango — ekoya kala mingi te.",
     visitorNeedsAccountFavorite: "Komisama ofele mpo na kobakisa bato ya mosala na baoyo olingaka — ekoya kala mingi te.",
@@ -7905,7 +8615,17 @@ const I18N = {
     gateNote: "kode yayi ya nzila kele kaka kikangu ya pete ya navigatele, kele ve kimenga ya kieleka.",
     gateErr: "Kode kele mbote ve.",
     gatePassPh: "Kode ya nzila",
-    creatorPassPh: "Kode na nge",
+    creatorPassPh: "Mot de passe",
+    creatorEmailPh: "Email",
+    creatorEmailLabel: "Email ya kukota (bametila)",
+    creatorEmailNote: "Mubongisi ke sala compte na yandi mosi (lien \"Sala compte na mono ya mubongisi\" na écran ya kukota) — tula vava email me pona yandi mu kufungula profile na yandi. Ke sala mu motango ke na ndelo ve ya bametila, kukonda kusimba code ata kilumbu mosi.",
+    creatorSignupLink: "Nge kele ve na compte ? Sala compte na mono ya mubongisi",
+    creatorSignupSub: "Sala compte na mono ya mubongisi",
+    creatorSignupNote: "Sala compte na nge mosi. Profile na nge ta fungulama na ekipe ya Honeymoon kana demande na nge me ndimama.",
+    creatorSuSubmit: "Sala compte na mono",
+    creatorLoginLink: "← Vutuka na kukota",
+    creatorSignupSuccessToast: "Compte me salama ! Ekipe ta fungula bubu profile na nge.",
+    creatorNotActivatedErr: "Compte me monana, kansi ata profile mosi ve me kangana na yau. Benga ekipe ya Honeymoon.",
     noPhotoYet: "Kifwani ve kiantete",
     tipMenuContentRequired: "Yika bima (foto, video to ndinga) na ntwala ya kubumba mola yai.",
     mockPurchaseNotice: "🔧 Kusumba ya luvunu — nzila ya kyeleka ya kufuta ke kwiza kala mingi ve. Ata mbongo mosi ve me katulama.",
@@ -7921,6 +8641,15 @@ const I18N = {
     tipMenuContentNote: "Kotisa to bwaka mbala mosi foto/video/ndinga yina nge ta teka mpo na ntu ya diambu yai.",
     tipMenuOrderBtn: "Lomba",
     tipMenuOrderPrefill: "Mbote, mono ke zola kulomba: {theme} ({price}€)",
+    tipOrderCardLabel: "Commande ya Tip Menu",
+    tipOrderDeliverBtn: "Twadisa / Mefutu",
+    ordersCustomTabLabel: "Ba-commande ya luve",
+    ordersTipTabLabel: "Ba-commande ya Tip Menu",
+    ordersCustomTabNote: "Malombi yonso ya luve wutambulaka, va ye na zina ya muntu ye elombi ya yandi. Twadisa content voti zibula lusolo mu kunga malamu.",
+    ordersTipTabNote: "Ba-commande yonso yisalimini tuka na Tip Menu na nge, va ye na zina ya muntu. Content mena kala kaka: finda Twadisa / Mefutu mu zibula, voti solula mu ntangu ya kutwadisa.",
+    ordersCustomEmpty: "Ba-commande ya luve ve yina yela kinga.",
+    ordersTipEmpty: "Ba-commande ya Tip Menu ve yina yela kinga.",
+    ordersDiscussBtn: "💬 Solula",
     tipMenuCurrencyCompareLink: "Fwanisa na mbongo na mono (Google)",
     chatModBtnLabel: "Malongi ye bansiku",
     chatModTip1: "Vanda na luzitu ye mbote — solula ya mbote ke yantikaka ntangu yonso na luzitu.",
@@ -8019,6 +8748,7 @@ const I18N = {
     paidMarkedPaidToast: "Kuteka kundimama!",
     paidExclusiveTitle: "Bima ya kikesa",
     paidExclusiveNote: "Kutala ya pamba na nsi, fungula bima mobimba.",
+    exclusiveSalesCount: "me fungulama mbala {count} kala",
     paidTeaserBadge: "Teaser ya pamba",
     paidUnlockBtn: "Fungula na",
     paidLockedPhoto: "Kifwani ya kikesa ekangami",
@@ -8110,6 +8840,9 @@ const I18N = {
     legalDocTitlePrivacy: "Politiki ya Sekele",
     legalDocTitlePricing: "Politiki ya ba Prix ye ba Remboursement",
     burgerHome: "Kunzo",
+    burgerTagline: "Nsi-ntoto ya kisalu ya bametila",
+    burgerSectionInfo: "Bisolo",
+    burgerSectionAccount: "Compte",
     burgerBecomeMember: "Kuvanda membre",
     burgerApplyModel: "Kulomba kuvanda mutindu",
     burgerFaq: "FAQ",
@@ -8194,7 +8927,7 @@ const I18N = {
     editToggleOn: "CTA",
     editToggleOff: "Mene manisa",
     heroEyebrow: "Katalogi",
-    heroTitle: "Bantu 5 ya kusala mambu, kontrata mosi, mfunu mosi: kieleka.",
+    heroTitle: "Bantu 5 ya kusala mambu, kontrata mosi, mfunu mosi: <em>kieleka</em>.",
     heroBody: "Katalogi ya Honeymoon ke kutikisa bantu 5 ya kusala mambu na nsi ya kontrata ya kikesa, bo solwaka mu kieleka ye mfunu na bo. Bankaka ke yantika kaka na kisalu: mambu ya kuvingila kele pwelele tuka na luyantiku, ye bo ke landa yo.",
     catalogueTitle: "Katalogi",
     emptyName: "Profile ke kwiza ntama ve",
@@ -8218,6 +8951,9 @@ const I18N = {
     contactTitle: "Nge kele na mfunu ya kusadila kumosi?",
     contactBody: "Bokila ekipi ya Honeymoon sambu na kusolula mambu ya kusadila kumosi, kubaka nsangu ya nkaka mu yina metila mosi, to kubongisa lusonga.",
     contactBtn: "Bokila Honeymoon",
+    agencyTrustContract: "Kontrata me signama mu konso mubongisi",
+    agencyTrustVerified: "Ba-profile me verifikama 18+",
+    agencyTrustCountLabel: "bametila na nsi ya kontrata",
     footTag: "Honeymoon — Kinsweki",
     modalTitle: "Soba profile",
     stageName: "Nkumbu ya scène",
@@ -8297,8 +9033,10 @@ const I18N = {
     statusOffline: "Na ligne ve",
     contentPolicyNote: "Bifwani ye bavideo: kaka bilele ya nsi to bilele ya kubenda meso (kina, twerk, sensuel, kubenda meso ndimama). Kima ya bwakabwaka ve — kifwani to video — ke ndimama ve.",
     vitrineHeroEyebrow: "Site ya vitrine",
-    vitrineHeroTitle: "Zaba bametila na beto",
+    vitrineHeroTitle: "Zaba <em>bametila</em> na beto",
     vitrineHeroBody: "Kutala ya bantu yonso ya bametila ya Honeymoon. Zola, bika commentaire, ye zaba nsi-ntoto na bo.",
+    vitrineHeroCta: "Kota",
+    vitrineHeroTrustSuffix: "bametila ya kisalu",
     vitrineBack: "← Vutuka",
     vitrineEmpty: "Metila mosi ve me basisama kutuka.",
     visitSiteBtn: "Kwenda na site na yandi",
@@ -8438,6 +9176,8 @@ const I18N = {
     memberLoginInstead: "Kota",
     memberLoginTitle: "Kota",
     memberMyPhotosNote: "Bifwani ya muntu, ke kabwana na bisumbu na nge. Pona na nsi soki bayantiki lenda mona yo.",
+    memberPhotoDeleteBtn: "Katula fwani yai",
+    memberPhotoDeleteConfirm: "Katula fwani yai mpo na mvimba?",
     memberMyPhotosTitle: "Bifwani na mono",
     memberNewPasswordLabel: "Mot de passe ya mpa",
     memberNewPasswordPh: "Mot de passe ya mpa (ba lettre 6 ata fioti)",
@@ -8463,6 +9203,9 @@ const I18N = {
     memberSignupBtn: "Sala compte na mono",
     memberSignupSuccessToast: "Compte me salama mbote.",
     memberSignupTitle: "Sala compte ya membre",
+    memberSignupLine: "Solula ye bametila ya nge me zola mpe zibula Tip Menu na bo. Compte ya ofele — nge ke futa kaka yina nge me pona kusumba.",
+    memberHomeWelcomeLine: "Landa bametila ya nge me zola, solula na bo, mpe baka basumbu na nge yonso vava.",
+    memberDiscoverCreatorsBtn: "Zaba bametila",
     memberTabFavorites: "Bafavoris",
     memberTabMessages: "Ba Message",
     memberTabProfile: "Profil",
@@ -8524,6 +9267,12 @@ const I18N = {
     memberVisibilityNobody: "Muntu mosi ve",
     membersViewerBtn: "Bandimi",
     membersViewerEmpty: "Ata ndimi mosi ve ke kabula lisolo to bafoto na yandi ntangu yai.",
+    myMembersTabNote: "Baka vava bandimi bo me pona kukabula lisolo to bafoto na bo ye nge, bobo nge ke landa, ye ba favoris na nge.",
+    myMembersFilterAll: "Yonso",
+    myMembersFilterFavorites: "Ba Favoris",
+    myMembersNoFavorites: "Ata favori mosi ve ntangu yai.",
+    myMembersFavoriteBtn: "Favori",
+    myMembersUnfavoriteBtn: "Katula",
     membersViewerTitle: "Bandimi ke kabula profile na bo",
     myFamilyPopularity: "Lukumu",
     popularityTabNote: "Kidimbu na nge ya lukumu, balandi na nge, ye bantu yina nge ke landaka.",
@@ -8577,7 +9326,13 @@ const I18N = {
     tipMenuTheme_pov_intime: "POV ya penepene",
     tipMenuTheme_roleplay: "Kisalu ya mbedi",
     tipMenuTheme_strip_tease: "Kukatula bilamba",
-    uxdExplainNote: "UXD: lusadisu na nge na basadi.",
+    uxdExplainNote: "UXD: kimfumu na nge ya nsadisi. Vava wukuma ku zulu, kimfumu na nge wukumana.",
+    uxdLevelDesc_gray: "Ntete mpo na konso muntu ya mpa.",
+    uxdLevelDesc_silver: "Ke yantika kumonika na kati ya balandi.",
+    uxdLevelDesc_bronze: "Lukumu na nge ke yela — ke kotaka na kimvuka ya bantu ya luzitu.",
+    uxdLevelDesc_gold: "Nge kele na kati ya bantu ya nene ya kimvuka.",
+    uxdLevelDesc_purple: "Kiteso ya zulu, ya bantu fioti.",
+    uxdLevelDesc_red: "Kiteso ya zulu mpenza — lukumu na nge kele na zulu ya Honeymoon.",
     uxdLabel: "UXD",
     visitorNeedsAccountChat: "Sonika na mfunu ve mpo na kutinda nsangu na musadi yai — ta vanda kuna nsuka.",
     visitorNeedsAccountFavorite: "Sonika na mfunu ve mpo na kuyika basadi na bawu nge ke zolaka — ta vanda kuna nsuka.",
@@ -8634,6 +9389,7 @@ syncLangSelects(LANG);
 
 function setLang(lang){
   LANG = lang;
+  try{ localStorage.setItem('hm_lang', lang); }catch(e){}
   syncLangSelects(lang);
   applyStaticText();
   renderRoster();
@@ -8649,8 +9405,14 @@ function applyStaticText(){
   document.getElementById('t-admin-cancel').textContent = t('adminCancel');
   document.getElementById('t-edit-toggle').textContent = editMode ? t('editToggleOff') : t('editToggleOn');
   document.getElementById('t-hero-eyebrow').textContent = t('heroEyebrow');
-  document.getElementById('t-hero-title').textContent = t('heroTitle');
+  document.getElementById('t-hero-title').innerHTML = t('heroTitle');
   document.getElementById('t-hero-body').textContent = t('heroBody');
+  const trustContractEl = document.getElementById('t-agency-trust-contract');
+  if(trustContractEl) trustContractEl.textContent = t('agencyTrustContract');
+  const trustVerifiedEl = document.getElementById('t-agency-trust-verified');
+  if(trustVerifiedEl) trustVerifiedEl.textContent = t('agencyTrustVerified');
+  const trustCountLabelEl = document.getElementById('t-agency-trust-count-label');
+  if(trustCountLabelEl) trustCountLabelEl.textContent = t('agencyTrustCountLabel');
   document.getElementById('t-catalogue-title').textContent = t('catalogueTitle');
   document.getElementById('t-contact-title').textContent = t('contactTitle');
   document.getElementById('t-contact-body').textContent = t('contactBody');
@@ -8665,6 +9427,15 @@ function applyStaticText(){
   document.getElementById('t-creator-enter').textContent = t('creatorEnter');
   document.getElementById('t-back-agency').textContent = t('backAgency');
   document.getElementById('creator-pass').placeholder = t('creatorPassPh');
+  document.getElementById('creator-email').placeholder = t('creatorEmailPh');
+  document.getElementById('t-creator-signup-link').textContent = t('creatorSignupLink');
+  document.getElementById('t-creator-signup-sub').textContent = t('creatorSignupSub');
+  document.getElementById('t-creator-signup-note').textContent = t('creatorSignupNote');
+  document.getElementById('t-creator-su-submit').textContent = t('creatorSuSubmit');
+  document.getElementById('t-creator-login-link').textContent = t('creatorLoginLink');
+  document.getElementById('creator-su-email').placeholder = t('creatorEmailPh');
+  document.getElementById('creator-su-pass').placeholder = t('creatorPassPh');
+  document.getElementById('creator-su-pass2').placeholder = t('memberConfirmPasswordPh');
   document.getElementById('t-creator-logout').textContent = t('creatorLogout');
   document.getElementById('t-agency-logout').textContent = t('agencyLogout');
   document.getElementById('t-contracts-title').textContent = t('signedContractsTitle');
@@ -8681,29 +9452,87 @@ document.getElementById('show-agency-gate').onclick = () => {
   document.getElementById('creator-gate').style.display = 'none';
   requireAgeGate(() => { window.location.hash = 'vitrine'; openVitrine(); });
 };
-document.getElementById('creator-submit').onclick = () => {
-  const val = document.getElementById('creator-pass').value.trim();
-  const match = Object.keys(CREATOR_CODES).find(slot => CREATOR_CODES[slot] === val);
-  if(match){
+document.getElementById('show-creator-signup').onclick = () => {
+  document.getElementById('creator-login-view').style.display = 'none';
+  document.getElementById('creator-signup-view').style.display = 'flex';
+};
+document.getElementById('show-creator-login').onclick = () => {
+  document.getElementById('creator-signup-view').style.display = 'none';
+  document.getElementById('creator-login-view').style.display = 'flex';
+};
+document.getElementById('creator-su-submit').onclick = async () => {
+  const errEl = document.getElementById('creator-su-err');
+  errEl.textContent = '';
+  const email = document.getElementById('creator-su-email').value.trim();
+  const pass = document.getElementById('creator-su-pass').value;
+  const pass2 = document.getElementById('creator-su-pass2').value;
+  if(!email || !pass || !pass2){ errEl.textContent = t('memberErrFillAll'); return; }
+  if(!isValidEmail(email)){ errEl.textContent = t('memberErrInvalidEmail'); return; }
+  if(pass.length < 6){ errEl.textContent = t('memberErrPassShort'); return; }
+  if(pass !== pass2){ errEl.textContent = t('memberErrPassMismatch'); return; }
+  if(!auth){ errEl.textContent = t('memberErrNoConnection'); return; }
+  const btn = document.getElementById('creator-su-submit');
+  btn.disabled = true;
+  try{
+    if(auth.currentUser){ try{ await auth.signOut(); }catch(e){} }
+    await auth.createUserWithEmailAndPassword(email, pass);
+    toast(t('creatorSignupSuccessToast'));
+    document.getElementById('creator-su-email').value = '';
+    document.getElementById('creator-su-pass').value = '';
+    document.getElementById('creator-su-pass2').value = '';
+    document.getElementById('creator-signup-view').style.display = 'none';
+    document.getElementById('creator-login-view').style.display = 'flex';
+    document.getElementById('creator-email').value = email;
+  }catch(e){
+    console.error('creator signup error', e);
+    if(e.code === 'auth/email-already-in-use') errEl.textContent = t('memberErrEmailInUse');
+    else if(e.code === 'auth/invalid-email') errEl.textContent = t('memberErrInvalidEmail');
+    else errEl.textContent = t('memberErrUnknown');
+  }
+  btn.disabled = false;
+};
+document.getElementById('creator-submit').onclick = async () => {
+  const email = document.getElementById('creator-email').value.trim();
+  const pass = document.getElementById('creator-pass').value.trim();
+  if(!email || !pass){ document.getElementById('creator-err').textContent = t('creatorErr'); return; }
+  document.getElementById('creator-err').textContent = '';
+  const btn = document.getElementById('creator-submit');
+  btn.disabled = true;
+  try{
+    if(auth.currentUser){ try{ await auth.signOut(); }catch(e){} }
+    await auth.signInWithEmailAndPassword(email, pass);
+    // Retrouve automatiquement QUEL profil appartient à cet email — aucune
+    // liste à maintenir, ça marche pareil pour 6 créatrices ou pour 500.
+    const snap = await db.collection('profiles').where('ownerEmail', '==', email).limit(1).get();
+    if(snap.empty){
+      document.getElementById('creator-err').textContent = t('creatorNotActivatedErr');
+      try{ await auth.signOut(); }catch(e){}
+      btn.disabled = false;
+      return;
+    }
+    const match = snap.docs[0].id;
     sessionStorage.setItem('hm_creator_slot', match);
     document.getElementById('creator-gate').style.display = 'none';
-    if(auth){
-      auth.signInAnonymously().catch(e => console.error('anon sign-in failed', e));
-    }
     launchCreatorView(match);
-  } else {
+  }catch(e){
+    console.error('creator sign-in error', e);
     document.getElementById('creator-err').textContent = t('creatorErr');
   }
+  btn.disabled = false;
 };
+document.getElementById('creator-email').addEventListener('keydown', (e) => {
+  if(e.key === 'Enter') document.getElementById('creator-pass').focus();
+});
 document.getElementById('creator-pass').addEventListener('keydown', (e) => {
   if(e.key === 'Enter') document.getElementById('creator-submit').click();
 });
 document.getElementById('creator-logout').onclick = () => {
   sessionStorage.removeItem('hm_creator_slot');
-  if(auth && auth.currentUser && auth.currentUser.isAnonymous){
+  if(auth && auth.currentUser){
     auth.signOut().catch(()=>{});
   }
-  document.getElementById('creator-pass').value = ''; // sécurité : n'affiche jamais un code déjà tapé
+  document.getElementById('creator-pass').value = ''; // sécurité : n'affiche jamais un mot de passe déjà tapé
+  document.getElementById('creator-email').value = '';
   document.getElementById('my-profile-shell').style.display = 'none';
   document.getElementById('gate').style.display = 'flex';
 };
@@ -8918,15 +9747,14 @@ function followerShieldHtml(count){
   return `<span class="chat-tier-shield" style="color:${tier.color};" title="${t('tierLabel_' + tier.key)} — ${count || 0} ${t('followersLabel')}">${ICON_SHIELD}</span>`;
 }
 
-/* ---------------- badges UXD (paliers de contribution/soutien, membres) ---------------- */
+/* ---------------- badges UXD (statut VIP / rang de soutien, membres) ---------------- */
 const UXD_TIERS = [
-  { min: 0,    level: 0, color: '#8a8a8a', key: 'gray' },
-  { min: 10,   level: 1, color: '#cd7f32', key: 'bronze' },
-  { min: 50,   level: 2, color: '#c0c0c0', key: 'silver' },
+  { min: 0,    level: 0, color: '#9a9a9a', key: 'gray' },
+  { min: 20,   level: 1, color: '#c7c7c7', key: 'silver' },
+  { min: 50,   level: 2, color: '#cd7f32', key: 'bronze' },
   { min: 100,  level: 3, color: '#d4af37', key: 'gold' },
-  { min: 500,  level: 4, color: '#7c5cff', key: 'purple' },
-  { min: 1000, level: 5, color: '#2fb8e0', key: 'diamond' },
-  { min: 5000, level: 6, color: '#e0402c', key: 'red' }
+  { min: 500,  level: 4, color: '#a06bff', key: 'purple' },
+  { min: 1000, level: 5, color: '#e0402c', key: 'red' }
 ];
 function getUxdTier(amount){
   amount = amount || 0;
@@ -9042,6 +9870,7 @@ async function syncProfilesFromFirestore(){
         const data = snap.data();
         Object.assign(m, {
           name: data.name ?? m.name,
+          ownerEmail: data.ownerEmail ?? m.ownerEmail ?? '',
           country: data.country ?? m.country,
           verified18: data.verified18 ?? m.verified18,
           platforms: data.platforms ?? m.platforms,
@@ -9198,6 +10027,9 @@ function renderMyProfile(slotId){
         <button type="button" class="my-tab-btn" id="my-tab-btn-tipmenu">🍯${t('tipMenuTabLabel')}</button>
         <button type="button" class="my-tab-btn active" id="my-tab-btn-content">${ICON_MY_CONTENT}${t('myFamilyContent')}</button>
         <button type="button" class="my-tab-btn" id="my-tab-btn-messages">${ICON_MY_MESSAGES}${t('myFamilyMessages')} <span class="creator-msg-badge" id="creator-msg-badge-${m.id}" style="display:none;"></span></button>
+        <button type="button" class="my-tab-btn" id="my-tab-btn-orderscustom">${ICON_GIFT}${t('ordersCustomTabLabel')} <span class="creator-msg-badge" id="creator-orders-custom-badge-${m.id}" style="display:none;"></span></button>
+        <button type="button" class="my-tab-btn" id="my-tab-btn-orderstip">🍯${t('ordersTipTabLabel')} <span class="creator-msg-badge" id="creator-orders-tip-badge-${m.id}" style="display:none;"></span></button>
+        <button type="button" class="my-tab-btn" id="my-tab-btn-members">👥${t('membersViewerBtn')}</button>
         <button type="button" class="my-tab-btn" id="my-tab-btn-comments">${ICON_NOTE}${t('myFamilyComments')}</button>
         <button type="button" class="my-tab-btn" id="my-tab-btn-ca">${ICON_MY_CA}${t('myFamilyCA')}</button>
         <button type="button" class="my-tab-btn" id="my-tab-btn-tools">${ICON_MY_TOOLS}${t('myFamilyTools')}</button>
@@ -9224,6 +10056,28 @@ function renderMyProfile(slotId){
       <h2 class="display" style="font-size:19px;">${t('myMessagesTitle')}</h2>
       <p style="color:var(--text-muted);font-size:12.5px;max-width:460px;margin-top:8px;line-height:1.65;">${t('myMessagesNote')}</p>
       <div id="my-messages-zone" style="margin-top:20px;max-width:460px;"></div>
+    </div>
+
+    <div class="my-tab-panel" id="my-tab-panel-orderscustom">
+      <h2 class="display" style="font-size:19px;">${t('ordersCustomTabLabel')}</h2>
+      <p style="color:var(--text-muted);font-size:12.5px;max-width:460px;margin-top:8px;line-height:1.65;">${t('ordersCustomTabNote')}</p>
+      <div id="my-orders-custom-zone" style="margin-top:20px;max-width:460px;"></div>
+    </div>
+
+    <div class="my-tab-panel" id="my-tab-panel-orderstip">
+      <h2 class="display" style="font-size:19px;">${t('ordersTipTabLabel')}</h2>
+      <p style="color:var(--text-muted);font-size:12.5px;max-width:460px;margin-top:8px;line-height:1.65;">${t('ordersTipTabNote')}</p>
+      <div id="my-orders-tip-zone" style="margin-top:20px;max-width:460px;"></div>
+    </div>
+
+    <div class="my-tab-panel" id="my-tab-panel-members">
+      <h2 class="display" style="font-size:19px;">${t('membersViewerTitle')}</h2>
+      <p style="color:var(--text-muted);font-size:12.5px;max-width:460px;margin-top:8px;line-height:1.65;">${t('myMembersTabNote')}</p>
+      <div class="my-members-filter-row">
+        <button type="button" class="audio-mode-btn my-members-filter-btn active" data-filter="all">${t('myMembersFilterAll')}</button>
+        <button type="button" class="audio-mode-btn my-members-filter-btn" data-filter="favorites">⭐ ${t('myMembersFilterFavorites')}</button>
+      </div>
+      <div id="my-members-zone" style="margin-top:16px;max-width:460px;"></div>
     </div>
 
     <div class="my-tab-panel" id="my-tab-panel-comments">
@@ -9265,15 +10119,25 @@ function renderMyProfile(slotId){
     </div>
   `;
 
-  const myTabs = ['content', 'messages', 'comments', 'ca', 'popularity', 'tipmenu', 'tools', 'rules'];
+  const myTabs = ['content', 'messages', 'orderscustom', 'orderstip', 'members', 'comments', 'ca', 'popularity', 'tipmenu', 'tools', 'rules'];
   function showMyTab(name){
     myTabs.forEach(n => {
       document.getElementById('my-tab-panel-' + n).classList.toggle('active', n === name);
       document.getElementById('my-tab-btn-' + n).classList.toggle('active', n === name);
     });
+    if(name === 'orderscustom') renderMyOrders(m, 'custom');
+    if(name === 'orderstip') renderMyOrders(m, 'tip');
+    if(name === 'members') renderMyMembers(m);
   }
   myTabs.forEach(n => {
     document.getElementById('my-tab-btn-' + n).onclick = () => showMyTab(n);
+  });
+  document.querySelectorAll('.my-members-filter-btn').forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll('.my-members-filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderMyMembers(m, btn.dataset.filter);
+    };
   });
 
   document.getElementById('my-edit-btn').onclick = () => openMyProfileEdit(m);
@@ -9340,7 +10204,8 @@ function wireSlideArrows(container){
   });
 }
 
-function renderLevelBarGeneric(containerId, tiers, value, valueLabelKey){
+function renderLevelBarGeneric(containerId, tiers, value, valueLabelKey, descKeyPrefix){
+  descKeyPrefix = descKeyPrefix || 'levelDesc';
   const wrap = document.getElementById(containerId);
   if(!wrap) return;
   let currentTier = tiers[0];
@@ -9377,7 +10242,7 @@ function renderLevelBarGeneric(containerId, tiers, value, valueLabelKey){
     });
     descPanel.innerHTML = `
       <span class="level-desc-dot" style="background:${tr.color};box-shadow:0 0 8px ${tr.color};"></span>
-      <span>${t('levelDescPrefix')} <b style="color:${tr.color};">${t('tierLabel_' + tr.key)}</b> — ${tr.min}${nextTr ? '–' + (nextTr.min - 1) : '+'} ${t(valueLabelKey).toLowerCase()}. ${t('levelDesc_' + tr.key)}</span>
+      <span>${t('levelDescPrefix')} <b style="color:${tr.color};">${t('tierLabel_' + tr.key)}</b> — ${tr.min}${nextTr ? '–' + (nextTr.min - 1) : '+'} ${t(valueLabelKey).toLowerCase()}. ${t(descKeyPrefix + '_' + tr.key)}</span>
     `;
   };
   track.querySelectorAll('.level-step').forEach(el => {
@@ -11203,6 +12068,8 @@ function openMyProfileEdit(m){
 function renderRoster(){
   const filledCount = roster.filter(m => m.filled).length;
   document.getElementById('roster-count').textContent = filledCount + ' / ' + SLOT_COUNT;
+  const trustCountEl = document.getElementById('agency-trust-count');
+  if(trustCountEl) trustCountEl.textContent = filledCount;
 
   const displayOrder = [...roster].sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
   const half = Math.ceil(displayOrder.length / 2);
@@ -11372,11 +12239,9 @@ function openEdit(id){
   const body = document.getElementById('edit-body');
   document.getElementById('t-modal-title').textContent = t('modalTitle');
   body.innerHTML = `
-    <label>${t('creatorCodeLabel')}</label>
-    <div class="creator-code-box">
-      <span class="code">${CREATOR_CODES[m.id]}</span>
-      <button type="button" id="ed-copy-code">${t('copyBtn')}</button>
-    </div>
+    <label id="t-creator-email-label">${t('creatorEmailLabel')}</label>
+    <input id="ed-owner-email" type="email" value="${escAttr(m.ownerEmail || '')}" placeholder="creator-${m.id}@honeymoon-internal.app">
+    <p class="member-note" style="margin:-4px 0 8px;">${t('creatorEmailNote')}</p>
     <label>${t('stageName')}</label>
     <input id="ed-name" value="${escText(m.name)}" placeholder="ex. Luna">
     <label>${t('country')}</label>
@@ -11470,15 +12335,6 @@ function openEdit(id){
     document.getElementById('ed-deletions-btn').onclick = () => requireAdmin(openDeletionsPanel);
   }
 
-  document.getElementById('ed-copy-code').onclick = () => {
-    const code = CREATOR_CODES[m.id];
-    if(navigator.clipboard && navigator.clipboard.writeText){
-      navigator.clipboard.writeText(code).then(() => toast(t('copiedToast')));
-    } else {
-      toast(code);
-    }
-  };
-
   let newPhoto = m.photo;
   let newPhotoType = m.photoType || 'image';
   let newContract = m.contract;
@@ -11569,6 +12425,7 @@ function openEdit(id){
     const saveBtn = document.getElementById('ed-save');
     saveBtn.disabled = true;
     m.name = name;
+    m.ownerEmail = document.getElementById('ed-owner-email').value.trim();
     m.country = document.getElementById('ed-country').value.trim();
     m.platforms = document.getElementById('ed-platforms').value.trim();
     m.audience = document.getElementById('ed-audience').value.trim();
@@ -11604,7 +12461,7 @@ function openEdit(id){
     try{
       await db.collection('profiles').doc(m.id).set({
         slotNumber: parseInt(m.id.replace('m',''), 10),
-        name: m.name, country: m.country, verified18: m.verified18,
+        name: m.name, ownerEmail: m.ownerEmail || '', country: m.country, verified18: m.verified18,
         platforms: m.platforms, audience: m.audience, contentType: m.contentType,
         availability: m.availability, photo: m.photo, photoType: m.photoType || 'image', contract: m.contract, filled: m.filled,
         bio: m.bio,
@@ -11667,6 +12524,49 @@ async function deleteMediaItem(profileId, docId, collectionName){
 }
 
 /* ---------------- gallery modal (admin) ---------------- */
+/* ---------------- récupération sécurisée des membres visibles pour une créatrice -----------------
+   IMPORTANT : Firestore refuse toute requête "collection().get()" qui ne peut pas prouver,
+   par sa structure (un .where() correspondant à la règle), qu'elle ne renverra que des documents
+   autorisés ("les règles ne sont pas des filtres"). On ne peut donc plus tout récupérer d'un coup :
+   on combine des lectures ciblées (membres déjà connus : chat/suivi/favoris, via doc().get(), qui
+   passent toujours car évaluées sur le contenu réel du document) avec deux requêtes filtrées sur
+   bioVisibility / photosVisibility == 'everyone' (chacune valide une clause précise de la règle). */
+async function fetchVisibleMembersForCreator(creatorId){
+  let chatMemberIds = [];
+  try{
+    const convSnap = await db.collection('profiles').doc(creatorId).collection('conversations').get();
+    chatMemberIds = convSnap.docs.map(d => d.id);
+  }catch(e){ console.error('load chat member ids error', e); }
+
+  let followingMembers = [], favoriteMembers = [];
+  try{
+    const creatorDoc = await db.collection('profiles').doc(creatorId).get();
+    const cd = creatorDoc.exists ? creatorDoc.data() : {};
+    followingMembers = cd.followingMembers || [];
+    favoriteMembers = cd.favoriteMembers || [];
+  }catch(e){ console.error('load creator following/favorites error', e); }
+
+  const knownIds = Array.from(new Set([...chatMemberIds, ...followingMembers, ...favoriteMembers]));
+  const byId = {};
+  await Promise.all(knownIds.map(async (id) => {
+    try{
+      const doc = await memberDb.collection('members').doc(id).get();
+      if(doc.exists) byId[id] = doc;
+    }catch(e){ /* membre supprimé ou accès refusé : on ignore silencieusement */ }
+  }));
+
+  try{
+    const bioSnap = await memberDb.collection('members').where('bioVisibility', '==', 'everyone').get();
+    bioSnap.forEach(doc => { byId[doc.id] = doc; });
+  }catch(e){ console.error('load bio-visible members error', e); }
+  try{
+    const photosSnap = await memberDb.collection('members').where('photosVisibility', '==', 'everyone').get();
+    photosSnap.forEach(doc => { byId[doc.id] = doc; });
+  }catch(e){ console.error('load photos-visible members error', e); }
+
+  return { docs: Object.values(byId), chatMemberIds, followingMembers, favoriteMembers };
+}
+
 async function openMembersViewer(creatorId, creatorName){
   document.getElementById('members-viewer-title').textContent = t('membersViewerTitle') + (creatorName ? ' — ' + creatorName : '');
   const body = document.getElementById('members-viewer-body');
@@ -11676,16 +12576,9 @@ async function openMembersViewer(creatorId, creatorName){
   try{
     if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
     if(memberAuth && !memberAuth.currentUser){ try{ await memberAuth.signInAnonymously(); }catch(e){} }
-    // Membres avec qui la créatrice a déjà une conversation.
-    let chatMemberIds = [];
-    try{
-      const convSnap = await db.collection('profiles').doc(creatorId).collection('conversations').get();
-      chatMemberIds = convSnap.docs.map(d => d.id);
-    }catch(e){ console.error('load chat member ids error', e); }
-
-    const snap = await memberDb.collection('members').get();
+    const { docs: snapDocs, chatMemberIds } = await fetchVisibleMembersForCreator(creatorId);
     const rows = [];
-    snap.forEach(doc => {
+    snapDocs.forEach(doc => {
       const d = doc.data() || {};
       const favorites = d.favorites || [];
       const isFav = favorites.includes(creatorId);
@@ -11939,16 +12832,36 @@ async function handleGalleryAdd(m, files, field, onDone){
 }
 
 /* ---------------- lightbox ---------------- */
-function openLightbox(src, type){
+function openLightbox(src, type, onDelete){
   const content = document.getElementById('lightbox-content');
   content.innerHTML = type === 'video'
     ? `<video src="${src}" controls autoplay playsinline></video>`
     : `<img src="${src}">`;
+  // Bouton supprimer optionnel (ex : "Mes photos" côté espace membre) — affiché
+  // uniquement en plein écran, jamais sur la vignette elle-même, pour qu'on
+  // identifie clairement la photo avant de la supprimer.
+  const oldDelBtn = document.getElementById('lightbox-delete-btn');
+  if(oldDelBtn) oldDelBtn.remove();
+  if(onDelete){
+    const delBtn = document.createElement('button');
+    delBtn.id = 'lightbox-delete-btn';
+    delBtn.type = 'button';
+    delBtn.className = 'lightbox-delete-btn';
+    delBtn.textContent = t('memberPhotoDeleteBtn');
+    delBtn.onclick = () => {
+      if(!confirm(t('memberPhotoDeleteConfirm'))) return;
+      document.getElementById('lightbox-close').click();
+      onDelete();
+    };
+    document.getElementById('lightbox-backdrop').appendChild(delBtn);
+  }
   document.getElementById('lightbox-backdrop').style.display = 'flex';
 }
 document.getElementById('lightbox-close').onclick = () => {
   document.getElementById('lightbox-backdrop').style.display = 'none';
   document.getElementById('lightbox-content').innerHTML = '';
+  const delBtn = document.getElementById('lightbox-delete-btn');
+  if(delBtn) delBtn.remove();
 };
 document.getElementById('lightbox-backdrop').addEventListener('click', (e) => {
   if(e.target.id === 'lightbox-backdrop'){
@@ -12106,6 +13019,8 @@ function closeBurgerMenu(){
 document.getElementById('burger-menu-btn').onclick = openBurgerMenu;
 document.getElementById('burger-close-btn').onclick = closeBurgerMenu;
 document.getElementById('burger-backdrop').onclick = closeBurgerMenu;
+const vitrineHeroCtaBtn = document.getElementById('vitrine-hero-cta');
+if(vitrineHeroCtaBtn) vitrineHeroCtaBtn.onclick = openBurgerMenu;
 
 document.getElementById('burger-home').onclick = () => {
   closeBurgerMenu();
@@ -12251,6 +13166,7 @@ function renderMemberSignup(){
   body.innerHTML = `
     <span class="member-badge">🔓 ${t('memberFreeBadge')}</span>
     <h3>${t('memberSignupTitle')}</h3>
+    <p class="member-welcome-line">${t('memberSignupLine')}</p>
     <label>${t('memberUsernameLabel')}</label>
     <input id="member-su-username" placeholder="${escAttr(t('memberUsernamePh'))}" autocomplete="username" maxlength="20">
     <label>${t('memberEmailLabel')}</label>
@@ -12373,6 +13289,7 @@ function renderMemberHome(user, data, activeTab){
       <div style="text-align:center;">
         <div class="home-photo-row">${photoBlock}</div>
         <h3>${t('memberHomeWelcome').replace('{username}', escText(data.username || ''))}</h3>
+        <p class="member-welcome-line" style="margin-left:auto;margin-right:auto;">${t('memberHomeWelcomeLine')}</p>
       </div>
       <div class="popularity-hero">
         <div class="tiktok-stat"><span class="tiktok-stat-num">${(data.favorites || []).length}</span><span class="tiktok-stat-label">${t('followingLabel')}</span></div>
@@ -12432,7 +13349,7 @@ function renderMemberProfileTab(user, data, subTab){
       <button type="button" class="member-subtab${subTab === 'photos' ? ' active' : ''}" id="member-subtab-photos">${t('memberSubtabPhotos')}</button>
       <button type="button" class="member-subtab${subTab === 'password' ? ' active' : ''}" id="member-subtab-password">${t('memberSubtabPassword')}</button>
     </div>
-    <div id="member-subtab-body"></div>
+    <div id="member-subtab-body" class="tab-fade-in"></div>
   `;
   document.getElementById('member-subtab-infos').onclick = () => renderMemberProfileTab(user, data, 'infos');
   document.getElementById('member-subtab-photos').onclick = () => renderMemberProfileTab(user, data, 'photos');
@@ -12536,10 +13453,12 @@ function renderMemberProfileInfosSubtab(user, data){
 
 function renderMemberProfilePhotosSubtab(user, data){
   const tabBody = document.getElementById('member-subtab-body');
+  // Espace membre : plus de petite croix sur la vignette (peu lisible/moche).
+  // Un clic sur la photo l'ouvre en plein écran (lightbox), avec un bouton
+  // "Supprimer" clair dans cette vue — on voit précisément quelle photo on supprime.
   const myPhotoThumbs = (data.photos || []).map((p, i) => `
-    <div class="member-media-thumb" style="position:relative;">
+    <div class="member-media-thumb member-photo-thumb" data-idx="${i}" style="position:relative;cursor:pointer;">
       <img src="${escAttr(p.url)}" alt="">
-      <button type="button" class="rm" data-idx="${i}" style="position:absolute;top:4px;right:4px;">✕</button>
     </div>`).join('');
   tabBody.innerHTML = `
     <div class="member-section-title">${t('memberMyPhotosTitle')} (${(data.photos || []).length})</div>
@@ -12584,17 +13503,20 @@ function renderMemberProfilePhotosSubtab(user, data){
     }
     renderMemberProfilePhotosSubtab(user, data);
   });
-  tabBody.querySelectorAll('.rm').forEach(btn => {
-    btn.onclick = async () => {
-      const idx = parseInt(btn.dataset.idx, 10);
-      const item = data.photos[idx];
-      btn.disabled = true;
-      try{
-        if(item.path){ try{ await memberStorage.ref().child(item.path).delete(); }catch(e){} }
-        data.photos.splice(idx, 1);
-        await memberDb.collection('members').doc(user.uid).set({ photos: data.photos }, { merge: true });
-        renderMemberProfilePhotosSubtab(user, data);
-      }catch(e){ console.error('remove member photo error', e); toast(t('memberErrUnknown')); btn.disabled = false; }
+  const deleteMemberPhoto = async (idx, btn) => {
+    const item = data.photos[idx];
+    if(btn) btn.disabled = true;
+    try{
+      if(item.path){ try{ await memberStorage.ref().child(item.path).delete(); }catch(e){} }
+      data.photos.splice(idx, 1);
+      await memberDb.collection('members').doc(user.uid).set({ photos: data.photos }, { merge: true });
+      renderMemberProfilePhotosSubtab(user, data);
+    }catch(e){ console.error('remove member photo error', e); toast(t('memberErrUnknown')); if(btn) btn.disabled = false; }
+  };
+  tabBody.querySelectorAll('.member-photo-thumb').forEach(thumb => {
+    thumb.onclick = () => {
+      const idx = parseInt(thumb.dataset.idx, 10);
+      openLightbox(data.photos[idx].url, 'image', () => deleteMemberPhoto(idx));
     };
   });
 }
@@ -12828,7 +13750,7 @@ async function renderMemberPurchasesTab(user, data){
       </div>`).join('');
     tabBody.innerHTML = `
       <div class="member-section-title">${t('memberPurchaseHistoryTitle')}</div>
-      ${historyRows || `<p class="member-note">${t('memberPurchaseNone')}</p>`}
+      ${historyRows || `<p class="member-note">${t('memberPurchaseNone')}</p><button type="button" class="btn btn-primary btn-sm" id="member-purchases-discover-btn" style="margin-top:6px;">${t('memberDiscoverCreatorsBtn')}</button>`}
       <div class="member-section-title">${t('memberPurchasePhotosTitle')}</div>
       ${photoThumbs ? `<div class="member-media-grid">${photoThumbs}</div>` : `<p class="member-note">${t('memberPurchaseNoPhotos')}</p>`}
       <div class="member-section-title">${t('memberPurchaseVideosTitle')}</div>
@@ -12836,6 +13758,8 @@ async function renderMemberPurchasesTab(user, data){
       <div class="member-section-title">${t('customOrderPurchasesTitle')}</div>
       ${customThumbs ? `<div class="member-media-grid">${customThumbs}</div>` : `<p class="member-note">${t('customOrderPurchasesNone')}</p>`}
     `;
+    const discoverBtn = document.getElementById('member-purchases-discover-btn');
+    if(discoverBtn) discoverBtn.onclick = () => { closeMemberModal(); openVitrine(); };
   }catch(e){
     console.error('load member purchases error', e);
     tabBody.innerHTML = `<p class="member-note">${t('memberPurchaseLoadErr')}</p>`;
@@ -12883,7 +13807,7 @@ async function renderMemberPopularityTab(user, data){
           </div>`).join('')}
       </div>
     `;
-    renderLevelBarGeneric('member-uxd-level-bar', UXD_TIERS, data.uxd || 0, 'uxdLabel');
+    renderLevelBarGeneric('member-uxd-level-bar', UXD_TIERS, data.uxd || 0, 'uxdLabel', 'uxdLevelDesc');
   }catch(e){
     console.error('renderMemberPopularityTab error', e);
     tabBody.innerHTML = `<span class="gallery-empty">${(LANG==='fr'?'Erreur : ':'Error: ')}${escText(e.message||String(e))}</span>`;
@@ -13033,6 +13957,9 @@ async function openChat(ctx){
   document.getElementById('chat-input').value = ctx.prefillText || '';
   document.getElementById('chat-messages').innerHTML = `<span class="chat-empty-note">${t('chatLoading')}</span>`;
   document.getElementById('chat-backdrop').classList.add('open');
+  // Fluidité "espace membre" appliquée uniquement quand c'est un membre qui ouvre le chat
+  // (pas quand c'est la créatrice/agence qui répond depuis son tableau de bord).
+  document.getElementById('chat-modal').classList.toggle('member-space-modal', ctx.viewerType === 'member');
   document.getElementById('chat-modal').classList.add('open');
   wireChatReactionRail();
 
@@ -13050,7 +13977,9 @@ async function openChat(ctx){
     const typing = d[typingField];
     const typingAt = typing && d[typingField + 'At'] && d[typingField + 'At'].toDate ? d[typingField + 'At'].toDate().getTime() : 0;
     const isFresh = typing && (Date.now() - typingAt) < 4000;
-    document.getElementById('chat-header-status').textContent = isFresh ? t('chatTypingIndicator') : '';
+    document.getElementById('chat-header-status').innerHTML = isFresh
+      ? `${escText(t('chatTypingIndicator'))} <span class="chat-typing-dots"><span></span><span></span><span></span></span>`
+      : '';
     // Réaction en direct envoyée par l'autre personne : animation seulement, jamais stockée comme message.
     const lr = d.liveReaction;
     if(lr && lr.from !== ctx.viewerType && lr.at > lastSeenReactionAt){
@@ -13093,9 +14022,12 @@ async function openChat(ctx){
 
         if(m.customOrderRequest){
           const isDelivered = m.customOrderStatus === 'delivered';
+          const isTip = m.orderKind === 'tip';
           let actionHtml = '';
           if(ctx.viewerType === 'creator' && !isDelivered){
-            actionHtml = `<button type="button" class="custom-order-action-btn custom-order-deliver-btn" data-docid="${docSnap.id}" data-text="${escAttr(m.text || '')}">${ICON_GIFT} ${t('customOrderDeliverBtn')}</button>`;
+            actionHtml = isTip
+              ? `<button type="button" class="custom-order-action-btn tip-order-deliver-btn" data-docid="${docSnap.id}" data-url="${escAttr(m.tipContentUrl || '')}" data-type="${escAttr(m.tipContentType || 'photo')}" data-price="${escAttr(m.tipPrice || '')}">${ICON_GIFT} ${t('tipOrderDeliverBtn')}</button>`
+              : `<button type="button" class="custom-order-action-btn custom-order-deliver-btn" data-docid="${docSnap.id}" data-text="${escAttr(m.text || '')}">${ICON_GIFT} ${t('customOrderDeliverBtn')}</button>`;
           }else if(ctx.viewerType === 'member' && isDelivered){
             actionHtml = `<button type="button" class="custom-order-action-btn custom-order-unlock-btn" data-docid="${docSnap.id}" data-url="${escAttr(m.deliveredContentUrl || '')}" data-type="${escAttr(m.deliveredContentType || 'photo')}" data-text="${escAttr(m.text || '')}">${ICON_LOCK} ${t('customOrderViewBtn')}</button>`;
           }else if(isDelivered){
@@ -13106,8 +14038,8 @@ async function openChat(ctx){
           return `
             <div class="dm-bubble-row ${mine ? 'mine' : 'theirs'}">
               <div class="dm-sender-row">${avatarHtml}${nameHtml}</div>
-              <div class="custom-order-card">
-                <div class="custom-order-card-head">${ICON_CART} <b>${t('customOrderBtnLabel')}</b></div>
+              <div class="custom-order-card ${isTip ? 'tip-order-card' : ''}">
+                <div class="custom-order-card-head">${ICON_CART} <b>${isTip ? t('tipOrderCardLabel') : t('customOrderBtnLabel')}</b></div>
                 <p class="custom-order-card-text">${escText(m.text || '')}</p>
                 ${actionHtml}
               </div>
@@ -13138,6 +14070,9 @@ async function openChat(ctx){
       });
       box.querySelectorAll('.custom-order-deliver-btn').forEach(btn => {
         btn.onclick = () => openOrderDelivery(ctx, btn.dataset.docid, btn.dataset.text);
+      });
+      box.querySelectorAll('.tip-order-deliver-btn').forEach(btn => {
+        btn.onclick = () => quickDeliverTipOrder(ctx, btn.dataset.docid, btn.dataset.url, btn.dataset.type, btn.dataset.price);
       });
       box.querySelectorAll('.custom-order-unlock-btn').forEach(btn => {
         btn.onclick = () => {
@@ -13465,7 +14400,8 @@ function openCustomOrderForm(ctx){
       await convRef.set({
         memberUid: ctx.memberUid, memberUsername: ctx.memberUsername || '', creatorName: ctx.creatorName || '',
         lastMessageText: '📦 ' + t('customOrderBtnLabel'), lastMessageAt: firebase.firestore.FieldValue.serverTimestamp(),
-        lastSenderType: 'member', creatorUnreadCount: firebase.firestore.FieldValue.increment(1)
+        lastSenderType: 'member', creatorUnreadCount: firebase.firestore.FieldValue.increment(1),
+        pendingCustomOrderCount: firebase.firestore.FieldValue.increment(1)
       }, { merge: true });
       toast(t('customOrderSentToast'));
       close();
@@ -13475,7 +14411,7 @@ function openCustomOrderForm(ctx){
 }
 
 /* ---------------- livraison (créatrice répond à une commande, unique à ce message/ce membre) ---------------- */
-function openOrderDelivery(ctx, msgDocId, requestText){
+function openOrderDelivery(ctx, msgDocId, requestText, onDelivered){
   if(ctx.viewerType !== 'creator'){
     toast(t('customOrderUnauthorized'));
     return;
@@ -13576,16 +14512,41 @@ function openOrderDelivery(ctx, msgDocId, requestText){
         const convRef = db.collection('profiles').doc(ctx.profileId).collection('conversations').doc(ctx.memberUid);
         await convRef.set({
           lastMessageText: '📦 ' + t('customOrderDeliveredNote'), lastMessageAt: firebase.firestore.FieldValue.serverTimestamp(),
-          lastSenderType: 'creator', memberUnreadCount: firebase.firestore.FieldValue.increment(1)
+          lastSenderType: 'creator', memberUnreadCount: firebase.firestore.FieldValue.increment(1),
+          pendingCustomOrderCount: firebase.firestore.FieldValue.increment(-1)
         }, { merge: true });
         toast(t('customOrderDeliveredToast'));
         close();
+        if(onDelivered) onDelivered();
       }catch(e){ console.error('deliver order error', e); toast(t('memberErrUnknown')); }
       btn.disabled = false;
     };
   };
 
   renderZone();
+}
+
+/* ---------------- livraison rapide (commande Tip Menu, contenu déjà prêt) ---------------- */
+async function quickDeliverTipOrder(ctx, msgDocId, contentUrl, contentType, price){
+  if(ctx.viewerType !== 'creator'){
+    toast(t('customOrderUnauthorized'));
+    return;
+  }
+  if(!contentUrl){ toast(t('memberErrUnknown')); return; }
+  try{
+    const msgRef = db.collection('profiles').doc(ctx.profileId).collection('conversations').doc(ctx.memberUid).collection('messages').doc(msgDocId);
+    await msgRef.set({
+      customOrderStatus: 'delivered', deliveredContentUrl: contentUrl, deliveredContentType: contentType || 'photo',
+      deliveredPrice: price ? parseInt(price, 10) : null, deliveredAt: firebase.firestore.FieldValue.serverTimestamp()
+    }, { merge: true });
+    const convRef = db.collection('profiles').doc(ctx.profileId).collection('conversations').doc(ctx.memberUid);
+    await convRef.set({
+      lastMessageText: '📦 ' + t('customOrderDeliveredNote'), lastMessageAt: firebase.firestore.FieldValue.serverTimestamp(),
+      lastSenderType: 'creator', memberUnreadCount: firebase.firestore.FieldValue.increment(1),
+      pendingTipOrderCount: firebase.firestore.FieldValue.increment(-1)
+    }, { merge: true });
+    toast(t('customOrderDeliveredToast'));
+  }catch(e){ console.error('quick deliver tip order error', e); toast(t('memberErrUnknown')); }
 }
 
 /* ---------------- déblocage côté membre : voir la livraison + l'ajouter à ses achats ---------------- */
@@ -13820,11 +14781,26 @@ async function renderMyMessages(m){
     const snap = await db.collection('profiles').doc(m.id).collection('conversations')
       .orderBy('lastMessageAt', 'desc').limit(100).get();
     const badgeEl = document.getElementById('creator-msg-badge-' + m.id);
+    const customBadgeEl = document.getElementById('creator-orders-custom-badge-' + m.id);
+    const tipBadgeEl = document.getElementById('creator-orders-tip-badge-' + m.id);
     if(badgeEl){
-      let total = 0;
-      snap.forEach(d => { total += (d.data().creatorUnreadCount || 0); });
+      let total = 0, totalCustom = 0, totalTip = 0;
+      snap.forEach(d => {
+        const dd = d.data();
+        total += (dd.creatorUnreadCount || 0);
+        totalCustom += (dd.pendingCustomOrderCount || 0);
+        totalTip += (dd.pendingTipOrderCount || 0);
+      });
       if(total > 0){ badgeEl.style.display = 'inline-flex'; badgeEl.textContent = total > 99 ? '99+' : String(total); }
       else { badgeEl.style.display = 'none'; }
+      if(customBadgeEl){
+        if(totalCustom > 0){ customBadgeEl.style.display = 'inline-flex'; customBadgeEl.textContent = totalCustom > 99 ? '99+' : String(totalCustom); }
+        else { customBadgeEl.style.display = 'none'; }
+      }
+      if(tipBadgeEl){
+        if(totalTip > 0){ tipBadgeEl.style.display = 'inline-flex'; tipBadgeEl.textContent = totalTip > 99 ? '99+' : String(totalTip); }
+        else { tipBadgeEl.style.display = 'none'; }
+      }
     }
     if(snap.empty){
       zone.innerHTML = `<span class="gallery-empty">${t('chatNoConversations')}</span>`;
@@ -13833,11 +14809,16 @@ async function renderMyMessages(m){
     zone.innerHTML = snap.docs.map(d => {
       const c = d.data();
       const unread = c.creatorUnreadCount || 0;
+      const hasCustomOrder = (c.pendingCustomOrderCount || 0) > 0;
+      const hasTipOrder = (c.pendingTipOrderCount || 0) > 0;
       return `
         <button type="button" class="conv-list-row" data-uid="${d.id}">
           <span class="conv-list-avatar">👤</span>
           <span class="conv-list-body">
-            <span class="conv-list-name">${escText(c.memberUsername || t('nameUndefined'))}</span>
+            <span class="conv-list-name">${escText(c.memberUsername || t('nameUndefined'))}
+              ${hasCustomOrder ? `<span class="conv-order-dot conv-order-dot-custom" title="${escAttr(t('ordersCustomTabLabel'))}"></span>` : ''}
+              ${hasTipOrder ? `<span class="conv-order-dot conv-order-dot-tip" title="${escAttr(t('ordersTipTabLabel'))}"></span>` : ''}
+            </span>
             <span class="conv-list-preview">${escText(c.lastMessageText || '')}</span>
           </span>
           ${unread ? `<span class="conv-unread-badge">${unread}</span>` : ''}
@@ -13861,6 +14842,190 @@ async function renderMyMessages(m){
     });
   }catch(e){
     console.error('load my conversations error', e);
+    zone.innerHTML = `<span class="gallery-empty">${(LANG==='fr'?'Erreur : ':'Error: ')}${escText(e.message||String(e))}</span>`;
+  }
+}
+
+/* ---------------- onglets Commandes (personnalisées et Tip Menu) : liste séparée du chat classique ---------------- */
+async function renderMyOrders(m, kind){
+  const zoneId = kind === 'tip' ? 'my-orders-tip-zone' : 'my-orders-custom-zone';
+  const zone = document.getElementById(zoneId);
+  if(!zone) return;
+  zone.innerHTML = `<span class="gallery-empty">${t('chatLoading')}</span>`;
+  try{
+    if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
+    const convSnap = await db.collection('profiles').doc(m.id).collection('conversations')
+      .orderBy('lastMessageAt', 'desc').limit(100).get();
+    const relevant = convSnap.docs.filter(d => {
+      const dd = d.data();
+      return kind === 'tip' ? (dd.pendingTipOrderCount || 0) > 0 : (dd.pendingCustomOrderCount || 0) > 0;
+    });
+    if(relevant.length === 0){
+      zone.innerHTML = `<span class="gallery-empty">${kind === 'tip' ? t('ordersTipEmpty') : t('ordersCustomEmpty')}</span>`;
+      return;
+    }
+    const rowsPerConv = await Promise.all(relevant.map(async (d) => {
+      const c = d.data();
+      const msgSnap = await d.ref.collection('messages')
+        .where('customOrderRequest', '==', true).where('customOrderStatus', '==', 'pending')
+        .orderBy('createdAt', 'desc').limit(10).get();
+      return msgSnap.docs
+        .map(msgDoc => ({ msgDoc, dd: msgDoc.data() }))
+        .filter(o => (kind === 'tip' ? o.dd.orderKind === 'tip' : o.dd.orderKind !== 'tip'))
+        .map(o => ({
+          memberUid: d.id, memberUsername: c.memberUsername || t('nameUndefined'),
+          msgId: o.msgDoc.id, text: o.dd.text || '',
+          tipContentUrl: o.dd.tipContentUrl || '', tipContentType: o.dd.tipContentType || 'photo', tipPrice: o.dd.tipPrice || ''
+        }));
+    }));
+    const rows = rowsPerConv.flat();
+    if(rows.length === 0){
+      zone.innerHTML = `<span class="gallery-empty">${kind === 'tip' ? t('ordersTipEmpty') : t('ordersCustomEmpty')}</span>`;
+      return;
+    }
+    zone.innerHTML = rows.map(r => `
+      <div class="order-row-card ${kind === 'tip' ? 'tip-order-card' : ''}">
+        <div class="order-row-head">
+          <span class="order-row-name">👤 ${escText(r.memberUsername)}</span>
+        </div>
+        <p class="order-row-text">${escText(r.text)}</p>
+        <div class="order-row-actions">
+          <button type="button" class="custom-order-action-btn order-row-discuss-btn" data-uid="${escAttr(r.memberUid)}">${t('ordersDiscussBtn')}</button>
+          <button type="button" class="custom-order-action-btn ${kind === 'tip' ? 'tip-order-deliver-btn' : 'custom-order-deliver-btn'}"
+            data-docid="${escAttr(r.msgId)}" data-uid="${escAttr(r.memberUid)}" data-text="${escAttr(r.text)}"
+            data-url="${escAttr(r.tipContentUrl)}" data-type="${escAttr(r.tipContentType)}" data-price="${escAttr(r.tipPrice)}">
+            ${ICON_GIFT} ${kind === 'tip' ? t('tipOrderDeliverBtn') : t('customOrderDeliverBtn')}
+          </button>
+        </div>
+      </div>`).join('');
+    const openDiscussFor = async (memberUid, memberUsername) => {
+      const avatarInfo = await resolveMemberAvatarForCreator(memberUid, m.id);
+      let otherUxd = 0;
+      try{
+        const memberDoc = await memberDb.collection('members').doc(memberUid).get();
+        otherUxd = (memberDoc.exists && memberDoc.data().uxd) || 0;
+      }catch(e){ console.error('load member uxd error', e); }
+      openChat({
+        profileId: m.id, viewerType: 'creator', memberUid,
+        memberUsername: memberUsername || '', creatorName: m.name || '',
+        otherName: memberUsername || t('nameUndefined'), otherPhoto: avatarInfo.photoURL || null, otherUxd
+      });
+    };
+    zone.querySelectorAll('.order-row-discuss-btn').forEach(btn => {
+      const row = rows.find(r => r.memberUid === btn.dataset.uid);
+      btn.onclick = () => openDiscussFor(btn.dataset.uid, row && row.memberUsername);
+    });
+    zone.querySelectorAll('.custom-order-deliver-btn').forEach(btn => {
+      btn.onclick = () => {
+        const ctx = { profileId: m.id, memberUid: btn.dataset.uid, viewerType: 'creator' };
+        openOrderDelivery(ctx, btn.dataset.docid, btn.dataset.text, () => renderMyOrders(m, kind));
+      };
+    });
+    zone.querySelectorAll('.tip-order-deliver-btn').forEach(btn => {
+      btn.onclick = () => {
+        const ctx = { profileId: m.id, memberUid: btn.dataset.uid, viewerType: 'creator' };
+        quickDeliverTipOrder(ctx, btn.dataset.docid, btn.dataset.url, btn.dataset.type, btn.dataset.price)
+          .then(() => renderMyOrders(m, kind));
+      };
+    });
+  }catch(e){
+    console.error('load my orders error', e);
+    zone.innerHTML = `<span class="gallery-empty">${(LANG==='fr'?'Erreur : ':'Error: ')}${escText(e.message||String(e))}</span>`;
+  }
+}
+
+/* ---------------- onglet Membres (côté créatrice) : follow + favoris + infos partagées ---------------- */
+async function renderMyMembers(m, filter){
+  filter = filter || 'all';
+  const zone = document.getElementById('my-members-zone');
+  if(!zone) return;
+  zone.innerHTML = `<span class="gallery-empty">${t('chatLoading')}</span>`;
+  try{
+    if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
+    if(memberAuth && !memberAuth.currentUser){ try{ await memberAuth.signInAnonymously(); }catch(e){} }
+    const { docs: snapDocs, chatMemberIds, followingMembers, favoriteMembers } = await fetchVisibleMembersForCreator(m.id);
+    const rows = [];
+    snapDocs.forEach(doc => {
+      const d = doc.data() || {};
+      const memberFavorites = d.favorites || [];
+      const isFav = memberFavorites.includes(m.id);
+      const hasChatted = chatMemberIds.includes(doc.id);
+      const isFollowedByCreator = followingMembers.includes(doc.id);
+      const isCreatorFavorite = favoriteMembers.includes(doc.id);
+      const bioVis = d.bioVisibility || (d.bioVisibleToCreator ? 'everyone' : 'nobody');
+      const photosVis = d.photosVisibility || (d.photosVisibleToCreator ? 'everyone' : 'nobody');
+      const bioOk = bioVis === 'everyone' || (bioVis === 'favorites' && isFav);
+      const photosOk = photosVis === 'everyone' || (photosVis === 'favorites' && isFav);
+      if(!bioOk && !photosOk && !isFav && !hasChatted && !isFollowedByCreator && !isCreatorFavorite) return;
+      if(filter === 'favorites' && !isCreatorFavorite) return;
+      rows.push({
+        id: doc.id, username: d.username || t('nameUndefined'),
+        photoURL: photosOk ? (d.photoURL || '') : '', location: d.location || '',
+        bio: bioOk ? (d.bio || '') : '', photos: photosOk ? (d.photos || []) : [],
+        isFav, hasChatted, isFollowedByCreator, isCreatorFavorite, followersCount: d.followersCount || 0
+      });
+    });
+    rows.sort((a, b) => (b.isCreatorFavorite - a.isCreatorFavorite) || (b.isFollowedByCreator - a.isFollowedByCreator));
+    if(rows.length === 0){
+      zone.innerHTML = `<span class="gallery-empty">${filter === 'favorites' ? t('myMembersNoFavorites') : t('membersViewerEmpty')}</span>`;
+      return;
+    }
+    zone.innerHTML = rows.map(r => `
+      <div class="member-view-card">
+        <div class="member-view-head">
+          ${r.photoURL ? `<img class="member-view-avatar" src="${escAttr(r.photoURL)}">` : honeymoonLogoFallbackHtml('member-view-avatar')}
+          <div style="flex:1;">
+            <div class="member-view-name">${escText(r.username)} ${r.isFav ? '♥' : ''} ${r.hasChatted ? '💬' : ''} ${followerBadgeHtml(r.followersCount)}</div>
+            ${r.location ? `<div class="member-view-loc">${escText(r.location)}</div>` : ''}
+          </div>
+        </div>
+        ${r.bio ? `<p class="member-view-bio">${escText(r.bio)}</p>` : ''}
+        ${r.photos.length ? `<div class="member-media-grid">${r.photos.map(p => `<img src="${escAttr(p)}">`).join('')}</div>` : ''}
+        <div class="member-view-actions">
+          <button type="button" class="follow-btn my-member-follow-btn ${r.isFollowedByCreator ? 'following' : ''}" data-uid="${r.id}">${r.isFollowedByCreator ? t('followingBtn') : t('followBtn')}</button>
+          <button type="button" class="follow-btn my-member-favorite-btn ${r.isCreatorFavorite ? 'is-favorite' : ''}" data-uid="${r.id}">⭐ ${r.isCreatorFavorite ? t('myMembersUnfavoriteBtn') : t('myMembersFavoriteBtn')}</button>
+        </div>
+      </div>
+    `).join('');
+    zone.querySelectorAll('.my-member-follow-btn').forEach(btn => {
+      btn.onclick = async () => {
+        btn.disabled = true;
+        const uid = btn.dataset.uid;
+        const isFollowing = btn.classList.contains('following');
+        try{
+          const creatorRef = db.collection('profiles').doc(m.id);
+          const memberRef = memberDb.collection('members').doc(uid);
+          if(isFollowing){
+            await creatorRef.set({ followingMembers: firebase.firestore.FieldValue.arrayRemove(uid) }, { merge: true });
+            await memberRef.set({ followersCount: firebase.firestore.FieldValue.increment(-1) }, { merge: true });
+          } else {
+            await creatorRef.set({ followingMembers: firebase.firestore.FieldValue.arrayUnion(uid) }, { merge: true });
+            await memberRef.set({ followersCount: firebase.firestore.FieldValue.increment(1) }, { merge: true });
+          }
+          btn.classList.toggle('following', !isFollowing);
+          btn.textContent = !isFollowing ? t('followingBtn') : t('followBtn');
+        }catch(e){ console.error('creator follow member error', e); toast(t('memberErrUnknown')); }
+        btn.disabled = false;
+      };
+    });
+    zone.querySelectorAll('.my-member-favorite-btn').forEach(btn => {
+      btn.onclick = async () => {
+        btn.disabled = true;
+        const uid = btn.dataset.uid;
+        const isFav = btn.classList.contains('is-favorite');
+        try{
+          const creatorRef = db.collection('profiles').doc(m.id);
+          await creatorRef.set({
+            favoriteMembers: isFav ? firebase.firestore.FieldValue.arrayRemove(uid) : firebase.firestore.FieldValue.arrayUnion(uid)
+          }, { merge: true });
+          btn.classList.toggle('is-favorite', !isFav);
+          btn.innerHTML = `⭐ ${!isFav ? t('myMembersUnfavoriteBtn') : t('myMembersFavoriteBtn')}`;
+        }catch(e){ console.error('creator favorite member error', e); toast(t('memberErrUnknown')); }
+        btn.disabled = false;
+      };
+    });
+  }catch(e){
+    console.error('load my members error', e);
     zone.innerHTML = `<span class="gallery-empty">${(LANG==='fr'?'Erreur : ':'Error: ')}${escText(e.message||String(e))}</span>`;
   }
 }
@@ -14400,9 +15565,21 @@ document.getElementById('age-no-btn').onclick = () => {
 document.getElementById('age-leave-btn').onclick = () => {
   window.location.href = 'about:blank';
 };
+document.getElementById('age-gate-lang-select').onchange = (e) => setAgeGateLang(e.target.value);
+function setAgeGateLang(lang){
+  LANG = lang;
+  try{ localStorage.setItem('hm_lang', lang); }catch(e){}
+  syncLangSelects(lang);
+  applyVitrineStaticText();
+  document.getElementById('t-age-gate-title').textContent = t('ageGateTitle');
+  document.getElementById('t-age-gate-body').textContent = t('ageGateBody');
+  document.getElementById('t-age-yes').textContent = t('ageYes');
+  document.getElementById('t-age-no').textContent = t('ageNo');
+}
 document.getElementById('vitrine-lang-select').onchange = (e) => setVitrineLang(e.target.value);
 function setVitrineLang(lang){
   LANG = lang;
+  try{ localStorage.setItem('hm_lang', lang); }catch(e){}
   syncLangSelects(lang);
   applyVitrineStaticText();
   renderVitrineGrid();
@@ -14410,8 +15587,10 @@ function setVitrineLang(lang){
 function applyVitrineStaticText(){
   document.getElementById('t-vitrine-back').textContent = t('vitrineBack');
   document.getElementById('t-vitrine-eyebrow').textContent = t('vitrineHeroEyebrow');
-  document.getElementById('t-vitrine-title').textContent = t('vitrineHeroTitle');
+  document.getElementById('t-vitrine-title').innerHTML = t('vitrineHeroTitle');
   document.getElementById('t-vitrine-body').textContent = t('vitrineHeroBody');
+  document.getElementById('t-vitrine-cta').textContent = t('vitrineHeroCta');
+  document.getElementById('t-vitrine-trust-suffix').textContent = t('vitrineHeroTrustSuffix');
   document.getElementById('t-vitrine-foot-tag').textContent = 'Honeymoon';
   document.getElementById('t-legal-modal-close').textContent = t('galleryClose');
   document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -14575,8 +15754,15 @@ if(initialVitrineHash.open){
 function renderVitrineGrid(){
   const row1 = document.getElementById('vitrine-grid-row1');
   if(!row1) return;
+  const statEl = document.getElementById('vitrine-hero-stat-count');
+  if(statEl) statEl.textContent = roster.filter(m => m && m.filled && m.photo).length;
   const half = Math.ceil(roster.length / 2);
-  row1.innerHTML = roster.slice(0, half).map(m => vitrineCardHtml(m)).join('');
+  const html = roster.slice(0, half).map(m => vitrineCardHtml(m)).join('');
+  // Évite de recréer toute la grille (et donc de faire clignoter photos/icônes)
+  // quand les données n'ont pas changé depuis le dernier rendu.
+  if(row1.dataset.lastHtml === html) return;
+  row1.dataset.lastHtml = html;
+  row1.innerHTML = html;
   [row1].forEach(grid => {
     grid.querySelectorAll('.vitrine-enter-btn').forEach(btn => {
       btn.onclick = async () => {
@@ -14614,7 +15800,7 @@ const ICON_HEART_OUTLINE = '<svg width="16" height="16" viewBox="0 0 24 24" fill
 const ICON_THUMBSUP = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>';
 const ICON_SMILE = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>';
 const ICON_FROWN = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 16s-1.5-2-4-2-4 2-4 2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>';
-const ICON_SHIELD = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>';
+const ICON_SHIELD = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21.5s7.5-3.7 7.5-9.3V5.4L12 2.5l-7.5 2.9v6.8c0 5.6 7.5 9.3 7.5 9.3z" fill="currentColor" fill-opacity="0.16"/><path d="M12 8.4l1.1 2.3 2.5.4-1.8 1.8.4 2.5-2.2-1.2-2.2 1.2.4-2.5-1.8-1.8 2.5-.4z" fill="currentColor" stroke-width="1.1"/></svg>';
 const ICON_MAIL_SM = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 6 10-6"/></svg>';
 const ICON_PIN_SM = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>';
 const ICON_SPARKLE = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6.3 6.3l2.8 2.8M14.9 14.9l2.8 2.8M17.7 6.3l-2.8 2.8M9.1 14.9l-2.8 2.8"/></svg>';
@@ -15119,6 +16305,8 @@ function bioRow(labelKey, value){
 
 function exclusiveCardHtml(m, item){
   const desc = escText(item.description) || '';
+  const salesBadge = (item.salesCount || 0) > 0
+    ? `<span class="exclusive-sales-badge">${ICON_HEART_SM} ${t('exclusiveSalesCount').replace('{count}', item.salesCount)}</span>` : '';
   if(item.kind === 'video'){
     return `
       <div class="exclusive-thumb-wrap exclusive-video-wrap">
@@ -15135,6 +16323,7 @@ function exclusiveCardHtml(m, item){
           </div>
         </div>
         ${desc ? `<p class="exclusive-thumb-desc">${desc}</p>` : ''}
+        ${salesBadge}
       </div>`;
   }
   if(item.kind === 'audio'){
@@ -15146,6 +16335,7 @@ function exclusiveCardHtml(m, item){
           <span class="exclusive-thumb-price">${item.price}€</span>
         </div>
         ${desc ? `<p class="exclusive-thumb-desc">${desc}</p>` : ''}
+        ${salesBadge}
       </div>`;
   }
   return `
@@ -15156,6 +16346,7 @@ function exclusiveCardHtml(m, item){
         <span class="exclusive-thumb-price">${item.price}€</span>
       </div>
       ${desc ? `<p class="exclusive-thumb-desc">${desc}</p>` : ''}
+      ${salesBadge}
     </div>`;
 }
 
@@ -15289,13 +16480,14 @@ async function openVitrineRoom(id){
       ${m.photoType === 'video' ? `<video src="${m.photo}" controls loop playsinline></video>` : `<img src="${m.photo}">`}
       <span class="vitrine-status-badge ${online ? 'online' : ''}">${online ? t('statusOnline') : t('statusOffline')}</span>
     </div>
-    <h3>${escText(m.name) || t('nameUndefined')} <button type="button" class="room-fav-btn" data-id="${m.id}" title="${escAttr(t('memberFavoriteToggle'))}">${ICON_HEART_OUTLINE}</button> <button type="button" class="room-chat-btn" data-id="${m.id}" title="${escAttr(t('chatStartBtn'))}">${ICON_CHAT_SM}</button></h3>
+    <h3>${escText(m.name) || t('nameUndefined')} <button type="button" class="room-fav-btn" data-id="${m.id}" title="${escAttr(t('memberFavoriteToggle'))}">${ICON_HEART_OUTLINE}</button></h3>
     <div class="meta" style="color:var(--text-muted);font-size:12px;margin-top:2px;">${escText(m.country || '—')}</div>
 
     <div class="room-support-block">
       <button type="button" class="follow-btn room-support-btn" id="room-follow-btn" data-id="${m.id}">${t('followBtn')}</button>
       <div class="room-follower-count"><span id="room-follower-badge">${followerBadgeHtml(m.followersCount)}</span> ${m.followersCount || 0} ${t('followersLabel')}</div>
     </div>
+    <button type="button" class="room-chat-cta room-chat-btn" data-id="${m.id}">${ICON_CHAT_SM} ${t('chatStartBtn')}</button>
     ${publicIntro ? `<div class="room-intro-card"><p class="room-intro-line">${escText(publicIntro)}</p></div>` : ''}
 
     <div class="my-tabs room-tabs">
@@ -15476,13 +16668,37 @@ async function openVitrineRoom(id){
         username = (doc.exists && doc.data().username) || '';
         myUxd = (doc.exists && doc.data().uxd) || 0;
       }catch(e){ console.error('load member username error', e); }
+      const idx = parseInt(btn.dataset.idx, 10);
+      const row = (m.tipMenu && m.tipMenu[idx]) || {};
+      const orderText = t('tipMenuOrderPrefill').replace('{theme}', btn.dataset.theme).replace('{price}', btn.dataset.price);
+      try{
+        if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
+        const convRef = db.collection('profiles').doc(m.id).collection('conversations').doc(user.uid);
+        await convRef.collection('messages').add({
+          senderType: 'member', text: orderText, customOrderRequest: true, customOrderStatus: 'pending',
+          orderKind: 'tip', tipTheme: row.theme || btn.dataset.theme || '', tipPrice: row.price || btn.dataset.price || '',
+          tipContentType: row.type || 'photo', tipContentUrl: row.contentUrl || '',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        await convRef.set({
+          memberUid: user.uid, memberUsername: username || '', creatorName: m.name || '',
+          lastMessageText: '🛍️ ' + t('tipOrderCardLabel'), lastMessageAt: firebase.firestore.FieldValue.serverTimestamp(),
+          lastSenderType: 'member', creatorUnreadCount: firebase.firestore.FieldValue.increment(1),
+          pendingTipOrderCount: firebase.firestore.FieldValue.increment(1)
+        }, { merge: true });
+        try{
+          await memberDb.collection('members').doc(user.uid).set({
+            conversationProfileIds: firebase.firestore.FieldValue.arrayUnion(m.id)
+          }, { merge: true });
+        }catch(e){ console.error('track conversationProfileIds error', e); }
+        toast(t('customOrderSentToast'));
+      }catch(e){ console.error('send tip menu order error', e); toast(t('memberErrUnknown')); }
       closeVitrineRoom();
       mockPurchaseNotice();
       openChat({
         profileId: m.id, viewerType: 'member', memberUid: user.uid,
         memberUsername: username, creatorName: m.name || '',
-        otherName: m.name || t('nameUndefined'), otherPhoto: m.photo, myUxd,
-        prefillText: t('tipMenuOrderPrefill').replace('{theme}', btn.dataset.theme).replace('{price}', btn.dataset.price)
+        otherName: m.name || t('nameUndefined'), otherPhoto: m.photo, myUxd
       });
     };
   });
