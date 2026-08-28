@@ -54,19 +54,14 @@ button{font-family:inherit;cursor:pointer;}
 ::selection{background:var(--honey);color:#0c0b0d;}
 .logo{
   font-family:'Fraunces',serif;font-weight:700;
-  background:linear-gradient(100deg,var(--honey-deep) 0%,var(--honey) 35%,#f2dba8 50%,var(--honey) 65%,var(--honey-deep) 100%);
+  background:linear-gradient(100deg,var(--honey-deep) 0%,var(--honey) 30%,#fff8e8 50%,var(--honey) 70%,var(--honey-deep) 100%);
   background-size:260% auto;
   -webkit-background-clip:text;background-clip:text;color:transparent;
-  animation:logoShine 16s linear infinite;
+  animation:logoShine 7s ease-in-out infinite alternate;
 }
 @keyframes logoShine{
   0%{background-position:200% center;}
-  3%{background-position:-20% center;}
-  3.1%{background-position:200% center;}
-  34%{background-position:200% center;}
-  37%{background-position:-20% center;}
-  37.1%{background-position:200% center;}
-  100%{background-position:200% center;}
+  100%{background-position:-20% center;}
 }
 
 /* ---------- theme toggle (bouton flottant, visible partout) ---------- */
@@ -229,9 +224,9 @@ img[data-hm-loaded], video[data-hm-loaded]{
 }
 #vitrine-shell .hero h1 em{
   font-style:italic;font-weight:500;
-  background:linear-gradient(100deg,var(--honey-deep) 0%,var(--honey) 35%,#f2dba8 50%,var(--honey) 65%,var(--honey-deep) 100%);
+  background:linear-gradient(100deg,var(--honey-deep) 0%,var(--honey) 30%,#fff8e8 50%,var(--honey) 70%,var(--honey-deep) 100%);
   background-size:260% auto;-webkit-background-clip:text;background-clip:text;color:transparent;
-  animation:logoShine 16s linear infinite;
+  animation:logoShine 7s ease-in-out infinite alternate;
 }
 #vitrine-shell .hero p{font-size:15.5px;max-width:480px;}
 .vitrine-hero-actions{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:26px;}
@@ -268,9 +263,9 @@ img[data-hm-loaded], video[data-hm-loaded]{
 }
 #app-shell .hero h1 em{
   font-style:italic;font-weight:500;
-  background:linear-gradient(100deg,var(--honey-deep) 0%,var(--honey) 35%,#f2dba8 50%,var(--honey) 65%,var(--honey-deep) 100%);
+  background:linear-gradient(100deg,var(--honey-deep) 0%,var(--honey) 30%,#fff8e8 50%,var(--honey) 70%,var(--honey-deep) 100%);
   background-size:260% auto;-webkit-background-clip:text;background-clip:text;color:transparent;
-  animation:logoShine 16s linear infinite;
+  animation:logoShine 7s ease-in-out infinite alternate;
 }
 #app-shell .hero p{font-size:15.5px;max-width:560px;}
 #app-shell .roster-head h2, #app-shell .creator-carousel-title{font-family:'Fraunces',serif;font-weight:600;}
@@ -357,8 +352,8 @@ img[data-hm-loaded], video[data-hm-loaded]{
   animation:vitrineRevealShimmer 5.5s ease-in-out infinite;
 }
 #vitrine-shell .empty-slot-logo{
-  animation:logoShine 16s linear infinite !important;
-  background:linear-gradient(100deg,var(--honey-deep) 0%,var(--honey) 35%,#f2dba8 50%,var(--honey) 65%,var(--honey-deep) 100%) !important;
+  animation:logoShine 7s ease-in-out infinite alternate !important;
+  background:linear-gradient(100deg,var(--honey-deep) 0%,var(--honey) 30%,#fff8e8 50%,var(--honey) 70%,var(--honey-deep) 100%) !important;
   background-size:260% auto !important;
   -webkit-background-clip:text !important;background-clip:text !important;-webkit-text-fill-color:transparent !important;color:transparent !important;
   font-size:16px;font-weight:700;
@@ -1348,16 +1343,19 @@ img[data-hm-loaded], video[data-hm-loaded]{
 <!-- ================= CREATOR GATE ================= -->
 <div id="creator-gate" style="display:none;min-height:100vh;align-items:center;justify-content:center;padding:24px;">
   <div class="gate-card" id="creator-login-view">
+    <select class="lang-select" id="creator-lang-select" style="margin:0 auto 18px;display:block;"></select>
     <div class="logo">honeymoon</div>
     <p class="sub mono" id="t-creator-gate-sub">Accès créatrice</p>
     <input id="creator-email" type="email" placeholder="Email" autocomplete="username" style="margin-bottom:8px;">
     <input id="creator-pass" type="password" placeholder="Mot de passe" autocomplete="current-password">
     <button class="btn btn-primary" id="creator-submit"><span id="t-creator-enter">Entrer</span></button>
+    <button type="button" class="member-forgot-link" id="creator-forgot-link" style="margin-top:6px;"><span id="t-creator-forgot">Mot de passe oublié ?</span></button>
     <div class="gate-err" id="creator-err"></div>
     <button class="gate-switch" id="show-creator-signup"><span id="t-creator-signup-link">Pas encore de compte ? Créer mon compte créatrice</span></button>
     <button class="gate-switch" id="show-agency-gate"><span id="t-back-agency">← Retour</span></button>
   </div>
   <div class="gate-card" id="creator-signup-view" style="display:none;">
+    <select class="lang-select" id="creator-su-lang-select" style="margin:0 auto 18px;display:block;"></select>
     <div class="logo">honeymoon</div>
     <p class="sub mono" id="t-creator-signup-sub">Créer mon compte créatrice</p>
     <p class="member-note" style="margin:-4px 0 10px;" id="t-creator-signup-note">Crée ton compte toi-même. Ton profil sera activé par l'équipe Honeymoon une fois ta candidature validée.</p>
@@ -2011,16 +2009,13 @@ try{
 
 const SUPPORTED_LANGS = ['fr','en','es','it','pt','sw','zu','st','ln','kg'];
 function detectInitialLang(){
+  // L'anglais est la langue par défaut du site : on ne devine plus la langue
+  // depuis celle du téléphone/navigateur (un visiteur avec un téléphone en
+  // français verra quand même l'anglais, comme prévu). Seul un choix déjà
+  // fait explicitement par le visiteur (mémorisé) l'emporte sur l'anglais.
   try{
     const saved = localStorage.getItem('hm_lang');
     if(saved && SUPPORTED_LANGS.includes(saved)) return saved;
-  }catch(e){}
-  try{
-    const browserLangs = navigator.languages || [navigator.language || 'en'];
-    for(const bl of browserLangs){
-      const code = (bl || '').slice(0, 2).toLowerCase();
-      if(SUPPORTED_LANGS.includes(code)) return code;
-    }
   }catch(e){}
   return 'en';
 }
@@ -9339,7 +9334,7 @@ const I18N = {
     ourCreatorsTitle: "Bayantiki na beto",
   },
 };
-function t(key){ const v = I18N[LANG] && I18N[LANG][key]; return (v !== undefined && v !== null) ? v : (I18N['fr'] ? I18N['fr'][key] : key); }
+function t(key){ const v = I18N[LANG] && I18N[LANG][key]; return (v !== undefined && v !== null) ? v : (I18N['en'] ? I18N['en'][key] : key); }
 function tr(fr, en, es){ return LANG==='fr' ? fr : (LANG==='es' ? es : en); }
 
 document.getElementById('contact-addr').textContent = CONTACT_EMAIL;
@@ -9396,6 +9391,8 @@ function setLang(lang){
 }
 document.getElementById('gate-lang-select').onchange = (e) => setLang(e.target.value);
 document.getElementById('app-lang-select').onchange = (e) => setLang(e.target.value);
+document.getElementById('creator-lang-select').onchange = (e) => setLang(e.target.value);
+document.getElementById('creator-su-lang-select').onchange = (e) => setLang(e.target.value);
 
 function applyStaticText(){
   document.getElementById('t-gate-sub').textContent = t('gateSub');
@@ -9427,6 +9424,8 @@ function applyStaticText(){
   document.getElementById('t-creator-enter').textContent = t('creatorEnter');
   document.getElementById('t-back-agency').textContent = t('backAgency');
   document.getElementById('creator-pass').placeholder = t('creatorPassPh');
+  document.getElementById('t-creator-forgot').textContent = t('memberForgotLink');
+  document.getElementById('t-admin-forgot').textContent = t('memberForgotLink');
   document.getElementById('creator-email').placeholder = t('creatorEmailPh');
   document.getElementById('t-creator-signup-link').textContent = t('creatorSignupLink');
   document.getElementById('t-creator-signup-sub').textContent = t('creatorSignupSub');
@@ -9490,6 +9489,21 @@ document.getElementById('creator-su-submit').onclick = async () => {
     else errEl.textContent = t('memberErrUnknown');
   }
   btn.disabled = false;
+};
+document.getElementById('creator-forgot-link').onclick = async () => {
+  const errEl = document.getElementById('creator-err');
+  errEl.textContent = '';
+  const email = document.getElementById('creator-email').value.trim();
+  if(!email){ errEl.textContent = t('adminForgotNeedEmail'); return; }
+  if(!auth){ errEl.textContent = t('memberErrNoConnection'); return; }
+  const btn = document.getElementById('creator-forgot-link');
+  btn.disabled = true;
+  try{
+    await auth.sendPasswordResetEmail(email);
+  }catch(e){ console.error('creator password reset error', e); }
+  btn.disabled = false;
+  errEl.style.color = 'var(--honey)';
+  errEl.textContent = t('adminForgotSent').replace('{email}', maskEmail(email));
 };
 document.getElementById('creator-submit').onclick = async () => {
   const email = document.getElementById('creator-email').value.trim();
@@ -9846,7 +9860,7 @@ document.getElementById('contact-btn').onclick = () => {
 };
 
 function initRoster(){
-  setLang('fr');
+  setLang(LANG);
   syncProfilesFromFirestore();
 }
 
