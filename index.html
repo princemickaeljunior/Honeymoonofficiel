@@ -9454,11 +9454,11 @@ document.getElementById('show-agency-gate').onclick = () => {
 };
 document.getElementById('show-creator-signup').onclick = () => {
   document.getElementById('creator-login-view').style.display = 'none';
-  document.getElementById('creator-signup-view').style.display = 'flex';
+  document.getElementById('creator-signup-view').style.display = 'block';
 };
 document.getElementById('show-creator-login').onclick = () => {
   document.getElementById('creator-signup-view').style.display = 'none';
-  document.getElementById('creator-login-view').style.display = 'flex';
+  document.getElementById('creator-login-view').style.display = 'block';
 };
 document.getElementById('creator-su-submit').onclick = async () => {
   const errEl = document.getElementById('creator-su-err');
@@ -9481,7 +9481,7 @@ document.getElementById('creator-su-submit').onclick = async () => {
     document.getElementById('creator-su-pass').value = '';
     document.getElementById('creator-su-pass2').value = '';
     document.getElementById('creator-signup-view').style.display = 'none';
-    document.getElementById('creator-login-view').style.display = 'flex';
+    document.getElementById('creator-login-view').style.display = 'block';
     document.getElementById('creator-email').value = email;
   }catch(e){
     console.error('creator signup error', e);
