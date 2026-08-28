@@ -304,6 +304,7 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .creator-carousel-row .model-card{flex:0 0 72%;scroll-snap-align:start;min-width:220px;border-radius:4px;}
 .creator-carousel-row .model-photo{aspect-ratio:1/1;}
 .carousel-arrow{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--honey);font-size:15px;display:flex;align-items:center;justify-content:center;padding:0;line-height:1;}
+.carousel-arrow:disabled{opacity:.35;pointer-events:none;}
 .carousel-arrow:active{background:var(--honey);color:#1a1206;}
 
 .model-card{ background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius); overflow:hidden;display:flex;flex-direction:column; }
@@ -537,6 +538,7 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .member-purchase-status.paid{background:rgba(95,214,122,0.15);color:#5fd67a;}
 .member-purchase-status.pending{background:rgba(230,160,60,0.15);color:var(--honey);}
 .member-media-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(90px,1fr));gap:8px;}
+.member-media-grid img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:10px;display:block;background:var(--bg-elev-2);}
 .member-view-card{background:var(--bg-elev-2);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:12px;}
 .member-view-head{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
 .member-view-avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0;}
@@ -546,8 +548,8 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .member-view-actions{display:flex;gap:8px;margin-top:10px;}
 .my-member-favorite-btn.is-favorite{background:var(--honey);color:#1a1206;border-color:var(--honey);}
 .my-members-filter-row{display:flex;gap:8px;margin-top:14px;max-width:280px;}
-.follower-badge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 6px;border-radius:999px;color:#fff;font-size:10.5px;font-weight:700;margin-left:6px;}
-.uxd-badge{min-width:auto;padding:0 8px;font-size:9.5px;}
+.follower-badge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 7px;border-radius:999px;color:#fff;font-size:10.5px;font-weight:700;margin-left:6px;white-space:nowrap;line-height:1;}
+.uxd-badge{min-width:auto;height:22px;padding:0 10px;font-size:10px;letter-spacing:.02em;box-shadow:0 2px 8px -2px rgba(0,0,0,0.4);}
 .popularity-hero{display:flex;justify-content:center;gap:36px;margin-top:20px;}
 .tiktok-stat{display:flex;flex-direction:column;align-items:center;gap:2px;}
 .tiktok-stat-num{font-family:'Inter',sans-serif;font-weight:800;font-size:20px;color:var(--text);}
@@ -801,6 +803,25 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .chat-typing-dot:nth-child(2){animation-delay:.15s;}
 .chat-typing-dot:nth-child(3){animation-delay:.3s;}
 @keyframes chatTypingBounce{0%,60%,100%{transform:translateY(0);opacity:.4;}30%{transform:translateY(-4px);opacity:1;}}
+.chat-tabs-row{display:flex;gap:6px;padding:10px 14px 0;flex-shrink:0;}
+.chat-tab-btn{
+  flex:1;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text-muted);
+  border-radius:999px;padding:8px 10px;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.chat-tab-btn.active{background:var(--honey);color:#1a1206;border-color:var(--honey);}
+.chat-tab-badge{background:var(--rose);color:#fff;font-size:9.5px;font-weight:700;min-width:16px;height:16px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;padding:0 4px;}
+.chat-tab-btn.active .chat-tab-badge{background:#1a1206;color:var(--honey);}
+.chat-topics-row{
+  display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;
+  padding:8px 14px;flex-shrink:0;border-top:1px solid var(--border);
+}
+.chat-topics-row::-webkit-scrollbar{display:none;}
+.chat-topic-chip{
+  flex:0 0 auto;white-space:nowrap;font-family:'Inter',sans-serif;font-size:11.5px;font-weight:600;
+  color:#fff;background:linear-gradient(135deg, var(--chip-color), color-mix(in srgb, var(--chip-color) 60%, #1a0a10));
+  border:none;border-radius:999px;padding:8px 14px;box-shadow:0 2px 8px -2px rgba(0,0,0,0.4);
+}
+.chat-topic-chip:active{transform:scale(0.95);}
 .chat-input-row{display:flex;gap:8px;padding:12px 14px;border-top:1px solid var(--border);flex-shrink:0;align-items:flex-end;}
 .chat-input-row textarea{flex:1;resize:none;max-height:90px;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text);border-radius:14px;padding:10px 14px;font-size:13.5px;font-family:inherit;transition:border-color .15s ease;}
 .chat-input-row textarea:focus{outline:none;border-color:var(--honey);}
@@ -1276,9 +1297,11 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .my-tab-btn, .member-tab{
   width:100%;flex:none;text-align:left;border-radius:10px;
   padding:12px 14px;border-bottom:none;white-space:normal;
+  background:var(--bg-elev-2);border:1px solid var(--border);
+  transition:border-color .15s ease, background .15s ease;
 }
-.my-tab-btn.active{background:var(--honey);color:#1a1206;}
-.member-tab.active{background:var(--honey);color:#1a1206;border-bottom-color:transparent;}
+.my-tab-btn.active{background:var(--honey);color:#1a1206;border-color:var(--honey);}
+.member-tab.active{background:var(--honey);color:#1a1206;border-color:var(--honey);}
 .tabs-arrows-row{display:none;}
 .tabs-arrows-row-visible{display:flex;justify-content:flex-end;gap:10px;margin-bottom:14px;}
 .tabs-slide-row{margin-top:24px;}
@@ -1762,11 +1785,16 @@ img[data-hm-loaded], video[data-hm-loaded]{
   <div class="chat-banner" id="chat-banner" style="display:none;"></div>
   <button type="button" class="chat-bot-btn" id="chat-bot-btn" style="display:none;"></button>
   <div class="chat-bot-panel" id="chat-bot-panel" style="display:none;"></div>
+  <div class="chat-tabs-row">
+    <button type="button" class="chat-tab-btn active" data-tab="libre"><span id="t-chat-tab-libre">Discussion libre</span></button>
+    <button type="button" class="chat-tab-btn" data-tab="commandes"><span id="t-chat-tab-orders">Commandes</span> <span class="chat-tab-badge" id="chat-tab-orders-badge" style="display:none;"></span></button>
+  </div>
   <div class="chat-body-wrap">
     <div class="chat-messages" id="chat-messages"></div>
     <div class="chat-reaction-rail" id="chat-reaction-rail"></div>
     <div class="chat-float-layer" id="chat-float-layer"></div>
   </div>
+  <div class="chat-topics-row" id="chat-topics-row"></div>
   <div class="chat-input-row">
     <button type="button" class="chat-emoji-btn" id="chat-emoji-btn">😏</button>
     <textarea id="chat-input" rows="1" maxlength="1000"></textarea>
@@ -1967,7 +1995,7 @@ function isLocalTestEnvironment(){
   const proto = window.location.protocol;
   return proto !== 'https:' && proto !== 'http:';
 }
-const SLOT_COUNT = 150; // marge large : ajouter une créatrice = juste remplir un nouveau slot, jamais besoin de toucher au code
+const SLOT_COUNT = 150; // capacité totale du roster (nombre d'emplacements possibles) — la vitrine affiche 6 vignettes par page (voir VITRINE_PAGE_SIZE), avec navigation ‹ › entre les pages.
 
 // ===== Ancien système (codes fixes par créatrice, comparés côté client) — retiré :
 // ne passait pas à l'échelle au-delà d'une poignée de créatrices, et n'offrait
@@ -2352,7 +2380,7 @@ const I18N = {
     tierLabel_purple: "Violet",
     tierLabel_diamond: "Diamant",
     uxdLabel: "UXD",
-    uxdExplainNote: "UXD : ton statut de soutien. Plus tu montes, plus ton rang grandit.",
+    uxdExplainNote: "UXD, ton grade de statut sur Honeymoon. Chaque soutien te fait progresser vers un rang reconnu par toute la communauté — jusqu'au niveau le plus élevé.",
     uxdLevelDesc_gray: "Le point de départ de tout nouveau membre.",
     uxdLevelDesc_silver: "Tu commences à te démarquer parmi les fans.",
     uxdLevelDesc_bronze: "Ton statut grimpe, tu entres dans le cercle des membres reconnus.",
@@ -2528,9 +2556,33 @@ const I18N = {
     myMessagesNote: "Discute en direct avec les membres qui t'écrivent.",
     chatLoading: "Chargement…",
     chatEmptyNote: "Aucun message pour le moment. Dis bonjour !",
+    chatNoOrdersNote: "Aucune commande dans cette conversation pour le moment.",
+    chatTabLibre: "Discussion libre",
+    chatTabOrders: "Commandes",
+    chatTopicStarterTemplate: "On parle de {topic} ? 😊",
+    chatTopic_day: "Ta journée",
+    chatTopic_travel: "Voyages",
+    chatTopic_music: "Musique",
+    chatTopic_movies: "Films & séries",
+    chatTopic_desires: "Envies",
+    chatTopic_compliments: "Compliments",
+    chatTopic_teasing: "Petit jeu de taquineries",
+    chatTopic_secrets: "Confidences",
+    chatTopic_style: "Style",
+    chatTopic_dreams: "Rêves",
+    chatTopic_humor: "Humour",
+    chatTopic_food: "Gourmandises",
+    chatTopic_perfectNight: "Soirée idéale",
+    chatTopic_memories: "Souvenirs",
+    chatTopic_wellness: "Détente",
+    chatTopic_nowPlaying: "Ce que tu écoutes",
+    chatTopic_common: "Points communs",
+    chatTopic_weekend: "Week-end parfait",
+    chatTopic_littleSecret: "Un petit secret",
+    chatTopic_reunion: "Si on se retrouvait",
     chatNoConversations: "Aucune conversation pour le moment.",
     chatTypingIndicator: "est en train d'écrire…",
-    chatRulesBanner: "⚠️ Espace de discussion respectueux : les insultes sont interdites. L'échange de coordonnées personnelles (numéro de téléphone, réseaux sociaux, email) est interdit sur la plateforme et peut entraîner des sanctions.",
+    chatRulesBanner: "⚠️ Espace de discussion respectueux : les insultes sont interdites. L'échange de coordonnées personnelles (numéro de téléphone, réseaux sociaux, email) est interdit sur la plateforme et peut entraîner des sanctions. La discussion est libre : les sujets proposés ne sont que des idées, jamais une obligation.",
     chatReportMessage: "Signaler ce message à l'équipe",
     chatStartBtn: "Envoyer un message",
     myFamilyContent: "Contenu",
@@ -3086,7 +3138,7 @@ const I18N = {
     tierLabel_purple: "Purple",
     tierLabel_diamond: "Diamond",
     uxdLabel: "UXD",
-    uxdExplainNote: "UXD: your supporter status. The higher you climb, the more your rank grows.",
+    uxdExplainNote: "UXD, your standing on Honeymoon. Every bit of support moves you up toward a rank recognized across the whole community — all the way to the top tier.",
     uxdLevelDesc_gray: "The starting point for every new member.",
     uxdLevelDesc_silver: "You're starting to stand out among fans.",
     uxdLevelDesc_bronze: "Your status is climbing — you're entering the circle of recognized members.",
@@ -3262,9 +3314,33 @@ const I18N = {
     myMessagesNote: "Chat live with members who message you.",
     chatLoading: "Loading…",
     chatEmptyNote: "No messages yet. Say hello!",
+    chatNoOrdersNote: "No orders in this conversation yet.",
+    chatTabLibre: "Free chat",
+    chatTabOrders: "Orders",
+    chatTopicStarterTemplate: "Shall we talk about {topic}? 😊",
+    chatTopic_day: "Your day",
+    chatTopic_travel: "Travel",
+    chatTopic_music: "Music",
+    chatTopic_movies: "Movies & shows",
+    chatTopic_desires: "Desires",
+    chatTopic_compliments: "Compliments",
+    chatTopic_teasing: "A little teasing game",
+    chatTopic_secrets: "Confessions",
+    chatTopic_style: "Style",
+    chatTopic_dreams: "Dreams",
+    chatTopic_humor: "Humor",
+    chatTopic_food: "Treats",
+    chatTopic_perfectNight: "Perfect night",
+    chatTopic_memories: "Memories",
+    chatTopic_wellness: "Relaxation",
+    chatTopic_nowPlaying: "What you're listening to",
+    chatTopic_common: "Things in common",
+    chatTopic_weekend: "Perfect weekend",
+    chatTopic_littleSecret: "A little secret",
+    chatTopic_reunion: "If we met up",
     chatNoConversations: "No conversations yet.",
     chatTypingIndicator: "is typing…",
-    chatRulesBanner: "⚠️ Respectful chat space: insults are forbidden. Exchanging personal contact details (phone number, social media, email) is not allowed on the platform and may lead to sanctions.",
+    chatRulesBanner: "⚠️ Respectful chat space: insults are forbidden. Exchanging personal contact details (phone number, social media, email) is not allowed on the platform and may lead to sanctions. Chatting is free-form: suggested topics are just ideas, never an obligation.",
     chatReportMessage: "Report this message to the team",
     chatStartBtn: "Send a message",
     myFamilyContent: "Content",
@@ -3970,6 +4046,30 @@ const I18N = {
     burgerLogout: "Cerrar sesión",
     caTabNote: "Seguimiento de tus ingresos, reparto de pagos y pedidos en curso.",
     chatEmptyNote: "Aún no hay mensajes. ¡Di hola!",
+    chatNoOrdersNote: "Aún no hay pedidos en esta conversación.",
+    chatTabLibre: "Charla libre",
+    chatTabOrders: "Pedidos",
+    chatTopicStarterTemplate: "¿Hablamos de {topic}? 😊",
+    chatTopic_day: "Tu día",
+    chatTopic_travel: "Viajes",
+    chatTopic_music: "Música",
+    chatTopic_movies: "Películas y series",
+    chatTopic_desires: "Deseos",
+    chatTopic_compliments: "Cumplidos",
+    chatTopic_teasing: "Un juego de coqueteo",
+    chatTopic_secrets: "Confidencias",
+    chatTopic_style: "Estilo",
+    chatTopic_dreams: "Sueños",
+    chatTopic_humor: "Humor",
+    chatTopic_food: "Antojos",
+    chatTopic_perfectNight: "Noche perfecta",
+    chatTopic_memories: "Recuerdos",
+    chatTopic_wellness: "Relax",
+    chatTopic_nowPlaying: "Lo que escuchas",
+    chatTopic_common: "Puntos en común",
+    chatTopic_weekend: "Fin de semana perfecto",
+    chatTopic_littleSecret: "Un pequeño secreto",
+    chatTopic_reunion: "Si nos encontráramos",
     chatLoading: "Cargando…",
     chatNoConversations: "Aún no hay conversaciones.",
     chatStartBtn: "Enviar un mensaje",
@@ -4120,7 +4220,7 @@ const I18N = {
     themeToBordeaux: "Modo oscuro",
     themeToLight: "Modo claro",
     visitorBadgeLabel: "Visitante",
-    chatRulesBanner: "⚠️ Espacio de chat respetuoso: los insultos están prohibidos. Intercambiar datos de contacto personales (número de teléfono, redes sociales, email) no está permitido en la plataforma y puede acarrear sanciones.",
+    chatRulesBanner: "⚠️ Espacio de chat respetuoso: los insultos están prohibidos. Intercambiar datos de contacto personales (número de teléfono, redes sociales, email) no está permitido en la plataforma y puede acarrear sanciones. La charla es libre: los temas sugeridos son solo ideas, nunca una obligación.",
     chatReportMessage: "Denunciar este mensaje al equipo",
     bnav2257: "Mención 2257",
     bnavCgu: "Términos",
@@ -4209,7 +4309,7 @@ const I18N = {
     tipMenuTheme_pov_intime: "POV íntimo",
     tipMenuTheme_roleplay: "Juego de rol",
     tipMenuTheme_strip_tease: "Striptease",
-    uxdExplainNote: "UXD: tu estatus de fan. Cuanto más subes, más crece tu rango.",
+    uxdExplainNote: "UXD, tu rango en Honeymoon. Cada muestra de apoyo te acerca a un estatus reconocido por toda la comunidad — hasta el nivel más alto.",
     uxdLevelDesc_gray: "El punto de partida para todo nuevo miembro.",
     uxdLevelDesc_silver: "Empiezas a destacar entre los fans.",
     uxdLevelDesc_bronze: "Tu estatus sube — entras en el círculo de miembros reconocidos.",
@@ -4701,6 +4801,30 @@ const I18N = {
     burgerLogout: "Disconnetti",
     caTabNote: "Monitoraggio dei tuoi ricavi, ripartizione dei pagamenti e ordini in corso.",
     chatEmptyNote: "Ancora nessun messaggio. Di' ciao!",
+    chatNoOrdersNote: "Nessun ordine in questa conversazione per ora.",
+    chatTabLibre: "Chat libera",
+    chatTabOrders: "Ordini",
+    chatTopicStarterTemplate: "Parliamo di {topic}? 😊",
+    chatTopic_day: "La tua giornata",
+    chatTopic_travel: "Viaggi",
+    chatTopic_music: "Musica",
+    chatTopic_movies: "Film e serie",
+    chatTopic_desires: "Desideri",
+    chatTopic_compliments: "Complimenti",
+    chatTopic_teasing: "Un gioco di stuzzicamento",
+    chatTopic_secrets: "Confidenze",
+    chatTopic_style: "Stile",
+    chatTopic_dreams: "Sogni",
+    chatTopic_humor: "Umorismo",
+    chatTopic_food: "Golosità",
+    chatTopic_perfectNight: "Serata perfetta",
+    chatTopic_memories: "Ricordi",
+    chatTopic_wellness: "Relax",
+    chatTopic_nowPlaying: "Cosa ascolti",
+    chatTopic_common: "Punti in comune",
+    chatTopic_weekend: "Weekend perfetto",
+    chatTopic_littleSecret: "Un piccolo segreto",
+    chatTopic_reunion: "Se ci incontrassimo",
     chatLoading: "Caricamento…",
     chatNoConversations: "Ancora nessuna conversazione.",
     chatStartBtn: "Invia un messaggio",
@@ -4851,7 +4975,7 @@ const I18N = {
     themeToBordeaux: "Modalità scura",
     themeToLight: "Modalità chiara",
     visitorBadgeLabel: "Visitatrice",
-    chatRulesBanner: "⚠️ Spazio di chat rispettoso: gli insulti sono vietati. Lo scambio di dati di contatto personali (numero di telefono, social media, email) non è consentito sulla piattaforma e può comportare sanzioni.",
+    chatRulesBanner: "⚠️ Spazio di chat rispettoso: gli insulti sono vietati. Lo scambio di dati di contatto personali (numero di telefono, social media, email) non è consentito sulla piattaforma e può comportare sanzioni. La chat è libera: gli argomenti suggeriti sono solo idee, mai un obbligo.",
     chatReportMessage: "Segnala questo messaggio al team",
     bnav2257: "Menzione 2257",
     bnavCgu: "Termini",
@@ -4940,7 +5064,7 @@ const I18N = {
     tipMenuTheme_pov_intime: "POV intimo",
     tipMenuTheme_roleplay: "Gioco di ruolo",
     tipMenuTheme_strip_tease: "Spogliarello",
-    uxdExplainNote: "UXD: il tuo status di sostenitore. Più sali, più cresce il tuo rango.",
+    uxdExplainNote: "UXD, il tuo grado su Honeymoon. Ogni sostegno ti avvicina a uno status riconosciuto da tutta la community — fino al livello più alto.",
     uxdLevelDesc_gray: "Il punto di partenza per ogni nuovo membro.",
     uxdLevelDesc_silver: "Inizi a distinguerti tra i fan.",
     uxdLevelDesc_bronze: "Il tuo status sale — entri nella cerchia dei membri riconosciuti.",
@@ -5432,6 +5556,30 @@ const I18N = {
     burgerLogout: "Terminar sessão",
     caTabNote: "Acompanhamento dos teus rendimentos, divisão dos pagamentos e encomendas em curso.",
     chatEmptyNote: "Ainda não há mensagens. Diz olá!",
+    chatNoOrdersNote: "Ainda não há pedidos nesta conversa.",
+    chatTabLibre: "Conversa livre",
+    chatTabOrders: "Pedidos",
+    chatTopicStarterTemplate: "Falamos sobre {topic}? 😊",
+    chatTopic_day: "O teu dia",
+    chatTopic_travel: "Viagens",
+    chatTopic_music: "Música",
+    chatTopic_movies: "Filmes e séries",
+    chatTopic_desires: "Desejos",
+    chatTopic_compliments: "Elogios",
+    chatTopic_teasing: "Um jogo de provocação",
+    chatTopic_secrets: "Confidências",
+    chatTopic_style: "Estilo",
+    chatTopic_dreams: "Sonhos",
+    chatTopic_humor: "Humor",
+    chatTopic_food: "Guloseimas",
+    chatTopic_perfectNight: "Noite perfeita",
+    chatTopic_memories: "Memórias",
+    chatTopic_wellness: "Relaxamento",
+    chatTopic_nowPlaying: "O que estás a ouvir",
+    chatTopic_common: "Pontos em comum",
+    chatTopic_weekend: "Fim de semana perfeito",
+    chatTopic_littleSecret: "Um pequeno segredo",
+    chatTopic_reunion: "Se nos encontrássemos",
     chatLoading: "A carregar…",
     chatNoConversations: "Ainda não há conversas.",
     chatStartBtn: "Enviar uma mensagem",
@@ -5582,7 +5730,7 @@ const I18N = {
     themeToBordeaux: "Modo escuro",
     themeToLight: "Modo claro",
     visitorBadgeLabel: "Visitante",
-    chatRulesBanner: "⚠️ Espaço de conversa respeitoso: insultos são proibidos. A troca de dados de contacto pessoais (número de telefone, redes sociais, email) não é permitida na plataforma e pode resultar em sanções.",
+    chatRulesBanner: "⚠️ Espaço de conversa respeitoso: insultos são proibidos. A troca de dados de contacto pessoais (número de telefone, redes sociais, email) não é permitida na plataforma e pode resultar em sanções. A conversa é livre: os temas sugeridos são apenas ideias, nunca uma obrigação.",
     chatReportMessage: "Denunciar esta mensagem à equipa",
     bnav2257: "Menção 2257",
     bnavCgu: "Termos",
@@ -5671,7 +5819,7 @@ const I18N = {
     tipMenuTheme_pov_intime: "POV íntimo",
     tipMenuTheme_roleplay: "Encenação",
     tipMenuTheme_strip_tease: "Striptease",
-    uxdExplainNote: "UXD: seu status de apoiador. Quanto mais você sobe, mais cresce seu ranking.",
+    uxdExplainNote: "UXD, o teu grau na Honeymoon. Cada apoio aproxima-te de um estatuto reconhecido por toda a comunidade — até ao nível mais alto.",
     uxdLevelDesc_gray: "O ponto de partida para todo novo membro.",
     uxdLevelDesc_silver: "Você começa a se destacar entre os fãs.",
     uxdLevelDesc_bronze: "Seu status sobe — você entra no círculo dos membros reconhecidos.",
@@ -6162,6 +6310,30 @@ const I18N = {
     burgerLogout: "Toka",
     caTabNote: "Ufuatiliaji wa mapato yako, mgawanyo wa malipo na maagizo yanayoendelea.",
     chatEmptyNote: "Hakuna ujumbe bado. Sema hujambo!",
+    chatNoOrdersNote: "Hakuna agizo katika mazungumzo haya bado.",
+    chatTabLibre: "Mazungumzo huru",
+    chatTabOrders: "Maagizo",
+    chatTopicStarterTemplate: "Tuzungumze kuhusu {topic}? 😊",
+    chatTopic_day: "Siku yako",
+    chatTopic_travel: "Safari",
+    chatTopic_music: "Muziki",
+    chatTopic_movies: "Filamu na vipindi",
+    chatTopic_desires: "Matamanio",
+    chatTopic_compliments: "Pongezi",
+    chatTopic_teasing: "Mchezo mdogo wa kutania",
+    chatTopic_secrets: "Siri za moyoni",
+    chatTopic_style: "Mtindo",
+    chatTopic_dreams: "Ndoto",
+    chatTopic_humor: "Ucheshi",
+    chatTopic_food: "Vitamu",
+    chatTopic_perfectNight: "Usiku mzuri",
+    chatTopic_memories: "Kumbukumbu",
+    chatTopic_wellness: "Kupumzika",
+    chatTopic_nowPlaying: "Unachosikiliza",
+    chatTopic_common: "Mambo yanayofanana",
+    chatTopic_weekend: "Wikendi nzuri",
+    chatTopic_littleSecret: "Siri ndogo",
+    chatTopic_reunion: "Kama tungekutana",
     chatLoading: "Inapakia…",
     chatNoConversations: "Hakuna mazungumzo bado.",
     chatStartBtn: "Tuma ujumbe",
@@ -6312,7 +6484,7 @@ const I18N = {
     themeToBordeaux: "Hali ya giza",
     themeToLight: "Hali ya mwanga",
     visitorBadgeLabel: "Mgeni",
-    chatRulesBanner: "⚠️ Nafasi ya mazungumzo yenye heshima: matusi ni marufuku. Kubadilishana taarifa za mawasiliano binafsi (nambari ya simu, mitandao ya kijamii, barua pepe) hairuhusiwi kwenye jukwaa na inaweza kusababisha adhabu.",
+    chatRulesBanner: "⚠️ Nafasi ya mazungumzo yenye heshima: matusi ni marufuku. Kubadilishana taarifa za mawasiliano binafsi (nambari ya simu, mitandao ya kijamii, barua pepe) hairuhusiwi kwenye jukwaa na inaweza kusababisha adhabu. Mazungumzo ni huru: mada zilizopendekezwa ni mawazo tu, si sharti.",
     chatReportMessage: "Ripoti ujumbe huu kwa timu",
     bnav2257: "Taarifa 2257",
     bnavCgu: "Masharti",
@@ -6401,7 +6573,7 @@ const I18N = {
     tipMenuTheme_pov_intime: "POV ya karibu",
     tipMenuTheme_roleplay: "Mchezo wa kuigiza",
     tipMenuTheme_strip_tease: "Strip-tease",
-    uxdExplainNote: "UXD: cheo chako cha msaidizi. Kadiri unavyopanda, ndivyo cheo chako kinavyokua.",
+    uxdExplainNote: "UXD, cheo chako Honeymoon. Kila msaada unakusogeza karibu na cheo kinachotambuliwa na jamii nzima — hadi ngazi ya juu kabisa.",
     uxdLevelDesc_gray: "Mwanzo kwa kila mwanachama mpya.",
     uxdLevelDesc_silver: "Unaanza kujitokeza miongoni mwa mashabiki.",
     uxdLevelDesc_bronze: "Cheo chako kinapanda — unaingia kwenye kundi la wanachama wanaotambulika.",
@@ -6892,6 +7064,30 @@ const I18N = {
     burgerLogout: "Phuma",
     caTabNote: "Ukulandelela imali yakho engenayo, ukwahlukaniswa kwezinkokhelo kanye nemiyalo esaqhubekayo.",
     chatEmptyNote: "Azikho izilayezo okwamanje. Yisho sawubona!",
+    chatNoOrdersNote: "Azikho ama-oda kule ngxoxo okwamanje.",
+    chatTabLibre: "Ingxoxo yamahhala",
+    chatTabOrders: "Ama-oda",
+    chatTopicStarterTemplate: "Masikhulume nge-{topic}? 😊",
+    chatTopic_day: "Usuku lwakho",
+    chatTopic_travel: "Ukuhamba",
+    chatTopic_music: "Umculo",
+    chatTopic_movies: "Amafilimu nezinhlelo",
+    chatTopic_desires: "Izifiso",
+    chatTopic_compliments: "Amagama okuncoma",
+    chatTopic_teasing: "Umdlalo omncane wokuntela",
+    chatTopic_secrets: "Imfihlo",
+    chatTopic_style: "Isitayela",
+    chatTopic_dreams: "Amaphupho",
+    chatTopic_humor: "Ubuhlekisi",
+    chatTopic_food: "Izimuncu",
+    chatTopic_perfectNight: "Ubusuku obuphelele",
+    chatTopic_memories: "Izinkumbulo",
+    chatTopic_wellness: "Ukuphumula",
+    chatTopic_nowPlaying: "Lokho okulaleleyo",
+    chatTopic_common: "Izinto ezifanayo",
+    chatTopic_weekend: "Impelasonto ephelele",
+    chatTopic_littleSecret: "Imfihlo encane",
+    chatTopic_reunion: "Uma singahlangana",
     chatLoading: "Kuyalayishwa…",
     chatNoConversations: "Azikho izingxoxo okwamanje.",
     chatStartBtn: "Thumela umlayezo",
@@ -7042,7 +7238,7 @@ const I18N = {
     themeToBordeaux: "Imodi emnyama",
     themeToLight: "Imodi ekhanyayo",
     visitorBadgeLabel: "Isivakashi",
-    chatRulesBanner: "⚠️ Isikhala sengxoxo sokuhlonipha: izinhlamba azivunyelwe. Ukushintshanisa imininingwane yokuxhumana yomuntu siqu (inombolo yocingo, amamediya enhlalo, i-imeyili) akuvunyelwe kule nkundla futhi kungaholela ezijezisweni.",
+    chatRulesBanner: "⚠️ Isikhala sengxoxo sokuhlonipha: izinhlamba azivunyelwe. Ukushintshanisa imininingwane yokuxhumana yomuntu siqu (inombolo yocingo, amamediya enhlalo, i-imeyili) akuvunyelwe kule nkundla futhi kungaholela ezijezisweni. Ingxoxo ikhululekile: izihloko eziphakanyisiwe ziyimibono nje, akusiwo umthetho.",
     chatReportMessage: "Bika lo mlayezo ethimbeni",
     bnav2257: "Isaziso 2257",
     bnavCgu: "Imigomo",
@@ -7131,7 +7327,7 @@ const I18N = {
     tipMenuTheme_pov_intime: "POV eseduzane",
     tipMenuTheme_roleplay: "Umdlalo wendima",
     tipMenuTheme_strip_tease: "Ukuhlubula",
-    uxdExplainNote: "UXD: isikhundla sakho sabaseki. Uma ukhuphuka, isikhundla sakho siyakhula.",
+    uxdExplainNote: "I-UXD, izinga lakho ku-Honeymoon. Yonke insizakalo ikususela eduze nesikhundla esaziwa umphakathi wonke — kuze kufike ezingeni eliphezulu kunazo zonke.",
     uxdLevelDesc_gray: "Isiqalo salo lonke ilungu elisha.",
     uxdLevelDesc_silver: "Uqala ukuvela phakathi kwabalandeli.",
     uxdLevelDesc_bronze: "Isikhundla sakho siyenyuka — ungena esigabeni samalungu adumile.",
@@ -7622,6 +7818,30 @@ const I18N = {
     burgerLogout: "Tswa",
     caTabNote: "Ho lekola lekeno la hao, karohano ya ditefo le diodara tse tswelang pele.",
     chatEmptyNote: "Ha ho na melaetsa ho fihlela hona jwale. Re dumela!",
+    chatNoOrdersNote: "Ha ho odara e nyeo puisanong ena hajoale.",
+    chatTabLibre: "Puisano e lokolohileng",
+    chatTabOrders: "Diodara",
+    chatTopicStarterTemplate: "Re bue ka {topic}? 😊",
+    chatTopic_day: "Letsatsi la hao",
+    chatTopic_travel: "Maeto",
+    chatTopic_music: "Mmino",
+    chatTopic_movies: "Difilimi le mananeo",
+    chatTopic_desires: "Ditakatso",
+    chatTopic_compliments: "Dithoriso",
+    chatTopic_teasing: "Papadi e nyane ya ho soma",
+    chatTopic_secrets: "Diphiri tsa pelo",
+    chatTopic_style: "Setaele",
+    chatTopic_dreams: "Ditoro",
+    chatTopic_humor: "Metlae",
+    chatTopic_food: "Dintho tse monate",
+    chatTopic_perfectNight: "Bosiu bo phethehileng",
+    chatTopic_memories: "Mehopolo",
+    chatTopic_wellness: "Phomolo",
+    chatTopic_nowPlaying: "Seo o se mametseng",
+    chatTopic_common: "Dintho tseo le tshwanang ho tsona",
+    chatTopic_weekend: "Mafelo-beke a phethehileng",
+    chatTopic_littleSecret: "Sephiri se senyane",
+    chatTopic_reunion: "Ha re ka kopana",
     chatLoading: "E a lulwa…",
     chatNoConversations: "Ha ho na dipuisano ho fihlela hona jwale.",
     chatStartBtn: "Romela molaetsa",
@@ -7772,7 +7992,7 @@ const I18N = {
     themeToBordeaux: "Mokgwa o lefifi",
     themeToLight: "Mokgwa o hlakileng",
     visitorBadgeLabel: "Moeti",
-    chatRulesBanner: "⚠️ Sebaka sa poqo sa tlhompho: dintsho ha di dumellwe. Phapanyetsano ya dintlha tsa botho tsa dikgokahano (nomoro ya mohala, mecha ya sechaba, imeile) ha di dumellwe polatefomong mme e ka baka dikotlo.",
+    chatRulesBanner: "⚠️ Sebaka sa poqo sa tlhompho: dintsho ha di dumellwe. Phapanyetsano ya dintlha tsa botho tsa dikgokahano (nomoro ya mohala, mecha ya sechaba, imeile) ha di dumellwe polatefomong mme e ka baka dikotlo. Puisano e lokolohile: dihlooho tse sisintsweng ke mehopolo feela, eseng taelo.",
     chatReportMessage: "Tlaleha molaetsa ona ho sehlopha",
     bnav2257: "Tsebiso 2257",
     bnavCgu: "Melawana",
@@ -7861,7 +8081,7 @@ const I18N = {
     tipMenuTheme_pov_intime: "POV e haufi",
     tipMenuTheme_roleplay: "Papali ea karolo",
     tipMenuTheme_strip_tease: "Ho hlobola",
-    uxdExplainNote: "UXD: boemo ba hau ba mothusi. Ha o ntse o nyoloha, boemo ba hau bo ntse bo hola.",
+    uxdExplainNote: "UXD, boemo ba hau Honeymoon. Tshehetso e nngwe le e nngwe e o isa haufi le maemo a tsejwang ke sechaba sohle — ho fihla boemong bo phahameng ka ho fetisisa.",
     uxdLevelDesc_gray: "Qalo bakeng sa setho se seng le se seng se secha.",
     uxdLevelDesc_silver: "O qala ho hlaha har'a balateli.",
     uxdLevelDesc_bronze: "Boemo ba hau boa nyoloha — o kena sehlopheng sa litho tse tsebahalang.",
@@ -8352,6 +8572,30 @@ const I18N = {
     burgerLogout: "Kobima",
     caTabNote: "Kolanda mbongo na yo, bokabwani ya bafuti mpe ba commande oyo ezali kokoba.",
     chatEmptyNote: "Message moko te tii sik'oyo. Loba mbote!",
+    chatNoOrdersNote: "Ata commande moko te na causerie oyo tii sikoyo.",
+    chatTabLibre: "Causerie ya bonsomi",
+    chatTabOrders: "Ba commande",
+    chatTopicStarterTemplate: "Toloba na tina ya {topic}? 😊",
+    chatTopic_day: "Mokolo na yo",
+    chatTopic_travel: "Mibembo",
+    chatTopic_music: "Miziki",
+    chatTopic_movies: "Bafilme na ba série",
+    chatTopic_desires: "Bamposa",
+    chatTopic_compliments: "Makambo ya kokumisa",
+    chatTopic_teasing: "Lisano ya moke ya kotiola",
+    chatTopic_secrets: "Basango",
+    chatTopic_style: "Style",
+    chatTopic_dreams: "Bandoto",
+    chatTopic_humor: "Maseki",
+    chatTopic_food: "Biloko ya elengi",
+    chatTopic_perfectNight: "Butu ya kokoka",
+    chatTopic_memories: "Bakundoli",
+    chatTopic_wellness: "Bopemi",
+    chatTopic_nowPlaying: "Oyo ozali koyoka",
+    chatTopic_common: "Makambo oyo bokokani",
+    chatTopic_weekend: "Wikende ya kokoka",
+    chatTopic_littleSecret: "Sekele moke",
+    chatTopic_reunion: "Soki tokutanaki",
     chatLoading: "Kozela…",
     chatNoConversations: "Lisolo moko te tii sik'oyo.",
     chatStartBtn: "Tinda message",
@@ -8502,7 +8746,7 @@ const I18N = {
     themeToBordeaux: "Mode ya molili",
     themeToLight: "Mode ya pole",
     visitorBadgeLabel: "Mopaya",
-    chatRulesBanner: "⚠️ Esika ya lisolo na limemya: kofinga ekopekisama. Kokabola ba détails ya moto (nimero ya telefone, réseaux sociaux, email) ekopekisama te na plateforme mpe ekoki kobimisa etumbu.",
+    chatRulesBanner: "⚠️ Esika ya lisolo na limemya: kofinga ekopekisama. Kokabola ba détails ya moto (nimero ya telefone, réseaux sociaux, email) ekopekisama te na plateforme mpe ekoki kobimisa etumbu. Lisolo ezali ya bonsomi : masolo oyo epesami ezali kaka makanisi, ezali mokumba te.",
     chatReportMessage: "Yebisa message oyo na équipe",
     bnav2257: "Nsango 2257",
     bnavCgu: "Mibeko",
@@ -8591,7 +8835,7 @@ const I18N = {
     tipMenuTheme_pov_intime: "POV ya pene",
     tipMenuTheme_roleplay: "Lisano ya mokumba",
     tipMenuTheme_strip_tease: "Kolongola bilamba",
-    uxdExplainNote: "UXD: molongo na yo ya mosungi. Soki omati likolo, molongo na yo ekomi monene.",
+    uxdExplainNote: "UXD, molongo na yo na Honeymoon. Lisungi nyonso ezali komema yo pene ya lokumu oyo bato nyonso ya lisanga bayebi — kino na molongo ya likolo koleka.",
     uxdLevelDesc_gray: "Ebandeli mpo na moto nyonso ya sika.",
     uxdLevelDesc_silver: "Obandi komonana kati ya bandimi.",
     uxdLevelDesc_bronze: "Lokumu na yo ezali komata — okoti na molongo ya bato ya lokumu.",
@@ -9082,6 +9326,30 @@ const I18N = {
     burgerLogout: "Basika",
     caTabNote: "Kulanda mbongo na nge, bukabani ya bafuti mpe ba commande yina ke kwenda.",
     chatEmptyNote: "Message ata mosi ve tii bubu. Tuba mbote!",
+    chatNoOrdersNote: "Ata commande mosi ve na disolo yayi tii bubu.",
+    chatTabLibre: "Disolo ya kimpwanza",
+    chatTabOrders: "Ba commande",
+    chatTopicStarterTemplate: "Tusolula mu diambu ya {topic}? 😊",
+    chatTopic_day: "Kilumbu na nge",
+    chatTopic_travel: "Mibembo",
+    chatTopic_music: "Miziki",
+    chatTopic_movies: "Bafilme ye ba série",
+    chatTopic_desires: "Bampusa",
+    chatTopic_compliments: "Mambu ya kukumisa",
+    chatTopic_teasing: "Kisalu ya fioti ya kutiola",
+    chatTopic_secrets: "Basekele",
+    chatTopic_style: "Style",
+    chatTopic_dreams: "Ndoto",
+    chatTopic_humor: "Maseki",
+    chatTopic_food: "Bima ya elengi",
+    chatTopic_perfectNight: "Nsuka ya kukoka",
+    chatTopic_memories: "Baluvitu",
+    chatTopic_wellness: "Kupema",
+    chatTopic_nowPlaying: "Yina nge ke wa",
+    chatTopic_common: "Mambu yina beno kufwana",
+    chatTopic_weekend: "Weekend ya kukoka",
+    chatTopic_littleSecret: "Sekele ya fioti",
+    chatTopic_reunion: "Kana beto kukutana",
     chatLoading: "Ke kotula…",
     chatNoConversations: "Disolo ata mosi ve tii bubu.",
     chatStartBtn: "Tinda message",
@@ -9232,7 +9500,7 @@ const I18N = {
     themeToBordeaux: "Mode ya mpimpa",
     themeToLight: "Mode ya nsemo",
     visitorBadgeLabel: "Muwizi",
-    chatRulesBanner: "⚠️ Kisika ya kusolula na luzitu: kufinga kekondimama ve. Kukabula ba détails ya muntu (nimero ya telefone, réseaux sociaux, email) kekondimama ve na plateforme mpe lenda basisa etumbu.",
+    chatRulesBanner: "⚠️ Kisika ya kusolula na luzitu: kufinga kekondimama ve. Kukabula ba détails ya muntu (nimero ya telefone, réseaux sociaux, email) kekondimama ve na plateforme mpe lenda basisa etumbu. Kusolula kele ya kimpwanza : bisolo bo me pesama kele kaka bangindu, kele ve kifu.",
     chatReportMessage: "Zabisa message yayi na équipe",
     bnav2257: "Nsangu 2257",
     bnavCgu: "Bansiku",
@@ -9321,7 +9589,7 @@ const I18N = {
     tipMenuTheme_pov_intime: "POV ya penepene",
     tipMenuTheme_roleplay: "Kisalu ya mbedi",
     tipMenuTheme_strip_tease: "Kukatula bilamba",
-    uxdExplainNote: "UXD: kimfumu na nge ya nsadisi. Vava wukuma ku zulu, kimfumu na nge wukumana.",
+    uxdExplainNote: "UXD, kimfumu na nge na Honeymoon. Konso nsadisu ke fikisa nge pene ya kimfumu bantu yonso ya dibundu me zaba — tii na kimfumu ya zulu kuluta.",
     uxdLevelDesc_gray: "Ntete mpo na konso muntu ya mpa.",
     uxdLevelDesc_silver: "Ke yantika kumonika na kati ya balandi.",
     uxdLevelDesc_bronze: "Lukumu na nge ke yela — ke kotaka na kimvuka ya bantu ya luzitu.",
@@ -9428,6 +9696,8 @@ function applyStaticText(){
   document.getElementById('t-admin-forgot').textContent = t('memberForgotLink');
   document.getElementById('creator-email').placeholder = t('creatorEmailPh');
   document.getElementById('t-creator-signup-link').textContent = t('creatorSignupLink');
+  document.getElementById('t-chat-tab-libre').textContent = t('chatTabLibre');
+  document.getElementById('t-chat-tab-orders').textContent = t('chatTabOrders');
   document.getElementById('t-creator-signup-sub').textContent = t('creatorSignupSub');
   document.getElementById('t-creator-signup-note').textContent = t('creatorSignupNote');
   document.getElementById('t-creator-su-submit').textContent = t('creatorSuSubmit');
@@ -9871,16 +10141,27 @@ function initRoster(){
 async function syncProfilesFromFirestore(){
   if(!db) return;
   let changed = false;
-  await Promise.all(roster.map(async (m) => {
-    try{
-      const [snap, mediaSnap, paidSnap, showcaseSnap, contractSigSnap] = await Promise.all([
-        db.collection('profiles').doc(m.id).get(),
-        db.collection('profiles').doc(m.id).collection('media').orderBy('createdAt').get(),
-        db.collection('profiles').doc(m.id).collection('paid_content').orderBy('createdAt', 'desc').get(),
-        db.collection('profiles').doc(m.id).collection('showcase_media').orderBy('createdAt').get(),
-        db.collection('profiles').doc(m.id).collection('contract_signatures').orderBy('signedAt', 'desc').get()
-      ]);
-      if(snap.exists){
+  try{
+    // Une seule requête pour tous les profils existants, au lieu d'interroger un par un
+    // les 150 emplacements possibles (dont l'immense majorité sont vides) : un profil
+    // jamais rempli n'a jamais de document Firestore, donc il n'apparaît simplement pas
+    // ici — inutile de le questionner. Avant : jusqu'à 750 lectures à chaque ouverture
+    // de la vitrine (150 emplacements × 5 requêtes), même avec une poignée de vraies
+    // créatrices. C'était la cause principale des lenteurs générales du site.
+    const allSnap = await db.collection('profiles').get();
+    const byId = {};
+    allSnap.forEach(d => { byId[d.id] = d; });
+
+    await Promise.all(roster.map(async (m) => {
+      const snap = byId[m.id];
+      if(!snap) return; // jamais créé côté Firestore : rien à synchroniser pour cet emplacement
+      try{
+        const [mediaSnap, paidSnap, showcaseSnap, contractSigSnap] = await Promise.all([
+          db.collection('profiles').doc(m.id).collection('media').orderBy('createdAt').get(),
+          db.collection('profiles').doc(m.id).collection('paid_content').orderBy('createdAt', 'desc').get(),
+          db.collection('profiles').doc(m.id).collection('showcase_media').orderBy('createdAt').get(),
+          db.collection('profiles').doc(m.id).collection('contract_signatures').orderBy('signedAt', 'desc').get()
+        ]);
         const data = snap.data();
         Object.assign(m, {
           name: data.name ?? m.name,
@@ -9909,44 +10190,46 @@ async function syncProfilesFromFirestore(){
           creatorContractSignature: data.creatorContractSignature || m.creatorContractSignature
         });
         changed = true;
-      }
-      const galleryPhotos = [];
-      const galleryVideos = [];
-      mediaSnap.forEach(d => {
-        const md = d.data();
-        const entry = { docId: d.id, url: md.url, likes: md.likes || 0, dislikes: md.dislikes || 0, favorites: md.favorites || 0, commentsCount: md.commentsCount || 0 };
-        if(md.kind === 'video') galleryVideos.push(entry);
-        else galleryPhotos.push(entry);
-      });
-      m.galleryPhotos = galleryPhotos;
-      m.galleryVideos = galleryVideos;
-      changed = true;
 
-      const paidContent = [];
-      paidSnap.forEach(d => {
-        const pd = d.data();
-        paidContent.push({
-          docId: d.id, kind: pd.kind, url: pd.url, teaserUrl: pd.teaserUrl || '',
-          price: pd.price || 0, description: pd.description || '',
-          salesCount: pd.salesCount || 0, revenue: pd.revenue || 0
+        const galleryPhotos = [];
+        const galleryVideos = [];
+        mediaSnap.forEach(d => {
+          const md = d.data();
+          const entry = { docId: d.id, url: md.url, likes: md.likes || 0, dislikes: md.dislikes || 0, favorites: md.favorites || 0, commentsCount: md.commentsCount || 0 };
+          if(md.kind === 'video') galleryVideos.push(entry);
+          else galleryPhotos.push(entry);
         });
-      });
-      m.paidContent = paidContent;
+        m.galleryPhotos = galleryPhotos;
+        m.galleryVideos = galleryVideos;
 
-      const showcaseMedia = [];
-      showcaseSnap.forEach(d => {
-        const sd = d.data();
-        showcaseMedia.push({ docId: d.id, kind: sd.kind, url: sd.url });
-      });
-      m.showcaseMedia = showcaseMedia;
+        const paidContent = [];
+        paidSnap.forEach(d => {
+          const pd = d.data();
+          paidContent.push({
+            docId: d.id, kind: pd.kind, url: pd.url, teaserUrl: pd.teaserUrl || '',
+            price: pd.price || 0, description: pd.description || '',
+            salesCount: pd.salesCount || 0, revenue: pd.revenue || 0
+          });
+        });
+        m.paidContent = paidContent;
 
-      const contractSignatures = [];
-      contractSigSnap.forEach(d => contractSignatures.push({ id: d.id, ...d.data() }));
-      m.contractSignatures = contractSignatures;
-    }catch(e){
-      console.error('sync error', m.id, e);
-    }
-  }));
+        const showcaseMedia = [];
+        showcaseSnap.forEach(d => {
+          const sd = d.data();
+          showcaseMedia.push({ docId: d.id, kind: sd.kind, url: sd.url });
+        });
+        m.showcaseMedia = showcaseMedia;
+
+        const contractSignatures = [];
+        contractSigSnap.forEach(d => contractSignatures.push({ id: d.id, ...d.data() }));
+        m.contractSignatures = contractSignatures;
+      }catch(e){
+        console.error('sync error', m.id, e);
+      }
+    }));
+  }catch(e){
+    console.error('sync profiles list error', e);
+  }
   if(changed) renderRoster();
 }
 
@@ -9997,7 +10280,7 @@ function renderMyProfile(slotId){
   if(!m){ body.innerHTML = ''; return; }
 
   const photoBlock = m.photo
-    ? `<div class="my-profile-photo">${m.photoType === 'video' ? `<video src="${m.photo}" muted loop autoplay playsinline></video>` : `<img src="${m.photo}">`}</div>`
+    ? `<div class="my-profile-photo">${m.photoType === 'video' ? `<video src="${m.photo}" muted loop autoplay playsinline></video>` : `<img src="${m.photo}" loading="lazy" decoding="async">`}</div>`
     : `<div class="my-profile-photo home-photo-slot-empty">
          <span class="home-video-icon">${ICON_CAMERA}</span>
          <span class="home-video-label">${t('noPhotoYet')}</span>
@@ -10344,7 +10627,7 @@ async function renderMyTipMenu(m){
       <p class="member-note" style="margin:-2px 0 6px;">${t('tipMenuContentNote')}</p>
       ${r.contentUrl ? `
         <div class="tipmenu-content-preview">
-          ${type === 'video' ? `<video src="${escAttr(r.contentUrl)}" controls></video>` : type === 'audio' ? `<audio src="${escAttr(r.contentUrl)}" controls></audio>` : `<img src="${escAttr(r.contentUrl)}">`}
+          ${type === 'video' ? `<video src="${escAttr(r.contentUrl)}" controls></video>` : type === 'audio' ? `<audio src="${escAttr(r.contentUrl)}" controls></audio>` : `<img src="${escAttr(r.contentUrl)}" loading="lazy" decoding="async">`}
           <button type="button" class="tipmenu-content-rm" data-idx="${idx}">✕</button>
         </div>` : dualUploadZoneHtml('tipmenu-content-' + idx, type === 'video' ? 'video/*' : type === 'audio' ? 'audio/*' : 'image/*')}
 
@@ -10746,7 +11029,7 @@ function renderMyPaidContentZone(m){
         </div>`
       : `
         <div class="gallery-thumb">
-          <img src="${it.url}">
+          <img src="${it.url}" loading="lazy" decoding="async">
           <div class="paid-lock-badge">${ICON_LOCK}</div>
           ${priceBadge}
         </div>`;
@@ -12172,7 +12455,7 @@ function modelCardHtml(m){
   const num = m.id.replace('m', '').padStart(2, '0');
   const numBadge = `<span class="num-badge">${num}</span>`;
   const photoHtml = m.photo
-    ? (m.photoType === 'video' ? `<video src="${m.photo}" muted loop autoplay playsinline></video>` : `<img src="${m.photo}">`)
+    ? (m.photoType === 'video' ? `<video src="${m.photo}" muted loop autoplay playsinline></video>` : `<img src="${m.photo}" loading="lazy" decoding="async">`)
     : `<div class="placeholder">${LANG==='fr' ? 'Photo à ajouter<br>(avec autorisation de la créatrice)' : 'Photo to add<br>(with the creator\'s authorization)'}</div>`;
 
   if(!m.filled && !editMode){
@@ -12255,7 +12538,7 @@ function openEdit(id){
   body.innerHTML = `
     <label id="t-creator-email-label">${t('creatorEmailLabel')}</label>
     <input id="ed-owner-email" type="email" value="${escAttr(m.ownerEmail || '')}" placeholder="creator-${m.id}@honeymoon-internal.app">
-    <p class="member-note" style="margin:-4px 0 8px;">${t('creatorEmailNote')}</p>
+    <p class="member-note" style="margin:10px 0 16px;">${t('creatorEmailNote')}</p>
     <label>${t('stageName')}</label>
     <input id="ed-name" value="${escText(m.name)}" placeholder="ex. Luna">
     <label>${t('country')}</label>
@@ -12617,7 +12900,7 @@ async function openMembersViewer(creatorId, creatorName){
     body.innerHTML = rows.map(r => `
       <div class="member-view-card">
         <div class="member-view-head">
-          ${r.photoURL ? `<img class="member-view-avatar" src="${escAttr(r.photoURL)}">` : honeymoonLogoFallbackHtml('member-view-avatar')}
+          ${r.photoURL ? `<img class="member-view-avatar" src="${escAttr(r.photoURL)}" loading="lazy" decoding="async">` : honeymoonLogoFallbackHtml('member-view-avatar')}
           <div style="flex:1;">
             <div class="member-view-name">${escText(r.username)} ${r.isFav ? '♥' : ''} ${r.hasChatted ? '💬' : ''} ${followerBadgeHtml(r.followersCount)}</div>
             ${r.location ? `<div class="member-view-loc">${escText(r.location)}</div>` : ''}
@@ -12625,7 +12908,7 @@ async function openMembersViewer(creatorId, creatorName){
           <button type="button" class="follow-btn creator-follow-member-btn" data-uid="${r.id}">${t('followBtn')}</button>
         </div>
         ${r.bio ? `<p class="member-view-bio">${escText(r.bio)}</p>` : ''}
-        ${r.photos.length ? `<div class="member-media-grid">${r.photos.map(p => `<img src="${escAttr(p)}">`).join('')}</div>` : ''}
+        ${r.photos.length ? `<div class="member-media-grid">${r.photos.map(p => `<img src="${escAttr(p)}" loading="lazy" decoding="async">`).join('')}</div>` : ''}
       </div>
     `).join('');
     // État initial des boutons "Suivre" (créatrice → membre).
@@ -12850,7 +13133,7 @@ function openLightbox(src, type, onDelete){
   const content = document.getElementById('lightbox-content');
   content.innerHTML = type === 'video'
     ? `<video src="${src}" controls autoplay playsinline></video>`
-    : `<img src="${src}">`;
+    : `<img src="${src}" loading="lazy" decoding="async">`;
   // Bouton supprimer optionnel (ex : "Mes photos" côté espace membre) — affiché
   // uniquement en plein écran, jamais sur la vignette elle-même, pour qu'on
   // identifie clairement la photo avant de la supprimer.
@@ -13292,7 +13575,7 @@ function renderMemberHome(user, data, activeTab){
 
   if(!skeletonAlreadyBuilt){
     const photoBlock = data.photoURL
-      ? `<div class="my-profile-photo"><img src="${escAttr(data.photoURL)}"></div>`
+      ? `<div class="my-profile-photo"><img src="${escAttr(data.photoURL)}" loading="lazy" decoding="async"></div>`
       : `<div class="my-profile-photo home-photo-slot-empty">
            <span class="home-video-icon">${ICON_USER}</span>
            <span class="home-video-label">${t('noPhotoYet')}</span>
@@ -13341,30 +13624,50 @@ function switchMemberTab(user, data, activeTab){
     const btn = document.getElementById('member-tab-' + name);
     if(btn) btn.classList.toggle('active', name === activeTab);
   });
-  const tabBodyEl = document.getElementById('member-tab-body');
-  if(tabBodyEl){
-    tabBodyEl.classList.remove('tab-fade-in');
-    void tabBodyEl.offsetWidth;
-    tabBodyEl.classList.add('tab-fade-in');
-  }
+  // L'animation d'entrée est déclenchée à l'intérieur de chaque fonction de rendu
+  // (via paintTabBody), au moment exact où le vrai contenu apparaît — pas ici,
+  // sinon elle joue sur "Chargement…" et le vrai contenu apparaît ensuite sans
+  // transition (c'était la cause du côté "saccadé"/pas homogène d'un onglet à l'autre).
   if(activeTab === 'purchases') renderMemberPurchasesTab(user, data);
   else if(activeTab === 'favorites') renderMemberFavoritesTab(user, data);
   else if(activeTab === 'messages') renderMemberMessagesTab(user, data);
   else if(activeTab === 'popularity') renderMemberPopularityTab(user, data);
   else renderMemberProfileTab(user, data);
 }
+// Affiche le contenu d'un onglet ET (re)joue systématiquement la même animation
+// d'entrée douce, à chaque fois — comportement identique sur tous les onglets,
+// que le contenu vienne du cache (instantané) ou du réseau (après le chargement).
+function paintTabBody(html){
+  const el = document.getElementById('member-tab-body');
+  if(!el) return null;
+  el.innerHTML = html;
+  el.classList.remove('tab-fade-in');
+  void el.offsetWidth;
+  el.classList.add('tab-fade-in');
+  return el;
+}
+/* ---------------- robustesse photos/vidéos : une image cassée (URL expirée, upload
+   interrompu, coupure réseau) ne doit jamais afficher l'icône "image cassée" du
+   navigateur — indispensable une fois qu'il y aura de vrais clients et du vrai contenu.
+   ('error' ne remonte pas (bubble) sur les img, d'où l'écoute en phase de capture.) ---------------- */
+document.addEventListener('error', (e) => {
+  const el = e.target;
+  if(el && el.tagName === 'IMG' && !el.dataset.brokenHandled){
+    el.dataset.brokenHandled = '1';
+    el.style.visibility = 'hidden'; // le fond du conteneur parent apparaît à la place
+  }
+}, true);
 
 function renderMemberProfileTab(user, data, subTab){
   subTab = subTab || 'infos';
-  const tabBody = document.getElementById('member-tab-body');
-  tabBody.innerHTML = `
+  paintTabBody(`
     <div class="member-subtabs">
       <button type="button" class="member-subtab${subTab === 'infos' ? ' active' : ''}" id="member-subtab-infos">${t('memberSubtabInfos')}</button>
       <button type="button" class="member-subtab${subTab === 'photos' ? ' active' : ''}" id="member-subtab-photos">${t('memberSubtabPhotos')}</button>
       <button type="button" class="member-subtab${subTab === 'password' ? ' active' : ''}" id="member-subtab-password">${t('memberSubtabPassword')}</button>
     </div>
-    <div id="member-subtab-body" class="tab-fade-in"></div>
-  `;
+    <div id="member-subtab-body"></div>
+  `);
   document.getElementById('member-subtab-infos').onclick = () => renderMemberProfileTab(user, data, 'infos');
   document.getElementById('member-subtab-photos').onclick = () => renderMemberProfileTab(user, data, 'photos');
   document.getElementById('member-subtab-password').onclick = () => renderMemberProfileTab(user, data, 'password');
@@ -13375,7 +13678,7 @@ function renderMemberProfileTab(user, data, subTab){
 
 function renderMemberProfileInfosSubtab(user, data){
   const tabBody = document.getElementById('member-subtab-body');
-  const avatarInner = data.photoURL ? `<img src="${escAttr(data.photoURL)}" alt="">` : '🙂';
+  const avatarInner = data.photoURL ? `<img src="${escAttr(data.photoURL)}" alt="" loading="lazy" decoding="async">` : '🙂';
   tabBody.innerHTML = `
     <div class="member-presentation-header">
       <div class="member-avatar-row">
@@ -13472,7 +13775,7 @@ function renderMemberProfilePhotosSubtab(user, data){
   // "Supprimer" clair dans cette vue — on voit précisément quelle photo on supprime.
   const myPhotoThumbs = (data.photos || []).map((p, i) => `
     <div class="member-media-thumb member-photo-thumb" data-idx="${i}" style="position:relative;cursor:pointer;">
-      <img src="${escAttr(p.url)}" alt="">
+      <img src="${escAttr(p.url)}" alt="" loading="lazy" decoding="async">
     </div>`).join('');
   tabBody.innerHTML = `
     <div class="member-section-title">${t('memberMyPhotosTitle')} (${(data.photos || []).length})</div>
@@ -13623,7 +13926,7 @@ async function memberUploadAvatar(user, file){
     await ref.put(file);
     const url = await ref.getDownloadURL();
     await memberDb.collection('members').doc(user.uid).set({ photoURL: url }, { merge: true });
-    preview.innerHTML = `<img src="${escAttr(url)}" alt="">`;
+    preview.innerHTML = `<img src="${escAttr(url)}" alt="" loading="lazy" decoding="async">`;
     toast(t('memberSavedToast'));
   }catch(e){
     console.error('avatar upload error', e);
@@ -13722,8 +14025,39 @@ async function memberDeleteAccount(user, data){
 }
 
 async function renderMemberPurchasesTab(user, data){
-  const tabBody = document.getElementById('member-tab-body');
-  tabBody.innerHTML = `<p class="member-note">…</p>`;
+  const paint = (enriched) => {
+    const historyRows = enriched.map(o => `
+      <div class="member-purchase-row">
+        <span>${escText(o.creatorName || '—')} — ${o.item ? o.item.price + '€' : ''}</span>
+        <span class="member-purchase-status ${o.data.status === 'paid' ? 'paid' : 'pending'}">${o.data.status === 'paid' ? t('memberPurchasePaid') : t('memberPurchasePending')}</span>
+      </div>
+    `).join('');
+    const paidOrders = enriched.filter(o => o.data.status === 'paid' && o.item);
+    const photos = paidOrders.filter(o => o.item.kind === 'photo');
+    const videos = paidOrders.filter(o => o.item.kind === 'video');
+    const photoThumbs = photos.map(o => `<div class="member-media-thumb"><img src="${escAttr(o.item.url || o.item.teaserUrl || '')}" alt="" loading="lazy" decoding="async"></div>`).join('');
+    const videoThumbs = videos.map(o => `<div class="member-media-thumb"><video src="${escAttr(o.item.url || o.item.teaserUrl || '')}" muted></video></div>`).join('');
+    const customPurchases = (data && data.customPurchases) || [];
+    const customThumbs = customPurchases.map(p => `
+      <div class="member-media-thumb" title="${escAttr(p.creatorName || '')}">
+        ${p.type === 'video' ? `<video src="${escAttr(p.url)}" muted></video>` : p.type === 'audio' ? `<div class="audio-thumb">${ICON_AUDIO}</div>` : `<img src="${escAttr(p.url)}" alt="" loading="lazy" decoding="async">`}
+      </div>`).join('');
+    paintTabBody(`
+      <div class="member-section-title">${t('memberPurchaseHistoryTitle')}</div>
+      ${historyRows || `<p class="member-note">${t('memberPurchaseNone')}</p><button type="button" class="btn btn-primary btn-sm" id="member-purchases-discover-btn" style="margin-top:6px;">${t('memberDiscoverCreatorsBtn')}</button>`}
+      <div class="member-section-title">${t('memberPurchasePhotosTitle')}</div>
+      ${photoThumbs ? `<div class="member-media-grid">${photoThumbs}</div>` : `<p class="member-note">${t('memberPurchaseNoPhotos')}</p>`}
+      <div class="member-section-title">${t('memberPurchaseVideosTitle')}</div>
+      ${videoThumbs ? `<div class="member-media-grid">${videoThumbs}</div>` : `<p class="member-note">${t('memberPurchaseNoVideos')}</p>`}
+      <div class="member-section-title">${t('customOrderPurchasesTitle')}</div>
+      ${customThumbs ? `<div class="member-media-grid">${customThumbs}</div>` : `<p class="member-note">${t('customOrderPurchasesNone')}</p>`}
+    `);
+    const discoverBtn = document.getElementById('member-purchases-discover-btn');
+    if(discoverBtn) discoverBtn.onclick = () => { closeMemberModal(); openVitrine(); };
+  };
+  const cached = getMemberTabCache(user.uid, 'purchases');
+  if(cached){ paint(cached); } // rendu instantané depuis le cache
+  else{ paintTabBody(`<p class="member-note">…</p>`); }
   try{
     if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
     const snap = await db.collectionGroup('orders').where('buyerUid', '==', user.uid).get();
@@ -13746,54 +14080,28 @@ async function renderMemberPurchasesTab(user, data){
         };
       }catch(e){ return { ...o, item: null, creatorName: '' }; }
     }));
-    const historyRows = enriched.map(o => `
-      <div class="member-purchase-row">
-        <span>${escText(o.creatorName || '—')} — ${o.item ? o.item.price + '€' : ''}</span>
-        <span class="member-purchase-status ${o.data.status === 'paid' ? 'paid' : 'pending'}">${o.data.status === 'paid' ? t('memberPurchasePaid') : t('memberPurchasePending')}</span>
-      </div>
-    `).join('');
-    const paidOrders = enriched.filter(o => o.data.status === 'paid' && o.item);
-    const photos = paidOrders.filter(o => o.item.kind === 'photo');
-    const videos = paidOrders.filter(o => o.item.kind === 'video');
-    const photoThumbs = photos.map(o => `<div class="member-media-thumb"><img src="${escAttr(o.item.url || o.item.teaserUrl || '')}" alt=""></div>`).join('');
-    const videoThumbs = videos.map(o => `<div class="member-media-thumb"><video src="${escAttr(o.item.url || o.item.teaserUrl || '')}" muted></video></div>`).join('');
-    const customPurchases = (data && data.customPurchases) || [];
-    const customThumbs = customPurchases.map(p => `
-      <div class="member-media-thumb" title="${escAttr(p.creatorName || '')}">
-        ${p.type === 'video' ? `<video src="${escAttr(p.url)}" muted></video>` : p.type === 'audio' ? `<div class="audio-thumb">${ICON_AUDIO}</div>` : `<img src="${escAttr(p.url)}" alt="">`}
-      </div>`).join('');
-    tabBody.innerHTML = `
-      <div class="member-section-title">${t('memberPurchaseHistoryTitle')}</div>
-      ${historyRows || `<p class="member-note">${t('memberPurchaseNone')}</p><button type="button" class="btn btn-primary btn-sm" id="member-purchases-discover-btn" style="margin-top:6px;">${t('memberDiscoverCreatorsBtn')}</button>`}
-      <div class="member-section-title">${t('memberPurchasePhotosTitle')}</div>
-      ${photoThumbs ? `<div class="member-media-grid">${photoThumbs}</div>` : `<p class="member-note">${t('memberPurchaseNoPhotos')}</p>`}
-      <div class="member-section-title">${t('memberPurchaseVideosTitle')}</div>
-      ${videoThumbs ? `<div class="member-media-grid">${videoThumbs}</div>` : `<p class="member-note">${t('memberPurchaseNoVideos')}</p>`}
-      <div class="member-section-title">${t('customOrderPurchasesTitle')}</div>
-      ${customThumbs ? `<div class="member-media-grid">${customThumbs}</div>` : `<p class="member-note">${t('customOrderPurchasesNone')}</p>`}
-    `;
-    const discoverBtn = document.getElementById('member-purchases-discover-btn');
-    if(discoverBtn) discoverBtn.onclick = () => { closeMemberModal(); openVitrine(); };
+    setMemberTabCache(user.uid, 'purchases', enriched);
+    paint(enriched); // ré-affiche avec les données fraîches (silencieux si rien n'a changé)
   }catch(e){
     console.error('load member purchases error', e);
-    tabBody.innerHTML = `<p class="member-note">${t('memberPurchaseLoadErr')}</p>`;
+    if(!cached) paintTabBody(`<p class="member-note">${t('memberPurchaseLoadErr')}</p>`);
   }
 }
 
+/* ---------------- cache mémoire des onglets espace membre : évite de tout re-télécharger
+   à chaque passage d'un onglet à l'autre (c'était la cause du côté "saccadé" au clic) —
+   rendu instantané si déjà visité cette session, données rafraîchies en arrière-plan. */
+const memberTabCache = {};
+function getMemberTabCache(uid, tab){ return memberTabCache[uid] && memberTabCache[uid][tab]; }
+function setMemberTabCache(uid, tab, value){
+  memberTabCache[uid] = memberTabCache[uid] || {};
+  memberTabCache[uid][tab] = value;
+}
+
 async function renderMemberPopularityTab(user, data){
-  const tabBody = document.getElementById('member-tab-body');
-  tabBody.innerHTML = `<span class="gallery-empty">${t('chatLoading')}</span>`;
-  try{
-    if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
-    const followingCreators = data.followingCreators || [];
-    const followingRows = followingCreators
-      .map(id => (typeof roster !== 'undefined' ? roster.find(m => m.id === id) : null))
-      .filter(Boolean);
-    const followersSnap = await db.collection('profiles').where('followingMembers', 'array-contains', user.uid).get();
-    const followerRows = followersSnap.docs
-      .map(d => (typeof roster !== 'undefined' ? roster.find(m => m.id === d.id) : null))
-      .filter(Boolean);
-    tabBody.innerHTML = `
+  const cached = getMemberTabCache(user.uid, 'popularity');
+  const paint = (followingRows, followerRows) => {
+    paintTabBody(`
       <div class="popularity-summary">
         ${followerBadgeHtml(data.followersCount)}
         <span>${data.followersCount || 0} ${t('followersLabel')}</span>
@@ -13807,7 +14115,7 @@ async function renderMemberPopularityTab(user, data){
       <div class="member-favorites-list" style="margin-top:10px;">
         ${followingRows.length === 0 ? `<p class="member-note">${t('membersViewerEmpty')}</p>` : followingRows.map(m => `
           <div class="member-fav-row">
-            <span class="member-fav-photo">${m.photo ? `<img src="${escAttr(m.photo)}">` : '🙂'}</span>
+            <span class="member-fav-photo">${m.photo ? `<img src="${escAttr(m.photo)}" loading="lazy" decoding="async">` : '🙂'}</span>
             <span class="member-fav-name">${escText(m.name) || t('nameUndefined')}</span>
             ${followerBadgeHtml(m.followersCount)}
           </div>`).join('')}
@@ -13816,37 +14124,51 @@ async function renderMemberPopularityTab(user, data){
       <div class="member-favorites-list" style="margin-top:10px;">
         ${followerRows.length === 0 ? `<p class="member-note">${t('membersViewerEmpty')}</p>` : followerRows.map(m => `
           <div class="member-fav-row">
-            <span class="member-fav-photo">${m.photo ? `<img src="${escAttr(m.photo)}">` : '🙂'}</span>
+            <span class="member-fav-photo">${m.photo ? `<img src="${escAttr(m.photo)}" loading="lazy" decoding="async">` : '🙂'}</span>
             <span class="member-fav-name">${escText(m.name) || t('nameUndefined')}</span>
           </div>`).join('')}
       </div>
-    `;
+    `);
     renderLevelBarGeneric('member-uxd-level-bar', UXD_TIERS, data.uxd || 0, 'uxdLabel', 'uxdLevelDesc');
+  };
+  if(cached){ paint(cached.followingRows, cached.followerRows); } // rendu instantané depuis le cache
+  else{ paintTabBody(`<span class="gallery-empty">${t('chatLoading')}</span>`); }
+  try{
+    if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
+    const followingCreators = data.followingCreators || [];
+    const followingRows = followingCreators
+      .map(id => (typeof roster !== 'undefined' ? roster.find(m => m.id === id) : null))
+      .filter(Boolean);
+    const followersSnap = await db.collection('profiles').where('followingMembers', 'array-contains', user.uid).get();
+    const followerRows = followersSnap.docs
+      .map(d => (typeof roster !== 'undefined' ? roster.find(m => m.id === d.id) : null))
+      .filter(Boolean);
+    setMemberTabCache(user.uid, 'popularity', { followingRows, followerRows });
+    paint(followingRows, followerRows); // ré-affiche avec les données fraîches (silencieux si rien n'a changé)
   }catch(e){
     console.error('renderMemberPopularityTab error', e);
-    tabBody.innerHTML = `<span class="gallery-empty">${(LANG==='fr'?'Erreur : ':'Error: ')}${escText(e.message||String(e))}</span>`;
+    if(!cached) paintTabBody(`<span class="gallery-empty">${(LANG==='fr'?'Erreur : ':'Error: ')}${escText(e.message||String(e))}</span>`);
   }
 }
 
 function renderMemberFavoritesTab(user, data){
-  const tabBody = document.getElementById('member-tab-body');
   const favIds = data.favorites || [];
   const favModels = favIds.map(id => (typeof roster !== 'undefined' ? roster.find(m => m.id === id) : null)).filter(Boolean);
   if(!favModels.length){
-    tabBody.innerHTML = `<p class="member-note">${t('memberFavoritesNone')}</p>`;
+    paintTabBody(`<p class="member-note">${t('memberFavoritesNone')}</p>`);
     return;
   }
-  tabBody.innerHTML = `
+  const tabBody = paintTabBody(`
     <div class="member-favorites-list">
       ${favModels.map(m => `
         <button type="button" class="member-fav-row" data-id="${m.id}">
-          <span class="member-fav-photo">${m.photo ? `<img src="${escAttr(m.photo)}" alt="">` : '🙂'}</span>
+          <span class="member-fav-photo">${m.photo ? `<img src="${escAttr(m.photo)}" alt="" loading="lazy" decoding="async">` : '🙂'}</span>
           <span class="member-fav-name">${escText(m.name) || t('nameUndefined')}</span>
           <span class="member-fav-arrow">→</span>
         </button>
       `).join('')}
     </div>
-  `;
+  `);
   tabBody.querySelectorAll('.member-fav-row').forEach(btn => {
     btn.onclick = async () => {
       closeMemberModal();
@@ -13914,6 +14236,160 @@ let chatUnsubMessages = null;
 let chatUnsubConv = null;
 let chatTypingIdleTimer = null;
 let chatMyTypingTimer = null;
+let chatActiveTab = 'libre'; // 'libre' (discussion libre) ou 'commandes' (demandes de commande uniquement)
+let chatLastSnapDocs = [];
+
+// Regroupe le rendu des messages, filtré par onglet actif — appelé à chaque nouveau
+// message (via onSnapshot) ET à chaque changement d'onglet (sans nouvelle requête,
+// on réutilise les messages déjà reçus dans chatLastSnapDocs).
+function renderChatMessages(ctx, convRef, unreadField){
+  const box = document.getElementById('chat-messages');
+  if(!box) return;
+  const allDocs = chatLastSnapDocs;
+  const docs = allDocs.filter(d => chatActiveTab === 'commandes' ? !!d.data().customOrderRequest : !d.data().customOrderRequest);
+  if(docs.length === 0){
+    box.innerHTML = `<span class="chat-empty-note">${chatActiveTab === 'commandes' ? t('chatNoOrdersNote') : t('chatEmptyNote')}</span>`;
+    return;
+  }
+  const wasNearBottom = (box.scrollHeight - box.scrollTop - box.clientHeight) < 80;
+  box.innerHTML = docs.map(docSnap => {
+    const m = docSnap.data();
+    const mine = m.senderType === ctx.viewerType;
+    const avatarHtml = !mine
+      ? (ctx.otherPhoto ? `<img class="dm-avatar" src="${escAttr(ctx.otherPhoto)}" alt="" loading="lazy" decoding="async">` : HONEYMOON_LOGO_FALLBACK_HTML)
+      : (ctx.myPhoto ? `<img class="dm-avatar" src="${escAttr(ctx.myPhoto)}" alt="" loading="lazy" decoding="async">` : HONEYMOON_LOGO_FALLBACK_HTML);
+    const otherBadgeHtml = ctx.viewerType === 'creator' ? uxdShieldHtml(ctx.otherUxd) : followerShieldHtml((typeof roster !== 'undefined' && roster.find(x => x.id === ctx.profileId) || {}).followersCount);
+    const myBadgeHtml = ctx.viewerType === 'creator' ? followerShieldHtml((typeof roster !== 'undefined' && roster.find(x => x.id === ctx.profileId) || {}).followersCount) : uxdShieldHtml(ctx.myUxd || 0);
+    const myName = ctx.viewerType === 'member' ? (ctx.memberUsername || t('nameUndefined')) : (ctx.creatorName || t('nameUndefined'));
+    const nameHtml = `<div class="dm-sender-name">${escText(mine ? myName : (ctx.otherName || t('nameUndefined')))} ${mine ? myBadgeHtml : otherBadgeHtml}</div>`;
+    const likedBy = m.likedBy || [];
+    const isLiked = likedBy.includes(ctx.viewerType);
+    const likeCount = likedBy.length;
+
+    if(m.customOrderRequest){
+      const isDelivered = m.customOrderStatus === 'delivered';
+      const isTip = m.orderKind === 'tip';
+      let actionHtml = '';
+      if(ctx.viewerType === 'creator' && !isDelivered){
+        actionHtml = isTip
+          ? `<button type="button" class="custom-order-action-btn tip-order-deliver-btn" data-docid="${docSnap.id}" data-url="${escAttr(m.tipContentUrl || '')}" data-type="${escAttr(m.tipContentType || 'photo')}" data-price="${escAttr(m.tipPrice || '')}">${ICON_GIFT} ${t('tipOrderDeliverBtn')}</button>`
+          : `<button type="button" class="custom-order-action-btn custom-order-deliver-btn" data-docid="${docSnap.id}" data-text="${escAttr(m.text || '')}">${ICON_GIFT} ${t('customOrderDeliverBtn')}</button>`;
+      }else if(ctx.viewerType === 'member' && isDelivered){
+        actionHtml = `<button type="button" class="custom-order-action-btn custom-order-unlock-btn" data-docid="${docSnap.id}" data-url="${escAttr(m.deliveredContentUrl || '')}" data-type="${escAttr(m.deliveredContentType || 'photo')}" data-text="${escAttr(m.text || '')}">${ICON_LOCK} ${t('customOrderViewBtn')}</button>`;
+      }else if(isDelivered){
+        actionHtml = `<span class="custom-order-status-tag">✓ ${t('customOrderDeliveredNote')}</span>`;
+      }else{
+        actionHtml = `<span class="custom-order-status-tag pending">${t('customOrderPendingNote')}</span>`;
+      }
+      return `
+        <div class="dm-bubble-row ${mine ? 'mine' : 'theirs'}">
+          <div class="dm-sender-row">${avatarHtml}${nameHtml}</div>
+          <div class="custom-order-card ${isTip ? 'tip-order-card' : ''}">
+            <div class="custom-order-card-head">${ICON_CART} <b>${isTip ? t('tipOrderCardLabel') : t('customOrderBtnLabel')}</b></div>
+            <p class="custom-order-card-text">${escText(m.text || '')}</p>
+            ${actionHtml}
+          </div>
+          <div class="dm-bubble-footer">
+            <span class="dm-bubble-time">${formatChatTime(m.createdAt)}</span>
+          </div>
+        </div>`;
+    }
+
+    return `
+      <div class="dm-bubble-row ${mine ? 'mine' : 'theirs'}">
+        <div class="dm-sender-row">${avatarHtml}${nameHtml}</div>
+        <div class="dm-bubble-wrap">
+          <div class="dm-bubble" data-docid="${docSnap.id}">${escText(m.text || '')}</div>
+          <button type="button" class="dm-menu-btn" data-docid="${docSnap.id}" data-text="${escAttr(m.text || '')}">⋮</button>
+        </div>
+        <div class="dm-bubble-footer">
+          <button type="button" class="dm-like-btn ${isLiked ? 'liked' : ''}" data-docid="${docSnap.id}">❤ ${likeCount > 0 ? likeCount : ''}</button>
+          <span class="dm-bubble-time">${formatChatTime(m.createdAt)}</span>
+        </div>
+      </div>`;
+  }).join('');
+  box.querySelectorAll('.dm-menu-btn').forEach(btn => {
+    btn.onclick = (e) => openChatMessageMenu(e, btn.dataset.docid, btn.dataset.text);
+  });
+  box.querySelectorAll('.dm-like-btn').forEach(btn => {
+    btn.onclick = () => toggleMessageLike(btn.dataset.docid);
+  });
+  box.querySelectorAll('.custom-order-deliver-btn').forEach(btn => {
+    btn.onclick = () => openOrderDelivery(ctx, btn.dataset.docid, btn.dataset.text);
+  });
+  box.querySelectorAll('.tip-order-deliver-btn').forEach(btn => {
+    btn.onclick = () => quickDeliverTipOrder(ctx, btn.dataset.docid, btn.dataset.url, btn.dataset.type, btn.dataset.price);
+  });
+  box.querySelectorAll('.custom-order-unlock-btn').forEach(btn => {
+    btn.onclick = () => {
+      unlockDeliveredOrder(btn.dataset.url, btn.dataset.type, btn.dataset.text, ctx.otherName);
+      saveDeliveredOrderToPurchases(ctx, btn.dataset.text, btn.dataset.url, btn.dataset.type);
+    };
+  });
+  box.querySelectorAll('.dm-bubble').forEach(bubble => {
+    let lastTap = 0;
+    bubble.addEventListener('click', () => {
+      const now = Date.now();
+      if(now - lastTap < 320){ toggleMessageLike(bubble.dataset.docid); spawnFloatingReaction('❤️'); }
+      lastTap = now;
+    });
+  });
+  if(wasNearBottom) box.scrollTop = box.scrollHeight;
+  // Marque comme lu à chaque nouveau message reçu pendant que la fenêtre est ouverte.
+  convRef.set({ [unreadField]: 0 }, { merge: true }).catch(() => {});
+}
+function updateChatTabBadges(){
+  const ordersCount = chatLastSnapDocs.filter(d => d.data().customOrderRequest && d.data().customOrderStatus !== 'delivered').length;
+  const badge = document.getElementById('chat-tab-orders-badge');
+  if(badge){
+    if(ordersCount > 0){ badge.style.display = 'inline-flex'; badge.textContent = ordersCount > 99 ? '99+' : String(ordersCount); }
+    else { badge.style.display = 'none'; }
+  }
+}
+function switchChatTab(tab){
+  chatActiveTab = tab;
+  document.querySelectorAll('.chat-tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+  const topicsRow = document.getElementById('chat-topics-row');
+  if(topicsRow) topicsRow.style.display = tab === 'libre' ? 'flex' : 'none';
+  if(chatCtx){
+    const convRef = db.collection('profiles').doc(chatCtx.profileId).collection('conversations').doc(chatCtx.memberUid);
+    const unreadField = chatCtx.viewerType === 'member' ? 'memberUnreadCount' : 'creatorUnreadCount';
+    renderChatMessages(chatCtx, convRef, unreadField);
+  }
+}
+document.querySelectorAll('.chat-tab-btn').forEach(btn => { btn.onclick = () => switchChatTab(btn.dataset.tab); });
+
+/* ---------------- sujets de discussion suggérés (chips défilables, onglet libre uniquement) ---------------- */
+const CHAT_TOPICS = [
+  { key: 'day', emoji: '☀️' }, { key: 'travel', emoji: '✈️' }, { key: 'music', emoji: '🎵' },
+  { key: 'movies', emoji: '🎬' }, { key: 'desires', emoji: '🔥' }, { key: 'compliments', emoji: '💫' },
+  { key: 'teasing', emoji: '😏' }, { key: 'secrets', emoji: '🤫' }, { key: 'style', emoji: '👗' },
+  { key: 'dreams', emoji: '✨' }, { key: 'humor', emoji: '😄' }, { key: 'food', emoji: '🍓' },
+  { key: 'perfectNight', emoji: '🌙' }, { key: 'memories', emoji: '💭' }, { key: 'wellness', emoji: '🛁' },
+  { key: 'nowPlaying', emoji: '🎧' }, { key: 'common', emoji: '💞' }, { key: 'weekend', emoji: '🥂' },
+  { key: 'littleSecret', emoji: '🔑' }, { key: 'reunion', emoji: '💌' }
+];
+const CHAT_TOPIC_COLORS = ['#e2637c', '#c94f6a', '#d4af37', '#b84a63', '#e07a91', '#a83850'];
+function wireChatTopics(){
+  const row = document.getElementById('chat-topics-row');
+  if(!row || row.dataset.wired) return;
+  row.dataset.wired = '1';
+  row.innerHTML = CHAT_TOPICS.map((tp, i) => `
+    <button type="button" class="chat-topic-chip" data-key="${tp.key}" style="--chip-color:${CHAT_TOPIC_COLORS[i % CHAT_TOPIC_COLORS.length]};">
+      ${tp.emoji} ${t('chatTopic_' + tp.key)}
+    </button>`).join('');
+  row.querySelectorAll('.chat-topic-chip').forEach(chip => {
+    chip.onclick = () => {
+      const input = document.getElementById('chat-input');
+      if(!input) return;
+      const topicLabel = t('chatTopic_' + chip.dataset.key);
+      input.value = t('chatTopicStarterTemplate').replace('{topic}', topicLabel.toLowerCase());
+      input.focus();
+      const len = input.value.length;
+      input.setSelectionRange(len, len);
+    };
+  });
+}
 
 function formatChatTime(ts){
   let d;
@@ -13938,7 +14414,7 @@ async function openChat(ctx){
   closeChatListeners();
   if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
 
-  document.getElementById('chat-header-avatar').innerHTML = ctx.otherPhoto ? `<img src="${escAttr(ctx.otherPhoto)}" alt="">` : '🍯';
+  document.getElementById('chat-header-avatar').innerHTML = ctx.otherPhoto ? `<img src="${escAttr(ctx.otherPhoto)}" alt="" loading="lazy" decoding="async">` : '🍯';
   document.getElementById('chat-header-name').textContent = ctx.otherName || '';
   document.getElementById('chat-header-status').textContent = '';
   wireChatModPanel();
@@ -13976,12 +14452,19 @@ async function openChat(ctx){
   document.getElementById('chat-modal').classList.toggle('member-space-modal', ctx.viewerType === 'member');
   document.getElementById('chat-modal').classList.add('open');
   wireChatReactionRail();
+  wireChatTopics();
 
   const convRef = db.collection('profiles').doc(ctx.profileId).collection('conversations').doc(ctx.memberUid);
   const unreadField = ctx.viewerType === 'member' ? 'memberUnreadCount' : 'creatorUnreadCount';
   const typingField = ctx.viewerType === 'member' ? 'creatorTyping' : 'memberTyping';
   const myTypingField = ctx.viewerType === 'member' ? 'memberTyping' : 'creatorTyping';
   let lastSeenReactionAt = Date.now();
+  chatActiveTab = 'libre';
+  chatLastSnapDocs = [];
+  document.querySelectorAll('.chat-tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === 'libre'));
+  const topicsRow0 = document.getElementById('chat-topics-row');
+  if(topicsRow0) topicsRow0.style.display = 'flex';
+  updateChatTabBadges();
 
   // Marque comme lu dès l'ouverture.
   convRef.set({ [unreadField]: 0 }, { merge: true }).catch(() => {});
@@ -14006,105 +14489,14 @@ async function openChat(ctx){
   chatUnsubMessages = db.collection('profiles').doc(ctx.profileId).collection('conversations').doc(ctx.memberUid)
     .collection('messages').orderBy('createdAt', 'asc').limit(200)
     .onSnapshot(snap => {
-      const box = document.getElementById('chat-messages');
-      if(snap.empty){
-        box.innerHTML = `<span class="chat-empty-note">${t('chatEmptyNote')}</span>`;
-        return;
-      }
-      const wasNearBottom = (box.scrollHeight - box.scrollTop - box.clientHeight) < 80;
-      const prevCount = box.dataset.msgCount ? parseInt(box.dataset.msgCount, 10) : 0;
+      const prevCount = chatLastSnapDocs.length;
       if(snap.docs.length > prevCount && prevCount > 0){
         const lastDoc = snap.docs[snap.docs.length - 1].data();
-        if(lastDoc.senderType !== ctx.viewerType){
-          playChatReceiveSound();
-        }
+        if(lastDoc.senderType !== ctx.viewerType) playChatReceiveSound();
       }
-      box.dataset.msgCount = String(snap.docs.length);
-      box.innerHTML = snap.docs.map(docSnap => {
-        const m = docSnap.data();
-        const mine = m.senderType === ctx.viewerType;
-        const avatarHtml = !mine
-          ? (ctx.otherPhoto ? `<img class="dm-avatar" src="${escAttr(ctx.otherPhoto)}" alt="">` : HONEYMOON_LOGO_FALLBACK_HTML)
-          : (ctx.myPhoto ? `<img class="dm-avatar" src="${escAttr(ctx.myPhoto)}" alt="">` : HONEYMOON_LOGO_FALLBACK_HTML);
-        const otherBadgeHtml = ctx.viewerType === 'creator' ? uxdShieldHtml(ctx.otherUxd) : followerShieldHtml((typeof roster !== 'undefined' && roster.find(x => x.id === ctx.profileId) || {}).followersCount);
-        const myBadgeHtml = ctx.viewerType === 'creator' ? followerShieldHtml((typeof roster !== 'undefined' && roster.find(x => x.id === ctx.profileId) || {}).followersCount) : uxdShieldHtml(ctx.myUxd || 0);
-        const myName = ctx.viewerType === 'member' ? (ctx.memberUsername || t('nameUndefined')) : (ctx.creatorName || t('nameUndefined'));
-        const nameHtml = `<div class="dm-sender-name">${escText(mine ? myName : (ctx.otherName || t('nameUndefined')))} ${mine ? myBadgeHtml : otherBadgeHtml}</div>`;
-        const likedBy = m.likedBy || [];
-        const isLiked = likedBy.includes(ctx.viewerType);
-        const likeCount = likedBy.length;
-
-        if(m.customOrderRequest){
-          const isDelivered = m.customOrderStatus === 'delivered';
-          const isTip = m.orderKind === 'tip';
-          let actionHtml = '';
-          if(ctx.viewerType === 'creator' && !isDelivered){
-            actionHtml = isTip
-              ? `<button type="button" class="custom-order-action-btn tip-order-deliver-btn" data-docid="${docSnap.id}" data-url="${escAttr(m.tipContentUrl || '')}" data-type="${escAttr(m.tipContentType || 'photo')}" data-price="${escAttr(m.tipPrice || '')}">${ICON_GIFT} ${t('tipOrderDeliverBtn')}</button>`
-              : `<button type="button" class="custom-order-action-btn custom-order-deliver-btn" data-docid="${docSnap.id}" data-text="${escAttr(m.text || '')}">${ICON_GIFT} ${t('customOrderDeliverBtn')}</button>`;
-          }else if(ctx.viewerType === 'member' && isDelivered){
-            actionHtml = `<button type="button" class="custom-order-action-btn custom-order-unlock-btn" data-docid="${docSnap.id}" data-url="${escAttr(m.deliveredContentUrl || '')}" data-type="${escAttr(m.deliveredContentType || 'photo')}" data-text="${escAttr(m.text || '')}">${ICON_LOCK} ${t('customOrderViewBtn')}</button>`;
-          }else if(isDelivered){
-            actionHtml = `<span class="custom-order-status-tag">✓ ${t('customOrderDeliveredNote')}</span>`;
-          }else{
-            actionHtml = `<span class="custom-order-status-tag pending">${t('customOrderPendingNote')}</span>`;
-          }
-          return `
-            <div class="dm-bubble-row ${mine ? 'mine' : 'theirs'}">
-              <div class="dm-sender-row">${avatarHtml}${nameHtml}</div>
-              <div class="custom-order-card ${isTip ? 'tip-order-card' : ''}">
-                <div class="custom-order-card-head">${ICON_CART} <b>${isTip ? t('tipOrderCardLabel') : t('customOrderBtnLabel')}</b></div>
-                <p class="custom-order-card-text">${escText(m.text || '')}</p>
-                ${actionHtml}
-              </div>
-              <div class="dm-bubble-footer">
-                <span class="dm-bubble-time">${formatChatTime(m.createdAt)}</span>
-              </div>
-            </div>`;
-        }
-
-        return `
-          <div class="dm-bubble-row ${mine ? 'mine' : 'theirs'}">
-            <div class="dm-sender-row">${avatarHtml}${nameHtml}</div>
-            <div class="dm-bubble-wrap">
-              <div class="dm-bubble" data-docid="${docSnap.id}">${escText(m.text || '')}</div>
-              <button type="button" class="dm-menu-btn" data-docid="${docSnap.id}" data-text="${escAttr(m.text || '')}">⋮</button>
-            </div>
-            <div class="dm-bubble-footer">
-              <button type="button" class="dm-like-btn ${isLiked ? 'liked' : ''}" data-docid="${docSnap.id}">❤ ${likeCount > 0 ? likeCount : ''}</button>
-              <span class="dm-bubble-time">${formatChatTime(m.createdAt)}</span>
-            </div>
-          </div>`;
-      }).join('');
-      box.querySelectorAll('.dm-menu-btn').forEach(btn => {
-        btn.onclick = (e) => openChatMessageMenu(e, btn.dataset.docid, btn.dataset.text);
-      });
-      box.querySelectorAll('.dm-like-btn').forEach(btn => {
-        btn.onclick = () => toggleMessageLike(btn.dataset.docid);
-      });
-      box.querySelectorAll('.custom-order-deliver-btn').forEach(btn => {
-        btn.onclick = () => openOrderDelivery(ctx, btn.dataset.docid, btn.dataset.text);
-      });
-      box.querySelectorAll('.tip-order-deliver-btn').forEach(btn => {
-        btn.onclick = () => quickDeliverTipOrder(ctx, btn.dataset.docid, btn.dataset.url, btn.dataset.type, btn.dataset.price);
-      });
-      box.querySelectorAll('.custom-order-unlock-btn').forEach(btn => {
-        btn.onclick = () => {
-          unlockDeliveredOrder(btn.dataset.url, btn.dataset.type, btn.dataset.text, ctx.otherName);
-          saveDeliveredOrderToPurchases(ctx, btn.dataset.text, btn.dataset.url, btn.dataset.type);
-        };
-      });
-      box.querySelectorAll('.dm-bubble').forEach(bubble => {
-        let lastTap = 0;
-        bubble.addEventListener('click', () => {
-          const now = Date.now();
-          if(now - lastTap < 320){ toggleMessageLike(bubble.dataset.docid); spawnFloatingReaction('❤️'); }
-          lastTap = now;
-        });
-      });
-      if(wasNearBottom) box.scrollTop = box.scrollHeight;
-      // Marque comme lu à chaque nouveau message reçu pendant que la fenêtre est ouverte.
-      convRef.set({ [unreadField]: 0 }, { merge: true }).catch(() => {});
+      chatLastSnapDocs = snap.docs;
+      updateChatTabBadges();
+      renderChatMessages(ctx, convRef, unreadField);
     }, (e) => {
       console.error('chat messages listener error', e);
       document.getElementById('chat-messages').innerHTML = `<span class="chat-empty-note">${(LANG==='fr'?'Erreur : ':'Error: ')}${escText(e.message||String(e))}</span>`;
@@ -14667,14 +15059,46 @@ document.getElementById('chat-input').addEventListener('keydown', (e) => {
 
 /* ---------------- liste des conversations : membre ---------------- */
 async function renderMemberMessagesTab(user, data){
-  const tabBody = document.getElementById('member-tab-body');
-  tabBody.innerHTML = `<span class="gallery-empty">${t('chatLoading')}</span>`;
+  const paint = (rows) => {
+    if(rows.length === 0){
+      paintTabBody(`<span class="gallery-empty">${t('chatNoConversations')}</span>`);
+      return;
+    }
+    const tabBody = paintTabBody(rows.map(({ profileId, c }) => {
+      const m = (typeof roster !== 'undefined') ? roster.find(x => x.id === profileId) : null;
+      const unread = c.memberUnreadCount || 0;
+      return `
+        <button type="button" class="conv-list-row" data-pid="${profileId}">
+          <span class="conv-list-avatar">${m && m.photo ? `<img src="${escAttr(m.photo)}" alt="" loading="lazy" decoding="async">` : '🙂'}</span>
+          <span class="conv-list-body">
+            <span class="conv-list-name">${escText((m && m.name) || c.creatorName || '—')}</span>
+            <span class="conv-list-preview">${escText(c.lastMessageText || '')}</span>
+          </span>
+          ${unread ? `<span class="conv-unread-badge">${unread}</span>` : ''}
+        </button>`;
+    }).join(''));
+    tabBody.querySelectorAll('.conv-list-row').forEach(btn => {
+      btn.onclick = () => {
+        const m = (typeof roster !== 'undefined') ? roster.find(x => x.id === btn.dataset.pid) : null;
+        openChat({
+          profileId: btn.dataset.pid, viewerType: 'member', memberUid: user.uid,
+          memberUsername: data.username || '', creatorName: (m && m.name) || '',
+          otherName: (m && m.name) || t('nameUndefined'), otherPhoto: m && m.photo, myUxd: data.uxd || 0,
+          myPhoto: data.photoURL || ''
+        });
+      };
+    });
+  };
+  const cached = getMemberTabCache(user.uid, 'messages');
+  if(cached){ paint(cached); } // rendu instantané depuis le cache
+  else{ paintTabBody(`<span class="gallery-empty">${t('chatLoading')}</span>`); }
   try{
     if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
     const memberDoc = await memberDb.collection('members').doc(user.uid).get();
     const profileIds = (memberDoc.exists && memberDoc.data().conversationProfileIds) || [];
     if(profileIds.length === 0){
-      tabBody.innerHTML = `<span class="gallery-empty">${t('chatNoConversations')}</span>`;
+      setMemberTabCache(user.uid, 'messages', []);
+      if(!cached) paintTabBody(`<span class="gallery-empty">${t('chatNoConversations')}</span>`);
       return;
     }
     const results = await Promise.all(profileIds.map(async (profileId) => {
@@ -14688,36 +15112,11 @@ async function renderMemberMessagesTab(user, data){
       const tb = b.c.lastMessageAt && b.c.lastMessageAt.toDate ? b.c.lastMessageAt.toDate().getTime() : 0;
       return tb - ta;
     });
-    if(rows.length === 0){
-      tabBody.innerHTML = `<span class="gallery-empty">${t('chatNoConversations')}</span>`;
-      return;
-    }
-    tabBody.innerHTML = rows.map(({ profileId, c }) => {
-      const m = (typeof roster !== 'undefined') ? roster.find(x => x.id === profileId) : null;
-      const unread = c.memberUnreadCount || 0;
-      return `
-        <button type="button" class="conv-list-row" data-pid="${profileId}">
-          <span class="conv-list-avatar">${m && m.photo ? `<img src="${escAttr(m.photo)}" alt="">` : '🙂'}</span>
-          <span class="conv-list-body">
-            <span class="conv-list-name">${escText((m && m.name) || c.creatorName || '—')}</span>
-            <span class="conv-list-preview">${escText(c.lastMessageText || '')}</span>
-          </span>
-          ${unread ? `<span class="conv-unread-badge">${unread}</span>` : ''}
-        </button>`;
-    }).join('');
-    tabBody.querySelectorAll('.conv-list-row').forEach(btn => {
-      btn.onclick = () => {
-        const m = (typeof roster !== 'undefined') ? roster.find(x => x.id === btn.dataset.pid) : null;
-        openChat({
-          profileId: btn.dataset.pid, viewerType: 'member', memberUid: user.uid,
-          memberUsername: data.username || '', creatorName: (m && m.name) || '',
-          otherName: (m && m.name) || t('nameUndefined'), otherPhoto: m && m.photo, myUxd: data.uxd || 0
-        });
-      };
-    });
+    setMemberTabCache(user.uid, 'messages', rows);
+    paint(rows); // ré-affiche avec les données fraîches (silencieux si rien n'a changé)
   }catch(e){
     console.error('load member conversations error', e);
-    tabBody.innerHTML = `<span class="gallery-empty">${(LANG==='fr'?'Erreur : ':'Error: ')}${escText(e.message||String(e))}</span>`;
+    if(!cached) paintTabBody(`<span class="gallery-empty">${(LANG==='fr'?'Erreur : ':'Error: ')}${escText(e.message||String(e))}</span>`);
   }
 }
 
@@ -14766,7 +15165,7 @@ async function renderMyPopularity(m){
         ${followersSnap.empty ? `<p class="member-note">${t('membersViewerEmpty')}</p>` : followersSnap.docs.map(d => {
           const dd = d.data();
           return `<div class="member-fav-row">
-            ${dd.photoURL ? `<span class="member-fav-photo"><img src="${escAttr(dd.photoURL)}"></span>` : honeymoonLogoFallbackHtml('member-fav-photo')}
+            ${dd.photoURL ? `<span class="member-fav-photo"><img src="${escAttr(dd.photoURL)}" loading="lazy" decoding="async"></span>` : honeymoonLogoFallbackHtml('member-fav-photo')}
             <span class="member-fav-name">${escText(dd.username || t('nameUndefined'))}</span>
           </div>`;
         }).join('')}
@@ -14775,7 +15174,7 @@ async function renderMyPopularity(m){
       <div class="member-favorites-list" style="margin-top:10px;">
         ${followingRows.length === 0 ? `<p class="member-note">${t('membersViewerEmpty')}</p>` : followingRows.map(r => `
           <div class="member-fav-row">
-            ${r.photoURL ? `<span class="member-fav-photo"><img src="${escAttr(r.photoURL)}"></span>` : honeymoonLogoFallbackHtml('member-fav-photo')}
+            ${r.photoURL ? `<span class="member-fav-photo"><img src="${escAttr(r.photoURL)}" loading="lazy" decoding="async"></span>` : honeymoonLogoFallbackHtml('member-fav-photo')}
             <span class="member-fav-name">${escText(r.username)}</span>
           </div>`).join('')}
       </div>
@@ -14850,7 +15249,8 @@ async function renderMyMessages(m){
         openChat({
           profileId: m.id, viewerType: 'creator', memberUid: btn.dataset.uid,
           memberUsername: c.memberUsername || '', creatorName: m.name || '',
-          otherName: c.memberUsername || t('nameUndefined'), otherPhoto: avatarInfo.photoURL || null, otherUxd
+          otherName: c.memberUsername || t('nameUndefined'), otherPhoto: avatarInfo.photoURL || null, otherUxd,
+          myPhoto: m.photo || ''
         });
       };
     });
@@ -14922,7 +15322,8 @@ async function renderMyOrders(m, kind){
       openChat({
         profileId: m.id, viewerType: 'creator', memberUid,
         memberUsername: memberUsername || '', creatorName: m.name || '',
-        otherName: memberUsername || t('nameUndefined'), otherPhoto: avatarInfo.photoURL || null, otherUxd
+        otherName: memberUsername || t('nameUndefined'), otherPhoto: avatarInfo.photoURL || null, otherUxd,
+        myPhoto: m.photo || ''
       });
     };
     zone.querySelectorAll('.order-row-discuss-btn').forEach(btn => {
@@ -14987,14 +15388,14 @@ async function renderMyMembers(m, filter){
     zone.innerHTML = rows.map(r => `
       <div class="member-view-card">
         <div class="member-view-head">
-          ${r.photoURL ? `<img class="member-view-avatar" src="${escAttr(r.photoURL)}">` : honeymoonLogoFallbackHtml('member-view-avatar')}
+          ${r.photoURL ? `<img class="member-view-avatar" src="${escAttr(r.photoURL)}" loading="lazy" decoding="async">` : honeymoonLogoFallbackHtml('member-view-avatar')}
           <div style="flex:1;">
             <div class="member-view-name">${escText(r.username)} ${r.isFav ? '♥' : ''} ${r.hasChatted ? '💬' : ''} ${followerBadgeHtml(r.followersCount)}</div>
             ${r.location ? `<div class="member-view-loc">${escText(r.location)}</div>` : ''}
           </div>
         </div>
         ${r.bio ? `<p class="member-view-bio">${escText(r.bio)}</p>` : ''}
-        ${r.photos.length ? `<div class="member-media-grid">${r.photos.map(p => `<img src="${escAttr(p)}">`).join('')}</div>` : ''}
+        ${r.photos.length ? `<div class="member-media-grid">${r.photos.map(p => `<img src="${escAttr(p)}" loading="lazy" decoding="async">`).join('')}</div>` : ''}
         <div class="member-view-actions">
           <button type="button" class="follow-btn my-member-follow-btn ${r.isFollowedByCreator ? 'following' : ''}" data-uid="${r.id}">${r.isFollowedByCreator ? t('followingBtn') : t('followBtn')}</button>
           <button type="button" class="follow-btn my-member-favorite-btn ${r.isCreatorFavorite ? 'is-favorite' : ''}" data-uid="${r.id}">⭐ ${r.isCreatorFavorite ? t('myMembersUnfavoriteBtn') : t('myMembersFavoriteBtn')}</button>
@@ -15725,7 +16126,7 @@ async function openVitrine(creatorId){
   }
   await syncProfilesFromFirestore();
   renderVitrineGrid(); // re-affichage une fois les données à jour reçues
-  if(creatorId) openVitrineRoom(creatorId); // rafraîchit la room avec les données à jour
+  if(creatorId) openVitrineRoom(creatorId, true); // rafraîchit la room en silence, sans perturber la lecture
 }
 
 function parseVitrineHash(){
@@ -15765,17 +16166,23 @@ if(initialVitrineHash.open){
   checkGate();
 }
 
+const VITRINE_PAGE_SIZE = 6;
+let vitrinePage = 0;
 function renderVitrineGrid(){
   const row1 = document.getElementById('vitrine-grid-row1');
   if(!row1) return;
   const statEl = document.getElementById('vitrine-hero-stat-count');
   if(statEl) statEl.textContent = roster.filter(m => m && m.filled && m.photo).length;
-  const half = Math.ceil(roster.length / 2);
-  const html = roster.slice(0, half).map(m => vitrineCardHtml(m)).join('');
+  const totalPages = Math.max(1, Math.ceil(roster.length / VITRINE_PAGE_SIZE));
+  if(vitrinePage > totalPages - 1) vitrinePage = totalPages - 1;
+  if(vitrinePage < 0) vitrinePage = 0;
+  const start = vitrinePage * VITRINE_PAGE_SIZE;
+  const html = roster.slice(start, start + VITRINE_PAGE_SIZE).map(m => vitrineCardHtml(m)).join('');
   // Évite de recréer toute la grille (et donc de faire clignoter photos/icônes)
   // quand les données n'ont pas changé depuis le dernier rendu.
-  if(row1.dataset.lastHtml === html) return;
+  if(row1.dataset.lastHtml === html && row1.dataset.lastPage === String(vitrinePage)){ updateVitrinePageArrows(totalPages); return; }
   row1.dataset.lastHtml = html;
+  row1.dataset.lastPage = String(vitrinePage);
   row1.innerHTML = html;
   [row1].forEach(grid => {
     grid.querySelectorAll('.vitrine-enter-btn').forEach(btn => {
@@ -15802,8 +16209,26 @@ function renderVitrineGrid(){
       };
     });
   });
-  wireCarouselArrows(row1.closest('.creator-carousel-section'));
+  wireVitrinePageArrows();
+  updateVitrinePageArrows(totalPages);
   initFavoriteButtonsState();
+}
+// Navigation par page (6 vignettes) au lieu d'un défilement horizontal continu.
+function wireVitrinePageArrows(){
+  document.querySelectorAll('.carousel-arrow[data-group="vitrine-carousel"]').forEach(btn => {
+    btn.onclick = () => {
+      vitrinePage += parseInt(btn.dataset.dir, 10);
+      renderVitrineGrid();
+      const section = document.getElementById('vitrine-grid-row1');
+      if(section) section.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    };
+  });
+}
+function updateVitrinePageArrows(totalPages){
+  const prevBtn = document.querySelector('.carousel-arrow[data-group="vitrine-carousel"][data-dir="-1"]');
+  const nextBtn = document.querySelector('.carousel-arrow[data-group="vitrine-carousel"][data-dir="1"]');
+  if(prevBtn) prevBtn.disabled = vitrinePage <= 0;
+  if(nextBtn) nextBtn.disabled = vitrinePage >= totalPages - 1;
 }
 const ICON_CAMERA = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>';
 const ICON_AUDIO = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>';
@@ -16307,7 +16732,7 @@ function bioNarrativeHtml(m, bio){
 
   if(!parts.length && !m.bioCoverPhoto) return `<p class="gallery-empty">${t('galleryEmpty')}</p>`;
   const coverBlock = m.bioCoverPhoto
-    ? `<div class="bio-narrative-cover">${m.bioCoverPhotoType === 'video' ? `<video src="${m.bioCoverPhoto}" controls loop playsinline></video>` : `<img src="${m.bioCoverPhoto}">`}</div>`
+    ? `<div class="bio-narrative-cover">${m.bioCoverPhotoType === 'video' ? `<video src="${m.bioCoverPhoto}" controls loop playsinline></video>` : `<img src="${m.bioCoverPhoto}" loading="lazy" decoding="async">`}</div>`
     : '';
   return `${coverBlock}<h3 class="bio-narrative-title">${t('bioNarrativeMainTitle')}</h3><div class="bio-narrative">${parts.join('<div class="bio-narrative-divider"></div>')}</div>`;
 }
@@ -16355,7 +16780,7 @@ function exclusiveCardHtml(m, item){
   return `
     <div class="exclusive-thumb-wrap">
       <div class="exclusive-thumb exclusive-unlock-btn" data-docid="${item.docId}" data-price="${item.price}" data-kind="photo">
-        <img class="exclusive-blurred-img" src="${item.url}">
+        <img class="exclusive-blurred-img" src="${item.url}" loading="lazy" decoding="async">
         <div class="exclusive-thumb-lock">${ICON_LOCK}</div>
         <span class="exclusive-thumb-price">${item.price}€</span>
       </div>
@@ -16462,7 +16887,7 @@ function showPaymentInstructions(o){
   };
 }
 
-async function openVitrineRoom(id){
+async function openVitrineRoom(id, isBackgroundRefresh){
   const m = roster.find(x => x.id === id);
   if(!m) return;
   const bio = Object.assign({
@@ -16491,7 +16916,7 @@ async function openVitrineRoom(id){
   const body = document.getElementById('vitrine-room-body');
   body.innerHTML = `
     <div class="vitrine-cover">
-      ${m.photoType === 'video' ? `<video src="${m.photo}" controls loop playsinline></video>` : `<img src="${m.photo}">`}
+      ${m.photoType === 'video' ? `<video src="${m.photo}" controls loop playsinline></video>` : `<img src="${m.photo}" fetchpriority="high" decoding="async">`}
       <span class="vitrine-status-badge ${online ? 'online' : ''}">${online ? t('statusOnline') : t('statusOffline')}</span>
     </div>
     <h3>${escText(m.name) || t('nameUndefined')} <button type="button" class="room-fav-btn" data-id="${m.id}" title="${escAttr(t('memberFavoriteToggle'))}">${ICON_HEART_OUTLINE}</button></h3>
@@ -16553,7 +16978,7 @@ async function openVitrineRoom(id){
             <div class="tipmenu-public-preview ${r.type === 'audio' ? 'audio-only' : ''}">
               ${r.type === 'video' ? `<video src="${escAttr(r.contentUrl)}" muted></video>`
                 : r.type === 'audio' ? `<div class="tipmenu-audio-lock-bg">${ICON_AUDIO}</div>`
-                : `<img src="${escAttr(r.contentUrl)}">`}
+                : `<img src="${escAttr(r.contentUrl)}" loading="lazy" decoding="async">`}
               <span class="tipmenu-preview-lock">${ICON_LOCK}</span>
             </div>` : ''}
             <div class="tipmenu-public-head">
@@ -16625,8 +17050,16 @@ async function openVitrineRoom(id){
 
   document.getElementById('vitrine-backdrop').classList.add('open');
   document.getElementById('vitrine-room').classList.add('open');
-  // La position de scroll de l'ancienne fiche restait affichée : on revient toujours en haut à l'ouverture.
-  document.getElementById('vitrine-room-body').scrollTop = 0;
+  // La fiche se met parfois à jour en silence en arrière-plan (nouvelles données reçues) pendant
+  // que le membre est en train de lire/défiler — dans ce cas on ne touche pas à sa position de
+  // lecture. Seule une VRAIE ouverture (nouvelle fiche, ou premier affichage) revient en haut ;
+  // avant, la fiche revenait TOUJOURS en haut, même en pleine lecture pendant un rafraîchissement
+  // silencieux — c'était la cause du "parfois ça commence en haut, parfois en bas".
+  const roomBodyEl = document.getElementById('vitrine-room-body');
+  if(!(isBackgroundRefresh && roomBodyEl.dataset.openId === id)){
+    roomBodyEl.scrollTop = 0;
+  }
+  roomBodyEl.dataset.openId = id;
   // force un rafraîchissement d'affichage immédiat (même correctif que sur les autres pages)
   void document.getElementById('vitrine-room').offsetHeight;
 
@@ -16639,16 +17072,18 @@ async function openVitrineRoom(id){
     const user = memberAuth.currentUser;
     let username = '';
     let myUxd = 0;
+    let myPhoto = '';
     try{
       const doc = await memberDb.collection('members').doc(user.uid).get();
       username = (doc.exists && doc.data().username) || '';
       myUxd = (doc.exists && doc.data().uxd) || 0;
+      myPhoto = (doc.exists && doc.data().photoURL) || '';
     }catch(e){ console.error('load member username error', e); }
     closeVitrineRoom();
     openChat({
       profileId: m.id, viewerType: 'member', memberUid: user.uid,
       memberUsername: username, creatorName: m.name || '',
-      otherName: m.name || t('nameUndefined'), otherPhoto: m.photo, myUxd
+      otherName: m.name || t('nameUndefined'), otherPhoto: m.photo, myUxd, myPhoto
     });
   };
   initFavoriteButtonsState();
@@ -16659,16 +17094,18 @@ async function openVitrineRoom(id){
     const user = memberAuth.currentUser;
     let username = '';
     let myUxd = 0;
+    let myPhoto = '';
     try{
       const doc = await memberDb.collection('members').doc(user.uid).get();
       username = (doc.exists && doc.data().username) || '';
       myUxd = (doc.exists && doc.data().uxd) || 0;
+      myPhoto = (doc.exists && doc.data().photoURL) || '';
     }catch(e){ console.error('load member username error', e); }
     closeVitrineRoom();
     openChat({
       profileId: m.id, viewerType: 'member', memberUid: user.uid,
       memberUsername: username, creatorName: m.name || '',
-      otherName: m.name || t('nameUndefined'), otherPhoto: m.photo, myUxd
+      otherName: m.name || t('nameUndefined'), otherPhoto: m.photo, myUxd, myPhoto
     });
   };
   document.getElementById('vitrine-room-body').querySelectorAll('.tipmenu-order-btn[data-id]').forEach(btn => {
@@ -16677,10 +17114,12 @@ async function openVitrineRoom(id){
       const user = memberAuth.currentUser;
       let username = '';
       let myUxd = 0;
+      let myPhoto = '';
       try{
         const doc = await memberDb.collection('members').doc(user.uid).get();
         username = (doc.exists && doc.data().username) || '';
         myUxd = (doc.exists && doc.data().uxd) || 0;
+        myPhoto = (doc.exists && doc.data().photoURL) || '';
       }catch(e){ console.error('load member username error', e); }
       const idx = parseInt(btn.dataset.idx, 10);
       const row = (m.tipMenu && m.tipMenu[idx]) || {};
@@ -16712,7 +17151,7 @@ async function openVitrineRoom(id){
       openChat({
         profileId: m.id, viewerType: 'member', memberUid: user.uid,
         memberUsername: username, creatorName: m.name || '',
-        otherName: m.name || t('nameUndefined'), otherPhoto: m.photo, myUxd
+        otherName: m.name || t('nameUndefined'), otherPhoto: m.photo, myUxd, myPhoto
       });
     };
   });
@@ -17215,7 +17654,7 @@ function showSignedConfirmation(o){
         <tr><td>${t('signRepName')}</td><td style="text-align:right;">${escText(o.repName)}</td></tr>
       </table>
       <p style="font-size:11px;color:#666;margin:10px 0 4px;">${t('signSignatureLabel')}</p>
-      <img src="${o.signatureDataUrl}" style="max-width:100%;border:1px solid #eee;border-radius:6px;">
+      <img src="${o.signatureDataUrl}" style="max-width:100%;border:1px solid #eee;border-radius:6px;" loading="lazy" decoding="async">
     </div>
   `;
   document.getElementById('invoice-backdrop').classList.add('open');
