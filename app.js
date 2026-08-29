@@ -170,6 +170,9 @@ try{
    renvoie l'adresse publique du fichier une fois stocké. */
 const R2_UPLOAD_URL = 'https://honeymoon-uploads.honeymoon-official.workers.dev';
 async function uploadToR2(authInstance, file, folder){
+  if(authInstance && !authInstance.currentUser){
+    try{ await authInstance.signInAnonymously(); }catch(e){}
+  }
   if(!authInstance || !authInstance.currentUser){
     throw new Error('not_authenticated');
   }
@@ -193,26 +196,33 @@ async function uploadToR2(authInstance, file, folder){
 // la progression d'un envoi dans un navigateur.
 function uploadToR2WithProgress(authInstance, file, folder, onProgress){
   return new Promise((resolve, reject) => {
-    if(!authInstance || !authInstance.currentUser){ reject(new Error('not_authenticated')); return; }
-    authInstance.currentUser.getIdToken().then((idToken) => {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('folder', folder);
-      const xhr = new XMLHttpRequest();
-      xhr.open('POST', R2_UPLOAD_URL);
-      xhr.setRequestHeader('Authorization', 'Bearer ' + idToken);
-      xhr.upload.onprogress = (e) => {
-        if(onProgress && e.lengthComputable) onProgress(Math.round((e.loaded / e.total) * 100));
-      };
-      xhr.onload = () => {
-        if(xhr.status >= 200 && xhr.status < 300){
-          try{ resolve(JSON.parse(xhr.responseText).url); }
-          catch(e){ reject(e); }
-        } else reject(new Error('upload_failed'));
-      };
-      xhr.onerror = () => reject(new Error('upload_failed'));
-      xhr.send(formData);
-    }).catch(reject);
+    const proceed = () => {
+      if(!authInstance || !authInstance.currentUser){ reject(new Error('not_authenticated')); return; }
+      authInstance.currentUser.getIdToken().then((idToken) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('folder', folder);
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', R2_UPLOAD_URL);
+        xhr.setRequestHeader('Authorization', 'Bearer ' + idToken);
+        xhr.upload.onprogress = (e) => {
+          if(onProgress && e.lengthComputable) onProgress(Math.round((e.loaded / e.total) * 100));
+        };
+        xhr.onload = () => {
+          if(xhr.status >= 200 && xhr.status < 300){
+            try{ resolve(JSON.parse(xhr.responseText).url); }
+            catch(e){ reject(e); }
+          } else reject(new Error('upload_failed'));
+        };
+        xhr.onerror = () => reject(new Error('upload_failed'));
+        xhr.send(formData);
+      }).catch(reject);
+    };
+    if(authInstance && !authInstance.currentUser){
+      authInstance.signInAnonymously().then(proceed).catch(proceed);
+    } else {
+      proceed();
+    }
   });
 }
 
