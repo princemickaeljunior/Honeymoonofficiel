@@ -1653,12 +1653,21 @@ async function syncProfilesFromFirestore(){
       const snap = byId[m.id];
       if(!snap) return; // jamais créé côté Firestore : rien à synchroniser pour cet emplacement
       try{
-        const [mediaSnap, paidSnap, showcaseSnap, contractSigSnap] = await Promise.all([
+        // La lecture des signatures de contrat est réservée au staff (documents légaux
+        // sensibles, jamais publics — à raison) : un simple visiteur n'a pas le droit de
+        // la lire. Avant, cette lecture était group avec les autres et son échec empêchait
+        // TOUT le reste de se mettre à jour pour ce profil (dont la photo). Elle est donc
+        // récupérée séparément, avec son propre filet : si elle échoue (visiteur normal),
+        // le reste (photo, galerie, contenu payant...) continue de se mettre à jour normalement.
+        const [mediaSnap, paidSnap, showcaseSnap] = await Promise.all([
           db.collection('profiles').doc(m.id).collection('media').orderBy('createdAt').get(),
           db.collection('profiles').doc(m.id).collection('paid_content').orderBy('createdAt', 'desc').get(),
-          db.collection('profiles').doc(m.id).collection('showcase_media').orderBy('createdAt').get(),
-          db.collection('profiles').doc(m.id).collection('contract_signatures').orderBy('signedAt', 'desc').get()
+          db.collection('profiles').doc(m.id).collection('showcase_media').orderBy('createdAt').get()
         ]);
+        let contractSigSnap = { forEach: () => {} };
+        try{
+          contractSigSnap = await db.collection('profiles').doc(m.id).collection('contract_signatures').orderBy('signedAt', 'desc').get();
+        }catch(e){ /* normal pour un visiteur non-staff : pas d'accès à ces documents */ }
         const data = snap.data();
         Object.assign(m, {
           name: data.name ?? m.name,
