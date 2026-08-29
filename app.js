@@ -527,7 +527,7 @@ const I18N = {
     memberForgotSentTitle: "Email envoyé",
     memberForgotSentBody: "Si un compte existe avec cet email, un lien de réinitialisation vient d'être envoyé. Ouvre-le pour choisir un nouveau mot de passe.",
     memberTabProfile: "Profil",
-    memberTabPurchases: "Mes achats",
+    memberTabPurchases: "Collection",
     memberUnverifiedBanner: "Compte pas encore confirmé — email envoyé à {email}.",
     memberResendShort: "Renvoyer",
     memberResentShort: "Renvoyé ✓",
@@ -1348,7 +1348,7 @@ const I18N = {
     memberForgotSentTitle: "Email sent",
     memberForgotSentBody: "If an account exists with this email, a reset link was just sent. Open it to choose a new password.",
     memberTabProfile: "Profile",
-    memberTabPurchases: "My purchases",
+    memberTabPurchases: "Collection",
     memberUnverifiedBanner: "Account not confirmed yet — email sent to {email}.",
     memberResendShort: "Resend",
     memberResentShort: "Resent ✓",
@@ -2449,7 +2449,7 @@ const I18N = {
     memberTabFavorites: "Favoritos",
     memberTabMessages: "Mensajes",
     memberTabProfile: "Perfil",
-    memberTabPurchases: "Mis compras",
+    memberTabPurchases: "Colección",
     memberUnverifiedBanner: "Cuenta aún no confirmada — email enviado a {email}.",
     memberUseMyLocation: "Usar mi ubicación",
     memberUsernameLabel: "Nombre de usuario",
@@ -3208,7 +3208,7 @@ const I18N = {
     memberTabFavorites: "Preferiti",
     memberTabMessages: "Messaggi",
     memberTabProfile: "Profilo",
-    memberTabPurchases: "I miei acquisti",
+    memberTabPurchases: "Collezione",
     memberUnverifiedBanner: "Account non ancora confermato — email inviata a {email}.",
     memberUseMyLocation: "Usa la mia posizione",
     memberUsernameLabel: "Nome utente",
@@ -3967,7 +3967,7 @@ const I18N = {
     memberTabFavorites: "Favoritos",
     memberTabMessages: "Mensagens",
     memberTabProfile: "Perfil",
-    memberTabPurchases: "As minhas compras",
+    memberTabPurchases: "Coleção",
     memberUnverifiedBanner: "Conta ainda não confirmada — email enviado para {email}.",
     memberUseMyLocation: "Usar a minha localização",
     memberUsernameLabel: "Nome de utilizador",
@@ -4725,7 +4725,7 @@ const I18N = {
     memberTabFavorites: "Vipendwa",
     memberTabMessages: "Ujumbe",
     memberTabProfile: "Wasifu",
-    memberTabPurchases: "Manunuzi yangu",
+    memberTabPurchases: "Mkusanyiko",
     memberUnverifiedBanner: "Akaunti bado haijathibitishwa — barua pepe imetumwa kwa {email}.",
     memberUseMyLocation: "Tumia eneo langu",
     memberUsernameLabel: "Jina la mtumiaji",
@@ -5483,7 +5483,7 @@ const I18N = {
     memberTabFavorites: "Okuthandiwe",
     memberTabMessages: "Imilayezo",
     memberTabProfile: "Iphrofayela",
-    memberTabPurchases: "Engikuthengile",
+    memberTabPurchases: "Iqoqo",
     memberUnverifiedBanner: "I-akhawunti ayikaqinisekiswa — i-imeyili ithunyelwe ku-{email}.",
     memberUseMyLocation: "Sebenzisa indawo yami",
     memberUsernameLabel: "Igama lomsebenzisi",
@@ -6241,7 +6241,7 @@ const I18N = {
     memberTabFavorites: "Tse Ratehang",
     memberTabMessages: "Melaetsa",
     memberTabProfile: "Profaele",
-    memberTabPurchases: "Dithekiso tsa ka",
+    memberTabPurchases: "Pokello",
     memberUnverifiedBanner: "Akhaonto ha e so netefatswe — imeile e rometswe ho {email}.",
     memberUseMyLocation: "Sebedisa sebaka sa ka",
     memberUsernameLabel: "Lebitso la mosebedisi",
@@ -6999,7 +6999,7 @@ const I18N = {
     memberTabFavorites: "Ba Favoris",
     memberTabMessages: "Ba Message",
     memberTabProfile: "Profil",
-    memberTabPurchases: "Ba Achats na ngai",
+    memberTabPurchases: "Bisangisi na ngai",
     memberUnverifiedBanner: "Compte endimami naino te — email etindami na {email}.",
     memberUseMyLocation: "Salela esika na ngai",
     memberUsernameLabel: "Kombo ya mosaleli",
@@ -7757,7 +7757,7 @@ const I18N = {
     memberTabFavorites: "Bafavoris",
     memberTabMessages: "Ba Message",
     memberTabProfile: "Profil",
-    memberTabPurchases: "Bisumbu na mono",
+    memberTabPurchases: "Bisangisi na ngai",
     memberUnverifiedBanner: "Compte endimami ntete ve — email etindami na {email}.",
     memberUseMyLocation: "Sadisa kisika na mono",
     memberUsernameLabel: "Zina ya musadisi",
@@ -8629,7 +8629,7 @@ function renderMyProfile(slotId){
       </div>
       <div class="my-tabs" id="my-tabs-track-${m.id}">
         <button type="button" class="my-tab-btn" id="my-tab-btn-ideas">💡${t('toolIdeas')}</button>
-        <button type="button" class="my-tab-btn" id="my-tab-btn-popularity">⭐${t('myFamilyPopularity')}</button>
+        <button type="button" class="my-tab-btn" id="my-tab-btn-popularity">⭐ ${t('myFamilyPopularity')}</button>
         <button type="button" class="my-tab-btn" id="my-tab-btn-tipmenu">🍯${t('tipMenuTabLabel')}</button>
         <button type="button" class="my-tab-btn active" id="my-tab-btn-content">${ICON_MY_CONTENT}${t('myFamilyContent')}</button>
         <button type="button" class="my-tab-btn" id="my-tab-btn-messages">${ICON_MY_MESSAGES}${t('myFamilyMessages')} <span class="creator-msg-badge" id="creator-msg-badge-${m.id}" style="display:none;"></span></button>
@@ -8730,14 +8730,12 @@ function renderMyProfile(slotId){
     </div>
   `;
 
-  const myTabs = ['ideas', 'content', 'messages', 'orderscustom', 'orderstip', 'members', 'comments', 'ca', 'popularity', 'tipmenu', 'tools', 'rules'];
+  const myTabs = ['ideas', 'content', 'messages', 'members', 'comments', 'ca', 'popularity', 'tipmenu', 'tools', 'rules'];
   function showMyTab(name){
     myTabs.forEach(n => {
       document.getElementById('my-tab-panel-' + n).classList.toggle('active', n === name);
       document.getElementById('my-tab-btn-' + n).classList.toggle('active', n === name);
     });
-    if(name === 'orderscustom') renderMyOrders(m, 'custom');
-    if(name === 'orderstip') renderMyOrders(m, 'tip');
     if(name === 'members') renderMyMembers(m);
   }
   myTabs.forEach(n => {
@@ -12210,7 +12208,7 @@ function renderMemberHome(user, data, activeTab){
       </div>
       <div class="tabs-slide-row">
         <div class="member-tabs">
-          <button type="button" class="member-tab" id="member-tab-popularity">⭐${t('myFamilyPopularity')}</button>
+          <button type="button" class="member-tab" id="member-tab-popularity">⭐ ${t('myFamilyPopularity')}</button>
           <button type="button" class="member-tab" id="member-tab-profile">${ICON_USER}${t('memberTabProfile')}</button>
           <button type="button" class="member-tab" id="member-tab-favorites">${ICON_LIKE}${t('memberTabFavorites')}</button>
           <button type="button" class="member-tab" id="member-tab-messages">${ICON_CHAT_SM}${t('memberTabMessages')} <span class="member-tab-badge" id="member-tab-messages-badge" style="display:none;"></span></button>
@@ -12827,24 +12825,21 @@ function refreshFavoriteButtons(favorites){
     const isFav = favorites.includes(btn.dataset.id);
     btn.classList.toggle('active', isFav);
     btn.textContent = isFav ? '♥' : '♡';
+    btn.classList.add('state-ready');
   });
 }
 async function initFavoriteButtonsState(){
-  if(!memberAuth || !memberAuth.currentUser || memberAuth.currentUser.isAnonymous) return;
+  if(!memberAuth || !memberAuth.currentUser || memberAuth.currentUser.isAnonymous){
+    document.querySelectorAll('.card-fav-btn, .room-fav-btn').forEach(btn => btn.classList.add('state-ready'));
+    return;
+  }
   try{
     const doc = await memberDb.collection('members').doc(memberAuth.currentUser.uid).get();
     const favorites = (doc.exists && doc.data().favorites) || [];
     refreshFavoriteButtons(favorites);
-  }catch(e){}
-}
-
-async function initFavoriteButtonsState(){
-  if(!memberAuth || !memberAuth.currentUser || memberAuth.currentUser.isAnonymous) return;
-  try{
-    const doc = await memberDb.collection('members').doc(memberAuth.currentUser.uid).get();
-    const favorites = (doc.exists && doc.data().favorites) || [];
-    refreshFavoriteButtons(favorites);
-  }catch(e){}
+  }catch(e){
+    document.querySelectorAll('.card-fav-btn, .room-fav-btn').forEach(btn => btn.classList.add('state-ready'));
+  }
 }
 
 /* ================= CHAT EN DIRECT (membre ↔ créatrice) ================= */
@@ -15967,6 +15962,7 @@ async function wireRoomFollowButton(m){
   const setBtnState = (isFollowing) => {
     btn.classList.toggle('following', isFollowing);
     btn.textContent = isFollowing ? t('followingBtn') : t('followBtn');
+    btn.classList.add('state-ready');
   };
   let isFollowing = false;
   if(memberAuth && memberAuth.currentUser){
