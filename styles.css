@@ -1,3 +1,4 @@
+
 :root{
   --bg:#1a1620;
   --bg-elev:#221d29;
@@ -1322,4 +1323,30 @@ img[data-hm-loaded], video[data-hm-loaded]{
   -webkit-overflow-scrolling:touch;scrollbar-width:none;gap:14px;padding-bottom:2px;
 }
 .agency-roster-row .model-card{flex:0 0 82%;max-width:340px;scroll-snap-align:start;}
-.agency-roster-row .model-phot
+.agency-roster-row .model-photo{aspect-ratio:1/1;}
+.creator-carousel-nav .carousel-arrow{display:flex;}
+
+@media (min-width: 900px){
+  .burger-panel{
+    left:0;right:auto;top:0;transform:none;width:240px;max-width:240px;
+    border-left:none;border-right:1px solid var(--border);
+  }
+  .burger-close-btn{display:none;}
+  #burger-menu-btn{display:none;}
+  #app-shell, #my-profile-shell, #vitrine-shell{padding-left:240px;}
+  #topbar{padding-left:260px;}
+  .bottom-nav{padding-left:240px;}
+
+  /* La page choisie s'affiche à côté du menu vertical (deux colonnes), pas en dessous. */
+  #my-profile-body, #member-modal-body, #vitrine-room-body{
+    display:grid;grid-template-columns:220px 1fr;align-items:start;gap:28px;
+  }
+  #my-profile-body > *, #member-modal-body > *, #vitrine-room-body > *{
+    grid-column:1 / -1;
+  }
+  .tabs-slide-row{grid-column:1;}
+  .my-tab-panel{grid-column:2;}
+  .member-tabs{grid-column:1;margin-bottom:0;}
+  #member-tab-body{grid-column:2;}
+  .room-tabs{grid-column:1;margin-top:0;}
+}
