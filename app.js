@@ -1632,6 +1632,11 @@ function initRoster(){
    — uniquement de la lecture, ouverte à tout le monde. */
 async function syncProfilesFromFirestore(){
   if(!db) return;
+  // Un visiteur qui n'a jamais rien cliqué n'a encore aucune session Firebase active —
+  // si les règles de sécurité exigent une connexion (même anonyme) pour lire les profils,
+  // cette lecture échoue silencieusement et la vitrine reste bloquée sur d'anciennes
+  // données. On s'assure donc d'avoir une session avant de lire, comme partout ailleurs.
+  if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
   let changed = false;
   try{
     // Une seule requête pour tous les profils existants, au lieu d'interroger un par un
