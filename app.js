@@ -5103,21 +5103,15 @@ function openMemberModal(initialTab){
   // jamais comme un vrai compte membre inscrit — sinon un visiteur peut se retrouver
   // directement sur le tableau de bord membre sans jamais s'être inscrit.
   if(!u || u.isAnonymous){ renderMemberLogin(); return; }
+  // Affichage immédiat avec la session déjà en mémoire côté téléphone — plus d'attente
+  // réseau à chaque ouverture. La vérification auprès de Firebase (utile si le compte a
+  // été désactivé/supprimé entre-temps) se fait ensuite en arrière-plan, sans bloquer.
+  loadMemberHome(u, initialTab);
   u.reload().then(() => {
     const cu = memberAuth.currentUser;
-    if(!cu || cu.isAnonymous){ renderMemberLogin(); return; }
-    loadMemberHome(cu, initialTab);
+    if(!cu || cu.isAnonymous){ renderMemberLogin(); }
   }).catch((err) => {
-    // reload() fait un appel réseau vers Firebase pour rafraîchir la session ; s'il échoue
-    // (réseau lent, navigation privée qui restreint parfois l'accès au stockage...), ça ne
-    // veut PAS dire que le membre est déconnecté — juste que la vérification a échoué. Avant :
-    // on la traitait comme une déconnexion et on renvoyait directement au mot de passe, même
-    // pour un membre déjà connecté. Maintenant : on utilise la session encore en mémoire tant
-    // qu'elle existe, et on ne demande le mot de passe que s'il n'y en a vraiment aucune.
-    console.error('member session reload error', err);
-    const cu = memberAuth.currentUser;
-    if(cu && !cu.isAnonymous){ loadMemberHome(cu, initialTab); }
-    else { renderMemberLogin(); }
+    console.error('member session reload error (ignoré, session locale conservée)', err);
   });
 }
 function closeMemberModal(){
@@ -5379,6 +5373,7 @@ function renderMemberHome(user, data, activeTab){
   }
 
   switchMemberTab(user, data, activeTab);
+  prefetchMemberTabs(user, data);
 }
 
 function switchMemberTab(user, data, activeTab){
@@ -5854,6 +5849,74 @@ function getMemberTabCache(uid, tab){ return memberTabCache[uid] && memberTabCac
 function setMemberTabCache(uid, tab, value){
   memberTabCache[uid] = memberTabCache[uid] || {};
   memberTabCache[uid][tab] = value;
+}
+// Précharge en arrière-plan les données des autres onglets dès l'ouverture de l'espace
+// membre, pour qu'un clic sur un onglet réponde instantanément (cache déjà prêt) au lieu
+// d'attendre le réseau à chaque fois — c'était la cause principale du côté "saccadé".
+async function prefetchMemberTabs(user, data){
+  if(getMemberTabCache(user.uid, 'popularity') === undefined){
+    try{
+      if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
+      const followingCreators = data.followingCreators || [];
+      const followingRows = followingCreators
+        .map(id => (typeof roster !== 'undefined' ? roster.find(m => m.id === id) : null))
+        .filter(Boolean);
+      const followersSnap = await db.collection('profiles').where('followingMembers', 'array-contains', user.uid).get();
+      const followerRows = followersSnap.docs
+        .map(d => (typeof roster !== 'undefined' ? roster.find(m => m.id === d.id) : null))
+        .filter(Boolean);
+      setMemberTabCache(user.uid, 'popularity', { followingRows, followerRows });
+    }catch(e){ console.error('prefetch popularity error', e); }
+  }
+  if(getMemberTabCache(user.uid, 'purchases') === undefined){
+    try{
+      if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
+      const snap = await db.collectionGroup('orders').where('buyerUid', '==', user.uid).get();
+      const orders = [];
+      snap.forEach(d => orders.push({ id: d.id, ref: d.ref, data: d.data() }));
+      orders.sort((a, b) => {
+        const ta = a.data.createdAt && a.data.createdAt.toDate ? a.data.createdAt.toDate().getTime() : 0;
+        const tb = b.data.createdAt && b.data.createdAt.toDate ? b.data.createdAt.toDate().getTime() : 0;
+        return tb - ta;
+      });
+      const enriched = await Promise.all(orders.map(async (o) => {
+        try{
+          const itemRef = o.ref.parent.parent;
+          const creatorRef = itemRef.parent.parent;
+          const [itemDoc, creatorDoc] = await Promise.all([itemRef.get(), creatorRef.get()]);
+          return {
+            ...o,
+            item: itemDoc.exists ? itemDoc.data() : null,
+            creatorName: creatorDoc.exists ? creatorDoc.data().name : ''
+          };
+        }catch(e){ return { ...o, item: null, creatorName: '' }; }
+      }));
+      setMemberTabCache(user.uid, 'purchases', enriched);
+    }catch(e){ console.error('prefetch purchases error', e); }
+  }
+  if(getMemberTabCache(user.uid, 'messages') === undefined){
+    try{
+      if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
+      const memberDoc = await memberDb.collection('members').doc(user.uid).get();
+      const profileIds = (memberDoc.exists && memberDoc.data().conversationProfileIds) || [];
+      if(profileIds.length === 0){
+        setMemberTabCache(user.uid, 'messages', []);
+      } else {
+        const results = await Promise.all(profileIds.map(async (profileId) => {
+          try{
+            const convDoc = await memberDb.collection('profiles').doc(profileId).collection('conversations').doc(user.uid).get();
+            return convDoc.exists ? { profileId, c: convDoc.data() } : null;
+          }catch(e){ return null; }
+        }));
+        const rows = results.filter(Boolean).sort((a, b) => {
+          const ta = a.c.lastMessageAt && a.c.lastMessageAt.toDate ? a.c.lastMessageAt.toDate().getTime() : 0;
+          const tb = b.c.lastMessageAt && b.c.lastMessageAt.toDate ? b.c.lastMessageAt.toDate().getTime() : 0;
+          return tb - ta;
+        });
+        setMemberTabCache(user.uid, 'messages', rows);
+      }
+    }catch(e){ console.error('prefetch messages error', e); }
+  }
 }
 
 async function renderMemberPopularityTab(user, data){
