@@ -14126,52 +14126,38 @@ function renderMemberHome(user, data, activeTab){
            <span class="home-video-label">${t('noPhotoYet')}</span>
          </div>`;
     body.innerHTML = `
-      <div id="member-home-header">
-        <span class="member-badge">✅ ${t('memberFreeBadge')}</span>
-        ${memberUnverifiedBannerHtml(user)}
-        <div style="text-align:center;">
-          <div class="home-photo-row">${photoBlock}</div>
-          <h3>${t('memberHomeWelcome').replace('{username}', escText(data.username || ''))}</h3>
-          <p class="member-welcome-line" style="margin-left:auto;margin-right:auto;">${t('memberHomeWelcomeLine')}</p>
-        </div>
-        <div class="popularity-hero">
-          <div class="tiktok-stat"><span class="tiktok-stat-num">${(data.favorites || []).length}</span><span class="tiktok-stat-label">${t('followingLabel')}</span></div>
-          <div class="tiktok-stat"><span class="tiktok-stat-num">${data.followersCount || 0}</span><span class="tiktok-stat-label">${t('followersLabel')}</span></div>
-          <div class="tiktok-stat">${uxdBadgeHtml(data.uxd)}<span class="tiktok-stat-label">${t('uxdLabel')}</span></div>
-        </div>
-        <div class="tabs-slide-row">
-          <div class="member-tabs">
-            <button type="button" class="member-tab" id="member-tab-popularity">⭐${t('myFamilyPopularity')}</button>
-            <button type="button" class="member-tab" id="member-tab-profile">${ICON_USER}${t('memberTabProfile')}</button>
-            <button type="button" class="member-tab" id="member-tab-favorites">${ICON_LIKE}${t('memberTabFavorites')}</button>
-            <button type="button" class="member-tab" id="member-tab-messages">${ICON_CHAT_SM}${t('memberTabMessages')} <span class="member-tab-badge" id="member-tab-messages-badge" style="display:none;"></span></button>
-            <button type="button" class="member-tab" id="member-tab-purchases">${ICON_CART}${t('memberTabPurchases')}</button>
-          </div>
+      <span class="member-badge">✅ ${t('memberFreeBadge')}</span>
+      ${memberUnverifiedBannerHtml(user)}
+      <div style="text-align:center;">
+        <div class="home-photo-row">${photoBlock}</div>
+        <h3>${t('memberHomeWelcome').replace('{username}', escText(data.username || ''))}</h3>
+        <p class="member-welcome-line" style="margin-left:auto;margin-right:auto;">${t('memberHomeWelcomeLine')}</p>
+      </div>
+      <div class="popularity-hero">
+        <div class="tiktok-stat"><span class="tiktok-stat-num">${(data.favorites || []).length}</span><span class="tiktok-stat-label">${t('followingLabel')}</span></div>
+        <div class="tiktok-stat"><span class="tiktok-stat-num">${data.followersCount || 0}</span><span class="tiktok-stat-label">${t('followersLabel')}</span></div>
+        <div class="tiktok-stat">${uxdBadgeHtml(data.uxd)}<span class="tiktok-stat-label">${t('uxdLabel')}</span></div>
+      </div>
+      <div class="tabs-slide-row">
+        <div class="member-tabs">
+          <button type="button" class="member-tab" id="member-tab-popularity">⭐${t('myFamilyPopularity')}</button>
+          <button type="button" class="member-tab" id="member-tab-profile">${ICON_USER}${t('memberTabProfile')}</button>
+          <button type="button" class="member-tab" id="member-tab-favorites">${ICON_LIKE}${t('memberTabFavorites')}</button>
+          <button type="button" class="member-tab" id="member-tab-messages">${ICON_CHAT_SM}${t('memberTabMessages')} <span class="member-tab-badge" id="member-tab-messages-badge" style="display:none;"></span></button>
+          <button type="button" class="member-tab" id="member-tab-purchases">${ICON_CART}${t('memberTabPurchases')}</button>
         </div>
       </div>
-      <button type="button" class="modal-back-btn" id="member-tab-back-btn" style="display:none;">← <span>${t('backToMemberHome')}</span></button>
       <div class="my-tab-panel" id="member-tab-panel-popularity"></div>
       <div class="my-tab-panel" id="member-tab-panel-profile"></div>
       <div class="my-tab-panel" id="member-tab-panel-favorites"></div>
       <div class="my-tab-panel" id="member-tab-panel-messages"></div>
       <div class="my-tab-panel" id="member-tab-panel-purchases"></div>
-      <div class="modal-actions" id="member-home-logout-row" style="margin-top:20px;">
+      <div class="modal-actions" style="margin-top:20px;">
         <button class="btn btn-ghost btn-sm" id="member-home-logout" style="flex:1;">${t('memberHomeLogout')}</button>
       </div>
     `;
     wireUnverifiedBanner();
     document.getElementById('member-home-logout').onclick = memberLogout;
-    document.getElementById('member-tab-back-btn').onclick = () => {
-      document.getElementById('member-home-header').style.display = '';
-      document.getElementById('member-home-logout-row').style.display = '';
-      document.getElementById('member-tab-back-btn').style.display = 'none';
-      MEMBER_TAB_NAMES.forEach(name => {
-        const btn = document.getElementById('member-tab-' + name);
-        if(btn) btn.classList.remove('active');
-        const panel = document.getElementById('member-tab-panel-' + name);
-        if(panel) panel.classList.remove('active');
-      });
-    };
     ['popularity', 'profile', 'favorites', 'messages', 'purchases'].forEach(name => {
       document.getElementById('member-tab-' + name).onclick = () => switchMemberTab(user, data, name);
     });
@@ -14179,18 +14165,12 @@ function renderMemberHome(user, data, activeTab){
     body.dataset.memberHomeBuilt = user.uid;
   }
 
-  if(activeTab) switchMemberTab(user, data, activeTab);
+  switchMemberTab(user, data, activeTab || 'profile');
 }
 
 let memberActiveTabPanelId = 'member-tab-panel-profile';
 const MEMBER_TAB_NAMES = ['popularity', 'profile', 'favorites', 'messages', 'purchases'];
 function switchMemberTab(user, data, activeTab){
-  const header = document.getElementById('member-home-header');
-  const logoutRow = document.getElementById('member-home-logout-row');
-  const backBtn = document.getElementById('member-tab-back-btn');
-  if(header) header.style.display = 'none';
-  if(logoutRow) logoutRow.style.display = 'none';
-  if(backBtn) backBtn.style.display = 'flex';
   MEMBER_TAB_NAMES.forEach(name => {
     const btn = document.getElementById('member-tab-' + name);
     if(btn) btn.classList.toggle('active', name === activeTab);
