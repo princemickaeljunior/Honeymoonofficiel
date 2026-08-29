@@ -366,6 +366,8 @@ img[data-hm-loaded], video[data-hm-loaded]{
 }
 .card-fav-btn.active,.room-fav-btn.active{color:var(--rose);border-color:var(--rose);}
 .room-fav-btn{background:none;border:1px solid var(--border);color:var(--text-muted);border-radius:999px;padding:6px 12px;font-size:14px;margin-left:8px;transform:translateZ(0);-webkit-transform:translateZ(0);backface-visibility:hidden;-webkit-backface-visibility:hidden;}
+.room-fav-btn, #room-follow-btn{opacity:0;transition:opacity .15s ease;}
+.room-fav-btn.state-ready, #room-follow-btn.state-ready{opacity:1;}
 .room-chat-btn{background:none;border:1px solid var(--border);color:var(--text-muted);border-radius:999px;padding:6px 12px;font-size:14px;margin-left:6px;}
 .room-chat-btn:active{background:var(--honey);color:#1a1206;border-color:var(--honey);}
 .room-chat-cta{
