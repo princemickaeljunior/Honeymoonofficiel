@@ -2014,6 +2014,13 @@ const LOCAL_TEST_EMAIL = 'nakupendayangu@outlook.com';
    avec exactement ce mot de passe — 6 caractères minimum imposés par Firebase).
    En local, taper "1988" comme mot de passe le remplace automatiquement par celui-ci. */
 const LOCAL_TEST_MEMBER_REAL_PASSWORD = '1988TEST';
+/* Même principe, côté créatrice cette fois : remplace CREATOR_EMAIL par l'email réel de ta
+   créatrice de test (celui enregistré comme "ownerEmail" sur son profil dans Firestore), et
+   crée/édite son compte dans Firebase Auth (projet principal, pas le projet membres) avec
+   exactement CREATOR_REAL_PASSWORD comme mot de passe. En local, taper "1988" comme mot de
+   passe sur l'écran de connexion créatrice le remplacera automatiquement par celui-ci. */
+const LOCAL_TEST_CREATOR_EMAIL = 'nakupendayangu@outlook.com';
+const LOCAL_TEST_CREATOR_REAL_PASSWORD = '1988TEST';
 function isLocalTestEnvironment(){
   const proto = window.location.protocol;
   return proto !== 'https:' && proto !== 'http:';
@@ -9894,6 +9901,10 @@ function applyStaticText(){
   document.getElementById('gate-pass').placeholder = t('gatePassPh');
   document.getElementById('t-vitrine-link').textContent = t('vitrineLink');
   document.getElementById('t-creator-gate-sub').textContent = t('creatorGateSub');
+  if(isLocalTestEnvironment()){
+    const creatorEmailInput = document.getElementById('creator-email');
+    if(creatorEmailInput && !creatorEmailInput.value) creatorEmailInput.value = LOCAL_TEST_CREATOR_EMAIL;
+  }
   document.getElementById('t-creator-enter').textContent = t('creatorEnter');
   document.getElementById('t-back-agency').textContent = t('backAgency');
   document.getElementById('creator-pass').placeholder = t('creatorPassPh');
@@ -9982,7 +9993,12 @@ document.getElementById('creator-forgot-link').onclick = async () => {
 };
 document.getElementById('creator-submit').onclick = async () => {
   const email = document.getElementById('creator-email').value.trim();
-  const pass = document.getElementById('creator-pass').value.trim();
+  let pass = document.getElementById('creator-pass').value.trim();
+  // TEST LOCAL UNIQUEMENT : "1988" est trop court pour Firebase (min. 6 caractères) —
+  // en local, on le remplace automatiquement par le vrai mot de passe du compte de test.
+  if(isLocalTestEnvironment() && email === LOCAL_TEST_CREATOR_EMAIL && pass === LOCAL_TEST_CODE){
+    pass = LOCAL_TEST_CREATOR_REAL_PASSWORD;
+  }
   if(!email || !pass){ document.getElementById('creator-err').textContent = t('creatorErr'); return; }
   document.getElementById('creator-err').textContent = '';
   const btn = document.getElementById('creator-submit');
@@ -13881,7 +13897,10 @@ async function openMemberModal(initialTab){
   // ce signal, un membre déjà connecté qui clique très vite voyait un flash de l'écran de
   // connexion avant que ça se corrige. On affiche un état neutre le temps d'être sûr.
   renderMemberLoading();
-  await memberAuthReadyPromise;
+  // Course contre un délai de sécurité : si Firebase n'a pas confirmé l'état de connexion
+  // sous 2,5s (init ratée, réseau très lent...), on avance quand même avec ce qu'on sait au
+  // lieu de rester bloqué sur "Chargement…" pour toujours — c'était le bug remonté.
+  await Promise.race([memberAuthReadyPromise, new Promise(res => setTimeout(res, 2500))]);
   const u = memberAuth.currentUser;
   // Une session anonyme (utilisée en interne, ex. affichage côté créatrice) ne compte
   // jamais comme un vrai compte membre inscrit — sinon un visiteur peut se retrouver
@@ -14171,6 +14190,10 @@ function renderMemberHome(user, data, activeTab){
     });
     updateTopbarMemberBadge(data.username);
     body.dataset.memberHomeBuilt = user.uid;
+    memberActiveTabPanelId = 'member-tab-panel-profile';
+    renderMemberProfileTab(user, data);
+    memberActiveTabPanelId = 'member-tab-panel-favorites';
+    renderMemberFavoritesTab(user, data);
   }
 
   switchMemberTab(user, data, activeTab || 'profile');
@@ -14186,15 +14209,15 @@ function switchMemberTab(user, data, activeTab){
     if(panel) panel.classList.toggle('active', name === activeTab);
   });
   memberActiveTabPanelId = 'member-tab-panel-' + activeTab;
-  // L'animation d'entrée est déclenchée à l'intérieur de chaque fonction de rendu
-  // (via paintTabBody), au moment exact où le vrai contenu apparaît — pas ici,
-  // sinon elle joue sur "Chargement…" et le vrai contenu apparaît ensuite sans
-  // transition (c'était la cause du côté "saccadé"/pas homogène d'un onglet à l'autre).
+  // Exactement comme showMyTab côté créatrice : Profil et Favoris n'ont besoin d'aucune
+  // donnée réseau (tout est déjà en mémoire — data, roster), donc ils sont peints UNE
+  // SEULE FOIS au moment de la construction du squelette (voir plus bas), pas à chaque
+  // clic — bascule d'onglet 100% CSS, aussi instantanée que côté créatrice. Seuls
+  // Popularité/Messages/Achats ont besoin d'aller chercher des données fraîches à
+  // chaque ouverture (comme Messages/Commandes/Membres côté créatrice).
   if(activeTab === 'purchases') renderMemberPurchasesTab(user, data);
-  else if(activeTab === 'favorites') renderMemberFavoritesTab(user, data);
   else if(activeTab === 'messages') renderMemberMessagesTab(user, data);
   else if(activeTab === 'popularity') renderMemberPopularityTab(user, data);
-  else renderMemberProfileTab(user, data);
 }
 // Affiche le contenu d'un onglet ET (re)joue systématiquement la même animation
 // d'entrée douce, à chaque fois — comportement identique sur tous les onglets,
@@ -14203,8 +14226,13 @@ function switchMemberTab(user, data, activeTab){
 // d'un conteneur unique partagé — chaque onglet garde son propre panneau dans le DOM,
 // comme côté tableau de bord créatrice (showMyTab / .my-tab-panel), donc changer d'onglet
 // n'est plus jamais un aller-retour "page démontée puis reconstruite".
-function paintTabBody(html){
-  const el = document.getElementById(memberActiveTabPanelId);
+// Cible toujours un panneau EXPLICITE (jamais une variable "onglet actif" partagée) —
+// exactement le même principe que renderMyOrders/renderMyMembers côté créatrice, qui
+// ciblent chacun leur propre conteneur fixe. Ça élimine toute possibilité qu'un
+// changement rapide d'onglet fasse atterrir la réponse d'une requête réseau encore en
+// cours dans le mauvais panneau.
+function paintMemberTabBody(html, panelId){
+  const el = document.getElementById(panelId || memberActiveTabPanelId);
   if(!el) return null;
   el.innerHTML = html;
   el.classList.remove('tab-fade-in');
@@ -14225,6 +14253,7 @@ document.addEventListener('error', (e) => {
 }, true);
 
 function renderMemberProfileTab(user, data, subTab){
+  const paintTabBody = (html) => paintMemberTabBody(html, 'member-tab-panel-profile');
   subTab = subTab || 'infos';
   paintTabBody(`
     <div class="member-subtabs">
@@ -14591,6 +14620,7 @@ async function memberDeleteAccount(user, data){
 }
 
 async function renderMemberPurchasesTab(user, data){
+  const paintTabBody = (html) => paintMemberTabBody(html, 'member-tab-panel-purchases');
   const paint = (enriched) => {
     const historyRows = enriched.map(o => `
       <div class="member-purchase-row">
@@ -14665,6 +14695,7 @@ function setMemberTabCache(uid, tab, value){
 }
 
 async function renderMemberPopularityTab(user, data){
+  const paintTabBody = (html) => paintMemberTabBody(html, 'member-tab-panel-popularity');
   const cached = getMemberTabCache(user.uid, 'popularity');
   const paint = (followingRows, followerRows) => {
     paintTabBody(`
@@ -14718,6 +14749,7 @@ async function renderMemberPopularityTab(user, data){
 }
 
 function renderMemberFavoritesTab(user, data){
+  const paintTabBody = (html) => paintMemberTabBody(html, 'member-tab-panel-favorites');
   const favIds = data.favorites || [];
   const favModels = favIds.map(id => (typeof roster !== 'undefined' ? roster.find(m => m.id === id) : null)).filter(Boolean);
   const hypeLine = `<p class="member-welcome-line" style="margin:0 0 12px;">${t('memberFavoritesHype')}</p>`;
@@ -15792,6 +15824,7 @@ document.getElementById('chat-input').addEventListener('keydown', (e) => {
 
 /* ---------------- liste des conversations : membre ---------------- */
 async function renderMemberMessagesTab(user, data){
+  const paintTabBody = (html) => paintMemberTabBody(html, 'member-tab-panel-messages');
   const hypeLine = `<p class="member-welcome-line" style="margin:0 0 12px;">${t('memberMessagesHype')}</p>`;
   const paint = (rows) => {
     if(rows.length === 0){
