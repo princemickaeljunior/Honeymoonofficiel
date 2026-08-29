@@ -757,6 +757,7 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .chat-banner.blinking{animation:chatBannerBlink 1s steps(1) infinite;}
 @keyframes chatBannerBlink{ 0%,49%{ opacity:1; } 50%,100%{ opacity:0.35; } }
 .chat-banner #chat-banner-audio-btn{background:none;border:none;color:inherit;font-size:14px;vertical-align:-2px;margin-right:6px;padding:0;}
+.creator-community-badge{display:inline-block;background:var(--bg-elev-2);border:1px solid var(--honey);color:var(--honey);border-radius:999px;padding:2px 10px;font-size:10px;font-weight:700;letter-spacing:0.02em;vertical-align:middle;white-space:nowrap;}
 .dm-bubble-wrap{display:flex;align-items:flex-end;gap:4px;}
 .chat-cart-btn{flex-shrink:0;background:var(--honey);color:#1a1206;border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;}
 .chat-cart-help-btn{flex-shrink:0;background:var(--bg-elev-2);border:1px solid var(--honey);color:var(--honey);border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;margin-right:6px;}
@@ -2901,6 +2902,7 @@ const I18N = {
     commentPosted: 'Commentaire publié',
     commentRules: "Espace de commentaires bienveillant : pas d'injures, pas de grossièretés.",
     commentsCommunityTitle: "Communauté Honeymoon",
+    creatorCommunityBadge: "Communauté Honeymoon",
     ourCreatorsTitle: "Nos créatrices",
     bnav2257: "Mention 2257",
     bnavCgu: "CGU",
@@ -3723,6 +3725,7 @@ const I18N = {
     commentPosted: 'Comment posted',
     commentRules: "Friendly comment space: no insults, no profanity.",
     commentsCommunityTitle: "Honeymoon Community",
+    creatorCommunityBadge: "Honeymoon Community",
     ourCreatorsTitle: "Our creators",
     bnav2257: "Notice 2257",
     bnavCgu: "Terms",
@@ -14139,12 +14142,16 @@ function renderMemberHome(user, data, activeTab){
         <div class="tiktok-stat">${uxdBadgeHtml(data.uxd)}<span class="tiktok-stat-label">${t('uxdLabel')}</span></div>
       </div>
       <div class="tabs-slide-row">
-        <div class="member-tabs">
-          <button type="button" class="member-tab" id="member-tab-popularity">⭐${t('myFamilyPopularity')}</button>
-          <button type="button" class="member-tab" id="member-tab-profile">${ICON_USER}${t('memberTabProfile')}</button>
-          <button type="button" class="member-tab" id="member-tab-favorites">${ICON_LIKE}${t('memberTabFavorites')}</button>
-          <button type="button" class="member-tab" id="member-tab-messages">${ICON_CHAT_SM}${t('memberTabMessages')} <span class="member-tab-badge" id="member-tab-messages-badge" style="display:none;"></span></button>
-          <button type="button" class="member-tab" id="member-tab-purchases">${ICON_CART}${t('memberTabPurchases')}</button>
+        <div class="tabs-arrows-row">
+          <button type="button" class="level-arrow tabs-arrow-left" data-target="member-tabs-track">‹</button>
+          <button type="button" class="level-arrow tabs-arrow-right" data-target="member-tabs-track">›</button>
+        </div>
+        <div class="my-tabs" id="member-tabs-track">
+          <button type="button" class="my-tab-btn" id="member-tab-popularity">⭐${t('myFamilyPopularity')}</button>
+          <button type="button" class="my-tab-btn" id="member-tab-profile">${ICON_USER}${t('memberTabProfile')}</button>
+          <button type="button" class="my-tab-btn" id="member-tab-favorites">${ICON_LIKE}${t('memberTabFavorites')}</button>
+          <button type="button" class="my-tab-btn" id="member-tab-messages">${ICON_CHAT_SM}${t('memberTabMessages')} <span class="member-tab-badge" id="member-tab-messages-badge" style="display:none;"></span></button>
+          <button type="button" class="my-tab-btn" id="member-tab-purchases">${ICON_CART}${t('memberTabPurchases')}</button>
         </div>
       </div>
       <div class="my-tab-panel" id="member-tab-panel-popularity"></div>
@@ -14157,6 +14164,7 @@ function renderMemberHome(user, data, activeTab){
       </div>
     `;
     wireUnverifiedBanner();
+    wireSlideArrows(body);
     document.getElementById('member-home-logout').onclick = memberLogout;
     ['popularity', 'profile', 'favorites', 'messages', 'purchases'].forEach(name => {
       document.getElementById('member-tab-' + name).onclick = () => switchMemberTab(user, data, name);
@@ -17659,7 +17667,7 @@ async function openVitrineRoom(id, isBackgroundRefresh){
         ${m.photoType === 'video' ? `<video src="${m.photo}" controls loop playsinline></video>` : `<img src="${m.photo}" fetchpriority="high" decoding="async">`}
         <span class="vitrine-status-badge ${online ? 'online' : ''}">${online ? t('statusOnline') : t('statusOffline')}</span>
       </div>
-      <h3>${escText(m.name) || t('nameUndefined')} <button type="button" class="room-fav-btn" data-id="${m.id}" title="${escAttr(t('memberFavoriteToggle'))}">${ICON_HEART_OUTLINE}</button></h3>
+      <h3>${escText(m.name) || t('nameUndefined')} <span class="creator-community-badge">${t('creatorCommunityBadge')}</span> <button type="button" class="room-fav-btn" data-id="${m.id}" title="${escAttr(t('memberFavoriteToggle'))}">${ICON_HEART_OUTLINE}</button></h3>
       <div class="meta" style="color:var(--text-muted);font-size:12px;margin-top:2px;">${escText(m.country || '—')}</div>
 
       <div class="room-support-block">
@@ -17680,37 +17688,14 @@ async function openVitrineRoom(id, isBackgroundRefresh){
 
     <div class="my-tabs room-tabs">
       <button type="button" class="my-tab-btn active" id="room-tab-btn-profile">${t('memberTabProfile')}</button>
-      <button type="button" class="my-tab-btn" id="room-tab-btn-gallery">${t('galleryTitle')}</button>
       ${(m.tipMenu && m.tipMenu.length) ? `<button type="button" class="my-tab-btn" id="room-tab-btn-tipmenu">🍯 ${t('tipMenuTabLabel')}</button>` : ''}
+      <button type="button" class="my-tab-btn" id="room-tab-btn-gallery">${t('galleryTitle')}</button>
       <button type="button" class="my-tab-btn" id="room-tab-btn-chat">${t('commentsTitle')}</button>
     </div>
     <button type="button" class="modal-back-btn" id="room-tab-back-btn" style="display:none;">← <span>${t('backToMemberHome')}</span></button>
 
     <div class="my-tab-panel active" id="room-tab-panel-profile">
       ${bioNarrativeHtml(m, bio)}
-    </div>
-
-    <div class="my-tab-panel" id="room-tab-panel-gallery">
-      ${(m.paidContent && m.paidContent.length) || photoThumbs || videoThumbs ? `
-        <div class="room-section-block">
-          ${(photoThumbs || videoThumbs) ? `
-            <div class="gallery-section">
-              <h4>${t('galleryPhotos')} (${m.galleryPhotos.length})</h4>
-              <div class="gallery-strip">${photoThumbs}</div>
-            </div>
-            <div class="gallery-section">
-              <h4>${t('galleryVideos')} (${m.galleryVideos.length})</h4>
-              <div class="gallery-strip">${videoThumbs}</div>
-            </div>` : `<p class="gallery-empty">${t('galleryEmpty')}</p>`}
-        </div>
-        ${(m.paidContent && m.paidContent.length) ? `
-        <div class="room-section-divider"></div>
-        <div class="room-section-block">
-          <h3 class="room-section-title">${ICON_LOCK} ${t('paidExclusiveTitle')}</h3>
-          <p style="color:var(--text-muted);font-size:11.5px;margin:0 0 12px;">${t('paidExclusiveNote')}</p>
-          <div class="exclusive-grid">${m.paidContent.map(it => exclusiveCardHtml(m, it)).join('')}</div>
-        </div>` : ''}
-      ` : `<p class="gallery-empty">${t('galleryEmpty')}</p>`}
     </div>
 
     ${(m.tipMenu && m.tipMenu.length) ? `
@@ -17747,6 +17732,29 @@ async function openVitrineRoom(id, isBackgroundRefresh){
     </div>
     ` : ''}
 
+    <div class="my-tab-panel" id="room-tab-panel-gallery">
+      ${(m.paidContent && m.paidContent.length) || photoThumbs || videoThumbs ? `
+        <div class="room-section-block">
+          ${(photoThumbs || videoThumbs) ? `
+            <div class="gallery-section">
+              <h4>${t('galleryPhotos')} (${m.galleryPhotos.length})</h4>
+              <div class="gallery-strip">${photoThumbs}</div>
+            </div>
+            <div class="gallery-section">
+              <h4>${t('galleryVideos')} (${m.galleryVideos.length})</h4>
+              <div class="gallery-strip">${videoThumbs}</div>
+            </div>` : `<p class="gallery-empty">${t('galleryEmpty')}</p>`}
+        </div>
+        ${(m.paidContent && m.paidContent.length) ? `
+        <div class="room-section-divider"></div>
+        <div class="room-section-block">
+          <h3 class="room-section-title">${ICON_LOCK} ${t('paidExclusiveTitle')}</h3>
+          <p style="color:var(--text-muted);font-size:11.5px;margin:0 0 12px;">${t('paidExclusiveNote')}</p>
+          <div class="exclusive-grid">${m.paidContent.map(it => exclusiveCardHtml(m, it)).join('')}</div>
+        </div>` : ''}
+      ` : `<p class="gallery-empty">${t('galleryEmpty')}</p>`}
+    </div>
+
     <div class="my-tab-panel" id="room-tab-panel-chat">
       <div class="vitrine-comments">
         <h4>${ICON_HEART_SM} ${t('commentsCommunityTitle')}</h4>
@@ -17775,8 +17783,8 @@ async function openVitrineRoom(id, isBackgroundRefresh){
     });
     const hero = document.getElementById('room-hero');
     const backBtn = document.getElementById('room-tab-back-btn');
-    if(hero) hero.style.display = (name === 'profile') ? '' : 'none';
-    if(backBtn) backBtn.style.display = (name === 'profile') ? 'none' : 'flex';
+    if(hero) hero.style.display = (name === 'gallery') ? 'none' : '';
+    if(backBtn) backBtn.style.display = (name === 'gallery') ? 'flex' : 'none';
   }
   document.getElementById('room-tab-back-btn').onclick = () => showRoomTab('profile');
   roomTabs.forEach(n => {
