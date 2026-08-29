@@ -196,10 +196,10 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .hero{padding:48px 0 30px;}
 .hero .eyebrow{
   font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;
-  color:var(--honey);margin-bottom:14px;
+  color:var(--honey);margin-bottom:10px;
 }
-.hero h1{font-size:clamp(26px,5vw,40px);line-height:1.15;max-width:680px;}
-.hero p{color:var(--text-muted);font-size:14.5px;margin-top:16px;max-width:540px;line-height:1.7;}
+.hero h1{font-size:clamp(26px,5vw,40px);line-height:1.22;max-width:680px;}
+.hero p{color:var(--text-muted);font-size:14.5px;margin-top:12px;max-width:540px;line-height:1.65;}
 
 /* ---------- vitrine (page publique) : atmosphère, hero éditorial, signature dorée ---------- */
 #vitrine-shell{
@@ -214,13 +214,9 @@ img[data-hm-loaded], video[data-hm-loaded]{
 #vitrine-shell .hero .eyebrow{
   display:flex;align-items:center;gap:8px;color:var(--honey);
 }
-#vitrine-shell .hero .eyebrow::before{
-  content:'';width:6px;height:6px;border-radius:50%;background:var(--honey);
-  box-shadow:0 0 0 3px color-mix(in srgb, var(--honey) 22%, transparent);
-}
 #vitrine-shell .hero h1{
   font-family:'Fraunces',serif;font-weight:600;letter-spacing:-0.01em;
-  font-size:clamp(32px,7.2vw,54px);max-width:620px;
+  font-size:clamp(28px,6vw,46px);line-height:1.22;max-width:620px;
 }
 #vitrine-shell .hero h1 em{
   font-style:italic;font-weight:500;
@@ -228,8 +224,8 @@ img[data-hm-loaded], video[data-hm-loaded]{
   background-size:260% auto;-webkit-background-clip:text;background-clip:text;color:transparent;
   animation:logoShine 7s ease-in-out infinite alternate;
 }
-#vitrine-shell .hero p{font-size:15.5px;max-width:480px;}
-.vitrine-hero-actions{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:26px;}
+#vitrine-shell .hero p{font-size:14.5px;max-width:480px;line-height:1.6;}
+.vitrine-hero-actions{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:20px;}
 .vitrine-hero-cta{
   font-family:'Inter',sans-serif;font-weight:700;font-size:13.5px;letter-spacing:0.01em;
   background:linear-gradient(120deg,var(--honey-deep),var(--honey));color:#1a1206;
@@ -337,9 +333,7 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .creator-carousel-row .model-body .edit-btn{font-size:10.5px;padding:8px;}
 .creator-carousel-row .model-photo .num-badge{width:20px;height:20px;font-size:9px;top:6px;left:6px;}
 .creator-carousel-row .model-photo .status{font-size:7px;padding:3px 6px;top:6px;right:6px;}
-.creator-carousel-row .card-fav-btn,.creator-carousel-row .card-report-btn{width:22px;height:22px;font-size:11px;bottom:6px;}
-.creator-carousel-row .card-fav-btn{right:32px;}
-.creator-carousel-row .card-report-btn{right:6px;}
+.creator-carousel-row .card-fav-btn,.creator-carousel-row .card-report-btn{width:20px;height:20px;font-size:10px;}
 .empty-slot-photo{display:flex;align-items:center;justify-content:center;}
 .empty-slot-logo{font-size:14px;text-align:center;padding:0 4px;pointer-events:none;animation:none !important;background:none !important;-webkit-text-fill-color:var(--honey);color:var(--honey);}
 .empty-slot-photo .num-badge{z-index:2;}
@@ -378,17 +372,15 @@ img[data-hm-loaded], video[data-hm-loaded]{
   transform:translateZ(0);-webkit-transform:translateZ(0);backface-visibility:hidden;-webkit-backface-visibility:hidden;will-change:transform;
 }
 .card-report-btn{
-  position:absolute;bottom:10px;right:10px;width:28px;height:28px;border-radius:50%;
-  background:rgba(0,0,0,0.55);border:1px solid var(--border);color:var(--text);
-  display:flex;align-items:center;justify-content:center;font-size:13px;padding:0;
-  transform:translateZ(0);-webkit-transform:translateZ(0);backface-visibility:hidden;-webkit-backface-visibility:hidden;will-change:transform;
+  width:26px;height:26px;border-radius:50%;flex-shrink:0;
+  background:var(--bg-elev);border:1px solid var(--border);color:var(--text-muted);
+  display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;padding:0;line-height:1;
 }
-.card-report-btn:active{border-color:var(--rose);}
+.card-report-btn:active{border-color:var(--rose);color:var(--rose);}
 .card-fav-btn{
-  position:absolute;bottom:10px;right:44px;width:28px;height:28px;border-radius:50%;
-  background:rgba(0,0,0,0.55);border:1px solid var(--border);color:var(--text);
-  display:flex;align-items:center;justify-content:center;font-size:15px;padding:0;
-  transform:translateZ(0);-webkit-transform:translateZ(0);backface-visibility:hidden;-webkit-backface-visibility:hidden;will-change:transform;
+  width:26px;height:26px;border-radius:50%;flex-shrink:0;
+  background:var(--bg-elev);border:1px solid var(--border);color:var(--text-muted);
+  display:flex;align-items:center;justify-content:center;font-size:14px;padding:0;
 }
 .card-fav-btn.active,.room-fav-btn.active{color:var(--rose);border-color:var(--rose);}
 .room-fav-btn{background:none;border:1px solid var(--border);color:var(--text-muted);border-radius:999px;padding:6px 12px;font-size:14px;margin-left:8px;transform:translateZ(0);-webkit-transform:translateZ(0);backface-visibility:hidden;-webkit-backface-visibility:hidden;}
@@ -411,6 +403,7 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .member-fav-chat-btn{background:none;border:1px solid var(--border);color:var(--text-muted);border-radius:50%;width:30px;height:30px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;}
 .model-body{padding:16px;flex:1;display:flex;flex-direction:column;gap:10px;}
 .model-body .name-row{display:flex;align-items:baseline;justify-content:space-between;gap:8px;}
+.model-body .name-row-right{display:flex;align-items:center;gap:6px;flex-shrink:0;}
 .model-body h3{font-size:19px;}
 .model-body .meta{font-size:12px;color:var(--text-muted);}
 .model-body .rows{border-top:1px solid var(--border);padding-top:10px;display:flex;flex-direction:column;gap:6px;}
@@ -539,13 +532,13 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .member-purchase-status.pending{background:rgba(230,160,60,0.15);color:var(--honey);}
 .member-media-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(90px,1fr));gap:8px;}
 .member-media-grid img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:10px;display:block;background:var(--bg-elev-2);}
-.member-view-card{background:var(--bg-elev-2);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:12px;}
-.member-view-head{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
-.member-view-avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0;}
-.member-view-avatar-fallback{background:var(--honey);color:#1a1206;font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;}
-.member-view-name{font-weight:600;font-size:14px;}
-.member-view-loc{font-size:11.5px;color:var(--text-muted);}
-.member-view-actions{display:flex;gap:8px;margin-top:10px;}
+.member-view-card{background:var(--bg-elev-2);border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:8px;}
+.member-view-head{display:flex;align-items:center;gap:8px;}
+.member-view-avatar{width:34px;height:34px;border-radius:50%;object-fit:cover;flex-shrink:0;}
+.member-view-avatar-fallback{background:var(--honey);color:#1a1206;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.member-view-name{font-weight:600;font-size:13px;}
+.member-view-loc{font-size:10.5px;color:var(--text-muted);}
+.member-view-actions{display:flex;gap:6px;margin-top:8px;}
 .my-member-favorite-btn.is-favorite{background:var(--honey);color:#1a1206;border-color:var(--honey);}
 .my-members-filter-row{display:flex;gap:8px;margin-top:14px;max-width:280px;}
 .follower-badge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 7px;border-radius:999px;color:#fff;font-size:10.5px;font-weight:700;margin-left:6px;white-space:nowrap;line-height:1;}
@@ -614,7 +607,7 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .follow-btn{background:var(--bg-elev-2);border:1px solid var(--honey);color:var(--honey);border-radius:999px;padding:6px 14px;font-size:12px;font-weight:600;transition:transform .12s ease;}
 .follow-btn.following{background:var(--honey);color:#1a1206;}
 .follow-btn:active{transform:scale(0.94);}
-.member-view-bio{font-size:13px;color:var(--text-muted);line-height:1.5;margin:6px 0;}
+.member-view-bio{font-size:12px;color:var(--text-muted);line-height:1.4;margin:6px 0 0;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
 .member-media-thumb{aspect-ratio:1/1;border-radius:10px;overflow:hidden;background:var(--bg-elev-2);border:1px solid var(--border);}
 .my-tabs{display:flex;gap:10px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:4px 2px 12px;margin-bottom:8px;border-bottom:1px solid var(--border);flex:1;}
 .tabs-slide-row{margin-top:24px;}
@@ -946,7 +939,8 @@ img[data-hm-loaded], video[data-hm-loaded]{
 
 /* commentaires — design premium */
 .vitrine-comments{margin-top:22px;padding-top:18px;border-top:1px solid var(--border);}
-.vitrine-comments h4{font-size:13px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;font-family:'JetBrains Mono',monospace;margin-bottom:6px;}
+.vitrine-comments h4{display:flex;align-items:center;gap:7px;font-size:16px;font-weight:800;color:var(--honey);letter-spacing:-0.01em;font-family:'Inter',sans-serif;margin-bottom:4px;}
+.vitrine-comments h4 svg{width:15px;height:15px;flex-shrink:0;}
 .comment-rules{font-size:11px;color:var(--text-muted);margin-bottom:12px;}
 .comment-list{display:flex;flex-direction:column;gap:12px;max-height:280px;overflow-y:auto;margin-bottom:14px;padding-right:2px;}
 .comment-card{
@@ -965,10 +959,13 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .comment-body{flex:1;min-width:0;}
 .comment-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:4px;}
 .comment-name{font-size:13px;font-weight:700;color:var(--honey);}
+.comment-member-badge{display:inline-flex;align-items:center;margin-left:3px;vertical-align:-3px;}
+.comment-member-badge svg{width:13px;height:13px;}
 .comment-date{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--text-muted);white-space:nowrap;}
 .comment-text{font-size:13.5px;line-height:1.55;color:var(--text);word-break:break-word;}
 .comment-like-btn{background:none;border:none;color:var(--text-muted);font-size:11px;padding:0;margin-top:6px;display:inline-flex;align-items:center;gap:4px;}
-.comment-like-btn svg{width:14px;height:14px;}
+.comment-like-btn svg{width:14px;height:14px;transition:transform .12s ease;}
+.comment-like-btn.liked svg{transform:scale(1.15);}
 .comment-like-btn.liked{color:var(--honey);}
 .comment-reply-btn{background:none;border:none;color:var(--text-muted);font-size:11px;font-weight:600;padding:0;}
 .comment-dislike-icon{background:none;border:none;color:var(--text-muted);padding:0;display:inline-flex;}
@@ -1145,6 +1142,19 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .currency-compare-row{display:flex;justify-content:space-between;font-size:12px;padding:6px 4px;border-bottom:1px solid var(--border);}
 .currency-compare-value{color:var(--text);font-family:'JetBrains Mono',monospace;}
 .split-breakdown-box{background:var(--bg-elev-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;margin-bottom:18px;}
+.banner-template-row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 14px;}
+.banner-template-btn{background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text);border-radius:999px;padding:8px 14px;font-size:12.5px;}
+.banner-template-btn:active{border-color:var(--honey);color:var(--honey);}
+.banner-active-card{background:linear-gradient(135deg, var(--bg-elev-2), var(--bg-elev));border:1px solid var(--honey);border-radius:14px;padding:14px;margin-bottom:16px;}
+.banner-active-head{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--honey);margin-bottom:8px;}
+.banner-active-text{font-size:13.5px;line-height:1.55;color:var(--text);margin-bottom:8px;white-space:pre-wrap;}
+.banner-active-meta{font-size:11px;color:var(--text-muted);margin-bottom:10px;}
+.room-event-banner{
+  display:flex;align-items:center;gap:12px;background:linear-gradient(135deg, var(--bg-elev-2), var(--bg-elev));
+  border:1px solid var(--honey);border-radius:16px;padding:14px 16px;margin-bottom:16px;box-shadow:0 4px 16px rgba(0,0,0,0.25);
+}
+.room-event-banner-text{flex:1;font-size:13.5px;line-height:1.55;color:var(--text);white-space:pre-wrap;}
+.room-event-banner-cta{flex-shrink:0;background:var(--honey);color:#1a1206;border:none;border-radius:999px;padding:9px 16px;font-size:12.5px;font-weight:700;white-space:nowrap;}
 .split-row{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;padding:5px 0;}
 .split-amount{font-family:'JetBrains Mono',monospace;font-weight:700;}
 .legal-links-row{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin:24px 0 8px;}
@@ -1156,20 +1166,21 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .burger-btn{background:none;border:1px solid var(--border);color:var(--text);width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;}
 .topbar-msg-btn{background:none;border:1px solid var(--border);color:var(--honey);width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;position:relative;}
 .topbar-msg-badge{position:absolute;top:-4px;right:-4px;background:var(--rose);color:#fff;font-size:10px;font-weight:700;min-width:16px;height:16px;border-radius:999px;display:flex;align-items:center;justify-content:center;padding:0 4px;line-height:1;}
-.vitrine-lang-row{display:flex;justify-content:flex-end;padding:6px 24px 0;gap:10px;margin-top:34px;margin-bottom:-8px;}
-#vitrine-shell .hero{padding-top:0;padding-bottom:44px;}
+.vitrine-lang-row{display:flex;justify-content:flex-end;padding:6px 24px 0;gap:10px;margin-top:18px;margin-bottom:0;}
+#vitrine-shell .hero{padding-top:18px;padding-bottom:30px;}
 #vitrine-shell #topbar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;}
 #vitrine-shell #topbar .topbar-left{justify-self:start;}
 #vitrine-shell #topbar .right{justify-self:end;}
 #vitrine-shell #topbar-member-badge{justify-self:center;border:none !important;background:none !important;}
 .burger-panel{
-  position:fixed;top:0;right:0;height:100%;width:82%;max-width:320px;background:var(--bg-elev);
+  position:fixed;top:0;right:0;height:100%;width:100%;max-width:100%;background:var(--bg-elev);
   border-left:1px solid var(--border);z-index:200;transform:translateX(100%);transition:transform .25s ease;
-  padding:24px 20px;box-sizing:border-box;
+  padding:24px 20px;box-sizing:border-box;overflow-y:auto;
   display:flex;flex-direction:column;
 }
 .burger-panel.open{transform:translateX(0);}
 .burger-close-btn{background:none;border:none;color:var(--text-muted);font-size:18px;margin-bottom:8px;}
+.burger-panel-clock{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.04em;color:var(--text-muted);margin-bottom:16px;}
 .burger-panel-head{margin:4px 0 22px;}
 .burger-panel-logo{font-family:'Fraunces',serif;font-weight:700;font-size:20px;color:var(--honey);}
 .burger-panel-tagline{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.08em;color:var(--text-muted);margin-top:5px;text-transform:uppercase;}
@@ -1719,6 +1730,7 @@ img[data-hm-loaded], video[data-hm-loaded]{
 <div class="modal-backdrop" id="burger-backdrop"></div>
 <div class="burger-panel" id="burger-panel">
   <button class="burger-close-btn" id="burger-close-btn">✕</button>
+  <div class="burger-panel-clock" id="burger-panel-clock"></div>
   <div class="burger-panel-head">
     <div class="burger-panel-logo">honeymoon</div>
     <div class="burger-panel-tagline" data-i18n="burgerTagline">Univers exclusif de créatrices</div>
@@ -2211,6 +2223,58 @@ const I18N = {
     toolCalc: "Calculatrice",
     toolFinance: "Finances",
     toolAdvice: "Conseils",
+    toolBanner: "Bannière",
+    toolBannerNote: "Programme une bannière (date, heure, durée) qui s'affichera sur ta fiche publique pour inviter tes abonné(e)s à t'envoyer un cadeau — anniversaire, Saint-Valentin, Noël, Nouvel An, ou un message 100% à toi.",
+    bannerActiveLabel: "Bannière active",
+    bannerActiveUntil: "Jusqu'au",
+    bannerRemoveBtn: "Retirer la bannière",
+    bannerRemoveConfirm: "Retirer la bannière en cours ?",
+    bannerTemplateLabel_birthday: "Anniversaire",
+    bannerTemplateLabel_valentine: "Saint-Valentin",
+    bannerTemplateLabel_christmas: "Noël",
+    bannerTemplateLabel_newyear: "Nouvel An",
+    bannerTemplateLabel_custom: "Personnalisé",
+    bannerTemplate_birthday: "🎂 C'est bientôt mon anniversaire ! Si le cœur t'en dit, un petit cadeau me ferait très plaisir 💛",
+    bannerTemplate_valentine: "💘 Joyeuse Saint-Valentin ! Envoie-moi un petit cadeau pour me montrer ton amour 😘",
+    bannerTemplate_christmas: "🎄 Joyeux Noël ! Un petit cadeau sous le sapin pour moi ferait battre mon cœur 🎁",
+    bannerTemplate_newyear: "🎆 Bonne année ! Commence l'année en beauté en m'offrant un petit cadeau ✨",
+    bannerTemplate_custom: "",
+    bannerMessageLabel: "Ton message",
+    bannerMessagePh: "Écris ce que tu veux — avec ton nom, ou pas, comme tu préfères…",
+    bannerDateLabel: "Date de lancement",
+    bannerTimeLabel: "Heure",
+    bannerDurationLabel: "Durée d'affichage",
+    bannerDuration1Day: "1 jour",
+    bannerDuration3Days: "3 jours",
+    bannerDuration7Days: "7 jours",
+    bannerDuration14Days: "14 jours",
+    bannerPublishBtn: "Lancer la bannière",
+    bannerMessageRequired: "Écris d'abord ton message.",
+    bannerDateRequired: "Choisis une date et une heure valides.",
+    bannerPublishedToast: "Bannière programmée !",
+    bannerViewerCta: "Envoyer un cadeau",
+    tierNudgeMessage: "Pense à publier une vidéo exclusive pour remercier tes abonné(e)s de t'avoir aidée à franchir ce cap 💛",
+    tierNudgeDismissBtn: "Compris",
+    toolIdeas: "Idées Honeymoon",
+    ideasIntroTitle: "Bienvenue dans ton espace pro",
+    ideasIntroBody: "En rejoignant Honeymoon, tu lances ta propre activité : tu es une créatrice de contenu pour adultes indépendante et auto-entrepreneuse. C'est ton business — à toi de le faire vivre avec sérieux et professionnalisme envers tes abonné(e)s, pour qu'ils reviennent et te soutiennent. Ces idées viennent de la direction et de l'équipe Honeymoon, pour t'aider à en tirer le meilleur.",
+    ideasWelcomeTitle: "Message de bienvenue automatique",
+    ideasWelcomeNote: "Dès qu'un membre commence à te suivre, ce message lui est envoyé automatiquement et gratuitement dans le chat — une belle première impression, sans effort de ta part.",
+    ideasWelcomePh: "Ex. : Merci de me suivre 💛 N'hésite pas à m'écrire, je réponds à tout le monde !",
+    ideasWelcomeSaveBtn: "Enregistrer le message",
+    ideasWelcomeSavedToast: "Message de bienvenue enregistré !",
+    ideasTierTitle: "Paliers de popularité",
+    ideasTierBody: "À chaque nouveau palier atteint (bronze, argent, or…), tu recevras un petit rappel dans l'onglet Popularité te suggérant de publier un contenu exclusif pour remercier tes abonné(e)s d'avoir contribué à cette étape.",
+    ideasTipsTitle: "Conseils pour animer ta communauté",
+    ideasTipsNote: "Ce sont des conseils, pas des obligations — prends ce qui te correspond.",
+    ideasTip1: "Réponds à tes messages régulièrement : la réactivité fidélise plus que la quantité de contenu.",
+    ideasTip2: "Garde un rythme de publication régulier plutôt que de grosses pauses suivies de rafales.",
+    ideasTip3: "Réserve un petit quelque chose (photo, vidéo, message vocal) aux abonné(e)s les plus fidèles.",
+    ideasTip4: "Reste toi-même : une personnalité reconnaissable fidélise mieux qu'un contenu générique.",
+    ideasTip5: "Fixe tes limites clairement dès le départ — ça évite les malentendus et instaure le respect.",
+    audioClearBtn: "Retirer l'audio",
+    ideasWelcomeAudioLabel: "Message vocal (optionnel)",
+    bannerAudioLabel: "Message vocal (optionnel)",
     toolCalendarPh: "Ajoute une note pour ce jour…",
     toolNotesPh: "Écris ce que tu veux ici…",
     toolCalcError: "Erreur",
@@ -2469,6 +2533,7 @@ const I18N = {
     memberPurchaseLoadErr: "Impossible de charger tes achats pour le moment. Réessaie plus tard.",
     applyTitle: "Postuler pour être modèle",
     applyIntro: "Ce formulaire est ouvert à toutes. Remplis-le et il sera envoyé directement à l'équipe Honeymoon — aucun frais, aucune obligation.",
+    applyBusinessPitch: "Rejoindre Honeymoon, c'est lancer ta propre activité : tu gères ton business comme une créatrice de contenu indépendante et auto-entrepreneuse, à ton rythme et à tes conditions.",
     applyNameLabel: "Nom / pseudo souhaité",
     applyNamePh: "Ton prénom ou le pseudo que tu veux utiliser",
     applyContactEmailLabel: "Email de contact",
@@ -2584,6 +2649,8 @@ const I18N = {
     chatTypingIndicator: "est en train d'écrire…",
     chatRulesBanner: "⚠️ Espace de discussion respectueux : les insultes sont interdites. L'échange de coordonnées personnelles (numéro de téléphone, réseaux sociaux, email) est interdit sur la plateforme et peut entraîner des sanctions. La discussion est libre : les sujets proposés ne sont que des idées, jamais une obligation.",
     chatReportMessage: "Signaler ce message à l'équipe",
+    chatDeleteMessage: "Supprimer ce message",
+    chatDeleteMessageConfirm: "Supprimer définitivement ce message ?",
     chatStartBtn: "Envoyer un message",
     myFamilyContent: "Contenu",
     myFamilyMessages: "Messages",
@@ -2785,9 +2852,9 @@ const I18N = {
     statusOnline: 'En ligne',
     statusOffline: 'Hors ligne',
     contentPolicyNote: "Photos et vidéos : lingerie ou tenue sexy uniquement (danse, twerk, sensuel, aguicheur autorisés). Aucun contenu nu — photo ou vidéo — n'est accepté.",
-    vitrineHeroEyebrow: 'Site vitrine',
-    vitrineHeroTitle: 'Découvre nos <em>créatrices</em>',
-    vitrineHeroBody: "Un aperçu public des créatrices Honeymoon. Aime, laisse un commentaire, et découvre leur univers.",
+    vitrineHeroEyebrow: 'Bienvenue chez Honeymoon',
+    vitrineHeroTitle: 'Tes envies, nos <em>créatrices professionnelles</em>',
+    vitrineHeroBody: "Des créatrices actives et expérimentées, entièrement dédiées à toi. Aime, commente, découvre leur univers.",
     vitrineHeroCta: "Rejoindre",
     vitrineHeroTrustSuffix: "créatrices actives",
     vitrineBack: '← Retour',
@@ -2802,6 +2869,7 @@ const I18N = {
     commentModerationError: "Ton commentaire contient des mots non autorisés (insultes, grossièretés). Merci de le reformuler.",
     commentPosted: 'Commentaire publié',
     commentRules: "Espace de commentaires bienveillant : pas d'injures, pas de grossièretés.",
+    commentsCommunityTitle: "Communauté Honeymoon",
     ourCreatorsTitle: "Nos créatrices",
     bnav2257: "Mention 2257",
     bnavCgu: "CGU",
@@ -2969,6 +3037,58 @@ const I18N = {
     toolCalc: "Calculator",
     toolFinance: "Finance",
     toolAdvice: "Tips",
+    toolBanner: "Banner",
+    toolBannerNote: "Schedule a banner (date, time, duration) that will show on your public page inviting your followers to send you a gift — birthday, Valentine's, Christmas, New Year, or your own custom message.",
+    bannerActiveLabel: "Active banner",
+    bannerActiveUntil: "Until",
+    bannerRemoveBtn: "Remove banner",
+    bannerRemoveConfirm: "Remove the current banner?",
+    bannerTemplateLabel_birthday: "Birthday",
+    bannerTemplateLabel_valentine: "Valentine's",
+    bannerTemplateLabel_christmas: "Christmas",
+    bannerTemplateLabel_newyear: "New Year",
+    bannerTemplateLabel_custom: "Custom",
+    bannerTemplate_birthday: "🎂 My birthday is coming up! If you're feeling generous, a little gift would make my day 💛",
+    bannerTemplate_valentine: "💘 Happy Valentine's Day! Send me a little gift to show me some love 😘",
+    bannerTemplate_christmas: "🎄 Merry Christmas! A little gift under the tree for me would make my heart skip a beat 🎁",
+    bannerTemplate_newyear: "🎆 Happy New Year! Start the year off right with a little gift for me ✨",
+    bannerTemplate_custom: "",
+    bannerMessageLabel: "Your message",
+    bannerMessagePh: "Write whatever you want — with your name or not, up to you…",
+    bannerDateLabel: "Launch date",
+    bannerTimeLabel: "Time",
+    bannerDurationLabel: "Display duration",
+    bannerDuration1Day: "1 day",
+    bannerDuration3Days: "3 days",
+    bannerDuration7Days: "7 days",
+    bannerDuration14Days: "14 days",
+    bannerPublishBtn: "Launch the banner",
+    bannerMessageRequired: "Write your message first.",
+    bannerDateRequired: "Pick a valid date and time.",
+    bannerPublishedToast: "Banner scheduled!",
+    bannerViewerCta: "Send a gift",
+    tierNudgeMessage: "Think about posting an exclusive video to thank your followers for helping you reach this milestone 💛",
+    tierNudgeDismissBtn: "Got it",
+    toolIdeas: "Honeymoon Ideas",
+    ideasIntroTitle: "Welcome to your pro space",
+    ideasIntroBody: "By joining Honeymoon, you're launching your own business: you're an independent, self-employed adult content creator. This is your business — it's up to you to run it seriously and professionally with your followers, so they keep coming back and supporting you. These ideas come from Honeymoon's leadership and team, to help you get the most out of it.",
+    ideasWelcomeTitle: "Automatic welcome message",
+    ideasWelcomeNote: "As soon as a member starts following you, this message is sent to them automatically and for free in chat — a great first impression, with no effort on your part.",
+    ideasWelcomePh: "E.g.: Thanks for following me 💛 Feel free to message me, I reply to everyone!",
+    ideasWelcomeSaveBtn: "Save message",
+    ideasWelcomeSavedToast: "Welcome message saved!",
+    ideasTierTitle: "Popularity milestones",
+    ideasTierBody: "Every time you reach a new tier (bronze, silver, gold…), you'll get a small reminder in your Popularity tab suggesting you post exclusive content to thank your followers for helping you get there.",
+    ideasTipsTitle: "Tips to keep your community engaged",
+    ideasTipsNote: "These are suggestions, not obligations — take what fits you.",
+    ideasTip1: "Reply to your messages regularly: responsiveness builds loyalty more than content volume.",
+    ideasTip2: "Keep a steady posting rhythm rather than long silences followed by bursts.",
+    ideasTip3: "Save something special (a photo, video, or voice note) for your most loyal followers.",
+    ideasTip4: "Stay yourself: a recognizable personality builds loyalty better than generic content.",
+    ideasTip5: "Set your boundaries clearly from the start — it avoids misunderstandings and builds respect.",
+    audioClearBtn: "Remove audio",
+    ideasWelcomeAudioLabel: "Voice message (optional)",
+    bannerAudioLabel: "Voice message (optional)",
     toolCalendarPh: "Add a note for this day…",
     toolNotesPh: "Write anything here…",
     toolCalcError: "Error",
@@ -3227,6 +3347,7 @@ const I18N = {
     memberPurchaseLoadErr: "Couldn't load your purchases right now. Try again later.",
     applyTitle: "Apply to become a model",
     applyIntro: "This form is open to everyone. Fill it in and it will be sent directly to the Honeymoon team — no fees, no obligation.",
+    applyBusinessPitch: "Joining Honeymoon means launching your own business: you run it as an independent, self-employed content creator, at your own pace and on your own terms.",
     applyNameLabel: "Name / desired username",
     applyNamePh: "Your first name or the username you'd like to use",
     applyContactEmailLabel: "Contact email",
@@ -3342,6 +3463,8 @@ const I18N = {
     chatTypingIndicator: "is typing…",
     chatRulesBanner: "⚠️ Respectful chat space: insults are forbidden. Exchanging personal contact details (phone number, social media, email) is not allowed on the platform and may lead to sanctions. Chatting is free-form: suggested topics are just ideas, never an obligation.",
     chatReportMessage: "Report this message to the team",
+    chatDeleteMessage: "Delete this message",
+    chatDeleteMessageConfirm: "Permanently delete this message?",
     chatStartBtn: "Send a message",
     myFamilyContent: "Content",
     myFamilyMessages: "Messages",
@@ -3543,9 +3666,9 @@ const I18N = {
     statusOnline: 'Online',
     statusOffline: 'Offline',
     contentPolicyNote: 'Photos and videos: lingerie or sexy outfits only (dance, twerk, sensual, teasing content allowed). No nude content — photo or video — is accepted.',
-    vitrineHeroEyebrow: 'Showcase site',
-    vitrineHeroTitle: 'Discover our <em>creators</em>',
-    vitrineHeroBody: 'A public preview of the Honeymoon creators. Like, leave a comment, and discover their world.',
+    vitrineHeroEyebrow: 'Welcome to Honeymoon',
+    vitrineHeroTitle: 'Your desires, our <em>professional creators</em>',
+    vitrineHeroBody: 'Active, experienced creators, entirely dedicated to you. Like, comment, discover their world.',
     vitrineHeroCta: 'Join',
     vitrineHeroTrustSuffix: 'active creators',
     vitrineBack: '← Back',
@@ -3560,6 +3683,7 @@ const I18N = {
     commentModerationError: 'Your comment contains words that are not allowed (insults, profanity). Please rephrase it.',
     commentPosted: 'Comment posted',
     commentRules: "Friendly comment space: no insults, no profanity.",
+    commentsCommunityTitle: "Honeymoon Community",
     ourCreatorsTitle: "Our creators",
     bnav2257: "Notice 2257",
     bnavCgu: "Terms",
@@ -3991,9 +4115,9 @@ const I18N = {
     statusOnline: 'En línea',
     statusOffline: 'Desconectada',
     contentPolicyNote: 'Fotos y videos: solo lencería o ropa sexy (baile, twerk, sensual, provocador permitido). No se acepta contenido desnudo, ni foto ni video.',
-    vitrineHeroEyebrow: 'Sitio vitrina',
-    vitrineHeroTitle: 'Descubre a nuestras <em>creadoras</em>',
-    vitrineHeroBody: 'Una vista pública de las creadoras Honeymoon. Da like, deja un comentario y descubre su universo.',
+    vitrineHeroEyebrow: 'Bienvenida a Honeymoon',
+    vitrineHeroTitle: 'Tus deseos, nuestras <em>creadoras profesionales</em>',
+    vitrineHeroBody: 'Creadoras activas y con experiencia, dedicadas por completo a ti. Da like, comenta, descubre su universo.',
     vitrineHeroCta: 'Unirme',
     vitrineHeroTrustSuffix: 'creadoras activas',
     vitrineBack: '← Volver',
@@ -4008,6 +4132,7 @@ const I18N = {
     commentModerationError: 'Tu comentario contiene palabras no permitidas (insultos, groserías). Por favor reformúlalo.',
     commentPosted: 'Comentario publicado',
     commentRules: 'Espacio de comentarios amable: sin insultos, sin groserías.',
+    commentsCommunityTitle: "Comunidad Honeymoon",
     adminForgotNeedEmail: "Primero indica tu email arriba.",
     adminForgotSent: "Se ha enviado un enlace de restablecimiento a {email}. Revisa tu correo.",
     applicationsNoneYet: "Aún no hay candidaturas.",
@@ -4024,6 +4149,7 @@ const I18N = {
     applyErrChecks: "Marca las 3 casillas para enviar tu candidatura.",
     applyErrFillRequired: "Completa todos los campos obligatorios.",
     applyIntro: "Este formulario está abierto a todas. Complétalo y se enviará directamente al equipo de Honeymoon — sin costo, sin obligación.",
+    applyBusinessPitch: "Unirte a Honeymoon es lanzar tu propio negocio: gestionas tu actividad como creadora de contenido independiente y autónoma, a tu ritmo y en tus condiciones.",
     applyLegalText: "Honeymoon funciona con un contrato de colaboración (no exclusivo salvo acuerdo aparte): el contenido permitido se limita a lencería / ropa sexy / baile sensual — no se acepta contenido desnudo en esta plataforma. Para todo contenido de pago vendido, el reparto es del 60% para la creadora y 40% para Honeymoon por la gestión de la plataforma. Es obligatoria una verificación de identidad y edad (mínimo 18 años) antes de cualquier publicación. El contrato completo se presenta y firma electrónicamente si tu candidatura es aceptada.",
     applyLegalTitle: "Condiciones del sitio",
     applyMotivationLabel: "¿Por qué quieres unirte a Honeymoon?",
@@ -4222,6 +4348,8 @@ const I18N = {
     visitorBadgeLabel: "Visitante",
     chatRulesBanner: "⚠️ Espacio de chat respetuoso: los insultos están prohibidos. Intercambiar datos de contacto personales (número de teléfono, redes sociales, email) no está permitido en la plataforma y puede acarrear sanciones. La charla es libre: los temas sugeridos son solo ideas, nunca una obligación.",
     chatReportMessage: "Denunciar este mensaje al equipo",
+    chatDeleteMessage: "Eliminar este mensaje",
+    chatDeleteMessageConfirm: "¿Eliminar este mensaje de forma permanente?",
     bnav2257: "Mención 2257",
     bnavCgu: "Términos",
     bnavPricing: "Precios",
@@ -4746,9 +4874,9 @@ const I18N = {
     statusOnline: "Online",
     statusOffline: "Offline",
     contentPolicyNote: "Foto e video: solo lingerie o abiti sexy (ballo, twerk, sensuale, provocante permessi). Nessun contenuto nudo — foto o video — è accettato.",
-    vitrineHeroEyebrow: "Sito vetrina",
-    vitrineHeroTitle: "Scopri le nostre <em>creatrici</em>",
-    vitrineHeroBody: "Un'anteprima pubblica delle creatrici Honeymoon. Metti mi piace, lascia un commento e scopri il loro universo.",
+    vitrineHeroEyebrow: "Benvenuta su Honeymoon",
+    vitrineHeroTitle: "I tuoi desideri, le nostre <em>creatrici professioniste</em>",
+    vitrineHeroBody: "Creatrici attive ed esperte, interamente dedicate a te. Metti mi piace, commenta, scopri il loro universo.",
     vitrineHeroCta: "Iscriviti",
     vitrineHeroTrustSuffix: "creatrici attive",
     vitrineBack: "← Indietro",
@@ -4763,6 +4891,7 @@ const I18N = {
     commentModerationError: "Il tuo commento contiene parole non consentite (insulti, volgarità). Per favore riformulalo.",
     commentPosted: "Commento pubblicato",
     commentRules: "Spazio commenti rispettoso: niente insulti, niente volgarità.",
+    commentsCommunityTitle: "Community Honeymoon",
     adminForgotNeedEmail: "Indica prima la tua email qui sopra.",
     adminForgotSent: "Un link di reimpostazione è stato inviato a {email}. Controlla la tua email.",
     applicationsNoneYet: "Ancora nessuna candidatura.",
@@ -4779,6 +4908,7 @@ const I18N = {
     applyErrChecks: "Seleziona le 3 caselle per inviare la tua candidatura.",
     applyErrFillRequired: "Compila tutti i campi obbligatori.",
     applyIntro: "Questo modulo è aperto a tutte. Compilalo e verrà inviato direttamente al team di Honeymoon — nessuna spesa, nessun obbligo.",
+    applyBusinessPitch: "Entrare in Honeymoon significa avviare la tua attività: gestisci il tuo business come creatrice di contenuti indipendente e libera professionista, ai tuoi tempi e alle tue condizioni.",
     applyLegalText: "Honeymoon opera con un contratto di collaborazione (non esclusivo salvo accordo separato): il contenuto consentito si limita a lingerie / abiti sexy / danza sensuale — nessun contenuto nudo è accettato su questa piattaforma. Per ogni contenuto a pagamento venduto, la ripartizione è del 60% per la creatrice e 40% per Honeymoon per la gestione della piattaforma. È obbligatoria una verifica dell'identità e dell'età (minimo 18 anni) prima di qualsiasi pubblicazione. Il contratto completo viene presentato e firmato elettronicamente se la tua candidatura viene accettata.",
     applyLegalTitle: "Condizioni del sito",
     applyMotivationLabel: "Perché vuoi entrare in Honeymoon?",
@@ -4977,6 +5107,8 @@ const I18N = {
     visitorBadgeLabel: "Visitatrice",
     chatRulesBanner: "⚠️ Spazio di chat rispettoso: gli insulti sono vietati. Lo scambio di dati di contatto personali (numero di telefono, social media, email) non è consentito sulla piattaforma e può comportare sanzioni. La chat è libera: gli argomenti suggeriti sono solo idee, mai un obbligo.",
     chatReportMessage: "Segnala questo messaggio al team",
+    chatDeleteMessage: "Elimina questo messaggio",
+    chatDeleteMessageConfirm: "Eliminare definitivamente questo messaggio?",
     bnav2257: "Menzione 2257",
     bnavCgu: "Termini",
     bnavPricing: "Prezzi",
@@ -5501,9 +5633,9 @@ const I18N = {
     statusOnline: "Online",
     statusOffline: "Offline",
     contentPolicyNote: "Fotos e vídeos: apenas lingerie ou roupa sexy (dança, twerk, sensual, provocante permitido). Nenhum conteúdo nu — foto ou vídeo — é aceite.",
-    vitrineHeroEyebrow: "Site vitrine",
-    vitrineHeroTitle: "Descobre as nossas <em>criadoras</em>",
-    vitrineHeroBody: "Uma pré-visualização pública das criadoras Honeymoon. Gosta, deixa um comentário e descobre o seu universo.",
+    vitrineHeroEyebrow: "Bem-vinda à Honeymoon",
+    vitrineHeroTitle: "Os teus desejos, as nossas <em>criadoras profissionais</em>",
+    vitrineHeroBody: "Criadoras ativas e experientes, totalmente dedicadas a ti. Gosta, comenta, descobre o seu universo.",
     vitrineHeroCta: "Aderir",
     vitrineHeroTrustSuffix: "criadoras ativas",
     vitrineBack: "← Voltar",
@@ -5518,6 +5650,7 @@ const I18N = {
     commentModerationError: "O teu comentário contém palavras não permitidas (insultos, palavrões). Por favor reformula-o.",
     commentPosted: "Comentário publicado",
     commentRules: "Espaço de comentários respeitoso: sem insultos, sem palavrões.",
+    commentsCommunityTitle: "Comunidade Honeymoon",
     adminForgotNeedEmail: "Indica primeiro o teu email acima.",
     adminForgotSent: "Foi enviado um link de redefinição para {email}. Verifica o teu email.",
     applicationsNoneYet: "Ainda não há candidaturas.",
@@ -5534,6 +5667,7 @@ const I18N = {
     applyErrChecks: "Marca as 3 caixas para enviar a tua candidatura.",
     applyErrFillRequired: "Preenche todos os campos obrigatórios.",
     applyIntro: "Este formulário está aberto a todas. Preenche-o e será enviado diretamente à equipa Honeymoon — sem custos, sem obrigação.",
+    applyBusinessPitch: "Juntar-te à Honeymoon é lançar o teu próprio negócio: geres a tua atividade como criadora de conteúdo independente e trabalhadora por conta própria, ao teu ritmo e nas tuas condições.",
     applyLegalText: "A Honeymoon funciona com um contrato de colaboração (não exclusivo salvo acordo separado): o conteúdo permitido limita-se a lingerie / roupa sexy / dança sensual — nenhum conteúdo nu é aceite nesta plataforma. Para todo o conteúdo pago vendido, a divisão é de 60% para a criadora e 40% para a Honeymoon pela gestão da plataforma. É obrigatória uma verificação de identidade e idade (mínimo 18 anos) antes de qualquer publicação. O contrato completo é apresentado e assinado eletronicamente se a tua candidatura for aceite.",
     applyLegalTitle: "Condições do site",
     applyMotivationLabel: "Porque queres juntar-te à Honeymoon?",
@@ -5732,6 +5866,8 @@ const I18N = {
     visitorBadgeLabel: "Visitante",
     chatRulesBanner: "⚠️ Espaço de conversa respeitoso: insultos são proibidos. A troca de dados de contacto pessoais (número de telefone, redes sociais, email) não é permitida na plataforma e pode resultar em sanções. A conversa é livre: os temas sugeridos são apenas ideias, nunca uma obrigação.",
     chatReportMessage: "Denunciar esta mensagem à equipa",
+    chatDeleteMessage: "Eliminar esta mensagem",
+    chatDeleteMessageConfirm: "Eliminar definitivamente esta mensagem?",
     bnav2257: "Menção 2257",
     bnavCgu: "Termos",
     bnavPricing: "Preços",
@@ -6255,9 +6391,9 @@ const I18N = {
     statusOnline: "Mtandaoni",
     statusOffline: "Nje ya mtandao",
     contentPolicyNote: "Picha na video: nguo za ndani au mavazi ya kuvutia pekee (dansi, twerk, hisia, kuvutia zinaruhusiwa). Hakuna maudhui ya uchi — picha au video — yanayokubaliwa.",
-    vitrineHeroEyebrow: "Tovuti ya maonyesho",
-    vitrineHeroTitle: "Gundua <em>waundaji</em> wetu",
-    vitrineHeroBody: "Muhtasari wa umma wa waundaji wa Honeymoon. Penda, acha maoni, na gundua ulimwengu wao.",
+    vitrineHeroEyebrow: "Karibu Honeymoon",
+    vitrineHeroTitle: "Tamaa zako, <em>waundaji wetu wa kitaalamu</em>",
+    vitrineHeroBody: "Waundaji hai na wenye uzoefu, waliojitolea kwako. Penda, toa maoni, gundua ulimwengu wao.",
     vitrineHeroCta: "Jiunge",
     vitrineHeroTrustSuffix: "waundaji hai",
     vitrineBack: "← Rudi",
@@ -6272,6 +6408,7 @@ const I18N = {
     commentModerationError: "Maoni yako yana maneno yasiyoruhusiwa (matusi, lugha chafu). Tafadhali yabadilishe.",
     commentPosted: "Maoni yamechapishwa",
     commentRules: "Nafasi ya maoni yenye heshima: hakuna matusi, hakuna lugha chafu.",
+    commentsCommunityTitle: "Jumuiya ya Honeymoon",
     adminForgotNeedEmail: "Weka barua pepe yako hapo juu kwanza.",
     adminForgotSent: "Kiungo cha kuweka upya kimetumwa kwa {email}. Angalia barua pepe yako.",
     applicationsNoneYet: "Hakuna maombi bado.",
@@ -6288,6 +6425,7 @@ const I18N = {
     applyErrChecks: "Tafadhali chagua visanduku vitatu ili kutuma ombi lako.",
     applyErrFillRequired: "Tafadhali jaza sehemu zote zinazohitajika.",
     applyIntro: "Fomu hii iko wazi kwa wote. Ijaze na itatumwa moja kwa moja kwa timu ya Honeymoon — hakuna gharama, hakuna wajibu.",
+    applyBusinessPitch: "Kujiunga na Honeymoon ni kuanzisha biashara yako mwenyewe: unaendesha shughuli yako kama muundaji huru wa maudhui na mjasiriamali binafsi, kwa kasi na masharti yako.",
     applyLegalText: "Honeymoon inafanya kazi na mkataba wa ushirikiano (siyo wa kipekee isipokuwa kwa makubaliano tofauti): maudhui yanayoruhusiwa yanahusu tu chupi / mavazi ya kuvutia / dansi ya kimapenzi — hakuna maudhui ya uchi yanayokubalika kwenye jukwaa hili. Kwa maudhui yoyote yanayolipiwa yanayouzwa, mgawanyo ni 60% kwa muundaji na 40% kwa Honeymoon kwa uendeshaji wa jukwaa. Uthibitisho wa utambulisho na umri (miaka 18 kwa chini) ni lazima kabla ya uchapishaji wowote. Mkataba kamili unaonyeshwa na kusainiwa kielektroniki iwapo ombi lako litakubaliwa.",
     applyLegalTitle: "Masharti ya tovuti",
     applyMotivationLabel: "Kwa nini unataka kujiunga na Honeymoon?",
@@ -6486,6 +6624,8 @@ const I18N = {
     visitorBadgeLabel: "Mgeni",
     chatRulesBanner: "⚠️ Nafasi ya mazungumzo yenye heshima: matusi ni marufuku. Kubadilishana taarifa za mawasiliano binafsi (nambari ya simu, mitandao ya kijamii, barua pepe) hairuhusiwi kwenye jukwaa na inaweza kusababisha adhabu. Mazungumzo ni huru: mada zilizopendekezwa ni mawazo tu, si sharti.",
     chatReportMessage: "Ripoti ujumbe huu kwa timu",
+    chatDeleteMessage: "Futa ujumbe huu",
+    chatDeleteMessageConfirm: "Futa ujumbe huu kabisa?",
     bnav2257: "Taarifa 2257",
     bnavCgu: "Masharti",
     bnavPricing: "Bei",
@@ -7009,9 +7149,9 @@ const I18N = {
     statusOnline: "Ku-inthanethi",
     statusOffline: "Ngaphandle kwe-inthanethi",
     contentPolicyNote: "Izithombe namavidiyo: izingubo zangaphansi noma ezimnandi kuphela (umdanso, i-twerk, ukudlala, ukuheha kuvunyelwe). Akukho okuqukethwe okunqunu — isithombe noma ividiyo — okwamukelekile.",
-    vitrineHeroEyebrow: "Isayithi yesitolo",
-    vitrineHeroTitle: "Thola <em>abadali</em> bethu",
-    vitrineHeroBody: "Ukubukwa komphakathi kwabadali be-Honeymoon. Thanda, shiya umbono, futhi uthole umhlaba wabo.",
+    vitrineHeroEyebrow: "Wamukelekile ku-Honeymoon",
+    vitrineHeroTitle: "Izifiso zakho, abadali bethu <em>abangochwepheshe</em>",
+    vitrineHeroBody: "Abadali abasebenzayo nabanolwazi, abazinikele kuwe. Thanda, phawula, uthole umhlaba wabo.",
     vitrineHeroCta: "Joyina",
     vitrineHeroTrustSuffix: "abadali abasebenzayo",
     vitrineBack: "← Buyela",
@@ -7026,6 +7166,7 @@ const I18N = {
     commentModerationError: "Umbono wakho unamagama angavunyelwe (izithuko, ulimi olubi). Sicela uwuguqule.",
     commentPosted: "Umbono ushicilelwe",
     commentRules: "Indawo yemibono enenhlonipho: akukho izithuko, akukho ulimi olubi.",
+    commentsCommunityTitle: "Umphakathi we-Honeymoon",
     adminForgotNeedEmail: "Faka i-imeyili yakho ngenhla kuqala.",
     adminForgotSent: "Isixhumanisi sokusetha kabusha sithunyelwe ku-{email}. Hlola i-imeyili yakho.",
     applicationsNoneYet: "Azikho izicelo okwamanje.",
@@ -7042,6 +7183,7 @@ const I18N = {
     applyErrChecks: "Sicela uhloke amabhokisi amathathu ukuze uthumele isicelo sakho.",
     applyErrFillRequired: "Sicela ugcwalise zonke izinkambu ezidingekayo.",
     applyIntro: "Le fomu ivulelekile kubo bonke. Yigcwalise futhi izothunyelwa ngqo ethimbeni likaHoneymoon — akukho zindleko, akukho sibopho.",
+    applyBusinessPitch: "Ukujoyina i-Honeymoon kusho ukuqala ibhizinisi lakho: uphatha umsebenzi wakho njengomdali woqukethwe ozimele, ngesivinini nangemibandela yakho.",
     applyLegalText: "IHoneymoon isebenza ngesivumelwano sokubambisana (esingesiyona okuphelele ngaphandle kwesivumelwano esihlukile): okuqukethwe okuvunyelwe kukhawulelwe endwangwini yangaphakathi / izingubo ezidonsa isasasa / umdanso onovalo — akukho okuqukethwe kobunqunu okwamukelekile kule nkundla. Kunoma yikuphi okuqukethwe okukhokhelwayo okuthengiswayo, ukwahlukaniswa kungu-60% komdali no-40% weHoneymoon ngokuphathwa kwenkundla. Ukuqinisekiswa kobunikazi neminyaka (okungenani iminyaka engu-18) kuyimfuneko ngaphambi kokushicilelwa. Isivumelwano esiphelele siyethulwa futhi sisayinwe ngokuxhumana uma isicelo sakho samukelwa.",
     applyLegalTitle: "Imibandela yesayithi",
     applyMotivationLabel: "Kungani ufuna ukujoyina i-Honeymoon?",
@@ -7240,6 +7382,8 @@ const I18N = {
     visitorBadgeLabel: "Isivakashi",
     chatRulesBanner: "⚠️ Isikhala sengxoxo sokuhlonipha: izinhlamba azivunyelwe. Ukushintshanisa imininingwane yokuxhumana yomuntu siqu (inombolo yocingo, amamediya enhlalo, i-imeyili) akuvunyelwe kule nkundla futhi kungaholela ezijezisweni. Ingxoxo ikhululekile: izihloko eziphakanyisiwe ziyimibono nje, akusiwo umthetho.",
     chatReportMessage: "Bika lo mlayezo ethimbeni",
+    chatDeleteMessage: "Susa lo mlayezo",
+    chatDeleteMessageConfirm: "Ususe lo mlayezo unomphelo?",
     bnav2257: "Isaziso 2257",
     bnavCgu: "Imigomo",
     bnavPricing: "Amanani",
@@ -7763,9 +7907,9 @@ const I18N = {
     statusOnline: "O inthaneteng",
     statusOffline: "Ha a inthaneteng",
     contentPolicyNote: "Diswantso le divideo: diaparo tsa ka tlasa feela kapa diaparo tse hohelang (tantshi, twerk, tse hohelang di dumeletswe). Ha ho diteng tsa bofeela — setshwantsho kapa video — tse amohelwang.",
-    vitrineHeroEyebrow: "Websaete ya pontsho",
-    vitrineHeroTitle: "Sibolla <em>babopi</em> ba rona",
-    vitrineHeroBody: "Pono ya sechaba ya babopi ba Honeymoon. Rata, siya maikutlo, mme o sibolle lefatshe la bona.",
+    vitrineHeroEyebrow: "O amohelehile ho Honeymoon",
+    vitrineHeroTitle: "Ditakatso tsa hao, <em>babopi ba rona ba porofeshenale</em>",
+    vitrineHeroBody: "Babopi ba mafolofolo ba nang le boiphihlelo, ba inehetseng ho wena. Rata, fana ka maikutlo, sibolle lefatshe la bona.",
     vitrineHeroCta: "Kenela",
     vitrineHeroTrustSuffix: "babopi ba sebetsang",
     vitrineBack: "← Kgutlela",
@@ -7780,6 +7924,7 @@ const I18N = {
     commentModerationError: "Maikutlo a hao a na le mantswe a sa dumellwang (dinyefolo, mantswe a mabe). Ka kopo a fetole.",
     commentPosted: "Maikutlo a phatlaladitswe",
     commentRules: "Sebaka sa maikutlo se hlomphehang: ha ho dinyefolo, ha ho mantswe a mabe.",
+    commentsCommunityTitle: "Sechaba sa Honeymoon",
     adminForgotNeedEmail: "Kenya imeile ya hao ka hodimo pele.",
     adminForgotSent: "Khokahano ya ho beha hape e rometswe ho {email}. Sheba imeile ya hao.",
     applicationsNoneYet: "Ha ho na dikopo ho fihlela hona jwale.",
@@ -7796,6 +7941,7 @@ const I18N = {
     applyErrChecks: "Ka kopo tlatsa mabokose a mararo ho romela kopo ya hao.",
     applyErrFillRequired: "Ka kopo tlatsa dikarolo tsohle tse hlokahalang.",
     applyIntro: "Foromo ena e buletswe bohle. E tlatse mme e tla romelwa ka ho toba ho sehlopha sa Honeymoon — ha ho tefo, ha ho tlamo.",
+    applyBusinessPitch: "Ho kena ho Honeymoon ke ho qala kgwebo ya hao: o tsamaisa mosebetsi wa hao jwalo ka mmopi wa diteng ya ikemetseng ya boiketsetsi, ka lebelo la hao le maemo a hao.",
     applyLegalText: "Honeymoon e sebetsa ka tumellano ya tshebedisano-mmoho (e seng ya feela ntle le tumellano e arohaneng): diteng tse dumelletsweng di lekanyeditswe ho diaparo tse ka tlasa, diaparo tse hohelang kapa tantsi e susumetsang — ha ho na diteng tse hlobotseng tse amoheleha polatefomong ena. Bakeng sa diteng dife kapa dife tse lefellwang tse rekisitsweng, karohano ke 60% bakeng sa moetsi le 40% bakeng sa Honeymoon bakeng sa tsamaiso ya polatefomo. Netefatso ya boitsebiso le dilemo (bonyane dilemo tse 18) e a hlokahala pele ho phatlalatso efe kapa efe. Tumellano e felletseng e a hlahiswa mme e a saenwa ka elektroniki haeba kopo ya hao e amohelwa.",
     applyLegalTitle: "Dipehelo tsa sete",
     applyMotivationLabel: "Ke hobaneng o batla ho kena Honeymoon?",
@@ -7994,6 +8140,8 @@ const I18N = {
     visitorBadgeLabel: "Moeti",
     chatRulesBanner: "⚠️ Sebaka sa poqo sa tlhompho: dintsho ha di dumellwe. Phapanyetsano ya dintlha tsa botho tsa dikgokahano (nomoro ya mohala, mecha ya sechaba, imeile) ha di dumellwe polatefomong mme e ka baka dikotlo. Puisano e lokolohile: dihlooho tse sisintsweng ke mehopolo feela, eseng taelo.",
     chatReportMessage: "Tlaleha molaetsa ona ho sehlopha",
+    chatDeleteMessage: "Hlakola molaetsa ona",
+    chatDeleteMessageConfirm: "Hlakola molaetsa ona ka ho sa feleng?",
     bnav2257: "Tsebiso 2257",
     bnavCgu: "Melawana",
     bnavPricing: "Litheko",
@@ -8517,9 +8665,9 @@ const I18N = {
     statusOnline: "Na ligne",
     statusOffline: "Na ligne te",
     contentPolicyNote: "Bifoto na bavideo: bilamba ya nse to bilamba ya kobenda miso kaka (kobina, twerk, sensuel, kobenda miso endimami). Eloko ya bolumbu te — foto to video — endimami te.",
-    vitrineHeroEyebrow: "Site ya vitrine",
-    vitrineHeroTitle: "Yeba <em>bakeli</em> na biso",
-    vitrineHeroBody: "Botali ya bato nyonso ya bakeli ya Honeymoon. Sepela, tika commentaire, mpe yeba mokili na bango.",
+    vitrineHeroEyebrow: "Boyei bolamu na Honeymoon",
+    vitrineHeroTitle: "Ba mposa na yo, <em>bakeli na biso ya métier</em>",
+    vitrineHeroBody: "Bakeli ya molende mpe bayebi mosala, oyo bamipesi mpo na yo. Sepela, pesa commentaire, yeba mokili na bango.",
     vitrineHeroCta: "Kota",
     vitrineHeroTrustSuffix: "bakeli oyo bazali kosala",
     vitrineBack: "← Zonga",
@@ -8534,6 +8682,7 @@ const I18N = {
     commentModerationError: "Commentaire na yo ezali na maloba oyo endimami te (matuka, maloba mabe). Svp bongola yango.",
     commentPosted: "Commentaire ebimisami",
     commentRules: "Esika ya ba commentaire ya limemya: matuka te, maloba mabe te.",
+    commentsCommunityTitle: "Lisanga ya Honeymoon",
     adminForgotNeedEmail: "Tia liboso email na yo na likolo.",
     adminForgotSent: "Lien ya kobongisa lisusu etindami na {email}. Tala email na yo.",
     applicationsNoneYet: "Demande moko te tii sik'oyo.",
@@ -8550,6 +8699,7 @@ const I18N = {
     applyErrChecks: "Tondela ba cases misato mpo na kotinda demande na yo.",
     applyErrFillRequired: "Tondisa bisika nyonso ya kotinda.",
     applyIntro: "Formulaire oyo efungwami mpo na banso. Tondisa yango mpe ekotindama mbala moko na équipe ya Honeymoon — mbongo te, kotinda te.",
+    applyBusinessPitch: "Kokota na Honeymoon ezali kobanda mombongo na yo moko : otambwisaka mosala na yo lokola mokeli ya bikuma ya indépendante mpe auto-entrepreneuse, na tempo na yo mpe na ba condition na yo.",
     applyLegalText: "Honeymoon esalaka na accord ya bosalisi (te ya kaka bobele soki accord mosusu): contenu oyo endimami ezali kaka bilamba ya nse / bilamba ya kobenga / mabina ya bolingo — contenu ya bolumbu endimami te na plateforme oyo. Mpo na contenu nyonso oyo efutami mpe etekami, bokabwani ezali 60% mpo na mokeli mpe 40% mpo na Honeymoon mpo na kotambwisa plateforme. Kotalisa bonkoko na mibu (mibu 18 na se te) esengeli liboso ya kobimisa eloko nyonso. Accord mobimba ekomonisama mpe ekosignama na internet soki demande na yo endimami.",
     applyLegalTitle: "Ba condition ya site",
     applyMotivationLabel: "Mpo na nini olingi kokota Honeymoon?",
@@ -8748,6 +8898,8 @@ const I18N = {
     visitorBadgeLabel: "Mopaya",
     chatRulesBanner: "⚠️ Esika ya lisolo na limemya: kofinga ekopekisama. Kokabola ba détails ya moto (nimero ya telefone, réseaux sociaux, email) ekopekisama te na plateforme mpe ekoki kobimisa etumbu. Lisolo ezali ya bonsomi : masolo oyo epesami ezali kaka makanisi, ezali mokumba te.",
     chatReportMessage: "Yebisa message oyo na équipe",
+    chatDeleteMessage: "Longola message oyo",
+    chatDeleteMessageConfirm: "Olingi kolongola message oyo libela?",
     bnav2257: "Nsango 2257",
     bnavCgu: "Mibeko",
     bnavPricing: "Ntalo",
@@ -9271,9 +9423,9 @@ const I18N = {
     statusOnline: "Na ligne",
     statusOffline: "Na ligne ve",
     contentPolicyNote: "Bifwani ye bavideo: kaka bilele ya nsi to bilele ya kubenda meso (kina, twerk, sensuel, kubenda meso ndimama). Kima ya bwakabwaka ve — kifwani to video — ke ndimama ve.",
-    vitrineHeroEyebrow: "Site ya vitrine",
-    vitrineHeroTitle: "Zaba <em>bametila</em> na beto",
-    vitrineHeroBody: "Kutala ya bantu yonso ya bametila ya Honeymoon. Zola, bika commentaire, ye zaba nsi-ntoto na bo.",
+    vitrineHeroEyebrow: "Buya ya mbote na Honeymoon",
+    vitrineHeroTitle: "Ba mfunu na nge, <em>bametila na beto ya métier</em>",
+    vitrineHeroBody: "Bametila ya kisalu mpe bo mezabanaka, bo mekipesa mpo na nge. Zola, pesa commentaire, zaba nsi-ntoto na bo.",
     vitrineHeroCta: "Kota",
     vitrineHeroTrustSuffix: "bametila ya kisalu",
     vitrineBack: "← Vutuka",
@@ -9288,6 +9440,7 @@ const I18N = {
     commentModerationError: "Commentaire na nge kele na mambu yina ndimama ve (matuka, mambu ya mbi). Nsweswe soba yo.",
     commentPosted: "Commentaire me basisama",
     commentRules: "Kisika ya ba commentaire ya luzitu: matuka ve, mambu ya mbi ve.",
+    commentsCommunityTitle: "Lisanga ya Honeymoon",
     adminForgotNeedEmail: "Tula ntete email na nge na zulu.",
     adminForgotSent: "Lien ya kubongisa diaka etindami na {email}. Tala email na nge.",
     applicationsNoneYet: "Demande ata mosi ve tii bubu yayi.",
@@ -9304,6 +9457,7 @@ const I18N = {
     applyErrChecks: "Sola ba cases tatu mpo na kutinda demande na nge.",
     applyErrFillRequired: "Fulusa bisika yonso ya lukumunu.",
     applyIntro: "Formulaire yayi efungwami sambu na bantu yonso. Fulusa yo, ekutindama mbala mosi na équipe ya Honeymoon — mbongo ve, kutinda ve.",
+    applyBusinessPitch: "Kukota na Honeymoon kele kuyantika mombongo na nge mosi : ke tambwisaka kisalu na nge bonso muntu ke salaka bima ya yandi mosi ye auto-entrepreneuse, na ntangu na nge ye na ba condition na nge.",
     applyLegalText: "Honeymoon ke sala ye contrat ya kusadisana (ve ya kaka kibeni ve soki contrat ya nkaka): contenu ya kundima kele kaka bilele ya nsi / bilele ya kubenda meso / madansa ya zola — contenu ya kikonta ndima ve na plateforme yayi. Mpo na contenu yonso ya kufuta yina tekami, bukabani kele 60% mpo na muyantiki mpe 40% mpo na Honeymoon mpo na kutwadisa plateforme. Kutala bonkaka ye mvu (mvu 18 na se ve) kele mfunu ntete ya kubasisa konso kima. Contrat mobimba ke monisama mpe ke signama na internet soki demande na nge ke ndimama.",
     applyLegalTitle: "Ba condition ya site",
     applyMotivationLabel: "Sambu na nki nge zolaka kukota Honeymoon?",
@@ -9502,6 +9656,8 @@ const I18N = {
     visitorBadgeLabel: "Muwizi",
     chatRulesBanner: "⚠️ Kisika ya kusolula na luzitu: kufinga kekondimama ve. Kukabula ba détails ya muntu (nimero ya telefone, réseaux sociaux, email) kekondimama ve na plateforme mpe lenda basisa etumbu. Kusolula kele ya kimpwanza : bisolo bo me pesama kele kaka bangindu, kele ve kifu.",
     chatReportMessage: "Zabisa message yayi na équipe",
+    chatDeleteMessage: "Longola message yayi",
+    chatDeleteMessageConfirm: "Olingi kolongola message yayi libela?",
     bnav2257: "Nsangu 2257",
     bnavCgu: "Bansiku",
     bnavPricing: "Ntalu",
@@ -10022,6 +10178,17 @@ function getFollowerTier(count){
   for(const tr of FOLLOWER_TIERS){ if(count >= tr.min) tier = tr; }
   return tier;
 }
+// Détecte si la créatrice vient de franchir un nouveau palier de popularité depuis la
+// dernière fois qu'elle a ouvert cet onglet sur cet appareil (mémorisé en local) — sert à
+// lui suggérer de publier un contenu exclusif pour remercier ses abonné(e)s.
+function checkFollowerTierNudge(profileId, tier){
+  const key = 'hm_seen_tier_' + profileId;
+  let lastSeen = -1;
+  try{ const v = localStorage.getItem(key); if(v !== null) lastSeen = parseInt(v, 10); }catch(e){}
+  try{ localStorage.setItem(key, String(tier.level)); }catch(e){}
+  if(lastSeen >= 0 && tier.level > lastSeen) return tier;
+  return null;
+}
 function followerBadgeHtml(count){
   const tier = getFollowerTier(count);
   return `<span class="follower-badge" style="background:${tier.color};" title="${count || 0}">${count || 0}</span>`;
@@ -10187,7 +10354,10 @@ async function syncProfilesFromFirestore(){
           tipMenu: data.tipMenu || m.tipMenu || [],
           tipMenuRules: data.tipMenuRules || m.tipMenuRules || '',
           publicIntro: data.publicIntro || m.publicIntro || '',
-          creatorContractSignature: data.creatorContractSignature || m.creatorContractSignature
+          creatorContractSignature: data.creatorContractSignature || m.creatorContractSignature,
+          eventBanner: data.eventBanner || null,
+          welcomeMessage: data.welcomeMessage || '',
+          welcomeAudioUrl: data.welcomeAudioUrl || ''
         });
         changed = true;
 
@@ -10369,12 +10539,12 @@ function renderMyProfile(slotId){
 
     <div class="my-tab-panel" id="my-tab-panel-members">
       <h2 class="display" style="font-size:19px;">${t('membersViewerTitle')}</h2>
-      <p style="color:var(--text-muted);font-size:12.5px;max-width:460px;margin-top:8px;line-height:1.65;">${t('myMembersTabNote')}</p>
+      <p style="color:var(--text-muted);font-size:12.5px;max-width:460px;margin-top:6px;line-height:1.5;">${t('myMembersTabNote')}</p>
       <div class="my-members-filter-row">
         <button type="button" class="audio-mode-btn my-members-filter-btn active" data-filter="all">${t('myMembersFilterAll')}</button>
         <button type="button" class="audio-mode-btn my-members-filter-btn" data-filter="favorites">⭐ ${t('myMembersFilterFavorites')}</button>
       </div>
-      <div id="my-members-zone" style="margin-top:16px;max-width:460px;"></div>
+      <div id="my-members-zone" style="margin-top:10px;max-width:460px;"></div>
     </div>
 
     <div class="my-tab-panel" id="my-tab-panel-comments">
@@ -11171,12 +11341,16 @@ function renderMyTools(m){
       <button class="room-tab-btn" data-tool="calc">${ICON_CALC}${t('toolCalc')}</button>
       <button class="room-tab-btn" data-tool="finance">${ICON_COIN}${t('toolFinance')}</button>
       <button class="room-tab-btn" data-tool="advice">${ICON_CHAT}${t('toolAdvice')}</button>
+      <button class="room-tab-btn" data-tool="banner">${ICON_GIFT}${t('toolBanner')}</button>
+      <button class="room-tab-btn" data-tool="ideas">💡${t('toolIdeas')}</button>
     </div>
     <div class="room-tab-panel active" id="tool-panel-calendar"></div>
     <div class="room-tab-panel" id="tool-panel-notes"></div>
     <div class="room-tab-panel" id="tool-panel-calc"></div>
     <div class="room-tab-panel" id="tool-panel-finance"></div>
     <div class="room-tab-panel" id="tool-panel-advice"></div>
+    <div class="room-tab-panel" id="tool-panel-banner"></div>
+    <div class="room-tab-panel" id="tool-panel-ideas"></div>
   `;
   zone.querySelectorAll('#tools-tabs .room-tab-btn').forEach(btn => {
     btn.onclick = () => {
@@ -11192,6 +11366,8 @@ function renderMyTools(m){
   renderToolCalc(m);
   renderToolFinance(m);
   renderToolAdvice(m);
+  renderToolBanner(m);
+  renderToolIdeas(m);
 }
 
 /* ---------------- Calendrier ---------------- */
@@ -11631,6 +11807,266 @@ async function showCurrencyComparison(baseCode){
     console.error('currency comparison error', e);
     box.innerHTML = `<span class="gallery-empty">${t('toolCurrencyError')}</span>`;
   }
+}
+
+/* ---------------- Widget générique d'import/enregistrement audio, réutilisé pour le message de
+   bienvenue et les bannières événementielles (chaque widget a son propre préfixe d'id). ---------------- */
+function audioRecorderWidgetHtml(prefix, existingUrl){
+  return `
+    <div class="audio-mode-tabs">
+      <button type="button" class="audio-mode-btn active" id="${prefix}-mode-upload">${t('paidAudioImport')}</button>
+      <button type="button" class="audio-mode-btn" id="${prefix}-mode-record">${t('paidAudioRecordNow')}</button>
+    </div>
+    <div id="${prefix}-upload-zone">
+      <div class="upload-drop" id="${prefix}-file-drop">
+        <span id="${prefix}-file-label">${t('paidAudioPrompt')}</span>
+        <input type="file" id="${prefix}-file-input" accept="audio/*">
+      </div>
+    </div>
+    <div id="${prefix}-record-zone" style="display:none;">
+      <div class="audio-record-box">
+        <button type="button" class="audio-record-btn" id="${prefix}-record-btn">${AICON.music}</button>
+        <p id="${prefix}-record-status" class="mono" style="font-size:11px;color:var(--text-muted);margin-top:8px;">${t('paidAudioRecordPrompt')}</p>
+        <audio id="${prefix}-record-preview" controls style="width:100%;margin-top:10px;display:${existingUrl ? 'block' : 'none'};height:32px;" ${existingUrl ? `src="${escAttr(existingUrl)}"` : ''}></audio>
+      </div>
+    </div>
+    ${existingUrl ? `<button type="button" class="btn btn-ghost btn-sm" id="${prefix}-clear-btn" style="margin-top:8px;">${t('audioClearBtn')}</button>` : ''}
+  `;
+}
+// onFileReady(file) est appelé avec le File choisi (import) ou enregistré (micro) ; le parent
+// s'occupe de l'upload vers Firebase Storage. onClear() est appelé si elle retire l'audio existant.
+function wireAudioRecorderWidget(prefix, onFileReady, onClear){
+  const uploadBtn = document.getElementById(prefix + '-mode-upload');
+  const recordBtn = document.getElementById(prefix + '-mode-record');
+  const uploadZone = document.getElementById(prefix + '-upload-zone');
+  const recordZone = document.getElementById(prefix + '-record-zone');
+  uploadBtn.onclick = () => {
+    uploadBtn.classList.add('active'); recordBtn.classList.remove('active');
+    uploadZone.style.display = 'block'; recordZone.style.display = 'none';
+  };
+  recordBtn.onclick = () => {
+    recordBtn.classList.add('active'); uploadBtn.classList.remove('active');
+    recordZone.style.display = 'block'; uploadZone.style.display = 'none';
+  };
+  document.getElementById(prefix + '-file-drop').onclick = () => document.getElementById(prefix + '-file-input').click();
+  document.getElementById(prefix + '-file-input').onchange = (e) => {
+    const f = e.target.files[0];
+    if(f){ document.getElementById(prefix + '-file-label').textContent = f.name; onFileReady(f); }
+  };
+  let mediaRecorder = null, chunks = [], recording = false, stream = null;
+  document.getElementById(prefix + '-record-btn').onclick = async () => {
+    const statusEl = document.getElementById(prefix + '-record-status');
+    const recBtn = document.getElementById(prefix + '-record-btn');
+    if(!recording){
+      try{
+        stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        chunks = [];
+        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.ondataavailable = (e) => { if(e.data.size > 0) chunks.push(e.data); };
+        mediaRecorder.onstop = () => {
+          const blob = new Blob(chunks, { type: 'audio/webm' });
+          const file = new File([blob], `enregistrement_${Date.now()}.webm`, { type: 'audio/webm' });
+          const preview = document.getElementById(prefix + '-record-preview');
+          preview.src = URL.createObjectURL(blob);
+          preview.style.display = 'block';
+          statusEl.textContent = t('paidAudioRecordDone');
+          stream.getTracks().forEach(tr => tr.stop());
+          onFileReady(file);
+        };
+        mediaRecorder.start();
+        recording = true;
+        recBtn.classList.add('recording');
+        statusEl.textContent = t('paidAudioRecording');
+      }catch(err){
+        console.error('mic access error', err);
+        toast(t('paidAudioMicError'));
+      }
+    } else {
+      mediaRecorder.stop();
+      recording = false;
+      recBtn.classList.remove('recording');
+    }
+  };
+  const clearBtn = document.getElementById(prefix + '-clear-btn');
+  if(clearBtn && onClear) clearBtn.onclick = onClear;
+}
+
+/* ---------------- Idées Honeymoon (professionnalisme, message de bienvenue, paliers, conseils) ----------------
+   Le message de bienvenue est stocké sur son propre document profil (champ welcomeMessage) et
+   déclenché automatiquement par wireRoomFollowButton quand un membre commence à la suivre —
+   aucune règle Firestore supplémentaire nécessaire. ---------------- */
+function renderToolIdeas(m){
+  const panel = document.getElementById('tool-panel-ideas');
+  if(!panel) return;
+  let pendingWelcomeAudioFile = null;
+  let welcomeAudioCleared = false;
+  panel.innerHTML = `
+    <div class="banner-active-card" style="border-color:var(--honey);">
+      <div class="banner-active-head">${t('ideasIntroTitle')}</div>
+      <p class="banner-active-text">${escText(t('ideasIntroBody'))}</p>
+    </div>
+
+    <div class="member-section-title" style="margin-top:20px;">${t('ideasWelcomeTitle')}</div>
+    <p style="color:var(--text-muted);font-size:11.5px;margin:6px 0 10px;line-height:1.6;">${t('ideasWelcomeNote')}</p>
+    <textarea id="ideas-welcome-message" maxlength="500" placeholder="${escAttr(t('ideasWelcomePh'))}">${escText(m.welcomeMessage || '')}</textarea>
+    <label style="margin-top:10px;">${t('ideasWelcomeAudioLabel')}</label>
+    ${audioRecorderWidgetHtml('ideas-welcome-audio', m.welcomeAudioUrl || '')}
+    <button type="button" class="btn btn-primary btn-sm" id="ideas-welcome-save-btn" style="margin-top:8px;">${t('ideasWelcomeSaveBtn')}</button>
+
+    <div class="member-section-title" style="margin-top:24px;">${t('ideasTierTitle')}</div>
+    <p style="color:var(--text-muted);font-size:11.5px;margin:6px 0 0;line-height:1.6;">${t('ideasTierBody')}</p>
+
+    <div class="member-section-title" style="margin-top:24px;">${t('ideasTipsTitle')}</div>
+    <p style="color:var(--text-muted);font-size:11px;margin:4px 0 10px;font-style:italic;">${t('ideasTipsNote')}</p>
+    <ul style="margin:0;padding-left:18px;color:var(--text);font-size:12.5px;line-height:1.9;">
+      <li>${escText(t('ideasTip1'))}</li>
+      <li>${escText(t('ideasTip2'))}</li>
+      <li>${escText(t('ideasTip3'))}</li>
+      <li>${escText(t('ideasTip4'))}</li>
+      <li>${escText(t('ideasTip5'))}</li>
+    </ul>
+  `;
+  wireAudioRecorderWidget('ideas-welcome-audio',
+    (file) => { pendingWelcomeAudioFile = file; welcomeAudioCleared = false; },
+    m.welcomeAudioUrl ? () => {
+      pendingWelcomeAudioFile = null; welcomeAudioCleared = true;
+      const preview = document.getElementById('ideas-welcome-audio-record-preview');
+      if(preview){ preview.style.display = 'none'; preview.removeAttribute('src'); }
+      toast(t('savedToast'));
+    } : null
+  );
+  const saveBtn = document.getElementById('ideas-welcome-save-btn');
+  saveBtn.onclick = async () => {
+    const text = document.getElementById('ideas-welcome-message').value.trim();
+    saveBtn.disabled = true;
+    try{
+      const update = { welcomeMessage: text.slice(0, 500) };
+      if(pendingWelcomeAudioFile){
+        const ref = storage.ref().child(`welcome_audio/${m.id}/${Date.now()}_${pendingWelcomeAudioFile.name}`);
+        await ref.put(pendingWelcomeAudioFile);
+        update.welcomeAudioUrl = await ref.getDownloadURL();
+      } else if(welcomeAudioCleared){
+        update.welcomeAudioUrl = firebase.firestore.FieldValue.delete();
+      }
+      await db.collection('profiles').doc(m.id).set(update, { merge: true });
+      m.welcomeMessage = update.welcomeMessage;
+      if(pendingWelcomeAudioFile) m.welcomeAudioUrl = update.welcomeAudioUrl;
+      if(welcomeAudioCleared) m.welcomeAudioUrl = '';
+      toast(t('ideasWelcomeSavedToast'));
+      renderToolIdeas(m);
+    }catch(e){ console.error('save welcome message error', e); toast(t('memberErrUnknown')); }
+    saveBtn.disabled = false;
+  };
+}
+
+/* ---------------- Bannière événement (anniversaire, Saint-Valentin, Noël, Nouvel An…) ----------------
+   Elle programme un message avec date + heure + durée d'affichage ; il apparaît alors en haut de
+   sa fiche publique pour inviter ses abonné(e)s à lui envoyer un cadeau. Stocké directement sur son
+   document profil (champ eventBanner) — elle a déjà le droit d'écrire sur son propre profil, donc
+   aucune règle Firestore supplémentaire n'est nécessaire. ---------------- */
+const BANNER_TEMPLATE_KEYS = ['birthday', 'valentine', 'christmas', 'newyear', 'custom'];
+const BANNER_TEMPLATE_EMOJI = { birthday: '🎂', valentine: '💘', christmas: '🎄', newyear: '🎆', custom: '✏️' };
+function formatBannerDate(ts){
+  if(!ts) return '';
+  const d = new Date(ts);
+  return `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')} · ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+}
+function renderToolBanner(m){
+  const panel = document.getElementById('tool-panel-banner');
+  if(!panel) return;
+  const banner = m.eventBanner || null;
+  const now = Date.now();
+  const isActive = !!(banner && banner.endAt && now < banner.endAt);
+  const isScheduled = !!(banner && banner.startAt && now < banner.startAt);
+  const now_d = new Date();
+  const todayStr = `${now_d.getFullYear()}-${String(now_d.getMonth() + 1).padStart(2, '0')}-${String(now_d.getDate()).padStart(2, '0')}`;
+  const nowTimeStr = `${String(now_d.getHours()).padStart(2, '0')}:${String(now_d.getMinutes()).padStart(2, '0')}`;
+  panel.innerHTML = `
+    <p style="color:var(--text-muted);font-size:11.5px;margin:0 0 12px;line-height:1.6;">${t('toolBannerNote')}</p>
+    ${banner && (isActive || isScheduled) ? `
+      <div class="banner-active-card">
+        <div class="banner-active-head">${isScheduled ? t('bannerActiveLabel') + ' — ' + formatBannerDate(banner.startAt) : t('bannerActiveLabel')}</div>
+        <p class="banner-active-text">${escText(banner.message || '')}</p>
+        <div class="banner-active-meta">${t('bannerActiveUntil')} ${formatBannerDate(banner.endAt)}</div>
+        <button type="button" class="btn btn-ghost btn-sm" id="banner-remove-btn">${t('bannerRemoveBtn')}</button>
+      </div>
+    ` : ''}
+    <div class="banner-template-row">
+      ${BANNER_TEMPLATE_KEYS.map(key => `<button type="button" class="banner-template-btn" data-key="${key}">${BANNER_TEMPLATE_EMOJI[key]} ${t('bannerTemplateLabel_' + key)}</button>`).join('')}
+    </div>
+    <label>${t('bannerMessageLabel')}</label>
+    <textarea id="banner-message" maxlength="280" placeholder="${escAttr(t('bannerMessagePh'))}"></textarea>
+    <div class="apply-toggle-row" style="gap:10px;margin-top:10px;">
+      <div style="flex:1;">
+        <label>${t('bannerDateLabel')}</label>
+        <input type="date" id="banner-date" class="comment-name-input" style="width:100%;" value="${todayStr}">
+      </div>
+      <div style="flex:1;">
+        <label>${t('bannerTimeLabel')}</label>
+        <input type="time" id="banner-time" class="comment-name-input" style="width:100%;" value="${nowTimeStr}">
+      </div>
+    </div>
+    <label>${t('bannerDurationLabel')}</label>
+    <select id="banner-duration" class="comment-name-input" style="width:100%;">
+      <option value="1">${t('bannerDuration1Day')}</option>
+      <option value="3" selected>${t('bannerDuration3Days')}</option>
+      <option value="7">${t('bannerDuration7Days')}</option>
+      <option value="14">${t('bannerDuration14Days')}</option>
+    </select>
+    <label style="margin-top:10px;">${t('bannerAudioLabel')}</label>
+    ${audioRecorderWidgetHtml('banner-audio', '')}
+    <button type="button" class="btn btn-primary btn-sm" id="banner-publish-btn" style="margin-top:12px;">${ICON_GIFT} ${t('bannerPublishBtn')}</button>
+  `;
+  let pendingBannerAudioFile = null;
+  wireAudioRecorderWidget('banner-audio', (file) => { pendingBannerAudioFile = file; }, null);
+  panel.querySelectorAll('.banner-template-btn').forEach(btn => {
+    btn.onclick = () => {
+      const key = btn.dataset.key;
+      const ta = document.getElementById('banner-message');
+      if(key !== 'custom'){ ta.value = t('bannerTemplate_' + key); }
+      else { ta.value = ''; ta.focus(); }
+    };
+  });
+  const removeBtn = document.getElementById('banner-remove-btn');
+  if(removeBtn){
+    removeBtn.onclick = async () => {
+      if(!confirm(t('bannerRemoveConfirm'))) return;
+      removeBtn.disabled = true;
+      try{
+        await db.collection('profiles').doc(m.id).set({ eventBanner: firebase.firestore.FieldValue.delete() }, { merge: true });
+        m.eventBanner = null;
+        toast(t('savedToast'));
+        renderToolBanner(m);
+      }catch(e){ console.error('remove banner error', e); toast(t('memberErrUnknown')); }
+      removeBtn.disabled = false;
+    };
+  }
+  const publishBtn = document.getElementById('banner-publish-btn');
+  publishBtn.onclick = async () => {
+    const message = document.getElementById('banner-message').value.trim();
+    const dateVal = document.getElementById('banner-date').value;
+    const timeVal = document.getElementById('banner-time').value;
+    const days = parseInt(document.getElementById('banner-duration').value, 10) || 3;
+    if(!message){ toast(t('bannerMessageRequired')); return; }
+    if(!dateVal || !timeVal){ toast(t('bannerDateRequired')); return; }
+    const startAt = new Date(`${dateVal}T${timeVal}`).getTime();
+    if(isNaN(startAt)){ toast(t('bannerDateRequired')); return; }
+    const endAt = startAt + days * 24 * 60 * 60 * 1000;
+    publishBtn.disabled = true;
+    try{
+      const eventBanner = { message: message.slice(0, 280), startAt, endAt };
+      if(pendingBannerAudioFile){
+        const ref = storage.ref().child(`banner_audio/${m.id}/${Date.now()}_${pendingBannerAudioFile.name}`);
+        await ref.put(pendingBannerAudioFile);
+        eventBanner.audioUrl = await ref.getDownloadURL();
+      }
+      await db.collection('profiles').doc(m.id).set({ eventBanner }, { merge: true });
+      m.eventBanner = eventBanner;
+      toast(t('bannerPublishedToast'));
+      renderToolBanner(m);
+    }catch(e){ console.error('publish banner error', e); toast(t('memberErrUnknown')); }
+    publishBtn.disabled = false;
+  };
 }
 
 /* ---------------- Conseils (chatbot à sujets, style WhatsApp) ----------------
@@ -13305,13 +13741,29 @@ document.getElementById('private-access-link').onclick = () => {
 document.getElementById('report-backdrop').onclick = closeReportModal;
 
 /* ---------------- menu burger ---------------- */
+let burgerClockInterval = null;
+function updateBurgerClock(){
+  const el = document.getElementById('burger-panel-clock');
+  if(!el) return;
+  const now = new Date();
+  const hh = String(now.getHours()).padStart(2, '0');
+  const mm = String(now.getMinutes()).padStart(2, '0');
+  const dd = String(now.getDate()).padStart(2, '0');
+  const mo = String(now.getMonth() + 1).padStart(2, '0');
+  const yy = now.getFullYear();
+  el.textContent = `${hh}:${mm} · ${dd}/${mo}/${yy}`;
+}
 function openBurgerMenu(){
   document.getElementById('burger-backdrop').classList.add('open');
   document.getElementById('burger-panel').classList.add('open');
+  updateBurgerClock();
+  if(burgerClockInterval) clearInterval(burgerClockInterval);
+  burgerClockInterval = setInterval(updateBurgerClock, 1000);
 }
 function closeBurgerMenu(){
   document.getElementById('burger-backdrop').classList.remove('open');
   document.getElementById('burger-panel').classList.remove('open');
+  if(burgerClockInterval){ clearInterval(burgerClockInterval); burgerClockInterval = null; }
 }
 document.getElementById('burger-menu-btn').onclick = openBurgerMenu;
 document.getElementById('burger-close-btn').onclick = closeBurgerMenu;
@@ -14299,7 +14751,7 @@ function renderChatMessages(ctx, convRef, unreadField){
       <div class="dm-bubble-row ${mine ? 'mine' : 'theirs'}">
         <div class="dm-sender-row">${avatarHtml}${nameHtml}</div>
         <div class="dm-bubble-wrap">
-          <div class="dm-bubble" data-docid="${docSnap.id}">${escText(m.text || '')}</div>
+          <div class="dm-bubble" data-docid="${docSnap.id}">${m.audioUrl ? `<audio controls src="${escAttr(m.audioUrl)}" style="width:220px;max-width:100%;height:34px;display:block;"></audio>${m.text ? `<div style="margin-top:6px;">${escText(m.text)}</div>` : ''}` : escText(m.text || '')}</div>
           <button type="button" class="dm-menu-btn" data-docid="${docSnap.id}" data-text="${escAttr(m.text || '')}">⋮</button>
         </div>
         <div class="dm-bubble-footer">
@@ -14525,7 +14977,10 @@ function openChatMessageMenu(e, docId, text){
   pop.className = 'dm-menu-popover';
   pop.style.top = (rect.bottom + window.scrollY + 4) + 'px';
   pop.style.left = Math.max(8, rect.left + window.scrollX - 100) + 'px';
-  pop.innerHTML = `<button type="button" id="dm-menu-report">🚩 ${t('chatReportMessage')}</button>`;
+  pop.innerHTML = `
+    <button type="button" id="dm-menu-report">🚩 ${t('chatReportMessage')}</button>
+    <button type="button" id="dm-menu-delete">🗑️ ${t('chatDeleteMessage')}</button>
+  `;
   document.body.appendChild(pop);
   pop.querySelector('#dm-menu-report').onclick = () => {
     pop.remove();
@@ -14534,6 +14989,16 @@ function openChatMessageMenu(e, docId, text){
       profile: chatCtx.creatorName || chatCtx.otherName || '',
       details: `${t('reportCommentPrefix')}: "${text}"`
     });
+  };
+  pop.querySelector('#dm-menu-delete').onclick = async () => {
+    pop.remove();
+    if(!chatCtx || !docId) return;
+    if(!confirm(t('chatDeleteMessageConfirm'))) return;
+    try{
+      const msgRef = chatDb(chatCtx.viewerType).collection('profiles').doc(chatCtx.profileId)
+        .collection('conversations').doc(chatCtx.memberUid).collection('messages').doc(docId);
+      await msgRef.delete();
+    }catch(e){ console.error('delete message error', e); toast(t('memberErrUnknown')); }
   };
   const dismiss = (ev) => { if(!pop.contains(ev.target)){ pop.remove(); document.removeEventListener('click', dismiss); } };
   setTimeout(() => document.addEventListener('click', dismiss), 0);
@@ -15019,6 +15484,29 @@ function playChatReceiveSound(){
   }catch(e){}
 }
 
+async function sendCreatorWelcomeMessage(profileId, memberUid, memberUsername, creatorName, text, audioUrl){
+  if(!text && !audioUrl) return;
+  try{
+    const convRef = memberDb.collection('profiles').doc(profileId).collection('conversations').doc(memberUid);
+    await convRef.collection('messages').add({
+      senderType: 'creator', text: (text || '').slice(0, 1000),
+      audioUrl: audioUrl || null,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      isWelcomeMessage: true
+    });
+    await convRef.set({
+      memberUid: memberUid, memberUsername: memberUsername || '', creatorName: creatorName || '',
+      lastMessageText: (text || (audioUrl ? '🎤' : '')).slice(0, 120), lastMessageAt: firebase.firestore.FieldValue.serverTimestamp(),
+      lastSenderType: 'creator', creatorTyping: false,
+      memberUnreadCount: firebase.firestore.FieldValue.increment(1)
+    }, { merge: true });
+    try{
+      await memberDb.collection('members').doc(memberUid).set({
+        conversationProfileIds: firebase.firestore.FieldValue.arrayUnion(profileId)
+      }, { merge: true });
+    }catch(e){ console.error('track conversationProfileIds error (welcome msg)', e); }
+  }catch(e){ console.error('send welcome message error', e); }
+}
 async function sendChatMessage(){
   if(!chatCtx) return;
   const input = document.getElementById('chat-input');
@@ -15148,8 +15636,12 @@ async function renderMyPopularity(m){
   try{
     if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
     if(memberAuth && !memberAuth.currentUser){ try{ await memberAuth.signInAnonymously(); }catch(e){} }
-    // Qui la suit : requête sur les membres dont followingCreators contient son id.
-    const followersSnap = await memberDb.collection('members').where('followingCreators', 'array-contains', m.id).get();
+    // Qui la suit : lecture de la sous-collection profiles/{id}/followers, alimentée par
+    // wireRoomFollowButton (le membre y écrit son propre doc en suivant). On NE PEUT PAS
+    // interroger directement la collection "members" par followingCreators array-contains :
+    // les règles Firestore interdisent la lecture d'un doc membre sauf si c'est lui-même
+    // ou s'il a rendu son profil public — jamais sur la base de qui il suit.
+    const followersSnap = await db.collection('profiles').doc(m.id).collection('followers').orderBy('followedAt', 'desc').get();
     const followingIds = m.followingMembers || [];
     let followingRows = [];
     if(followingIds.length > 0){
@@ -15157,7 +15649,15 @@ async function renderMyPopularity(m){
       followingRows = docs.filter(d => d.exists).map(d => ({ id: d.id, username: d.data().username || t('nameUndefined'), photoURL: d.data().photoURL || '' }));
     }
     const tier = getFollowerTier(m.followersCount);
+    const tierNudge = checkFollowerTierNudge(m.id, tier);
     zone.innerHTML = `
+      ${tierNudge ? `
+        <div class="banner-active-card" id="tier-nudge-card">
+          <div class="banner-active-head">🎉 ${t('tierLabel_' + tierNudge.key)}</div>
+          <p class="banner-active-text">${t('tierNudgeMessage')}</p>
+          <button type="button" class="btn btn-ghost btn-sm" id="tier-nudge-dismiss-btn">${t('tierNudgeDismissBtn')}</button>
+        </div>
+      ` : ''}
       <div class="popularity-summary">
         ${followerBadgeHtml(m.followersCount)}
         <span>${m.followersCount || 0} ${t('followersLabel')} — ${t('tierLabel_' + tier.key)}</span>
@@ -15181,6 +15681,11 @@ async function renderMyPopularity(m){
           </div>`).join('')}
       </div>
     `;
+    const tierNudgeDismissBtn = document.getElementById('tier-nudge-dismiss-btn');
+    if(tierNudgeDismissBtn) tierNudgeDismissBtn.onclick = () => {
+      const card = document.getElementById('tier-nudge-card');
+      if(card) card.remove();
+    };
   }catch(e){
     console.error('renderMyPopularity error', e);
     zone.innerHTML = `<span class="gallery-empty">${(LANG==='fr'?'Erreur : ':'Error: ')}${escText(e.message||String(e))}</span>`;
@@ -15588,6 +16093,7 @@ function renderApplyForm(){
   const body = document.getElementById('apply-modal-body');
   body.innerHTML = `
     <h3>${t('applyTitle')}</h3>
+    <p style="color:var(--rose);font-weight:600;font-size:13.5px;line-height:1.6;margin:2px 0 10px;">${t('applyBusinessPitch')}</p>
     <p class="member-note">${t('applyIntro')}</p>
 
     <label>${t('applyNameLabel')}</label>
@@ -16670,11 +17176,16 @@ function vitrineCardHtml(m){
         <div class="social-feed-scrim"></div>
         <span class="num-badge">${num}</span>
         <span class="status">${online ? t('statusOnline') : t('statusOffline')}</span>
-        <button type="button" class="card-report-btn" data-id="${m.id}" data-name="${escAttr(m.name || '')}" title="${escAttr(t('reportThisCreatorBtn'))}">${ICON_FLAG}</button>
-        <button type="button" class="card-fav-btn" data-id="${m.id}" title="${escAttr(t('memberFavoriteToggle'))}">${ICON_HEART_OUTLINE}</button>
       </div>
       <div class="model-body">
-        <div class="name-row"><h3>${escText(m.name) || t('nameUndefined')}</h3>${followerBadgeHtml(m.followersCount)}</div>
+        <div class="name-row">
+          <h3>${escText(m.name) || t('nameUndefined')}</h3>
+          <div class="name-row-right">
+            ${followerBadgeHtml(m.followersCount)}
+            <button type="button" class="card-fav-btn" data-id="${m.id}" title="${escAttr(t('memberFavoriteToggle'))}">${ICON_HEART_OUTLINE}</button>
+            <button type="button" class="card-report-btn" data-id="${m.id}" data-name="${escAttr(m.name || '')}" title="${escAttr(t('reportThisCreatorBtn'))}">⋮</button>
+          </div>
+        </div>
         <div class="meta">${escText(m.country || '—')}</div>
         <div class="tags">
           <span class="vtag">${ICON_CAMERA}${photoCount}</span>
@@ -16929,6 +17440,14 @@ async function openVitrineRoom(id, isBackgroundRefresh){
       <div class="room-follower-count"><span id="room-follower-badge">${followerBadgeHtml(m.followersCount)}</span> ${m.followersCount || 0} ${t('followersLabel')}</div>
     </div>
     <button type="button" class="room-chat-cta room-chat-btn" data-id="${m.id}">${ICON_CHAT_SM} ${t('chatStartBtn')}</button>
+    ${(m.eventBanner && m.eventBanner.endAt && Date.now() < m.eventBanner.endAt && Date.now() >= (m.eventBanner.startAt || 0)) ? `
+    <div class="room-event-banner">
+      <div style="flex:1;">
+        <span class="room-event-banner-text">${escText(m.eventBanner.message || '')}</span>
+        ${m.eventBanner.audioUrl ? `<audio controls src="${escAttr(m.eventBanner.audioUrl)}" style="width:100%;max-width:260px;height:34px;margin-top:8px;display:block;"></audio>` : ''}
+      </div>
+      <button type="button" class="room-event-banner-cta room-chat-btn" data-id="${m.id}">${t('bannerViewerCta')}</button>
+    </div>` : ''}
     ${publicIntro ? `<div class="room-intro-card"><p class="room-intro-line">${escText(publicIntro)}</p></div>` : ''}
 
     <div class="my-tabs room-tabs">
@@ -17001,6 +17520,7 @@ async function openVitrineRoom(id, isBackgroundRefresh){
 
     <div class="my-tab-panel" id="room-tab-panel-chat">
       <div class="vitrine-comments">
+        <h4>${ICON_HEART_SM} ${t('commentsCommunityTitle')}</h4>
         <p class="comment-rules">${t('commentRules')}</p>
         <div class="comment-list" id="comment-list"><span class="gallery-empty">${t('commentEmpty')}</span></div>
         <div class="comment-form">
@@ -17068,8 +17588,8 @@ async function openVitrineRoom(id, isBackgroundRefresh){
   loadComments(m.id, m.name);
   const roomFavBtn = document.getElementById('vitrine-room-body').querySelector('.room-fav-btn[data-id]');
   if(roomFavBtn) roomFavBtn.onclick = () => toggleMemberFavorite(m.id);
-  const roomChatBtn = document.getElementById('vitrine-room-body').querySelector('.room-chat-btn[data-id]');
-  if(roomChatBtn) roomChatBtn.onclick = async () => {
+  document.getElementById('vitrine-room-body').querySelectorAll('.room-chat-btn[data-id]').forEach(roomChatBtn => {
+  roomChatBtn.onclick = async () => {
     if(!memberAuth || !memberAuth.currentUser || memberAuth.currentUser.isAnonymous){ promptSignupForMembersOnly('chat'); return; }
     const user = memberAuth.currentUser;
     let username = '';
@@ -17088,6 +17608,7 @@ async function openVitrineRoom(id, isBackgroundRefresh){
       otherName: m.name || t('nameUndefined'), otherPhoto: m.photo, myUxd, myPhoto
     });
   };
+  });
   initFavoriteButtonsState();
   wireRoomFollowButton(m);
   const tipMenuChatBtn = document.getElementById('vitrine-room-body').querySelector('.tipmenu-custom-chat-btn[data-id]');
@@ -17180,13 +17701,34 @@ async function wireRoomFollowButton(m){
     try{
       const memberRef = memberDb.collection('members').doc(user.uid);
       const creatorRef = db.collection('profiles').doc(m.id);
+      // Miroir de la relation d'abonnement dans profiles/{creatorId}/followers/{memberUid},
+      // écrit par le membre lui-même via memberDb (même schéma que les conversations) : la
+      // créatrice ne peut PAS interroger la collection "members" pour savoir qui la suit
+      // (règles Firestore : lecture d'un doc membre interdite sauf si c'est lui-même ou
+      // profil public), donc on lui fournit sa liste d'abonnés via cette sous-collection
+      // qu'elle a le droit de lire en entier.
+      const followerMirrorRef = memberDb.collection('profiles').doc(m.id).collection('followers').doc(user.uid);
       if(isFollowing){
         await memberRef.set({ followingCreators: firebase.firestore.FieldValue.arrayRemove(m.id) }, { merge: true });
         await creatorRef.set({ followersCount: firebase.firestore.FieldValue.increment(-1) }, { merge: true });
+        await followerMirrorRef.delete().catch(e => console.error('followers mirror delete error', e));
         m.followersCount = Math.max(0, (m.followersCount || 0) - 1);
       } else {
+        const memberSnap = await memberRef.get();
+        const memberData = memberSnap.exists ? memberSnap.data() : {};
         await memberRef.set({ followingCreators: firebase.firestore.FieldValue.arrayUnion(m.id) }, { merge: true });
         await creatorRef.set({ followersCount: firebase.firestore.FieldValue.increment(1) }, { merge: true });
+        await followerMirrorRef.set({
+          username: memberData.username || '',
+          photoURL: memberData.photoURL || '',
+          followedAt: firebase.firestore.FieldValue.serverTimestamp()
+        }).catch(e => console.error('followers mirror set error', e));
+        // Message de bienvenue automatique et gratuit, envoyé dans le chat au moment où
+        // le membre commence à suivre la créatrice — uniquement si elle en a configuré un
+        // (onglet Outils → Idées Honeymoon).
+        if(m.welcomeMessage || m.welcomeAudioUrl){
+          sendCreatorWelcomeMessage(m.id, user.uid, memberData.username || '', m.name || '', m.welcomeMessage, m.welcomeAudioUrl);
+        }
         m.followersCount = (m.followersCount || 0) + 1;
       }
       isFollowing = !isFollowing;
@@ -17741,16 +18283,16 @@ async function loadComments(profileId, creatorName){
       const text = c.text || '';
       const likedBy = c.likedBy || [];
       const isLiked = likedBy.includes(memberLikeKey());
+      const badgeHtml = c.isMember ? `<span class="comment-member-badge">${uxdShieldHtml(c.memberUxd)}</span>` : '';
       return `
         <div class="comment-card">
           <div class="comment-avatar">${escText(initials(c.name))}</div>
           <div class="comment-body">
-            <div class="comment-head"><span class="comment-name">${name}</span><span class="comment-date">${formatCommentDate(c.createdAt)}</span></div>
+            <div class="comment-head"><span class="comment-name">${name}${badgeHtml}</span><span class="comment-date">${formatCommentDate(c.createdAt)}</span></div>
             <div class="comment-text">${escText(text)}</div>
             <div style="display:flex;align-items:center;gap:14px;margin-top:6px;">
               <button type="button" class="comment-reply-btn" data-name="${escAttr(c.name || '')}">${t('commentReplyBtn')}</button>
-              <button type="button" class="comment-like-btn ${isLiked ? 'liked' : ''}" data-docid="${d.id}" data-profile="${profileId}">${ICON_THUMBSUP} ${likedBy.length > 0 ? likedBy.length : ''}</button>
-              <button type="button" class="comment-dislike-icon">${ICON_FROWN}</button>
+              <button type="button" class="comment-like-btn ${isLiked ? 'liked' : ''}" data-docid="${d.id}" data-profile="${profileId}">${ICON_HEART_SM} ${likedBy.length > 0 ? likedBy.length : ''}</button>
             </div>
           </div>
         </div>`;
@@ -17929,6 +18471,7 @@ document.getElementById('media-comments-backdrop').onclick = () => document.getE
 async function submitComment(profileId){
   const nameInput = document.getElementById('comment-name');
   const input = document.getElementById('comment-input');
+  const modeSel = document.getElementById('comment-name-mode');
   const name = nameInput.value.trim();
   const text = input.value.trim();
   if(!name){ toast(t('commentNameRequired')); nameInput.focus(); return; }
@@ -17942,9 +18485,22 @@ async function submitComment(profileId){
   try{
     if(!db) throw new Error('Firestore indisponible');
     if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
+    // Badge "membre" affiché à côté du nom dans la liste : uniquement quand l'auteur
+    // a choisi de commenter avec son pseudo de membre connecté (mode "member"),
+    // jamais en anonyme / visiteur / pseudo libre — ces derniers restent de simples
+    // invités, sans badge, comme demandé.
+    let commentExtra = {};
+    if(modeSel && modeSel.value === 'member' && memberAuth && memberAuth.currentUser){
+      try{
+        const memberSnap = await memberDb.collection('members').doc(memberAuth.currentUser.uid).get();
+        const uxd = (memberSnap.exists && memberSnap.data().uxd) || 0;
+        commentExtra = { isMember: true, memberUxd: uxd };
+      }catch(e){ /* pas bloquant : le commentaire part quand même, juste sans badge */ }
+    }
     await db.collection('profiles').doc(profileId).collection('comments').add({
       name: name.slice(0, 30),
       text: text.slice(0, 500),
+      ...commentExtra,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
     input.value = '';
