@@ -1830,7 +1830,6 @@ function renderMyProfile(slotId){
       </div>
       <div class="my-tabs" id="my-tabs-track-${m.id}">
         <button type="button" class="my-tab-btn" id="my-tab-btn-ideas">💡${t('toolIdeas')}</button>
-        <button type="button" class="my-tab-btn" id="my-tab-btn-popularity">⭐ ${t('myFamilyPopularity')}</button>
         <button type="button" class="my-tab-btn" id="my-tab-btn-tipmenu">🍯${t('tipMenuTabLabel')}</button>
         <button type="button" class="my-tab-btn active" id="my-tab-btn-content">${ICON_MY_CONTENT}${t('myFamilyContent')}</button>
         <button type="button" class="my-tab-btn" id="my-tab-btn-messages">${ICON_MY_MESSAGES}${t('myFamilyMessages')} <span class="creator-msg-badge" id="creator-msg-badge-${m.id}" style="display:none;"></span></button>
@@ -1904,12 +1903,6 @@ function renderMyProfile(slotId){
       <div id="my-ca-zone" style="margin-top:20px;"></div>
     </div>
 
-    <div class="my-tab-panel" id="my-tab-panel-popularity">
-      <h2 class="display" style="font-size:19px;">${t('myFamilyPopularity')}</h2>
-      <p style="color:var(--text-muted);font-size:12.5px;max-width:460px;margin-top:8px;line-height:1.65;">${t('popularityTabNote')}</p>
-      <div id="my-popularity-zone" style="margin-top:20px;max-width:460px;"></div>
-    </div>
-
     <div class="my-tab-panel" id="my-tab-panel-tipmenu">
       <h2 class="display" style="font-size:19px;">${t('tipMenuTabLabel')}</h2>
       <p style="color:var(--text-muted);font-size:12.5px;max-width:460px;margin-top:8px;line-height:1.65;">${t('tipMenuTabNote')}</p>
@@ -1931,7 +1924,7 @@ function renderMyProfile(slotId){
     </div>
   `;
 
-  const myTabs = ['ideas', 'content', 'messages', 'members', 'comments', 'ca', 'popularity', 'tipmenu', 'tools', 'rules'];
+  const myTabs = ['ideas', 'content', 'messages', 'members', 'comments', 'ca', 'tipmenu', 'tools', 'rules'];
   function showMyTab(name){
     myTabs.forEach(n => {
       document.getElementById('my-tab-panel-' + n).classList.toggle('active', n === name);
@@ -4680,13 +4673,10 @@ async function openMembersViewer(creatorId, creatorName){
         btn.disabled = true;
         try{
           const creatorRef = db.collection('profiles').doc(creatorId);
-          const memberRef = memberDb.collection('members').doc(uid);
           if(isFollowing){
             await creatorRef.set({ followingMembers: firebase.firestore.FieldValue.arrayRemove(uid) }, { merge: true });
-            await memberRef.set({ followersCount: firebase.firestore.FieldValue.increment(-1) }, { merge: true });
           } else {
             await creatorRef.set({ followingMembers: firebase.firestore.FieldValue.arrayUnion(uid) }, { merge: true });
-            await memberRef.set({ followersCount: firebase.firestore.FieldValue.increment(1) }, { merge: true });
           }
           isFollowing = !isFollowing;
           setState(isFollowing);
@@ -7481,13 +7471,10 @@ async function renderMyMembers(m, filter){
         const isFollowing = btn.classList.contains('following');
         try{
           const creatorRef = db.collection('profiles').doc(m.id);
-          const memberRef = memberDb.collection('members').doc(uid);
           if(isFollowing){
             await creatorRef.set({ followingMembers: firebase.firestore.FieldValue.arrayRemove(uid) }, { merge: true });
-            await memberRef.set({ followersCount: firebase.firestore.FieldValue.increment(-1) }, { merge: true });
           } else {
             await creatorRef.set({ followingMembers: firebase.firestore.FieldValue.arrayUnion(uid) }, { merge: true });
-            await memberRef.set({ followersCount: firebase.firestore.FieldValue.increment(1) }, { merge: true });
           }
           btn.classList.toggle('following', !isFollowing);
           btn.textContent = !isFollowing ? t('followingBtn') : t('followBtn');
