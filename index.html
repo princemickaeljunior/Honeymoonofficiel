@@ -1365,7 +1365,6 @@ img[data-hm-loaded], video[data-hm-loaded]{
   .tabs-slide-row{grid-column:1;}
   .my-tab-panel{grid-column:2;}
   .member-tabs{grid-column:1;margin-bottom:0;}
-  #member-tab-body{grid-column:2;}
   .room-tabs{grid-column:1;margin-top:0;}
 }
 </style>
@@ -14151,7 +14150,11 @@ function renderMemberHome(user, data, activeTab){
         </div>
       </div>
       <button type="button" class="modal-back-btn" id="member-tab-back-btn" style="display:none;">← <span>${t('backToMemberHome')}</span></button>
-      <div id="member-tab-body"></div>
+      <div class="my-tab-panel" id="member-tab-panel-popularity"></div>
+      <div class="my-tab-panel" id="member-tab-panel-profile"></div>
+      <div class="my-tab-panel" id="member-tab-panel-favorites"></div>
+      <div class="my-tab-panel" id="member-tab-panel-messages"></div>
+      <div class="my-tab-panel" id="member-tab-panel-purchases"></div>
       <div class="modal-actions" id="member-home-logout-row" style="margin-top:20px;">
         <button class="btn btn-ghost btn-sm" id="member-home-logout" style="flex:1;">${t('memberHomeLogout')}</button>
       </div>
@@ -14162,7 +14165,12 @@ function renderMemberHome(user, data, activeTab){
       document.getElementById('member-home-header').style.display = '';
       document.getElementById('member-home-logout-row').style.display = '';
       document.getElementById('member-tab-back-btn').style.display = 'none';
-      document.getElementById('member-tab-body').innerHTML = '';
+      MEMBER_TAB_NAMES.forEach(name => {
+        const btn = document.getElementById('member-tab-' + name);
+        if(btn) btn.classList.remove('active');
+        const panel = document.getElementById('member-tab-panel-' + name);
+        if(panel) panel.classList.remove('active');
+      });
     };
     ['popularity', 'profile', 'favorites', 'messages', 'purchases'].forEach(name => {
       document.getElementById('member-tab-' + name).onclick = () => switchMemberTab(user, data, name);
@@ -14174,6 +14182,8 @@ function renderMemberHome(user, data, activeTab){
   if(activeTab) switchMemberTab(user, data, activeTab);
 }
 
+let memberActiveTabPanelId = 'member-tab-panel-profile';
+const MEMBER_TAB_NAMES = ['popularity', 'profile', 'favorites', 'messages', 'purchases'];
 function switchMemberTab(user, data, activeTab){
   const header = document.getElementById('member-home-header');
   const logoutRow = document.getElementById('member-home-logout-row');
@@ -14181,10 +14191,13 @@ function switchMemberTab(user, data, activeTab){
   if(header) header.style.display = 'none';
   if(logoutRow) logoutRow.style.display = 'none';
   if(backBtn) backBtn.style.display = 'flex';
-  ['popularity', 'profile', 'favorites', 'messages', 'purchases'].forEach(name => {
+  MEMBER_TAB_NAMES.forEach(name => {
     const btn = document.getElementById('member-tab-' + name);
     if(btn) btn.classList.toggle('active', name === activeTab);
+    const panel = document.getElementById('member-tab-panel-' + name);
+    if(panel) panel.classList.toggle('active', name === activeTab);
   });
+  memberActiveTabPanelId = 'member-tab-panel-' + activeTab;
   // L'animation d'entrée est déclenchée à l'intérieur de chaque fonction de rendu
   // (via paintTabBody), au moment exact où le vrai contenu apparaît — pas ici,
   // sinon elle joue sur "Chargement…" et le vrai contenu apparaît ensuite sans
@@ -14198,8 +14211,12 @@ function switchMemberTab(user, data, activeTab){
 // Affiche le contenu d'un onglet ET (re)joue systématiquement la même animation
 // d'entrée douce, à chaque fois — comportement identique sur tous les onglets,
 // que le contenu vienne du cache (instantané) ou du réseau (après le chargement).
+// Cible désormais le panneau PROPRE à l'onglet actif (memberActiveTabPanelId) au lieu
+// d'un conteneur unique partagé — chaque onglet garde son propre panneau dans le DOM,
+// comme côté tableau de bord créatrice (showMyTab / .my-tab-panel), donc changer d'onglet
+// n'est plus jamais un aller-retour "page démontée puis reconstruite".
 function paintTabBody(html){
-  const el = document.getElementById('member-tab-body');
+  const el = document.getElementById(memberActiveTabPanelId);
   if(!el) return null;
   el.innerHTML = html;
   el.classList.remove('tab-fade-in');
