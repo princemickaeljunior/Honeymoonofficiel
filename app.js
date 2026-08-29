@@ -3993,7 +3993,7 @@ function openMyProfileEdit(m){
       document.getElementById('ed-drop-label').textContent = t('photoReplace');
     }catch(err){
       console.error('photo upload error', err);
-      toast(t('uploadFailed'));
+      toast(t('uploadFailed') + ' [' + (err && err.message || 'erreur inconnue') + ']');
       document.getElementById('ed-drop-label').textContent = t('photoPrompt');
     }
     photoUploading = false;
@@ -4410,7 +4410,7 @@ function openEdit(id){
       document.getElementById('ed-drop-label').textContent = t('photoReplace');
     }catch(err){
       console.error('photo upload error', err);
-      toast(LANG==='fr' ? "Échec de l'envoi de la photo." : 'Photo upload failed.');
+      toast((LANG==='fr' ? "Échec de l'envoi de la photo." : 'Photo upload failed.') + ' [' + (err && err.message || '?') + ']');
       document.getElementById('ed-drop-label').textContent = t('photoPrompt');
     }
     photoUploading = false;
