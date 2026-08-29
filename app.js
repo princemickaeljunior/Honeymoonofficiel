@@ -372,7 +372,7 @@ const I18N = {
     bannerViewerCta: "Envoyer un cadeau",
     tierNudgeMessage: "Pense à publier une vidéo exclusive pour remercier tes abonné(e)s de t'avoir aidée à franchir ce cap 💛",
     tierNudgeDismissBtn: "Compris",
-    toolIdeas: "Idées Honeymoon",
+    toolIdeas: "Business & Conseils Honeymoon",
     ideasIntroTitle: "Bienvenue dans ton espace pro",
     ideasIntroBody: "En rejoignant Honeymoon, tu lances ta propre activité : tu es une créatrice de contenu pour adultes indépendante et auto-entrepreneuse. C'est ton business — à toi de le faire vivre avec sérieux et professionnalisme envers tes abonné(e)s, pour qu'ils reviennent et te soutiennent. Ces idées viennent de la direction et de l'équipe Honeymoon, pour t'aider à en tirer le meilleur.",
     ideasWelcomeTitle: "Message de bienvenue automatique",
@@ -1193,7 +1193,7 @@ const I18N = {
     bannerViewerCta: "Send a gift",
     tierNudgeMessage: "Think about posting an exclusive video to thank your followers for helping you reach this milestone 💛",
     tierNudgeDismissBtn: "Got it",
-    toolIdeas: "Honeymoon Ideas",
+    toolIdeas: "Honeymoon Business & Advices",
     ideasIntroTitle: "Welcome to your pro space",
     ideasIntroBody: "By joining Honeymoon, you're launching your own business: you're an independent, self-employed adult content creator. This is your business — it's up to you to run it seriously and professionally with your followers, so they keep coming back and supporting you. These ideas come from Honeymoon's leadership and team, to help you get the most out of it.",
     ideasWelcomeTitle: "Automatic welcome message",
@@ -1822,6 +1822,7 @@ const I18N = {
     bnavPricing: "Pricing",
   },
   es: {
+    toolIdeas: "Negocio y Consejos Honeymoon",
     gateSub: 'Acceso privado',
     gateEnter: 'Entrar',
     gateNoteB: 'Nota técnica:',
@@ -2581,6 +2582,7 @@ const I18N = {
     ourCreatorsTitle: "Nuestras creadoras",
   },
   it: {
+    toolIdeas: "Business e Consigli Honeymoon",
     gateSub: "Accesso privato",
     gateEnter: "Entra",
     gateNoteB: "Nota tecnica:",
@@ -3340,6 +3342,7 @@ const I18N = {
     ourCreatorsTitle: "Le nostre creatrici",
   },
   pt: {
+    toolIdeas: "Negócio e Conselhos Honeymoon",
     gateSub: "Acesso privado",
     gateEnter: "Entrar",
     gateNoteB: "Nota técnica:",
@@ -4099,6 +4102,7 @@ const I18N = {
     ourCreatorsTitle: "As nossas criadoras",
   },
   sw: {
+    toolIdeas: "Biashara na Ushauri wa Honeymoon",
     gateSub: "Ufikiaji wa faragha",
     gateEnter: "Ingia",
     gateNoteB: "Kumbuka la kiufundi:",
@@ -4857,6 +4861,7 @@ const I18N = {
     ourCreatorsTitle: "Waundaji wetu",
   },
   zu: {
+    toolIdeas: "Ibhizinisi Nezeluleko ze-Honeymoon",
     gateSub: "Ukufinyelela okuyimfihlo",
     gateEnter: "Ngena",
     gateNoteB: "Inothi lezobuchwepheshe:",
@@ -5615,6 +5620,7 @@ const I18N = {
     ourCreatorsTitle: "Abadali bethu",
   },
   st: {
+    toolIdeas: "Kgwebo le Boeletsi ba Honeymoon",
     gateSub: "Phihlelo ya lekunutu",
     gateEnter: "Kena",
     gateNoteB: "Tlhaloso ya tekgeniki:",
@@ -6373,6 +6379,7 @@ const I18N = {
     ourCreatorsTitle: "Baetsi ba rona",
   },
   ln: {
+    toolIdeas: "Mombongo na Toli ya Honeymoon",
     gateSub: "Bokoti ya sekele",
     gateEnter: "Kota",
     gateNoteB: "Sango ya tekiniki:",
@@ -7131,6 +7138,7 @@ const I18N = {
     ourCreatorsTitle: "Bamokeli na biso",
   },
   kg: {
+    toolIdeas: "Mombongo na Malongi ya Honeymoon",
     gateSub: "Nzila ya kinsweki",
     gateEnter: "Kota",
     gateNoteB: "Nsangu ya tekiniki:",
@@ -13138,8 +13146,8 @@ function openChatMessageMenu(e, docId, text){
   pop.style.top = (rect.bottom + window.scrollY + 4) + 'px';
   pop.style.left = Math.max(8, rect.left + window.scrollX - 100) + 'px';
   pop.innerHTML = `
-    <button type="button" id="dm-menu-report">🚩 ${t('chatReportMessage')}</button>
-    <button type="button" id="dm-menu-delete">🗑️ ${t('chatDeleteMessage')}</button>
+    <button type="button" id="dm-menu-report">${ICON_FLAG} ${t('chatReportMessage')}</button>
+    <button type="button" id="dm-menu-delete">${ICON_TRASH} ${t('chatDeleteMessage')}</button>
   `;
   document.body.appendChild(pop);
   pop.querySelector('#dm-menu-report').onclick = () => {
@@ -13352,6 +13360,8 @@ async function wireChatBot(ctx){
 
   let pendingWelcomeAudioFile = null, welcomeAudioCleared = false;
   let pendingBannerAudioFile = null, bannerAudioCleared = false;
+  const originalWelcomeMessage = profileData.autoWelcomeMessage || '';
+  const originalBannerMessages = JSON.parse(JSON.stringify(profileData.autoBannerMessages || []));
 
   const renderBotPanel = () => {
     const banners = profileData.autoBannerMessages || [];
@@ -13366,6 +13376,7 @@ async function wireChatBot(ctx){
       <label style="margin-top:10px;">${t('ideasWelcomeAudioLabel')}</label>
       ${audioRecorderWidgetHtml('chat-bot-welcome-audio', profileData.autoWelcomeAudioUrl || '')}
       <button type="button" class="btn btn-ghost btn-sm" id="chat-bot-welcome-save" style="margin-top:6px;">${t('memberSaveBtn')}</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="chat-bot-welcome-cancel" style="margin-top:6px;">${t('memberBioCancelBtn')}</button>
 
       <div class="bio-narrative-divider" style="margin:16px 0;"></div>
 
@@ -13403,6 +13414,7 @@ async function wireChatBot(ctx){
       <label style="margin-top:10px;">${t('bannerAudioLabel')}</label>
       ${audioRecorderWidgetHtml('chat-bot-banner-audio', profileData.autoBannerAudioUrl || '')}
       <button type="button" class="btn btn-primary btn-sm" id="chat-bot-banner-save" style="margin-top:8px;">${t('memberSaveBtn')}</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="chat-bot-banner-cancel" style="margin-top:8px;">${t('memberBioCancelBtn')}</button>
     `;
     panel.querySelectorAll('.chat-bot-welcome-template-btn').forEach(b => {
       b.onclick = () => {
@@ -13457,6 +13469,9 @@ async function wireChatBot(ctx){
         renderBotPanel();
       }catch(e){ console.error('save auto welcome error', e); toast(t('memberErrUnknown')); }
     };
+    document.getElementById('chat-bot-welcome-cancel').onclick = () => {
+      document.getElementById('chat-bot-welcome-text').value = originalWelcomeMessage;
+    };
     document.getElementById('chat-bot-banner-add').onclick = () => {
       profileData.autoBannerMessages = profileData.autoBannerMessages || [];
       profileData.autoBannerMessages.push('');
@@ -13497,6 +13512,10 @@ async function wireChatBot(ctx){
         toast(t('memberSavedToast'));
         renderBotPanel();
       }catch(e){ console.error('save banner error', e); toast(t('memberErrUnknown')); }
+    };
+    document.getElementById('chat-bot-banner-cancel').onclick = () => {
+      profileData.autoBannerMessages = JSON.parse(JSON.stringify(originalBannerMessages));
+      renderBotPanel();
     };
   };
   renderBotPanel();
