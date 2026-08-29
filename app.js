@@ -8633,8 +8633,6 @@ function renderMyProfile(slotId){
         <button type="button" class="my-tab-btn" id="my-tab-btn-tipmenu">🍯${t('tipMenuTabLabel')}</button>
         <button type="button" class="my-tab-btn active" id="my-tab-btn-content">${ICON_MY_CONTENT}${t('myFamilyContent')}</button>
         <button type="button" class="my-tab-btn" id="my-tab-btn-messages">${ICON_MY_MESSAGES}${t('myFamilyMessages')} <span class="creator-msg-badge" id="creator-msg-badge-${m.id}" style="display:none;"></span></button>
-        <button type="button" class="my-tab-btn" id="my-tab-btn-orderscustom">${ICON_GIFT}${t('ordersCustomTabLabel')} <span class="creator-msg-badge" id="creator-orders-custom-badge-${m.id}" style="display:none;"></span></button>
-        <button type="button" class="my-tab-btn" id="my-tab-btn-orderstip">🍯${t('ordersTipTabLabel')} <span class="creator-msg-badge" id="creator-orders-tip-badge-${m.id}" style="display:none;"></span></button>
         <button type="button" class="my-tab-btn" id="my-tab-btn-members">👥${t('membersViewerBtn')}</button>
         <button type="button" class="my-tab-btn" id="my-tab-btn-comments">${ICON_NOTE}${t('myFamilyComments')}</button>
         <button type="button" class="my-tab-btn" id="my-tab-btn-ca">${ICON_MY_CA}${t('myFamilyCA')}</button>
@@ -8681,18 +8679,6 @@ function renderMyProfile(slotId){
       <h2 class="display" style="font-size:19px;">${t('myMessagesTitle')}</h2>
       <p style="color:var(--text-muted);font-size:12.5px;max-width:460px;margin-top:8px;line-height:1.65;">${t('myMessagesNote')}</p>
       <div id="my-messages-zone" style="margin-top:20px;max-width:460px;"></div>
-    </div>
-
-    <div class="my-tab-panel" id="my-tab-panel-orderscustom">
-      <h2 class="display" style="font-size:19px;">${t('ordersCustomTabLabel')}</h2>
-      <p style="color:var(--text-muted);font-size:12.5px;max-width:460px;margin-top:8px;line-height:1.65;">${t('ordersCustomTabNote')}</p>
-      <div id="my-orders-custom-zone" style="margin-top:20px;max-width:460px;"></div>
-    </div>
-
-    <div class="my-tab-panel" id="my-tab-panel-orderstip">
-      <h2 class="display" style="font-size:19px;">${t('ordersTipTabLabel')}</h2>
-      <p style="color:var(--text-muted);font-size:12.5px;max-width:460px;margin-top:8px;line-height:1.65;">${t('ordersTipTabNote')}</p>
-      <div id="my-orders-tip-zone" style="margin-top:20px;max-width:460px;"></div>
     </div>
 
     <div class="my-tab-panel" id="my-tab-panel-members">
@@ -15056,7 +15042,7 @@ const ICON_ENVELOPE_HEART = '<svg width="16" height="16" viewBox="0 0 24 24" fil
 const ICON_ROCKET = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>';
 const ICON_MOBILE = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>';
 const ICON_EXTLINK = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>';
-const ICON_CHAT_SM = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>';
+const ICON_CHAT_SM = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:4px;"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>';
 const ICON_VIDEO = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>';
 const ICON_BIO = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
 const ICON_CART = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>';
@@ -15751,7 +15737,7 @@ async function openVitrineRoom(id, isBackgroundRefresh){
       <button type="button" class="my-tab-btn active" id="room-tab-btn-profile">${t('memberTabProfile')}</button>
       <button type="button" class="my-tab-btn" id="room-tab-btn-gallery">${t('galleryTitle')}</button>
       ${(m.tipMenu && m.tipMenu.length) ? `<button type="button" class="my-tab-btn" id="room-tab-btn-tipmenu">🍯 ${t('tipMenuTabLabel')}</button>` : ''}
-      <button type="button" class="my-tab-btn" id="room-tab-btn-chat">${t('commentsTitle')}</button>
+      <button type="button" class="my-tab-btn" id="room-tab-btn-chat">${t('commentsCommunityTitle')} ${escText(m.name || t('nameUndefined'))}</button>
     </div>
 
     <div class="my-tab-panel active" id="room-tab-panel-profile">
@@ -15817,7 +15803,7 @@ async function openVitrineRoom(id, isBackgroundRefresh){
 
     <div class="my-tab-panel" id="room-tab-panel-chat">
       <div class="vitrine-comments">
-        <h4>${ICON_HEART_SM} ${t('commentsCommunityTitle')}</h4>
+        <h4>${ICON_HEART_SM} ${t('commentsCommunityTitle')} ${escText(m.name || t('nameUndefined'))}</h4>
         <p class="comment-rules">${t('commentRules')}</p>
         <div class="comment-list" id="comment-list"><span class="gallery-empty">${t('commentEmpty')}</span></div>
         <div class="comment-form">
@@ -16041,7 +16027,7 @@ function closeVitrineRoom(){
 }
 
 /* ---------------- votes (like / dislike) ---------------- */
-const ICON_LIKE = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg>';
+const ICON_LIKE = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg>';
 const ICON_BOOKMARK = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>';
 const ICON_DISLIKE = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3z"/><path d="M17 2h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"/></svg>';
 const ICON_DOC = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>';
