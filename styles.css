@@ -493,10 +493,10 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .member-banner-warn{display:flex;align-items:center;justify-content:space-between;gap:10px;background:rgba(230,160,60,0.12);border:1px solid rgba(230,160,60,0.35);border-radius:10px;padding:10px 12px;font-size:11.5px;color:var(--honey);margin-bottom:14px;line-height:1.4;}
 .member-banner-warn button{flex-shrink:0;background:none;border:1px solid rgba(230,160,60,0.5);color:var(--honey);border-radius:8px;padding:6px 10px;font-size:11px;cursor:pointer;}
 .member-tabs{display:flex;gap:8px;margin-bottom:16px;border-bottom:1px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
-.member-tab{flex:0 0 auto;background:none;border:none;color:var(--text-muted);font-size:12.5px;font-weight:600;text-transform:uppercase;letter-spacing:.03em;padding:10px 12px;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;}
+.member-tab{flex:0 0 auto;background:none;border:none;color:var(--text-muted);font-size:12.5px;font-weight:600;text-transform:uppercase;letter-spacing:.03em;padding:10px 12px;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;position:relative;}
 .member-tab.active{color:var(--honey);border-bottom-color:var(--honey);}
-.member-tab-badge{background:var(--rose);color:#fff;font-size:9px;font-weight:700;min-width:15px;height:15px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;padding:0 4px;vertical-align:top;}
-.creator-msg-badge{background:var(--rose);color:#fff;font-size:10px;font-weight:700;min-width:16px;height:16px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;padding:0 4px;margin-left:4px;vertical-align:middle;}
+.member-tab-badge{background:var(--rose);color:#fff;font-size:9px;font-weight:700;min-width:15px;height:15px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;padding:0 4px;position:absolute;top:2px;right:2px;}
+.creator-msg-badge{background:var(--rose);color:#fff;font-size:10px;font-weight:700;min-width:16px;height:16px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;padding:0 4px;position:absolute;top:-6px;right:-6px;}
 .member-subtabs{display:flex;gap:6px;margin-bottom:14px;}
 .member-subtab{flex:1;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text-muted);font-size:11.5px;font-weight:600;padding:8px 4px;border-radius:8px;cursor:pointer;}
 .member-subtab.active{background:var(--honey);color:#1a1206;border-color:var(--honey);}
@@ -602,7 +602,7 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .tabs-arrows-row{display:flex;justify-content:flex-end;gap:8px;margin-bottom:6px;}
 .tabs-slide-row .my-tabs{margin-top:0;}
 .my-tabs::-webkit-scrollbar{display:none;}
-.my-tab-btn{flex-shrink:0;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text-muted);border-radius:999px;padding:9px 16px;font-size:12.5px;font-weight:600;white-space:nowrap;display:flex;align-items:center;gap:6px;}
+.my-tab-btn{flex-shrink:0;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text-muted);border-radius:999px;padding:9px 16px;font-size:12.5px;font-weight:600;white-space:nowrap;display:flex;align-items:center;gap:6px;position:relative;}
 .my-tab-btn.active{background:var(--honey);color:#1a1206;border-color:var(--honey);}
 .my-tab-panel{display:none;}
 .my-tab-panel.active{animation:tabFadeIn .22s cubic-bezier(.22,.68,0,1);}
@@ -631,7 +631,7 @@ img[data-hm-loaded], video[data-hm-loaded]{
   opacity: .85;
 }
 .room-support-block{display:flex;align-items:center;gap:14px;margin-top:10px;}
-.room-support-btn{padding:8px 18px;}
+.room-support-btn{padding:8px 18px;min-width:104px;text-align:center;}
 .room-follower-count{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-muted);}
 .room-intro-card{background:linear-gradient(135deg, var(--bg-elev-2), var(--bg-elev));border:1px solid var(--honey);border-radius:16px;padding:14px 16px;margin-top:14px;box-shadow:0 4px 16px rgba(0,0,0,0.25);}
 .room-intro-line{color:var(--text);font-size:13.5px;line-height:1.6;white-space:pre-wrap;}
