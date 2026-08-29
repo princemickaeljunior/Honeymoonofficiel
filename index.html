@@ -532,12 +532,16 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .member-purchase-status.pending{background:rgba(230,160,60,0.15);color:var(--honey);}
 .member-media-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(90px,1fr));gap:8px;}
 .member-media-grid img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:10px;display:block;background:var(--bg-elev-2);}
-.member-view-card{background:var(--bg-elev-2);border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:8px;}
-.member-view-head{display:flex;align-items:center;gap:8px;}
-.member-view-avatar{width:34px;height:34px;border-radius:50%;object-fit:cover;flex-shrink:0;}
-.member-view-avatar-fallback{background:var(--honey);color:#1a1206;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;}
-.member-view-name{font-weight:600;font-size:13px;}
-.member-view-loc{font-size:10.5px;color:var(--text-muted);}
+.member-view-card{background:var(--bg-elev-2);border:1px solid var(--border);border-radius:10px;padding:0;margin-bottom:6px;overflow:hidden;}
+.member-view-toggle{display:flex;align-items:center;gap:8px;width:100%;background:none;border:none;padding:8px 10px;text-align:left;}
+.member-view-avatar{width:30px;height:30px;border-radius:50%;object-fit:cover;flex-shrink:0;}
+.member-view-avatar-fallback{background:var(--honey);color:#1a1206;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.member-view-name{font-weight:600;font-size:12.5px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.member-view-chevron{flex-shrink:0;color:var(--text-muted);font-size:14px;transition:transform .15s ease;}
+.member-view-card.open .member-view-chevron{transform:rotate(90deg);}
+.member-view-details{display:none;padding:0 10px 10px;}
+.member-view-card.open .member-view-details{display:block;}
+.member-view-loc{font-size:10.5px;color:var(--text-muted);margin-bottom:6px;}
 .member-view-actions{display:flex;gap:6px;margin-top:8px;}
 .my-member-favorite-btn.is-favorite{background:var(--honey);color:#1a1206;border-color:var(--honey);}
 .my-members-filter-row{display:flex;gap:8px;margin-top:14px;max-width:280px;}
@@ -745,8 +749,14 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .chat-bot-panel{background:var(--bg-elev-2);border-bottom:1px solid var(--border);padding:12px 16px 16px;flex-shrink:0;}
 .chat-banner{
   flex-shrink:0;background:linear-gradient(90deg, var(--honey-deep), var(--honey));color:#1a1206;
-  font-size:12px;font-weight:700;text-align:center;padding:8px 14px;
+  font-size:12px;font-weight:700;text-align:center;padding:8px 14px;overflow:hidden;white-space:nowrap;
 }
+.chat-banner.scrolling{text-align:left;}
+.chat-banner.scrolling span{display:inline-block;padding-left:100%;animation-name:chatBannerScroll;animation-timing-function:linear;animation-iteration-count:infinite;}
+@keyframes chatBannerScroll{ 0%{ transform:translateX(0); } 100%{ transform:translateX(-100%); } }
+.chat-banner.blinking{animation:chatBannerBlink 1s steps(1) infinite;}
+@keyframes chatBannerBlink{ 0%,49%{ opacity:1; } 50%,100%{ opacity:0.35; } }
+.chat-banner #chat-banner-audio-btn{background:none;border:none;color:inherit;font-size:14px;vertical-align:-2px;margin-right:6px;padding:0;}
 .dm-bubble-wrap{display:flex;align-items:flex-end;gap:4px;}
 .chat-cart-btn{flex-shrink:0;background:var(--honey);color:#1a1206;border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;}
 .chat-cart-help-btn{flex-shrink:0;background:var(--bg-elev-2);border:1px solid var(--honey);color:var(--honey);border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;margin-right:6px;}
@@ -829,13 +839,13 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .chat-emoji-picker button{background:none;border:none;font-size:22px;padding:6px;border-radius:8px;}
 .chat-emoji-picker button:active{background:var(--bg-elev);}
 .chat-empty-note{color:var(--text-muted);font-size:12.5px;text-align:center;margin:auto;padding:20px;}
-.conv-list-row{display:flex;align-items:center;gap:12px;background:var(--bg-elev-2);border:1px solid var(--border);border-radius:16px;padding:10px 12px;margin-bottom:8px;text-align:left;width:100%;position:relative;box-shadow:0 2px 8px rgba(0,0,0,0.15);}
+.conv-list-row{display:flex;align-items:center;gap:12px;background:var(--bg-elev-2);border:1px solid var(--border);border-radius:16px;padding:10px 12px;margin-bottom:8px;text-align:left;width:100%;position:relative;box-shadow:0 2px 8px rgba(0,0,0,0.15);overflow:hidden;}
 .conv-list-row:active{background:var(--bg-elev);}
 .conv-list-avatar{width:46px;height:46px;border-radius:50%;overflow:hidden;flex-shrink:0;background:var(--bg-elev);display:flex;align-items:center;justify-content:center;font-size:16px;border:2px solid var(--border);}
 .conv-list-avatar img{width:100%;height:100%;object-fit:cover;}
-.conv-list-body{flex:1;min-width:0;}
-.conv-list-name{font-size:13px;font-weight:700;}
-.conv-list-preview{font-size:11.5px;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.conv-list-body{flex:1;min-width:0;overflow:hidden;}
+.conv-list-name{font-size:13px;font-weight:700;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.conv-list-preview{display:block;max-width:100%;font-size:11.5px;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .conv-unread-badge{background:var(--honey);color:#1a1206;font-size:10px;font-weight:700;border-radius:999px;min-width:18px;height:18px;display:flex;align-items:center;justify-content:center;padding:0 5px;flex-shrink:0;}
 .chat-nav-badge{background:var(--rose);color:#fff;font-size:10px;font-weight:700;border-radius:999px;min-width:16px;height:16px;display:inline-flex;align-items:center;justify-content:center;padding:0 4px;margin-left:4px;vertical-align:2px;}
 .apply-legal-box{background:var(--bg-elev-2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin:14px 0;}
@@ -1309,7 +1319,8 @@ img[data-hm-loaded], video[data-hm-loaded]{
   width:100%;flex:none;text-align:left;border-radius:10px;
   padding:12px 14px;border-bottom:none;white-space:normal;
   background:var(--bg-elev-2);border:1px solid var(--border);
-  transition:border-color .15s ease, background .15s ease;
+  transition:border-color .15s ease, background .15s ease, transform .1s ease;
+  touch-action:manipulation;-webkit-tap-highlight-color:transparent;
 }
 .my-tab-btn.active{background:var(--honey);color:#1a1206;border-color:var(--honey);}
 .member-tab.active{background:var(--honey);color:#1a1206;border-color:var(--honey);}
@@ -2275,6 +2286,11 @@ const I18N = {
     audioClearBtn: "Retirer l'audio",
     ideasWelcomeAudioLabel: "Message vocal (optionnel)",
     bannerAudioLabel: "Message vocal (optionnel)",
+    bannerColorBgLabel: "Couleur de fond",
+    bannerColorTextLabel: "Couleur du texte",
+    bannerScrollLabel: "Défilant",
+    bannerBlinkLabel: "Clignotant",
+    bannerScrollDurationLabel: "Durée du défilement (secondes)",
     toolCalendarPh: "Ajoute une note pour ce jour…",
     toolNotesPh: "Écris ce que tu veux ici…",
     toolCalcError: "Erreur",
@@ -2575,6 +2591,8 @@ const I18N = {
     memberPhotoDeleteConfirm: "Supprimer définitivement cette photo ?",
     memberPhotosVisibleLabel: "Rendre mes photos visibles par les créatrices",
     memberFavoritesNone: "Aucune créatrice en favori pour le moment. Appuie sur le ♡ sur une fiche pour l'ajouter.",
+    memberFavoritesHype: "✨ Tes coups de cœur, réunis ici — ne rate plus jamais leurs nouveautés.",
+    memberMessagesHype: "💬 Un message, une connexion. Elles adorent te lire.",
     memberFavoriteToggle: "Ajouter/retirer des favoris",
     memberFavoriteAdded: "Ajoutée à tes favoris.",
     memberFavoriteRemoved: "Retirée de tes favoris.",
@@ -3089,6 +3107,11 @@ const I18N = {
     audioClearBtn: "Remove audio",
     ideasWelcomeAudioLabel: "Voice message (optional)",
     bannerAudioLabel: "Voice message (optional)",
+    bannerColorBgLabel: "Background color",
+    bannerColorTextLabel: "Text color",
+    bannerScrollLabel: "Scrolling",
+    bannerBlinkLabel: "Blinking",
+    bannerScrollDurationLabel: "Scroll duration (seconds)",
     toolCalendarPh: "Add a note for this day…",
     toolNotesPh: "Write anything here…",
     toolCalcError: "Error",
@@ -3389,6 +3412,8 @@ const I18N = {
     memberPhotoDeleteConfirm: "Permanently delete this photo?",
     memberPhotosVisibleLabel: "Make my photos visible to creators",
     memberFavoritesNone: "No favorite creators yet. Tap ♡ on a profile to add one.",
+    memberFavoritesHype: "✨ Your favorites, all in one place — never miss what's new from them.",
+    memberMessagesHype: "💬 One message, one connection. They love hearing from you.",
     memberFavoriteToggle: "Add/remove from favorites",
     memberFavoriteAdded: "Added to your favorites.",
     memberFavoriteRemoved: "Removed from your favorites.",
@@ -9779,6 +9804,13 @@ function mockPurchaseNotice(){
 function esc(s){ return (s||'').replace(/[&<>"']/g, c => ({'&':'&lt;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 // fix: proper escape map
 function escText(s){ return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+// Sécurité en plus du CSS (ellipsis) : coupe le texte d'aperçu d'un message s'il est
+// trop long, pour qu'il ne dépasse jamais la bulle/ligne d'aperçu.
+function truncatePreview(s, max){
+  s = s || '';
+  max = max || 60;
+  return s.length > max ? s.slice(0, max).trimEnd() + '…' : s;
+}
 
 /* ---------------- language (menu déroulant, 12 langues) ---------------- */
 const LANGS_LIST = [
@@ -10490,6 +10522,7 @@ function renderMyProfile(slotId){
         <button type="button" class="level-arrow tabs-arrow-right" data-target="my-tabs-track-${m.id}">›</button>
       </div>
       <div class="my-tabs" id="my-tabs-track-${m.id}">
+        <button type="button" class="my-tab-btn" id="my-tab-btn-ideas">💡${t('toolIdeas')}</button>
         <button type="button" class="my-tab-btn" id="my-tab-btn-popularity">⭐${t('myFamilyPopularity')}</button>
         <button type="button" class="my-tab-btn" id="my-tab-btn-tipmenu">🍯${t('tipMenuTabLabel')}</button>
         <button type="button" class="my-tab-btn active" id="my-tab-btn-content">${ICON_MY_CONTENT}${t('myFamilyContent')}</button>
@@ -10502,6 +10535,25 @@ function renderMyProfile(slotId){
         <button type="button" class="my-tab-btn" id="my-tab-btn-tools">${ICON_MY_TOOLS}${t('myFamilyTools')}</button>
         <button type="button" class="my-tab-btn" id="my-tab-btn-rules">${ICON_MY_RULES}${t('myFamilyRules')}</button>
       </div>
+    </div>
+
+    <div class="my-tab-panel" id="my-tab-panel-ideas">
+      <h2 class="display" style="font-size:19px;">${t('toolIdeas')}</h2>
+      <div class="banner-active-card" style="border-color:var(--honey);margin-top:14px;max-width:520px;">
+        <div class="banner-active-head">${t('ideasIntroTitle')}</div>
+        <p class="banner-active-text">${escText(t('ideasIntroBody'))}</p>
+      </div>
+      <div class="member-section-title" style="margin-top:22px;">${t('ideasTierTitle')}</div>
+      <p style="color:var(--text-muted);font-size:11.5px;margin:6px 0 0;line-height:1.6;max-width:460px;">${t('ideasTierBody')}</p>
+      <div class="member-section-title" style="margin-top:24px;">${t('ideasTipsTitle')}</div>
+      <p style="color:var(--text-muted);font-size:11px;margin:4px 0 10px;font-style:italic;">${t('ideasTipsNote')}</p>
+      <ul style="margin:0;padding-left:18px;color:var(--text);font-size:12.5px;line-height:1.9;max-width:460px;">
+        <li>${escText(t('ideasTip1'))}</li>
+        <li>${escText(t('ideasTip2'))}</li>
+        <li>${escText(t('ideasTip3'))}</li>
+        <li>${escText(t('ideasTip4'))}</li>
+        <li>${escText(t('ideasTip5'))}</li>
+      </ul>
     </div>
 
     <div class="my-tab-panel active" id="my-tab-panel-content">
@@ -10586,7 +10638,7 @@ function renderMyProfile(slotId){
     </div>
   `;
 
-  const myTabs = ['content', 'messages', 'orderscustom', 'orderstip', 'members', 'comments', 'ca', 'popularity', 'tipmenu', 'tools', 'rules'];
+  const myTabs = ['ideas', 'content', 'messages', 'orderscustom', 'orderstip', 'members', 'comments', 'ca', 'popularity', 'tipmenu', 'tools', 'rules'];
   function showMyTab(name){
     myTabs.forEach(n => {
       document.getElementById('my-tab-panel-' + n).classList.toggle('active', n === name);
@@ -11341,16 +11393,12 @@ function renderMyTools(m){
       <button class="room-tab-btn" data-tool="calc">${ICON_CALC}${t('toolCalc')}</button>
       <button class="room-tab-btn" data-tool="finance">${ICON_COIN}${t('toolFinance')}</button>
       <button class="room-tab-btn" data-tool="advice">${ICON_CHAT}${t('toolAdvice')}</button>
-      <button class="room-tab-btn" data-tool="banner">${ICON_GIFT}${t('toolBanner')}</button>
-      <button class="room-tab-btn" data-tool="ideas">💡${t('toolIdeas')}</button>
     </div>
     <div class="room-tab-panel active" id="tool-panel-calendar"></div>
     <div class="room-tab-panel" id="tool-panel-notes"></div>
     <div class="room-tab-panel" id="tool-panel-calc"></div>
     <div class="room-tab-panel" id="tool-panel-finance"></div>
     <div class="room-tab-panel" id="tool-panel-advice"></div>
-    <div class="room-tab-panel" id="tool-panel-banner"></div>
-    <div class="room-tab-panel" id="tool-panel-ideas"></div>
   `;
   zone.querySelectorAll('#tools-tabs .room-tab-btn').forEach(btn => {
     btn.onclick = () => {
@@ -11366,8 +11414,6 @@ function renderMyTools(m){
   renderToolCalc(m);
   renderToolFinance(m);
   renderToolAdvice(m);
-  renderToolBanner(m);
-  renderToolIdeas(m);
 }
 
 /* ---------------- Calendrier ---------------- */
@@ -13300,6 +13346,30 @@ async function fetchVisibleMembersForCreator(creatorId){
   return { docs: Object.values(byId), chatMemberIds, followingMembers, favoriteMembers };
 }
 
+// Carte membre en accordéon : repliée par défaut (juste avatar + nom), la créatrice tape
+// dessus pour dérouler la bio/photos/actions — indispensable dès qu'il y a beaucoup de
+// membres (100, 1000…), une fiche entièrement dépliée pour chacun prendrait bien trop de place.
+function memberViewCardHtml(r, actionsHtml){
+  return `
+    <div class="member-view-card">
+      <button type="button" class="member-view-toggle">
+        ${r.photoURL ? `<img class="member-view-avatar" src="${escAttr(r.photoURL)}" loading="lazy" decoding="async">` : honeymoonLogoFallbackHtml('member-view-avatar')}
+        <span class="member-view-name">${escText(r.username)} ${r.isFav ? '♥' : ''} ${r.hasChatted ? '💬' : ''} ${followerBadgeHtml(r.followersCount)}</span>
+        <span class="member-view-chevron">›</span>
+      </button>
+      <div class="member-view-details">
+        ${r.location ? `<div class="member-view-loc">${escText(r.location)}</div>` : ''}
+        ${r.bio ? `<p class="member-view-bio">${escText(r.bio)}</p>` : ''}
+        ${r.photos.length ? `<div class="member-media-grid">${r.photos.map(p => `<img src="${escAttr(p)}" loading="lazy" decoding="async">`).join('')}</div>` : ''}
+        ${actionsHtml || ''}
+      </div>
+    </div>`;
+}
+function wireMemberViewCardToggles(container){
+  container.querySelectorAll('.member-view-toggle').forEach(btn => {
+    btn.onclick = () => btn.closest('.member-view-card').classList.toggle('open');
+  });
+}
 async function openMembersViewer(creatorId, creatorName){
   document.getElementById('members-viewer-title').textContent = t('membersViewerTitle') + (creatorName ? ' — ' + creatorName : '');
   const body = document.getElementById('members-viewer-body');
@@ -13333,20 +13403,10 @@ async function openMembersViewer(creatorId, creatorName){
       body.innerHTML = `<span class="gallery-empty">${t('membersViewerEmpty')}</span>`;
       return;
     }
-    body.innerHTML = rows.map(r => `
-      <div class="member-view-card">
-        <div class="member-view-head">
-          ${r.photoURL ? `<img class="member-view-avatar" src="${escAttr(r.photoURL)}" loading="lazy" decoding="async">` : honeymoonLogoFallbackHtml('member-view-avatar')}
-          <div style="flex:1;">
-            <div class="member-view-name">${escText(r.username)} ${r.isFav ? '♥' : ''} ${r.hasChatted ? '💬' : ''} ${followerBadgeHtml(r.followersCount)}</div>
-            ${r.location ? `<div class="member-view-loc">${escText(r.location)}</div>` : ''}
-          </div>
-          <button type="button" class="follow-btn creator-follow-member-btn" data-uid="${r.id}">${t('followBtn')}</button>
-        </div>
-        ${r.bio ? `<p class="member-view-bio">${escText(r.bio)}</p>` : ''}
-        ${r.photos.length ? `<div class="member-media-grid">${r.photos.map(p => `<img src="${escAttr(p)}" loading="lazy" decoding="async">`).join('')}</div>` : ''}
-      </div>
-    `).join('');
+    body.innerHTML = rows.map(r => memberViewCardHtml(r,
+      `<button type="button" class="follow-btn creator-follow-member-btn" data-uid="${r.id}">${t('followBtn')}</button>`
+    )).join('');
+    wireMemberViewCardToggles(body);
     // État initial des boutons "Suivre" (créatrice → membre).
     let followedByCreator = [];
     try{
@@ -13808,7 +13868,18 @@ function openMemberModal(initialTab){
     const cu = memberAuth.currentUser;
     if(!cu || cu.isAnonymous){ renderMemberLogin(); return; }
     loadMemberHome(cu, initialTab);
-  }).catch(() => renderMemberLogin());
+  }).catch((err) => {
+    // reload() fait un appel réseau vers Firebase pour rafraîchir la session ; s'il échoue
+    // (réseau lent, navigation privée qui restreint parfois l'accès au stockage...), ça ne
+    // veut PAS dire que le membre est déconnecté — juste que la vérification a échoué. Avant :
+    // on la traitait comme une déconnexion et on renvoyait directement au mot de passe, même
+    // pour un membre déjà connecté. Maintenant : on utilise la session encore en mémoire tant
+    // qu'elle existe, et on ne demande le mot de passe que s'il n'y en a vraiment aucune.
+    console.error('member session reload error', err);
+    const cu = memberAuth.currentUser;
+    if(cu && !cu.isAnonymous){ loadMemberHome(cu, initialTab); }
+    else { renderMemberLogin(); }
+  });
 }
 function closeMemberModal(){
   document.getElementById('member-backdrop').classList.remove('open');
@@ -14606,11 +14677,13 @@ async function renderMemberPopularityTab(user, data){
 function renderMemberFavoritesTab(user, data){
   const favIds = data.favorites || [];
   const favModels = favIds.map(id => (typeof roster !== 'undefined' ? roster.find(m => m.id === id) : null)).filter(Boolean);
+  const hypeLine = `<p class="member-welcome-line" style="margin:0 0 12px;">${t('memberFavoritesHype')}</p>`;
   if(!favModels.length){
-    paintTabBody(`<p class="member-note">${t('memberFavoritesNone')}</p>`);
+    paintTabBody(`${hypeLine}<p class="member-note">${t('memberFavoritesNone')}</p>`);
     return;
   }
   const tabBody = paintTabBody(`
+    ${hypeLine}
     <div class="member-favorites-list">
       ${favModels.map(m => `
         <button type="button" class="member-fav-row" data-id="${m.id}">
@@ -15110,18 +15183,50 @@ function wireChatModPanel(){
 }
 
 let chatBannerTimer = null;
+let chatBannerAudioEl = null;
 function stopChatBanner(){
   if(chatBannerTimer){ clearInterval(chatBannerTimer); chatBannerTimer = null; }
+  if(chatBannerAudioEl){ chatBannerAudioEl.pause(); chatBannerAudioEl = null; }
 }
-function startChatBanner(messages, intervalSec){
+function toggleChatBannerAudio(url){
+  if(chatBannerAudioEl && !chatBannerAudioEl.paused){ chatBannerAudioEl.pause(); return; }
+  if(!chatBannerAudioEl || chatBannerAudioEl.src !== url){ chatBannerAudioEl = new Audio(url); }
+  chatBannerAudioEl.play().catch(e => console.error('banner audio play error', e));
+}
+// opts : { intervalSec, bgColor, textColor, scroll, scrollDuration, blink, audioUrl }
+function startChatBanner(messages, opts){
+  opts = opts || {};
   stopChatBanner();
   const el = document.getElementById('chat-banner');
-  if(!el || !messages || !messages.length) { if(el) el.style.display = 'none'; return; }
+  if(!el) return;
+  if((!messages || !messages.length) && !opts.audioUrl){ el.style.display = 'none'; return; }
+  el.style.background = opts.bgColor || '';
+  el.style.color = opts.textColor || '';
+  el.classList.toggle('blinking', !!opts.blink);
+  el.classList.toggle('scrolling', !!opts.scroll);
   let i = 0;
-  const show = () => { el.textContent = messages[i % messages.length]; i++; };
+  const audioBtnHtml = opts.audioUrl ? `<button type="button" id="chat-banner-audio-btn">🔊</button>` : '';
+  const show = () => {
+    const msg = (messages && messages.length) ? messages[i % messages.length] : '';
+    el.innerHTML = opts.scroll && msg
+      ? `${audioBtnHtml}<span style="animation-duration:${Math.max(4, opts.scrollDuration || 10)}s;">${escText(msg)}</span>`
+      : `${audioBtnHtml}${escText(msg)}`;
+    i++;
+    const audioBtn = document.getElementById('chat-banner-audio-btn');
+    if(audioBtn) audioBtn.onclick = () => toggleChatBannerAudio(opts.audioUrl);
+  };
   show();
   el.style.display = 'block';
-  chatBannerTimer = setInterval(show, Math.max(3, intervalSec || 8) * 1000);
+  if(messages && messages.length > 1){
+    chatBannerTimer = setInterval(show, Math.max(3, opts.intervalSec || 8) * 1000);
+  }
+}
+function chatBannerOptsFromProfile(d){
+  return {
+    intervalSec: d.autoBannerIntervalSec, bgColor: d.autoBannerBgColor, textColor: d.autoBannerTextColor,
+    scroll: !!d.autoBannerScroll, scrollDuration: d.autoBannerScrollDuration, blink: !!d.autoBannerBlink,
+    audioUrl: d.autoBannerAudioUrl || ''
+  };
 }
 
 async function wireChatBot(ctx){
@@ -15140,8 +15245,8 @@ async function wireChatBot(ctx){
     try{
       const doc = await db.collection('profiles').doc(ctx.profileId).get();
       const d = doc.data() || {};
-      if(d.autoBannerMessages && d.autoBannerMessages.length){
-        startChatBanner(d.autoBannerMessages, d.autoBannerIntervalSec);
+      if((d.autoBannerMessages && d.autoBannerMessages.length) || d.autoBannerAudioUrl){
+        startChatBanner(d.autoBannerMessages || [], chatBannerOptsFromProfile(d));
       }
     }catch(e){ console.error('load banner (member view) error', e); }
     return;
@@ -15154,9 +15259,12 @@ async function wireChatBot(ctx){
     profileData = doc.data() || {};
   }catch(e){ console.error('load chat bot config error', e); }
 
-  if(profileData.autoBannerMessages && profileData.autoBannerMessages.length){
-    startChatBanner(profileData.autoBannerMessages, profileData.autoBannerIntervalSec);
+  if((profileData.autoBannerMessages && profileData.autoBannerMessages.length) || profileData.autoBannerAudioUrl){
+    startChatBanner(profileData.autoBannerMessages || [], chatBannerOptsFromProfile(profileData));
   }
+
+  let pendingWelcomeAudioFile = null, welcomeAudioCleared = false;
+  let pendingBannerAudioFile = null, bannerAudioCleared = false;
 
   const renderBotPanel = () => {
     const banners = profileData.autoBannerMessages || [];
@@ -15164,13 +15272,21 @@ async function wireChatBot(ctx){
     panel.innerHTML = `
       <label>${t('chatBotWelcomeLabel')}</label>
       <p class="member-note" style="margin:-2px 0 6px;">${t('chatBotWelcomeNote')}</p>
+      <div class="banner-template-row">
+        ${BANNER_TEMPLATE_KEYS.map(key => `<button type="button" class="banner-template-btn chat-bot-welcome-template-btn" data-key="${key}">${BANNER_TEMPLATE_EMOJI[key]} ${t('bannerTemplateLabel_' + key)}</button>`).join('')}
+      </div>
       <textarea id="chat-bot-welcome-text" rows="2" maxlength="300" placeholder="${escAttr(t('chatBotWelcomePh'))}">${escText(profileData.autoWelcomeMessage || '')}</textarea>
+      <label style="margin-top:10px;">${t('ideasWelcomeAudioLabel')}</label>
+      ${audioRecorderWidgetHtml('chat-bot-welcome-audio', profileData.autoWelcomeAudioUrl || '')}
       <button type="button" class="btn btn-ghost btn-sm" id="chat-bot-welcome-save" style="margin-top:6px;">${t('memberSaveBtn')}</button>
 
       <div class="bio-narrative-divider" style="margin:16px 0;"></div>
 
       <label>${t('chatBotBannerLabel')}</label>
       <p class="member-note" style="margin:-2px 0 6px;">${t('chatBotBannerNote')}</p>
+      <div class="banner-template-row">
+        ${BANNER_TEMPLATE_KEYS.map(key => `<button type="button" class="banner-template-btn chat-bot-banner-template-btn" data-key="${key}">${BANNER_TEMPLATE_EMOJI[key]} ${t('bannerTemplateLabel_' + key)}</button>`).join('')}
+      </div>
       <div id="chat-bot-banner-list">
         ${banners.map((b, i) => `
           <div style="display:flex;gap:6px;margin-bottom:6px;">
@@ -15179,16 +15295,79 @@ async function wireChatBot(ctx){
           </div>`).join('')}
       </div>
       <button type="button" class="btn btn-ghost btn-sm" id="chat-bot-banner-add">+ ${t('chatBotBannerAddBtn')}</button>
-      <label style="margin-top:12px;">${t('chatBotIntervalLabel')}</label>
+      <div class="apply-toggle-row" style="gap:10px;margin-top:12px;">
+        <div style="flex:1;">
+          <label>${t('bannerColorBgLabel')}</label>
+          <input type="color" id="chat-bot-banner-bgcolor" value="${escAttr(profileData.autoBannerBgColor || '#d4af37')}" style="width:100%;height:38px;border-radius:8px;border:1px solid var(--border);background:var(--bg-elev);">
+        </div>
+        <div style="flex:1;">
+          <label>${t('bannerColorTextLabel')}</label>
+          <input type="color" id="chat-bot-banner-textcolor" value="${escAttr(profileData.autoBannerTextColor || '#1a1206')}" style="width:100%;height:38px;border-radius:8px;border:1px solid var(--border);background:var(--bg-elev);">
+        </div>
+      </div>
+      <div class="apply-toggle-row" style="margin-top:10px;">
+        <button type="button" class="audio-mode-btn ${profileData.autoBannerScroll ? 'active' : ''}" id="chat-bot-banner-scroll-toggle">${t('bannerScrollLabel')}</button>
+        <button type="button" class="audio-mode-btn ${profileData.autoBannerBlink ? 'active' : ''}" id="chat-bot-banner-blink-toggle">${t('bannerBlinkLabel')}</button>
+      </div>
+      <label style="margin-top:10px;">${t('bannerScrollDurationLabel')}</label>
+      <input type="number" id="chat-bot-banner-scroll-duration" min="4" max="60" value="${profileData.autoBannerScrollDuration || 10}">
+      <label style="margin-top:10px;">${t('chatBotIntervalLabel')}</label>
       <input type="number" id="chat-bot-interval" min="3" max="120" value="${profileData.autoBannerIntervalSec || 8}">
+      <label style="margin-top:10px;">${t('bannerAudioLabel')}</label>
+      ${audioRecorderWidgetHtml('chat-bot-banner-audio', profileData.autoBannerAudioUrl || '')}
       <button type="button" class="btn btn-primary btn-sm" id="chat-bot-banner-save" style="margin-top:8px;">${t('memberSaveBtn')}</button>
     `;
+    panel.querySelectorAll('.chat-bot-welcome-template-btn').forEach(b => {
+      b.onclick = () => {
+        const key = b.dataset.key;
+        const ta = document.getElementById('chat-bot-welcome-text');
+        ta.value = key === 'custom' ? '' : t('bannerTemplate_' + key);
+        ta.focus();
+      };
+    });
+    panel.querySelectorAll('.chat-bot-banner-template-btn').forEach(b => {
+      b.onclick = () => {
+        const key = b.dataset.key;
+        profileData.autoBannerMessages = profileData.autoBannerMessages || [];
+        profileData.autoBannerMessages.push(key === 'custom' ? '' : t('bannerTemplate_' + key));
+        renderBotPanel();
+      };
+    });
+    wireAudioRecorderWidget('chat-bot-welcome-audio',
+      (file) => { pendingWelcomeAudioFile = file; welcomeAudioCleared = false; },
+      profileData.autoWelcomeAudioUrl ? () => {
+        pendingWelcomeAudioFile = null; welcomeAudioCleared = true;
+        const preview = document.getElementById('chat-bot-welcome-audio-record-preview');
+        if(preview){ preview.style.display = 'none'; preview.removeAttribute('src'); }
+      } : null
+    );
+    wireAudioRecorderWidget('chat-bot-banner-audio',
+      (file) => { pendingBannerAudioFile = file; bannerAudioCleared = false; },
+      profileData.autoBannerAudioUrl ? () => {
+        pendingBannerAudioFile = null; bannerAudioCleared = true;
+        const preview = document.getElementById('chat-bot-banner-audio-record-preview');
+        if(preview){ preview.style.display = 'none'; preview.removeAttribute('src'); }
+      } : null
+    );
+    document.getElementById('chat-bot-banner-scroll-toggle').onclick = (e) => e.currentTarget.classList.toggle('active');
+    document.getElementById('chat-bot-banner-blink-toggle').onclick = (e) => e.currentTarget.classList.toggle('active');
     document.getElementById('chat-bot-welcome-save').onclick = async () => {
       const text = document.getElementById('chat-bot-welcome-text').value.trim();
       try{
-        await db.collection('profiles').doc(ctx.profileId).set({ autoWelcomeMessage: text }, { merge: true });
+        const update = { autoWelcomeMessage: text };
+        if(pendingWelcomeAudioFile){
+          const ref = storage.ref().child(`welcome_audio/${ctx.profileId}/${Date.now()}_${pendingWelcomeAudioFile.name}`);
+          await ref.put(pendingWelcomeAudioFile);
+          update.autoWelcomeAudioUrl = await ref.getDownloadURL();
+        } else if(welcomeAudioCleared){
+          update.autoWelcomeAudioUrl = firebase.firestore.FieldValue.delete();
+        }
+        await db.collection('profiles').doc(ctx.profileId).set(update, { merge: true });
         profileData.autoWelcomeMessage = text;
+        if(pendingWelcomeAudioFile) profileData.autoWelcomeAudioUrl = update.autoWelcomeAudioUrl;
+        if(welcomeAudioCleared) profileData.autoWelcomeAudioUrl = '';
         toast(t('memberSavedToast'));
+        renderBotPanel();
       }catch(e){ console.error('save auto welcome error', e); toast(t('memberErrUnknown')); }
     };
     document.getElementById('chat-bot-banner-add').onclick = () => {
@@ -15205,12 +15384,31 @@ async function wireChatBot(ctx){
     document.getElementById('chat-bot-banner-save').onclick = async () => {
       const items = Array.from(panel.querySelectorAll('.chat-bot-banner-item')).map(inp => inp.value.trim()).filter(Boolean);
       const intervalSec = Math.max(3, parseInt(document.getElementById('chat-bot-interval').value, 10) || 8);
+      const scrollDuration = Math.max(4, parseInt(document.getElementById('chat-bot-banner-scroll-duration').value, 10) || 10);
+      const bgColor = document.getElementById('chat-bot-banner-bgcolor').value;
+      const textColor = document.getElementById('chat-bot-banner-textcolor').value;
+      const scroll = document.getElementById('chat-bot-banner-scroll-toggle').classList.contains('active');
+      const blink = document.getElementById('chat-bot-banner-blink-toggle').classList.contains('active');
       try{
-        await db.collection('profiles').doc(ctx.profileId).set({ autoBannerMessages: items, autoBannerIntervalSec: intervalSec }, { merge: true });
-        profileData.autoBannerMessages = items;
-        profileData.autoBannerIntervalSec = intervalSec;
-        startChatBanner(items, intervalSec);
+        const update = {
+          autoBannerMessages: items, autoBannerIntervalSec: intervalSec,
+          autoBannerBgColor: bgColor, autoBannerTextColor: textColor,
+          autoBannerScroll: scroll, autoBannerScrollDuration: scrollDuration, autoBannerBlink: blink
+        };
+        if(pendingBannerAudioFile){
+          const ref = storage.ref().child(`banner_audio/${ctx.profileId}/${Date.now()}_${pendingBannerAudioFile.name}`);
+          await ref.put(pendingBannerAudioFile);
+          update.autoBannerAudioUrl = await ref.getDownloadURL();
+        } else if(bannerAudioCleared){
+          update.autoBannerAudioUrl = firebase.firestore.FieldValue.delete();
+        }
+        await db.collection('profiles').doc(ctx.profileId).set(update, { merge: true });
+        Object.assign(profileData, update);
+        if(pendingBannerAudioFile) profileData.autoBannerAudioUrl = update.autoBannerAudioUrl;
+        if(bannerAudioCleared) profileData.autoBannerAudioUrl = '';
+        startChatBanner(items, chatBannerOptsFromProfile(profileData));
         toast(t('memberSavedToast'));
+        renderBotPanel();
       }catch(e){ console.error('save banner error', e); toast(t('memberErrUnknown')); }
     };
   };
@@ -15218,20 +15416,22 @@ async function wireChatBot(ctx){
   panel.classList.remove('open');
   btn.onclick = () => { panel.style.display = panel.classList.contains('open') ? 'none' : 'block'; panel.classList.toggle('open'); };
 
-  // Envoi automatique du message de bienvenue, max 4 fois par conversation.
-  if(profileData.autoWelcomeMessage){
+  // Envoi automatique du message de bienvenue (texte et/ou audio), max 4 fois par conversation.
+  if(profileData.autoWelcomeMessage || profileData.autoWelcomeAudioUrl){
     try{
       const convRef = db.collection('profiles').doc(ctx.profileId).collection('conversations').doc(ctx.memberUid);
       const convDoc = await convRef.get();
       const sentCount = (convDoc.exists && convDoc.data().autoWelcomeSentCount) || 0;
       if(sentCount < 4){
         await convRef.collection('messages').add({
-          senderType: 'creator', text: profileData.autoWelcomeMessage,
+          senderType: 'creator', text: profileData.autoWelcomeMessage || '',
+          audioUrl: profileData.autoWelcomeAudioUrl || null,
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
         await convRef.set({
           autoWelcomeSentCount: sentCount + 1,
-          lastMessageText: profileData.autoWelcomeMessage, lastMessageAt: firebase.firestore.FieldValue.serverTimestamp(),
+          lastMessageText: profileData.autoWelcomeMessage || (profileData.autoWelcomeAudioUrl ? '🎤' : ''),
+          lastMessageAt: firebase.firestore.FieldValue.serverTimestamp(),
           lastSenderType: 'creator', memberUid: ctx.memberUid,
           memberUnreadCount: firebase.firestore.FieldValue.increment(1)
         }, { merge: true });
@@ -15549,12 +15749,13 @@ document.getElementById('chat-input').addEventListener('keydown', (e) => {
 
 /* ---------------- liste des conversations : membre ---------------- */
 async function renderMemberMessagesTab(user, data){
+  const hypeLine = `<p class="member-welcome-line" style="margin:0 0 12px;">${t('memberMessagesHype')}</p>`;
   const paint = (rows) => {
     if(rows.length === 0){
-      paintTabBody(`<span class="gallery-empty">${t('chatNoConversations')}</span>`);
+      paintTabBody(`${hypeLine}<span class="gallery-empty">${t('chatNoConversations')}</span>`);
       return;
     }
-    const tabBody = paintTabBody(rows.map(({ profileId, c }) => {
+    const tabBody = paintTabBody(hypeLine + rows.map(({ profileId, c }) => {
       const m = (typeof roster !== 'undefined') ? roster.find(x => x.id === profileId) : null;
       const unread = c.memberUnreadCount || 0;
       return `
@@ -15562,7 +15763,7 @@ async function renderMemberMessagesTab(user, data){
           <span class="conv-list-avatar">${m && m.photo ? `<img src="${escAttr(m.photo)}" alt="" loading="lazy" decoding="async">` : '🙂'}</span>
           <span class="conv-list-body">
             <span class="conv-list-name">${escText((m && m.name) || c.creatorName || '—')}</span>
-            <span class="conv-list-preview">${escText(c.lastMessageText || '')}</span>
+            <span class="conv-list-preview">${escText(truncatePreview(c.lastMessageText))}</span>
           </span>
           ${unread ? `<span class="conv-unread-badge">${unread}</span>` : ''}
         </button>`;
@@ -15739,7 +15940,7 @@ async function renderMyMessages(m){
               ${hasCustomOrder ? `<span class="conv-order-dot conv-order-dot-custom" title="${escAttr(t('ordersCustomTabLabel'))}"></span>` : ''}
               ${hasTipOrder ? `<span class="conv-order-dot conv-order-dot-tip" title="${escAttr(t('ordersTipTabLabel'))}"></span>` : ''}
             </span>
-            <span class="conv-list-preview">${escText(c.lastMessageText || '')}</span>
+            <span class="conv-list-preview">${escText(truncatePreview(c.lastMessageText))}</span>
           </span>
           ${unread ? `<span class="conv-unread-badge">${unread}</span>` : ''}
         </button>`;
@@ -15892,23 +16093,13 @@ async function renderMyMembers(m, filter){
       zone.innerHTML = `<span class="gallery-empty">${filter === 'favorites' ? t('myMembersNoFavorites') : t('membersViewerEmpty')}</span>`;
       return;
     }
-    zone.innerHTML = rows.map(r => `
-      <div class="member-view-card">
-        <div class="member-view-head">
-          ${r.photoURL ? `<img class="member-view-avatar" src="${escAttr(r.photoURL)}" loading="lazy" decoding="async">` : honeymoonLogoFallbackHtml('member-view-avatar')}
-          <div style="flex:1;">
-            <div class="member-view-name">${escText(r.username)} ${r.isFav ? '♥' : ''} ${r.hasChatted ? '💬' : ''} ${followerBadgeHtml(r.followersCount)}</div>
-            ${r.location ? `<div class="member-view-loc">${escText(r.location)}</div>` : ''}
-          </div>
-        </div>
-        ${r.bio ? `<p class="member-view-bio">${escText(r.bio)}</p>` : ''}
-        ${r.photos.length ? `<div class="member-media-grid">${r.photos.map(p => `<img src="${escAttr(p)}" loading="lazy" decoding="async">`).join('')}</div>` : ''}
-        <div class="member-view-actions">
-          <button type="button" class="follow-btn my-member-follow-btn ${r.isFollowedByCreator ? 'following' : ''}" data-uid="${r.id}">${r.isFollowedByCreator ? t('followingBtn') : t('followBtn')}</button>
-          <button type="button" class="follow-btn my-member-favorite-btn ${r.isCreatorFavorite ? 'is-favorite' : ''}" data-uid="${r.id}">⭐ ${r.isCreatorFavorite ? t('myMembersUnfavoriteBtn') : t('myMembersFavoriteBtn')}</button>
-        </div>
+    zone.innerHTML = rows.map(r => memberViewCardHtml(r, `
+      <div class="member-view-actions">
+        <button type="button" class="follow-btn my-member-follow-btn ${r.isFollowedByCreator ? 'following' : ''}" data-uid="${r.id}">${r.isFollowedByCreator ? t('followingBtn') : t('followBtn')}</button>
+        <button type="button" class="follow-btn my-member-favorite-btn ${r.isCreatorFavorite ? 'is-favorite' : ''}" data-uid="${r.id}">⭐ ${r.isCreatorFavorite ? t('myMembersUnfavoriteBtn') : t('myMembersFavoriteBtn')}</button>
       </div>
-    `).join('');
+    `)).join('');
+    wireMemberViewCardToggles(zone);
     zone.querySelectorAll('.my-member-follow-btn').forEach(btn => {
       btn.onclick = async () => {
         btn.disabled = true;
@@ -17723,12 +17914,6 @@ async function wireRoomFollowButton(m){
           photoURL: memberData.photoURL || '',
           followedAt: firebase.firestore.FieldValue.serverTimestamp()
         }).catch(e => console.error('followers mirror set error', e));
-        // Message de bienvenue automatique et gratuit, envoyé dans le chat au moment où
-        // le membre commence à suivre la créatrice — uniquement si elle en a configuré un
-        // (onglet Outils → Idées Honeymoon).
-        if(m.welcomeMessage || m.welcomeAudioUrl){
-          sendCreatorWelcomeMessage(m.id, user.uid, memberData.username || '', m.name || '', m.welcomeMessage, m.welcomeAudioUrl);
-        }
         m.followersCount = (m.followersCount || 0) + 1;
       }
       isFollowing = !isFollowing;
