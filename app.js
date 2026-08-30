@@ -6638,7 +6638,7 @@ async function wireChatBot(ctx){
       <label style="margin-top:10px;">${t('ideasWelcomeAudioLabel')}</label>
       ${audioRecorderWidgetHtml('chat-bot-welcome-audio', profileData.autoWelcomeAudioUrl || '')}
       <button type="button" class="btn btn-ghost btn-sm" id="chat-bot-welcome-save" style="margin-top:6px;">${t('memberSaveBtn')}</button>
-      <button type="button" class="btn btn-ghost btn-sm" id="chat-bot-welcome-cancel" style="margin-top:6px;">${t('backToMenu')}</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="chat-bot-welcome-cancel" style="margin-top:6px;">${t('memberBioCancelBtn')}</button>
 
       <div class="bio-narrative-divider" style="margin:16px 0;"></div>
 
@@ -6676,7 +6676,7 @@ async function wireChatBot(ctx){
       <label style="margin-top:10px;">${t('bannerAudioLabel')}</label>
       ${audioRecorderWidgetHtml('chat-bot-banner-audio', profileData.autoBannerAudioUrl || '')}
       <button type="button" class="btn btn-primary btn-sm" id="chat-bot-banner-save" style="margin-top:8px;">${t('memberSaveBtn')}</button>
-      <button type="button" class="btn btn-ghost btn-sm" id="chat-bot-banner-cancel" style="margin-top:8px;">${t('backToMenu')}</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="chat-bot-banner-cancel" style="margin-top:8px;">${t('memberBioCancelBtn')}</button>
     `;
     panel.querySelectorAll('.chat-bot-welcome-template-btn').forEach(b => {
       b.onclick = () => {
@@ -6731,7 +6731,7 @@ async function wireChatBot(ctx){
     };
     document.getElementById('chat-bot-welcome-cancel').onclick = () => {
       document.getElementById('chat-bot-welcome-text').value = originalWelcomeMessage;
-      panel.classList.remove('open');
+      toast(t('memberBioCancelBtn'));
     };
     document.getElementById('chat-bot-banner-add').onclick = () => {
       profileData.autoBannerMessages = profileData.autoBannerMessages || [];
@@ -6775,7 +6775,7 @@ async function wireChatBot(ctx){
     document.getElementById('chat-bot-banner-cancel').onclick = () => {
       profileData.autoBannerMessages = JSON.parse(JSON.stringify(originalBannerMessages));
       renderBotPanel();
-      panel.classList.remove('open');
+      toast(t('memberBioCancelBtn'));
     };
   };
   renderBotPanel();
