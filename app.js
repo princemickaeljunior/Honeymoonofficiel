@@ -1011,7 +1011,6 @@ const I18N = {
     copiedToast: 'Code copied',
     numberPrefix: 'No.',
     myEditBtn: 'Edit my information',
-    myBackToSiteBtn: '← Back to the site',
     myProfileManageNote: 'Manage your photo, information and gallery below. Photos and videos you post here will be visible on the showcase site.',
     addPhoto: 'Add photos',
     addVideo: 'Add videos',
@@ -1303,7 +1302,10 @@ document.getElementById('creator-logout').onclick = () => {
   document.getElementById('creator-pass').value = ''; // sécurité : n'affiche jamais un mot de passe déjà tapé
   document.getElementById('creator-email').value = '';
   document.getElementById('my-profile-shell').style.display = 'none';
-  document.getElementById('gate').style.display = 'flex';
+  document.getElementById('creator-signup-view').style.display = 'none';
+  document.getElementById('creator-login-view').style.display = 'block';
+  document.getElementById('gate').style.display = 'none';
+  document.getElementById('creator-gate').style.display = 'flex';
 };
 document.getElementById('agency-logout').onclick = () => {
   if(auth){ auth.signOut().catch(() => {}); }
@@ -1817,7 +1819,6 @@ function renderMyProfile(slotId){
       <h1 class="display" style="font-size:24px;">${t('myProfileHello')}${m.name ? ', ' + escText(m.name) : ''}</h1>
       <p style="color:var(--text-muted);font-size:13px;max-width:420px;margin:10px auto 0;line-height:1.7;">${t('myProfileManageNote')}</p>
       <button class="btn btn-primary" id="my-edit-btn" style="max-width:280px;margin:18px auto 0;">${t('myEditBtn')}</button>
-      <button class="btn btn-ghost btn-sm" id="my-back-to-site-btn" style="max-width:280px;margin:10px auto 0;">${t('myBackToSiteBtn')}</button>
     </div>
     <div class="popularity-hero" id="popularity-hero-${m.id}">
       <div class="tiktok-stat"><span class="tiktok-stat-num">${(m.followingMembers || []).length}</span><span class="tiktok-stat-label">${t('followingLabel')}</span></div>
@@ -1949,8 +1950,6 @@ function renderMyProfile(slotId){
   });
 
   document.getElementById('my-edit-btn').onclick = () => openMyProfileEdit(m);
-  const backToSiteBtn = document.getElementById('my-back-to-site-btn');
-  if(backToSiteBtn) backToSiteBtn.onclick = () => { requireAgeGate(() => openVitrine()); };
   wireSlideArrows(body);
   const homeVideoInput = document.getElementById('home-video-file-' + m.id);
   if(homeVideoInput){
