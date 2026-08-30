@@ -4766,16 +4766,22 @@ function memberBioNarrativeHtml(bioText, label){
   return `<div class="bio-narrative"><p>${ICON_CHAT_SM}<span><b>${escText(label || t('memberBioNarrativeLabelOther'))}</b>${decorateBioWithEmojis(bioText)}</span></p></div>`;
 }
 
+function memberBioQuestionsNarrativeHtml(bq){
+  const rows = [
+    bq.hobbies ? [ICON_PALETTE, t('memberBioQCardHobbies'), bq.hobbies] : null,
+    bq.passions ? [ICON_FLAME, t('memberBioQCardPassions'), bq.passions] : null,
+    bq.dreams ? [ICON_MOON_STAR, t('memberBioQCardDreams'), bq.dreams] : null,
+    bq.lookingFor ? [ICON_ENVELOPE_HEART, t('memberBioQCardLookingFor'), bq.lookingFor] : null,
+    bq.discussionStyle ? [ICON_CHAT, t('memberBioQCardDiscussionStyle'), bq.discussionStyle] : null
+  ].filter(Boolean);
+  if(!rows.length) return '';
+  return `<div class="bio-narrative">${rows.map(([icon, label, val]) =>
+    `<p>${icon}<span><b>${escText(label)}</b>${decorateBioWithEmojis(val)}</span></p>`
+  ).join('')}</div>`;
+}
 function memberViewCardHtml(r, actionsHtml){
   const bq = r.bioQuestions || {};
-  const bqRows = [
-    bq.hobbies ? [t('memberBioQCardHobbies'), bq.hobbies] : null,
-    bq.passions ? [t('memberBioQCardPassions'), bq.passions] : null,
-    bq.dreams ? [t('memberBioQCardDreams'), bq.dreams] : null,
-    bq.lookingFor ? [t('memberBioQCardLookingFor'), bq.lookingFor] : null,
-    bq.discussionStyle ? [t('memberBioQCardDiscussionStyle'), bq.discussionStyle] : null
-  ].filter(Boolean);
-  const bqHtml = bqRows.length ? `<div class="member-view-bioq">${bqRows.map(([label, val]) => `<p><b>${escText(label)}:</b> ${escText(val)}</p>`).join('')}</div>` : '';
+  const bqHtml = memberBioQuestionsNarrativeHtml(bq);
   return `
     <div class="member-view-card">
       <button type="button" class="member-view-toggle">
