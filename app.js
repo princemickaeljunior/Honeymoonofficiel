@@ -626,8 +626,9 @@ const I18N = {
     memberAvatarChange: "Change photo",
     memberLocationLabel: "Location",
     memberLocationPh: "City, country...",
-    memberBioLabel: "Biography",
-    memberBioPh: "Tell us about yourself...",
+    memberBioLabel: "Tell us a bit about yourself",
+    memberBioPh: "Tell us a bit about yourself...",
+    memberBioWordLimit: "words max",
     memberBioQuestionsTitle: "A few things about me",
     memberBioQuestionsNote: "These help creators find common ground with you — same visibility rules as your bio above.",
     memberBioHobbies: "My hobbies",
@@ -1077,7 +1078,7 @@ const I18N = {
     bioFantasies: 'Fantasies',
     bioFetish: 'Fetish',
     bioAmbitions: 'Ambitions',
-    bioDiscussionStyle: 'Discussion style that excites her',
+    bioDiscussionStyle: 'Kind of discussion that turns me on 🔥',
     bioDreams: 'Dreams',
     bioFears: 'Fears / phobias',
     bioVictories: 'Victories',
@@ -4700,6 +4701,15 @@ async function fetchVisibleMembersForCreator(creatorId){
 // Carte membre en accordéon : repliée par défaut (juste avatar + nom), la créatrice tape
 // dessus pour dérouler la bio/photos/actions — indispensable dès qu'il y a beaucoup de
 // membres (100, 1000…), une fiche entièrement dépliée pour chacun prendrait bien trop de place.
+// Mise en forme "dorée" de la biographie libre d'un membre (même identité visuelle
+// que la bio narrative de la créatrice) : icône scintillante + texte en carte, pour
+// que la créatrice (et partout où cette bio s'affiche) ait une présentation cohérente.
+function memberBioNarrativeHtml(bioText){
+  return `<div class="member-bio-narrative">
+    <div class="member-bio-narrative-lead">${ICON_SPARKLE}<span>${escText(bioText)}</span></div>
+  </div>`;
+}
+
 function memberViewCardHtml(r, actionsHtml){
   const bq = r.bioQuestions || {};
   const bqRows = [
@@ -4719,7 +4729,7 @@ function memberViewCardHtml(r, actionsHtml){
       </button>
       <div class="member-view-details">
         ${r.location ? `<div class="member-view-loc">${escText(r.location)}</div>` : ''}
-        ${r.bio ? `<p class="member-view-bio">${escText(r.bio)}</p>` : ''}
+        ${r.bio ? memberBioNarrativeHtml(r.bio) : ''}
         ${bqHtml}
         ${r.photos.length ? `<div class="member-media-grid">${r.photos.map(p => `<img src="${escAttr(p)}" loading="lazy" decoding="async">`).join('')}</div>` : ''}
         ${actionsHtml || ''}
@@ -5596,29 +5606,40 @@ function renderMemberProfileInfosSubtab(user, data){
     <div class="bio-narrative-divider" style="margin:20px 0;"></div>
 
     <div class="member-bio-header">
-      <label style="margin:0;">${ICON_NOTE}${t('memberBioLabel')}</label>
+      <label id="member-bio-label-wrap" style="margin:0;">${ICON_NOTE}${t('memberBioLabel')}<span class="member-field-done-icon" id="member-bio-done-icon">${ICON_STAR}</span></label>
       <div class="member-bio-icons">
         <button type="button" class="member-bio-icon-btn" id="member-bio-edit-btn" title="${escAttr(t('memberBioEditBtn'))}">${ICON_EDIT}</button>
         <button type="button" class="member-bio-icon-btn" id="member-bio-cancel-btn" title="${escAttr(t('memberBioCancelBtn'))}" style="display:none;">${ICON_X}</button>
         <button type="button" class="member-bio-icon-btn" id="member-bio-delete-btn" title="${escAttr(t('memberBioDeleteBtn'))}">${ICON_TRASH}</button>
       </div>
     </div>
-    <p class="member-bio-readview" id="member-bio-readview">${data.bio ? escText(data.bio) : `<span class="member-note">${t('memberBioEmpty')}</span>`}</p>
+    <div class="member-bio-readview" id="member-bio-readview">${data.bio ? memberBioNarrativeHtml(data.bio) : `<span class="member-note">${t('memberBioEmpty')}</span>`}</div>
     <textarea id="member-pf-bio" rows="3" placeholder="${escAttr(t('memberBioPh'))}" style="display:none;">${escText(data.bio || '')}</textarea>
+    <p class="member-note" id="member-bio-wordcount"></p>
 
     <div class="bio-narrative-divider" style="margin:16px 0;"></div>
     <div class="member-section-title" style="margin-top:0;">${t('memberBioQuestionsTitle')}</div>
     <p class="member-note">${t('memberBioQuestionsNote')}</p>
-    <label>${t('memberBioHobbies')}</label>
-    <input id="member-pf-bio-hobbies" placeholder="${escAttr(t('memberBioHobbiesPh'))}" value="${escAttr(bq.hobbies || '')}">
-    <label>${t('memberBioPassions')}</label>
-    <input id="member-pf-bio-passions" placeholder="${escAttr(t('memberBioPassionsPh'))}" value="${escAttr(bq.passions || '')}">
-    <label>${t('memberBioDreams')}</label>
-    <input id="member-pf-bio-dreams" placeholder="${escAttr(t('memberBioDreamsPh'))}" value="${escAttr(bq.dreams || '')}">
-    <label>${t('memberBioLookingFor')}</label>
-    <input id="member-pf-bio-lookingfor" placeholder="${escAttr(t('memberBioLookingForPh'))}" value="${escAttr(bq.lookingFor || '')}">
-    <label>${t('memberBioDiscussionStyle')}</label>
-    <input id="member-pf-bio-discussionstyle" placeholder="${escAttr(t('memberBioDiscussionStylePh'))}" value="${escAttr(bq.discussionStyle || '')}">
+    <div class="member-quiz-field">
+      <label>${t('memberBioHobbies')}</label>
+      <input id="member-pf-bio-hobbies" placeholder="${escAttr(t('memberBioHobbiesPh'))}" value="${escAttr(bq.hobbies || '')}">
+    </div>
+    <div class="member-quiz-field">
+      <label>${t('memberBioPassions')}</label>
+      <input id="member-pf-bio-passions" placeholder="${escAttr(t('memberBioPassionsPh'))}" value="${escAttr(bq.passions || '')}">
+    </div>
+    <div class="member-quiz-field">
+      <label>${t('memberBioDreams')}</label>
+      <input id="member-pf-bio-dreams" placeholder="${escAttr(t('memberBioDreamsPh'))}" value="${escAttr(bq.dreams || '')}">
+    </div>
+    <div class="member-quiz-field">
+      <label>${t('memberBioLookingFor')}</label>
+      <input id="member-pf-bio-lookingfor" placeholder="${escAttr(t('memberBioLookingForPh'))}" value="${escAttr(bq.lookingFor || '')}">
+    </div>
+    <div class="member-quiz-field">
+      <label>${t('memberBioDiscussionStyle')}</label>
+      <input id="member-pf-bio-discussionstyle" placeholder="${escAttr(t('memberBioDiscussionStylePh'))}" value="${escAttr(bq.discussionStyle || '')}">
+    </div>
 
     <label>${t('memberVisibilityLabel')}</label>
     <select id="member-pf-bio-visible">
@@ -5659,11 +5680,48 @@ function renderMemberProfileInfosSubtab(user, data){
     bioTextarea.value = '';
     bioReadview.innerHTML = `<span class="member-note">${t('memberBioEmpty')}</span>`;
     enterEditMode();
+    updateBioWordState();
   };
   document.getElementById('member-avatar-input').onchange = (e) => memberUploadAvatar(user, e.target.files[0]);
   document.getElementById('member-pf-save').onclick = () => memberSaveProfile(user, data);
   document.getElementById('member-pf-geoloc').onclick = () => memberUseGeolocation(data);
   document.getElementById('member-pf-username-save').onclick = () => memberSaveUsername(user, data);
+
+  // Indicateur "case remplie = doré + icône" : biographie (limitée à 50 mots) + questions bio.
+  const BIO_MAX_WORDS = 50;
+  const bioLabelWrap = document.getElementById('member-bio-label-wrap');
+  const bioDoneIcon = document.getElementById('member-bio-done-icon');
+  const bioWordcountEl = document.getElementById('member-bio-wordcount');
+  const updateBioWordState = () => {
+    let words = bioTextarea.value.trim().match(/\S+/g) || [];
+    if(words.length > BIO_MAX_WORDS){
+      words = words.slice(0, BIO_MAX_WORDS);
+      bioTextarea.value = words.join(' ');
+    }
+    const filled = words.length > 0;
+    bioLabelWrap.classList.toggle('is-filled', filled);
+    bioDoneIcon.classList.toggle('show', filled);
+    bioWordcountEl.textContent = `${words.length}/${BIO_MAX_WORDS} ${t('memberBioWordLimit')}`;
+  };
+  bioTextarea.addEventListener('input', updateBioWordState);
+  updateBioWordState();
+
+  tabBody.querySelectorAll('.member-quiz-field').forEach(wrap => {
+    const label = wrap.querySelector('label');
+    const field = wrap.querySelector('input,textarea');
+    if(!label || !field) return;
+    const icon = document.createElement('span');
+    icon.className = 'member-field-done-icon';
+    icon.innerHTML = ICON_STAR;
+    label.appendChild(icon);
+    const updateField = () => {
+      const filled = field.value.trim().length > 0;
+      label.classList.toggle('is-filled', filled);
+      icon.classList.toggle('show', filled);
+    };
+    field.addEventListener('input', updateField);
+    updateField();
+  });
 }
 
 function renderMemberProfilePhotosSubtab(user, data){
@@ -5833,7 +5891,7 @@ async function memberSaveProfile(user, data){
   const errEl = document.getElementById('member-pf-err');
   errEl.textContent = '';
   const location = document.getElementById('member-pf-location').value.trim().slice(0, 80);
-  const bio = document.getElementById('member-pf-bio').value.trim().slice(0, 500);
+  const bio = (document.getElementById('member-pf-bio').value.trim().match(/\S+/g) || []).slice(0, 50).join(' ');
   const bioVisibility = document.getElementById('member-pf-bio-visible').value;
   const bioQuestions = {
     hobbies: document.getElementById('member-pf-bio-hobbies').value.trim().slice(0, 200),
