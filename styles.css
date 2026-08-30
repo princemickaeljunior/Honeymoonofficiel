@@ -567,6 +567,23 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .member-view-details{display:none;padding:0 7px 7px;}
 .member-view-card.open .member-view-details{display:block;}
 .member-view-loc{font-size:8.5px;color:var(--text-muted);margin-bottom:3px;}
+/* Découpe la fiche membre (côté créatrice) en 3 blocs nets — Bio / À propos / Photos —
+   avec un vrai espace ENTRE les blocs, mais un espace resserré entre chaque titre et
+   son propre contenu (le titre doit "coller" à ce qu'il annonce). */
+.member-card-section{margin-top:14px;}
+.member-card-section:first-child{margin-top:0;}
+.member-card-section-title{
+  display:flex;align-items:center;gap:5px;
+  font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.05em;color:var(--honey);
+  margin-bottom:5px;
+}
+.member-card-section-title svg{width:13px;height:13px;flex-shrink:0;}
+.member-card-bio-text{margin:0;font-size:11px;line-height:1.55;color:var(--text);}
+.member-card-section .bio-narrative{margin:0;}
+.member-card-section .bio-narrative p{padding:6px 0;}
+.member-card-section .bio-narrative p:first-child{padding-top:0;}
+.member-card-section .bio-narrative p:last-child{padding-bottom:0;}
 .member-view-actions{display:flex;gap:4px;margin-top:5px;}
 .my-member-favorite-btn.is-favorite{background:var(--honey);color:#1a1206;border-color:var(--honey);}
 .my-members-filter-row{display:flex;gap:8px;margin-top:14px;max-width:280px;}
