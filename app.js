@@ -5683,32 +5683,28 @@ function renderMemberProfileInfosSubtab(user, data){
     <div class="member-section-title" style="margin-top:0;">${t('memberBioQuestionsTitle')}</div>
     <p class="member-note">${t('memberBioQuestionsNote')}</p>
     <div class="member-quiz-field">
-      <label>${t('memberBioHobbies')}</label>
+      <label>${fieldIcon(ICON_PALETTE)}${t('memberBioHobbies')}</label>
       <input id="member-pf-bio-hobbies" placeholder="${escAttr(t('memberBioHobbiesPh'))}" value="${escAttr(bq.hobbies || '')}">
     </div>
     <div class="member-quiz-field">
-      <label>${t('memberBioPassions')}</label>
+      <label>${fieldIcon(ICON_FLAME)}${t('memberBioPassions')}</label>
       <input id="member-pf-bio-passions" placeholder="${escAttr(t('memberBioPassionsPh'))}" value="${escAttr(bq.passions || '')}">
     </div>
     <div class="member-quiz-field">
-      <label>${t('memberBioDreams')}</label>
+      <label>${fieldIcon(ICON_MOON_STAR)}${t('memberBioDreams')}</label>
       <input id="member-pf-bio-dreams" placeholder="${escAttr(t('memberBioDreamsPh'))}" value="${escAttr(bq.dreams || '')}">
     </div>
     <div class="member-quiz-field">
-      <label>${t('memberBioLookingFor')}</label>
+      <label>${fieldIcon(ICON_ENVELOPE_HEART)}${t('memberBioLookingFor')}</label>
       <input id="member-pf-bio-lookingfor" placeholder="${escAttr(t('memberBioLookingForPh'))}" value="${escAttr(bq.lookingFor || '')}">
     </div>
     <div class="member-quiz-field">
-      <label>${t('memberBioDiscussionStyle')}</label>
+      <label>${fieldIcon(ICON_CHAT)}${t('memberBioDiscussionStyle')}</label>
       <input id="member-pf-bio-discussionstyle" placeholder="${escAttr(t('memberBioDiscussionStylePh'))}" value="${escAttr(bq.discussionStyle || '')}">
     </div>
 
-    <label>${t('memberVisibilityLabel')}</label>
-    <select id="member-pf-bio-visible">
-      <option value="everyone" ${data.bioVisibility === 'everyone' || (!data.bioVisibility && data.bioVisibleToCreator) ? 'selected' : ''}>${t('memberVisibilityEveryone')}</option>
-      <option value="favorites" ${data.bioVisibility === 'favorites' ? 'selected' : ''}>${t('memberVisibilityFavorites')}</option>
-      <option value="nobody" ${data.bioVisibility === 'nobody' || (!data.bioVisibility && !data.bioVisibleToCreator) ? 'selected' : ''}>${t('memberVisibilityNobody')}</option>
-    </select>
+    <label>${fieldIcon(ICON_SHIELD)}${t('memberVisibilityLabel')}</label>
+    ${visibilityGroupHtml('member-pf-bio-visible', data.bioVisibility || (data.bioVisibleToCreator ? 'everyone' : 'nobody'))}
     <p class="member-note visibility-note">${t('memberBioVisibilityExplain')}</p>
     <input type="hidden" id="member-pf-photos-visible" value="${escAttr(data.photosVisibility || (data.photosVisibleToCreator ? 'everyone' : 'nobody'))}">
 
@@ -5717,6 +5713,7 @@ function renderMemberProfileInfosSubtab(user, data){
       <button class="btn btn-primary btn-sm" id="member-pf-save" style="flex:1;">${t('memberSaveBtn')}</button>
     </div>
   `;
+  wireVisibilityGroup('member-pf-bio-visible');
   const bioReadview = document.getElementById('member-bio-readview');
   const bioTextarea = document.getElementById('member-pf-bio');
   const bioEditBtn = document.getElementById('member-bio-edit-btn');
@@ -5800,18 +5797,15 @@ function renderMemberProfilePhotosSubtab(user, data){
     <p class="member-note">${t('memberMyPhotosNote')}</p>
     ${myPhotoThumbs ? `<div class="member-media-grid">${myPhotoThumbs}</div>` : ''}
     ${dualUploadZoneHtml('member-my-photo', 'image/*', { multiple: true })}
-    <label>${t('memberVisibilityLabel')}</label>
-    <select id="member-pf-photos-visible-tab">
-      <option value="everyone" ${data.photosVisibility === 'everyone' || (!data.photosVisibility && data.photosVisibleToCreator) ? 'selected' : ''}>${t('memberVisibilityEveryone')}</option>
-      <option value="favorites" ${data.photosVisibility === 'favorites' ? 'selected' : ''}>${t('memberVisibilityFavorites')}</option>
-      <option value="nobody" ${data.photosVisibility === 'nobody' || (!data.photosVisibility && !data.photosVisibleToCreator) ? 'selected' : ''}>${t('memberVisibilityNobody')}</option>
-    </select>
+    <label>${fieldIcon(ICON_SHIELD)}${t('memberVisibilityLabel')}</label>
+    ${visibilityGroupHtml('member-pf-photos-visible-tab', data.photosVisibility || (data.photosVisibleToCreator ? 'everyone' : 'nobody'))}
     <p class="member-note visibility-note">${t('memberPhotosVisibilityExplain')}</p>
     <div class="member-err" id="member-pf-photos-err"></div>
     <div class="modal-actions">
       <button class="btn btn-primary btn-sm" id="member-pf-photos-save" style="flex:1;">${t('memberSaveBtn')}</button>
     </div>
   `;
+  wireVisibilityGroup('member-pf-photos-visible-tab');
   document.getElementById('member-pf-photos-save').onclick = async () => {
     const photosVisibility = document.getElementById('member-pf-photos-visible-tab').value;
     const btn = document.getElementById('member-pf-photos-save');
@@ -8692,6 +8686,43 @@ const ICON_TRASH = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" 
 const ICON_FLAG = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>';
 const ICON_EDIT = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4Z"/></svg>';
 const ICON_X = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+
+// Habille une icône SVG (déjà définie plus haut) pour un usage inline dans un <label> :
+// même trait doré et même alignement quel que soit le champ concerné (bio libre, questions,
+// visibilité...), sans toucher aux icônes de label existantes qui portent déjà leur propre style.
+function fieldIcon(svg){
+  return `<span class="field-icon">${svg}</span>`;
+}
+
+// Sélecteur de visibilité en 3 options (tout le monde / favoris / personne), tout en SVG doré,
+// avec un code couleur explicite par niveau (vert = visible à tous, doré = favoris uniquement,
+// rouge = masqué à tous) pour que le degré de confidentialité soit lisible d'un coup d'œil.
+// Remplace un <select> classique par un groupe de boutons tout en conservant un input hidden
+// du même id, pour que le reste du code (lecture de `.value` à la sauvegarde) n'ait rien à changer.
+function visibilityGroupHtml(hiddenId, currentValue){
+  const opts = [
+    ['everyone', ICON_EYE_OPEN, t('memberVisibilityEveryone')],
+    ['favorites', ICON_STAR, t('memberVisibilityFavorites')],
+    ['nobody', ICON_EYE_OFF, t('memberVisibilityNobody')]
+  ];
+  return `<div class="visibility-group">
+    ${opts.map(([val, icon, label]) => `<button type="button" class="visibility-opt${currentValue === val ? ' active' : ''}" data-value="${val}">${icon}<span>${escText(label)}</span></button>`).join('')}
+  </div>
+  <input type="hidden" id="${escAttr(hiddenId)}" value="${escAttr(currentValue)}">`;
+}
+function wireVisibilityGroup(hiddenId){
+  const hidden = document.getElementById(hiddenId);
+  if(!hidden) return;
+  const group = hidden.previousElementSibling;
+  if(!group || !group.classList || !group.classList.contains('visibility-group')) return;
+  group.querySelectorAll('.visibility-opt').forEach(btn => {
+    btn.onclick = () => {
+      group.querySelectorAll('.visibility-opt').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      hidden.value = btn.dataset.value;
+    };
+  });
+}
 const ICON_PLUS = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>';
 const ICON_SAVE = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>';
 
