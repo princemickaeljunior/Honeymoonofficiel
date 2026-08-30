@@ -612,7 +612,7 @@ const I18N = {
     memberForgotSendBtn: "Send the link",
     memberForgotSentTitle: "Email sent",
     memberForgotSentBody: "If an account exists with this email, a reset link was just sent. Open it to choose a new password.",
-    memberTabDiscover: "Our Creators Honeymoon Community",
+    memberTabDiscover: "Our Creators Honeymoon",
     memberTabProfile: "Profile",
     memberTabPurchases: "Collection",
     memberUnverifiedBanner: "Account not confirmed yet — email sent to {email}.",
@@ -1581,6 +1581,9 @@ function uxdBadgeHtml(amount){
 function uxdShieldHtml(amount){
   const tier = getUxdTier(amount);
   return `<span class="chat-tier-shield" style="color:${tier.color};" title="${t('tierLabel_' + tier.key)} — ${amount || 0} UXD">${ICON_SHIELD}</span>`;
+}
+function uxdShieldGreyHtml(amount){
+  return `<span class="uxd-stat-shield" title="${amount || 0} UXD">${ICON_SHIELD}<span class="uxd-stat-num">${amount || 0}</span></span>`;
 }
 
 /* ---------------- Tip Menu : thèmes et prix fixés par la plateforme (jamais choisis librement par la créatrice) ---------------- */
@@ -5397,11 +5400,11 @@ function renderMemberHome(user, data, activeTab){
       <div class="popularity-hero">
         <div class="tiktok-stat"><span class="tiktok-stat-num">${(data.favorites || []).length}</span><span class="tiktok-stat-label">${t('followingLabel')}</span></div>
         <div class="tiktok-stat"><span class="tiktok-stat-num">${data.followersCount || 0}</span><span class="tiktok-stat-label">${t('followersLabel')}</span></div>
-        <div class="tiktok-stat">${uxdBadgeHtml(data.uxd)}<span class="tiktok-stat-label">${t('uxdLabel')}</span></div>
+        <div class="tiktok-stat">${uxdShieldGreyHtml(data.uxd)}<span class="tiktok-stat-label">${t('uxdLabel')}</span></div>
       </div>
       <div class="tabs-slide-row">
         <div class="member-tabs">
-          <button type="button" class="member-tab" id="member-tab-discover">${ICON_COMPASS_SM}${t('memberTabDiscover')}</button>
+          <button type="button" class="member-tab" id="member-tab-discover">${ICON_DISCOVER_PREMIUM}${t('memberTabDiscover')}</button>
           <button type="button" class="member-tab" id="member-tab-popularity">${ICON_STAR}${t('myFamilyPopularity')}</button>
           <button type="button" class="member-tab" id="member-tab-profile">${ICON_USER}${t('memberTabProfile')}</button>
           <button type="button" class="member-tab" id="member-tab-favorites">${ICON_LIKE}${t('memberTabFavorites')}</button>
@@ -5447,13 +5450,15 @@ function switchMemberTab(user, data, activeTab){
 // Affiche le contenu d'un onglet ET (re)joue systématiquement la même animation
 // d'entrée douce, à chaque fois — comportement identique sur tous les onglets,
 // que le contenu vienne du cache (instantané) ou du réseau (après le chargement).
-function paintTabBody(html){
+function paintTabBody(html, skipAnim){
   const el = document.getElementById('member-tab-body');
   if(!el) return null;
   el.innerHTML = html;
-  el.classList.remove('tab-fade-in');
-  void el.offsetWidth;
-  el.classList.add('tab-fade-in');
+  if(!skipAnim){
+    el.classList.remove('tab-fade-in');
+    void el.offsetWidth;
+    el.classList.add('tab-fade-in');
+  }
   return el;
 }
 /* ---------------- robustesse photos/vidéos : une image cassée (URL expirée, upload
@@ -5831,7 +5836,7 @@ async function memberDeleteAccount(user, data){
 }
 
 async function renderMemberPurchasesTab(user, data){
-  const paint = (enriched) => {
+  const paint = (enriched, skipAnim) => {
     const historyRows = enriched.map(o => `
       <div class="member-purchase-row">
         <span>${escText(o.creatorName || '—')} — ${o.item ? o.item.price + '€' : ''}</span>
@@ -5857,7 +5862,7 @@ async function renderMemberPurchasesTab(user, data){
       ${videoThumbs ? `<div class="member-media-grid">${videoThumbs}</div>` : `<p class="member-note">${t('memberPurchaseNoVideos')}</p>`}
       <div class="member-section-title">${t('customOrderPurchasesTitle')}</div>
       ${customThumbs ? `<div class="member-media-grid">${customThumbs}</div>` : `<p class="member-note">${t('customOrderPurchasesNone')}</p>`}
-    `);
+    `, skipAnim);
     const discoverBtn = document.getElementById('member-purchases-discover-btn');
     if(discoverBtn) discoverBtn.onclick = () => closeMemberModal();
   };
@@ -5887,7 +5892,7 @@ async function renderMemberPurchasesTab(user, data){
       }catch(e){ return { ...o, item: null, creatorName: '' }; }
     }));
     setMemberTabCache(user.uid, 'purchases', enriched);
-    if(memberActiveTab === 'purchases') paint(enriched); // ré-affiche seulement si toujours sur cet onglet
+    if(memberActiveTab === 'purchases') paint(enriched, true); // ré-affiche seulement si toujours sur cet onglet, sans rejouer l'animation
   }catch(e){
     console.error('load member purchases error', e);
     if(!cached && memberActiveTab === 'purchases') paintTabBody(`<p class="member-note">${t('memberPurchaseLoadErr')}</p>`);
@@ -5978,15 +5983,11 @@ async function prefetchMemberTabs(user, data){
 
 async function renderMemberPopularityTab(user, data){
   const cached = getMemberTabCache(user.uid, 'popularity');
-  const paint = (followingRows, followerRows) => {
+  const paint = (followingRows, followerRows, skipAnim) => {
     paintTabBody(`
-      <div class="popularity-summary">
-        ${followerBadgeHtml(data.followersCount)}
-        <span>${data.followersCount || 0} ${t('followersLabel')}</span>
-      </div>
-      <div class="popularity-summary" style="margin-top:8px;">
-        ${uxdBadgeHtml(data.uxd)}
-        <span>${t('uxdExplainNote')}</span>
+      <div class="uxd-hero-block">
+        <span class="uxd-hero-shield">${ICON_SHIELD}</span>
+        <span class="uxd-hero-text">${t('uxdExplainNote')}</span>
       </div>
       <div class="level-bar-wrap" id="member-uxd-level-bar"></div>
       <div class="member-section-title" style="margin-top:20px;">${t('followingListTitle')} (${followingRows.length})</div>
@@ -6006,7 +6007,7 @@ async function renderMemberPopularityTab(user, data){
             <span class="member-fav-name">${escText(m.name) || t('nameUndefined')}</span>
           </div>`).join('')}
       </div>
-    `);
+    `, skipAnim);
     renderLevelBarGeneric('member-uxd-level-bar', UXD_TIERS, data.uxd || 0, 'uxdLabel', 'uxdLevelDesc');
   };
   if(cached){ paint(cached.followingRows, cached.followerRows); } // rendu instantané depuis le cache
@@ -6022,7 +6023,7 @@ async function renderMemberPopularityTab(user, data){
       .map(d => (typeof roster !== 'undefined' ? roster.find(m => m.id === d.id) : null))
       .filter(Boolean);
     setMemberTabCache(user.uid, 'popularity', { followingRows, followerRows });
-    if(memberActiveTab === 'popularity') paint(followingRows, followerRows); // ré-affiche seulement si toujours sur cet onglet
+    if(memberActiveTab === 'popularity') paint(followingRows, followerRows, true); // ré-affiche seulement si toujours sur cet onglet, sans rejouer l'animation
   }catch(e){
     console.error('renderMemberPopularityTab error', e);
     if(!cached && memberActiveTab === 'popularity') paintTabBody(`<span class="gallery-empty">${(LANG==='fr'?'Erreur : ':'Error: ')}${escText(e.message||String(e))}</span>`);
@@ -7245,9 +7246,9 @@ document.getElementById('chat-input').addEventListener('keydown', (e) => {
 /* ---------------- liste des conversations : membre ---------------- */
 async function renderMemberMessagesTab(user, data){
   const hypeLine = `<p class="member-welcome-line" style="margin:0 0 12px;">${t('memberMessagesHype')}</p>`;
-  const paint = (rows) => {
+  const paint = (rows, skipAnim) => {
     if(rows.length === 0){
-      paintTabBody(`${hypeLine}<span class="gallery-empty">${t('chatNoConversations')}</span>`);
+      paintTabBody(`${hypeLine}<span class="gallery-empty">${t('chatNoConversations')}</span>`, skipAnim);
       return;
     }
     const tabBody = paintTabBody(hypeLine + rows.map(({ profileId, c }) => {
@@ -7262,7 +7263,7 @@ async function renderMemberMessagesTab(user, data){
           </span>
           ${unread ? `<span class="conv-unread-badge">${unread}</span>` : ''}
         </button>`;
-    }).join(''));
+    }).join(''), skipAnim);
     tabBody.querySelectorAll('.conv-list-row').forEach(btn => {
       btn.onclick = () => {
         const m = (typeof roster !== 'undefined') ? roster.find(x => x.id === btn.dataset.pid) : null;
@@ -7299,7 +7300,7 @@ async function renderMemberMessagesTab(user, data){
       return tb - ta;
     });
     setMemberTabCache(user.uid, 'messages', rows);
-    if(memberActiveTab === 'messages') paint(rows); // ré-affiche seulement si toujours sur cet onglet
+    if(memberActiveTab === 'messages') paint(rows, true); // ré-affiche seulement si toujours sur cet onglet, sans rejouer l'animation
   }catch(e){
     console.error('load member conversations error', e);
     if(!cached && memberActiveTab === 'messages') paintTabBody(`<span class="gallery-empty">${(LANG==='fr'?'Erreur : ':'Error: ')}${escText(e.message||String(e))}</span>`);
@@ -7637,6 +7638,7 @@ async function renderMyMembers(m, filter){
 
 const ICON_USER = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
 const ICON_COMPASS_SM = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>';
+const ICON_DISCOVER_PREMIUM = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20M9 3l3 6-3 12M15 3l-3 6 3 12"/></svg>';
 function updateTopbarMemberBadge(username){
   const badge = document.getElementById('topbar-member-badge');
   const burgerItem = document.getElementById('burger-become-member');
