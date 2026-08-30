@@ -472,12 +472,22 @@ img[data-hm-loaded], video[data-hm-loaded]{
 }
 .fullpage-header-title{flex:1;min-width:0;font-family:'Inter',sans-serif;font-size:16px;font-weight:800;}
 .fullpage-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px;}
-.modal-box label{font-size:11px;color:var(--text-muted);display:block;margin-bottom:6px;margin-top:12px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;}
-.modal-box input, .modal-box textarea, .modal-box select{
+.modal-box label, #member-shell label{font-size:11px;color:var(--text-muted);display:block;margin-bottom:6px;margin-top:12px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;}
+.modal-box input, .modal-box textarea, .modal-box select,
+#member-shell input, #member-shell textarea, #member-shell select{
   width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text);
   border-radius:var(--radius-sm);padding:11px 13px;font-family:'Inter',sans-serif;font-size:14px;
+  -webkit-appearance:none;appearance:none;
 }
-.modal-box textarea{resize:vertical;}
+.modal-box textarea, #member-shell textarea{resize:vertical;}
+#member-shell select{
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23d6a94e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+  background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;
+}
+#member-shell input:disabled{opacity:.6;}
+#member-shell input:focus, #member-shell textarea:focus, #member-shell select:focus{
+  outline:none;border-color:var(--honey);
+}
 .upload-drop{ border:1.5px dashed var(--border);border-radius:var(--radius); padding:22px 14px;text-align:center;color:var(--text-muted);font-size:12.5px;margin-top:12px; position:relative; }
 .upload-drop.has-file{border-color:var(--honey);color:var(--text);}
 .upload-drop input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;}
