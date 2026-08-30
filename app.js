@@ -3511,7 +3511,7 @@ function renderToolAdvice(m){
   `;
   const topicsEl = document.getElementById('advice-topics');
   topicsEl.insertAdjacentHTML('beforeend', ADVICE_TOPICS.map((topic, idx) => `
-    <button class="advice-topic-btn" data-idx="${idx}">${topic.icon} ${topic.title[LANG] || topic.title.en}</button>
+    <button class="advice-topic-btn" data-idx="${idx}">${premiumTagIcon(topic.icon)} ${topic.title[LANG] || topic.title.en}</button>
   `).join(''));
   topicsEl.querySelectorAll('.advice-topic-btn[data-idx]').forEach(btn => {
     btn.onclick = () => showAdviceAnswer(ADVICE_TOPICS[parseInt(btn.dataset.idx, 10)]);
@@ -3540,7 +3540,7 @@ function renderToolAdvice(m){
       .sort((a, b) => a.title.localeCompare(b.title))
       .slice(0, 8);
     sugg.innerHTML = matches.map(x => `
-      <button class="advice-suggestion-btn" data-idx="${x.idx}">${x.topic.icon} ${escText(x.title)}</button>
+      <button class="advice-suggestion-btn" data-idx="${x.idx}">${premiumTagIcon(x.topic.icon)} ${escText(x.title)}</button>
     `).join('');
     sugg.querySelectorAll('.advice-suggestion-btn').forEach(btn => {
       btn.onclick = () => {
@@ -3648,7 +3648,7 @@ function renderToolMatchClients(m){
   `;
   const topicsEl = document.getElementById('matchclients-topics');
   topicsEl.innerHTML = CLIENT_MATCH_TOPICS.map((topic, idx) => `
-    <button class="advice-topic-btn" data-idx="${idx}">${topic.icon} ${topic.title[LANG] || topic.title.en}</button>
+    <button class="advice-topic-btn" data-idx="${idx}">${premiumTagIcon(topic.icon)} ${topic.title[LANG] || topic.title.en}</button>
   `).join('');
   topicsEl.querySelectorAll('.advice-topic-btn[data-idx]').forEach(btn => {
     btn.onclick = () => showTopicChatAnswer('matchclients-chat', CLIENT_MATCH_TOPICS[parseInt(btn.dataset.idx, 10)]);
@@ -3676,7 +3676,7 @@ function renderToolMatchClients(m){
       .sort((a, b) => a.title.localeCompare(b.title))
       .slice(0, 8);
     sugg.innerHTML = matches.map(x => `
-      <button class="advice-suggestion-btn" data-idx="${x.idx}">${x.topic.icon} ${escText(x.title)}</button>
+      <button class="advice-suggestion-btn" data-idx="${x.idx}">${premiumTagIcon(x.topic.icon)} ${escText(x.title)}</button>
     `).join('');
     sugg.querySelectorAll('.advice-suggestion-btn').forEach(btn => {
       btn.onclick = () => {
@@ -3711,7 +3711,7 @@ function renderMemberToolMatchWords(container){
   `;
   const topicsEl = document.getElementById('matchwords-topics');
   topicsEl.innerHTML = WORDS_MATCH_TOPICS.map((topic, idx) => `
-    <button class="advice-topic-btn" data-idx="${idx}">${topic.icon} ${topic.title[LANG] || topic.title.en}</button>
+    <button class="advice-topic-btn" data-idx="${idx}">${premiumTagIcon(topic.icon)} ${topic.title[LANG] || topic.title.en}</button>
   `).join('');
   topicsEl.querySelectorAll('.advice-topic-btn[data-idx]').forEach(btn => {
     btn.onclick = () => showTopicChatAnswer('matchwords-chat', WORDS_MATCH_TOPICS[parseInt(btn.dataset.idx, 10)]);
@@ -3739,7 +3739,7 @@ function renderMemberToolMatchWords(container){
       .sort((a, b) => a.title.localeCompare(b.title))
       .slice(0, 8);
     sugg.innerHTML = matches.map(x => `
-      <button class="advice-suggestion-btn" data-idx="${x.idx}">${x.topic.icon} ${escText(x.title)}</button>
+      <button class="advice-suggestion-btn" data-idx="${x.idx}">${premiumTagIcon(x.topic.icon)} ${escText(x.title)}</button>
     `).join('');
     sugg.querySelectorAll('.advice-suggestion-btn').forEach(btn => {
       btn.onclick = () => {
@@ -8999,6 +8999,41 @@ const AICON = {
   heart: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>',
   globe: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>'
 };
+
+/* ---------------- Badge "premium" (emoji + icône SVG) pour les tags des 3 chatbots
+   (Tips / Match with Clients / Match Your Words) ----------------
+   Ajoute un emoji correspondant au thème devant l'icône SVG existante, dans un
+   petit badge doré, pour un rendu plus riche/"premium" sur chaque tag sans
+   toucher au reste du style (pas de fichier CSS séparé à modifier). */
+const AICON_EMOJI = {
+  light:'💡', angle:'📐', frame:'🖼️', palette:'🎨', device:'📱', film:'🎬',
+  scissors:'✂️', music:'🎵', dance:'💃', stamp:'👗', calendar:'📅', hashtag:'#️⃣',
+  chat:'💬', refresh:'🔁', magnet:'🧲', price:'💰', gift:'🎁', clock:'⏰',
+  shield:'🛡️', eye:'👁️', leaf:'🌿', sun:'☀️', mirror:'🪞', chart:'📈',
+  handshake:'🤝', folder:'📁', star:'⭐', pen:'✍️', search:'🔍', target:'🎯',
+  book:'📖', heart:'❤️', globe:'🌍'
+};
+let _aiconKeyBySvg = null;
+function tagEmojiFor(iconSvg){
+  if(!_aiconKeyBySvg){
+    _aiconKeyBySvg = new Map();
+    Object.keys(AICON).forEach(k => _aiconKeyBySvg.set(AICON[k], k));
+  }
+  const key = _aiconKeyBySvg.get(iconSvg);
+  return AICON_EMOJI[key] || '✨';
+}
+function premiumTagIcon(iconSvg){
+  return `<span class="tag-icon-premium">${iconSvg}<span class="tag-icon-emoji">${tagEmojiFor(iconSvg)}</span></span>`;
+}
+if(!document.getElementById('hm-tag-premium-style')){
+  const st = document.createElement('style');
+  st.id = 'hm-tag-premium-style';
+  st.textContent = `
+    .tag-icon-premium{position:relative;display:inline-flex;align-items:center;justify-content:center;margin-right:6px;vertical-align:middle;}
+    .tag-icon-emoji{position:absolute;right:-7px;bottom:-6px;font-size:10px;line-height:1;background:#100e0b;border:1px solid #d6a94e;border-radius:50%;width:15px;height:15px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 3px rgba(214,169,78,.6);}
+  `;
+  document.head.appendChild(st);
+}
 
 /* Conseil "masque" affiché en bas de la page Business & Advices — traductions
    intégrées directement ici (comme FAQ_ITEMS) pour ne pas dépendre des
