@@ -159,7 +159,25 @@ try{
   // La restauration de session est asynchrone : sans cet écouteur, le badge pseudo
   // (haut de page) et le menu "Devenir membre" ne se mettent jamais à jour tout
   // seuls après un rechargement de page.
-  memberAuth.onAuthStateChanged(() => { try{ refreshMemberBadgeFromSession(); }catch(e){} });
+  let memberAuthAutoResumeDone = false;
+  memberAuth.onAuthStateChanged((u) => {
+    try{ refreshMemberBadgeFromSession(); }catch(e){}
+    // Reprise automatique de l'espace membre après un rechargement de page : si une
+    // session membre valide existe déjà (compte réel, pas anonyme) et qu'aucune autre
+    // priorité n'est en jeu (session créatrice/admin active, ou lien direct vers la
+    // fiche d'une créatrice précise), on rouvre directement sa page au lieu de la
+    // laisser sur la vitrine — comme pour la créatrice, elle retrouve son espace sans
+    // action. Ne se déclenche qu'une seule fois, à la toute première résolution
+    // (jamais lors d'une connexion/déconnexion explicite plus tard dans la session,
+    // déjà gérées ailleurs par openMemberModal()/memberLogout()).
+    if(!memberAuthAutoResumeDone){
+      memberAuthAutoResumeDone = true;
+      const hasPriority = sessionStorage.getItem('hm_creator_slot') || (typeof isAdmin === 'function' && isAdmin()) || /^#vitrine\//.test(window.location.hash);
+      if(u && !u.isAnonymous && !hasPriority){
+        openMemberModal();
+      }
+    }
+  });
 }catch(e){
   console.error('Firebase init failed — le site continue de fonctionner sans synchronisation.', e);
 }
@@ -594,6 +612,7 @@ const I18N = {
     memberForgotSendBtn: "Send the link",
     memberForgotSentTitle: "Email sent",
     memberForgotSentBody: "If an account exists with this email, a reset link was just sent. Open it to choose a new password.",
+    memberTabDiscover: "Discover",
     memberTabProfile: "Profile",
     memberTabPurchases: "Collection",
     memberUnverifiedBanner: "Account not confirmed yet — email sent to {email}.",
@@ -1321,6 +1340,17 @@ function setMyProfileLang(lang){
   applyStaticText();
   const slot = sessionStorage.getItem('hm_creator_slot');
   if(slot) renderMyProfile(slot);
+}
+function setMemberLang(lang, user){
+  LANG = lang;
+  try{ localStorage.setItem('hm_lang', lang); }catch(e){}
+  syncLangSelects(lang);
+  applyStaticText();
+  const activeBtn = document.querySelector('.member-tab.active');
+  const activeTab = activeBtn ? activeBtn.id.replace('member-tab-', '') : 'profile';
+  const body = document.getElementById('member-modal-body');
+  if(body) body.dataset.memberHomeBuilt = '';
+  loadMemberHome(user, activeTab);
 }
 
 /* ---------------- main gate ---------------- */
@@ -5109,8 +5139,10 @@ function isValidUsername(v){ return /^[a-zA-Z0-9._-]{3,20}$/.test(v); }
 
 function openMemberModal(initialTab){
   closeBurgerMenu();
-  document.getElementById('member-backdrop').classList.add('open');
-  document.getElementById('member-modal').classList.add('open');
+  hideAllShells();
+  document.getElementById('member-shell').style.display = 'block';
+  if(typeof updateTopbarHeight === 'function') setTimeout(updateTopbarHeight, 0);
+  if(typeof updateBottomNavVisibility === 'function') setTimeout(updateBottomNavVisibility, 0);
   if(!memberAuth){
     renderMemberError(t('memberErrNoConnection'));
     return;
@@ -5131,15 +5163,11 @@ function openMemberModal(initialTab){
     console.error('member session reload error (ignoré, session locale conservée)', err);
   });
 }
+// "Fermer" l'espace membre = revenir parcourir la vitrine publique (le membre reste
+// connecté, seule la page affichée change — cohérent avec le bouton "Discover" des onglets).
 function closeMemberModal(){
-  document.getElementById('member-backdrop').classList.remove('open');
-  document.getElementById('member-modal').classList.remove('open');
+  openVitrine();
 }
-document.getElementById('member-backdrop').onclick = closeMemberModal;
-document.getElementById('member-back-btn').onclick = () => {
-  closeMemberModal();
-  openBurgerMenu();
-};
 function renderMemberError(msg){
   document.getElementById('member-modal-body').innerHTML = `
     <h3>${t('memberLoginTitle')}</h3>
@@ -5220,8 +5248,8 @@ async function memberLoginSubmit(){
     const user = cred.user;
     await user.reload();
     refreshMemberBadgeFromSession();
-    closeMemberModal();
     toast(t('memberLoggedInToast'));
+    await loadMemberHome(memberAuth.currentUser);
   }catch(e){
     console.error('member login error', e);
     if(e.code === 'auth/invalid-email') errEl.textContent = t('memberErrInvalidEmail');
@@ -5358,6 +5386,10 @@ function renderMemberHome(user, data, activeTab){
       ${memberUnverifiedBannerHtml(user)}
       <div style="text-align:center;">
         <div class="home-photo-row">${photoBlock}</div>
+        <div class="member-home-quickrow">
+          <select class="lang-select" id="member-lang-select"></select>
+          <button class="btn btn-ghost btn-sm" id="member-home-logout">${t('memberHomeLogout')}</button>
+        </div>
         <h3>${t('memberHomeWelcome').replace('{username}', escText(data.username || ''))}</h3>
         <p class="member-welcome-line" style="margin-left:auto;margin-right:auto;">${t('memberHomeWelcomeLine')}</p>
       </div>
@@ -5368,6 +5400,7 @@ function renderMemberHome(user, data, activeTab){
       </div>
       <div class="tabs-slide-row">
         <div class="member-tabs">
+          <button type="button" class="member-tab" id="member-tab-discover">🔍 ${t('memberTabDiscover')}</button>
           <button type="button" class="member-tab" id="member-tab-popularity">⭐ ${t('myFamilyPopularity')}</button>
           <button type="button" class="member-tab" id="member-tab-profile">${ICON_USER}${t('memberTabProfile')}</button>
           <button type="button" class="member-tab" id="member-tab-favorites">${ICON_LIKE}${t('memberTabFavorites')}</button>
@@ -5376,12 +5409,13 @@ function renderMemberHome(user, data, activeTab){
         </div>
       </div>
       <div id="member-tab-body"></div>
-      <div class="modal-actions" style="margin-top:20px;">
-        <button class="btn btn-ghost btn-sm" id="member-home-logout" style="flex:1;">${t('memberHomeLogout')}</button>
-      </div>
     `;
     wireUnverifiedBanner();
     document.getElementById('member-home-logout').onclick = memberLogout;
+    document.getElementById('member-tab-discover').onclick = () => closeMemberModal();
+    populateLangSelects();
+    syncLangSelects(LANG);
+    document.getElementById('member-lang-select').onchange = (e) => setMemberLang(e.target.value, user);
     ['popularity', 'profile', 'favorites', 'messages', 'purchases'].forEach(name => {
       document.getElementById('member-tab-' + name).onclick = () => switchMemberTab(user, data, name);
     });
@@ -5823,7 +5857,7 @@ async function renderMemberPurchasesTab(user, data){
       ${customThumbs ? `<div class="member-media-grid">${customThumbs}</div>` : `<p class="member-note">${t('customOrderPurchasesNone')}</p>`}
     `);
     const discoverBtn = document.getElementById('member-purchases-discover-btn');
-    if(discoverBtn) discoverBtn.onclick = () => { closeMemberModal(); openVitrine(); };
+    if(discoverBtn) discoverBtn.onclick = () => closeMemberModal();
   };
   const cached = getMemberTabCache(user.uid, 'purchases');
   if(cached){ paint(cached); } // rendu instantané depuis le cache
@@ -6011,18 +6045,19 @@ function renderMemberFavoritesTab(user, data){
   `);
   tabBody.querySelectorAll('.member-fav-row').forEach(btn => {
     btn.onclick = async () => {
-      closeMemberModal();
       window.location.hash = 'vitrine/' + btn.dataset.id;
-      await openVitrineRoom(btn.dataset.id);
+      await openVitrine(btn.dataset.id);
     };
   });
 }
 
 function promptSignupForMembersOnly(reason){
   toast(reason === 'chat' ? t('visitorNeedsAccountChat') : reason === 'purchase' ? t('visitorNeedsAccountPurchase') : t('visitorNeedsAccountFavorite'));
-  document.getElementById('member-backdrop').classList.add('open');
-  document.getElementById('member-modal').classList.add('open');
   closeBurgerMenu();
+  hideAllShells();
+  document.getElementById('member-shell').style.display = 'block';
+  if(typeof updateTopbarHeight === 'function') setTimeout(updateTopbarHeight, 0);
+  if(typeof updateBottomNavVisibility === 'function') setTimeout(updateBottomNavVisibility, 0);
   renderMemberSignup();
 }
 async function toggleMemberFavorite(creatorId){
@@ -8183,7 +8218,7 @@ function applyVitrineStaticText(){
    pour qu'aucun contenu ne passe jamais derrière sur aucune page. */
 let activeTopbar = null;
 function updateTopbarHeight(){
-  const bars = document.querySelectorAll('#topbar');
+  const bars = document.querySelectorAll('.topbar');
   let visible = null;
   bars.forEach(b => {
     const rect = b.getBoundingClientRect();
@@ -8243,6 +8278,7 @@ function hideAllShells(){
   document.getElementById('creator-gate').style.display = 'none';
   document.getElementById('app-shell').style.display = 'none';
   document.getElementById('my-profile-shell').style.display = 'none';
+  document.getElementById('member-shell').style.display = 'none';
   document.getElementById('vitrine-shell').style.display = 'none';
   if(typeof updateBottomNavVisibility === 'function') updateBottomNavVisibility();
 }
