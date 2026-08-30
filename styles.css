@@ -921,6 +921,16 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .member-bio-icon-btn{background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text-muted);border-radius:8px;width:26px;height:26px;display:flex;align-items:center;justify-content:center;}
 .member-bio-icon-btn:active{border-color:var(--honey);color:var(--honey);}
 .member-bio-readview{background:var(--bg-elev-2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--text);line-height:1.6;margin-top:6px;white-space:pre-wrap;}
+
+/* Indicateur "case remplie" (biographie + questions bio) : icône dorée + libellé doré. */
+.member-field-done-icon{display:none;margin-left:6px;color:var(--honey);vertical-align:-2px;}
+.member-field-done-icon.show{display:inline-flex;}
+.modal-box label.is-filled, #member-shell label.is-filled{color:var(--honey);}
+
+/* Bio libre (créatrice ou client) mise en forme "carte dorée" avec icône scintillante. */
+.member-bio-narrative-lead{display:flex;align-items:flex-start;gap:8px;font-size:13px;line-height:1.6;color:var(--text);}
+.member-bio-narrative-lead svg{flex-shrink:0;margin-top:2px;color:var(--honey);}
+.member-view-details .member-bio-narrative{background:var(--bg-elev-2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin:6px 0;}
 .chat-tier-shield{display:inline-flex;vertical-align:-3px;}
 .chat-tier-shield svg{width:14px;height:14px;}
 .member-presentation-name{margin-top:12px;font-size:19px;color:var(--honey);}
