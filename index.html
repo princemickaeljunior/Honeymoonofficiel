@@ -77,7 +77,7 @@
 
 <!-- ================= APP ================= -->
 <div id="app-shell" style="display:none;">
-  <div id="topbar">
+  <div class="topbar">
     <div class="logo">honeymoon</div>
     <div class="right">
       <div class="lang-group">
@@ -154,7 +154,7 @@
 
 <!-- ================= MY PROFILE (creator, read-only) ================= -->
 <div id="my-profile-shell" style="display:none;">
-  <div id="topbar">
+  <div class="topbar">
     <div class="logo">honeymoon</div>
     <div class="right">
       <div class="lang-group">
@@ -165,6 +165,18 @@
   </div>
   <main>
     <div class="my-profile-wrap" id="my-profile-body"></div>
+  </main>
+</div>
+
+<!-- ================= MEMBER SHELL (espace membre : page dédiée, plus une fenêtre par-dessus la vitrine) =================
+     Volontairement AUCUN logo/topbar ici (demande explicite) : le membre doit avoir l'impression
+     de ne jamais avoir quitté sa propre page. Se déconnecter et choisir la langue se trouvent
+     directement sous sa photo (voir renderMemberHome). L'id "member-modal-body" est conservé tel
+     quel pour que toutes les fonctions de rendu existantes (renderMemberHome, renderMemberProfileTab,
+     etc.) continuent de fonctionner sans modification. -->
+<div id="member-shell" style="display:none;">
+  <main>
+    <div class="member-shell-wrap" id="member-modal-body"></div>
   </main>
 </div>
 
@@ -297,7 +309,7 @@
 
 <!-- ================= VITRINE (public showcase, no gate) ================= -->
 <div id="vitrine-shell" style="display:none;">
-  <div id="topbar">
+  <div class="topbar">
     <div class="topbar-left">
       <div class="logo">honeymoon</div>
     </div>
@@ -430,12 +442,7 @@
   </div>
 </div>
 
-<!-- ================= MEMBER MODAL (compte gratuit : inscription / connexion / vérification) ================= -->
-<div class="modal-backdrop" id="member-backdrop"></div>
-<div class="modal-box member-space-modal" id="member-modal">
-  <button type="button" class="modal-back-btn" id="member-back-btn">← <span data-i18n="backToMenu">Retour au menu</span></button>
-  <div id="member-modal-body"></div>
-</div>
+
 
 <!-- ================= CHAT EN DIRECT (membre ↔ créatrice) ================= -->
 <div class="modal-backdrop" id="chat-backdrop"></div>
