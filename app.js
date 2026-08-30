@@ -631,6 +631,8 @@ const I18N = {
     memberBioWordLimit: "words max",
     memberBioQuestionsTitle: "A few things about me",
     memberBioQuestionsNote: "These help creators find common ground with you — same visibility rules as your bio above.",
+    memberBioNarrativeLabelSelf: "In your own words",
+    memberBioNarrativeLabelOther: "In their own words",
     memberBioHobbies: "My hobbies",
     memberBioHobbiesPh: "Ex: hiking, video games, cooking...",
     memberBioPassions: "My passions",
@@ -4701,13 +4703,67 @@ async function fetchVisibleMembersForCreator(creatorId){
 // Carte membre en accordéon : repliée par défaut (juste avatar + nom), la créatrice tape
 // dessus pour dérouler la bio/photos/actions — indispensable dès qu'il y a beaucoup de
 // membres (100, 1000…), une fiche entièrement dépliée pour chacun prendrait bien trop de place.
-// Mise en forme "dorée" de la biographie libre d'un membre (même identité visuelle
-// que la bio narrative de la créatrice) : icône scintillante + texte en carte, pour
-// que la créatrice (et partout où cette bio s'affiche) ait une présentation cohérente.
-function memberBioNarrativeHtml(bioText){
-  return `<div class="member-bio-narrative">
-    <div class="member-bio-narrative-lead">${ICON_SPARKLE}<span>${escText(bioText)}</span></div>
-  </div>`;
+// Dictionnaire mots-clés → emoji pour habiller automatiquement la bio libre d'un membre
+// (un seul emoji par mot-clé, sur sa première occurrence, pour ne pas surcharger le texte).
+const BIO_EMOJI_MAP = [
+  [/^(travel|traveling|travelling|traveler|traveller)$/i, '✈️'],
+  [/^(music|musical)$/i, '🎵'],
+  [/^(dance|dancing|dancer)$/i, '💃'],
+  [/^(humor|humour|funny|jokes?|joking)$/i, '😄'],
+  [/^(sport|sports|fitness|gym|workout)$/i, '💪'],
+  [/^(food|cooking|cook|cuisine|foodie)$/i, '🍽️'],
+  [/^(nature|hiking|hike|outdoor|outdoors)$/i, '🌿'],
+  [/^(beach|sun|sunny|summer)$/i, '☀️'],
+  [/^(party|partying|nightlife|club|clubbing)$/i, '🎉'],
+  [/^(business|entrepreneur|entrepreneurship)$/i, '💼'],
+  [/^(family)$/i, '👨\u200d👩\u200d👧'],
+  [/^(pet|pets|dog|dogs|cat|cats)$/i, '🐾'],
+  [/^(games?|gaming|gamer)$/i, '🎮'],
+  [/^(love|romantic|romance)$/i, '❤️'],
+  [/^(adventure|adventurous)$/i, '🧭'],
+  [/^(art|painting|paint|creative|creativity)$/i, '🎨'],
+  [/^(movies?|cinema|film|films)$/i, '🎬'],
+  [/^(fashion|style|stylish)$/i, '👗'],
+  [/^(energy|energetic)$/i, '⚡'],
+  [/^(open[- ]?minded)$/i, '✨'],
+  [/^(naughty|freaky|playful|flirty)$/i, '😏'],
+  [/^(wine|drink|drinks|drinking)$/i, '🍷'],
+  [/^(car|cars|driving)$/i, '🚗'],
+  [/^(cool|outgoing|fun)$/i, '😎'],
+  [/^(kind|sweet|caring)$/i, '🥰'],
+  [/^(laugh|laughing|smile|smiling)$/i, '😁'],
+  [/^(dream|dreams|dreaming)$/i, '🌙'],
+  [/^(hobbies|hobby|passion|passions|passionate)$/i, '✨'],
+  [/^(model|modeling)$/i, '📸'],
+  [/^(spa|relax|relaxing)$/i, '🧖'],
+  [/^(chat|chatting|talk|talking)$/i, '💬'],
+  [/^(world)$/i, '🌍']
+];
+
+// Habille un texte libre d'emoji contextuels (un par mot-clé reconnu, une seule fois chacun),
+// tout en échappant correctement le texte d'origine (voir escText).
+function decorateBioWithEmojis(rawText){
+  const used = new Set();
+  return rawText.split(/(\s+)/).map(tok => {
+    if(!tok || /^\s+$/.test(tok)) return escText(tok);
+    const clean = tok.replace(/[^\p{L}]/gu, '');
+    if(clean){
+      for(const [re, emoji] of BIO_EMOJI_MAP){
+        if(re.test(clean) && !used.has(emoji)){
+          used.add(emoji);
+          return escText(tok) + ' ' + emoji;
+        }
+      }
+    }
+    return escText(tok);
+  }).join('');
+}
+
+// Mise en forme "dorée" de la biographie libre d'un membre, dans le même style visuel que la
+// bio narrative de la créatrice (icône + libellé doré en majuscules + texte, emoji contextuels
+// selon les mots employés) : utilisée à la fois côté créatrice et sur la page bio du membre lui-même.
+function memberBioNarrativeHtml(bioText, label){
+  return `<div class="bio-narrative"><p>${ICON_CHAT_SM}<span><b>${escText(label || t('memberBioNarrativeLabelOther'))}</b>${decorateBioWithEmojis(bioText)}</span></p></div>`;
 }
 
 function memberViewCardHtml(r, actionsHtml){
@@ -4729,7 +4785,7 @@ function memberViewCardHtml(r, actionsHtml){
       </button>
       <div class="member-view-details">
         ${r.location ? `<div class="member-view-loc">${escText(r.location)}</div>` : ''}
-        ${r.bio ? memberBioNarrativeHtml(r.bio) : ''}
+        ${r.bio ? memberBioNarrativeHtml(r.bio, t('memberBioNarrativeLabelOther')) : ''}
         ${bqHtml}
         ${r.photos.length ? `<div class="member-media-grid">${r.photos.map(p => `<img src="${escAttr(p)}" loading="lazy" decoding="async">`).join('')}</div>` : ''}
         ${actionsHtml || ''}
@@ -5613,7 +5669,7 @@ function renderMemberProfileInfosSubtab(user, data){
         <button type="button" class="member-bio-icon-btn" id="member-bio-delete-btn" title="${escAttr(t('memberBioDeleteBtn'))}">${ICON_TRASH}</button>
       </div>
     </div>
-    <div class="member-bio-readview" id="member-bio-readview">${data.bio ? memberBioNarrativeHtml(data.bio) : `<span class="member-note">${t('memberBioEmpty')}</span>`}</div>
+    <div class="member-bio-readview" id="member-bio-readview">${data.bio ? memberBioNarrativeHtml(data.bio, t('memberBioNarrativeLabelSelf')) : `<span class="member-note">${t('memberBioEmpty')}</span>`}</div>
     <textarea id="member-pf-bio" rows="3" placeholder="${escAttr(t('memberBioPh'))}" style="display:none;">${escText(data.bio || '')}</textarea>
     <p class="member-note" id="member-bio-wordcount"></p>
 
