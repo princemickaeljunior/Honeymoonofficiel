@@ -49,7 +49,7 @@ button{font-family:inherit;cursor:pointer;}
 /* ---------- theme toggle (bouton flottant, visible partout) ---------- */
 
 /* ---------- topbar ---------- */
-#topbar{
+.topbar{
   position:fixed;top:0;left:0;right:0;z-index:40;
   display:flex;align-items:center;justify-content:space-between;
   padding:18px 24px;
@@ -60,8 +60,12 @@ button{font-family:inherit;cursor:pointer;}
   transition:transform .32s cubic-bezier(.22,.61,.36,1);
   will-change:transform;
 }
-#topbar.topbar-hidden{transform:translateY(-100%);}
+.topbar.topbar-hidden{transform:translateY(-100%);}
 #app-shell, #my-profile-shell, #vitrine-shell{padding-top:var(--topbar-h, 76px);}
+#member-shell{padding-top:calc(28px + env(safe-area-inset-top));min-height:100vh;}
+.member-shell-wrap{padding:0 0 60px;}
+.member-home-quickrow{display:flex;align-items:center;justify-content:center;gap:10px;margin:12px 0 4px;flex-wrap:wrap;}
+.member-home-quickrow .lang-select{width:auto;}
 #app-shell{}
 .bottom-nav{
   position:fixed;left:0;right:0;bottom:0;z-index:39;
@@ -74,10 +78,10 @@ button{font-family:inherit;cursor:pointer;}
 .bottom-nav.bottom-nav-hidden{transform:translateY(100%);}
 .bottom-nav-item{background:none;border:none;color:var(--text-muted);display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9.5px;font-weight:700;padding:6px 14px;flex:1;border-radius:14px;font-family:'Inter',sans-serif;}
 .bottom-nav-item.active{color:var(--honey);background:rgba(212,175,55,0.12);}
-#topbar .logo{
+.topbar .logo{
   font-size:22px;
 }
-#topbar .right{display:flex;align-items:center;gap:10px;}
+.topbar .right{display:flex;align-items:center;gap:10px;}
 .topbar-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
 .topbar-member-badge{background:var(--bg-elev-2);border:1px solid var(--honey);color:var(--honey);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;display:flex;align-items:center;gap:6px;}
 .lang-group{display:flex;border:1px solid var(--border);border-radius:999px;overflow:hidden;}
@@ -424,8 +428,8 @@ img[data-hm-loaded], video[data-hm-loaded]{
    Cette classe ajoute un fondu + léger glissement au lieu du fondu plat brut de .modal-box.
    Volontairement PAS appliquée à .modal-box en général (ça toucherait aussi les modales
    du tableau de bord créatrice/agence : edit-modal, sales-modal, contracts-modal, etc.).
-   Elle est posée uniquement sur : la fenêtre compte membre (icône membre + icône message,
-   qui ouvrent toutes les deux #member-modal), et la fiche/room d'une créatrice consultée
+   Le compte membre (#member-modal-body) est maintenant une page dédiée (#member-shell),
+   plus une modale — cette classe reste posée sur la fiche/room d'une créatrice consultée
    par un membre ou visiteur (#vitrine-room). Pour le chat (#chat-modal), elle est ajoutée/
    retirée dynamiquement en JS selon ctx.viewerType === 'member' (voir openChat). */
 .member-space-modal{
@@ -445,14 +449,14 @@ img[data-hm-loaded], video[data-hm-loaded]{
 #report-modal{z-index:131;}
 .modal-box h3{font-size:18px;margin-bottom:16px;}
 /* ---------- espace membre : même signature éditoriale que la vitrine (halo doré + Fraunces) ---------- */
-#member-modal{
+#member-shell{
   background:
     radial-gradient(520px 340px at 100% -6%, color-mix(in srgb, var(--honey) 14%, transparent), transparent 65%),
     radial-gradient(460px 380px at -10% 30%, color-mix(in srgb, var(--wine) 26%, transparent), transparent 68%),
     var(--bg-elev);
 }
-#member-modal h3{font-family:'Fraunces',serif;font-weight:600;font-size:22px;letter-spacing:-0.005em;}
-#member-modal .member-section-title{font-family:'JetBrains Mono',monospace;}
+#member-shell h3{font-family:'Fraunces',serif;font-weight:600;font-size:22px;letter-spacing:-0.005em;}
+#member-shell .member-section-title{font-family:'JetBrains Mono',monospace;}
 /* Pages plein écran avec en-tête fixe + flèche retour (fiche créatrice, chat). */
 .fullpage-modal{
   padding:0;display:flex;flex-direction:column;overflow:hidden;
@@ -612,18 +616,18 @@ img[data-hm-loaded], video[data-hm-loaded]{
    Portée volontairement limitée par sélecteur de conteneur pour NE PAS toucher au
    tableau de bord créatrice/agence (#app-shell, #my-profile-shell), qui partage les
    mêmes classes de boutons (.btn, .my-tab-btn, .level-arrow, etc.).
-   Conteneurs concernés : #member-modal (compte membre, icône membre + icône message),
+   Conteneurs concernés : #member-shell (page dédiée du compte membre),
    #vitrine-room (fiche/room d'une créatrice consultée par un membre ou visiteur),
    #vitrine-shell (cartes de la vitrine publique), #bottom-nav (nav publique). */
-#member-modal .member-tab, #member-modal .member-subtab, #member-modal .btn, #member-modal .member-bio-icon-btn,
-#member-modal .level-arrow, #member-modal .my-tab-btn,
+#member-shell .member-tab, #member-shell .member-subtab, #member-shell .btn, #member-shell .member-bio-icon-btn,
+#member-shell .level-arrow, #member-shell .my-tab-btn,
 #vitrine-room .btn, #vitrine-room .my-tab-btn, #vitrine-room .level-arrow, #vitrine-room .room-fav-btn,
 #vitrine-shell .card-fav-btn, #vitrine-shell .card-report-btn,
 #bottom-nav .bottom-nav-item{
   transition: transform .12s ease, opacity .12s ease, background .15s ease, color .15s ease, border-color .15s ease;
 }
-#member-modal .member-tab:active, #member-modal .member-subtab:active, #member-modal .btn:active,
-#member-modal .member-bio-icon-btn:active, #member-modal .level-arrow:active, #member-modal .my-tab-btn:active,
+#member-shell .member-tab:active, #member-shell .member-subtab:active, #member-shell .btn:active,
+#member-shell .member-bio-icon-btn:active, #member-shell .level-arrow:active, #member-shell .my-tab-btn:active,
 #vitrine-room .btn:active, #vitrine-room .my-tab-btn:active, #vitrine-room .level-arrow:active, #vitrine-room .room-fav-btn:active,
 #vitrine-shell .card-fav-btn:active, #vitrine-shell .card-report-btn:active,
 #bottom-nav .bottom-nav-item:active{
@@ -1165,9 +1169,9 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .topbar-msg-badge{position:absolute;top:-4px;right:-4px;background:var(--rose);color:#fff;font-size:10px;font-weight:700;min-width:16px;height:16px;border-radius:999px;display:flex;align-items:center;justify-content:center;padding:0 4px;line-height:1;}
 .vitrine-lang-row{display:flex;justify-content:flex-end;padding:6px 24px 0;gap:10px;margin-top:18px;margin-bottom:0;}
 #vitrine-shell .hero{padding-top:18px;padding-bottom:30px;}
-#vitrine-shell #topbar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;}
-#vitrine-shell #topbar .topbar-left{justify-self:start;}
-#vitrine-shell #topbar .right{justify-self:end;}
+#vitrine-shell .topbar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;}
+#vitrine-shell .topbar .topbar-left{justify-self:start;}
+#vitrine-shell .topbar .right{justify-self:end;}
 #vitrine-shell #topbar-member-badge{justify-self:center;border:none !important;background:none !important;}
 .burger-panel{
   position:fixed;top:0;right:0;height:100%;width:100%;max-width:100%;background:var(--bg-elev);
@@ -1338,8 +1342,8 @@ img[data-hm-loaded], video[data-hm-loaded]{
   }
   .burger-close-btn{display:none;}
   #burger-menu-btn{display:none;}
-  #app-shell, #my-profile-shell, #vitrine-shell{padding-left:240px;}
-  #topbar{padding-left:260px;}
+  #app-shell, #my-profile-shell, #member-shell, #vitrine-shell{padding-left:240px;}
+  .topbar{padding-left:260px;}
   .bottom-nav{padding-left:240px;}
 
   /* La page choisie s'affiche à côté du menu vertical (deux colonnes), pas en dessous. */
