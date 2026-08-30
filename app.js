@@ -15,6 +15,40 @@
 
 const CONTACT_EMAIL = 'honeymoon-official@outlook.com';
 
+/* ---------------- sons "message envoyé / reçu" pour les 3 chatbots (Tips,
+   Match with Clients, Match Your Words) — façon WhatsApp -----------------
+   Générés directement via l'API Web Audio (petits "bips" synthétisés), donc
+   aucun fichier audio à héberger et rien à télécharger. */
+let _hmAudioCtx = null;
+function hmGetAudioCtx(){
+  if(!_hmAudioCtx){
+    try{ _hmAudioCtx = new (window.AudioContext || window.webkitAudioContext)(); }catch(e){ return null; }
+  }
+  if(_hmAudioCtx.state === 'suspended'){ _hmAudioCtx.resume().catch(() => {}); }
+  return _hmAudioCtx;
+}
+function hmPlayTone(freqStart, freqEnd, duration, volume){
+  const ctx = hmGetAudioCtx();
+  if(!ctx) return;
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(freqStart, ctx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(freqEnd, ctx.currentTime + duration);
+  gain.gain.setValueAtTime(volume, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+  osc.connect(gain).connect(ctx.destination);
+  osc.start();
+  osc.stop(ctx.currentTime + duration);
+}
+function hmPlaySentSound(){ try{ hmPlayTone(700, 1000, 0.08, 0.12); }catch(e){} }
+function hmPlayReceivedSound(){
+  try{
+    hmPlayTone(880, 700, 0.11, 0.13);
+    setTimeout(() => hmPlayTone(660, 520, 0.11, 0.1), 90);
+  }catch(e){}
+}
+
 /* ---------------- indicateur de chargement global pour <img>/<video> -----------------
    Le site injecte énormément de contenu (photos, vidéos) via innerHTML un peu partout.
    Plutôt que de modifier chaque endroit un par un, on observe tout le document et on
@@ -3575,6 +3609,7 @@ function showNoMatch(query){
     <div class="chat-bubble chat-user">${escText(query)}<span class="chat-time">${formatChatTime(now)}</span></div>
     <div class="chat-bubble chat-bot show" id="chat-bot-bubble"></div>
   `;
+  hmPlaySentSound();
   chat.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   const bubble = document.getElementById('chat-bot-bubble');
   setTimeout(() => typeWriterText(bubble, t('toolNoMatch'), now), 600);
@@ -3601,6 +3636,7 @@ function showAdviceAnswer(topic, userText){
     <div class="chat-bubble chat-user">${escText(title)}<span class="chat-time">${formatChatTime(now)}</span></div>
     <div class="chat-bubble chat-bot show" id="chat-bot-bubble" style="border-color:${color};"><span class="chat-typing-dots"><span></span><span></span><span></span></span></div>
   `;
+  hmPlaySentSound();
   chat.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   const bubble = document.getElementById('chat-bot-bubble');
   const nowMs = Date.now();
@@ -3621,6 +3657,7 @@ function typeWriterText(el, text, timeDate){
     el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     if(i >= words.length){
       el.insertAdjacentHTML('beforeend', `<span class="chat-time">${formatChatTime(timeDate || new Date())}</span>`);
+      hmPlayReceivedSound();
       return;
     }
     const jitter = 26 + Math.random() * 30; // vitesse de frappe légèrement irrégulière, comme un humain
@@ -3779,6 +3816,7 @@ function showNoMatchIn(chatId, query){
     <div class="chat-bubble chat-user">${escText(query)}<span class="chat-time">${formatChatTime(now)}</span></div>
     <div class="chat-bubble chat-bot show" id="${chatId}-bot-bubble"></div>
   `;
+  hmPlaySentSound();
   chat.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   const bubble = document.getElementById(chatId + '-bot-bubble');
   setTimeout(() => typeWriterText(bubble, t('toolNoMatch'), now), 600);
@@ -3796,6 +3834,7 @@ function showTopicChatAnswer(chatId, topic, userText){
     <div class="chat-bubble chat-user">${escText(title)}<span class="chat-time">${formatChatTime(now)}</span></div>
     <div class="chat-bubble chat-bot show" id="${chatId}-bot-bubble" style="border-color:${color};"><span class="chat-typing-dots"><span></span><span></span><span></span></span></div>
   `;
+  hmPlaySentSound();
   chat.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   const bubble = document.getElementById(chatId + '-bot-bubble');
   const nowMs = Date.now();
@@ -8974,6 +9013,7 @@ const AICON = {
   scissors: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>',
   music: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>',
   dance: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4" r="2"/><path d="M12 6v6l4 6M12 12l-4 6M8 10l4 2 4-2"/></svg>',
+  gamepad: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><circle cx="15" cy="13" r="1"/><circle cx="18" cy="11" r="1"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>',
   stamp: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 12v-2a5 5 0 0 0-10 0v2M4 21v-3a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v3"/><path d="M2 21h20"/></svg>',
   calendar: ICON_CALENDAR,
   hashtag: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>',
@@ -9000,14 +9040,13 @@ const AICON = {
   globe: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>'
 };
 
-/* ---------------- Badge "premium" (emoji + icône SVG) pour les tags des 3 chatbots
+/* ---------------- Emoji de thème pour les tags des 3 chatbots
    (Tips / Match with Clients / Match Your Words) ----------------
-   Ajoute un emoji correspondant au thème devant l'icône SVG existante, dans un
-   petit badge doré, pour un rendu plus riche/"premium" sur chaque tag sans
-   toucher au reste du style (pas de fichier CSS séparé à modifier). */
+   Remplace l'icône SVG monochrome par l'emoji du thème (couleur native,
+   façon WhatsApp) devant le libellé du tag — pas de superposition/badge. */
 const AICON_EMOJI = {
   light:'💡', angle:'📐', frame:'🖼️', palette:'🎨', device:'📱', film:'🎬',
-  scissors:'✂️', music:'🎵', dance:'💃', stamp:'👗', calendar:'📅', hashtag:'#️⃣',
+  scissors:'✂️', music:'🎵', dance:'💃', gamepad:'🎮', stamp:'👗', calendar:'📅', hashtag:'#️⃣',
   chat:'💬', refresh:'🔁', magnet:'🧲', price:'💰', gift:'🎁', clock:'⏰',
   shield:'🛡️', eye:'👁️', leaf:'🌿', sun:'☀️', mirror:'🪞', chart:'📈',
   handshake:'🤝', folder:'📁', star:'⭐', pen:'✍️', search:'🔍', target:'🎯',
@@ -9023,15 +9062,12 @@ function tagEmojiFor(iconSvg){
   return AICON_EMOJI[key] || '✨';
 }
 function premiumTagIcon(iconSvg){
-  return `<span class="tag-icon-premium">${iconSvg}<span class="tag-icon-emoji">${tagEmojiFor(iconSvg)}</span></span>`;
+  return `<span class="tag-emoji">${tagEmojiFor(iconSvg)}</span>`;
 }
 if(!document.getElementById('hm-tag-premium-style')){
   const st = document.createElement('style');
   st.id = 'hm-tag-premium-style';
-  st.textContent = `
-    .tag-icon-premium{position:relative;display:inline-flex;align-items:center;justify-content:center;margin-right:6px;vertical-align:middle;}
-    .tag-icon-emoji{position:absolute;right:-7px;bottom:-6px;font-size:10px;line-height:1;background:#100e0b;border:1px solid #d6a94e;border-radius:50%;width:15px;height:15px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 3px rgba(214,169,78,.6);}
-  `;
+  st.textContent = `.tag-emoji{margin-right:6px;font-size:15px;vertical-align:middle;}`;
   document.head.appendChild(st);
 }
 
@@ -9334,7 +9370,7 @@ const CLIENT_MATCH_TOPICS = [
     answer:{en:"This usually signals he values warmth and loyalty over novelty. Don't overthink it — a simple, sincere \"that's really sweet\" goes further than a flirty line here. Guys who open up about family tend to become your most loyal, long-term supporters once they feel genuinely cared about, not just entertained."} },
   { icon:AICON.mirror, title:{en:"He mentions pets"},
     answer:{en:"Pets are an instant soft spot — ask for a name, a breed, a funny habit. It's low-pressure small talk that builds real rapport fast. If you have a pet yourself, share it — swapping pet stories is one of the fastest ways to make a stranger feel like a friend."} },
-  { icon:AICON.dance, title:{en:"He's into gaming"},
+  { icon:AICON.gamepad, title:{en:"He's into gaming"},
     answer:{en:"Gamers often chat late and expect fast, casual replies rather than long messages — match that rhythm instead of overthinking your wording. Ask what he's playing lately; a quick, genuine reaction (even \"I have no idea what that is, teach me\") keeps the conversation light and going."} },
   { icon:AICON.star, title:{en:"He's romantic / mentions love"},
     answer:{en:"Romantic guys want to feel like the connection is special, not generic — avoid copy-paste lines here more than anywhere else. Ask a real question about what romance means to him, and mirror a little vulnerability back. This is the theme where slowing down and sounding sincere converts best."} },
@@ -9374,7 +9410,7 @@ const WORDS_MATCH_TOPICS = [
     answer:{en:"This is usually a sign she values warmth and sincerity. A genuine, kind response works much better than a flirty one here — it shows you're listening to who she is, not just what she posts."} },
   { icon:AICON.mirror, title:{en:"She mentions a pet"},
     answer:{en:"Pets are the easiest, most natural icebreaker there is — ask for a name or a funny story. It's low-pressure, it's genuine, and it usually gets an instant, happy reply because it has nothing to do with performance."} },
-  { icon:AICON.dance, title:{en:"She's into gaming"},
+  { icon:AICON.gamepad, title:{en:"She's into gaming"},
     answer:{en:"Ask what she's currently playing — it's an easy, judgment-free question that shows you're curious about her as a person, not just her content. Gamer creators especially appreciate members who see them as more than a persona."} },
   { icon:AICON.star, title:{en:"She mentions romance / what she's looking for"},
     answer:{en:"This is where being genuine matters most — avoid generic compliments and instead respond to what she actually said. A little honesty about yourself in return (not oversharing, just real) tends to build far more trust than flattery."} },
