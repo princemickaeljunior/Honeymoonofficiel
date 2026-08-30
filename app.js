@@ -892,6 +892,7 @@ const I18N = {
     chatDeleteMessageConfirm: "Permanently delete this message?",
     chatStartBtn: "Send a message",
     myFamilyContent: "Content",
+    myTabsChooseHint: "Pick a tab above to get started.",
     myFamilyMessages: "Messages",
     myFamilyCA: "Revenue & Sales",
     myFamilyTools: "Tools",
@@ -1903,7 +1904,7 @@ function renderMyProfile(slotId){
       <div class="my-tabs" id="my-tabs-track-${m.id}">
         <button type="button" class="my-tab-btn" id="my-tab-btn-ideas">💡${t('toolIdeas')}</button>
         <button type="button" class="my-tab-btn" id="my-tab-btn-tipmenu">🍯${t('tipMenuTabLabel')}</button>
-        <button type="button" class="my-tab-btn active" id="my-tab-btn-content">${ICON_MY_CONTENT}${t('myFamilyContent')}</button>
+        <button type="button" class="my-tab-btn" id="my-tab-btn-content">${ICON_MY_CONTENT}${t('myFamilyContent')}</button>
         <button type="button" class="my-tab-btn" id="my-tab-btn-messages">${ICON_MY_MESSAGES}${t('myFamilyMessages')} <span class="creator-msg-badge" id="creator-msg-badge-${m.id}" style="display:none;"></span></button>
         <button type="button" class="my-tab-btn" id="my-tab-btn-members">👥${t('membersViewerBtn')}</button>
         <button type="button" class="my-tab-btn" id="my-tab-btn-comments">${ICON_NOTE}${t('myFamilyComments')}</button>
@@ -1932,7 +1933,13 @@ function renderMyProfile(slotId){
       </ul>
     </div>
 
-    <div class="my-tab-panel active" id="my-tab-panel-content">
+    <div class="my-tab-panel active" id="my-tab-panel-empty">
+      <div class="banner-active-card" style="margin-top:14px;max-width:460px;text-align:center;">
+        <p class="banner-active-text">${escText(t('myTabsChooseHint'))}</p>
+      </div>
+    </div>
+
+    <div class="my-tab-panel" id="my-tab-panel-content">
       <div id="my-gallery-zone" style="margin-top:14px;"></div>
       <div style="margin-top:36px;padding-top:28px;border-top:1px solid var(--border);">
         <h2 class="display" style="font-size:19px;">${t('myVaultTitle')}</h2>
@@ -1998,6 +2005,10 @@ function renderMyProfile(slotId){
 
   const myTabs = ['ideas', 'content', 'messages', 'members', 'comments', 'ca', 'tipmenu', 'tools', 'rules'];
   function showMyTab(name){
+    // Dès qu'elle choisit un onglet, on retire le message d'accueil : c'est bien
+    // elle qui décide par quoi commencer, aucun onglet n'est présélectionné à l'arrivée.
+    const emptyPanel = document.getElementById('my-tab-panel-empty');
+    if(emptyPanel) emptyPanel.classList.remove('active');
     myTabs.forEach(n => {
       document.getElementById('my-tab-panel-' + n).classList.toggle('active', n === name);
       document.getElementById('my-tab-btn-' + n).classList.toggle('active', n === name);
@@ -4807,7 +4818,7 @@ function memberViewCardHtml(r, actionsHtml){
         ${r.photos.length ? `
         <div class="member-card-section">
           <div class="member-card-section-title">${ICON_CAMERA}${t('memberCardSectionPhotos')}</div>
-          <div class="member-media-grid">${r.photos.map(p => `<img src="${escAttr(typeof p === 'string' ? p : (p.url || ''))}" loading="lazy" decoding="async">`).join('')}</div>
+          <div class="member-media-grid">${r.photos.map(p => `<img class="member-view-photo" src="${escAttr(typeof p === 'string' ? p : (p.url || ''))}" data-full="${escAttr(typeof p === 'string' ? p : (p.url || ''))}" data-type="image" loading="lazy" decoding="async" style="cursor:pointer;">`).join('')}</div>
         </div>` : ''}
         ${actionsHtml || ''}
       </div>
@@ -4816,6 +4827,14 @@ function memberViewCardHtml(r, actionsHtml){
 function wireMemberViewCardToggles(container){
   container.querySelectorAll('.member-view-toggle').forEach(btn => {
     btn.onclick = () => btn.closest('.member-view-card').classList.toggle('open');
+  });
+  // Clic sur une photo du membre (section "Photos" de la fiche) : ouvre la
+  // photo en plein écran (lightbox), comme partout ailleurs sur le site.
+  container.querySelectorAll('.member-view-photo').forEach(img => {
+    img.onclick = (e) => {
+      e.stopPropagation();
+      openLightbox(img.dataset.full, img.dataset.type);
+    };
   });
 }
 async function openMembersViewer(creatorId, creatorName){
