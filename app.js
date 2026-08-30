@@ -357,6 +357,11 @@ const I18N = {
     bioNarrativeUniverseTitle: "Her world",
     bioNarrativeLookingForTitle: "What she's looking for",
     bioNarrativeAmbitionsTitle: "Her ambitions",
+    bioNarrativeDiscussionStyleTitle: "What excites her in a conversation",
+    bioNarrativeDreamsTitle: "Her dreams",
+    bioNarrativeFearsTitle: "Her fears",
+    bioNarrativeVictoriesTitle: "Her victories",
+    bioNarrativeChallengesTitle: "Her challenges",
     bioNarrativeAudienceTitle: "Where to find her",
     reportPrefillMediaComment: "Comment on a photo/video",
     commentReplyBtn: "Reply",
@@ -623,6 +628,23 @@ const I18N = {
     memberLocationPh: "City, country...",
     memberBioLabel: "Biography",
     memberBioPh: "Tell us about yourself...",
+    memberBioQuestionsTitle: "A few things about me",
+    memberBioQuestionsNote: "These help creators find common ground with you — same visibility rules as your bio above.",
+    memberBioHobbies: "My hobbies",
+    memberBioHobbiesPh: "Ex: hiking, video games, cooking...",
+    memberBioPassions: "My passions",
+    memberBioPassionsPh: "Ex: music, cars, travel...",
+    memberBioDreams: "My dreams",
+    memberBioDreamsPh: "Ex: travel the world, start a business...",
+    memberBioLookingFor: "What I'm looking for here",
+    memberBioLookingForPh: "Ex: friendly chat, exclusive content, a connection...",
+    memberBioDiscussionStyle: "What excites me in a conversation",
+    memberBioDiscussionStylePh: "Ex: humor, deep talks, playful banter...",
+    memberBioQCardHobbies: "Hobbies",
+    memberBioQCardPassions: "Passions",
+    memberBioQCardDreams: "Dreams",
+    memberBioQCardLookingFor: "Looking for",
+    memberBioQCardDiscussionStyle: "Loves talking about",
     caThisMonthShort: "This month's earnings",
     coverVideoBtn: "Mini video",
     coverVideoNote: "You can use a photo, or a short intro video — it often attracts more views and followers.",
@@ -1055,6 +1077,11 @@ const I18N = {
     bioFantasies: 'Fantasies',
     bioFetish: 'Fetish',
     bioAmbitions: 'Ambitions',
+    bioDiscussionStyle: 'Discussion style that excites her',
+    bioDreams: 'Dreams',
+    bioFears: 'Fears / phobias',
+    bioVictories: 'Victories',
+    bioChallenges: 'Challenges',
     bioSocials: 'Social media (optional)',
     bioSocialsPh: 'e.g. Instagram @..., TikTok @...',
     bioWorkUrl: 'Site where she works (link)',
@@ -3982,6 +4009,16 @@ function openMyProfileEdit(m){
       <textarea id="ed-bio-fetish" rows="2">${escText(bio.fetish)}</textarea>
       <label>${t('bioAmbitions')}</label>
       <textarea id="ed-bio-ambitions" rows="2">${escText(bio.ambitions)}</textarea>
+      <label>${t('bioDiscussionStyle')}</label>
+      <textarea id="ed-bio-discussionstyle" rows="2">${escText(bio.discussionStyle)}</textarea>
+      <label>${t('bioDreams')}</label>
+      <textarea id="ed-bio-dreams" rows="2">${escText(bio.dreams)}</textarea>
+      <label>${t('bioFears')}</label>
+      <textarea id="ed-bio-fears" rows="2">${escText(bio.fears)}</textarea>
+      <label>${t('bioVictories')}</label>
+      <textarea id="ed-bio-victories" rows="2">${escText(bio.victories)}</textarea>
+      <label>${t('bioChallenges')}</label>
+      <textarea id="ed-bio-challenges" rows="2">${escText(bio.challenges)}</textarea>
       <label>${t('bioSocials')}</label>
       <input id="ed-bio-socials" value="${escText(bio.socials)}" placeholder="${t('bioSocialsPh')}">
       <label>${t('bioWorkUrl')}</label>
@@ -4121,6 +4158,11 @@ function openMyProfileEdit(m){
       fantasies: document.getElementById('ed-bio-fantasies').value.trim(),
       fetish: document.getElementById('ed-bio-fetish').value.trim(),
       ambitions: document.getElementById('ed-bio-ambitions').value.trim(),
+      discussionStyle: document.getElementById('ed-bio-discussionstyle').value.trim(),
+      dreams: document.getElementById('ed-bio-dreams').value.trim(),
+      fears: document.getElementById('ed-bio-fears').value.trim(),
+      victories: document.getElementById('ed-bio-victories').value.trim(),
+      challenges: document.getElementById('ed-bio-challenges').value.trim(),
       socials: document.getElementById('ed-bio-socials').value.trim(),
       workUrl: document.getElementById('ed-bio-workurl').value.trim(),
       status: document.getElementById('ed-bio-status').value
@@ -4386,6 +4428,16 @@ function openEdit(id){
       <textarea id="ed-bio-fetish" rows="2">${escText(bio.fetish)}</textarea>
       <label>${t('bioAmbitions')}</label>
       <textarea id="ed-bio-ambitions" rows="2">${escText(bio.ambitions)}</textarea>
+      <label>${t('bioDiscussionStyle')}</label>
+      <textarea id="ed-bio-discussionstyle" rows="2">${escText(bio.discussionStyle)}</textarea>
+      <label>${t('bioDreams')}</label>
+      <textarea id="ed-bio-dreams" rows="2">${escText(bio.dreams)}</textarea>
+      <label>${t('bioFears')}</label>
+      <textarea id="ed-bio-fears" rows="2">${escText(bio.fears)}</textarea>
+      <label>${t('bioVictories')}</label>
+      <textarea id="ed-bio-victories" rows="2">${escText(bio.victories)}</textarea>
+      <label>${t('bioChallenges')}</label>
+      <textarea id="ed-bio-challenges" rows="2">${escText(bio.challenges)}</textarea>
       <label>${t('bioSocials')}</label>
       <input id="ed-bio-socials" value="${escText(bio.socials)}" placeholder="${t('bioSocialsPh')}">
       <label>${t('bioWorkUrl')}</label>
@@ -4536,6 +4588,11 @@ function openEdit(id){
       fantasies: document.getElementById('ed-bio-fantasies').value.trim(),
       fetish: document.getElementById('ed-bio-fetish').value.trim(),
       ambitions: document.getElementById('ed-bio-ambitions').value.trim(),
+      discussionStyle: document.getElementById('ed-bio-discussionstyle').value.trim(),
+      dreams: document.getElementById('ed-bio-dreams').value.trim(),
+      fears: document.getElementById('ed-bio-fears').value.trim(),
+      victories: document.getElementById('ed-bio-victories').value.trim(),
+      challenges: document.getElementById('ed-bio-challenges').value.trim(),
       socials: document.getElementById('ed-bio-socials').value.trim(),
       workUrl: document.getElementById('ed-bio-workurl').value.trim(),
       status: document.getElementById('ed-bio-status').value
@@ -4644,6 +4701,15 @@ async function fetchVisibleMembersForCreator(creatorId){
 // dessus pour dérouler la bio/photos/actions — indispensable dès qu'il y a beaucoup de
 // membres (100, 1000…), une fiche entièrement dépliée pour chacun prendrait bien trop de place.
 function memberViewCardHtml(r, actionsHtml){
+  const bq = r.bioQuestions || {};
+  const bqRows = [
+    bq.hobbies ? [t('memberBioQCardHobbies'), bq.hobbies] : null,
+    bq.passions ? [t('memberBioQCardPassions'), bq.passions] : null,
+    bq.dreams ? [t('memberBioQCardDreams'), bq.dreams] : null,
+    bq.lookingFor ? [t('memberBioQCardLookingFor'), bq.lookingFor] : null,
+    bq.discussionStyle ? [t('memberBioQCardDiscussionStyle'), bq.discussionStyle] : null
+  ].filter(Boolean);
+  const bqHtml = bqRows.length ? `<div class="member-view-bioq">${bqRows.map(([label, val]) => `<p><b>${escText(label)}:</b> ${escText(val)}</p>`).join('')}</div>` : '';
   return `
     <div class="member-view-card">
       <button type="button" class="member-view-toggle">
@@ -4654,6 +4720,7 @@ function memberViewCardHtml(r, actionsHtml){
       <div class="member-view-details">
         ${r.location ? `<div class="member-view-loc">${escText(r.location)}</div>` : ''}
         ${r.bio ? `<p class="member-view-bio">${escText(r.bio)}</p>` : ''}
+        ${bqHtml}
         ${r.photos.length ? `<div class="member-media-grid">${r.photos.map(p => `<img src="${escAttr(p)}" loading="lazy" decoding="async">`).join('')}</div>` : ''}
         ${actionsHtml || ''}
       </div>
@@ -4689,7 +4756,7 @@ async function openMembersViewer(creatorId, creatorName){
       rows.push({
         id: doc.id, username: d.username || t('nameUndefined'),
         photoURL: photosOk ? (d.photoURL || '') : '', location: d.location || '',
-        bio: bioOk ? (d.bio || '') : '', photos: photosOk ? (d.photos || []) : [],
+        bio: bioOk ? (d.bio || '') : '', bioQuestions: bioOk ? (d.bioQuestions || null) : null, photos: photosOk ? (d.photos || []) : [],
         isFav, hasChatted, followersCount: d.followersCount || 0
       });
     });
@@ -5493,6 +5560,7 @@ function renderMemberProfileTab(user, data, subTab){
 
 function renderMemberProfileInfosSubtab(user, data){
   const tabBody = document.getElementById('member-subtab-body');
+  const bq = data.bioQuestions || {};
   const avatarInner = data.photoURL ? `<img src="${escAttr(data.photoURL)}" alt="" loading="lazy" decoding="async">` : '🙂';
   tabBody.innerHTML = `
     <div class="member-presentation-header">
@@ -5537,6 +5605,21 @@ function renderMemberProfileInfosSubtab(user, data){
     </div>
     <p class="member-bio-readview" id="member-bio-readview">${data.bio ? escText(data.bio) : `<span class="member-note">${t('memberBioEmpty')}</span>`}</p>
     <textarea id="member-pf-bio" rows="3" placeholder="${escAttr(t('memberBioPh'))}" style="display:none;">${escText(data.bio || '')}</textarea>
+
+    <div class="bio-narrative-divider" style="margin:16px 0;"></div>
+    <div class="member-section-title" style="margin-top:0;">${t('memberBioQuestionsTitle')}</div>
+    <p class="member-note">${t('memberBioQuestionsNote')}</p>
+    <label>${t('memberBioHobbies')}</label>
+    <input id="member-pf-bio-hobbies" placeholder="${escAttr(t('memberBioHobbiesPh'))}" value="${escAttr(bq.hobbies || '')}">
+    <label>${t('memberBioPassions')}</label>
+    <input id="member-pf-bio-passions" placeholder="${escAttr(t('memberBioPassionsPh'))}" value="${escAttr(bq.passions || '')}">
+    <label>${t('memberBioDreams')}</label>
+    <input id="member-pf-bio-dreams" placeholder="${escAttr(t('memberBioDreamsPh'))}" value="${escAttr(bq.dreams || '')}">
+    <label>${t('memberBioLookingFor')}</label>
+    <input id="member-pf-bio-lookingfor" placeholder="${escAttr(t('memberBioLookingForPh'))}" value="${escAttr(bq.lookingFor || '')}">
+    <label>${t('memberBioDiscussionStyle')}</label>
+    <input id="member-pf-bio-discussionstyle" placeholder="${escAttr(t('memberBioDiscussionStylePh'))}" value="${escAttr(bq.discussionStyle || '')}">
+
     <label>${t('memberVisibilityLabel')}</label>
     <select id="member-pf-bio-visible">
       <option value="everyone" ${data.bioVisibility === 'everyone' || (!data.bioVisibility && data.bioVisibleToCreator) ? 'selected' : ''}>${t('memberVisibilityEveryone')}</option>
@@ -5752,12 +5835,19 @@ async function memberSaveProfile(user, data){
   const location = document.getElementById('member-pf-location').value.trim().slice(0, 80);
   const bio = document.getElementById('member-pf-bio').value.trim().slice(0, 500);
   const bioVisibility = document.getElementById('member-pf-bio-visible').value;
+  const bioQuestions = {
+    hobbies: document.getElementById('member-pf-bio-hobbies').value.trim().slice(0, 200),
+    passions: document.getElementById('member-pf-bio-passions').value.trim().slice(0, 200),
+    dreams: document.getElementById('member-pf-bio-dreams').value.trim().slice(0, 200),
+    lookingFor: document.getElementById('member-pf-bio-lookingfor').value.trim().slice(0, 200),
+    discussionStyle: document.getElementById('member-pf-bio-discussionstyle').value.trim().slice(0, 200)
+  };
   const photosVisibility = document.getElementById('member-pf-photos-visible').value;
   const btn = document.getElementById('member-pf-save');
   btn.disabled = true;
   try{
     const payload = {
-      username: data.username || '', location, bio,
+      username: data.username || '', location, bio, bioQuestions,
       bioVisibility, photosVisibility,
       bioVisibleToCreator: bioVisibility !== 'nobody', photosVisibleToCreator: photosVisibility !== 'nobody'
     };
@@ -7580,7 +7670,7 @@ async function renderMyMembers(m, filter){
       rows.push({
         id: doc.id, username: d.username || t('nameUndefined'),
         photoURL: photosOk ? (d.photoURL || '') : '', location: d.location || '',
-        bio: bioOk ? (d.bio || '') : '', photos: photosOk ? (d.photos || []) : [],
+        bio: bioOk ? (d.bio || '') : '', bioQuestions: bioOk ? (d.bioQuestions || null) : null, photos: photosOk ? (d.photos || []) : [],
         isFav, hasChatted, isFollowedByCreator, isCreatorFavorite, followersCount: d.followersCount || 0
       });
     });
@@ -8451,6 +8541,10 @@ const ICON_CLAPPER = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none
 const ICON_FLAME = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2s-6 6-6 12a6 6 0 0 0 12 0c0-2-1-3-1-3s-.5 2-2 2c-2 0-1.5-3-1.5-3s-1.5 1-1.5 3c-3-2-3-6 0-11z"/></svg>';
 const ICON_ENVELOPE_HEART = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 6 10-6"/></svg>';
 const ICON_ROCKET = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>';
+const ICON_MOON_STAR = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/><path d="M19 3v4M17 5h4"/></svg>';
+const ICON_ALERT_TRIANGLE = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';
+const ICON_TROPHY = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M17 4h3a1 1 0 0 1 1 1v2a4 4 0 0 1-4 4M7 4H4a1 1 0 0 0-1 1v2a4 4 0 0 0 4 4"/><path d="M7 4h10v5a5 5 0 0 1-10 0z"/></svg>';
+const ICON_TARGET_SM = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>';
 const ICON_MOBILE = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>';
 const ICON_EXTLINK = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>';
 const ICON_CHAT_SM = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:4px;"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>';
@@ -8886,6 +8980,26 @@ function bioNarrativeHtml(m, bio){
 
   if(bio.ambitions){
     parts.push(`<p>${ICON_ROCKET}<span><b>${t('bioNarrativeAmbitionsTitle')}</b>${escText(bio.ambitions)}</span></p>`);
+  }
+
+  if(bio.discussionStyle){
+    parts.push(`<p>${ICON_CHAT}<span><b>${t('bioNarrativeDiscussionStyleTitle')}</b>${escText(bio.discussionStyle)}</span></p>`);
+  }
+
+  if(bio.dreams){
+    parts.push(`<p>${ICON_MOON_STAR}<span><b>${t('bioNarrativeDreamsTitle')}</b>${escText(bio.dreams)}</span></p>`);
+  }
+
+  if(bio.fears){
+    parts.push(`<p>${ICON_ALERT_TRIANGLE}<span><b>${t('bioNarrativeFearsTitle')}</b>${escText(bio.fears)}</span></p>`);
+  }
+
+  if(bio.victories){
+    parts.push(`<p>${ICON_TROPHY}<span><b>${t('bioNarrativeVictoriesTitle')}</b>${escText(bio.victories)}</span></p>`);
+  }
+
+  if(bio.challenges){
+    parts.push(`<p>${ICON_TARGET_SM}<span><b>${t('bioNarrativeChallengesTitle')}</b>${escText(bio.challenges)}</span></p>`);
   }
 
   if(m.audience || bio.socials){
