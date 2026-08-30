@@ -633,6 +633,9 @@ const I18N = {
     memberBioQuestionsNote: "These help creators find common ground with you — same visibility rules as your bio above.",
     memberBioNarrativeLabelSelf: "In your own words",
     memberBioNarrativeLabelOther: "In their own words",
+    memberCardSectionBio: "Bio",
+    memberCardSectionAbout: "About",
+    memberCardSectionPhotos: "Photos",
     memberBioHobbies: "My hobbies",
     memberBioHobbiesPh: "Ex: hiking, video games, cooking...",
     memberBioPassions: "My passions",
@@ -4791,9 +4794,21 @@ function memberViewCardHtml(r, actionsHtml){
       </button>
       <div class="member-view-details">
         ${r.location ? `<div class="member-view-loc">${escText(r.location)}</div>` : ''}
-        ${r.bio ? memberBioNarrativeHtml(r.bio, t('memberBioNarrativeLabelOther')) : ''}
-        ${bqHtml}
-        ${r.photos.length ? `<div class="member-media-grid">${r.photos.map(p => `<img src="${escAttr(typeof p === 'string' ? p : (p.url || ''))}" loading="lazy" decoding="async">`).join('')}</div>` : ''}
+        ${r.bio ? `
+        <div class="member-card-section">
+          <div class="member-card-section-title">${ICON_BIO}${t('memberCardSectionBio')}</div>
+          <p class="member-card-bio-text">${decorateBioWithEmojis(r.bio)}</p>
+        </div>` : ''}
+        ${bqHtml ? `
+        <div class="member-card-section">
+          <div class="member-card-section-title">${ICON_USER}${t('memberCardSectionAbout')} ${escText(r.username)}</div>
+          ${bqHtml}
+        </div>` : ''}
+        ${r.photos.length ? `
+        <div class="member-card-section">
+          <div class="member-card-section-title">${ICON_CAMERA}${t('memberCardSectionPhotos')}</div>
+          <div class="member-media-grid">${r.photos.map(p => `<img src="${escAttr(typeof p === 'string' ? p : (p.url || ''))}" loading="lazy" decoding="async">`).join('')}</div>
+        </div>` : ''}
         ${actionsHtml || ''}
       </div>
     </div>`;
