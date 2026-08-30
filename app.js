@@ -428,6 +428,9 @@ const I18N = {
     toolCalc: "Calculator",
     toolFinance: "Finance",
     toolAdvice: "Tips",
+    toolMatchClients: "Match with Clients",
+    toolMatchClientsNote: "Tap a theme from a member's profile below — I'll show you exactly how to work it into your chat, tease it, and turn it into a real connection (and a loyal subscriber).",
+    toolMatchClientsWelcome: "Hey, I'm Aria — think of me as your business coach here. Every member fills in little details about themselves: what they dream about, what they're into, what makes them laugh. Those aren't small talk, they're your best opening lines. Tap a theme below and I'll break down exactly how to use it 💛",
     toolBanner: "Banner",
     toolBannerNote: "Schedule a banner (date, time, duration) that will show on your public page inviting your followers to send you a gift — birthday, Valentine's, Christmas, New Year, or your own custom message.",
     bannerActiveLabel: "Active banner",
@@ -619,6 +622,10 @@ const I18N = {
     memberForgotSentBody: "If an account exists with this email, a reset link was just sent. Open it to choose a new password.",
     memberTabDiscover: "Our Creators Honeymoon",
     memberTabProfile: "Profile",
+    memberTabTools: "Tools",
+    toolMatchWords: "Match Your Words",
+    toolMatchWordsNote: "Tap a theme from her profile below — I'll show you how to read it and turn it into a conversation she'll actually enjoy.",
+    toolMatchWordsWelcome: "Hi, I'm Nova — think of me as your wingwoman here. Every creator's profile has little clues about who she really is: what she dreams about, what she's into, what makes her laugh. Those aren't decoration, they're your best opening line. Tap a theme below and I'll show you how to use it 😊",
     memberTabPurchases: "Collection",
     memberUnverifiedBanner: "Account not confirmed yet — email sent to {email}.",
     memberResendShort: "Resend",
@@ -2756,12 +2763,14 @@ function renderMyTools(m){
       <button class="room-tab-btn" data-tool="calc">${ICON_CALC}${t('toolCalc')}</button>
       <button class="room-tab-btn" data-tool="finance">${ICON_COIN}${t('toolFinance')}</button>
       <button class="room-tab-btn" data-tool="advice">${ICON_CHAT}${t('toolAdvice')}</button>
+      <button class="room-tab-btn" data-tool="matchclients">${AICON.handshake}${t('toolMatchClients')}</button>
     </div>
     <div class="room-tab-panel active" id="tool-panel-calendar"></div>
     <div class="room-tab-panel" id="tool-panel-notes"></div>
     <div class="room-tab-panel" id="tool-panel-calc"></div>
     <div class="room-tab-panel" id="tool-panel-finance"></div>
     <div class="room-tab-panel" id="tool-panel-advice"></div>
+    <div class="room-tab-panel" id="tool-panel-matchclients"></div>
   `;
   zone.querySelectorAll('#tools-tabs .room-tab-btn').forEach(btn => {
     btn.onclick = () => {
@@ -2777,6 +2786,7 @@ function renderMyTools(m){
   renderToolCalc(m);
   renderToolFinance(m);
   renderToolAdvice(m);
+  renderToolMatchClients(m);
 }
 
 /* ---------------- Calendrier ---------------- */
@@ -3617,6 +3627,184 @@ function typeWriterText(el, text, timeDate){
     setTimeout(tick, jitter);
   };
   tick();
+}
+
+/* ---------------- "Match with Clients" — chatbot business (persona "Aria") ----------------
+   Même mécanique que le Tips (recherche + sujets tapables + bulles de chat avec effet
+   de frappe), mais dédiée à comment aborder les centres d'intérêt d'un membre pour
+   engager la conversation, teaser, et convertir en abonnement/vente. */
+function renderToolMatchClients(m){
+  const panel = document.getElementById('tool-panel-matchclients');
+  if(!panel) return;
+  panel.innerHTML = `
+    <p style="color:var(--text-muted);font-size:11.5px;margin:0 0 12px;line-height:1.6;">${t('toolMatchClientsNote')}</p>
+    <div class="advice-search-row">
+      <input id="matchclients-search-input" placeholder="${t('toolAskAnything')}" autocomplete="off" maxlength="40">
+      <button class="icon-btn" id="matchclients-search-btn">${AICON.search}</button>
+    </div>
+    <div class="advice-suggestions" id="matchclients-suggestions"></div>
+    <div class="advice-topics" id="matchclients-topics"></div>
+    <div class="advice-chat" id="matchclients-chat"></div>
+  `;
+  const topicsEl = document.getElementById('matchclients-topics');
+  topicsEl.innerHTML = CLIENT_MATCH_TOPICS.map((topic, idx) => `
+    <button class="advice-topic-btn" data-idx="${idx}">${topic.icon} ${topic.title[LANG] || topic.title.en}</button>
+  `).join('');
+  topicsEl.querySelectorAll('.advice-topic-btn[data-idx]').forEach(btn => {
+    btn.onclick = () => showTopicChatAnswer('matchclients-chat', CLIENT_MATCH_TOPICS[parseInt(btn.dataset.idx, 10)]);
+  });
+
+  const doSearch = () => {
+    const q = document.getElementById('matchclients-search-input').value.trim();
+    if(!q) return;
+    const found = findClosestTopicIn(CLIENT_MATCH_TOPICS, q);
+    if(found) showTopicChatAnswer('matchclients-chat', found, q);
+    else showNoMatchIn('matchclients-chat', q);
+    document.getElementById('matchclients-suggestions').innerHTML = '';
+  };
+  document.getElementById('matchclients-search-btn').onclick = doSearch;
+  document.getElementById('matchclients-search-input').addEventListener('keydown', (e) => { if(e.key === 'Enter') doSearch(); });
+  document.getElementById('matchclients-search-input').addEventListener('input', (e) => {
+    const val = e.target.value.trim().toLowerCase();
+    const sugg = document.getElementById('matchclients-suggestions');
+    if(!val){ sugg.innerHTML = ''; return; }
+    const norm = s => (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    const nv = norm(val);
+    const matches = CLIENT_MATCH_TOPICS
+      .map((topic, idx) => ({ topic, idx, title: topic.title[LANG] || topic.title.en }))
+      .filter(x => norm(x.title).includes(nv))
+      .sort((a, b) => a.title.localeCompare(b.title))
+      .slice(0, 8);
+    sugg.innerHTML = matches.map(x => `
+      <button class="advice-suggestion-btn" data-idx="${x.idx}">${x.topic.icon} ${escText(x.title)}</button>
+    `).join('');
+    sugg.querySelectorAll('.advice-suggestion-btn').forEach(btn => {
+      btn.onclick = () => {
+        showTopicChatAnswer('matchclients-chat', CLIENT_MATCH_TOPICS[parseInt(btn.dataset.idx, 10)]);
+        document.getElementById('matchclients-search-input').value = '';
+        sugg.innerHTML = '';
+      };
+    });
+  });
+
+  // Message d'accueil de la persona "Aria", affiché tout de suite à l'ouverture
+  // de l'onglet — donne l'impression d'un vrai assistant déjà en session.
+  const chat = document.getElementById('matchclients-chat');
+  chat.innerHTML = `<div class="chat-bubble chat-bot show" id="matchclients-welcome-bubble"></div>`;
+  setTimeout(() => typeWriterText(document.getElementById('matchclients-welcome-bubble'), t('toolMatchClientsWelcome')), 400);
+}
+
+/* ---------------- "Match Your Words" — chatbot membre (persona "Nova") ----------------
+   Même mécanique, côté membre : comment lire les centres d'intérêt d'une créatrice
+   et engager une conversation agréable et respectueuse avec elle. */
+function renderMemberToolMatchWords(container){
+  if(!container) return;
+  container.innerHTML = `
+    <p style="color:var(--text-muted);font-size:11.5px;margin:0 0 12px;line-height:1.6;">${t('toolMatchWordsNote')}</p>
+    <div class="advice-search-row">
+      <input id="matchwords-search-input" placeholder="${t('toolAskAnything')}" autocomplete="off" maxlength="40">
+      <button class="icon-btn" id="matchwords-search-btn">${AICON.search}</button>
+    </div>
+    <div class="advice-suggestions" id="matchwords-suggestions"></div>
+    <div class="advice-topics" id="matchwords-topics"></div>
+    <div class="advice-chat" id="matchwords-chat"></div>
+  `;
+  const topicsEl = document.getElementById('matchwords-topics');
+  topicsEl.innerHTML = WORDS_MATCH_TOPICS.map((topic, idx) => `
+    <button class="advice-topic-btn" data-idx="${idx}">${topic.icon} ${topic.title[LANG] || topic.title.en}</button>
+  `).join('');
+  topicsEl.querySelectorAll('.advice-topic-btn[data-idx]').forEach(btn => {
+    btn.onclick = () => showTopicChatAnswer('matchwords-chat', WORDS_MATCH_TOPICS[parseInt(btn.dataset.idx, 10)]);
+  });
+
+  const doSearch = () => {
+    const q = document.getElementById('matchwords-search-input').value.trim();
+    if(!q) return;
+    const found = findClosestTopicIn(WORDS_MATCH_TOPICS, q);
+    if(found) showTopicChatAnswer('matchwords-chat', found, q);
+    else showNoMatchIn('matchwords-chat', q);
+    document.getElementById('matchwords-suggestions').innerHTML = '';
+  };
+  document.getElementById('matchwords-search-btn').onclick = doSearch;
+  document.getElementById('matchwords-search-input').addEventListener('keydown', (e) => { if(e.key === 'Enter') doSearch(); });
+  document.getElementById('matchwords-search-input').addEventListener('input', (e) => {
+    const val = e.target.value.trim().toLowerCase();
+    const sugg = document.getElementById('matchwords-suggestions');
+    if(!val){ sugg.innerHTML = ''; return; }
+    const norm = s => (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    const nv = norm(val);
+    const matches = WORDS_MATCH_TOPICS
+      .map((topic, idx) => ({ topic, idx, title: topic.title[LANG] || topic.title.en }))
+      .filter(x => norm(x.title).includes(nv))
+      .sort((a, b) => a.title.localeCompare(b.title))
+      .slice(0, 8);
+    sugg.innerHTML = matches.map(x => `
+      <button class="advice-suggestion-btn" data-idx="${x.idx}">${x.topic.icon} ${escText(x.title)}</button>
+    `).join('');
+    sugg.querySelectorAll('.advice-suggestion-btn').forEach(btn => {
+      btn.onclick = () => {
+        showTopicChatAnswer('matchwords-chat', WORDS_MATCH_TOPICS[parseInt(btn.dataset.idx, 10)]);
+        document.getElementById('matchwords-search-input').value = '';
+        sugg.innerHTML = '';
+      };
+    });
+  });
+
+  // Message d'accueil de la persona "Nova", affiché tout de suite à l'ouverture.
+  const chat = document.getElementById('matchwords-chat');
+  chat.innerHTML = `<div class="chat-bubble chat-bot show" id="matchwords-welcome-bubble"></div>`;
+  setTimeout(() => typeWriterText(document.getElementById('matchwords-welcome-bubble'), t('toolMatchWordsWelcome')), 400);
+}
+
+/* Recherche par mots-clés générique, réutilisable pour n'importe quelle liste de sujets
+   (ADVICE_TOPICS, CLIENT_MATCH_TOPICS, WORDS_MATCH_TOPICS, …) — ce n'est pas une vraie IA,
+   juste une correspondance de mots, mais ça permet de "poser une question" librement. */
+function findClosestTopicIn(topics, query){
+  const norm = s => (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  const q = norm(query);
+  const qWords = q.split(/\s+/).filter(w => w.length > 2);
+  let best = null, bestScore = 0;
+  topics.forEach(topic => {
+    const haystack = norm((topic.title.fr || '') + ' ' + (topic.title.en || '') + ' ' + (topic.answer.fr || '') + ' ' + (topic.answer.en || ''));
+    let score = 0;
+    qWords.forEach(w => { if(haystack.includes(w)) score++; });
+    if(score > bestScore){ bestScore = score; best = topic; }
+  });
+  return bestScore > 0 ? best : null;
+}
+function showNoMatchIn(chatId, query){
+  const chat = document.getElementById(chatId);
+  const now = new Date();
+  chat.innerHTML = `
+    <div class="chat-bubble chat-user">${escText(query)}<span class="chat-time">${formatChatTime(now)}</span></div>
+    <div class="chat-bubble chat-bot show" id="${chatId}-bot-bubble"></div>
+  `;
+  chat.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  const bubble = document.getElementById(chatId + '-bot-bubble');
+  setTimeout(() => typeWriterText(bubble, t('toolNoMatch'), now), 600);
+}
+/* Affiche une réponse de sujet façon conversation, dans n'importe quel chat cible
+   (identifié par son id de container) — factorisation de showAdviceAnswer pour les
+   nouveaux chatbots "Match with Clients" / "Match Your Words". */
+function showTopicChatAnswer(chatId, topic, userText){
+  const chat = document.getElementById(chatId);
+  const title = userText || topic.title[LANG] || topic.title.en;
+  const answer = topic.answer[LANG] || topic.answer.en;
+  const now = new Date();
+  const color = bubbleColorFor(topic.icon);
+  chat.innerHTML = `
+    <div class="chat-bubble chat-user">${escText(title)}<span class="chat-time">${formatChatTime(now)}</span></div>
+    <div class="chat-bubble chat-bot show" id="${chatId}-bot-bubble" style="border-color:${color};"><span class="chat-typing-dots"><span></span><span></span><span></span></span></div>
+  `;
+  chat.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  const bubble = document.getElementById(chatId + '-bot-bubble');
+  const nowMs = Date.now();
+  const sinceLast = lastChatActionAt ? nowMs - lastChatActionAt : 99999;
+  lastChatActionAt = nowMs;
+  const lineCount = Math.ceil(answer.length / 55);
+  let delay = lineCount > 15 ? 2200 : 500 + Math.min(1800, answer.length * 7);
+  if(sinceLast < 4000) delay = Math.round(delay * 0.45);
+  setTimeout(() => typeWriterText(bubble, answer, now), delay);
 }
 
 /* Estimateur de gains — mini-outil interactif dans le chat */
@@ -5583,6 +5771,7 @@ function renderMemberHome(user, data, activeTab){
           <button type="button" class="member-tab" id="member-tab-favorites">${ICON_LIKE}${t('memberTabFavorites')}</button>
           <button type="button" class="member-tab" id="member-tab-messages">${ICON_CHAT_SM}${t('memberTabMessages')} <span class="member-tab-badge" id="member-tab-messages-badge" style="display:none;"></span></button>
           <button type="button" class="member-tab" id="member-tab-purchases">${ICON_CART}${t('memberTabPurchases')}</button>
+          <button type="button" class="member-tab" id="member-tab-tools">${ICON_MY_TOOLS}${t('memberTabTools')}</button>
         </div>
       </div>
       <div id="member-tab-body"></div>
@@ -5593,7 +5782,7 @@ function renderMemberHome(user, data, activeTab){
     populateLangSelects();
     syncLangSelects(LANG);
     document.getElementById('member-lang-select').onchange = (e) => setMemberLang(e.target.value, user);
-    ['popularity', 'profile', 'favorites', 'messages', 'purchases'].forEach(name => {
+    ['popularity', 'profile', 'favorites', 'messages', 'purchases', 'tools'].forEach(name => {
       document.getElementById('member-tab-' + name).onclick = () => switchMemberTab(user, data, name);
     });
     updateTopbarMemberBadge(data.username);
@@ -5606,7 +5795,7 @@ function renderMemberHome(user, data, activeTab){
 
 function switchMemberTab(user, data, activeTab){
   memberActiveTab = activeTab;
-  ['popularity', 'profile', 'favorites', 'messages', 'purchases'].forEach(name => {
+  ['popularity', 'profile', 'favorites', 'messages', 'purchases', 'tools'].forEach(name => {
     const btn = document.getElementById('member-tab-' + name);
     if(btn) btn.classList.toggle('active', name === activeTab);
   });
@@ -5618,7 +5807,17 @@ function switchMemberTab(user, data, activeTab){
   else if(activeTab === 'favorites') renderMemberFavoritesTab(user, data);
   else if(activeTab === 'messages') renderMemberMessagesTab(user, data);
   else if(activeTab === 'popularity') renderMemberPopularityTab(user, data);
+  else if(activeTab === 'tools') renderMemberToolsTab(user, data);
   else renderMemberProfileTab(user, data);
+}
+/* Onglet "Tools" côté membre : pour l'instant, contient uniquement le chatbot
+   "Match Your Words" (thèmes des bios des créatrices + conseils de conversation).
+   D'autres outils pourront être ajoutés ici plus tard, sur le même modèle que
+   le menu Tools de la créatrice (calendrier, notes, etc.). */
+function renderMemberToolsTab(user, data){
+  const el = paintTabBody(`<div id="member-tools-zone"></div>`);
+  if(!el) return;
+  renderMemberToolMatchWords(document.getElementById('member-tools-zone'));
 }
 // Affiche le contenu d'un onglet ET (re)joue systématiquement la même animation
 // d'entrée douce, à chaque fois — comportement identique sur tous les onglets,
@@ -9073,6 +9272,83 @@ const ADVICE_TOPICS = [
     answer:{fr:"Trouve un thème ou univers qui te ressemble (couleurs, décor, personnalité) et garde-le cohérent — c'est ce qui te rend reconnaissable.", en:"Find a theme or style that feels like you (colors, setting, personality) and keep it consistent — that's what makes you recognizable.", es:"Encuentra un tema o estilo que se parezca a ti (colores, ambiente, personalidad) y mantenlo coherente — eso es lo que te hace reconocible.", it:"Trova un tema o uno stile che ti somiglia (colori, ambientazione, personalità) e mantienilo coerente — è ciò che ti rende riconoscibile.", pt:"Encontra um tema ou estilo que se pareça contigo (cores, ambiente, personalidade) e mantém-no coerente — é isso que te torna reconhecível.", sw:"Tafuta mandhari au mtindo unaokufananisha (rangi, mazingira, tabia) na uudumishe — hicho ndicho kinachokufanya utambulike.", zu:"Thola isihloko noma isitayela esikufanele (imibala, indawo, ubuntu) bese uyagcina kuvumelana — yilokho okwenza uhlonzwe.", st:"Fumana sehlooho kapa setaele se o tshwanang le sona (mebala, tikoloho, botho) mme o se boloke se tshwana — ke sona se etsang hore o tsejwe.", ln:"Luka thème to style oyo ekokani na yo (couleur, ambiance, personnalité) mpe batela yango ya kokangama — yango nde ekomisaka yo koyebana.", kg:"Luka thème to style yina ekokani na nge (bakuma, ambiance, kimuntu) ye bumba yo ya kukangama — yayi nde kesalaka nde nge kezabana."} },
   { icon:AICON.pen, title:{fr:"Rédiger une légende qui capte l'attention", en:"Writing a caption that grabs attention", es:"Escribir una descripción que capte la atención", it:"Scrivere una didascalia che catturi l'attenzione", pt:"Escrever uma legenda que capte a atenção", sw:"Kuandika maelezo yanayovutia", zu:"Ukubhala incazelo edonsa ukunakwa", st:"Ho ngola caption e hohelang tlhokomelo", ln:"Kokoma légende oyo ebendaka likebi", kg:"Kusoneka légende yina kebendaka dikebi"},
     answer:{fr:"Commence par une phrase courte et intrigante avant les détails. Une question ou une confidence donne envie de lire la suite et de commenter.", en:"Start with a short, intriguing line before the details. A question or a personal note makes people want to read on and comment.", es:"Empieza con una frase corta e intrigante antes de los detalles. Una pregunta o una confidencia da ganas de seguir leyendo y comentar.", it:"Inizia con una frase breve e intrigante prima dei dettagli. Una domanda o una confidenza invoglia a leggere e a commentare.", pt:"Começa com uma frase curta e intrigante antes dos detalhes. Uma pergunta ou uma confidência dá vontade de continuar a ler e a comentar.", sw:"Anza na sentensi fupi ya kuvutia kabla ya maelezo. Swali au siri ndogo humfanya msomaji aendelee kusoma na kutoa maoni.", zu:"Qala ngomusho omfushane odonsa ukunakwa ngaphambi kwemininingwane. Umbuzo noma imfihlo encane kwenza umuntu afune ukuqhubeka ukufunda nokuphawula.", st:"Qala ka polelwana e khutshwane e hohelang pele ho dintlha. Potso kapa lekunutu le lenyane li etsa hore motho a batle ho tswela pele ho bala le ho fana ka maikutlo.", ln:"Banda na phrase ya mokuse mpe ya kobenda liboso ya ba détail. Motuna to sekele moko ya moke epesaka posa ya kotanga mpe kopesa commentaire.", kg:"Yantika na phrase ya nkufi ye ya kubenda na ntwala ya ba détail. Ntuba to sekele mosi ya fioti kepesaka posa ya kutanga ye kupesa commentaire."} }
+];
+
+/* ---------------- "Match with Clients" (créatrice) ----------------
+   Chatbot à thèmes, même mécanique que ADVICE_TOPICS/Tips, mais dont les
+   sujets correspondent aux centres d'intérêt qu'un membre peut avoir dans
+   sa bio (voir BIO_EMOJI_MAP) : pour chaque thème, un conseil business sur
+   comment l'aborder en chat, teaser, garder le contact, et convertir la
+   conversation en abonnement/vente. Anglais uniquement (le site reste en
+   anglais) — le fallback topic.title.en / topic.answer.en s'applique déjà
+   automatiquement quel que soit LANG. */
+const CLIENT_MATCH_TOPICS = [
+  { icon:AICON.globe, title:{en:"He mentions travel"},
+    answer:{en:"Travel talk is pure gold — everyone has a dream destination and loves being asked about it. Ask where he'd take you on a first trip, then tease that you'd need \"the right outfit for the weather\" — it's playful, personal, and gives you a natural reason to mention a themed photo set later without it feeling like a sales pitch."} },
+  { icon:AICON.chat, title:{en:"He's into humor & jokes"},
+    answer:{en:"If humor is his thing, don't try to out-joke him — react to his jokes with genuine laughter (😂, voice notes work even better) and throw in a light tease of your own. Guys who lead with humor are testing if you're \"fun to talk to,\" not just pretty. Prove that first, and he'll stick around far longer than someone chasing a quick reply."} },
+  { icon:AICON.target, title:{en:"He's into sport & fitness"},
+    answer:{en:"Ask what he trains for — it flatters his effort and gives you an easy follow-up (\"show me\" works both ways). You can mirror it back naturally: mention you've been working on your own routine, which opens the door to a workout-themed photo or video without it feeling forced."} },
+  { icon:AICON.leaf, title:{en:"He loves nature & the outdoors"},
+    answer:{en:"Outdoorsy guys usually value calm, genuine conversation over fast, transactional chat — slow down a little. Ask about his favorite spot to disconnect, and describe a peaceful setting of your own (a beach, a garden). It sets up a soft, natural lead-in to a relaxed, sun-lit content set."} },
+  { icon:AICON.music, title:{en:"He's into nightlife & parties"},
+    answer:{en:"High energy responds well to high energy — keep your messages short, punchy, and a little cheeky. Ask what gets the dance floor going for him, then say you have \"a whole party playlist and mood\" of your own — it's a natural, light tease toward a livelier, dressed-up content set."} },
+  { icon:AICON.chart, title:{en:"He's business-minded / ambitious"},
+    answer:{en:"Ambitious guys like being seen as more than just a subscriber — acknowledge his hustle before anything else (\"sounds like you don't stop\"). They also respond well to structure: a clear, well-presented tip menu or exclusive offer feels respectful of their time, not pushy."} },
+  { icon:AICON.heart, title:{en:"He mentions family"},
+    answer:{en:"This usually signals he values warmth and loyalty over novelty. Don't overthink it — a simple, sincere \"that's really sweet\" goes further than a flirty line here. Guys who open up about family tend to become your most loyal, long-term supporters once they feel genuinely cared about, not just entertained."} },
+  { icon:AICON.mirror, title:{en:"He mentions pets"},
+    answer:{en:"Pets are an instant soft spot — ask for a name, a breed, a funny habit. It's low-pressure small talk that builds real rapport fast. If you have a pet yourself, share it — swapping pet stories is one of the fastest ways to make a stranger feel like a friend."} },
+  { icon:AICON.dance, title:{en:"He's into gaming"},
+    answer:{en:"Gamers often chat late and expect fast, casual replies rather than long messages — match that rhythm instead of overthinking your wording. Ask what he's playing lately; a quick, genuine reaction (even \"I have no idea what that is, teach me\") keeps the conversation light and going."} },
+  { icon:AICON.star, title:{en:"He's romantic / mentions love"},
+    answer:{en:"Romantic guys want to feel like the connection is special, not generic — avoid copy-paste lines here more than anywhere else. Ask a real question about what romance means to him, and mirror a little vulnerability back. This is the theme where slowing down and sounding sincere converts best."} },
+  { icon:AICON.frame, title:{en:"He's into adventure"},
+    answer:{en:"Adventure types are drawn to spontaneity — a little unpredictability in your replies (a surprise voice note, an unexpected question) keeps things exciting for them. Ask about his craziest trip or plan, then tease that you have \"an adventurous side he hasn't seen yet.\""} },
+  { icon:AICON.palette, title:{en:"He's into art & creativity"},
+    answer:{en:"Creative guys appreciate being asked about their process, not just their output — \"what inspired that?\" lands better than a generic compliment. They also tend to genuinely appreciate a well-composed, artistic photo, so this is a great audience for your more aesthetic, moodier content."} },
+  { icon:AICON.film, title:{en:"He's into movies & cinema"},
+    answer:{en:"Ask for a favorite movie and actually react to it — it shows you're listening, not scripting. A shared favorite genre (romance, thriller) is a great excuse to describe a themed photo or video set \"inspired by\" that mood, which feels like a fun idea rather than a sales pitch."} },
+  { icon:AICON.stamp, title:{en:"He's into fashion & style"},
+    answer:{en:"Fashion-minded guys notice detail — mention a specific piece (color, texture, brand vibe) rather than a vague \"cute outfit.\" This is your easiest, most natural bridge into talking about your wardrobe and upcoming photo sets, since it's already his language."} },
+  { icon:AICON.gift, title:{en:"He mentions wine / drinks"},
+    answer:{en:"This theme is about atmosphere, not the drink itself — ask what a perfect evening looks like for him. It opens the door to describing a cozy, intimate mood of your own (candles, a glass of wine, soft lighting) as the setting for your next content drop."} },
+  { icon:AICON.handshake, title:{en:"How to keep a client coming back"},
+    answer:{en:"The members who stay long-term are the ones who feel remembered, not just charged. Reference something he told you weeks ago — it costs you nothing and tells him you actually pay attention. Loyalty is built in the small, free messages between purchases, not just in the purchases themselves."} }
+];
+
+/* ---------------- "Match Your Words" (membre) ----------------
+   Même mécanique de chatbot à thèmes, côté membre cette fois : les sujets
+   correspondent aux centres d'intérêt qu'une créatrice peut afficher dans
+   sa bio, avec des conseils pour comprendre son profil et engager une
+   conversation agréable et respectueuse. Anglais uniquement. */
+const WORDS_MATCH_TOPICS = [
+  { icon:AICON.globe, title:{en:"She mentions travel in her bio"},
+    answer:{en:"Ask her about a place she's dreaming of rather than one she's already been — it's a lighter, more personal question and gives her something fun to imagine out loud. Creators get a lot of generic \"hey beautiful\" messages; a real question about her dreams instantly puts you in a different category."} },
+  { icon:AICON.chat, title:{en:"She lists humor / jokes as a passion"},
+    answer:{en:"This is an invitation to be playful, not to try too hard. A light, genuine joke or a witty reply to something she posted works far better than a rehearsed pickup line. If she's funny, she wants a conversation partner who can keep up, not just someone complimenting her looks."} },
+  { icon:AICON.target, title:{en:"She's into fitness / sport"},
+    answer:{en:"Ask what keeps her motivated rather than just complimenting her body — it shows you see the discipline behind the content, not just the result. Creators notice the difference immediately, and it tends to get a warmer, longer reply."} },
+  { icon:AICON.leaf, title:{en:"She loves nature / the outdoors"},
+    answer:{en:"Slow your pace a little here — outdoorsy creators often appreciate calmer, more thoughtful chats over rapid-fire messages. Ask about her favorite way to unwind; it's a low-pressure question that tends to open up a real conversation."} },
+  { icon:AICON.music, title:{en:"She's into nightlife / dancing"},
+    answer:{en:"Match her energy — short, upbeat, playful messages land better than long paragraphs here. Ask what song she can't resist dancing to; it's a fun, easy question that shows real interest without being heavy."} },
+  { icon:AICON.chart, title:{en:"She mentions ambition / her own business"},
+    answer:{en:"Treat her like the entrepreneur she is — a respectful comment about her hustle, and being mindful of her time, goes a long way. Creators remember members who are considerate over those who are demanding, and it usually leads to a much better connection."} },
+  { icon:AICON.heart, title:{en:"She mentions family"},
+    answer:{en:"This is usually a sign she values warmth and sincerity. A genuine, kind response works much better than a flirty one here — it shows you're listening to who she is, not just what she posts."} },
+  { icon:AICON.mirror, title:{en:"She mentions a pet"},
+    answer:{en:"Pets are the easiest, most natural icebreaker there is — ask for a name or a funny story. It's low-pressure, it's genuine, and it usually gets an instant, happy reply because it has nothing to do with performance."} },
+  { icon:AICON.dance, title:{en:"She's into gaming"},
+    answer:{en:"Ask what she's currently playing — it's an easy, judgment-free question that shows you're curious about her as a person, not just her content. Gamer creators especially appreciate members who see them as more than a persona."} },
+  { icon:AICON.star, title:{en:"She mentions romance / what she's looking for"},
+    answer:{en:"This is where being genuine matters most — avoid generic compliments and instead respond to what she actually said. A little honesty about yourself in return (not oversharing, just real) tends to build far more trust than flattery."} },
+  { icon:AICON.frame, title:{en:"She's into adventure"},
+    answer:{en:"Ask about her wildest trip or dream adventure — it's a fun, open question that lets her talk about herself, which is always a good sign in a first real conversation. Curiosity beats compliments here."} },
+  { icon:AICON.palette, title:{en:"She's into art / creativity"},
+    answer:{en:"Ask what inspired a specific photo or post rather than just saying it's beautiful — it shows you're paying attention to her as a creator, not just consuming. Creative people love being appreciated for their eye, not just their looks."} },
+  { icon:AICON.gift, title:{en:"General rule: how to stand out"},
+    answer:{en:"Creators get dozens of \"hi beautiful\" messages a day — the fastest way to stand out is to react to something specific she said or posted, ask a real question, and be patient. A respectful, genuinely curious member is memorable; a generic one is invisible."} }
 ];
 
 function vitrineCardHtml(m){
