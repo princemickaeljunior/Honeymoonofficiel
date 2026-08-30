@@ -515,6 +515,33 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .member-subtab{flex:1;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text-muted);font-size:11.5px;font-weight:600;padding:8px 4px;border-radius:8px;cursor:pointer;}
 .member-subtab.active{background:var(--honey);color:#1a1206;border-color:var(--honey);}
 .visibility-note{color:var(--honey);font-size:11px;margin-top:2px;}
+/* Icône dorée inline devant un titre de champ (hobbies, passions, rêves...) — cohérente avec
+   les mêmes icônes utilisées côté lecture (bio-narrative) pour que la créatrice voie exactement
+   la même iconographie que celle affichée au client au moment de la saisie. */
+.field-icon{display:inline-flex;vertical-align:-3px;margin-right:6px;}
+.field-icon svg{width:14px;height:14px;color:var(--honey);}
+.member-quiz-field label{display:flex;align-items:center;}
+/* Sélecteur de visibilité en 3 boutons (tout le monde / favoris / personne), tout en SVG,
+   avec un code couleur explicite par niveau : vert = visible à tous, doré = favoris
+   uniquement, rouge = masqué à tous — pour que le degré de confidentialité soit lisible
+   d'un coup d'œil, sans avoir à lire le texte. */
+.visibility-group{display:flex;gap:8px;margin-top:6px;}
+.visibility-opt{
+  flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;
+  background:var(--bg-elev-2);border:1.5px solid var(--border);border-radius:var(--radius-sm);
+  padding:10px 6px;cursor:pointer;font-family:'Inter',sans-serif;font-size:10.5px;font-weight:700;
+  text-align:center;text-transform:uppercase;letter-spacing:.02em;color:var(--text-muted);
+  transition:border-color .15s,background .15s,color .15s;
+}
+.visibility-opt svg{width:18px;height:18px;opacity:.7;transition:opacity .15s;}
+.visibility-opt[data-value="everyone"]{--vis-color:#3ecf7a;}
+.visibility-opt[data-value="favorites"]{--vis-color:var(--honey);}
+.visibility-opt[data-value="nobody"]{--vis-color:var(--rose);}
+.visibility-opt.active{
+  border-color:var(--vis-color);color:var(--vis-color);
+  background:color-mix(in srgb, var(--vis-color) 16%, transparent);
+}
+.visibility-opt.active svg{opacity:1;}
 .member-avatar-row{display:flex;align-items:center;gap:14px;margin-bottom:6px;}
 .member-avatar{width:64px;height:64px;border-radius:50%;background:var(--bg-elev-2);border:1px solid var(--border);object-fit:cover;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--text-muted);overflow:hidden;}
 .member-avatar img{width:100%;height:100%;object-fit:cover;display:block;}
