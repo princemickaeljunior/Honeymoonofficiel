@@ -1008,6 +1008,7 @@ const I18N = {
     copiedToast: 'Code copied',
     numberPrefix: 'No.',
     myEditBtn: 'Edit my information',
+    myBackToSiteBtn: '← Back to the site',
     myProfileManageNote: 'Manage your photo, information and gallery below. Photos and videos you post here will be visible on the showcase site.',
     addPhoto: 'Add photos',
     addVideo: 'Add videos',
@@ -1813,6 +1814,7 @@ function renderMyProfile(slotId){
       <h1 class="display" style="font-size:24px;">${t('myProfileHello')}${m.name ? ', ' + escText(m.name) : ''}</h1>
       <p style="color:var(--text-muted);font-size:13px;max-width:420px;margin:10px auto 0;line-height:1.7;">${t('myProfileManageNote')}</p>
       <button class="btn btn-primary" id="my-edit-btn" style="max-width:280px;margin:18px auto 0;">${t('myEditBtn')}</button>
+      <button class="btn btn-ghost btn-sm" id="my-back-to-site-btn" style="max-width:280px;margin:10px auto 0;">${t('myBackToSiteBtn')}</button>
     </div>
     <div class="popularity-hero" id="popularity-hero-${m.id}">
       <div class="tiktok-stat"><span class="tiktok-stat-num">${(m.followingMembers || []).length}</span><span class="tiktok-stat-label">${t('followingLabel')}</span></div>
@@ -1944,6 +1946,8 @@ function renderMyProfile(slotId){
   });
 
   document.getElementById('my-edit-btn').onclick = () => openMyProfileEdit(m);
+  const backToSiteBtn = document.getElementById('my-back-to-site-btn');
+  if(backToSiteBtn) backToSiteBtn.onclick = () => { requireAgeGate(() => openVitrine()); };
   wireSlideArrows(body);
   const homeVideoInput = document.getElementById('home-video-file-' + m.id);
   if(homeVideoInput){
@@ -3251,6 +3255,10 @@ function renderToolIdeas(m){
       <li>${escText(t('ideasTip4'))}</li>
       <li>${escText(t('ideasTip5'))}</li>
     </ul>
+
+    <p style="color:var(--rose);font-weight:700;font-size:12px;line-height:1.7;margin:20px 0 0;padding:12px 14px;background:rgba(226,99,124,0.08);border-radius:10px;">
+      ${escText(MASK_ADVICE_TEXT[LANG] || MASK_ADVICE_TEXT.en)}
+    </p>
   `;
   wireAudioRecorderWidget('ideas-welcome-audio',
     (file) => { pendingWelcomeAudioFile = file; welcomeAudioCleared = false; },
@@ -8385,6 +8393,16 @@ const AICON = {
   book: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>',
   heart: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>',
   globe: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>'
+};
+
+/* Conseil "masque" affiché en bas de la page Business & Advices — traductions
+   intégrées directement ici (comme FAQ_ITEMS) pour ne pas dépendre des
+   fichiers i18n-*.js séparés. */
+const MASK_ADVICE_TEXT = {
+  fr: "Conseil : si tu sens que ça t'aide côté sécurité ou que ça ajoute un côté mystérieux, tu peux tout à fait porter un masque pour ne pas révéler ton identité en filmant ou en publiant — c'est entièrement ton choix.",
+  en: "Tip: if you feel it helps with your safety or adds a bit of mystery, you're welcome to wear a mask to avoid revealing your identity while filming or posting — it's entirely your choice.",
+  es: "Consejo: si sientes que te ayuda con tu seguridad o le da un toque de misterio, puedes llevar una máscara para no revelar tu identidad al grabar o publicar — es totalmente tu elección.",
+  it: "Consiglio: se pensi che possa aiutarti con la sicurezza o aggiungere un tocco di mistero, puoi tranquillamente indossare una maschera per non rivelare la tua identità quando filmi o pubblichi — è del tutto una tua scelta.",
 };
 
 /* ================= DEVISES ================= */
