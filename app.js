@@ -416,6 +416,9 @@ const I18N = {
     bannerTemplateLabel_christmas: "Christmas",
     bannerTemplateLabel_newyear: "New Year",
     bannerTemplateLabel_custom: "Custom",
+    bannerTemplateLabel_easter: "Easter",
+    chatOccasionBtnLabel: "Occasion phrases",
+    chatOccasionNote: "Tap an occasion to fill the message with a ready-made phrase, or choose Custom to write your own.",
     bannerTemplate_birthday: "🎂 My birthday is coming up! If you're feeling generous, a little gift would make my day 💛",
     bannerTemplate_valentine: "💘 Happy Valentine's Day! Send me a little gift to show me some love 😘",
     bannerTemplate_christmas: "🎄 Merry Christmas! A little gift under the tree for me would make my heart skip a beat 🎁",
@@ -3258,6 +3261,9 @@ function renderToolIdeas(m){
 
     <p style="color:var(--rose);font-weight:700;font-size:12px;line-height:1.7;margin:20px 0 0;padding:12px 14px;background:rgba(226,99,124,0.08);border-radius:10px;">
       ${escText(MASK_ADVICE_TEXT[LANG] || MASK_ADVICE_TEXT.en)}
+    </p>
+    <p style="color:var(--rose);font-weight:700;font-size:12px;line-height:1.7;margin:10px 0 0;padding:12px 14px;background:rgba(226,99,124,0.08);border-radius:10px;">
+      ${escText(WARDROBE_ADVICE_TEXT[LANG] || WARDROBE_ADVICE_TEXT.en)}
     </p>
   `;
   wireAudioRecorderWidget('ideas-welcome-audio',
@@ -6256,6 +6262,7 @@ async function openChat(ctx){
   document.getElementById('chat-header-name').textContent = ctx.otherName || '';
   document.getElementById('chat-header-status').textContent = '';
   wireChatModPanel();
+  wireChatOccasionPanel(ctx);
   wireChatBot(ctx);
   const cartBtn = document.getElementById('chat-cart-btn');
   const cartHelpBtn = document.getElementById('chat-cart-help-btn');
@@ -6545,6 +6552,82 @@ function wireChatModPanel(){
   `;
   panel.classList.remove('open');
   btn.onclick = () => panel.classList.toggle('open');
+}
+
+/* ---------------- Phrases toutes faites pour les occasions (créatrice) ----------------
+   Bouton à côté de "Tips & rules" dans le chat : propose des messages prêts à poster
+   pour anniversaire / Pâques / nouvel an / Saint-Valentin / Noël, avec l'emoji assorti,
+   ou laisse la créatrice écrire son propre texte ("Personnalisé"). Traductions
+   intégrées ici (comme MASK_ADVICE_TEXT / FAQ_ITEMS) pour ne pas dépendre des
+   fichiers i18n-*.js. ---------------- */
+const OCCASION_TEMPLATES = [
+  { key: 'birthday', emoji: '🎂', text: {
+    fr: "C'est mon anniversaire aujourd'hui ! 🎂🥳 J'adorerais le fêter avec toi — n'hésite pas à m'envoyer tes vœux 💛",
+    en: "It's my birthday today! 🎂🥳 I'd love to celebrate it with you — feel free to send your wishes 💛",
+    es: "¡Hoy es mi cumpleaños! 🎂🥳 Me encantaría celebrarlo contigo — no dudes en enviarme tus felicitaciones 💛",
+    it: "Oggi è il mio compleanno! 🎂🥳 Mi piacerebbe festeggiarlo con te — non esitare a mandarmi i tuoi auguri 💛",
+  }},
+  { key: 'easter', emoji: '🐣', text: {
+    fr: "Joyeuses Pâques ! 🐣🌸 Je te souhaite une journée douce et pleine de bonheur.",
+    en: "Happy Easter! 🐣🌸 Wishing you a sweet day full of joy.",
+    es: "¡Feliz Pascua! 🐣🌸 Te deseo un día dulce y lleno de alegría.",
+    it: "Buona Pasqua! 🐣🌸 Ti auguro una giornata dolce e piena di gioia.",
+  }},
+  { key: 'newyear', emoji: '🎆', text: {
+    fr: "Bonne année ! 🎆✨ Merci d'être là avec moi, à une année incroyable ensemble.",
+    en: "Happy New Year! 🎆✨ Thank you for being here with me, here's to an amazing year together.",
+    es: "¡Feliz Año Nuevo! 🎆✨ Gracias por estar aquí conmigo, brindo por un año increíble juntos.",
+    it: "Buon Anno! 🎆✨ Grazie per essere qui con me, brindiamo a un anno fantastico insieme.",
+  }},
+  { key: 'valentine', emoji: '💘', text: {
+    fr: "Joyeuse Saint-Valentin ! 💘💋 Je t'envoie tout mon amour aujourd'hui.",
+    en: "Happy Valentine's Day! 💘💋 Sending you all my love today.",
+    es: "¡Feliz San Valentín! 💘💋 Te envío todo mi amor hoy.",
+    it: "Buon San Valentino! 💘💋 Ti mando tutto il mio amore oggi.",
+  }},
+  { key: 'christmas', emoji: '🎄', text: {
+    fr: "Joyeux Noël ! 🎄🎁 Je te souhaite des fêtes chaleureuses et magiques.",
+    en: "Merry Christmas! 🎄🎁 Wishing you warm and magical holidays.",
+    es: "¡Feliz Navidad! 🎄🎁 Te deseo unas fiestas cálidas y mágicas.",
+    it: "Buon Natale! 🎄🎁 Ti auguro delle feste calde e magiche.",
+  }},
+];
+function wireChatOccasionPanel(ctx){
+  const btn = document.getElementById('chat-occasion-btn');
+  const panel = document.getElementById('chat-occasion-panel');
+  if(!btn || !panel) return;
+  if(ctx.viewerType !== 'creator'){
+    btn.style.display = 'none';
+    panel.style.display = 'none';
+    panel.classList.remove('open');
+    return;
+  }
+  btn.style.display = 'flex';
+  btn.innerHTML = `${ICON_CALENDAR}<span>${t('chatOccasionBtnLabel')}</span>`;
+  panel.style.display = '';
+  panel.innerHTML = `
+    <p class="chat-mod-tip">${t('chatOccasionNote')}</p>
+    <div class="banner-template-row">
+      ${OCCASION_TEMPLATES.map(o => `<button type="button" class="banner-template-btn chat-occasion-template-btn" data-key="${o.key}">${o.emoji} ${t('bannerTemplateLabel_' + o.key)}</button>`).join('')}
+      <button type="button" class="banner-template-btn chat-occasion-template-btn" data-key="custom">✏️ ${t('bannerTemplateLabel_custom')}</button>
+    </div>
+  `;
+  panel.classList.remove('open');
+  btn.onclick = () => panel.classList.toggle('open');
+  panel.querySelectorAll('.chat-occasion-template-btn').forEach(b => {
+    b.onclick = () => {
+      const input = document.getElementById('chat-input');
+      if(!input) return;
+      if(b.dataset.key !== 'custom'){
+        const tpl = OCCASION_TEMPLATES.find(o => o.key === b.dataset.key);
+        input.value = tpl ? (tpl.text[LANG] || tpl.text.en) : '';
+      }
+      panel.classList.remove('open');
+      input.focus();
+      const len = input.value.length;
+      input.setSelectionRange(len, len);
+    };
+  });
 }
 
 let chatBannerTimer = null;
@@ -8399,10 +8482,16 @@ const AICON = {
    intégrées directement ici (comme FAQ_ITEMS) pour ne pas dépendre des
    fichiers i18n-*.js séparés. */
 const MASK_ADVICE_TEXT = {
-  fr: "Conseil : si tu sens que ça t'aide côté sécurité ou que ça ajoute un côté mystérieux, tu peux tout à fait porter un masque pour ne pas révéler ton identité en filmant ou en publiant — c'est entièrement ton choix.",
-  en: "Tip: if you feel it helps with your safety or adds a bit of mystery, you're welcome to wear a mask to avoid revealing your identity while filming or posting — it's entirely your choice.",
-  es: "Consejo: si sientes que te ayuda con tu seguridad o le da un toque de misterio, puedes llevar una máscara para no revelar tu identidad al grabar o publicar — es totalmente tu elección.",
-  it: "Consiglio: se pensi che possa aiutarti con la sicurezza o aggiungere un tocco di mistero, puoi tranquillamente indossare una maschera per non rivelare la tua identità quando filmi o pubblichi — è del tutto una tua scelta.",
+  fr: "Conseil : si tu sens que ça t'aide côté sécurité ou que ça ajoute un côté mystérieux, tu peux tout à fait porter un masque pour ne pas révéler ton identité en filmant ou en publiant — le site t'y autorise, c'est entièrement ton choix.",
+  en: "Tip: if you feel it helps with your safety or adds a bit of mystery, you're welcome to wear a mask to avoid revealing your identity while filming or posting — the site allows it, it's entirely your choice.",
+  es: "Consejo: si sientes que te ayuda con tu seguridad o le da un toque de misterio, puedes llevar una máscara para no revelar tu identidad al grabar o publicar — el sitio lo permite, es totalmente tu elección.",
+  it: "Consiglio: se pensi che possa aiutarti con la sicurezza o aggiungere un tocco di mistero, puoi tranquillamente indossare una maschera per non rivelare la tua identità quando filmi o pubblichi — il sito lo consente, è del tutto una tua scelta.",
+};
+const WARDROBE_ADVICE_TEXT = {
+  fr: "Conseil business : pense à investir dans quelques tenues de lingerie pour te constituer une garde-robe variée à porter dans tes photos et vidéos — ça donne plus de choix à tes abonnés et ça renouvelle ton contenu.",
+  en: "Business tip: consider investing in a few lingerie pieces to build a varied wardrobe for your photos and videos — it gives your followers more variety and keeps your content fresh.",
+  es: "Consejo de negocio: considera invertir en algunas prendas de lencería para tener un vestuario variado en tus fotos y videos — le da más variedad a tus seguidores y renueva tu contenido.",
+  it: "Consiglio di business: valuta di investire in qualche capo di lingerie per avere un guardaroba vario nelle tue foto e video — offre più varietà ai tuoi follower e rinnova i tuoi contenuti.",
 };
 
 /* ================= DEVISES ================= */
