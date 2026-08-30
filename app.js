@@ -15,40 +15,6 @@
 
 const CONTACT_EMAIL = 'honeymoon-official@outlook.com';
 
-/* ---------------- sons "message envoyé / reçu" pour les 3 chatbots (Tips,
-   Match with Clients, Match Your Words) — façon WhatsApp -----------------
-   Générés directement via l'API Web Audio (petits "bips" synthétisés), donc
-   aucun fichier audio à héberger et rien à télécharger. */
-let _hmAudioCtx = null;
-function hmGetAudioCtx(){
-  if(!_hmAudioCtx){
-    try{ _hmAudioCtx = new (window.AudioContext || window.webkitAudioContext)(); }catch(e){ return null; }
-  }
-  if(_hmAudioCtx.state === 'suspended'){ _hmAudioCtx.resume().catch(() => {}); }
-  return _hmAudioCtx;
-}
-function hmPlayTone(freqStart, freqEnd, duration, volume){
-  const ctx = hmGetAudioCtx();
-  if(!ctx) return;
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-  osc.type = 'sine';
-  osc.frequency.setValueAtTime(freqStart, ctx.currentTime);
-  osc.frequency.exponentialRampToValueAtTime(freqEnd, ctx.currentTime + duration);
-  gain.gain.setValueAtTime(volume, ctx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
-  osc.connect(gain).connect(ctx.destination);
-  osc.start();
-  osc.stop(ctx.currentTime + duration);
-}
-function hmPlaySentSound(){ try{ hmPlayTone(700, 1000, 0.08, 0.12); }catch(e){} }
-function hmPlayReceivedSound(){
-  try{
-    hmPlayTone(880, 700, 0.11, 0.13);
-    setTimeout(() => hmPlayTone(660, 520, 0.11, 0.1), 90);
-  }catch(e){}
-}
-
 /* ---------------- indicateur de chargement global pour <img>/<video> -----------------
    Le site injecte énormément de contenu (photos, vidéos) via innerHTML un peu partout.
    Plutôt que de modifier chaque endroit un par un, on observe tout le document et on
@@ -3533,11 +3499,6 @@ function renderToolAdvice(m){
   const panel = document.getElementById('tool-panel-advice');
   panel.innerHTML = `
     <p style="color:var(--text-muted);font-size:11.5px;margin:0 0 12px;line-height:1.6;">${t('toolAdviceNote')}</p>
-    <div class="advice-search-row">
-      <input id="advice-search-input" placeholder="${t('toolAskAnything')}" autocomplete="off" maxlength="10">
-      <button class="icon-btn" id="advice-search-btn">${AICON.search}</button>
-    </div>
-    <div class="advice-suggestions" id="advice-suggestions"></div>
     <div class="advice-topics" id="advice-topics">
       <button class="advice-topic-btn advice-estimator-btn" id="advice-estimator-btn">${AICON.price}${t('toolEstimateEarnings')}</button>
     </div>
@@ -3551,69 +3512,8 @@ function renderToolAdvice(m){
     btn.onclick = () => showAdviceAnswer(ADVICE_TOPICS[parseInt(btn.dataset.idx, 10)]);
   });
   document.getElementById('advice-estimator-btn').onclick = () => showEarningsEstimator(m);
-
-  const doSearch = () => {
-    const q = document.getElementById('advice-search-input').value.trim();
-    if(!q) return;
-    const found = findClosestTopic(q);
-    if(found) showAdviceAnswer(found, q);
-    else showNoMatch(q);
-    document.getElementById('advice-suggestions').innerHTML = '';
-  };
-  document.getElementById('advice-search-btn').onclick = doSearch;
-  document.getElementById('advice-search-input').addEventListener('keydown', (e) => { if(e.key === 'Enter') doSearch(); });
-  document.getElementById('advice-search-input').addEventListener('input', (e) => {
-    const val = e.target.value.trim().toLowerCase();
-    const sugg = document.getElementById('advice-suggestions');
-    if(!val){ sugg.innerHTML = ''; return; }
-    const norm = s => (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-    const nv = norm(val);
-    const matches = ADVICE_TOPICS
-      .map((topic, idx) => ({ topic, idx, title: topic.title[LANG] || topic.title.en }))
-      .filter(x => norm(x.title).startsWith(nv) || norm(x.title).split(' ').some(w => w.startsWith(nv)))
-      .sort((a, b) => a.title.localeCompare(b.title))
-      .slice(0, 8);
-    sugg.innerHTML = matches.map(x => `
-      <button class="advice-suggestion-btn" data-idx="${x.idx}">${premiumTagIcon(x.topic.icon)} ${escText(x.title)}</button>
-    `).join('');
-    sugg.querySelectorAll('.advice-suggestion-btn').forEach(btn => {
-      btn.onclick = () => {
-        showAdviceAnswer(ADVICE_TOPICS[parseInt(btn.dataset.idx, 10)]);
-        document.getElementById('advice-search-input').value = '';
-        sugg.innerHTML = '';
-      };
-    });
-  });
 }
 
-/* Recherche simple par mots-clés dans les titres/réponses des sujets —
-   ce n'est pas une vraie IA, juste une correspondance de mots, mais ça
-   permet de "poser une question" avec ses propres mots. */
-function findClosestTopic(query){
-  const norm = s => (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-  const q = norm(query);
-  const qWords = q.split(/\s+/).filter(w => w.length > 2);
-  let best = null, bestScore = 0;
-  ADVICE_TOPICS.forEach(topic => {
-    const haystack = norm((topic.title.fr || '') + ' ' + (topic.title.en || '') + ' ' + (topic.answer.fr || '') + ' ' + (topic.answer.en || ''));
-    let score = 0;
-    qWords.forEach(w => { if(haystack.includes(w)) score++; });
-    if(score > bestScore){ bestScore = score; best = topic; }
-  });
-  return bestScore > 0 ? best : null;
-}
-function showNoMatch(query){
-  const chat = document.getElementById('advice-chat');
-  const now = new Date();
-  chat.innerHTML = `
-    <div class="chat-bubble chat-user">${escText(query)}<span class="chat-time">${formatChatTime(now)}</span></div>
-    <div class="chat-bubble chat-bot show" id="chat-bot-bubble"></div>
-  `;
-  hmPlaySentSound();
-  chat.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  const bubble = document.getElementById('chat-bot-bubble');
-  setTimeout(() => typeWriterText(bubble, t('toolNoMatch'), now), 600);
-}
 /* Couleur de bulle selon la catégorie du sujet (déduite de son émoji) */
 const BUBBLE_COLOR_MAP = {
   '💡':'#5b9dd6','📐':'#5b9dd6','🖼️':'#5b9dd6','🎨':'#5b9dd6','📱':'#5b9dd6','📸':'#5b9dd6','🌇':'#5b9dd6',
@@ -3636,7 +3536,6 @@ function showAdviceAnswer(topic, userText){
     <div class="chat-bubble chat-user">${escText(title)}<span class="chat-time">${formatChatTime(now)}</span></div>
     <div class="chat-bubble chat-bot show" id="chat-bot-bubble" style="border-color:${color};"><span class="chat-typing-dots"><span></span><span></span><span></span></span></div>
   `;
-  hmPlaySentSound();
   chat.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   const bubble = document.getElementById('chat-bot-bubble');
   const nowMs = Date.now();
@@ -3657,7 +3556,6 @@ function typeWriterText(el, text, timeDate){
     el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     if(i >= words.length){
       el.insertAdjacentHTML('beforeend', `<span class="chat-time">${formatChatTime(timeDate || new Date())}</span>`);
-      hmPlayReceivedSound();
       return;
     }
     const jitter = 26 + Math.random() * 30; // vitesse de frappe légèrement irrégulière, comme un humain
@@ -3675,11 +3573,6 @@ function renderToolMatchClients(m){
   if(!panel) return;
   panel.innerHTML = `
     <p style="color:var(--text-muted);font-size:11.5px;margin:0 0 12px;line-height:1.6;">${t('toolMatchClientsNote')}</p>
-    <div class="advice-search-row">
-      <input id="matchclients-search-input" placeholder="${t('toolAskAnything')}" autocomplete="off" maxlength="40">
-      <button class="icon-btn" id="matchclients-search-btn">${AICON.search}</button>
-    </div>
-    <div class="advice-suggestions" id="matchclients-suggestions"></div>
     <div class="advice-topics" id="matchclients-topics"></div>
     <div class="advice-chat" id="matchclients-chat"></div>
   `;
@@ -3689,39 +3582,6 @@ function renderToolMatchClients(m){
   `).join('');
   topicsEl.querySelectorAll('.advice-topic-btn[data-idx]').forEach(btn => {
     btn.onclick = () => showTopicChatAnswer('matchclients-chat', CLIENT_MATCH_TOPICS[parseInt(btn.dataset.idx, 10)]);
-  });
-
-  const doSearch = () => {
-    const q = document.getElementById('matchclients-search-input').value.trim();
-    if(!q) return;
-    const found = findClosestTopicIn(CLIENT_MATCH_TOPICS, q);
-    if(found) showTopicChatAnswer('matchclients-chat', found, q);
-    else showNoMatchIn('matchclients-chat', q);
-    document.getElementById('matchclients-suggestions').innerHTML = '';
-  };
-  document.getElementById('matchclients-search-btn').onclick = doSearch;
-  document.getElementById('matchclients-search-input').addEventListener('keydown', (e) => { if(e.key === 'Enter') doSearch(); });
-  document.getElementById('matchclients-search-input').addEventListener('input', (e) => {
-    const val = e.target.value.trim().toLowerCase();
-    const sugg = document.getElementById('matchclients-suggestions');
-    if(!val){ sugg.innerHTML = ''; return; }
-    const norm = s => (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-    const nv = norm(val);
-    const matches = CLIENT_MATCH_TOPICS
-      .map((topic, idx) => ({ topic, idx, title: topic.title[LANG] || topic.title.en }))
-      .filter(x => norm(x.title).includes(nv))
-      .sort((a, b) => a.title.localeCompare(b.title))
-      .slice(0, 8);
-    sugg.innerHTML = matches.map(x => `
-      <button class="advice-suggestion-btn" data-idx="${x.idx}">${premiumTagIcon(x.topic.icon)} ${escText(x.title)}</button>
-    `).join('');
-    sugg.querySelectorAll('.advice-suggestion-btn').forEach(btn => {
-      btn.onclick = () => {
-        showTopicChatAnswer('matchclients-chat', CLIENT_MATCH_TOPICS[parseInt(btn.dataset.idx, 10)]);
-        document.getElementById('matchclients-search-input').value = '';
-        sugg.innerHTML = '';
-      };
-    });
   });
 
   // Message d'accueil de la persona "Aria", affiché tout de suite à l'ouverture
@@ -3738,11 +3598,6 @@ function renderMemberToolMatchWords(container){
   if(!container) return;
   container.innerHTML = `
     <p style="color:var(--text-muted);font-size:11.5px;margin:0 0 12px;line-height:1.6;">${t('toolMatchWordsNote')}</p>
-    <div class="advice-search-row">
-      <input id="matchwords-search-input" placeholder="${t('toolAskAnything')}" autocomplete="off" maxlength="40">
-      <button class="icon-btn" id="matchwords-search-btn">${AICON.search}</button>
-    </div>
-    <div class="advice-suggestions" id="matchwords-suggestions"></div>
     <div class="advice-topics" id="matchwords-topics"></div>
     <div class="advice-chat" id="matchwords-chat"></div>
   `;
@@ -3754,73 +3609,12 @@ function renderMemberToolMatchWords(container){
     btn.onclick = () => showTopicChatAnswer('matchwords-chat', WORDS_MATCH_TOPICS[parseInt(btn.dataset.idx, 10)]);
   });
 
-  const doSearch = () => {
-    const q = document.getElementById('matchwords-search-input').value.trim();
-    if(!q) return;
-    const found = findClosestTopicIn(WORDS_MATCH_TOPICS, q);
-    if(found) showTopicChatAnswer('matchwords-chat', found, q);
-    else showNoMatchIn('matchwords-chat', q);
-    document.getElementById('matchwords-suggestions').innerHTML = '';
-  };
-  document.getElementById('matchwords-search-btn').onclick = doSearch;
-  document.getElementById('matchwords-search-input').addEventListener('keydown', (e) => { if(e.key === 'Enter') doSearch(); });
-  document.getElementById('matchwords-search-input').addEventListener('input', (e) => {
-    const val = e.target.value.trim().toLowerCase();
-    const sugg = document.getElementById('matchwords-suggestions');
-    if(!val){ sugg.innerHTML = ''; return; }
-    const norm = s => (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-    const nv = norm(val);
-    const matches = WORDS_MATCH_TOPICS
-      .map((topic, idx) => ({ topic, idx, title: topic.title[LANG] || topic.title.en }))
-      .filter(x => norm(x.title).includes(nv))
-      .sort((a, b) => a.title.localeCompare(b.title))
-      .slice(0, 8);
-    sugg.innerHTML = matches.map(x => `
-      <button class="advice-suggestion-btn" data-idx="${x.idx}">${premiumTagIcon(x.topic.icon)} ${escText(x.title)}</button>
-    `).join('');
-    sugg.querySelectorAll('.advice-suggestion-btn').forEach(btn => {
-      btn.onclick = () => {
-        showTopicChatAnswer('matchwords-chat', WORDS_MATCH_TOPICS[parseInt(btn.dataset.idx, 10)]);
-        document.getElementById('matchwords-search-input').value = '';
-        sugg.innerHTML = '';
-      };
-    });
-  });
-
   // Message d'accueil de la persona "Nova", affiché tout de suite à l'ouverture.
   const chat = document.getElementById('matchwords-chat');
   chat.innerHTML = `<div class="chat-bubble chat-bot show" id="matchwords-welcome-bubble"></div>`;
   setTimeout(() => typeWriterText(document.getElementById('matchwords-welcome-bubble'), t('toolMatchWordsWelcome')), 400);
 }
 
-/* Recherche par mots-clés générique, réutilisable pour n'importe quelle liste de sujets
-   (ADVICE_TOPICS, CLIENT_MATCH_TOPICS, WORDS_MATCH_TOPICS, …) — ce n'est pas une vraie IA,
-   juste une correspondance de mots, mais ça permet de "poser une question" librement. */
-function findClosestTopicIn(topics, query){
-  const norm = s => (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-  const q = norm(query);
-  const qWords = q.split(/\s+/).filter(w => w.length > 2);
-  let best = null, bestScore = 0;
-  topics.forEach(topic => {
-    const haystack = norm((topic.title.fr || '') + ' ' + (topic.title.en || '') + ' ' + (topic.answer.fr || '') + ' ' + (topic.answer.en || ''));
-    let score = 0;
-    qWords.forEach(w => { if(haystack.includes(w)) score++; });
-    if(score > bestScore){ bestScore = score; best = topic; }
-  });
-  return bestScore > 0 ? best : null;
-}
-function showNoMatchIn(chatId, query){
-  const chat = document.getElementById(chatId);
-  const now = new Date();
-  chat.innerHTML = `
-    <div class="chat-bubble chat-user">${escText(query)}<span class="chat-time">${formatChatTime(now)}</span></div>
-    <div class="chat-bubble chat-bot show" id="${chatId}-bot-bubble"></div>
-  `;
-  hmPlaySentSound();
-  chat.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  const bubble = document.getElementById(chatId + '-bot-bubble');
-  setTimeout(() => typeWriterText(bubble, t('toolNoMatch'), now), 600);
-}
 /* Affiche une réponse de sujet façon conversation, dans n'importe quel chat cible
    (identifié par son id de container) — factorisation de showAdviceAnswer pour les
    nouveaux chatbots "Match with Clients" / "Match Your Words". */
@@ -3834,7 +3628,6 @@ function showTopicChatAnswer(chatId, topic, userText){
     <div class="chat-bubble chat-user">${escText(title)}<span class="chat-time">${formatChatTime(now)}</span></div>
     <div class="chat-bubble chat-bot show" id="${chatId}-bot-bubble" style="border-color:${color};"><span class="chat-typing-dots"><span></span><span></span><span></span></span></div>
   `;
-  hmPlaySentSound();
   chat.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   const bubble = document.getElementById(chatId + '-bot-bubble');
   const nowMs = Date.now();
@@ -9040,34 +8833,39 @@ const AICON = {
   globe: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>'
 };
 
-/* ---------------- Emoji de thème pour les tags des 3 chatbots
-   (Tips / Match with Clients / Match Your Words) ----------------
-   Remplace l'icône SVG monochrome par l'emoji du thème (couleur native,
-   façon WhatsApp) devant le libellé du tag — pas de superposition/badge. */
-const AICON_EMOJI = {
-  light:'💡', angle:'📐', frame:'🖼️', palette:'🎨', device:'📱', film:'🎬',
-  scissors:'✂️', music:'🎵', dance:'💃', gamepad:'🎮', stamp:'👗', calendar:'📅', hashtag:'#️⃣',
-  chat:'💬', refresh:'🔁', magnet:'🧲', price:'💰', gift:'🎁', clock:'⏰',
-  shield:'🛡️', eye:'👁️', leaf:'🌿', sun:'☀️', mirror:'🪞', chart:'📈',
-  handshake:'🤝', folder:'📁', star:'⭐', pen:'✍️', search:'🔍', target:'🎯',
-  book:'📖', heart:'❤️', globe:'🌍'
+/* ---------------- Icônes premium (SVG en badge coloré) pour les tags des 3
+   chatbots (Tips / Match with Clients / Match Your Words) ----------------
+   Réutilise l'icône SVG déjà définie dans AICON (donc rien à redessiner),
+   affichée en blanc dans un petit badge rond de couleur — rendu 100% SVG,
+   identique sur tous les appareils (contrairement aux emoji, qui dépendent
+   de la police du téléphone). */
+const AICON_BADGE_COLOR = {
+  light:'#e3b341', angle:'#e3b341', frame:'#5b9dd6', palette:'#a76bd6', device:'#5b9dd6', film:'#a76bd6',
+  scissors:'#a76bd6', music:'#a76bd6', dance:'#a76bd6', gamepad:'#4fc3a1', stamp:'#c9639e', calendar:'#4fc3a1', hashtag:'#4fc3a1',
+  chat:'#4fc3a1', refresh:'#4fc3a1', magnet:'#4fc3a1', price:'#5fd67a', gift:'#5fd67a', clock:'#5fd67a',
+  shield:'#5b9dd6', eye:'#5b9dd6', leaf:'#5fd67a', sun:'#e3b341', mirror:'#a76bd6', chart:'#4fc3a1',
+  handshake:'#5fd67a', folder:'#c9a15a', star:'#d6a94e', pen:'#4fc3a1', search:'#5b9dd6', target:'#e06a6a',
+  book:'#c9a15a', globe:'#5b9dd6'
 };
 let _aiconKeyBySvg = null;
-function tagEmojiFor(iconSvg){
+function badgeColorFor(iconSvg){
   if(!_aiconKeyBySvg){
     _aiconKeyBySvg = new Map();
     Object.keys(AICON).forEach(k => _aiconKeyBySvg.set(AICON[k], k));
   }
   const key = _aiconKeyBySvg.get(iconSvg);
-  return AICON_EMOJI[key] || '✨';
+  return AICON_BADGE_COLOR[key] || '#d6a94e';
 }
 function premiumTagIcon(iconSvg){
-  return `<span class="tag-emoji">${tagEmojiFor(iconSvg)}</span>`;
+  return `<span class="tag-icon-badge" style="background:${badgeColorFor(iconSvg)};">${iconSvg}</span>`;
 }
 if(!document.getElementById('hm-tag-premium-style')){
   const st = document.createElement('style');
   st.id = 'hm-tag-premium-style';
-  st.textContent = `.tag-emoji{margin-right:6px;font-size:15px;vertical-align:middle;}`;
+  st.textContent = `
+    .tag-icon-badge{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;margin-right:8px;vertical-align:middle;color:#fff;flex-shrink:0;}
+    .tag-icon-badge svg{width:14px;height:14px;}
+  `;
   document.head.appendChild(st);
 }
 
