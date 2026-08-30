@@ -612,7 +612,7 @@ const I18N = {
     memberForgotSendBtn: "Send the link",
     memberForgotSentTitle: "Email sent",
     memberForgotSentBody: "If an account exists with this email, a reset link was just sent. Open it to choose a new password.",
-    memberTabDiscover: "Discover",
+    memberTabDiscover: "Our Creators Honeymoon Community",
     memberTabProfile: "Profile",
     memberTabPurchases: "Collection",
     memberUnverifiedBanner: "Account not confirmed yet — email sent to {email}.",
@@ -5166,6 +5166,7 @@ function openMemberModal(initialTab){
 // "Fermer" l'espace membre = revenir parcourir la vitrine publique (le membre reste
 // connecté, seule la page affichée change — cohérent avec le bouton "Discover" des onglets).
 function closeMemberModal(){
+  memberActiveTab = null;
   openVitrine();
 }
 function renderMemberError(msg){
@@ -5400,8 +5401,8 @@ function renderMemberHome(user, data, activeTab){
       </div>
       <div class="tabs-slide-row">
         <div class="member-tabs">
-          <button type="button" class="member-tab" id="member-tab-discover">🔍 ${t('memberTabDiscover')}</button>
-          <button type="button" class="member-tab" id="member-tab-popularity">⭐ ${t('myFamilyPopularity')}</button>
+          <button type="button" class="member-tab" id="member-tab-discover">${ICON_COMPASS_SM}${t('memberTabDiscover')}</button>
+          <button type="button" class="member-tab" id="member-tab-popularity">${ICON_STAR}${t('myFamilyPopularity')}</button>
           <button type="button" class="member-tab" id="member-tab-profile">${ICON_USER}${t('memberTabProfile')}</button>
           <button type="button" class="member-tab" id="member-tab-favorites">${ICON_LIKE}${t('memberTabFavorites')}</button>
           <button type="button" class="member-tab" id="member-tab-messages">${ICON_CHAT_SM}${t('memberTabMessages')} <span class="member-tab-badge" id="member-tab-messages-badge" style="display:none;"></span></button>
@@ -5428,6 +5429,7 @@ function renderMemberHome(user, data, activeTab){
 }
 
 function switchMemberTab(user, data, activeTab){
+  memberActiveTab = activeTab;
   ['popularity', 'profile', 'favorites', 'messages', 'purchases'].forEach(name => {
     const btn = document.getElementById('member-tab-' + name);
     if(btn) btn.classList.toggle('active', name === activeTab);
@@ -5885,10 +5887,10 @@ async function renderMemberPurchasesTab(user, data){
       }catch(e){ return { ...o, item: null, creatorName: '' }; }
     }));
     setMemberTabCache(user.uid, 'purchases', enriched);
-    paint(enriched); // ré-affiche avec les données fraîches (silencieux si rien n'a changé)
+    if(memberActiveTab === 'purchases') paint(enriched); // ré-affiche seulement si toujours sur cet onglet
   }catch(e){
     console.error('load member purchases error', e);
-    if(!cached) paintTabBody(`<p class="member-note">${t('memberPurchaseLoadErr')}</p>`);
+    if(!cached && memberActiveTab === 'purchases') paintTabBody(`<p class="member-note">${t('memberPurchaseLoadErr')}</p>`);
   }
 }
 
@@ -5896,6 +5898,10 @@ async function renderMemberPurchasesTab(user, data){
    à chaque passage d'un onglet à l'autre (c'était la cause du côté "saccadé" au clic) —
    rendu instantané si déjà visité cette session, données rafraîchies en arrière-plan. */
 const memberTabCache = {};
+// Empêche une réponse réseau arrivée en retard (Popularity/Messages/Collection,
+// qui font toutes un appel Firestore) d'écraser un autre onglet ouvert entre-temps —
+// c'était la cause du clignotement quand on changeait d'onglet rapidement.
+let memberActiveTab = null;
 function getMemberTabCache(uid, tab){ return memberTabCache[uid] && memberTabCache[uid][tab]; }
 function setMemberTabCache(uid, tab, value){
   memberTabCache[uid] = memberTabCache[uid] || {};
@@ -6016,10 +6022,10 @@ async function renderMemberPopularityTab(user, data){
       .map(d => (typeof roster !== 'undefined' ? roster.find(m => m.id === d.id) : null))
       .filter(Boolean);
     setMemberTabCache(user.uid, 'popularity', { followingRows, followerRows });
-    paint(followingRows, followerRows); // ré-affiche avec les données fraîches (silencieux si rien n'a changé)
+    if(memberActiveTab === 'popularity') paint(followingRows, followerRows); // ré-affiche seulement si toujours sur cet onglet
   }catch(e){
     console.error('renderMemberPopularityTab error', e);
-    if(!cached) paintTabBody(`<span class="gallery-empty">${(LANG==='fr'?'Erreur : ':'Error: ')}${escText(e.message||String(e))}</span>`);
+    if(!cached && memberActiveTab === 'popularity') paintTabBody(`<span class="gallery-empty">${(LANG==='fr'?'Erreur : ':'Error: ')}${escText(e.message||String(e))}</span>`);
   }
 }
 
@@ -7278,7 +7284,7 @@ async function renderMemberMessagesTab(user, data){
     const profileIds = (memberDoc.exists && memberDoc.data().conversationProfileIds) || [];
     if(profileIds.length === 0){
       setMemberTabCache(user.uid, 'messages', []);
-      if(!cached) paintTabBody(`<span class="gallery-empty">${t('chatNoConversations')}</span>`);
+      if(!cached && memberActiveTab === 'messages') paintTabBody(`<span class="gallery-empty">${t('chatNoConversations')}</span>`);
       return;
     }
     const results = await Promise.all(profileIds.map(async (profileId) => {
@@ -7293,10 +7299,10 @@ async function renderMemberMessagesTab(user, data){
       return tb - ta;
     });
     setMemberTabCache(user.uid, 'messages', rows);
-    paint(rows); // ré-affiche avec les données fraîches (silencieux si rien n'a changé)
+    if(memberActiveTab === 'messages') paint(rows); // ré-affiche seulement si toujours sur cet onglet
   }catch(e){
     console.error('load member conversations error', e);
-    if(!cached) paintTabBody(`<span class="gallery-empty">${(LANG==='fr'?'Erreur : ':'Error: ')}${escText(e.message||String(e))}</span>`);
+    if(!cached && memberActiveTab === 'messages') paintTabBody(`<span class="gallery-empty">${(LANG==='fr'?'Erreur : ':'Error: ')}${escText(e.message||String(e))}</span>`);
   }
 }
 
@@ -7630,6 +7636,7 @@ async function renderMyMembers(m, filter){
 }
 
 const ICON_USER = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
+const ICON_COMPASS_SM = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>';
 function updateTopbarMemberBadge(username){
   const badge = document.getElementById('topbar-member-badge');
   const burgerItem = document.getElementById('burger-become-member');
