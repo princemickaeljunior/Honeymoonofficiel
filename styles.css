@@ -65,7 +65,11 @@ button{font-family:inherit;cursor:pointer;}
 #member-shell{padding-top:calc(28px + env(safe-area-inset-top));min-height:100vh;}
 .member-shell-wrap{padding:0 0 60px;}
 .member-home-quickrow{display:flex;align-items:center;justify-content:center;gap:10px;margin:12px 0 4px;flex-wrap:wrap;}
-.member-home-quickrow .lang-select{width:auto;}
+/* #member-shell select{width:100%} et .btn{width:100%} sont plus spécifiques ou plus tardifs
+   que la règle ci-dessus : on force ici, avec assez de spécificité, le sélecteur de langue et
+   le bouton "Log out" à garder leur largeur naturelle pour qu'ils restent bien sur la même ligne. */
+#member-shell .member-home-quickrow select.lang-select{width:auto;}
+.member-home-quickrow .btn{width:auto;flex:0 0 auto;}
 #app-shell{}
 .bottom-nav{
   position:fixed;left:0;right:0;bottom:0;z-index:39;
@@ -555,7 +559,7 @@ img[data-hm-loaded], video[data-hm-loaded]{
 .member-purchase-status{font-size:10.5px;padding:3px 8px;border-radius:10px;text-transform:uppercase;letter-spacing:.03em;}
 .member-purchase-status.paid{background:rgba(95,214,122,0.15);color:#5fd67a;}
 .member-purchase-status.pending{background:rgba(230,160,60,0.15);color:var(--honey);}
-.member-media-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(55px,1fr));gap:4px;margin-top:4px;}
+.member-media-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(55px,1fr));gap:8px;margin-top:8px;}
 .member-media-grid img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:10px;display:block;background:var(--bg-elev-2);}
 .member-view-card{background:var(--bg-elev-2);border:1px solid var(--border);border-radius:8px;padding:0;margin-bottom:3px;overflow:hidden;}
 .member-view-toggle{display:flex;align-items:center;gap:5px;width:100%;background:none;border:none;padding:4px 7px;text-align:left;}
@@ -570,18 +574,18 @@ img[data-hm-loaded], video[data-hm-loaded]{
 /* Découpe la fiche membre (côté créatrice) en 3 blocs nets — Bio / À propos / Photos —
    avec un vrai espace ENTRE les blocs, mais un espace resserré entre chaque titre et
    son propre contenu (le titre doit "coller" à ce qu'il annonce). */
-.member-card-section{margin-top:14px;}
+.member-card-section{margin-top:20px;}
 .member-card-section:first-child{margin-top:0;}
 .member-card-section-title{
   display:flex;align-items:center;gap:5px;
   font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;
   text-transform:uppercase;letter-spacing:.05em;color:var(--honey);
-  margin-bottom:5px;
+  margin-bottom:8px;
 }
 .member-card-section-title svg{width:13px;height:13px;flex-shrink:0;}
 .member-card-bio-text{margin:0;font-size:11px;line-height:1.55;color:var(--text);}
 .member-card-section .bio-narrative{margin:0;}
-.member-card-section .bio-narrative p{padding:6px 0;}
+.member-card-section .bio-narrative p{padding:8px 0;}
 .member-card-section .bio-narrative p:first-child{padding-top:0;}
 .member-card-section .bio-narrative p:last-child{padding-bottom:0;}
 .member-view-actions{display:flex;gap:4px;margin-top:5px;}
