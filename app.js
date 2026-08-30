@@ -4793,7 +4793,7 @@ function memberViewCardHtml(r, actionsHtml){
         ${r.location ? `<div class="member-view-loc">${escText(r.location)}</div>` : ''}
         ${r.bio ? memberBioNarrativeHtml(r.bio, t('memberBioNarrativeLabelOther')) : ''}
         ${bqHtml}
-        ${r.photos.length ? `<div class="member-media-grid">${r.photos.map(p => `<img src="${escAttr(p)}" loading="lazy" decoding="async">`).join('')}</div>` : ''}
+        ${r.photos.length ? `<div class="member-media-grid">${r.photos.map(p => `<img src="${escAttr(typeof p === 'string' ? p : (p.url || ''))}" loading="lazy" decoding="async">`).join('')}</div>` : ''}
         ${actionsHtml || ''}
       </div>
     </div>`;
