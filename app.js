@@ -286,6 +286,11 @@ const I18N = {
     shopBotBackToCats: "← Back to all categories",
     shopBotBackToNeeds: "← Back",
     shopBotNote: "These are independent shops — Honeymoon isn't affiliated with them and doesn't handle payment or delivery.",
+    shopBotByRegionTitle: "Browse by location",
+    shopBotByRegionDesc: "Pick your continent, then your country",
+    shopBotChooseContinentPrompt: "Which continent are you in?",
+    shopBotChooseCountryPrompt: "Which country / region?",
+    shopBotBackToContinents: "← Back to continents",
     giftTipTitle: "Send a tip",
     subscribeSectionTitle: "Subscriber offer",
     subscribeDefaultDesc: "Subscribe to unlock cool photo, video and audio packs made just for my subscribers.",
@@ -6168,7 +6173,75 @@ const SHOPBOT_CATALOG = {
   }
 };
 
-let shopBotState = { view:'welcome', catKey:null, needKey:null };
+let shopBotState = { view:'welcome', catKey:null, needKey:null, continentKey:null, countryKey:null };
+
+/* ---- Mode "recherche par localisation" : 5 continents -> pays/région -> boutiques.
+   Ajouté comme carte supplémentaire dans la grille de catégories, sans rien changer
+   au flux catégorie -> besoin -> boutiques déjà en place. ---- */
+const SHOPBOT_REGIONS = {
+  africa: { title:"Africa", countries: {
+    all: { title:"Pan-African (all countries)", shops:[
+      { name:"Jumia", url:"https://www.jumia.com/", desc:"Biggest pan-African marketplace, 10+ countries" },
+      { name:"Mall for Africa", url:"https://www.mallforafrica.com/", desc:"Orders international products, delivers across Africa" }
+    ]},
+    nigeria: { title:"Nigeria", shops:[
+      { name:"Jumia Nigeria", url:"https://www.jumia.com.ng/", desc:"Fashion, electronics, beauty" },
+      { name:"Konga", url:"https://www.konga.com/", desc:"Computers, phones, fashion, home" }
+    ]},
+    southafrica: { title:"South Africa", shops:[
+      { name:"Takealot", url:"https://www.takealot.com/", desc:"South Africa's leading online retailer" },
+      { name:"Zando", url:"https://www.zando.co.za/", desc:"Fashion specialist" },
+      { name:"Bidorbuy", url:"https://www.bidorbuy.co.za/", desc:"New & second-hand, jewelry, fashion, electronics" }
+    ]},
+    eastafrica: { title:"Kenya / Uganda / Ghana", shops:[
+      { name:"Kilimall", url:"https://www.kilimall.co.ke/", desc:"Electronics, fashion, beauty — budget-friendly" },
+      { name:"Jumia", url:"https://www.jumia.com/", desc:"Also active across East Africa" }
+    ]},
+    northwest: { title:"Morocco / Senegal / Côte d'Ivoire", shops:[
+      { name:"Jumia Maroc", url:"https://www.jumia.ma/", desc:"Fashion, beauty, electronics" },
+      { name:"Jumia Sénégal", url:"https://www.jumia.sn/", desc:"Fashion, beauty, electronics" },
+      { name:"Jumia Côte d'Ivoire", url:"https://www.jumia.ci/", desc:"Fashion, beauty, electronics" }
+    ]}
+  }},
+  europe: { title:"Europe", countries: {
+    france: { title:"France", shops:[
+      { name:"Zalando", url:"https://www.zalando.fr/", desc:"Fashion & shoes, free returns" },
+      { name:"Fnac", url:"https://www.fnac.com/", desc:"Electronics, camera, computers" },
+      { name:"Etam", url:"https://www.etam.com/", desc:"French lingerie" },
+      { name:"Sephora", url:"https://www.sephora.fr/", desc:"Beauty & makeup" }
+    ]},
+    all: { title:"Rest of Europe", shops:[
+      { name:"ASOS", url:"https://www.asos.com/", desc:"Fashion, ships across Europe" },
+      { name:"Zalando", url:"https://www.zalando.fr/", desc:"Fashion & shoes, EU-wide" },
+      { name:"Amazon", url:"https://www.amazon.com/", desc:"Every category, ships EU-wide" }
+    ]}
+  }},
+  americas: { title:"Americas", countries: {
+    northamerica: { title:"USA / Canada", shops:[
+      { name:"Amazon", url:"https://www.amazon.com/", desc:"Every category" },
+      { name:"Etsy", url:"https://www.etsy.com/", desc:"Handmade & independent designers" },
+      { name:"Milanoo", url:"https://www.milanoo.com/", desc:"Sexy shoes & fashion, international shipping" }
+    ]},
+    latam: { title:"Latin America", shops:[
+      { name:"Mercado Libre", url:"https://www.mercadolibre.com/", desc:"Region's biggest marketplace — 18 countries, every category" },
+      { name:"Amazon", url:"https://www.amazon.com/", desc:"Active in Mexico & Brazil" }
+    ]}
+  }},
+  asia: { title:"Asia", countries: {
+    all: { title:"All Asia", shops:[
+      { name:"Shopee", url:"https://shopee.com/", desc:"Fashion, beauty, electronics — huge in Southeast Asia" },
+      { name:"Lazada", url:"https://www.lazada.com/", desc:"Electronics, fashion, beauty — Singapore, Malaysia, Thailand, Indonesia, Vietnam, Philippines" },
+      { name:"AliExpress", url:"https://www.aliexpress.com/", desc:"Every category, ships worldwide" }
+    ]}
+  }},
+  oceania: { title:"Oceania", countries: {
+    all: { title:"Australia / New Zealand", shops:[
+      { name:"Amazon Australia", url:"https://www.amazon.com.au/", desc:"Every category, largest e-commerce presence in Australia" },
+      { name:"eBay Australia", url:"https://www.ebay.com.au/", desc:"Fashion, electronics, and more" },
+      { name:"THE ICONIC", url:"https://www.theiconic.com.au/", desc:"Fashion specialist, Australia & New Zealand" }
+    ]}
+  }}
+};
 
 function renderUniverseShoppingAssistant(container){
   if(!container) return;
@@ -6224,7 +6297,7 @@ function shopBotShowCategories(){
   const catsHtml = Object.keys(SHOPBOT_CATALOG).map(key => {
     const c = SHOPBOT_CATALOG[key];
     return `<button type="button" class="coach-theme-btn" data-cat="${key}"><span class="coach-theme-btn-icon">${AICON[c.icon]}</span><span><span class="coach-theme-btn-title">${escText(c.title)}</span><span class="coach-theme-btn-desc">${escText(c.desc)}</span></span></button>`;
-  }).join('');
+  }).join('') + `<button type="button" class="coach-theme-btn" data-cat="byregion"><span class="coach-theme-btn-icon">${AICON.globe}</span><span><span class="coach-theme-btn-title">${escText(t('shopBotByRegionTitle'))}</span><span class="coach-theme-btn-desc">${escText(t('shopBotByRegionDesc'))}</span></span></button>`;
   el.innerHTML = `
     <div class="coach-bubble-row"><div class="coach-mini-avatar">🛍️</div><div class="coach-bubble-text chat-bot show">${escText(t('shopBotChooseCatPrompt'))}</div></div>
     <div class="coach-theme-choice">${catsHtml}</div>
@@ -6234,10 +6307,87 @@ function shopBotShowCategories(){
 }
 
 function shopBotChooseCategory(catKey){
+  if(catKey === 'byregion'){
+    shopBotState.catKey = null;
+    shopBotState.view = 'continents';
+    shopBotShowContinents();
+    return;
+  }
   shopBotState.catKey = catKey;
   shopBotState.needKey = null;
   shopBotState.view = 'needs';
   shopBotRenderNeeds();
+}
+
+/* ---- Étapes continent -> pays -> boutiques (mode "recherche par localisation") ---- */
+function shopBotShowContinents(){
+  const body = document.getElementById('shopbot-body');
+  if(!body) return;
+  const rowsHtml = Object.keys(SHOPBOT_REGIONS).map(key => {
+    const r = SHOPBOT_REGIONS[key];
+    return `<button type="button" class="coach-table-row" data-continent="${key}">${escText(r.title)}</button>`;
+  }).join('');
+  body.innerHTML = `
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🛍️</div><div class="coach-bubble-text chat-bot show">${escText(t('shopBotChooseContinentPrompt'))}</div></div>
+    <div class="coach-table">${rowsHtml}</div>
+    <button type="button" class="coach-back-both-btn" data-back-cats="1">${escText(t('shopBotBackToCats'))}</button>
+  `;
+  body.querySelectorAll('[data-continent]').forEach(btn => { btn.onclick = () => shopBotChooseContinent(btn.dataset.continent); });
+  const backBtn = body.querySelector('[data-back-cats]');
+  if(backBtn) backBtn.onclick = shopBotShowWelcome;
+  body.scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+
+function shopBotChooseContinent(continentKey){
+  shopBotState.continentKey = continentKey;
+  shopBotState.countryKey = null;
+  shopBotState.view = 'countries';
+  const body = document.getElementById('shopbot-body');
+  const continent = SHOPBOT_REGIONS[continentKey];
+  if(!body || !continent) return;
+  const rowsHtml = Object.keys(continent.countries).map(key => {
+    const c = continent.countries[key];
+    return `<button type="button" class="coach-table-row" data-country="${key}">${escText(c.title)}</button>`;
+  }).join('');
+  body.innerHTML = `
+    <div class="shopbot-breadcrumb"><b>${escText(continent.title)}</b></div>
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🛍️</div><div class="coach-bubble-text chat-bot show">${escText(t('shopBotChooseCountryPrompt'))}</div></div>
+    <div class="coach-table">${rowsHtml}</div>
+    <button type="button" class="coach-back-both-btn" data-back-continents="1">${escText(t('shopBotBackToContinents'))}</button>
+  `;
+  body.querySelectorAll('[data-country]').forEach(btn => { btn.onclick = () => shopBotChooseCountry(btn.dataset.country); });
+  const backBtn = body.querySelector('[data-back-continents]');
+  if(backBtn) backBtn.onclick = shopBotShowContinents;
+  body.scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+
+function shopBotChooseCountry(countryKey){
+  shopBotState.countryKey = countryKey;
+  shopBotState.view = 'region-shops';
+  const body = document.getElementById('shopbot-body');
+  const continent = SHOPBOT_REGIONS[shopBotState.continentKey];
+  const country = continent && continent.countries[countryKey];
+  if(!body || !country) return;
+  const linksHtml = country.shops.map(s => `
+    <a class="shopbot-link-card" href="${escAttr(s.url)}" target="_blank" rel="noopener noreferrer">
+      <span class="shopbot-link-icon">${AICON.bag}</span>
+      <span class="shopbot-link-text"><span class="shopbot-link-name">${escText(s.name)}</span><span class="shopbot-link-desc">${escText(s.desc)}</span></span>
+      <span class="shopbot-link-arrow">${AICON.angle}</span>
+    </a>
+  `).join('');
+  body.innerHTML = `
+    <div class="shopbot-breadcrumb"><b>${escText(continent.title)}</b> · ${escText(country.title)}</div>
+    <div>${linksHtml}</div>
+    <div class="coach-action-bar">
+      <button type="button" class="coach-action-btn" data-back-countries="1">${COACH_ICON_BACK} ${escText(t('shopBotBackToNeeds'))}</button>
+    </div>
+    <button type="button" class="coach-back-both-btn" data-back-cats="1">${escText(t('shopBotBackToCats'))}</button>
+  `;
+  const backCountries = body.querySelector('[data-back-countries]');
+  if(backCountries) backCountries.onclick = () => shopBotChooseContinent(shopBotState.continentKey);
+  const backCats = body.querySelector('[data-back-cats]');
+  if(backCats) backCats.onclick = shopBotShowWelcome;
+  body.scrollIntoView({ behavior:'smooth', block:'nearest' });
 }
 
 function shopBotRenderNeeds(){
