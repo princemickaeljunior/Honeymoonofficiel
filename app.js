@@ -662,33 +662,32 @@ const I18N = {
     memberTabProfile: "Profile",
     memberTabTools: "Coach Honeymoon",
     toolMatchWords: "Coach Honeymoon",
-    toolMatchWordsNote: "Your personal dating & flirt coach for everything happening with a creator here — pick what's on your mind below, in either chat.",
-    toolMatchWordsWelcome: "Hi, I'm your Coach Honeymoon 💛 I'm here to help you with the flirt, the timing, the silences, the little doubts — everything that comes with getting closer to a creator here. What do you want to understand?",
-    coachCreatorSectionTitle: "About her (creator side)",
-    coachFlirtSectionTitle: "Flirt & relationship",
-    toolCoachCreatorWelcome: "Hi, I'm your Coach Honeymoon 💛 This chat is about her side — how a creator works, her behavior, distance, silences, and the budget side of things. What do you want to understand?",
-    toolCoachFlirtWelcome: "Hi, I'm your Coach Honeymoon 💘 This chat is about the flirt & relationship side — does she like you, how to talk to her, attraction, dates, moving on. What's on your mind?",
+    toolMatchWordsNote: "Two things in one here: get more out of chatting with creators on the site, or real advice on your flirt, dating & relationship life — pick a topic below.",
+    toolMatchWordsWelcome: "Hi, I'm your Coach Honeymoon 💛 Pick a topic below to get started.",
     coachBackToCategories: "Back to topics",
     coachPickCategoryPrompt: "Pick what's on your mind:",
     coachStepOf: "Question {n}/{total}",
     coachLikeBtn: "Helpful",
-    coachFrameSubtitle: "Your dating & flirt coach",
+    coachFrameSubtitle: "Two topics, two very different things",
     coachWelcomeIntro: "Hi, I'm your Coach Honeymoon 💛 Here's how I can help:",
-    coachWelcomeBullet1: "Understand how a creator works — her behavior, distance, silences",
-    coachWelcomeBullet2: "Know if she's really into you and how to talk to her",
-    coachWelcomeBullet3: "Create real attraction and handle first dates",
-    coachWelcomeBullet4: "Get through silences, budget questions, and moving on",
-    coachChooseThemePrompt: "Pick what you'd like to explore:",
-    coachThemeCreatorTitle: "About her (creator side)",
-    coachThemeCreatorDesc: "How she works, her behavior, distance, silences, budget",
-    coachThemeFlirtTitle: "Flirt & relationship",
-    coachThemeFlirtDesc: "Does she like you, how to talk to her, attraction, dates",
+    coachWelcomeBullet1: "How Honeymoon works, budget, offers & getting the most out of your favorite creators",
+    coachWelcomeBullet2: "Real, general advice on flirt, dating & relationships — nothing to do with the site",
+    coachWelcomeBullet3: "Two completely separate topics, so I can give you the right kind of advice",
+    coachWelcomeBullet4: "Pick the one that fits what's on your mind right now",
+    coachChooseThemePrompt: "Pick a topic:",
+    coachThemeCreatorTitle: "Honeymoon & creators",
+    coachThemeCreatorDesc: "How the site works, budget, offers, chatting with creators",
+    coachThemeFlirtTitle: "Flirt, dating & relationship",
+    coachThemeFlirtDesc: "Real advice on your love life — separate from the site",
     coachTablePrompt: "Tap a question:",
     coachBackToTable: "Back to table",
     coachSaveBtn: "Save",
     coachEraseBtn: "Erase & back",
     coachSavedToast: "Conversation saved 💛",
     coachSwitchTheme: "Switch topic",
+    coachStatusPrompt: "What's your situation?",
+    coachChangeStatus: "Change situation",
+    coachBackBothTopics: "Back to both topics",
     memberTabPurchases: "Collection",
     memberUnverifiedBanner: "Account not confirmed yet — email sent to {email}.",
     memberResendShort: "Resend",
@@ -3756,6 +3755,8 @@ if(!document.getElementById('hm-coach-gold-style')){
     .coach-action-btn:hover{border-color:var(--honey);color:var(--text);}
     .coach-switch-theme{display:inline-flex;align-items:center;gap:5px;background:none;border:none;color:var(--text-muted);font-size:11px;padding:10px 2px 2px 37px;cursor:pointer;}
     .coach-switch-theme:hover{color:var(--text);}
+    .coach-back-both-btn{display:block;width:calc(100% - 37px);margin:14px 0 4px 37px;padding:12px;border-radius:14px;background:linear-gradient(90deg,var(--honey),var(--rose));color:#1c130a;font-weight:700;font-size:12px;text-align:center;border:none;cursor:pointer;}
+    .coach-back-both-btn:active{opacity:.85;}
   `;
   document.head.appendChild(st);
 }
@@ -3899,19 +3900,34 @@ function coachChatHeaderHtml(subtitle){
 
 const BOT_CONFIG = {
   creator: { categories: [
-    { id: 'creator', icon: 'star', title: "Understanding a creator" },
-    { id: 'behavior', icon: 'eye', title: "Understand her behavior" },
-    { id: 'distant', icon: 'clock', title: "She's being distant" },
-    { id: 'silence', icon: 'device', title: "She's not replying" },
-    { id: 'budget', icon: 'price', title: "Budget & the relationship" }
-  ], welcomeKey: 'toolCoachCreatorWelcome' },
-  flirt: { categories: [
-    { id: 'likes', icon: 'heart', title: "She likes me" },
-    { id: 'talk', icon: 'chat', title: "How to talk to her" },
-    { id: 'attraction', icon: 'sun', title: "Create attraction" },
-    { id: 'firstdate', icon: 'calendar', title: "First date" },
-    { id: 'breakup', icon: 'leaf', title: "After a breakup" }
-  ], welcomeKey: 'toolCoachFlirtWelcome' }
+    { id: 'platform', icon: 'book', title: "How Honeymoon works" },
+    { id: 'budget', icon: 'price', title: "Budget, tips & offers" },
+    { id: 'engaging', icon: 'chat', title: "Chatting with creators" },
+    { id: 'about', icon: 'eye', title: "Understanding creators" },
+    { id: 'waiting', icon: 'device', title: "She hasn't replied yet" }
+  ] }
+};
+/* Thème "flirt" : au lieu d'un tableau direct, on demande d'abord la situation du membre
+   (en couple / célibataire en recherche / célibataire besoin de conseils), puis on affiche
+   le tableau scopé à cette situation. Contenu 100% générique flirt/dating/relationship —
+   aucune référence à une créatrice ou à la consommation du site. */
+const FLIRT_STATUSES = {
+  couple: { icon: 'heart', title: "I'm in a relationship", desc: "Communication, keeping the spark, staying close",
+    categories: [
+      { id: 'communicate', title: "Communicate better" },
+      { id: 'spark', title: "Keep the spark alive" }
+    ] },
+  looking: { icon: 'sun', title: "I'm single & looking", desc: "Attraction, first dates, knowing if she's interested",
+    categories: [
+      { id: 'signals', title: "Does she like me?" },
+      { id: 'attraction', title: "Create attraction" },
+      { id: 'firstdate', title: "First date" }
+    ] },
+  advice: { icon: 'leaf', title: "I'm single & need advice", desc: "Confidence, moving on, general dating advice",
+    categories: [
+      { id: 'confidence', title: "Build confidence" },
+      { id: 'moveon', title: "After a breakup" }
+    ] }
 };
 
 /* Un seul encadré (.coach-frame). Étapes : accueil en puces sans bouton -> choix du
@@ -3988,39 +4004,78 @@ function coachShowThemeChoice(){
   document.getElementById('coach-body').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
+/* Bouton "Retour aux 2 thèmes" (dégradé honey/rose, comme le badge CHAT), ajouté en bas
+   de CHAQUE écran (tableau, réponse, choix de situation) — ramène direct à l'accueil. */
+function coachBackBothHtml(){
+  return `<button type="button" class="coach-back-both-btn" data-back-both="1">${escText(t('coachBackBothTopics'))}</button>`;
+}
+function coachWireBackBoth(container){
+  const btn = container.querySelector('[data-back-both]');
+  if(btn) btn.onclick = coachShowWelcomeUnified;
+}
+
 function coachChooseTheme(themeKey){
   coachState.theme = themeKey;
+  coachState.status = null;
+  if(themeKey === 'flirt'){ coachState.view = 'status'; coachShowFlirtStatusChoice(); }
+  else { coachState.view = 'table'; coachRenderTable(); }
+}
+
+/* Thème "flirt" uniquement : demande d'abord la situation du membre avant d'afficher
+   le tableau — pas de bouton en pas de puces ici, juste le choix direct (3 options). */
+function coachShowFlirtStatusChoice(){
+  const body = document.getElementById('coach-body');
+  if(!body) return;
+  const itemsHtml = Object.keys(FLIRT_STATUSES).map(key => {
+    const s = FLIRT_STATUSES[key];
+    return `<button type="button" class="coach-theme-btn" data-status="${key}"><span class="coach-theme-btn-icon">${AICON[s.icon]}</span><span><span class="coach-theme-btn-title">${escText(s.title)}</span><span class="coach-theme-btn-desc">${escText(s.desc)}</span></span></button>`;
+  }).join('');
+  body.innerHTML = `
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show">${escText(t('coachStatusPrompt'))}</div></div>
+    <div class="coach-theme-choice">${itemsHtml}</div>
+    ${coachBackBothHtml()}
+  `;
+  body.querySelectorAll('[data-status]').forEach(btn => { btn.onclick = () => coachChooseStatus(btn.dataset.status); });
+  coachWireBackBoth(body);
+  body.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+function coachChooseStatus(statusKey){
+  coachState.status = statusKey;
   coachState.view = 'table';
   coachRenderTable();
 }
 
-/* Étape 3/4 : tableau listant toutes les questions du thème choisi, groupées par
-   catégorie. La catégorie "silence" n'a pas de liste de questions (c'est un mini-
-   diagnostic à étapes) : elle apparaît comme une seule ligne cliquable. */
+/* Étape 3/4 : tableau listant toutes les questions du thème (ou, pour "flirt", de la
+   situation choisie), groupées par catégorie. La catégorie "waiting" (thème 1) n'a pas
+   de liste de questions (c'est un mini-diagnostic à étapes) : une seule ligne cliquable. */
 function coachRenderTable(){
   const body = document.getElementById('coach-body');
   if(!body) return;
   coachState.view = 'table';
-  const cfg = BOT_CONFIG[coachState.theme];
+  const cfg = coachState.theme === 'flirt' ? FLIRT_STATUSES[coachState.status] : BOT_CONFIG.creator;
   if(!cfg) return;
   const rowsHtml = cfg.categories.map(cat => {
+    const catHead = `<div class="coach-table-cat">${cat.icon ? premiumTagIcon(AICON[cat.icon]) : ''} ${escText(cat.title)}</div>`;
     const starterIds = COACH_STARTERS[cat.id];
     if(!starterIds){
-      return `<div class="coach-table-cat">${premiumTagIcon(AICON[cat.icon])} ${escText(cat.title)}</div>`
-        + `<button type="button" class="coach-table-row" data-silence="1">${escText(cat.title)}</button>`;
+      return catHead + `<button type="button" class="coach-table-row" data-silence="1">${escText(cat.title)}</button>`;
     }
-    return `<div class="coach-table-cat">${premiumTagIcon(AICON[cat.icon])} ${escText(cat.title)}</div>`
-      + starterIds.map(id => `<button type="button" class="coach-table-row" data-node="${id}">${escText(COACH_NODES[id].q)}</button>`).join('');
+    return catHead + starterIds.map(id => `<button type="button" class="coach-table-row" data-node="${id}">${escText(COACH_NODES[id].q)}</button>`).join('');
   }).join('');
+  const changeStatusBtn = coachState.theme === 'flirt'
+    ? `<button type="button" class="coach-switch-theme" id="coach-switch-status">${COACH_ICON_BACK} ${escText(t('coachChangeStatus'))}</button>`
+    : '';
   body.innerHTML = `
     <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show">${escText(t('coachTablePrompt'))}</div></div>
     <div class="coach-table">${rowsHtml}</div>
-    <button type="button" class="coach-switch-theme" id="coach-switch-theme">${COACH_ICON_BACK} ${escText(t('coachSwitchTheme'))}</button>
+    ${changeStatusBtn}
+    ${coachBackBothHtml()}
   `;
   body.querySelectorAll('[data-node]').forEach(btn => { btn.onclick = () => coachAnswerQuestion(btn.dataset.node); });
   body.querySelectorAll('[data-silence]').forEach(btn => { btn.onclick = () => renderCoachSilenceStep(1, {}); });
-  const switchBtn = document.getElementById('coach-switch-theme');
-  if(switchBtn) switchBtn.onclick = coachShowWelcomeUnified;
+  const statusBtn = document.getElementById('coach-switch-status');
+  if(statusBtn) statusBtn.onclick = coachShowFlirtStatusChoice;
+  coachWireBackBoth(body);
 }
 
 /* Étape 5 : la réponse du coach remplace le tableau (bulle question + bulle réponse
@@ -4093,10 +4148,12 @@ function coachRenderActionBar(){
       <button type="button" class="coach-action-btn" id="coach-act-save">${ICON_SAVE} ${escText(t('coachSaveBtn'))}</button>
       <button type="button" class="coach-action-btn" id="coach-act-erase">${ICON_TRASH} ${escText(t('coachEraseBtn'))}</button>
     </div>
+    ${coachBackBothHtml()}
   `;
   document.getElementById('coach-act-back').onclick = coachRenderTable;
   document.getElementById('coach-act-save').onclick = coachSaveConversation;
   document.getElementById('coach-act-erase').onclick = coachEraseRetour;
+  coachWireBackBoth(el);
 }
 
 function coachSaveConversation(){
@@ -4110,31 +4167,30 @@ function coachEraseRetour(){
   coachRenderTable();
 }
 
-/* ---- Mini-diagnostic à étapes pour "Elle ne répond plus" (côté "creator") ----
-   Au lieu d'une réponse unique, on pose 3 petites questions à choix (durée du silence,
-   était-elle régulière avant, qui initie habituellement), on construit un état, puis on
-   compose une réponse sur-mesure en assemblant des blocs de texte selon les 3 réponses
-   (24 combinaisons possibles) avant de proposer les mots-clés de suivi habituels et la
-   même barre d'actions que pour une question normale. */
+/* ---- Mini-diagnostic à étapes pour "Elle n'a pas encore répondu" (thème 1 — angle
+   service/consommation : message ou commande en attente, pas silence romantique) ----
+   3 petites questions à choix, on construit un état, puis on compose une réponse
+   sur-mesure en assemblant des blocs de texte selon les 3 réponses avant de proposer
+   les mots-clés de suivi habituels et la même barre d'actions que pour une question normale. */
 const COACH_SILENCE_STEPS = [
-  { key: 'duration', q: "Since when has she stopped replying?", options: ['1 day', '3 days', '1 week', '+1 month'] },
-  { key: 'normal', q: "Was she replying normally before that?", options: ['Yes', 'No'] },
-  { key: 'first', q: "Who usually texts first between you two?", options: ['Me', 'Her', '50/50'] }
+  { key: 'duration', q: "How long has it been since she last replied?", options: ['1 day', '3 days', '1 week', '+2 weeks'] },
+  { key: 'type', q: "What are you waiting on?", options: ['A message', 'A custom order'] },
+  { key: 'usual', q: "Does she usually reply to you quickly?", options: ['Yes', 'No', 'Not sure'] }
 ];
 const COACH_SILENCE_DURATION_TXT = {
-  '1 day': "A single day of silence barely means anything yet — people get busy, distracted, or just forget to open the app. Try not to overanalyze this one.",
-  '3 days': "A few days of silence starts to mean a bit more, but it's still early — it's often life getting in the way rather than anything about you.",
-  '1 week': "A full week of silence is a real signal. At this point it's less about bad timing and more about her interest or availability cooling off for now.",
-  '+1 month': "After a month, this isn't really silence anymore — it's a conversation that has closed on its own. The healthiest move now is to let it go rather than keep chasing it."
+  '1 day': "A single day is nothing to worry about — creators manage a high volume of messages and orders every day.",
+  '3 days': "A few days can happen during busy periods — it doesn't necessarily mean anything went wrong with your message or order.",
+  '1 week': "A full week is worth a polite follow-up — a short, friendly check-in message is completely normal and appreciated.",
+  '+2 weeks': "After two weeks, it's fair to send one clear follow-up, and consider reaching out to Honeymoon support if it's a paid order that hasn't been delivered."
 };
 const COACH_SILENCE_NORMAL_TXT = {
-  'Yes': "Since she used to reply normally, something specific probably shifted recently — a message that landed wrong, a busier period for her, or her attention has simply moved elsewhere for now.",
-  'No': "If she was never a very consistent replier, this isn't really new behavior from her — it says more about her general pace and habits than about you specifically."
+  'A message': "For a simple message, replies depend entirely on how many conversations she's juggling that day.",
+  'A custom order': "Custom content takes real production time — filming, editing and reviewing — so orders naturally take longer than a quick chat reply."
 };
 const COACH_SILENCE_FIRST_TXT = {
-  'Me': "You mentioned you're usually the one texting first — it might be worth waiting for her to reach out next, just to see the real rhythm of her interest without your own push keeping it alive.",
-  'Her': "Since she's usually the one who initiates, this pause is more likely about her own availability or mood right now than about losing interest in you.",
-  '50/50': "Since you both usually initiate about equally, this one-sided silence stands out a bit more — it's a fair moment to send one light, low-pressure message, and then genuinely wait."
+  'Yes': "Since she's usually quick with you, this delay is likely just a busier-than-usual moment on her side.",
+  'No': "If replies are typically slower with her, this isn't new behavior — it's just her normal pace.",
+  'Not sure': "If you're not sure of her usual rhythm yet, give it a little more time before drawing any conclusions."
 };
 function renderCoachSilenceStep(stepNum, state){
   const body = document.getElementById('coach-body');
@@ -4166,6 +4222,8 @@ function renderCoachSilenceStep(stepNum, state){
       }
     };
   });
+  body.insertAdjacentHTML('beforeend', coachBackBothHtml());
+  coachWireBackBoth(body);
   body.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 function coachShowSilenceDiagnosis(answers){
@@ -4173,8 +4231,8 @@ function coachShowSilenceDiagnosis(answers){
   if(!body) return;
   const rawAnswer = [
     COACH_SILENCE_DURATION_TXT[answers.duration],
-    COACH_SILENCE_NORMAL_TXT[answers.normal],
-    COACH_SILENCE_FIRST_TXT[answers.first]
+    COACH_SILENCE_NORMAL_TXT[answers.type],
+    COACH_SILENCE_FIRST_TXT[answers.usual]
   ].filter(Boolean).join(' ');
   const varied = coachVaryText(rawAnswer);
   const now = new Date();
@@ -4184,7 +4242,7 @@ function coachShowSilenceDiagnosis(answers){
   body.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   setTimeout(() => {
     typeWriterText(document.getElementById(bubbleId), varied, now);
-    coachState.log.push({ theme: coachState.theme, q: "She's not replying", a: rawAnswer, ts: Date.now() });
+    coachState.log.push({ theme: coachState.theme, q: "She hasn't replied yet", a: rawAnswer, ts: Date.now() });
     const chips = [
       { label: COACH_NODES.fu_silence.q, to: 'fu_silence' },
       { label: COACH_NODES.fu_message.q, to: 'fu_message' },
@@ -4197,185 +4255,127 @@ function coachShowSilenceDiagnosis(answers){
   }, 500);
 }
 
-/* ---- Liste des questions de départ affichées quand on ouvre une catégorie (partagée
-   par les deux bots, chaque catégorie n'existant que dans l'un des deux). ---- */
+/* ---- Liste des questions de départ affichées dans le tableau de chaque catégorie. ---- */
 const COACH_STARTERS = {
-  likes: ['likes_1','likes_2','likes_3','likes_4','likes_5','likes_6'],
-  talk: ['talk_1','talk_2','talk_3','talk_4','talk_5','talk_6'],
-  attraction: ['attr_1','attr_2','attr_3','attr_4','attr_5','attr_6'],
-  behavior: ['beh_1','beh_2','beh_3','beh_4','beh_5','beh_6'],
-  breakup: ['brk_1','brk_2','brk_3','brk_4','brk_5','brk_6'],
-  firstdate: ['date_1','date_2','date_3','date_4','date_5','date_6'],
-  distant: ['dist_1','dist_2','dist_3','dist_4','dist_5','dist_6'],
+  platform: ['plat_1','plat_2','plat_3','plat_4','plat_5','plat_6'],
   budget: ['bud_1','bud_2','bud_3','bud_4','bud_5','bud_6'],
-  creator: ['cr_1','cr_2','cr_3','cr_4','cr_5','cr_6']
+  engaging: ['eng_1','eng_2','eng_3','eng_4','eng_5','eng_6'],
+  about: ['abt_1','abt_2','abt_3','abt_4','abt_5','abt_6'],
+  communicate: ['comm_1','comm_2','comm_3','comm_4','comm_5','comm_6'],
+  spark: ['spark_1','spark_2','spark_3','spark_4','spark_5','spark_6'],
+  signals: ['sig_1','sig_2','sig_3','sig_4','sig_5','sig_6'],
+  attraction: ['attr_1','attr_2','attr_3','attr_4','attr_5','attr_6'],
+  firstdate: ['date_1','date_2','date_3','date_4','date_5','date_6'],
+  confidence: ['conf_1','conf_2','conf_3','conf_4','conf_5','conf_6'],
+  moveon: ['mv_1','mv_2','mv_3','mv_4','mv_5','mv_6']
 };
 
-/* ---- Le graphe de questions/réponses lui-même : chaque nœud a une question (q),
-   une réponse (a), et jusqu'à 3 "chips" de mots-clés vers d'autres nœuds (partagés
-   entre catégories, et même entre les deux bots) pour créer un vrai parcours plutôt
-   qu'une simple FAQ. ---- */
+/* ---- Contenu éditorial. Thème 1 (platform/budget/engaging/about) : 100% consommation
+   du site — comment ça marche, budget, comment échanger avec une créatrice — général,
+   jamais tourné en conseil de couple. Thème 2 (communicate/spark/signals/attraction/
+   firstdate/confidence/moveon) : 100% flirt/dating/relationship réel, aucune mention
+   du site ni d'une créatrice. Pas de chips de suivi sur ce nouveau contenu : la
+   navigation se fait via le tableau et les boutons d'action. ---- */
 const COACH_NODES = {
-  // -------- She likes me --------
-  likes_1: { q: "How do I know if she's really into me?", a: "Look at what she does without being asked — replying fast on her own, remembering small details you mentioned, asking about your day. Anyone can be polite; consistency without a reason is the real signal.",
-    chips: [{ to: 'fu_confidence' }, { to: 'fu_consistency' }, { to: 'talk_1' }] },
-  likes_2: { q: "She's flirty with everyone, is it still real with me?", a: "A creator's public tone is part of her job, so don't read too much into the general vibe. What matters is whether she treats you differently one-on-one — remembers things, breaks her usual pattern for you, initiates sometimes.",
-    chips: [{ to: 'fu_selfesteem' }, { to: 'cr_2' }, { to: 'fu_jealousy' }] },
-  likes_3: { q: "She likes my messages but takes forever to reply", a: "Slow replies usually mean volume, not disinterest — she may be juggling a lot of conversations. Focus on the quality of what she says when she does answer, not the speed.",
-    chips: [{ to: 'fu_patience' }, { to: 'fu_rhythm' }, { to: 'dist_1' }] },
-  likes_4: { q: "Does she remember what I tell her?", a: "If she brings up something you mentioned days or weeks ago without being reminded, that's a genuine sign she's paying attention to you as a person, not just replying on autopilot.",
-    chips: [{ to: 'fu_consistency' }, { to: 'talk_3' }, { to: 'cr_4' }] },
-  likes_5: { q: "She calls me 'babe' / uses pet names, does that mean something?", a: "Pet names can be a habit or a business-friendly tone with everyone, so treat it as a nice sign, not proof. Pair it with other signals — memory, initiation, consistency — before reading too much into it.",
-    chips: [{ to: 'fu_honesty' }, { to: 'likes_2' }, { to: 'fu_selfesteem' }] },
-  likes_6: { q: "How do I ask her clearly if she's interested?", a: "Keep it light and low-pressure rather than a big declaration — something like asking what she enjoys about your chats works better than asking her to define the relationship outright. Direct but casual gets more honest answers.",
-    chips: [{ to: 'fu_honesty' }, { to: 'fu_boundaries' }, { to: 'talk_5' }] },
+  // ======== THÈME 1 — Profiter du site (consommation) ========
+  // -------- How Honeymoon works --------
+  plat_1: { q: "How do I unlock a creator's paid content?", a: "Open her Tip Menu and pick what you want — photo, video or audio — then confirm the price. Once unlocked, it stays in your Collection so you can revisit it anytime." },
+  plat_2: { q: "Is chatting with a creator free?", a: "Yes, messaging is free — you only pay for the content you choose to unlock through the Tip Menu or a custom request. There's no cost just to say hello." },
+  plat_3: { q: "What's the difference between the Tip Menu and a custom request?", a: "The Tip Menu is ready-made content she's already priced and listed. A custom request is something you ask her to create specifically for you, priced by her at delivery." },
+  plat_4: { q: "Can I see what I've already purchased?", a: "Yes — everything you've unlocked lives in your Collection, so you never lose access to content you've already paid for." },
+  plat_5: { q: "How do I know a creator's profile is genuine?", a: "Every profile on Honeymoon is verified by the team before it goes live, so you're always chatting with a real, ID-checked creator." },
+  plat_6: { q: "Can I follow more than one creator?", a: "Absolutely — add as many creators as you like to your Favorites and switch between conversations whenever you want." },
 
-  // -------- How to talk to her --------
-  talk_1: { q: "What's a good opening message?", a: "Skip generic compliments about looks — react to something specific in her bio, her latest post, or something she said before. Specific beats flattering every time.",
-    chips: [{ to: 'fu_humor' }, { to: 'fu_compliment' }, { to: 'attr_1' }] },
-  talk_2: { q: "Should I text her every day?", a: "There's no fixed rule — what matters is that your rhythm feels natural to you, not performed to seem available. A message with nothing to say usually reads as pressure, not interest.",
-    chips: [{ to: 'fu_rhythm' }, { to: 'fu_consistency' }, { to: 'dist_2' }] },
-  talk_3: { q: "How do I keep a conversation from dying?", a: "End your own messages with something that invites a reply — a light question, not just a statement. Also notice her energy: if she's giving short answers, it might be timing, not the topic.",
-    chips: [{ to: 'fu_humor' }, { to: 'likes_3' }, { to: 'fu_rhythm' }] },
-  talk_4: { q: "Is it okay to be a bit flirty early on?", a: "Light and playful is usually fine and often welcomed — it's heavy or explicit too early that tends to backfire. Mirror her tone rather than pushing past it.",
-    chips: [{ to: 'attr_2' }, { to: 'fu_boundaries' }, { to: 'fu_confidence' }] },
-  talk_5: { q: "How honest should I be about my feelings?", a: "Genuine and specific beats grand declarations — saying what exactly you enjoy about talking to her lands better than a vague 'I really like you'. Honesty without pressure is the goal.",
-    chips: [{ to: 'fu_honesty' }, { to: 'fu_boundaries' }, { to: 'likes_6' }] },
-  talk_6: { q: "She gives short replies, am I boring her?", a: "Short replies can mean she's busy, on her phone between tasks, or just not a big texter — it's not automatically about you. Ask a genuinely curious question and see if the energy changes.",
-    chips: [{ to: 'fu_rhythm' }, { to: 'fu_patience' }, { to: 'dist_3' }] },
+  // -------- Budget, tips & offers --------
+  bud_1: { q: "How much should I plan to spend here?", a: "There's no fixed rule — start with what feels comfortable, unlock a piece or two, and adjust as you see which creators and content you enjoy most." },
+  bud_2: { q: "How do I know if an offer is worth the price?", a: "Check what's actually included — length, format, description — rather than just the number. A clear, detailed listing is usually a good sign of quality." },
+  bud_3: { q: "Can I negotiate a price with a creator?", a: "Tip Menu prices are fixed by the creator, but for a custom request you can describe what you want and she'll quote a price back before you commit." },
+  bud_4: { q: "What counts as a good tip?", a: "Any amount that feels right to you — a tip is simply a way to show appreciation on top of what you've already unlocked, there's no required minimum." },
+  bud_5: { q: "Are there perks for regular supporters?", a: "Creators often reward loyal supporters with priority replies or occasional extras — staying a consistent, respectful member tends to pay off over time." },
+  bud_6: { q: "Is my payment information safe?", a: "Yes, purchases are processed securely and your payment details are never shared with creators — they only see that a purchase happened." },
 
-  // -------- Create attraction --------
-  attr_1: { q: "How do I stand out from every other message she gets?", a: "Creators get a lot of generic 'hey beautiful' messages — a real question about something she actually said or posted instantly puts you in a different category. Curiosity beats compliments.",
-    chips: [{ to: 'fu_confidence' }, { to: 'talk_1' }, { to: 'cr_1' }] },
-  attr_2: { q: "Does playing hard to get actually work?", a: "A little unpredictability can be healthy, but games built on ignoring her read as immaturity, not confidence. Real attraction comes from having your own life and energy, not from calculated silence.",
-    chips: [{ to: 'fu_confidence' }, { to: 'fu_selfesteem' }, { to: 'dist_4' }] },
-  attr_3: { q: "How important is humor here?", a: "Very — a light, genuine joke or witty reply beats a rehearsed line almost every time. If she's playful, she wants someone who can keep up with the energy, not just admire it.",
-    chips: [{ to: 'fu_humor' }, { to: 'talk_1' }, { to: 'likes_1' }] },
-  attr_4: { q: "Should I compliment her looks or something else?", a: "Looks-only compliments blend into everything else she hears — noticing her effort, humor, or a specific detail stands out far more and shows you're actually paying attention.",
-    chips: [{ to: 'fu_compliment' }, { to: 'fu_confidence' }, { to: 'cr_3' }] },
-  attr_5: { q: "Is confidence really that important?", a: "Yes, but confidence here means being relaxed and not needing her approval every message — not being loud or arrogant. Calm, secure energy is what actually reads as attractive over time.",
-    chips: [{ to: 'fu_confidence' }, { to: 'fu_selfesteem' }, { to: 'fu_patience' }] },
-  attr_6: { q: "How do I create a bit of tension/interest?", a: "A touch of mystery works better than oversharing everything at once — leave a little for her to ask about. Genuine warmth plus a bit of restraint is more magnetic than full availability.",
-    chips: [{ to: 'fu_rhythm' }, { to: 'attr_2' }, { to: 'fu_boundaries' }] },
+  // -------- Chatting with creators --------
+  eng_1: { q: "What's a good first message to a creator?", a: "Skip generic compliments — react to something specific in her bio or latest post. Specific and genuine beats flattering every time." },
+  eng_2: { q: "How do I stand out among all the messages she gets?", a: "A real question about something she actually posted puts you in a different category than the generic messages she gets constantly." },
+  eng_3: { q: "Is it okay to be playful or a bit flirty in chat?", a: "Light and playful is usually welcomed — just remember it's part of the experience she's offering, so stay respectful of her boundaries and pace." },
+  eng_4: { q: "How often should I message a creator?", a: "There's no fixed rhythm — a message with something real to say lands better than checking in just to seem present." },
+  eng_5: { q: "What makes creators reply faster?", a: "Clear, friendly messages that are easy to answer — and being a supporter who engages with her content — tend to get quicker replies." },
+  eng_6: { q: "How do I build a good ongoing relationship as a supporter?", a: "Consistency and respect go a long way — show genuine interest in her content, tip when you can, and she'll remember you as a real supporter." },
 
-  // -------- Understand her behavior --------
-  beh_1: { q: "Why does she sometimes seem distant then suddenly warm?", a: "This is usually about her workload and mood swings between many conversations, not about you specifically — creators juggle a lot at once. Consistency on your end matters more than reacting to every shift.",
-    chips: [{ to: 'fu_consistency' }, { to: 'dist_5' }, { to: 'fu_patience' }] },
-  beh_2: { q: "She asks a lot of questions about me, why?", a: "That's usually a genuine good sign — it means she's building a real picture of you rather than just running a script. Answer honestly and ask some back; it keeps things balanced.",
-    chips: [{ to: 'likes_4' }, { to: 'fu_honesty' }, { to: 'talk_5' }] },
-  beh_3: { q: "Why does she post so much about her work?", a: "This is her business and often her main income — sharing it isn't a lack of interest in you, it's simply part of her day. Supporting that side of her life without judgment tends to build real trust.",
-    chips: [{ to: 'cr_1' }, { to: 'cr_5' }, { to: 'fu_boundaries' }] },
-  beh_4: { q: "Is it normal she talks to other members too?", a: "Yes — for a creator, that's simply the nature of the platform. What matters for you is how she treats your specific conversation, not whether other conversations exist.",
-    chips: [{ to: 'fu_jealousy' }, { to: 'cr_2' }, { to: 'fu_selfesteem' }] },
-  beh_5: { q: "She seems more open at night than during the day", a: "That's often just her schedule — quieter hours, fewer messages coming in, more energy to actually chat. It's a rhythm thing, not a hidden meaning.",
-    chips: [{ to: 'fu_rhythm' }, { to: 'talk_2' }, { to: 'fu_patience' }] },
-  beh_6: { q: "How do I read her mood through text?", a: "Look at message length and response speed relative to her own baseline, not to some universal standard — a drop from her usual pattern says more than a single short reply ever does.",
-    chips: [{ to: 'fu_consistency' }, { to: 'dist_1' }, { to: 'fu_rhythm' }] },
+  // -------- Understanding creators --------
+  abt_1: { q: "Why aren't creators always available to chat?", a: "Most creators manage a large number of conversations and their own content production — treat her time as valuable, the same way you would anyone running a business." },
+  abt_2: { q: "Why do prices vary between creators?", a: "Each creator sets her own prices based on her content, demand, and experience — there's no single standard rate across the platform." },
+  abt_3: { q: "Do creators read every message they get?", a: "Most try to, but volume means replies can take time — a clear, easy-to-answer message helps yours stand out and get read faster." },
+  abt_4: { q: "Is it normal that she chats with many members?", a: "Yes — that's simply how the platform works for her as a business. What matters is how she treats your specific conversation." },
+  abt_5: { q: "How do creators decide what content to make?", a: "Many base new content on what their supporters request and respond well to — your feedback and requests genuinely help shape what she creates." },
+  abt_6: { q: "Why is she sometimes slow to deliver a custom order?", a: "Custom content takes real time to film, edit and deliver — a short wait is normal, especially for detailed or personalized requests." },
 
-  // -------- After a breakup --------
-  brk_1: { q: "How long should I wait before talking to someone new here?", a: "There's no universal number — the real marker is whether you're looking for genuine connection or just distraction from the pain. Give yourself a little space either way; it shows in how you show up.",
-    chips: [{ to: 'fu_selfesteem' }, { to: 'brk_3' }, { to: 'fu_confidence' }] },
-  brk_2: { q: "I keep comparing her to my ex, is that normal?", a: "Very normal early on, but worth noticing when it happens so you can catch yourself — she deserves to be seen for who she is, not measured against someone else's shadow.",
-    chips: [{ to: 'fu_honesty' }, { to: 'fu_selfesteem' }, { to: 'brk_4' }] },
-  brk_3: { q: "How do I stop feeling needy after a breakup?", a: "Neediness usually fades as your own life fills back up — friends, routine, things that are just yours. The less you need someone to feel okay, the more naturally attractive you tend to come across.",
-    chips: [{ to: 'fu_confidence' }, { to: 'fu_selfesteem' }, { to: 'attr_5' }] },
-  brk_4: { q: "Should I tell her about my breakup?", a: "A light, honest mention is fine if it comes up naturally — no need for a full story upfront. Oversharing pain early can shift the dynamic into caretaking instead of attraction.",
-    chips: [{ to: 'fu_honesty' }, { to: 'fu_boundaries' }, { to: 'talk_5' }] },
-  brk_5: { q: "I feel lonely, is that why I'm here more often?", a: "That's worth being honest with yourself about — using this space for genuine connection and light fun is great, but if it's the only thing filling the loneliness, it might be worth building that up elsewhere too.",
-    chips: [{ to: 'fu_selfesteem' }, { to: 'brk_1' }, { to: 'fu_patience' }] },
-  brk_6: { q: "How do I know I'm ready to flirt again?", a: "A good sign is wanting to connect because it's fun and light, not because you're trying to fill a gap or prove something to yourself. Ready usually feels curious, not urgent.",
-    chips: [{ to: 'fu_confidence' }, { to: 'attr_5' }, { to: 'brk_3' }] },
+  // -------- Mots-clés de suivi utilisés par le diagnostic "Elle n'a pas encore répondu" --------
+  fu_silence: { q: "Should I ever just stop messaging and wait?", a: "If you've reached out reasonably and heard nothing yet, stepping back for a bit isn't a mistake — a reply usually comes once she's through her queue.",
+    chips: [{ to: 'fu_patience' }] },
+  fu_message: { q: "What should I send after a few quiet days?", a: "Something short and low-pressure — a light comment works better than asking why she went quiet. It gives her an easy way back into the conversation.",
+    chips: [{ to: 'fu_silence' }] },
+  fu_patience: { q: "How much patience is reasonable here?", a: "Enough to let a normal reply window pass without spiraling — a day or two of quiet from a busy creator rarely means anything.",
+    chips: [{ to: 'fu_message' }] },
 
-  // -------- First date --------
-  date_1: { q: "Is a first date/call even likely here?", a: "It depends entirely on the individual creator and what she's comfortable with — never assume or pressure it. If it happens, it should feel like a natural next step, not something you've been pushing toward.",
-    chips: [{ to: 'fu_boundaries' }, { to: 'date_3' }, { to: 'fu_honesty' }] },
-  date_2: { q: "What should I talk about on a first video call?", a: "Keep it light and curious — ask about her day, her interests outside of work, small easy things. Save deeper or heavier topics for once there's real comfort between you.",
-    chips: [{ to: 'fu_humor' }, { to: 'talk_1' }, { to: 'date_4' }] },
-  date_3: { q: "How do I bring it up without sounding pushy?", a: "Frame it as an easy, no-pressure suggestion rather than an expectation — 'would be fun to chat by video sometime' leaves her free to say yes or simply not engage, without any awkwardness either way.",
-    chips: [{ to: 'fu_boundaries' }, { to: 'fu_confidence' }, { to: 'date_1' }] },
-  date_4: { q: "I'm nervous before a call/date, what helps?", a: "Remind yourself she agreed to this because she wants to, not out of obligation — that alone should ease some pressure. A little nervousness is normal and even kind of charming when it's genuine.",
-    chips: [{ to: 'fu_confidence' }, { to: 'fu_selfesteem' }, { to: 'date_2' }] },
-  date_5: { q: "How do I follow up after a good call?", a: "A short, warm message afterward — mentioning something specific you enjoyed — works better than going silent or overdoing it with too many messages right after.",
-    chips: [{ to: 'fu_rhythm' }, { to: 'talk_2' }, { to: 'fu_consistency' }] },
-  date_6: { q: "What if the call felt awkward?", a: "First calls are often a bit awkward for everyone — text tends to hide pauses that voice reveals. One okay call doesn't cancel out a genuinely good text connection; give it another shot before reading too much into it.",
-    chips: [{ to: 'fu_patience' }, { to: 'fu_confidence' }, { to: 'date_5' }] },
+  // ======== THÈME 2 — Flirt, dating & relationship (aucun lien avec le site) ========
+  // -------- In a relationship: Communicate better --------
+  comm_1: { q: "How do I bring up something bothering me without starting a fight?", a: "Lead with how you feel rather than what she did wrong — 'I felt hurt when...' opens a conversation, while 'you always...' triggers defensiveness." },
+  comm_2: { q: "She shuts down when we try to talk about problems, what do I do?", a: "Give her space to process before pushing for a full conversation — some people need a little time before they can talk calmly." },
+  comm_3: { q: "How much should we share about our day with each other?", a: "There's no fixed amount — what matters is that both of you feel heard when you do share, not the volume of details." },
+  comm_4: { q: "We keep having the same argument over and over", a: "Recurring arguments usually point to an unmet need underneath, not the surface topic — try naming what you actually need instead of refighting the same point." },
+  comm_5: { q: "How do I bring up an insecurity I have in the relationship?", a: "Choose a calm moment, not mid-argument, and frame it as your own feeling rather than an accusation — it makes her far more likely to actually hear you." },
+  comm_6: { q: "Is it normal to disagree this often?", a: "Yes — disagreeing isn't the problem, it's how you handle it together that determines whether it strengthens or wears down the relationship." },
 
-  // -------- She's being distant --------
-  dist_1: { q: "Why is she being distant lately?", a: "This is rarely one single thing — workload, mood, other conversations, or simply a quieter period on her side are all far more common explanations than a sudden loss of interest.",
-    chips: [{ to: 'fu_distance' }, { to: 'fu_patience' }, { to: 'silence_intro' }] },
-  dist_2: { q: "Did I do something wrong?", a: "Possibly, but not necessarily — before assuming, look back at the last few messages honestly. If nothing stands out, it's more likely about her side than yours.",
-    chips: [{ to: 'fu_honesty' }, { to: 'fu_boundaries' }, { to: 'dist_1' }] },
-  dist_3: { q: "Should I ask her directly if something's wrong?", a: "One light, non-accusing question is fine — something like checking in casually rather than demanding an explanation. Keep it short so it doesn't feel like pressure.",
-    chips: [{ to: 'fu_honesty' }, { to: 'fu_boundaries' }, { to: 'talk_6' }] },
-  dist_4: { q: "How much space should I give her?", a: "Enough that your next message doesn't feel like the third one in a row — a few days of normal life on your end is healthy and, if anything, makes your next message land better.",
-    chips: [{ to: 'fu_patience' }, { to: 'fu_rhythm' }, { to: 'attr_2' }] },
-  dist_5: { q: "Is this distance permanent or just a phase?", a: "Most distance is a phase tied to schedule or mood rather than a final decision — the real test is whether warmth comes back at all once things settle, even if slower than before.",
-    chips: [{ to: 'fu_distance' }, { to: 'beh_1' }, { to: 'fu_patience' }] },
-  dist_6: { q: "Should I just move on?", a: "If the distance has lasted a long time with no change at all despite reasonable patience on your end, it's fair to redirect your energy — not out of anger, just realism.",
-    chips: [{ to: 'fu_selfesteem' }, { to: 'brk_3' }, { to: 'fu_honesty' }] },
+  // -------- In a relationship: Keep the spark alive --------
+  spark_1: { q: "How do we keep things exciting after being together a while?", a: "Small novelty matters more than big gestures — a new activity together, a spontaneous plan, or simply being fully present breaks the routine." },
+  spark_2: { q: "I feel like the flirt disappeared from our relationship", a: "Flirting often fades because it stops being intentional — a playful text or a genuine compliment during the day brings it back faster than people expect." },
+  spark_3: { q: "How do I plan a date that doesn't feel repetitive?", a: "Try something neither of you has done before — new activities create shared memories that a repeated dinner-and-movie routine rarely does." },
+  spark_4: { q: "Should I still make an effort with how I look for her?", a: "Yes, in the same way you'd want her to keep making an effort for you — small consistent effort matters more than the occasional big one." },
+  spark_5: { q: "How do we stay close when life gets busy?", a: "Protect small daily moments — a real conversation over coffee, a message that isn't logistics — busy periods don't have to mean disconnected ones." },
+  spark_6: { q: "Is it normal to feel like roommates sometimes?", a: "It happens in most long relationships during busy stretches — noticing it is actually the first step to intentionally bringing the spark back." },
 
-  // -------- Budget & the relationship --------
-  bud_1: { q: "Does spending more make her like me more?", a: "Support can be appreciated, but it doesn't manufacture real connection — genuine warmth and being memorable in conversation matters far more long-term than the size of any single purchase.",
-    chips: [{ to: 'fu_money' }, { to: 'fu_confidence' }, { to: 'cr_6' }] },
-  bud_2: { q: "I feel pressure to spend to keep her attention", a: "That feeling is worth noticing and being honest with yourself about — a healthy dynamic doesn't rely on constant spending to stay warm. Set a budget that feels good to you and stick to it.",
-    chips: [{ to: 'fu_money' }, { to: 'fu_boundaries' }, { to: 'fu_selfesteem' }] },
-  bud_3: { q: "How do I set a budget I'm comfortable with?", a: "Decide a monthly amount in advance, separate from any single moment of excitement in conversation — treat it like any other entertainment budget, not a way to buy affection.",
-    chips: [{ to: 'fu_money' }, { to: 'fu_boundaries' }, { to: 'bud_2' }] },
-  bud_4: { q: "Is it okay to just chat without ever tipping or buying?", a: "Absolutely, plenty of members do exactly that — just keep in mind creators run this as a business, so if you're able to support occasionally, it's appreciated but never required for a real connection.",
-    chips: [{ to: 'fu_money' }, { to: 'cr_1' }, { to: 'fu_honesty' }] },
-  bud_5: { q: "She mentioned a goal she's saving for, should I help?", a: "Only if it genuinely feels good to you and fits your own budget — never because you feel obligated. Supporting a goal you actually care about can be a nice gesture, not a requirement.",
-    chips: [{ to: 'fu_money' }, { to: 'cr_5' }, { to: 'fu_boundaries' }] },
-  bud_6: { q: "Does she treat paying members differently?", a: "Some creators do prioritize replies to paying members simply due to time and volume — that's a business reality, not a personal judgment of you. Respect it and it usually works both ways.",
-    chips: [{ to: 'cr_2' }, { to: 'fu_money' }, { to: 'fu_boundaries' }] },
+  // -------- Single & looking: Does she like me? --------
+  sig_1: { q: "How do I know if she's really into me?", a: "Look at what she does without being asked — replying with real interest, remembering details, initiating sometimes. Consistency without being prompted is the real signal." },
+  sig_2: { q: "She's friendly with everyone, is it real with me?", a: "General friendliness doesn't tell you much — what matters is whether she treats you differently one-on-one, not how she is in a group." },
+  sig_3: { q: "She's slow to reply, does that mean she's not interested?", a: "Slow replies usually mean she's busy, not disinterested — focus on the quality of what she says when she does answer." },
+  sig_4: { q: "Does she remember what I tell her?", a: "If she brings up something you mentioned before without being reminded, that's a genuine sign she's actually paying attention to you." },
+  sig_5: { q: "She uses pet names with me, does that mean something?", a: "It's a nice sign, but pair it with other signals — memory, initiation, consistency — before reading too much into a single habit." },
+  sig_6: { q: "How do I ask her clearly if she's interested?", a: "Keep it light and low-pressure — asking what she enjoys about your conversations works better than demanding she define things outright." },
 
-  // -------- Understanding a creator --------
-  cr_1: { q: "What does 'creator' actually mean here?", a: "She's running her own small business — content, chatting, and building a community are her work, not just a hobby. Treating her time and effort with respect goes a long way.",
-    chips: [{ to: 'cr_3' }, { to: 'fu_boundaries' }, { to: 'bud_4' }] },
-  cr_2: { q: "Why does she chat with so many members?", a: "Volume is simply part of how this platform works for her — it's not personal, and it doesn't mean your conversation matters less. Focus on how she treats you specifically.",
-    chips: [{ to: 'fu_jealousy' }, { to: 'beh_4' }, { to: 'fu_selfesteem' }] },
-  cr_3: { q: "How do I show genuine respect as a member?", a: "Be patient with reply times, avoid demanding attention, and engage with who she actually is — her interests, her humor — not just her content. Respectful, curious members are memorable; demanding ones are forgettable.",
-    chips: [{ to: 'fu_boundaries' }, { to: 'attr_1' }, { to: 'fu_patience' }] },
-  cr_4: { q: "Can a real connection actually happen here?", a: "Yes, genuine connections do form here — but they build the same way any connection does: time, consistency, and real curiosity about each other, not shortcuts.",
-    chips: [{ to: 'fu_consistency' }, { to: 'likes_4' }, { to: 'fu_honesty' }] },
-  cr_5: { q: "Should I ask about her life outside the platform?", a: "Light, respectful curiosity is usually welcome — just follow her lead on what she's comfortable sharing, and don't push if she keeps some things private. That boundary is normal and healthy.",
-    chips: [{ to: 'fu_boundaries' }, { to: 'beh_3' }, { to: 'fu_honesty' }] },
-  cr_6: { q: "What actually makes a member stand out to a creator?", a: "Consistency, genuine curiosity, and respecting her time and boundaries — far more than any single big gesture. The members she remembers fondly are usually the steady, kind ones, not the flashiest.",
-    chips: [{ to: 'fu_consistency' }, { to: 'cr_3' }, { to: 'attr_1' }] },
+  // -------- Single & looking: Create attraction --------
+  attr_1: { q: "How do I stand out from everyone else messaging her?", a: "A real question about something she actually said or did instantly puts you in a different category than generic compliments." },
+  attr_2: { q: "Does playing hard to get actually work?", a: "A little unpredictability can be healthy, but games built on ignoring her read as immaturity — real attraction comes from having your own life and energy." },
+  attr_3: { q: "How important is humor?", a: "Very — a genuine, light joke beats a rehearsed line almost every time. If she's playful, she wants someone who can match that energy." },
+  attr_4: { q: "Should I compliment her looks or something else?", a: "Looks-only compliments blend into everything else she hears — noticing her humor or a specific detail shows you're actually paying attention." },
+  attr_5: { q: "Is confidence really that important?", a: "Yes, but it means being relaxed and not needing constant approval — not being loud. Calm, secure energy reads as attractive over time." },
+  attr_6: { q: "How do I create a bit of tension or interest?", a: "A touch of mystery works better than oversharing everything at once — leave a little for her to ask about." },
 
-  // -------- Follow-up keyword pool (fu_*) : nœuds partagés qui prolongent l'arbre --------
-  fu_distance: { q: "Why does distance happen at all?", a: "Distance is almost always about capacity, not affection — schedule, mood, or simply too many conversations at once. Reacting calmly instead of chasing tends to bring warmth back faster.",
-    chips: [{ to: 'fu_patience' }, { to: 'fu_consistency' }, { to: 'dist_4' }] },
-  fu_message: { q: "What should I send after a long silence?", a: "Something short, warm, and with zero pressure — a light comment or question works better than asking why she went quiet. It gives her an easy, guilt-free way back into the conversation.",
-    chips: [{ to: 'fu_patience' }, { to: 'fu_rhythm' }, { to: 'talk_1' }] },
-  fu_silence: { q: "Should I ever just stop messaging first?", a: "If you've reached out reasonably and heard nothing, stepping back isn't punishment — it's just healthy. It also tells you a lot: real interest usually resurfaces on its own given a little room.",
-    chips: [{ to: 'fu_selfesteem' }, { to: 'fu_patience' }, { to: 'dist_6' }] },
-  fu_attraction: { q: "What actually builds long-term attraction?", a: "Consistency, humor, and genuine curiosity about her as a person beat any single clever line — attraction here is built message by message, not won in one shot.",
-    chips: [{ to: 'attr_5' }, { to: 'fu_consistency' }, { to: 'fu_confidence' }] },
-  fu_confidence: { q: "How do I actually build more confidence texting her?", a: "Confidence grows from not needing every message to land perfectly — a relaxed tone, occasional humor about yourself, and not over-editing every reply reads far better than a perfectly polished message.",
-    chips: [{ to: 'fu_selfesteem' }, { to: 'attr_5' }, { to: 'talk_4' }] },
-  fu_rhythm: { q: "How do I find a good texting rhythm with her?", a: "Match her general pace rather than forcing your own — if she sends a message a day, don't send ten. A comfortable rhythm feels effortless on both sides, not scheduled.",
-    chips: [{ to: 'fu_patience' }, { to: 'fu_consistency' }, { to: 'talk_2' }] },
-  fu_jealousy: { q: "How do I deal with jealousy about other members?", a: "Worth naming to yourself honestly — jealousy here usually says more about your own security than about her loyalty. Focus on your own conversation instead of comparing it to ones you can't see.",
-    chips: [{ to: 'fu_selfesteem' }, { to: 'fu_confidence' }, { to: 'cr_2' }] },
-  fu_money: { q: "How do I keep spending healthy, not compulsive?", a: "Set a limit before you're in the moment, not during it — decide it on a calm day, not right after an exciting chat. If you ever feel like you 'have to' spend to keep her interest, that's worth pausing on.",
-    chips: [{ to: 'fu_boundaries' }, { to: 'bud_3' }, { to: 'fu_selfesteem' }] },
-  fu_honesty: { q: "Is being fully honest always the right move?", a: "Honest, yes — oversharing everything at once, not necessarily. Say what's true without turning every message into a confession; pacing your honesty is still honesty.",
-    chips: [{ to: 'fu_boundaries' }, { to: 'talk_5' }, { to: 'fu_confidence' }] },
-  fu_boundaries: { q: "How do I know if I'm respecting her boundaries?", a: "If she's ever redirected a topic, gone quiet on something, or set a limit, the respectful move is simply not pushing back on it — boundaries respected without argument build far more trust than persistence.",
-    chips: [{ to: 'cr_3' }, { to: 'fu_honesty' }, { to: 'dist_3' }] },
-  fu_consistency: { q: "Why does consistency matter so much here?", a: "Because it's rare — most members are intense for a week then disappear. Being steady, kind, and present over time is what actually makes you memorable to a creator juggling many conversations.",
-    chips: [{ to: 'cr_6' }, { to: 'fu_patience' }, { to: 'likes_1' }] },
-  fu_selfesteem: { q: "How do I stop needing her validation to feel good?", a: "Build that feeling from your own life first — friends, hobbies, routine — so her replies are a nice bonus, not your main source of mood. Ironically, that shift usually makes you more attractive here too.",
-    chips: [{ to: 'fu_confidence' }, { to: 'brk_3' }, { to: 'fu_boundaries' }] },
-  fu_patience: { q: "How much patience is actually reasonable here?", a: "Enough to let a normal reply window pass without spiraling — a day or two of quiet rarely means anything. Patience paired with your own steady life, not passive waiting, is the healthy version.",
-    chips: [{ to: 'fu_consistency' }, { to: 'fu_rhythm' }, { to: 'dist_1' }] },
-  fu_compliment: { q: "What's a compliment that actually lands well?", a: "Specific beats general every time — noticing effort, wit, or a detail she chose on purpose says far more than 'you're beautiful', which she's likely heard a hundred times today already.",
-    chips: [{ to: 'attr_4' }, { to: 'fu_confidence' }, { to: 'talk_1' }] },
-  fu_humor: { q: "How do I use humor without it falling flat over text?", a: "Keep it light, react to what she actually said rather than a generic joke, and don't force it if it doesn't land — laughing it off yourself is more charming than doubling down.",
-    chips: [{ to: 'attr_3' }, { to: 'talk_3' }, { to: 'date_2' }] },
-  silence_intro: { q: "Run the 'she's not replying' check-up", a: "Good idea — let's actually look at your specific situation instead of guessing.",
-    chips: [] }
+  // -------- Single & looking: First date --------
+  date_1: { q: "Where should I take her on a first date?", a: "Somewhere you can actually talk — a busy bar or loud venue makes connecting harder than a relaxed coffee, walk, or casual dinner." },
+  date_2: { q: "How do I avoid awkward silences?", a: "A few silences are completely normal and not a bad sign — have one or two open questions in your back pocket, but don't force constant talking." },
+  date_3: { q: "Should I plan the whole date or keep it casual?", a: "Have a loose plan so you're not scrambling, but stay flexible — the best dates often shift naturally once the conversation gets going." },
+  date_4: { q: "How do I know if the date is going well?", a: "Watch for her leaning in, asking questions back, and losing track of time — those matter far more than any single thing either of you says." },
+  date_5: { q: "Who should pay on a first date?", a: "There's no universal rule — offering is always a good look, and how she responds usually tells you what she's comfortable with." },
+  date_6: { q: "Should I go for a second date fast or wait?", a: "If it went well, there's no reason to wait — a message the same or next day saying you enjoyed it works better than playing it cool." },
+
+  // -------- Single & need advice: Build confidence --------
+  conf_1: { q: "How do I stop overthinking every message I send?", a: "Give yourself a rule — write it, read it once, send it. Overthinking rarely improves a message, it just delays it." },
+  conf_2: { q: "I feel like I'm not interesting enough", a: "Interesting isn't a fixed trait — it's showing genuine curiosity and energy in the moment, which anyone can bring regardless of how their life looks on paper." },
+  conf_3: { q: "How do I get over the fear of rejection?", a: "Reframe it as information, not failure — a 'no' just means that specific match wasn't right, not a verdict on you." },
+  conf_4: { q: "How do I build confidence before a date?", a: "Prepare a little — know where you're going, have a couple of things to talk about — so nerves come from excitement, not unpreparedness." },
+  conf_5: { q: "I compare myself to other guys a lot", a: "Comparison rarely reflects reality — you're seeing someone else's highlight reel, not the full picture, so it's a poor benchmark for your own worth." },
+  conf_6: { q: "How do I stop seeming needy or too eager?", a: "Keep your own life full and interesting — genuine excitement is attractive, but making someone your only source of validation reads as pressure." },
+
+  // -------- Single & need advice: After a breakup --------
+  mv_1: { q: "How long should I wait before dating again?", a: "There's no universal number — the real marker is whether you're looking for genuine connection or just distraction from the pain." },
+  mv_2: { q: "I keep comparing new people to my ex", a: "Very normal early on — just notice when it happens so you can catch yourself. Someone new deserves to be seen for who they are." },
+  mv_3: { q: "How do I stop checking her social media?", a: "Muting or unfollowing for a while isn't petty, it's practical — it removes the temptation while you actually heal." },
+  mv_4: { q: "Is it normal to still have feelings months later?", a: "Yes, timelines vary a lot — what matters is whether those feelings are shrinking over time, not whether they've vanished completely." },
+  mv_5: { q: "How do I know I'm ready to date again?", a: "You're generally ready when you can think about your ex without it derailing your whole day, not when the feelings have disappeared entirely." },
+  mv_6: { q: "Should I stay friends with an ex?", a: "Only if you can genuinely do it without hoping for more — otherwise it usually just delays moving on for one or both of you." }
 };
+
 
 
 /* Affiche une réponse de sujet façon conversation, dans n'importe quel chat cible
@@ -6377,7 +6377,7 @@ function renderMemberHome(user, data, activeTab){
           <button type="button" class="member-tab" id="member-tab-favorites">${ICON_LIKE}${t('memberTabFavorites')}</button>
           <button type="button" class="member-tab" id="member-tab-messages">${ICON_CHAT_SM}${t('memberTabMessages')} <span class="member-tab-badge" id="member-tab-messages-badge" style="display:none;"></span></button>
           <button type="button" class="member-tab" id="member-tab-purchases">${ICON_CART}${t('memberTabPurchases')}</button>
-          <button type="button" class="member-tab" id="member-tab-tools">${ICON_MY_TOOLS}<span class="coach-gold-led">🍯 ${t('memberTabTools')}</span></button>
+          <button type="button" class="member-tab" id="member-tab-tools"><span class="coach-gold-led">🍯 ${t('memberTabTools')}</span></button>
         </div>
       </div>
       <div id="member-tab-body"></div>
