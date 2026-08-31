@@ -606,6 +606,8 @@ const I18N = {
     desireTheme_restaurants: "Restaurants",
     desireTheme_movies: "Movies",
     desireTheme_food: "Food",
+    bioDesireProfileTitle: "You'd like to know about myself",
+    bioDesireProfileNote: "Be sincere here — members will believe what you share about yourself, and honest percentages help you get matched with the right people and build real affinity faster.",
     memberDiscoverCreatorsBtn: "Discover creators",
     memberIdentifierLabel: "Username or email",
     memberIdentifierPh: "your_username or you@email.com",
@@ -2198,6 +2200,47 @@ const DESIRE_THEMES = [
   'flirt', 'playful', 'talkative', 'seduction', 'humor',
   'travel', 'music', 'restaurants', 'movies', 'food'
 ];
+const DESIRE_THEME_EMOJI = {
+  flirt: '😘', playful: '🎈', talkative: '🗨️', seduction: '🌹', humor: '😂',
+  travel: '✈️', music: '🎵', restaurants: '🍽️', movies: '🎬', food: '🍓'
+};
+
+function desireBioPercentagesHtml(bio){
+  const pct = (bio && bio.desirePercentages) || {};
+  return `
+    <div style="margin-top:26px;padding-top:20px;border-top:1px solid var(--border);">
+      <h3 style="font-size:15px;margin-bottom:4px;color:var(--honey);">${t('bioDesireProfileTitle')}</h3>
+      <p style="color:var(--text-muted);font-size:12px;margin-bottom:16px;line-height:1.6;">${t('bioDesireProfileNote')}</p>
+      ${DESIRE_THEMES.map(key => `
+        <div class="desire-pct-row" style="margin-bottom:16px;">
+          <label style="display:flex;align-items:center;justify-content:space-between;margin:0 0 6px;text-transform:none;font-weight:600;">
+            <span>${DESIRE_THEME_EMOJI[key]} ${t('desireTheme_' + key)}</span>
+            <span id="ed-bio-pct-${key}-val" style="color:var(--honey);font-weight:700;">${parseInt(pct[key], 10) || 0}%</span>
+          </label>
+          <input type="range" min="0" max="100" step="5" id="ed-bio-pct-${key}" value="${parseInt(pct[key], 10) || 0}" style="width:100%;">
+        </div>
+      `).join('')}
+    </div>`;
+}
+
+function wireDesireBioPercentages(){
+  DESIRE_THEMES.forEach(key => {
+    const input = document.getElementById('ed-bio-pct-' + key);
+    const val = document.getElementById('ed-bio-pct-' + key + '-val');
+    if(input && val){
+      input.oninput = () => { val.textContent = input.value + '%'; };
+    }
+  });
+}
+
+function readDesireBioPercentages(){
+  const out = {};
+  DESIRE_THEMES.forEach(key => {
+    const input = document.getElementById('ed-bio-pct-' + key);
+    out[key] = input ? parseInt(input.value, 10) || 0 : 0;
+  });
+  return out;
+}
 const DESIRE_QUESTIONS_PER_THEME = 7;
 const DESIRE_TOTAL_QUESTIONS = DESIRE_THEMES.length * DESIRE_QUESTIONS_PER_THEME; // 70
 
@@ -4133,6 +4176,7 @@ function openMyProfileEdit(m){
       </select>
       <p style="color:var(--honey);font-size:11.5px;margin-top:12px;line-height:1.6;">${t('contentPolicyNote')}</p>
     </div>
+    ${desireBioPercentagesHtml(bio)}
 
     <div class="modal-actions">
       <button class="btn btn-ghost btn-sm" id="ed-cancel" style="flex:1;">${t('cancel')}</button>
@@ -4145,6 +4189,7 @@ function openMyProfileEdit(m){
   let newBioCoverPhoto = m.bioCoverPhoto || '';
   let newBioCoverPhotoType = m.bioCoverPhotoType || 'image';
   let photoUploading = false;
+  wireDesireBioPercentages();
 
   document.querySelectorAll('.cover-type-btn:not(.bio-cover-type-btn)').forEach(btn => {
     btn.onclick = () => {
@@ -4268,7 +4313,8 @@ function openMyProfileEdit(m){
       challenges: document.getElementById('ed-bio-challenges').value.trim(),
       socials: document.getElementById('ed-bio-socials').value.trim(),
       workUrl: document.getElementById('ed-bio-workurl').value.trim(),
-      status: document.getElementById('ed-bio-status').value
+      status: document.getElementById('ed-bio-status').value,
+      desirePercentages: readDesireBioPercentages()
     };
 
     let ok = true;
@@ -4551,6 +4597,7 @@ function openEdit(id){
         <option value="online" ${bio.status === 'online' ? 'selected' : ''}>${t('statusOnline')}</option>
       </select>
     </div>
+    ${desireBioPercentagesHtml(bio)}
 
     <label style="margin-top:26px;">${t('contractLabel')}</label>
     <div class="upload-drop ${m.contract ? 'has-file' : ''}" id="ed-contract-drop">
@@ -4585,6 +4632,7 @@ function openEdit(id){
   let newContract = m.contract;
   let photoUploading = false;
   let contractUploading = false;
+  wireDesireBioPercentages();
 
   document.querySelectorAll('.cover-type-btn').forEach(btn => {
     btn.onclick = () => {
@@ -4698,7 +4746,8 @@ function openEdit(id){
       challenges: document.getElementById('ed-bio-challenges').value.trim(),
       socials: document.getElementById('ed-bio-socials').value.trim(),
       workUrl: document.getElementById('ed-bio-workurl').value.trim(),
-      status: document.getElementById('ed-bio-status').value
+      status: document.getElementById('ed-bio-status').value,
+      desirePercentages: readDesireBioPercentages()
     };
 
     const localOk = saveRoster();
@@ -5670,7 +5719,7 @@ function renderMemberHome(user, data, activeTab){
           <button type="button" class="member-tab" id="member-tab-discover">${ICON_DISCOVER_PREMIUM}${t('memberTabDiscover')}</button>
           <button type="button" class="member-tab" id="member-tab-popularity">${ICON_STAR}${t('myFamilyPopularity')}</button>
           <button type="button" class="member-tab" id="member-tab-profile">${ICON_USER}${t('memberTabProfile')}</button>
-          <button type="button" class="member-tab" id="member-tab-seducer">${ICON_HEART_SM}${t('memberTabSeducerProfile')}</button>
+          <button type="button" class="member-tab" id="member-tab-seducer">${ICON_HEART_SM} ${t('memberTabSeducerProfile')}</button>
           <button type="button" class="member-tab" id="member-tab-favorites">${ICON_LIKE}${t('memberTabFavorites')}</button>
           <button type="button" class="member-tab" id="member-tab-messages">${ICON_CHAT_SM}${t('memberTabMessages')} <span class="member-tab-badge" id="member-tab-messages-badge" style="display:none;"></span></button>
           <button type="button" class="member-tab" id="member-tab-purchases">${ICON_CART}${t('memberTabPurchases')}</button>
@@ -9994,6 +10043,20 @@ function bioNarrativeHtml(m, bio){
   if(m.audience || bio.socials){
     const bits = [m.audience, bio.socials].filter(Boolean).join(' · ');
     parts.push(`<p>${ICON_MOBILE}<span><b>${t('bioNarrativeAudienceTitle')}</b>${escText(bits)}</span></p>`);
+  }
+
+  const desirePct = bio.desirePercentages || {};
+  const hasDesirePct = DESIRE_THEMES.some(k => (parseInt(desirePct[k], 10) || 0) > 0);
+  if(hasDesirePct){
+    const rows = DESIRE_THEMES.map(k => {
+      const v = parseInt(desirePct[k], 10) || 0;
+      if(!v) return '';
+      return `<div class="bio-desire-pct-row" style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;">
+        <span>${DESIRE_THEME_EMOJI[k]} ${t('desireTheme_' + k)}</span>
+        <span style="color:var(--honey);font-weight:700;">${v}%</span>
+      </div>`;
+    }).join('');
+    parts.push(`<div class="bio-desire-pct-block"><p style="color:var(--honey);font-weight:700;font-size:13px;margin:0 0 8px;">${t('bioDesireProfileTitle')}</p>${rows}</div>`);
   }
 
   if(!parts.length && !m.bioCoverPhoto) return `<p class="gallery-empty">${t('galleryEmpty')}</p>`;
