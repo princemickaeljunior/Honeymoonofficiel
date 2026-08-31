@@ -8295,13 +8295,21 @@ if(!document.getElementById('hm-gift-tip-style')){
   const st = document.createElement('style');
   st.id = 'hm-gift-tip-style';
   st.textContent = `
-    .gift-tip-subtitle{font-size:12px;color:var(--text-muted);line-height:1.5;margin:0 0 14px;}
+    .gift-tip-popover-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9998;display:flex;align-items:flex-end;justify-content:center;animation:giftTipFadeIn .15s ease;}
+    @keyframes giftTipFadeIn{from{opacity:0;}to{opacity:1;}}
+    .gift-tip-popover{position:relative;z-index:9999;width:100%;max-width:420px;max-height:85vh;overflow-y:auto;background:var(--bg-elev,#1c1420);border:1px solid var(--border,#3a2e40);border-top-left-radius:20px;border-top-right-radius:20px;padding:18px 18px 22px;box-shadow:0 -8px 30px rgba(0,0,0,.5);}
+    @media (min-width:480px){
+      .gift-tip-popover-backdrop{align-items:center;}
+      .gift-tip-popover{border-radius:20px;}
+    }
+    .gift-tip-title{font-weight:700;font-size:15px;color:var(--text,#fff);display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+    .gift-tip-subtitle{font-size:12px;color:var(--text-muted,#a89bb0);line-height:1.5;margin:0 0 14px;}
     .gift-tip-emoji-preview{font-size:44px;text-align:center;margin:6px 0 10px;transition:transform .15s;}
-    .gift-tip-amount-readout{text-align:center;font-weight:700;font-size:20px;color:var(--honey);margin-bottom:10px;}
-    .gift-tip-slider{width:100%;accent-color:var(--honey);margin-bottom:14px;}
+    .gift-tip-amount-readout{text-align:center;font-weight:700;font-size:20px;color:var(--honey,#f6dfa0);margin-bottom:10px;}
+    .gift-tip-slider{width:100%;accent-color:var(--honey,#f6dfa0);margin-bottom:14px;}
     .gift-tip-tiers{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;}
-    .gift-tip-tier-row{display:flex;align-items:center;justify-content:space-between;padding:7px 10px;border-radius:10px;border:1px solid var(--border);font-size:11.5px;color:var(--text-muted);transition:.15s;}
-    .gift-tip-tier-row.active{border-color:var(--honey);color:var(--text);background:var(--bg-elev);}
+    .gift-tip-tier-row{display:flex;align-items:center;justify-content:space-between;padding:7px 10px;border-radius:10px;border:1px solid var(--border,#3a2e40);font-size:11.5px;color:var(--text-muted,#a89bb0);transition:.15s;cursor:pointer;}
+    .gift-tip-tier-row.active{border-color:var(--honey,#f6dfa0);color:var(--text,#fff);background:rgba(246,223,160,.08);}
     .gift-tip-tier-emoji{font-size:16px;}
   `;
   document.head.appendChild(st);
@@ -8319,7 +8327,9 @@ const GIFT_TIP_TIERS = [
 ];
 function openGiftTipPicker(){
   if(!chatCtx) return;
-  document.querySelectorAll('.gift-tip-popover').forEach(p => p.remove());
+  document.querySelectorAll('.gift-tip-popover-backdrop').forEach(p => p.remove());
+  const backdrop = document.createElement('div');
+  backdrop.className = 'gift-tip-popover-backdrop';
   const pop = document.createElement('div');
   pop.className = 'gift-tip-popover';
   pop.innerHTML = `
@@ -8334,7 +8344,8 @@ function openGiftTipPicker(){
     <button type="button" class="btn btn-primary btn-sm" id="gift-tip-send" style="width:100%;margin-bottom:8px;">${t('giftTipSendBtn')}</button>
     <button type="button" class="btn btn-ghost btn-sm" id="gift-tip-cancel" style="width:100%;">${t('memberBioCancelBtn')}</button>
   `;
-  document.body.appendChild(pop);
+  backdrop.appendChild(pop);
+  document.body.appendChild(backdrop);
   const slider = document.getElementById('gift-tip-slider');
   const readout = document.getElementById('gift-tip-amount-readout');
   const preview = document.getElementById('gift-tip-emoji-preview');
@@ -8349,17 +8360,15 @@ function openGiftTipPicker(){
   slider.addEventListener('input', updatePreview);
   updatePreview();
   tierRows.forEach(row => {
-    row.style.cursor = 'pointer';
     row.onclick = () => { slider.value = row.dataset.min; updatePreview(); };
   });
   document.getElementById('gift-tip-send').onclick = () => {
     const amount = parseInt(slider.value, 10);
-    pop.remove();
+    backdrop.remove();
     sendGiftTip(amount);
   };
-  document.getElementById('gift-tip-cancel').onclick = () => pop.remove();
-  const dismiss = (ev) => { if(!pop.contains(ev.target)){ pop.remove(); document.removeEventListener('click', dismiss); } };
-  setTimeout(() => document.addEventListener('click', dismiss), 0);
+  document.getElementById('gift-tip-cancel').onclick = () => backdrop.remove();
+  backdrop.addEventListener('click', (ev) => { if(ev.target === backdrop) backdrop.remove(); });
 }
 async function sendGiftTip(amount){
   if(!chatCtx) return;
