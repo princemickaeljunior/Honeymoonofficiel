@@ -8290,14 +8290,17 @@ function wireChatReactionRail(){
   rail.dataset.wired = '1';
   const isCreatorView = chatCtx && chatCtx.viewerType === 'creator';
   const reactions = [
+    ...(isCreatorView ? [{ key: 'subpack', icon: ICON_TROPHY_GOLD, title: 'Mes abonnés', label: 'Abonnés' }] : []),
     { key: 'gift', icon: ICON_GIFT, title: 'Cadeau' },
-    ...(isCreatorView ? [{ key: 'subpack', icon: ICON_TROPHY_GOLD, title: 'Mes abonnés' }] : []),
     { key: 'heart', icon: ICON_HEART_SM, title: 'Cœur' },
     { key: 'like', icon: ICON_THUMBSUP, title: "J'aime" },
     { key: 'happy', icon: ICON_SMILE, title: 'Content' },
     { key: 'sad', icon: ICON_FROWN, title: 'Pas content' }
   ];
-  rail.innerHTML = reactions.map(r => `<button type="button" class="chat-reaction-btn" data-reaction="${r.key}" title="${r.title}">${r.icon}</button>`).join('');
+  rail.innerHTML = reactions.map(r => r.label
+    ? `<button type="button" class="chat-reaction-btn" data-reaction="${r.key}" title="${r.title}" style="width:auto;display:flex;align-items:center;gap:5px;padding:0 10px;white-space:nowrap;">${r.icon}<span style="font-size:10px;font-weight:700;color:#f6dfa0;">${r.label}</span></button>`
+    : `<button type="button" class="chat-reaction-btn" data-reaction="${r.key}" title="${r.title}">${r.icon}</button>`
+  ).join('');
   rail.querySelectorAll('.chat-reaction-btn').forEach(btn => {
     btn.onclick = async () => {
       if(btn.dataset.reaction === 'gift' && chatCtx && chatCtx.viewerType === 'member'){
