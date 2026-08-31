@@ -1428,3 +1428,49 @@ img[data-hm-loaded], video[data-hm-loaded]{
   #member-tab-body{grid-column:2;}
   .room-tabs{grid-column:1;margin-top:0;}
 }
+
+/* ---------------- LED doré léger : CTA "parler avec elle" (room) + bouton Enter (vitrine) ----------------
+   Effet volontairement discret (pas de glow agressif) : léger défilement du dégradé sur le
+   texte du CTA, et un fin reflet qui balaie le bouton Enter toutes les quelques secondes. */
+.room-chat-cta-text{
+  background:linear-gradient(90deg,var(--honey-deep),#f6dfa0,var(--honey-deep));
+  background-size:220% auto;
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+  animation:hmRoomCtaLed 4.5s ease-in-out infinite;
+}
+@keyframes hmRoomCtaLed{
+  0%,100%{background-position:0% center;}
+  50%{background-position:100% center;}
+}
+.vitrine-enter-btn{position:relative;overflow:hidden;}
+.vitrine-enter-btn::after{
+  content:"";position:absolute;top:0;left:-60%;width:35%;height:100%;
+  background:linear-gradient(115deg, transparent, rgba(255,255,255,.32), transparent);
+  transform:skewX(-20deg);pointer-events:none;
+  animation:hmEnterBtnShine 5.5s ease-in-out infinite;
+}
+@keyframes hmEnterBtnShine{
+  0%{left:-60%;}
+  30%{left:130%;}
+  100%{left:130%;}
+}
+
+/* ---------------- Points LED clignotants (statut créatrice) ----------------
+   En ligne = vert, hors ligne / slot en attente = rouge. Discret, pas agressif. */
+.status-led-dot{
+  display:inline-block;width:6px;height:6px;border-radius:50%;margin-left:5px;
+  vertical-align:middle;transform:translateZ(0);
+}
+.status-led-dot.led-red{
+  background:#ff5a5f;box-shadow:0 0 4px rgba(255,90,95,.75);
+  animation:hmLedBlink 1.8s ease-in-out infinite;
+}
+.status-led-dot.led-green{
+  background:#5fd67a;box-shadow:0 0 4px rgba(95,214,122,.75);
+  animation:hmLedBlink 1.8s ease-in-out infinite;
+}
+@keyframes hmLedBlink{
+  0%,100%{opacity:1;}
+  50%{opacity:.3;}
+}
+.slot-corner-led{position:absolute;top:10px;right:10px;}
