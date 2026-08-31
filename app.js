@@ -281,13 +281,10 @@ const I18N = {
     shopBotWelcomeBullet3: "Bundles for common needs, like leveling up your video setup",
     shopBotWelcomeBullet4: "Every link opens the shop directly, in a new tab",
     shopBotChooseCatPrompt: "What are you looking for?",
-    shopBotChooseNeedPrompt: "Pick what you need:",
     shopBotOpenSite: "Visit site",
     shopBotBackToCats: "← Back to all categories",
     shopBotBackToNeeds: "← Back",
     shopBotNote: "These are independent shops — Honeymoon isn't affiliated with them and doesn't handle payment or delivery.",
-    shopBotByRegionTitle: "Browse by location",
-    shopBotByRegionDesc: "Pick your continent, then your country",
     shopBotChooseContinentPrompt: "Which continent are you in?",
     shopBotChooseCountryPrompt: "Which country / region?",
     shopBotBackToContinents: "← Back to continents",
@@ -3818,6 +3815,13 @@ if(!document.getElementById('hm-shopbot-gold-style')){
     .shopbot-link-arrow{flex-shrink:0;color:var(--cacao);}
     .shopbot-breadcrumb{font-size:10.5px;color:var(--text-muted);margin:0 0 8px 37px;}
     .shopbot-breadcrumb b{color:var(--honey);}
+    .shopbot-theme .coach-table{border-radius:16px;border-color:color-mix(in srgb, var(--honey) 30%, var(--border));background:linear-gradient(180deg,color-mix(in srgb, var(--honey) 5%, var(--bg-elev)),var(--bg-elev));box-shadow:0 10px 26px -18px color-mix(in srgb, var(--cacao) 55%, transparent);}
+    .shopbot-theme .coach-table-cat{background:color-mix(in srgb, var(--honey) 8%, var(--bg));}
+    .shopbot-theme .coach-table-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 16px;font-weight:600;letter-spacing:.1px;}
+    .shopbot-theme .coach-table-row::after{content:'';width:7px;height:7px;flex-shrink:0;border-right:2px solid var(--cacao);border-bottom:2px solid var(--cacao);transform:rotate(-45deg);opacity:.65;transition:.15s;}
+    .shopbot-theme .coach-table-row:hover{background:linear-gradient(90deg,transparent,color-mix(in srgb, var(--honey) 10%, transparent));padding-left:19px;}
+    .shopbot-theme .coach-table-row:hover::after{opacity:1;border-color:var(--honey);}
+    .shopbot-theme .coach-table-row:last-child{border-bottom:none;}
   `;
   document.head.appendChild(st2);
 }
@@ -6056,196 +6060,249 @@ function renderGalleryBody(m){
    Réutilise l'exact moteur visuel du Coach Honeymoon (.coach-frame, .coach-theme-btn,
    .coach-table, typeWriterText, coachRestMs...) via le wrapper .shopbot-theme, mais
    avec son propre état / son propre contenu : un annuaire de boutiques externes
-   organisé par catégorie -> besoin, plutôt qu'un Q&A. Chaque lien ouvre le site
-   du marchand dans un nouvel onglet ; Honeymoon n'est affilié à aucun d'entre eux. ================================================================ */
+   organisé par catégorie -> continent -> pays/région -> boutiques. Chaque lien ouvre
+   le site du marchand dans un nouvel onglet ; Honeymoon n'est affilié à aucun d'entre eux. ================================================================ */
 const SHOPBOT_CATALOG = {
-  mode: { icon:'bag', title:"Fashion", desc:"Lingerie, clothing, shoes, bags, jewelry",
-    needs: {
-      lingerie: { title:"Lingerie & sensual wear", shops:[
-        { name:"Etam", url:"https://www.etam.com/", desc:"French lingerie, made-in-France craftsmanship" },
-        { name:"Hunkemöller", url:"https://www.hunkemoller.fr/", desc:"Sensual sets, private collection" },
-        { name:"Intimissimi", url:"https://www.intimissimi.com/fr/", desc:"Italian lingerie brand" },
-        { name:"Bluebella", url:"https://www.bluebella.fr/", desc:"Bold, sensual/provocative lingerie" },
-        { name:"Maison Close", url:"https://www.maison-close.fr/", desc:"Parisian sexy lingerie house" },
-        { name:"Lemon Curve", url:"https://lemoncurve.com/", desc:"Multi-brand lingerie department store" }
-      ]},
-      clothing: { title:"Clothing", shops:[
-        { name:"Zara", url:"https://www.zara.com/fr/", desc:"Fast fashion, wide range" },
-        { name:"H&M", url:"https://www2.hm.com/fr_fr/", desc:"Affordable everyday fashion" },
-        { name:"Mango", url:"https://shop.mango.com/fr/", desc:"Mediterranean chic fashion" },
-        { name:"ASOS", url:"https://www.asos.com/fr/", desc:"Huge global fashion marketplace" },
-        { name:"Boohoo", url:"https://fr.boohoo.com/", desc:"Trend-led, budget-friendly" },
-        { name:"PrettyLittleThing", url:"https://www.prettylittlething.fr/", desc:"Glam, body-con styles" }
-      ]},
-      shoes: { title:"Shoes & heels", shops:[
-        { name:"Zalando", url:"https://www.zalando.fr/", desc:"1500+ brands, free returns" },
-        { name:"Sarenza", url:"https://www.sarenza.com/", desc:"Very large shoe catalogue" },
-        { name:"Spartoo", url:"https://www.spartoo.com/", desc:"Shoes for every style & budget" },
-        { name:"Milanoo", url:"https://www.milanoo.com/", desc:"Sexy heels, boots, thigh-highs — trusted since 2008" },
-        { name:"Boutique Spicy", url:"https://boutique-spicy.fr/", desc:"Sexy heels, boots, sandals" }
-      ]},
-      bags: { title:"Bags & accessories", shops:[
-        { name:"Michael Kors", url:"https://www.michaelkors.fr/", desc:"Designer bags & accessories" },
-        { name:"Guess", url:"https://www.guess.eu/fr-fr/", desc:"Bags, accessories, fashion" },
-        { name:"Mango", url:"https://shop.mango.com/fr/", desc:"Bags & accessories line" },
-        { name:"La Redoute", url:"https://www.laredoute.fr/", desc:"Wide accessories catalogue" }
-      ]},
-      jewelry: { title:"Jewelry", shops:[
-        { name:"Pandora", url:"https://fr.pandora.net/", desc:"Charms, rings, bracelets" },
-        { name:"Swarovski", url:"https://www.swarovski.com/fr-FR/", desc:"Crystal jewelry" },
-        { name:"Agatha", url:"https://www.agatha.fr/", desc:"French costume jewelry" },
-        { name:"Calyssandra", url:"https://calyssandra.com/", desc:"800+ fantasy jewelry pieces" },
-        { name:"Etsy", url:"https://www.etsy.com/fr/", desc:"Handmade & independent designers" }
-      ]}
+  fashion: { icon:'bag', title:"Fashion", desc:"Lingerie, clothing, shoes, bags, jewelry",
+    regions: {
+      africa: { title:"Africa", countries: {
+        all: { title:"Pan-African (all countries)", shops:[
+          { name:"Jumia", url:"https://www.jumia.com/", desc:"Biggest pan-African marketplace, strong fashion catalogue" },
+          { name:"Mall for Africa", url:"https://www.mallforafrica.com/", desc:"Orders international fashion, delivers across Africa" }
+        ]},
+        nigeria: { title:"Nigeria", shops:[
+          { name:"Jumia Nigeria", url:"https://www.jumia.com.ng/", desc:"Fashion, shoes, accessories" },
+          { name:"Konga", url:"https://www.konga.com/", desc:"Fashion, marketplace + retail" }
+        ]},
+        southafrica: { title:"South Africa", shops:[
+          { name:"Takealot", url:"https://www.takealot.com/", desc:"South Africa's leading online retailer" },
+          { name:"Zando", url:"https://www.zando.co.za/", desc:"Fashion specialist" },
+          { name:"Bidorbuy", url:"https://www.bidorbuy.co.za/", desc:"New & second-hand, jewelry, fashion" }
+        ]},
+        eastafrica: { title:"Kenya / Uganda / Ghana", shops:[
+          { name:"Kilimall", url:"https://www.kilimall.co.ke/", desc:"Fashion & accessories, budget-friendly" }
+        ]},
+        northwest: { title:"Morocco / Senegal / Côte d'Ivoire", shops:[
+          { name:"Jumia Maroc", url:"https://www.jumia.ma/", desc:"Fashion & accessories" },
+          { name:"Jumia Sénégal", url:"https://www.jumia.sn/", desc:"Fashion & accessories" },
+          { name:"Jumia Côte d'Ivoire", url:"https://www.jumia.ci/", desc:"Fashion & accessories" }
+        ]}
+      }},
+      europe: { title:"Europe", countries: {
+        france: { title:"France", shops:[
+          { name:"Zalando", url:"https://www.zalando.fr/", desc:"1500+ brands, free returns" },
+          { name:"Etam", url:"https://www.etam.com/", desc:"French lingerie" },
+          { name:"Hunkemöller", url:"https://www.hunkemoller.fr/", desc:"Sensual sets, private collection" },
+          { name:"Maison Close", url:"https://www.maison-close.fr/", desc:"Parisian sexy lingerie house" },
+          { name:"Sarenza", url:"https://www.sarenza.com/", desc:"Very large shoe catalogue" },
+          { name:"Calyssandra", url:"https://calyssandra.com/", desc:"800+ fantasy jewelry pieces" }
+        ]},
+        all: { title:"Rest of Europe", shops:[
+          { name:"ASOS", url:"https://www.asos.com/", desc:"Huge fashion marketplace, EU-wide" },
+          { name:"Zara", url:"https://www.zara.com/", desc:"Fast fashion, wide range" },
+          { name:"H&M", url:"https://www2.hm.com/", desc:"Affordable everyday fashion" },
+          { name:"Boohoo", url:"https://www.boohoo.com/", desc:"Trend-led, budget-friendly" }
+        ]}
+      }},
+      americas: { title:"Americas", countries: {
+        usa: { title:"USA / Canada", shops:[
+          { name:"Amazon", url:"https://www.amazon.com/", desc:"Every category" },
+          { name:"Etsy", url:"https://www.etsy.com/", desc:"Handmade & independent designers" },
+          { name:"Fashion Nova", url:"https://www.fashionnova.com/", desc:"Body-con styles, celebrity collabs" },
+          { name:"PrettyLittleThing", url:"https://www.prettylittlething.us/", desc:"Glam, trend-led fashion" },
+          { name:"Milanoo", url:"https://www.milanoo.com/", desc:"Sexy heels, boots — int'l shipping" }
+        ]},
+        latam: { title:"Latin America", shops:[
+          { name:"Mercado Libre", url:"https://www.mercadolibre.com/", desc:"Region's biggest marketplace — 18 countries" },
+          { name:"Amazon", url:"https://www.amazon.com/", desc:"Active in Mexico & Brazil" }
+        ]}
+      }},
+      asia: { title:"Asia", countries: {
+        all: { title:"All Asia", shops:[
+          { name:"Shopee", url:"https://shopee.com/", desc:"Fashion & accessories — huge in Southeast Asia" },
+          { name:"Lazada", url:"https://www.lazada.com/", desc:"Fashion, Singapore/Malaysia/Thailand/Indonesia/Vietnam/Philippines" },
+          { name:"Zalora", url:"https://www.zalora.com/", desc:"Southeast Asia fashion specialist" },
+          { name:"YesStyle", url:"https://www.yesstyle.com/", desc:"Asian fashion & K-beauty focus" },
+          { name:"Shein", url:"https://www.shein.com/", desc:"Fast fashion, huge catalogue" },
+          { name:"AliExpress", url:"https://www.aliexpress.com/", desc:"Every category, ships worldwide" }
+        ]}
+      }},
+      oceania: { title:"Oceania", countries: {
+        all: { title:"Australia / New Zealand", shops:[
+          { name:"THE ICONIC", url:"https://www.theiconic.com.au/", desc:"Fashion specialist, AU & NZ" },
+          { name:"Princess Polly", url:"https://www.princesspolly.com.au/", desc:"Trendy fashion boutique, worldwide shipping" },
+          { name:"Showpo", url:"https://www.showpo.com/", desc:"Sydney-founded, trend-driven fashion" },
+          { name:"David Jones", url:"https://www.davidjones.com/", desc:"Australian department store" },
+          { name:"Amazon Australia", url:"https://www.amazon.com.au/", desc:"Every category" },
+          { name:"eBay Australia", url:"https://www.ebay.com.au/", desc:"Fashion & accessories" }
+        ]}
+      }}
     }
   },
   beauty: { icon:'star', title:"Beauty", desc:"Makeup, skincare, hair",
-    needs: {
-      makeup: { title:"Makeup & skincare", shops:[
-        { name:"Sephora", url:"https://www.sephora.fr/", desc:"Every major makeup & skincare brand" },
-        { name:"Nocibé", url:"https://www.nocibe.fr/", desc:"French beauty retailer" },
-        { name:"Marionnaud", url:"https://www.marionnaud.fr/", desc:"Perfume & beauty chain" },
-        { name:"Lookfantastic", url:"https://www.lookfantastic.fr/", desc:"Curated beauty brands, ships EU-wide" }
-      ]},
-      hair: { title:"Hair, wigs & extensions", shops:[
-        { name:"Bleu Libellule", url:"https://www.bleulibellule.com/", desc:"Wigs & hair extensions" },
-        { name:"Etsy", url:"https://www.etsy.com/fr/", desc:"Handmade & custom hairpieces" },
-        { name:"Beauty Bay", url:"https://www.beautybay.com/", desc:"Haircare & styling tools" }
-      ]}
+    regions: {
+      africa: { title:"Africa", countries: {
+        senegal: { title:"Senegal", shops:[
+          { name:"Jumia Sénégal — Beauty", url:"https://www.jumia.sn/sante-beaute-beaute-soins-personnels/", desc:"Makeup, skincare, haircare — L'Oréal, Maybelline, Nivea..." }
+        ]},
+        morocco: { title:"Morocco", shops:[
+          { name:"Jumia Maroc — Beauty", url:"https://www.jumia.ma/sante-beaute-beaute-soins-personnels/", desc:"Skincare, makeup, perfume" }
+        ]},
+        ivorycoast: { title:"Côte d'Ivoire", shops:[
+          { name:"Jumia CI — Beauty", url:"https://www.jumia.ci/beaute-hygiene-sante/", desc:"Makeup, skincare, haircare" }
+        ]}
+      }},
+      europe: { title:"Europe", countries: {
+        france: { title:"France", shops:[
+          { name:"Sephora", url:"https://www.sephora.fr/", desc:"Every major makeup & skincare brand" },
+          { name:"Nocibé", url:"https://www.nocibe.fr/", desc:"French beauty retailer" },
+          { name:"Marionnaud", url:"https://www.marionnaud.fr/", desc:"Perfume & beauty chain" },
+          { name:"Yves Rocher", url:"https://www.yves-rocher.fr/", desc:"French botanical skincare" }
+        ]},
+        all: { title:"Rest of Europe", shops:[
+          { name:"Lookfantastic", url:"https://www.lookfantastic.com/", desc:"Curated beauty brands, ships EU-wide" },
+          { name:"Notino", url:"https://www.notino.com/", desc:"Perfume & cosmetics, EU-wide" }
+        ]}
+      }},
+      americas: { title:"Americas", countries: {
+        usa: { title:"USA / Canada", shops:[
+          { name:"Ulta Beauty", url:"https://www.ulta.com/", desc:"US beauty superstore" },
+          { name:"Sephora", url:"https://www.sephora.com/", desc:"Every major makeup & skincare brand" },
+          { name:"Amazon", url:"https://www.amazon.com/", desc:"Every beauty brand" }
+        ]},
+        latam: { title:"Latin America", shops:[
+          { name:"Mercado Libre", url:"https://www.mercadolibre.com/", desc:"Beauty & personal care, region-wide" }
+        ]}
+      }},
+      asia: { title:"Asia", countries: {
+        all: { title:"All Asia", shops:[
+          { name:"YesStyle", url:"https://www.yesstyle.com/", desc:"K-beauty specialist" },
+          { name:"Shopee", url:"https://shopee.com/", desc:"Beauty & personal care" },
+          { name:"AliExpress", url:"https://www.aliexpress.com/", desc:"Beauty tools & cosmetics" }
+        ]}
+      }},
+      oceania: { title:"Australia / New Zealand", countries: {
+        all: { title:"Australia / New Zealand", shops:[
+          { name:"Adore Beauty", url:"https://www.adorebeauty.com.au/", desc:"Australian online beauty specialist" },
+          { name:"Priceline", url:"https://www.priceline.com.au/", desc:"Major AU pharmacy & beauty chain" },
+          { name:"Amazon Australia", url:"https://www.amazon.com.au/", desc:"Every beauty brand" }
+        ]}
+      }}
     }
   },
   content: { icon:'camera', title:"Content creation gear", desc:"Camera, lighting, mic, tripod",
-    needs: {
-      bundlePhotos: { title:"⭐ Level up my photos & videos (full bundle)", shops:[
-        { name:"NEEWER", url:"https://eu.neewer.com/", desc:"Ring lights, softboxes, tripods, mics — all in one catalogue, built for creators" },
-        { name:"Ring Light Ring", url:"https://www.ring-light-ring.fr/", desc:"Boutique dedicated to content creators: lighting, tripods, mics, backdrops" },
-        { name:"Elgato", url:"https://www.elgato.com/fr/fr", desc:"Streaming-grade lights, cams & mics" }
-      ]},
-      camera: { title:"Camera & webcam", shops:[
-        { name:"Fnac", url:"https://www.fnac.com/", desc:"Cameras & webcams, wide selection" },
-        { name:"Materiel.net", url:"https://www.materiel.net/", desc:"Webcams for streaming, HD to 4K" },
-        { name:"Miss Numérique", url:"https://www.missnumerique.com/", desc:"Best value for photo/video gear" },
-        { name:"Darty", url:"https://www.darty.com/", desc:"Cameras & electronics, French retailer" }
-      ]},
-      lighting: { title:"Video lighting / ring light", shops:[
-        { name:"NEEWER", url:"https://eu.neewer.com/", desc:"Pro ring lights, softbox kits, LED panels" },
-        { name:"Ring Light Ring", url:"https://www.ring-light-ring.fr/", desc:"Tested, creator-focused lighting gear" },
-        { name:"Godox", url:"https://www.godox.com/", desc:"Studio-grade lighting brand" }
-      ]},
-      mic: { title:"Microphone / audio", shops:[
-        { name:"RØDE", url:"https://rode.com/", desc:"Reference mic brand for content creators" },
-        { name:"Shure", url:"https://www.shure.com/fr-FR", desc:"Pro-grade microphones" },
-        { name:"Elgato", url:"https://www.elgato.com/fr/fr", desc:"Streaming mics & audio gear" }
-      ]},
-      tripod: { title:"Tripod / phone mount", shops:[
-        { name:"Manfrotto", url:"https://www.manfrotto.com/fr-fr/", desc:"Professional tripods" },
-        { name:"Joby", url:"https://joby.com/fr-fr/", desc:"Flexible tripods & phone mounts" },
-        { name:"NEEWER", url:"https://eu.neewer.com/", desc:"Affordable tripods & phone rigs" }
-      ]}
+    regions: {
+      africa: { title:"Africa", countries: {
+        all: { title:"Pan-African (all countries)", shops:[
+          { name:"Jumia", url:"https://www.jumia.com/", desc:"Cameras, tripods, lighting — TV & High-Tech section" }
+        ]},
+        nigeria: { title:"Nigeria", shops:[
+          { name:"Konga", url:"https://www.konga.com/", desc:"Cameras, computers, phones" }
+        ]},
+        southafrica: { title:"South Africa", shops:[
+          { name:"Takealot", url:"https://www.takealot.com/", desc:"Cameras, electronics" }
+        ]}
+      }},
+      europe: { title:"Europe", countries: {
+        france: { title:"France", shops:[
+          { name:"Fnac", url:"https://www.fnac.com/", desc:"Cameras, webcams, wide selection" },
+          { name:"Materiel.net", url:"https://www.materiel.net/", desc:"Webcams for streaming, HD to 4K" },
+          { name:"Darty", url:"https://www.darty.com/", desc:"Cameras & electronics" },
+          { name:"NEEWER", url:"https://eu.neewer.com/", desc:"Ring lights, softboxes, tripods, mics" },
+          { name:"Ring Light Ring", url:"https://www.ring-light-ring.fr/", desc:"Boutique dedicated to content creators" }
+        ]},
+        all: { title:"Rest of Europe", shops:[
+          { name:"Elgato", url:"https://www.elgato.com/", desc:"Streaming-grade lights, cams & mics" },
+          { name:"Godox", url:"https://www.godox.com/", desc:"Studio-grade lighting brand" }
+        ]}
+      }},
+      americas: { title:"Americas", countries: {
+        usa: { title:"USA / Canada", shops:[
+          { name:"B&H Photo", url:"https://www.bhphotovideo.com/", desc:"Reference camera & video equipment retailer" },
+          { name:"Adorama", url:"https://www.adorama.com/", desc:"Cameras, lighting, video gear" },
+          { name:"Newegg", url:"https://www.newegg.com/", desc:"Computer & electronics components" },
+          { name:"Best Buy", url:"https://www.bestbuy.com/", desc:"Cameras, computers, electronics" },
+          { name:"NEEWER", url:"https://neewer.com/", desc:"Ring lights, tripods, mics" }
+        ]},
+        latam: { title:"Latin America", shops:[
+          { name:"Mercado Libre", url:"https://www.mercadolibre.com/", desc:"Electronics & content gear, region-wide" }
+        ]}
+      }},
+      asia: { title:"Asia", countries: {
+        all: { title:"All Asia", shops:[
+          { name:"AliExpress", url:"https://www.aliexpress.com/", desc:"Ring lights, tripods, mics — direct from manufacturers" },
+          { name:"Shopee", url:"https://shopee.com/", desc:"Content creation gear" },
+          { name:"Lazada", url:"https://www.lazada.com/", desc:"Electronics & accessories" }
+        ]}
+      }},
+      oceania: { title:"Australia / New Zealand", countries: {
+        all: { title:"Australia / New Zealand", shops:[
+          { name:"JB Hi-Fi", url:"https://www.jbhifi.com.au/", desc:"Major Australian electronics retailer" },
+          { name:"Amazon Australia", url:"https://www.amazon.com.au/", desc:"Cameras, lighting, tripods" },
+          { name:"eBay Australia", url:"https://www.ebay.com.au/", desc:"Electronics & content gear" }
+        ]}
+      }}
     }
   },
   business: { icon:'briefcase', title:"Creator business", desc:"Computer, phone, home office",
-    needs: {
-      computer: { title:"Computer / laptop", shops:[
-        { name:"Fnac", url:"https://www.fnac.com/", desc:"Laptops, all budgets" },
-        { name:"LDLC", url:"https://www.ldlc.com/", desc:"PC specialist, build & pre-built" },
-        { name:"Materiel.net", url:"https://www.materiel.net/", desc:"Computer hardware & laptops" },
-        { name:"Darty", url:"https://www.darty.com/", desc:"Laptops & electronics" }
-      ]},
-      phone: { title:"Smartphone & accessories", shops:[
-        { name:"Apple", url:"https://www.apple.com/fr/", desc:"iPhone & accessories" },
-        { name:"Samsung", url:"https://www.samsung.com/fr/", desc:"Galaxy phones & accessories" },
-        { name:"Fnac", url:"https://www.fnac.com/", desc:"All brands, all budgets" }
-      ]}
-    }
-  },
-  africa: { icon:'globe', title:"Africa", desc:"Pan-African marketplaces, every category",
-    needs: {
-      general: { title:"Shop by marketplace", shops:[
-        { name:"Jumia", url:"https://www.jumia.com/", desc:"Biggest pan-African marketplace — 10+ countries, every category" },
-        { name:"Takealot", url:"https://www.takealot.com/", desc:"South Africa's leading online retailer" },
-        { name:"Konga", url:"https://www.konga.com/", desc:"Nigeria — electronics, fashion, home" },
-        { name:"Kilimall", url:"https://www.kilimall.co.ke/", desc:"East Africa (Kenya, Uganda, Ghana) — budget-friendly" },
-        { name:"Zando", url:"https://www.zando.co.za/", desc:"South Africa — fashion specialist" },
-        { name:"Bidorbuy", url:"https://www.bidorbuy.co.za/", desc:"South Africa — new & second-hand, jewelry, fashion, electronics" }
-      ]}
+    regions: {
+      africa: { title:"Africa", countries: {
+        all: { title:"Pan-African (all countries)", shops:[
+          { name:"Jumia", url:"https://www.jumia.com/", desc:"Computers, phones — Informatique section" }
+        ]},
+        nigeria: { title:"Nigeria", shops:[
+          { name:"Konga", url:"https://www.konga.com/", desc:"Computers, phones" }
+        ]},
+        southafrica: { title:"South Africa", shops:[
+          { name:"Takealot", url:"https://www.takealot.com/", desc:"Computers, phones" }
+        ]}
+      }},
+      europe: { title:"Europe", countries: {
+        france: { title:"France", shops:[
+          { name:"Fnac", url:"https://www.fnac.com/", desc:"Laptops, all budgets" },
+          { name:"LDLC", url:"https://www.ldlc.com/", desc:"PC specialist, build & pre-built" },
+          { name:"Materiel.net", url:"https://www.materiel.net/", desc:"Computer hardware & laptops" },
+          { name:"Darty", url:"https://www.darty.com/", desc:"Laptops & phones" }
+        ]},
+        all: { title:"Rest of Europe", shops:[
+          { name:"Apple", url:"https://www.apple.com/", desc:"iPhone, Mac & accessories" },
+          { name:"Samsung", url:"https://www.samsung.com/", desc:"Galaxy phones & laptops" }
+        ]}
+      }},
+      americas: { title:"Americas", countries: {
+        usa: { title:"USA / Canada", shops:[
+          { name:"Best Buy", url:"https://www.bestbuy.com/", desc:"Laptops, phones, all budgets" },
+          { name:"Newegg", url:"https://www.newegg.com/", desc:"PC components & laptops" },
+          { name:"B&H Photo", url:"https://www.bhphotovideo.com/", desc:"Computers & electronics" },
+          { name:"Apple", url:"https://www.apple.com/", desc:"iPhone & Mac" }
+        ]},
+        latam: { title:"Latin America", shops:[
+          { name:"Mercado Libre", url:"https://www.mercadolibre.com/", desc:"Computers & phones, region-wide" }
+        ]}
+      }},
+      asia: { title:"Asia", countries: {
+        all: { title:"All Asia", shops:[
+          { name:"Shopee", url:"https://shopee.com/", desc:"Phones, laptops, accessories" },
+          { name:"Lazada", url:"https://www.lazada.com/", desc:"Electronics & computers" },
+          { name:"AliExpress", url:"https://www.aliexpress.com/", desc:"Computer accessories" }
+        ]}
+      }},
+      oceania: { title:"Australia / New Zealand", countries: {
+        all: { title:"Australia / New Zealand", shops:[
+          { name:"JB Hi-Fi", url:"https://www.jbhifi.com.au/", desc:"Computers & phones" },
+          { name:"Amazon Australia", url:"https://www.amazon.com.au/", desc:"Every category" },
+          { name:"eBay Australia", url:"https://www.ebay.com.au/", desc:"Computers & electronics" }
+        ]}
+      }}
     }
   }
 };
 
-let shopBotState = { view:'welcome', catKey:null, needKey:null, continentKey:null, countryKey:null };
-
-/* ---- Mode "recherche par localisation" : 5 continents -> pays/région -> boutiques.
-   Ajouté comme carte supplémentaire dans la grille de catégories, sans rien changer
-   au flux catégorie -> besoin -> boutiques déjà en place. ---- */
-const SHOPBOT_REGIONS = {
-  africa: { title:"Africa", countries: {
-    all: { title:"Pan-African (all countries)", shops:[
-      { name:"Jumia", url:"https://www.jumia.com/", desc:"Biggest pan-African marketplace, 10+ countries" },
-      { name:"Mall for Africa", url:"https://www.mallforafrica.com/", desc:"Orders international products, delivers across Africa" }
-    ]},
-    nigeria: { title:"Nigeria", shops:[
-      { name:"Jumia Nigeria", url:"https://www.jumia.com.ng/", desc:"Fashion, electronics, beauty" },
-      { name:"Konga", url:"https://www.konga.com/", desc:"Computers, phones, fashion, home" }
-    ]},
-    southafrica: { title:"South Africa", shops:[
-      { name:"Takealot", url:"https://www.takealot.com/", desc:"South Africa's leading online retailer" },
-      { name:"Zando", url:"https://www.zando.co.za/", desc:"Fashion specialist" },
-      { name:"Bidorbuy", url:"https://www.bidorbuy.co.za/", desc:"New & second-hand, jewelry, fashion, electronics" }
-    ]},
-    eastafrica: { title:"Kenya / Uganda / Ghana", shops:[
-      { name:"Kilimall", url:"https://www.kilimall.co.ke/", desc:"Electronics, fashion, beauty — budget-friendly" },
-      { name:"Jumia", url:"https://www.jumia.com/", desc:"Also active across East Africa" }
-    ]},
-    northwest: { title:"Morocco / Senegal / Côte d'Ivoire", shops:[
-      { name:"Jumia Maroc", url:"https://www.jumia.ma/", desc:"Fashion, beauty, electronics" },
-      { name:"Jumia Sénégal", url:"https://www.jumia.sn/", desc:"Fashion, beauty, electronics" },
-      { name:"Jumia Côte d'Ivoire", url:"https://www.jumia.ci/", desc:"Fashion, beauty, electronics" }
-    ]}
-  }},
-  europe: { title:"Europe", countries: {
-    france: { title:"France", shops:[
-      { name:"Zalando", url:"https://www.zalando.fr/", desc:"Fashion & shoes, free returns" },
-      { name:"Fnac", url:"https://www.fnac.com/", desc:"Electronics, camera, computers" },
-      { name:"Etam", url:"https://www.etam.com/", desc:"French lingerie" },
-      { name:"Sephora", url:"https://www.sephora.fr/", desc:"Beauty & makeup" }
-    ]},
-    all: { title:"Rest of Europe", shops:[
-      { name:"ASOS", url:"https://www.asos.com/", desc:"Fashion, ships across Europe" },
-      { name:"Zalando", url:"https://www.zalando.fr/", desc:"Fashion & shoes, EU-wide" },
-      { name:"Amazon", url:"https://www.amazon.com/", desc:"Every category, ships EU-wide" }
-    ]}
-  }},
-  americas: { title:"Americas", countries: {
-    northamerica: { title:"USA / Canada", shops:[
-      { name:"Amazon", url:"https://www.amazon.com/", desc:"Every category" },
-      { name:"Etsy", url:"https://www.etsy.com/", desc:"Handmade & independent designers" },
-      { name:"Milanoo", url:"https://www.milanoo.com/", desc:"Sexy shoes & fashion, international shipping" }
-    ]},
-    latam: { title:"Latin America", shops:[
-      { name:"Mercado Libre", url:"https://www.mercadolibre.com/", desc:"Region's biggest marketplace — 18 countries, every category" },
-      { name:"Amazon", url:"https://www.amazon.com/", desc:"Active in Mexico & Brazil" }
-    ]}
-  }},
-  asia: { title:"Asia", countries: {
-    all: { title:"All Asia", shops:[
-      { name:"Shopee", url:"https://shopee.com/", desc:"Fashion, beauty, electronics — huge in Southeast Asia" },
-      { name:"Lazada", url:"https://www.lazada.com/", desc:"Electronics, fashion, beauty — Singapore, Malaysia, Thailand, Indonesia, Vietnam, Philippines" },
-      { name:"AliExpress", url:"https://www.aliexpress.com/", desc:"Every category, ships worldwide" }
-    ]}
-  }},
-  oceania: { title:"Oceania", countries: {
-    all: { title:"Australia / New Zealand", shops:[
-      { name:"Amazon Australia", url:"https://www.amazon.com.au/", desc:"Every category, largest e-commerce presence in Australia" },
-      { name:"eBay Australia", url:"https://www.ebay.com.au/", desc:"Fashion, electronics, and more" },
-      { name:"THE ICONIC", url:"https://www.theiconic.com.au/", desc:"Fashion specialist, Australia & New Zealand" }
-    ]}
-  }}
-};
+let shopBotState = { view:'welcome', catKey:null, continentKey:null, countryKey:null };
 
 function renderUniverseShoppingAssistant(container){
   if(!container) return;
-  shopBotState = { view:'welcome', catKey:null, needKey:null };
+  shopBotState = { view:'welcome', catKey:null, continentKey:null, countryKey:null };
   container.innerHTML = `
     <div class="shopbot-theme">
       <p style="color:var(--text-muted);font-size:11.5px;margin:0 0 14px;line-height:1.6;">${escText(t('shopBotNote'))}</p>
@@ -6265,7 +6322,7 @@ function renderUniverseShoppingAssistant(container){
 }
 
 function shopBotShowWelcome(){
-  shopBotState = { view:'welcome', catKey:null, needKey:null };
+  shopBotState = { view:'welcome', catKey:null, continentKey:null, countryKey:null };
   const body = document.getElementById('shopbot-body');
   if(!body) return;
   body.innerHTML = `
@@ -6290,6 +6347,7 @@ function shopBotShowWelcomeBullets(){
   setTimeout(shopBotShowCategories, coachRestMs(700));
 }
 
+/* Écran 1 : "What are you looking for?" — les 4 catégories (need). */
 function shopBotShowCategories(){
   shopBotState.view = 'categories';
   const el = document.getElementById('shopbot-cat-choice');
@@ -6297,7 +6355,7 @@ function shopBotShowCategories(){
   const catsHtml = Object.keys(SHOPBOT_CATALOG).map(key => {
     const c = SHOPBOT_CATALOG[key];
     return `<button type="button" class="coach-theme-btn" data-cat="${key}"><span class="coach-theme-btn-icon">${AICON[c.icon]}</span><span><span class="coach-theme-btn-title">${escText(c.title)}</span><span class="coach-theme-btn-desc">${escText(c.desc)}</span></span></button>`;
-  }).join('') + `<button type="button" class="coach-theme-btn" data-cat="byregion"><span class="coach-theme-btn-icon">${AICON.globe}</span><span><span class="coach-theme-btn-title">${escText(t('shopBotByRegionTitle'))}</span><span class="coach-theme-btn-desc">${escText(t('shopBotByRegionDesc'))}</span></span></button>`;
+  }).join('');
   el.innerHTML = `
     <div class="coach-bubble-row"><div class="coach-mini-avatar">🛍️</div><div class="coach-bubble-text chat-bot show">${escText(t('shopBotChooseCatPrompt'))}</div></div>
     <div class="coach-theme-choice">${catsHtml}</div>
@@ -6306,28 +6364,25 @@ function shopBotShowCategories(){
   document.getElementById('shopbot-body').scrollIntoView({ behavior:'smooth', block:'nearest' });
 }
 
+/* Écran 2 : une fois le besoin choisi -> continent (directement, plus d'étape "needs"). */
 function shopBotChooseCategory(catKey){
-  if(catKey === 'byregion'){
-    shopBotState.catKey = null;
-    shopBotState.view = 'continents';
-    shopBotShowContinents();
-    return;
-  }
   shopBotState.catKey = catKey;
-  shopBotState.needKey = null;
-  shopBotState.view = 'needs';
-  shopBotRenderNeeds();
+  shopBotState.continentKey = null;
+  shopBotState.countryKey = null;
+  shopBotState.view = 'continents';
+  shopBotShowContinents();
 }
 
-/* ---- Étapes continent -> pays -> boutiques (mode "recherche par localisation") ---- */
 function shopBotShowContinents(){
   const body = document.getElementById('shopbot-body');
-  if(!body) return;
-  const rowsHtml = Object.keys(SHOPBOT_REGIONS).map(key => {
-    const r = SHOPBOT_REGIONS[key];
+  const cat = SHOPBOT_CATALOG[shopBotState.catKey];
+  if(!body || !cat) return;
+  const rowsHtml = Object.keys(cat.regions).map(key => {
+    const r = cat.regions[key];
     return `<button type="button" class="coach-table-row" data-continent="${key}">${escText(r.title)}</button>`;
   }).join('');
   body.innerHTML = `
+    <div class="shopbot-breadcrumb"><b>${escText(cat.title)}</b></div>
     <div class="coach-bubble-row"><div class="coach-mini-avatar">🛍️</div><div class="coach-bubble-text chat-bot show">${escText(t('shopBotChooseContinentPrompt'))}</div></div>
     <div class="coach-table">${rowsHtml}</div>
     <button type="button" class="coach-back-both-btn" data-back-cats="1">${escText(t('shopBotBackToCats'))}</button>
@@ -6338,19 +6393,21 @@ function shopBotShowContinents(){
   body.scrollIntoView({ behavior:'smooth', block:'nearest' });
 }
 
+/* Écran 3 : continent choisi -> liste des pays/régions pour ce continent + cette catégorie. */
 function shopBotChooseContinent(continentKey){
   shopBotState.continentKey = continentKey;
   shopBotState.countryKey = null;
   shopBotState.view = 'countries';
   const body = document.getElementById('shopbot-body');
-  const continent = SHOPBOT_REGIONS[continentKey];
+  const cat = SHOPBOT_CATALOG[shopBotState.catKey];
+  const continent = cat && cat.regions[continentKey];
   if(!body || !continent) return;
   const rowsHtml = Object.keys(continent.countries).map(key => {
     const c = continent.countries[key];
     return `<button type="button" class="coach-table-row" data-country="${key}">${escText(c.title)}</button>`;
   }).join('');
   body.innerHTML = `
-    <div class="shopbot-breadcrumb"><b>${escText(continent.title)}</b></div>
+    <div class="shopbot-breadcrumb"><b>${escText(cat.title)}</b> · ${escText(continent.title)}</div>
     <div class="coach-bubble-row"><div class="coach-mini-avatar">🛍️</div><div class="coach-bubble-text chat-bot show">${escText(t('shopBotChooseCountryPrompt'))}</div></div>
     <div class="coach-table">${rowsHtml}</div>
     <button type="button" class="coach-back-both-btn" data-back-continents="1">${escText(t('shopBotBackToContinents'))}</button>
@@ -6361,11 +6418,13 @@ function shopBotChooseContinent(continentKey){
   body.scrollIntoView({ behavior:'smooth', block:'nearest' });
 }
 
+/* Écran 4 : pays choisi -> boutiques (cartes cliquables, nouvel onglet). */
 function shopBotChooseCountry(countryKey){
   shopBotState.countryKey = countryKey;
-  shopBotState.view = 'region-shops';
+  shopBotState.view = 'shops';
   const body = document.getElementById('shopbot-body');
-  const continent = SHOPBOT_REGIONS[shopBotState.continentKey];
+  const cat = SHOPBOT_CATALOG[shopBotState.catKey];
+  const continent = cat && cat.regions[shopBotState.continentKey];
   const country = continent && continent.countries[countryKey];
   if(!body || !country) return;
   const linksHtml = country.shops.map(s => `
@@ -6376,7 +6435,7 @@ function shopBotChooseCountry(countryKey){
     </a>
   `).join('');
   body.innerHTML = `
-    <div class="shopbot-breadcrumb"><b>${escText(continent.title)}</b> · ${escText(country.title)}</div>
+    <div class="shopbot-breadcrumb"><b>${escText(cat.title)}</b> · ${escText(continent.title)} · ${escText(country.title)}</div>
     <div>${linksHtml}</div>
     <div class="coach-action-bar">
       <button type="button" class="coach-action-btn" data-back-countries="1">${COACH_ICON_BACK} ${escText(t('shopBotBackToNeeds'))}</button>
@@ -6385,55 +6444,6 @@ function shopBotChooseCountry(countryKey){
   `;
   const backCountries = body.querySelector('[data-back-countries]');
   if(backCountries) backCountries.onclick = () => shopBotChooseContinent(shopBotState.continentKey);
-  const backCats = body.querySelector('[data-back-cats]');
-  if(backCats) backCats.onclick = shopBotShowWelcome;
-  body.scrollIntoView({ behavior:'smooth', block:'nearest' });
-}
-
-function shopBotRenderNeeds(){
-  const body = document.getElementById('shopbot-body');
-  const cat = SHOPBOT_CATALOG[shopBotState.catKey];
-  if(!body || !cat) return;
-  const rowsHtml = Object.keys(cat.needs).map(needKey => {
-    const n = cat.needs[needKey];
-    return `<button type="button" class="coach-table-row" data-need="${needKey}">${escText(n.title)}</button>`;
-  }).join('');
-  body.innerHTML = `
-    <div class="shopbot-breadcrumb"><b>${escText(cat.title)}</b></div>
-    <div class="coach-bubble-row"><div class="coach-mini-avatar">🛍️</div><div class="coach-bubble-text chat-bot show">${escText(t('shopBotChooseNeedPrompt'))}</div></div>
-    <div class="coach-table">${rowsHtml}</div>
-    <button type="button" class="coach-back-both-btn" data-back-cats="1">${escText(t('shopBotBackToCats'))}</button>
-  `;
-  body.querySelectorAll('[data-need]').forEach(btn => { btn.onclick = () => shopBotChooseNeed(btn.dataset.need); });
-  const backBtn = body.querySelector('[data-back-cats]');
-  if(backBtn) backBtn.onclick = shopBotShowWelcome;
-  body.scrollIntoView({ behavior:'smooth', block:'nearest' });
-}
-
-function shopBotChooseNeed(needKey){
-  shopBotState.needKey = needKey;
-  shopBotState.view = 'shops';
-  const body = document.getElementById('shopbot-body');
-  const cat = SHOPBOT_CATALOG[shopBotState.catKey];
-  const need = cat && cat.needs[needKey];
-  if(!body || !need) return;
-  const linksHtml = need.shops.map(s => `
-    <a class="shopbot-link-card" href="${escAttr(s.url)}" target="_blank" rel="noopener noreferrer">
-      <span class="shopbot-link-icon">${AICON.bag}</span>
-      <span class="shopbot-link-text"><span class="shopbot-link-name">${escText(s.name)}</span><span class="shopbot-link-desc">${escText(s.desc)}</span></span>
-      <span class="shopbot-link-arrow">${AICON.angle}</span>
-    </a>
-  `).join('');
-  body.innerHTML = `
-    <div class="shopbot-breadcrumb"><b>${escText(cat.title)}</b> · ${escText(need.title)}</div>
-    <div>${linksHtml}</div>
-    <div class="coach-action-bar">
-      <button type="button" class="coach-action-btn" data-back-needs="1">${COACH_ICON_BACK} ${escText(t('shopBotBackToNeeds'))}</button>
-    </div>
-    <button type="button" class="coach-back-both-btn" data-back-cats="1">${escText(t('shopBotBackToCats'))}</button>
-  `;
-  const backNeeds = body.querySelector('[data-back-needs]');
-  if(backNeeds) backNeeds.onclick = shopBotRenderNeeds;
   const backCats = body.querySelector('[data-back-cats]');
   if(backCats) backCats.onclick = shopBotShowWelcome;
   body.scrollIntoView({ behavior:'smooth', block:'nearest' });
