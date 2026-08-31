@@ -574,6 +574,7 @@ const I18N = {
     desireProfileThemeLabel: "Current theme",
     desireProfileComplete: "🎉 You're in — your profile will be shown among the first to creators on the site.",
     desireProgressTeaser: "Complete your profile so creators see it among the first.",
+    desireCompatibilityLine: "You'll be matched with creators most compatible with you.",
     desireProfilePoints: "points",
     desireProgressLabel: "Profile completed",
     desireQuestionOfDay: "Today's question",
@@ -5704,66 +5705,450 @@ function switchMemberTab(user, data, activeTab){
    tard côté créatrice (même 10 thèmes dans sa bio — logique séparée).
    ================================================================ */
 
-// Banque de questions par thème — seul "love" est rédigé en détail pour
-// l'instant, à titre d'exemple ; les 9 autres thèmes utilisent un texte
-// gabarit "[À rédiger]" en attendant le vrai contenu de Prince.
-function buildPlaceholderDesireQuestions(themeKey){
-  return Array.from({ length: DESIRE_QUESTIONS_PER_THEME }).map((_, i) => ({
-    q: '[À rédiger] Question ' + (i + 1) + ' — thème ' + themeKey,
-    choices: [
-      { label: 'Réponse A', value: 20 },
-      { label: 'Réponse B', value: 45 },
-      { label: 'Réponse C', value: 70 },
-      { label: 'Réponse D', value: 100 },
-    ],
-  }));
-}
-const DESIRE_QUESTION_BANK = {};
-DESIRE_THEMES.forEach(theme => { DESIRE_QUESTION_BANK[theme] = buildPlaceholderDesireQuestions(theme); });
-DESIRE_QUESTION_BANK.love = [
-  { q: "Ce qui compte le plus pour toi dans une relation :", choices: [
-    { label: 'La complicité au quotidien', value: 100 },
-    { label: "La passion et l'intensité", value: 75 },
-    { label: 'La stabilité et la confiance', value: 50 },
-    { label: "L'indépendance dans le couple", value: 25 },
-  ]},
-  { q: "Ta façon préférée de montrer ton affection :", choices: [
-    { label: 'Des mots doux et des messages', value: 40 },
-    { label: 'Des gestes et attentions au quotidien', value: 100 },
-    { label: 'Du temps de qualité, juste tous les deux', value: 80 },
-    { label: 'Des cadeaux qui font plaisir', value: 30 },
-  ]},
-  { q: "Un rendez-vous idéal, c'est plutôt :", choices: [
-    { label: 'Une soirée calme à la maison', value: 60 },
-    { label: 'Une sortie originale, hors des sentiers battus', value: 100 },
-    { label: 'Un dîner dans un bon restaurant', value: 50 },
-    { label: 'Une activité sportive ou en extérieur', value: 40 },
-  ]},
-  { q: "Ce qui te fait le plus craquer chez quelqu'un :", choices: [
-    { label: "Son humour et sa spontanéité", value: 90 },
-    { label: 'Son écoute et sa douceur', value: 100 },
-    { label: 'Sa confiance en elle/lui', value: 60 },
-    { label: 'Son ambition et ses projets', value: 50 },
-  ]},
-  { q: "Dans une relation, ton rythme idéal c'est :", choices: [
-    { label: 'Se voir souvent, presque tous les jours', value: 100 },
-    { label: 'Un bon équilibre entre présence et indépendance', value: 80 },
-    { label: 'Prendre le temps, sans se presser', value: 50 },
-    { label: 'Garder chacun son espace, se retrouver quand c\'est le bon moment', value: 30 },
-  ]},
-  { q: "Ce que tu recherches avant tout en ce moment :", choices: [
-    { label: 'Une vraie connexion, sur la durée', value: 100 },
-    { label: 'Du léger, sans prise de tête', value: 30 },
-    { label: 'Apprendre à connaître quelqu\'un, sans se précipiter', value: 70 },
-    { label: 'Vivre l\'instant présent', value: 50 },
-  ]},
-  { q: "Ta définition d'une relation réussie :", choices: [
-    { label: 'On se fait rire, tout simplement', value: 60 },
-    { label: 'On se sent en confiance à 100%', value: 100 },
-    { label: 'On grandit ensemble', value: 90 },
-    { label: 'On garde toujours un peu de mystère', value: 40 },
-  ]},
-];
+// Banque de questions par thème — 70 questions (10 thèmes × 7), en anglais,
+// avec emoji sur chaque question et chaque réponse.
+const DESIRE_QUESTION_BANK = {
+  love: [
+    { q: "💕 What matters most to you in a relationship?", choices: [
+      { label: '🤝 Everyday closeness and complicity', value: 100 },
+      { label: '🔥 Passion and intensity', value: 75 },
+      { label: '🛡️ Stability and trust', value: 50 },
+      { label: '🦋 Independence within the couple', value: 25 },
+    ]},
+    { q: "💌 Your favorite way to show affection:", choices: [
+      { label: '💬 Sweet words and messages', value: 40 },
+      { label: '🎁 Small daily gestures', value: 100 },
+      { label: '⏳ Quality time, just the two of you', value: 80 },
+      { label: '🎀 Thoughtful gifts', value: 30 },
+    ]},
+    { q: "🌙 An ideal date is more like:", choices: [
+      { label: '🏠 A cozy night in', value: 60 },
+      { label: '🗺️ Something original, off the beaten path', value: 100 },
+      { label: '🍷 Dinner at a nice restaurant', value: 50 },
+      { label: '🏃 An outdoor or sporty activity', value: 40 },
+    ]},
+    { q: "✨ What makes you fall for someone the most:", choices: [
+      { label: '😄 Their humor and spontaneity', value: 90 },
+      { label: '👂 Their listening and gentleness', value: 100 },
+      { label: '💪 Their self-confidence', value: 60 },
+      { label: '🚀 Their ambition and goals', value: 50 },
+    ]},
+    { q: "⏱️ Your ideal relationship pace:", choices: [
+      { label: '📅 Seeing each other almost every day', value: 100 },
+      { label: '⚖️ A good balance of closeness and independence', value: 80 },
+      { label: '🐢 Taking it slow, no rush', value: 50 },
+      { label: '🌌 Keeping your own space, meeting when it feels right', value: 30 },
+    ]},
+    { q: "🔍 What you're looking for right now:", choices: [
+      { label: '💞 A real connection, built to last', value: 100 },
+      { label: '🎈 Something light, no pressure', value: 30 },
+      { label: '🌱 Getting to know someone, no rush', value: 70 },
+      { label: '🎯 Living in the moment', value: 50 },
+    ]},
+    { q: "🏆 Your definition of a successful relationship:", choices: [
+      { label: '😂 Making each other laugh, simply', value: 60 },
+      { label: '🔐 Feeling 100% safe together', value: 100 },
+      { label: '🌳 Growing together', value: 90 },
+      { label: '🎭 Always keeping a bit of mystery', value: 40 },
+    ]},
+  ],
+  affection: [
+    { q: "🤗 Your love language is mostly:", choices: [
+      { label: '🗣️ Words of affirmation', value: 100 },
+      { label: '🤲 Physical touch', value: 90 },
+      { label: '🎁 Gifts', value: 60 },
+      { label: '🛠️ Acts of service', value: 80 },
+    ]},
+    { q: "💗 When you care about someone, you:", choices: [
+      { label: '📱 Check in on them often', value: 90 },
+      { label: '🍲 Do little things to make their day easier', value: 100 },
+      { label: '🎧 Just want to be around them', value: 80 },
+      { label: '🎉 Plan surprises for them', value: 70 },
+    ]},
+    { q: "🌸 A small gesture that means the most to you:", choices: [
+      { label: '☕ A coffee brought without asking', value: 90 },
+      { label: '📝 A handwritten note', value: 100 },
+      { label: '🤗 A long hug', value: 95 },
+      { label: '📞 A random "thinking of you" text', value: 80 },
+    ]},
+    { q: "💖 You feel most loved when someone:", choices: [
+      { label: '👀 Really listens to you', value: 100 },
+      { label: '⏰ Makes time for you', value: 95 },
+      { label: '💬 Compliments you', value: 70 },
+      { label: '🎁 Surprises you', value: 80 },
+    ]},
+    { q: "🌊 How you comfort someone you love:", choices: [
+      { label: '🤐 Just being present, no words needed', value: 100 },
+      { label: '💡 Trying to help solve the problem', value: 70 },
+      { label: '😂 Making them laugh', value: 85 },
+      { label: '🫂 A warm hug', value: 95 },
+    ]},
+    { q: "🕰️ Showing affection daily looks like:", choices: [
+      { label: '🌅 Good morning / good night messages', value: 90 },
+      { label: '🍳 Small daily gestures, like cooking for them', value: 100 },
+      { label: '💌 Random sweet notes', value: 80 },
+      { label: '🤝 Physical closeness', value: 85 },
+    ]},
+    { q: "💞 Affection, to you, means mostly:", choices: [
+      { label: '🔐 Feeling safe and secure', value: 100 },
+      { label: '🔥 Feeling desired', value: 85 },
+      { label: '🌷 Feeling appreciated', value: 95 },
+      { label: '🎈 Feeling free to be yourself', value: 80 },
+    ]},
+  ],
+  listening: [
+    { q: "👂 When your partner talks about their day, you:", choices: [
+      { label: '🎯 Listen fully, no distractions', value: 100 },
+      { label: '💡 Try to fix their problems right away', value: 60 },
+      { label: '😊 Nod along and add fun comments', value: 75 },
+      { label: '📱 Half-listen while multitasking', value: 30 },
+    ]},
+    { q: "🗣️ In a disagreement, you prefer to:", choices: [
+      { label: '🧊 Cool off first, then talk', value: 80 },
+      { label: '🎤 Talk it out immediately', value: 90 },
+      { label: '👂 Let them speak first', value: 100 },
+      { label: '🚪 Avoid the topic', value: 30 },
+    ]},
+    { q: "💭 A good listener, to you, is someone who:", choices: [
+      { label: '🤫 Doesn\'t interrupt', value: 100 },
+      { label: '🙋 Asks follow-up questions', value: 95 },
+      { label: '🫡 Remembers the small details', value: 90 },
+      { label: '😌 Just nods and agrees', value: 50 },
+    ]},
+    { q: "📖 When someone shares a problem, you:", choices: [
+      { label: '🛠️ Offer solutions', value: 70 },
+      { label: '🤗 Just listen and support', value: 100 },
+      { label: '🤔 Ask questions to understand more', value: 95 },
+      { label: '😶 Stay quiet, unsure what to say', value: 40 },
+    ]},
+    { q: "🎧 You remember what people tell you:", choices: [
+      { label: '🧠 Almost everything, even small details', value: 100 },
+      { label: '📝 The important stuff', value: 80 },
+      { label: '🌫️ Only if it stands out', value: 50 },
+      { label: '🤷 Not really, honestly', value: 20 },
+    ]},
+    { q: "💬 During a conversation, you're mostly:", choices: [
+      { label: '👂 Fully present and engaged', value: 100 },
+      { label: '⏳ Patient, letting them finish', value: 90 },
+      { label: '🎭 Waiting for your turn to talk', value: 40 },
+      { label: '📲 A bit distracted', value: 20 },
+    ]},
+    { q: "🌟 Being truly heard makes you feel:", choices: [
+      { label: '💛 Valued', value: 100 },
+      { label: '😌 Relaxed', value: 85 },
+      { label: '🔓 Free to open up more', value: 95 },
+      { label: '🎉 Excited to share more', value: 70 },
+    ]},
+  ],
+  physicalAttraction: [
+    { q: "🔥 What draws you in physically first:", choices: [
+      { label: '😊 Their smile', value: 100 },
+      { label: '👀 Their eyes', value: 95 },
+      { label: '💪 Their body language', value: 80 },
+      { label: '👗 Their style', value: 70 },
+    ]},
+    { q: "💃 Confidence is:", choices: [
+      { label: '🔑 The most attractive trait', value: 100 },
+      { label: '😏 A big plus', value: 85 },
+      { label: '🤷 Nice but not essential', value: 50 },
+      { label: '🙈 Not something you notice much', value: 30 },
+    ]},
+    { q: "👋 First physical contact you enjoy:", choices: [
+      { label: '🤝 A confident handshake', value: 60 },
+      { label: '🫂 A warm hug', value: 100 },
+      { label: '😉 A playful touch on the arm', value: 90 },
+      { label: '💋 A kiss on the cheek', value: 95 },
+    ]},
+    { q: "🕶️ Style-wise, you're drawn to:", choices: [
+      { label: '👔 Classic and elegant', value: 90 },
+      { label: '🧥 Casual and effortless', value: 80 },
+      { label: '🎨 Bold and unique', value: 100 },
+      { label: '🏋️ Sporty and fit', value: 85 },
+    ]},
+    { q: "💫 Chemistry, for you, starts with:", choices: [
+      { label: '👁️ Eye contact', value: 100 },
+      { label: '😂 Shared laughter', value: 90 },
+      { label: '🗣️ A great conversation', value: 95 },
+      { label: '🤏 Physical closeness', value: 80 },
+    ]},
+    { q: "🌡️ How important is physical attraction at first:", choices: [
+      { label: '🔥 Very important', value: 100 },
+      { label: '⚖️ Important, but not everything', value: 80 },
+      { label: '🌱 Grows over time for you', value: 60 },
+      { label: '🧠 Personality matters way more', value: 40 },
+    ]},
+    { q: "💋 Your idea of a great kiss:", choices: [
+      { label: '⚡ Spontaneous and electric', value: 100 },
+      { label: '🐌 Slow and tender', value: 95 },
+      { label: '😄 Playful and fun', value: 85 },
+      { label: '🌙 Passionate, under the stars', value: 100 },
+    ]},
+  ],
+  personalityAttraction: [
+    { q: "💫 What personality trait attracts you most:", choices: [
+      { label: '😂 Sense of humor', value: 100 },
+      { label: '🧠 Intelligence', value: 95 },
+      { label: '💪 Ambition', value: 85 },
+      { label: '🌸 Kindness', value: 100 },
+    ]},
+    { q: "🎭 You're drawn to people who are:", choices: [
+      { label: '🔥 Confident and bold', value: 90 },
+      { label: '🌊 Calm and grounded', value: 95 },
+      { label: '🎨 Creative and spontaneous', value: 100 },
+      { label: '🧭 Loyal and dependable', value: 95 },
+    ]},
+    { q: "🗝️ A trait you can't live without:", choices: [
+      { label: '🤝 Honesty', value: 100 },
+      { label: '😂 Humor', value: 90 },
+      { label: '🌟 Ambition', value: 80 },
+      { label: '🫶 Empathy', value: 95 },
+    ]},
+    { q: "🌈 Your ideal match's energy is:", choices: [
+      { label: '⚡ High energy, always doing something', value: 85 },
+      { label: '🌙 Calm and easygoing', value: 90 },
+      { label: '🎉 The life of the party', value: 80 },
+      { label: '📚 Thoughtful and deep', value: 100 },
+    ]},
+    { q: "🧩 What makes someone interesting to you:", choices: [
+      { label: '🌍 Their curiosity about the world', value: 100 },
+      { label: '🎯 Their drive and goals', value: 85 },
+      { label: '🎨 Their creativity', value: 95 },
+      { label: '😄 Their sense of humor', value: 90 },
+    ]},
+    { q: "🪞 You connect fastest with people who:", choices: [
+      { label: '👂 Really listen', value: 100 },
+      { label: '😂 Make you laugh instantly', value: 90 },
+      { label: '🧠 Challenge you intellectually', value: 85 },
+      { label: '🫶 Make you feel comfortable right away', value: 95 },
+    ]},
+    { q: "🔑 The trait you value most, long-term:", choices: [
+      { label: '🤝 Trustworthiness', value: 100 },
+      { label: '😂 Humor', value: 75 },
+      { label: '🌱 Growth mindset', value: 90 },
+      { label: '💬 Great communication', value: 100 },
+    ]},
+  ],
+  travel: [
+    { q: "✈️ Your ideal getaway:", choices: [
+      { label: '🏖️ Always up for a last-minute flight', value: 100 },
+      { label: '🗺️ The type to plan everything ahead', value: 85 },
+      { label: '🏔️ Somewhere remote and adventurous', value: 95 },
+      { label: '🏙️ A city break, full of culture', value: 80 },
+    ]},
+    { q: "🎒 On a trip, you're the one who:", choices: [
+      { label: '📸 Captures every moment', value: 80 },
+      { label: '🧭 Leads the way', value: 90 },
+      { label: '😌 Goes with the flow', value: 100 },
+      { label: '📋 Handles the logistics', value: 85 },
+    ]},
+    { q: "🌍 Dream destination vibe:", choices: [
+      { label: '🏝️ Beach and relaxation', value: 90 },
+      { label: '🏔️ Mountains and adventure', value: 95 },
+      { label: '🏛️ History and culture', value: 85 },
+      { label: '🎉 Nightlife and energy', value: 80 },
+    ]},
+    { q: "🎫 Booking style:", choices: [
+      { label: '📅 Everything planned months ahead', value: 80 },
+      { label: '🎲 Spontaneous, book and go', value: 100 },
+      { label: '🤝 A mix of both', value: 95 },
+      { label: '🧳 Whatever\'s cheapest', value: 70 },
+    ]},
+    { q: "🚗 Your favorite way to travel:", choices: [
+      { label: '✈️ Flying somewhere new', value: 95 },
+      { label: '🚗 A road trip, no fixed destination', value: 100 },
+      { label: '🚆 Slow travel by train', value: 85 },
+      { label: '🚶 Backpacking', value: 90 },
+    ]},
+    { q: "🏨 On vacation, your ideal stay is:", choices: [
+      { label: '🏨 A luxury hotel', value: 90 },
+      { label: '🏡 A cozy Airbnb', value: 95 },
+      { label: '⛺ Camping under the stars', value: 85 },
+      { label: '🏝️ An all-inclusive resort', value: 80 },
+    ]},
+    { q: "🧭 Travel means to you, above all:", choices: [
+      { label: '🌅 New experiences', value: 100 },
+      { label: '😌 Relaxation', value: 85 },
+      { label: '💑 Quality time together', value: 100 },
+      { label: '📸 Memories to keep', value: 90 },
+    ]},
+  ],
+  music: [
+    { q: "🎤 In the shower, you're more likely singing:", choices: [
+      { label: '🎶 A catchy pop hit', value: 85 },
+      { label: '🎷 A sultry R&B classic', value: 95 },
+      { label: '🎸 A rock anthem', value: 90 },
+      { label: '🎧 Whatever\'s trending right now', value: 80 },
+    ]},
+    { q: "🕺 At a party, you're mostly:", choices: [
+      { label: '💃 First on the dance floor', value: 100 },
+      { label: '🍹 At the bar, watching the crowd', value: 70 },
+      { label: '🎧 Curating the playlist', value: 85 },
+      { label: '😄 Chatting in a corner', value: 75 },
+    ]},
+    { q: "🎼 Your go-to genre for a date night:", choices: [
+      { label: '🎷 Jazz and lounge', value: 90 },
+      { label: '🎸 Acoustic and chill', value: 95 },
+      { label: '🔥 Latin and dancing rhythms', value: 100 },
+      { label: '🎹 Romantic ballads', value: 95 },
+    ]},
+    { q: "🎧 Music is, for you:", choices: [
+      { label: '💃 Something to dance to', value: 90 },
+      { label: '😢 Something to feel deeply', value: 100 },
+      { label: '🎉 The soundtrack to good times', value: 95 },
+      { label: '🧘 A way to relax', value: 85 },
+    ]},
+    { q: "🎙️ Your karaoke go-to:", choices: [
+      { label: '🎤 A power ballad', value: 95 },
+      { label: '😂 A fun, silly song', value: 85 },
+      { label: '🔥 Something sexy and slow', value: 100 },
+      { label: '🎸 A classic rock hit', value: 90 },
+    ]},
+    { q: "🚗 Your road-trip playlist is:", choices: [
+      { label: '🎶 Non-stop singalong hits', value: 95 },
+      { label: '🎧 A curated, chill mix', value: 90 },
+      { label: '🔥 High energy, all the way', value: 100 },
+      { label: '📻 Whatever\'s on the radio', value: 75 },
+    ]},
+    { q: "💃 Music and romance go together with:", choices: [
+      { label: '🕯️ A slow dance at home', value: 100 },
+      { label: '🎉 Dancing all night out', value: 90 },
+      { label: '🎸 Live music together', value: 95 },
+      { label: '🎧 Sharing headphones', value: 85 },
+    ]},
+  ],
+  restaurants: [
+    { q: "🍽️ On a date, you'd rather order:", choices: [
+      { label: '🍝 Something to share', value: 100 },
+      { label: '🥩 Your own dish', value: 75 },
+      { label: '🍷 Just drinks and appetizers', value: 60 },
+      { label: '🍰 Straight to dessert', value: 80 },
+    ]},
+    { q: "🍴 Your dining style:", choices: [
+      { label: '🍽️ Always tastes from your partner\'s plate', value: 95 },
+      { label: '🙋 Always asks before taking a bite', value: 75 },
+      { label: '🍕 Loves sharing everything', value: 100 },
+      { label: '🍽️ Sticks to your own plate', value: 60 },
+    ]},
+    { q: "🌶️ Your ideal cuisine for a date:", choices: [
+      { label: '🍣 Sushi and fine dining', value: 90 },
+      { label: '🌶️ Spicy and bold flavors', value: 100 },
+      { label: '🍝 Classic Italian', value: 95 },
+      { label: '🍔 Casual and fun food', value: 85 },
+    ]},
+    { q: "🕯️ Your dream restaurant setting:", choices: [
+      { label: '🌃 Rooftop with a view', value: 95 },
+      { label: '🕯️ Cozy and intimate', value: 100 },
+      { label: '🎶 Lively with music', value: 85 },
+      { label: '🌊 Beachside table', value: 95 },
+    ]},
+    { q: "🍷 Choosing wine or drinks, you:", choices: [
+      { label: '🍷 Always order for the both of you', value: 85 },
+      { label: '🙋 Let them choose', value: 75 },
+      { label: '🤝 Decide together', value: 100 },
+      { label: '🍹 Go for whatever sounds fun', value: 80 },
+    ]},
+    { q: "🍽️ First-date restaurant pick:", choices: [
+      { label: '🍝 A cozy Italian spot', value: 95 },
+      { label: '🍣 Something a bit fancy', value: 90 },
+      { label: '🍔 Casual and relaxed', value: 85 },
+      { label: '🌮 Somewhere fun and different', value: 100 },
+    ]},
+    { q: "🎂 Splitting the bill, you're:", choices: [
+      { label: '💳 Happy to treat', value: 95 },
+      { label: '🤝 Always split evenly', value: 85 },
+      { label: '😊 Whoever offers first', value: 80 },
+      { label: '🔄 Take turns each time', value: 100 },
+    ]},
+  ],
+  movies: [
+    { q: "🎬 Movie night, you'd pick:", choices: [
+      { label: '👻 A horror movie, great excuse to cuddle', value: 100 },
+      { label: '💕 A romantic comedy', value: 90 },
+      { label: '🎭 A gripping drama', value: 85 },
+      { label: '💥 An action blockbuster', value: 80 },
+    ]},
+    { q: "🍿 During the movie, you're:", choices: [
+      { label: '🎥 100% focused on the screen', value: 70 },
+      { label: '😍 More focused on them than the movie', value: 100 },
+      { label: '💬 Commenting the whole time', value: 75 },
+      { label: '😴 Sometimes drifting off', value: 60 },
+    ]},
+    { q: "🌟 Your ultimate movie genre:", choices: [
+      { label: '💘 Romance', value: 95 },
+      { label: '😂 Comedy', value: 90 },
+      { label: '🔍 Thriller / mystery', value: 85 },
+      { label: '🚀 Sci-fi', value: 80 },
+    ]},
+    { q: "🍫 Movie night snack of choice:", choices: [
+      { label: '🍿 Popcorn, obviously', value: 90 },
+      { label: '🍫 Chocolate and sweets', value: 95 },
+      { label: '🍕 Something savory', value: 85 },
+      { label: '🍷 Wine and cheese', value: 100 },
+    ]},
+    { q: "📽️ Your ideal movie date:", choices: [
+      { label: '🎦 A classic cinema outing', value: 85 },
+      { label: '🛋️ A cozy night in on the couch', value: 100 },
+      { label: '✨ A drive-in movie', value: 95 },
+      { label: '🎉 A movie marathon weekend', value: 90 },
+    ]},
+    { q: "😢 When a movie makes you emotional:", choices: [
+      { label: '😭 You cry, no shame', value: 100 },
+      { label: '😐 You hold it in', value: 60 },
+      { label: '🤗 You want a hug right after', value: 95 },
+      { label: '😂 You joke to lighten the mood', value: 75 },
+    ]},
+    { q: "🎞️ Rewatching your favorite movie together means:", choices: [
+      { label: '💑 Bonding time', value: 100 },
+      { label: '😌 Comfort and nostalgia', value: 95 },
+      { label: '🎉 Fun no matter how many times', value: 85 },
+      { label: '😴 A chance to relax', value: 70 },
+    ]},
+  ],
+  food: [
+    { q: "🍕 Your go-to comfort food:", choices: [
+      { label: '🍕 Pizza, always', value: 90 },
+      { label: '🍫 Something sweet', value: 95 },
+      { label: '🍜 Warm comfort noodles', value: 85 },
+      { label: '🥘 A home-cooked meal', value: 100 },
+    ]},
+    { q: "🍭 Sweet tooth level:", choices: [
+      { label: '🍰 A dessert to share', value: 100 },
+      { label: '🍫 Chocolate lover', value: 95 },
+      { label: '🍓 Light and fruity', value: 80 },
+      { label: '🚫 Not really a sweet tooth', value: 50 },
+    ]},
+    { q: "🌶️ Your move to make them swoon:", choices: [
+      { label: '🍴 Feeding them a bite off your fork', value: 100 },
+      { label: '🍽️ Letting them pick the dish', value: 85 },
+      { label: '👩‍🍳 Cooking for them', value: 95 },
+      { label: '🎁 Surprising them with their favorite', value: 95 },
+    ]},
+    { q: "🍳 Cooking together, you're:", choices: [
+      { label: '👩‍🍳 The one who takes charge', value: 85 },
+      { label: '🥄 Happy to just help out', value: 90 },
+      { label: '🍷 There for the wine and vibes', value: 80 },
+      { label: '🔥 The one who improvises', value: 95 },
+    ]},
+    { q: "🌍 Food-wise, you love exploring:", choices: [
+      { label: '🍣 New and exotic cuisines', value: 100 },
+      { label: '🍝 Comfort classics done well', value: 85 },
+      { label: '🌮 Street food adventures', value: 95 },
+      { label: '🥗 Healthy, fresh flavors', value: 80 },
+    ]},
+    { q: "🍷 A romantic dinner needs:", choices: [
+      { label: '🕯️ Candlelight', value: 95 },
+      { label: '🍷 Good wine', value: 90 },
+      { label: '🎶 Soft music', value: 85 },
+      { label: '🍽️ Great food, that\'s it', value: 100 },
+    ]},
+    { q: "🍯 Your idea of a food-lover's date:", choices: [
+      { label: '🍫 A dessert tasting', value: 95 },
+      { label: '🍷 A wine and cheese night', value: 100 },
+      { label: '🌮 Street food crawl', value: 90 },
+      { label: '👩‍🍳 A cooking class together', value: 95 },
+    ]},
+  ],
+};
 
 function getTodayDateStr(){
   const d = new Date();
@@ -5815,6 +6200,29 @@ function renderSeducerProfileZone(user, data){
       </div>`;
   }
 
+  const adminPreviewHtml = isAdmin() ? `
+    <div class="seducer-admin-preview" style="margin-top:22px;padding-top:14px;border-top:1px dashed var(--border,#2a2a2a);">
+      <p style="font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--text-muted);margin:0 0 6px;">🔒 Admin preview — all 70 questions</p>
+      <p style="font-size:11px;color:var(--text-muted);margin:0 0 10px;">This full list is only visible to admin, for proofreading. Members never see it this way: on their side, only ONE question unlocks per day, in order, once they've answered the previous one.</p>
+      ${DESIRE_THEMES.map(themeKey => `
+        <details style="margin-bottom:6px;">
+          <summary style="cursor:pointer;font-size:12.5px;font-weight:700;padding:6px 0;">${t('desireTheme_' + themeKey)} (${DESIRE_QUESTIONS_PER_THEME})</summary>
+          <div style="padding:4px 0 8px 10px;">
+            ${DESIRE_QUESTION_BANK[themeKey].map((q, i) => `
+              <div style="margin:0 0 10px;padding:8px;border:1px solid var(--border,#2a2a2a);border-radius:8px;">
+                <p style="font-size:10px;color:var(--text-muted);margin:0 0 4px;">🔒 Day ${i + 1}/${DESIRE_QUESTIONS_PER_THEME} — to unlock</p>
+                <p style="font-size:12.5px;margin:0 0 6px;">${escText(q.q)}</p>
+                <ul style="margin:0;padding-left:16px;font-size:11.5px;color:var(--text-muted);">
+                  ${q.choices.map(c => `<li>${escText(c.label)}</li>`).join('')}
+                </ul>
+              </div>
+            `).join('')}
+          </div>
+        </details>
+      `).join('')}
+    </div>
+  ` : '';
+
   zone.innerHTML = `
     <div class="seducer-progress-wrap" style="margin-bottom:12px;">
       <div style="display:flex;justify-content:space-between;font-size:10.5px;color:var(--text-muted);margin-bottom:4px;">
@@ -5824,11 +6232,12 @@ function renderSeducerProfileZone(user, data){
       <div style="height:8px;border-radius:4px;background:var(--bg-elev,#1c1c1c);overflow:hidden;">
         <div style="height:100%;width:${percent}%;background:linear-gradient(90deg,#2f7bff,#e0455a);transition:width .4s;"></div>
       </div>
-      ${!complete ? `<p style="font-size:10.5px;color:var(--text-muted);margin:6px 0 0;">${t('desireProgressTeaser')}</p>` : ''}
+      ${!complete ? `<p style="font-size:10.5px;color:var(--text-muted);margin:6px 0 0;">${t('desireProgressTeaser')}</p><p style="font-size:10.5px;color:var(--text-muted);margin:2px 0 0;">${t('desireCompatibilityLine')}</p>` : ''}
     </div>
     ${questionBlockHtml}
     <p style="font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--text-muted);margin:18px 0 4px;">${t('desireThemeScoresTitle')}</p>
     <div class="seducer-scores-table">${scoresHtml}</div>
+    ${adminPreviewHtml}
   `;
 
   if(!complete && !answeredToday){
