@@ -274,6 +274,32 @@ let LANG = detectInitialLang();
 const I18N = {
   en: {
     giftTipTitle: "Send a tip",
+    subscribeSectionTitle: "Subscriber offer",
+    subscribeDefaultDesc: "Subscribe to unlock exclusive photo, video and audio packs made just for my subscribers.",
+    subscribeBtn: "Subscribe",
+    subscribedBtn: "Subscribed",
+    subscribePageTitle: "Subscribe to {name}",
+    subscribePerkPhoto: "Exclusive subscriber-only photos",
+    subscribePerkVideo: "Exclusive subscriber-only videos",
+    subscribePerkAudio: "Exclusive subscriber-only audio",
+    subscribePayBtn: "Pay subscription",
+    subscribeFictifNote: "Payments aren't live yet — this button will work soon.",
+    subscribeBackBtn: "Back to profile",
+    subscribeMockToast: "Subscribed! (test mode — no payment taken yet)",
+    subscriberBadgeTitle: "Subscriber",
+    subConfigBtnLabel: "Subscription offer",
+    subConfigTitle: "Your subscription offer",
+    subConfigDescLabel: "Description shown to members",
+    subConfigNoPacks: "No packs yet — add one below.",
+    subConfigAddPack: "Add a pack",
+    subConfigSaveBtn: "Save",
+    subPackPriceLabel: "Price (10–100€)",
+    subPackDescLabel: "Short description",
+    subPackDescPh: "e.g. Behind the scenes photo set",
+    subPackPickerTitle: "Send a subscriber pack",
+    subPackPickerEmpty: "No packs configured yet — add some from your Subscription offer page.",
+    subPackMessageText: "🏆 Exclusive subscriber pack — {price}€",
+    subPackSentToast: "Pack sent!",
     giftTipSubtitle: "Want to put a smile on your favorite creator's face? Pick an amount to send her.",
     giftTipSendBtn: "Send tip",
     giftTipMessageText: "Sent a {amount}€ tip {emoji}",
@@ -1965,6 +1991,7 @@ function renderMyProfile(slotId){
       <h1 class="display" style="font-size:24px;">${t('myProfileHello')}${m.name ? ', ' + escText(m.name) : ''}</h1>
       <p style="color:var(--text-muted);font-size:13px;max-width:420px;margin:10px auto 0;line-height:1.7;">${t('myProfileManageNote')}</p>
       <button class="btn btn-primary" id="my-edit-btn" style="max-width:280px;margin:18px auto 0;">${t('myEditBtn')}</button>
+      <button class="btn btn-primary" id="my-subscription-btn" style="max-width:280px;margin:10px auto 0;">${t('subConfigBtnLabel')}</button>
     </div>
     <div class="popularity-hero" id="popularity-hero-${m.id}">
       <div class="tiktok-stat"><span class="tiktok-stat-num">${(m.followingMembers || []).length}</span><span class="tiktok-stat-label">${t('followingLabel')}</span></div>
@@ -2111,6 +2138,7 @@ function renderMyProfile(slotId){
   });
 
   document.getElementById('my-edit-btn').onclick = () => openMyProfileEdit(m);
+  document.getElementById('my-subscription-btn').onclick = () => openSubscriptionConfigPage(m);
   wireSlideArrows(body);
   const homeVideoInput = document.getElementById('home-video-file-' + m.id);
   if(homeVideoInput){
@@ -8060,7 +8088,7 @@ async function openChat(ctx){
   closeChatListeners();
 
   document.getElementById('chat-header-avatar').innerHTML = ctx.otherPhoto ? `<img src="${escAttr(ctx.otherPhoto)}" alt="" loading="lazy" decoding="async">` : '🍯';
-  document.getElementById('chat-header-name').textContent = ctx.otherName || '';
+  document.getElementById('chat-header-name').innerHTML = escText(ctx.otherName || '') + (ctx.otherIsSubscriber ? `<span class="subscriber-trophy-wrap" title="${escAttr(t('subscriberBadgeTitle'))}">${ICON_TROPHY_GOLD}</span>` : '');
   document.getElementById('chat-header-status').textContent = '';
   wireChatModPanel();
   wireChatOccasionPanel(ctx);
@@ -8260,8 +8288,10 @@ function wireChatReactionRail(){
   const rail = document.getElementById('chat-reaction-rail');
   if(!rail || rail.dataset.wired) return;
   rail.dataset.wired = '1';
+  const isCreatorView = chatCtx && chatCtx.viewerType === 'creator';
   const reactions = [
     { key: 'gift', icon: ICON_GIFT, title: 'Cadeau' },
+    ...(isCreatorView ? [{ key: 'subpack', icon: ICON_TROPHY_GOLD, title: 'Mes abonnés' }] : []),
     { key: 'heart', icon: ICON_HEART_SM, title: 'Cœur' },
     { key: 'like', icon: ICON_THUMBSUP, title: "J'aime" },
     { key: 'happy', icon: ICON_SMILE, title: 'Content' },
@@ -8272,6 +8302,10 @@ function wireChatReactionRail(){
     btn.onclick = async () => {
       if(btn.dataset.reaction === 'gift' && chatCtx && chatCtx.viewerType === 'member'){
         openGiftTipPicker();
+        return;
+      }
+      if(btn.dataset.reaction === 'subpack' && chatCtx && chatCtx.viewerType === 'creator'){
+        openSubPackSender();
         return;
       }
       spawnFloatingReaction(btn.dataset.reaction);
@@ -8291,6 +8325,27 @@ function wireChatReactionRail(){
 /* Styles injectés pour le nouveau sélecteur de tip à paliers (slider + emoji qui
    évolue avec le montant) — le popover lui-même (.gift-tip-popover/.gift-tip-title)
    garde son style existant dans styles.css, seul le contenu interne est nouveau. */
+if(!document.getElementById('hm-subscribe-style')){
+  const st2 = document.createElement('style');
+  st2.id = 'hm-subscribe-style';
+  st2.textContent = `
+    .subscriber-trophy-wrap{display:inline-flex;vertical-align:-2px;margin-left:4px;}
+    .room-subscribe-block{margin:14px 0;padding:14px 16px;border-radius:16px;background:linear-gradient(135deg,rgba(246,223,160,.10),rgba(224,69,90,.08));border:1px solid rgba(246,223,160,.35);}
+    .room-subscribe-title{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13.5px;color:var(--honey,#f6dfa0);margin-bottom:6px;}
+    .room-subscribe-desc{font-size:11.5px;color:var(--text-muted,#a89bb0);line-height:1.55;margin:0 0 12px;}
+    .room-subscribe-btn.subscribed{background:var(--bg-elev,#1c1420);color:var(--honey,#f6dfa0);border:1px solid var(--honey,#f6dfa0);}
+    .subscribe-page-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9998;display:flex;align-items:center;justify-content:center;padding:16px;animation:giftTipFadeIn .15s ease;}
+    .subscribe-page{width:100%;max-width:420px;max-height:90vh;overflow-y:auto;background:var(--bg-elev,#1c1420);border:1px solid var(--border,#3a2e40);border-radius:20px;padding:26px 22px;text-align:center;display:flex;flex-direction:column;}
+    .subscribe-page-hero{display:flex;justify-content:center;margin-bottom:10px;transform:scale(2.4);}
+    .subscribe-page-title{font-size:18px;font-weight:700;color:var(--text,#fff);margin:14px 0 10px;}
+    .subscribe-page-desc{font-size:12.5px;color:var(--text-muted,#a89bb0);line-height:1.6;margin:0 0 16px;}
+    .subscribe-page-perks{display:flex;flex-direction:column;gap:8px;margin-bottom:20px;text-align:left;}
+    .subscribe-perk{font-size:12px;color:var(--text,#fff);background:var(--bg,#120d16);border:1px solid var(--border,#3a2e40);border-radius:10px;padding:9px 12px;}
+    .subscribe-fictif-note{font-size:10px;color:var(--text-muted,#a89bb0);margin:8px 0 16px;font-style:italic;}
+    .subscribe-page .subscribe-pay-btn{margin-bottom:8px;}
+  `;
+  document.head.appendChild(st2);
+}
 if(!document.getElementById('hm-gift-tip-style')){
   const st = document.createElement('style');
   st.id = 'hm-gift-tip-style';
@@ -8391,6 +8446,72 @@ async function sendGiftTip(amount){
     toast(t('giftTipSentToast'));
     playChatSendSound();
   }catch(e){ console.error('send gift tip error', e); toast(t('memberErrUnknown')); }
+}
+
+/* ---------------- "Mes abonnés" — la créatrice envoie un pack déjà préparé ----------------
+   Bouton dans la barre de réactions du chat (créatrice uniquement). Va chercher ses packs
+   configurés (profiles/{id}.subscriptionPacks), en choisit un, l'envoie dans CETTE conversation
+   comme un message "custom order" déjà délivré — le membre voit une carte à débloquer,
+   exactement comme pour une commande personnalisée classique. */
+async function openSubPackSender(){
+  if(!chatCtx) return;
+  document.querySelectorAll('.gift-tip-popover-backdrop').forEach(p => p.remove());
+  const backdrop = document.createElement('div');
+  backdrop.className = 'gift-tip-popover-backdrop';
+  const pop = document.createElement('div');
+  pop.className = 'gift-tip-popover';
+  pop.innerHTML = `
+    <div class="gift-tip-title">${ICON_TROPHY_GOLD} ${t('subPackPickerTitle')}</div>
+    <div id="sub-pack-picker-list"><p class="member-note">${t('chatLoading')}</p></div>
+    <button type="button" class="btn btn-ghost btn-sm" id="sub-pack-picker-cancel" style="width:100%;margin-top:10px;">${t('memberBioCancelBtn')}</button>
+  `;
+  backdrop.appendChild(pop);
+  document.body.appendChild(backdrop);
+  document.getElementById('sub-pack-picker-cancel').onclick = () => backdrop.remove();
+  backdrop.addEventListener('click', (ev) => { if(ev.target === backdrop) backdrop.remove(); });
+  const typeIconSvg = { photo: ICON_CAMERA, video: ICON_VIDEO, audio: ICON_AUDIO };
+  try{
+    const doc = await db.collection('profiles').doc(chatCtx.profileId).get();
+    const packs = (doc.exists && doc.data().subscriptionPacks) || [];
+    const listEl = document.getElementById('sub-pack-picker-list');
+    if(!packs.length){
+      listEl.innerHTML = `<p class="member-note">${t('subPackPickerEmpty')}</p>`;
+      return;
+    }
+    listEl.innerHTML = packs.map((p, idx) => `
+      <button type="button" class="coach-table-row" data-idx="${idx}">${typeIconSvg[p.type || 'photo'] || ''} ${(p.type||'photo')} — ${p.price}€${p.description ? ' · ' + escText(p.description) : ''}</button>
+    `).join('');
+    listEl.querySelectorAll('[data-idx]').forEach(btn => {
+      btn.onclick = () => {
+        const pack = packs[parseInt(btn.dataset.idx, 10)];
+        backdrop.remove();
+        sendSubPack(pack);
+      };
+    });
+  }catch(e){
+    console.error('load subscription packs error', e);
+    document.getElementById('sub-pack-picker-list').innerHTML = `<p class="member-note">${t('memberErrUnknown')}</p>`;
+  }
+}
+async function sendSubPack(pack){
+  if(!chatCtx || !pack) return;
+  const ctx = chatCtx;
+  const orderText = t('subPackMessageText').replace('{price}', pack.price);
+  try{
+    const convRef = db.collection('profiles').doc(ctx.profileId).collection('conversations').doc(ctx.memberUid);
+    await convRef.collection('messages').add({
+      senderType: 'creator', text: orderText, customOrderRequest: true, customOrderStatus: 'delivered',
+      orderKind: 'subPack', tipPrice: pack.price,
+      deliveredContentUrl: pack.contentUrl || '', deliveredContentType: pack.type || 'photo',
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    await convRef.set({
+      lastMessageText: '🏆 ' + orderText, lastMessageAt: firebase.firestore.FieldValue.serverTimestamp(),
+      lastSenderType: 'creator', memberUnreadCount: firebase.firestore.FieldValue.increment(1)
+    }, { merge: true });
+    toast(t('subPackSentToast'));
+    playChatSendSound();
+  }catch(e){ console.error('send sub pack error', e); toast(t('memberErrUnknown')); }
 }
 function wireChatModPanel(){
   const btn = document.getElementById('chat-mod-btn');
@@ -9208,6 +9329,11 @@ async function renderMyMessages(m){
     if(auth && !auth.currentUser){ try{ await auth.signInAnonymously(); }catch(e){} }
     const snap = await db.collection('profiles').doc(m.id).collection('conversations')
       .orderBy('lastMessageAt', 'desc').limit(100).get();
+    let subscriberUids = new Set();
+    try{
+      const subsSnap = await memberDb.collection('profiles').doc(m.id).collection('subscribers').get();
+      subscriberUids = new Set(subsSnap.docs.map(d => d.id));
+    }catch(e){ console.error('load subscribers list error', e); }
     const badgeEl = document.getElementById('creator-msg-badge-' + m.id);
     const customBadgeEl = document.getElementById('creator-orders-custom-badge-' + m.id);
     const tipBadgeEl = document.getElementById('creator-orders-tip-badge-' + m.id);
@@ -9239,11 +9365,13 @@ async function renderMyMessages(m){
       const unread = c.creatorUnreadCount || 0;
       const hasCustomOrder = (c.pendingCustomOrderCount || 0) > 0;
       const hasTipOrder = (c.pendingTipOrderCount || 0) > 0;
+      const isSubscriber = subscriberUids.has(d.id);
       return `
         <button type="button" class="conv-list-row" data-uid="${d.id}">
           <span class="conv-list-avatar">👤</span>
           <span class="conv-list-body">
             <span class="conv-list-name">${escText(c.memberUsername || t('nameUndefined'))}
+              ${isSubscriber ? `<span class="subscriber-trophy-wrap" title="${escAttr(t('subscriberBadgeTitle'))}">${ICON_TROPHY_GOLD}</span>` : ''}
               ${hasCustomOrder ? `<span class="conv-order-dot conv-order-dot-custom" title="${escAttr(t('ordersCustomTabLabel'))}"></span>` : ''}
               ${hasTipOrder ? `<span class="conv-order-dot conv-order-dot-tip" title="${escAttr(t('ordersTipTabLabel'))}"></span>` : ''}
             </span>
@@ -9265,6 +9393,7 @@ async function renderMyMessages(m){
           profileId: m.id, viewerType: 'creator', memberUid: btn.dataset.uid,
           memberUsername: c.memberUsername || '', creatorName: m.name || '',
           otherName: c.memberUsername || t('nameUndefined'), otherPhoto: avatarInfo.photoURL || null, otherUxd,
+          otherIsSubscriber: subscriberUids.has(btn.dataset.uid),
           myPhoto: m.photo || ''
         });
       };
@@ -10249,6 +10378,8 @@ const ICON_CAMERA = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none"
 const ICON_AUDIO = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>';
 const ICON_HELP = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';
 const ICON_GIFT = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>';
+/* Coupe dorée SVG — badge affiché à côté du pseudo des membres abonnés. */
+const ICON_TROPHY_GOLD = '<svg class="subscriber-trophy-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f6dfa0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z"/><path d="M7 5H4a2 2 0 0 0 0 4h1.5M17 5h3a2 2 0 0 1 0 4h-1.5"/></svg>';
 const ICON_HEART_SM = '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg>';
 const ICON_HEART_OUTLINE = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg>';
 const ICON_THUMBSUP = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>';
@@ -11091,6 +11222,11 @@ async function openVitrineRoom(id, isBackgroundRefresh){
       <button type="button" class="follow-btn room-support-btn" id="room-follow-btn" data-id="${m.id}">${t('followBtn')}</button>
       <div class="room-follower-count"><span id="room-follower-badge">${followerBadgeHtml(m.followersCount)}</span> ${m.followersCount || 0} ${t('followersLabel')}</div>
     </div>
+    <div class="room-subscribe-block">
+      <div class="room-subscribe-title">${ICON_TROPHY_GOLD} ${t('subscribeSectionTitle')}</div>
+      <p class="room-subscribe-desc">${escText(m.subscriptionDesc || t('subscribeDefaultDesc'))}</p>
+      <button type="button" class="btn btn-primary room-subscribe-btn" id="room-subscribe-btn">${t('subscribeBtn')}</button>
+    </div>
     <button type="button" class="room-chat-cta room-chat-btn" data-id="${m.id}">${ICON_CHAT_SM} ${t('chatStartBtn')}</button>
     ${(m.eventBanner && m.eventBanner.endAt && Date.now() < m.eventBanner.endAt && Date.now() >= (m.eventBanner.startAt || 0)) ? `
     <div class="room-event-banner">
@@ -11263,6 +11399,7 @@ async function openVitrineRoom(id, isBackgroundRefresh){
   });
   initFavoriteButtonsState();
   wireRoomFollowButton(m);
+  wireRoomSubscribeButton(m);
   const tipMenuChatBtn = document.getElementById('vitrine-room-body').querySelector('.tipmenu-custom-chat-btn[data-id]');
   if(tipMenuChatBtn) tipMenuChatBtn.onclick = async () => {
     if(!memberAuth || !memberAuth.currentUser || memberAuth.currentUser.isAnonymous){ promptSignupForMembersOnly('chat'); return; }
@@ -11385,6 +11522,187 @@ async function wireRoomFollowButton(m){
     }catch(e){ console.error('toggle follow creator error', e); toast(t('memberErrUnknown')); }
     btn.disabled = false;
   };
+}
+
+/* ---------------- Abonnement (fictif pour l'instant) ----------------
+   Même schéma que le "follow" ci-dessus : le membre écrit lui-même le miroir
+   profiles/{creatorId}/subscribers/{memberUid} via memberDb (la créatrice a le
+   droit de lire cette sous-collection en entier, mais pas la collection "members"),
+   ce qui permet à la créatrice de savoir qui est abonné sans changer les règles
+   Firestore. Le paiement réel n'existe pas encore : "S'abonner" écrit directement
+   le miroir + un toast "fictif", en attendant l'intégration du vrai paiement. */
+async function wireRoomSubscribeButton(m){
+  const btn = document.getElementById('room-subscribe-btn');
+  if(!btn) return;
+  let isSubscribed = false;
+  if(memberAuth && memberAuth.currentUser){
+    try{
+      const doc = await memberDb.collection('profiles').doc(m.id).collection('subscribers').doc(memberAuth.currentUser.uid).get();
+      isSubscribed = doc.exists;
+    }catch(e){ console.error('load subscribe state error', e); }
+  }
+  const setState = (sub) => {
+    btn.classList.toggle('subscribed', sub);
+    btn.textContent = sub ? t('subscribedBtn') : t('subscribeBtn');
+  };
+  setState(isSubscribed);
+  btn.onclick = () => {
+    if(!memberAuth || !memberAuth.currentUser || memberAuth.currentUser.isAnonymous){ promptSignupForMembersOnly('favorite'); return; }
+    if(isSubscribed) return;
+    openSubscribePage(m, () => { isSubscribed = true; setState(true); });
+  };
+}
+function openSubscribePage(m, onSubscribed){
+  document.querySelectorAll('.subscribe-page-backdrop').forEach(p => p.remove());
+  const backdrop = document.createElement('div');
+  backdrop.className = 'subscribe-page-backdrop';
+  backdrop.innerHTML = `
+    <div class="subscribe-page">
+      <div class="subscribe-page-hero">${ICON_TROPHY_GOLD}</div>
+      <h2 class="subscribe-page-title">${escText(t('subscribePageTitle').replace('{name}', m.name || t('nameUndefined')))}</h2>
+      <p class="subscribe-page-desc">${escText(m.subscriptionDesc || t('subscribeDefaultDesc'))}</p>
+      <div class="subscribe-page-perks">
+        <div class="subscribe-perk">📷 ${t('subscribePerkPhoto')}</div>
+        <div class="subscribe-perk">🎥 ${t('subscribePerkVideo')}</div>
+        <div class="subscribe-perk">🎵 ${t('subscribePerkAudio')}</div>
+      </div>
+      <button type="button" class="btn btn-primary subscribe-pay-btn" id="subscribe-pay-btn">${t('subscribePayBtn')}</button>
+      <p class="subscribe-fictif-note">${t('subscribeFictifNote')}</p>
+      <button type="button" class="btn btn-ghost" id="subscribe-back-btn">${t('subscribeBackBtn')}</button>
+    </div>
+  `;
+  document.body.appendChild(backdrop);
+  document.getElementById('subscribe-back-btn').onclick = () => backdrop.remove();
+  document.getElementById('subscribe-pay-btn').onclick = async () => {
+    const user = memberAuth.currentUser;
+    if(!user) return;
+    const payBtn = document.getElementById('subscribe-pay-btn');
+    payBtn.disabled = true;
+    try{
+      const memberRef = memberDb.collection('members').doc(user.uid);
+      const memberSnap = await memberRef.get();
+      const memberData = memberSnap.exists ? memberSnap.data() : {};
+      const subMirrorRef = memberDb.collection('profiles').doc(m.id).collection('subscribers').doc(user.uid);
+      await subMirrorRef.set({
+        username: memberData.username || '', photoURL: memberData.photoURL || '',
+        subscribedAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      toast(t('subscribeMockToast'));
+      backdrop.remove();
+      if(onSubscribed) onSubscribed();
+    }catch(e){ console.error('subscribe error', e); toast(t('memberErrUnknown')); }
+    payBtn.disabled = false;
+  };
+}
+
+/* ---------------- Configuration de l'offre d'abonnement (côté créatrice) ----------------
+   Réutilise exactement le même mécanisme d'upload que le Tip Menu (dualUploadZoneHtml +
+   wireDualUpload + uploadToR2), stocké dans profiles/{id}.subscriptionPacks (+ subscriptionDesc)
+   — lu par le sélecteur du bouton "Mes abonnés" dans le chat et par la page d'abonnement membre. */
+function openSubscriptionConfigPage(m){
+  document.querySelectorAll('.subscribe-page-backdrop').forEach(p => p.remove());
+  let localPacks = (m.subscriptionPacks || []).map(p => Object.assign({}, p));
+  let localDesc = m.subscriptionDesc || '';
+  const backdrop = document.createElement('div');
+  backdrop.className = 'subscribe-page-backdrop';
+  const typeIconSvg = { photo: ICON_CAMERA, video: ICON_VIDEO, audio: ICON_AUDIO };
+  const typeAccept = { photo: 'image/*', video: 'video/*', audio: 'audio/*' };
+
+  function rowHtml(pack, idx){
+    const type = pack.type || 'photo';
+    return `
+      <div class="sub-pack-row" data-idx="${idx}" style="border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:10px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+          <div class="tipmenu-type-toggle">
+            <button type="button" class="tipmenu-type-btn ${type==='photo'?'active':''}" data-idx="${idx}" data-type="photo">${ICON_CAMERA} ${t('tipMenuColPhoto')}</button>
+            <button type="button" class="tipmenu-type-btn ${type==='video'?'active':''}" data-idx="${idx}" data-type="video">${ICON_VIDEO} ${t('tipMenuColVideo')}</button>
+            <button type="button" class="tipmenu-type-btn ${type==='audio'?'active':''}" data-idx="${idx}" data-type="audio">${ICON_AUDIO} ${t('tipMenuColAudio')}</button>
+          </div>
+          <button type="button" class="sub-pack-rm" data-idx="${idx}" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:14px;">✕</button>
+        </div>
+        <label>${t('subPackPriceLabel')}</label>
+        <input type="number" class="sub-pack-price" data-idx="${idx}" min="10" max="100" step="1" value="${pack.price||''}" placeholder="10–100€">
+        <label style="margin-top:8px;">${t('subPackDescLabel')}</label>
+        <input type="text" class="sub-pack-desc" data-idx="${idx}" maxlength="60" value="${escAttr(pack.description||'')}" placeholder="${escAttr(t('subPackDescPh'))}">
+        <div style="margin-top:8px;">
+          ${pack.contentUrl ? `
+            <div class="tipmenu-content-preview">
+              ${type==='video' ? `<video src="${escAttr(pack.contentUrl)}" controls></video>` : type==='audio' ? `<audio src="${escAttr(pack.contentUrl)}" controls></audio>` : `<img src="${escAttr(pack.contentUrl)}" loading="lazy" decoding="async">`}
+              <button type="button" class="sub-pack-content-rm" data-idx="${idx}">✕</button>
+            </div>` : dualUploadZoneHtml('sub-pack-content-' + idx, typeAccept[type])}
+        </div>
+      </div>`;
+  }
+
+  function render(){
+    backdrop.innerHTML = `
+      <div class="subscribe-page" style="max-width:520px;text-align:left;">
+        <h2 class="subscribe-page-title" style="margin-top:0;">${t('subConfigTitle')}</h2>
+        <label>${t('subConfigDescLabel')}</label>
+        <textarea id="sub-desc-input" rows="3" maxlength="200" placeholder="${escAttr(t('subscribeDefaultDesc'))}" style="width:100%;background:var(--bg-elev);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:8px 10px;">${escText(localDesc)}</textarea>
+        <div id="sub-packs-rows" style="margin-top:14px;">${localPacks.map(rowHtml).join('') || `<p class="member-note">${t('subConfigNoPacks')}</p>`}</div>
+        <button type="button" class="btn btn-ghost btn-sm" id="sub-add-row" style="margin-top:6px;width:100%;">+ ${t('subConfigAddPack')}</button>
+        <div class="modal-actions" style="margin-top:16px;">
+          <button type="button" class="btn btn-primary btn-sm" id="sub-config-save" style="flex:1;">${t('subConfigSaveBtn')}</button>
+        </div>
+        <button type="button" class="btn btn-ghost" id="sub-config-back" style="margin-top:10px;">${t('subscribeBackBtn')}</button>
+      </div>
+    `;
+    document.getElementById('sub-desc-input').oninput = (e) => { localDesc = e.target.value; };
+    backdrop.querySelectorAll('.tipmenu-type-btn').forEach(btn => {
+      btn.onclick = () => { localPacks[parseInt(btn.dataset.idx, 10)].type = btn.dataset.type; render(); };
+    });
+    backdrop.querySelectorAll('.sub-pack-price').forEach(inp => {
+      inp.onchange = () => { localPacks[parseInt(inp.dataset.idx, 10)].price = Math.max(10, Math.min(100, parseInt(inp.value, 10) || 10)); };
+    });
+    backdrop.querySelectorAll('.sub-pack-desc').forEach(inp => {
+      inp.oninput = () => { localPacks[parseInt(inp.dataset.idx, 10)].description = inp.value; };
+    });
+    backdrop.querySelectorAll('.sub-pack-rm').forEach(btn => {
+      btn.onclick = () => { localPacks.splice(parseInt(btn.dataset.idx, 10), 1); render(); };
+    });
+    backdrop.querySelectorAll('.sub-pack-content-rm').forEach(btn => {
+      btn.onclick = () => { localPacks[parseInt(btn.dataset.idx, 10)].contentUrl = ''; render(); };
+    });
+    localPacks.forEach((pack, idx) => {
+      if(!pack.contentUrl){
+        wireDualUpload('sub-pack-content-' + idx, async (files) => {
+          const file = files[0];
+          if(!file) return;
+          try{
+            const url = await uploadToR2(auth, file, 'subscription-packs/' + m.id);
+            localPacks[idx].contentUrl = url;
+            toast(t('addedToast'));
+            render();
+          }catch(err){ console.error('sub pack upload error', err); toast(t('uploadFailed')); }
+        });
+      }
+    });
+    document.getElementById('sub-add-row').onclick = () => {
+      if(localPacks.length >= 15){ toast(t('tipMenuMaxRows')); return; }
+      localPacks.push({ type: 'photo', price: null, description: '', contentUrl: '' });
+      render();
+    };
+    document.getElementById('sub-config-back').onclick = () => backdrop.remove();
+    document.getElementById('sub-config-save').onclick = async () => {
+      const collected = localPacks.filter(p => p.price && p.contentUrl).map(p => ({
+        id: p.id || ('pk_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7)),
+        type: p.type || 'photo', price: p.price, description: (p.description || '').slice(0, 60), contentUrl: p.contentUrl
+      }));
+      const saveBtn = document.getElementById('sub-config-save');
+      saveBtn.disabled = true;
+      try{
+        await db.collection('profiles').doc(m.id).set({ subscriptionPacks: collected, subscriptionDesc: localDesc.trim() }, { merge: true });
+        m.subscriptionPacks = collected;
+        m.subscriptionDesc = localDesc.trim();
+        toast(t('addedToast'));
+        backdrop.remove();
+      }catch(e){ console.error('save subscription packs error', e); toast(t('memberErrUnknown')); }
+      saveBtn.disabled = false;
+    };
+  }
+  render();
+  document.body.appendChild(backdrop);
 }
 document.getElementById('vitrine-backdrop').onclick = closeVitrineRoom;
 document.getElementById('vitrine-room-close').onclick = closeVitrineRoom;
