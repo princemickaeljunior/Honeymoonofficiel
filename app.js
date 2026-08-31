@@ -1988,6 +1988,7 @@ function renderMyProfile(slotId){
         <button type="button" class="my-tab-btn" id="my-tab-btn-ca">${ICON_MY_CA}${t('myFamilyCA')}</button>
         <button type="button" class="my-tab-btn" id="my-tab-btn-tools">${ICON_MY_TOOLS}${t('myFamilyTools')}</button>
         <button type="button" class="my-tab-btn" id="my-tab-btn-rules">${ICON_MY_RULES}${t('myFamilyRules')}</button>
+        <button type="button" class="my-tab-btn" id="my-tab-btn-coach"><span class="coach-gold-led">🍯 ${t('toolCoachHoneymoon')}</span></button>
       </div>
     </div>
 
@@ -2078,9 +2079,13 @@ function renderMyProfile(slotId){
       </div>
       <div id="my-deletion-zone" style="margin-top:20px;max-width:460px;"></div>
     </div>
+
+    <div class="my-tab-panel" id="my-tab-panel-coach">
+      <div id="tool-panel-coach"></div>
+    </div>
   `;
 
-  const myTabs = ['ideas', 'content', 'messages', 'members', 'comments', 'ca', 'tipmenu', 'tools', 'rules'];
+  const myTabs = ['ideas', 'content', 'messages', 'members', 'comments', 'ca', 'tipmenu', 'tools', 'rules', 'coach'];
   function showMyTab(name){
     // Dès qu'elle choisit un onglet, on retire le message d'accueil : c'est bien
     // elle qui décide par quoi commencer, aucun onglet n'est présélectionné à l'arrivée.
@@ -2150,6 +2155,7 @@ function renderMyProfile(slotId){
   renderMyPaidGallery(m);
   renderMyTools(m);
   renderMyDeletionZone(m);
+  renderToolCoach(m);
   renderMyPopularity(m);
   renderMyTipMenu(m);
   renderLevelBar(m);
@@ -2914,13 +2920,11 @@ function renderMyTools(m){
       <button class="room-tab-btn" data-tool="notes">${ICON_NOTE}${t('toolNotes')}</button>
       <button class="room-tab-btn" data-tool="calc">${ICON_CALC}${t('toolCalc')}</button>
       <button class="room-tab-btn" data-tool="finance">${ICON_COIN}${t('toolFinance')}</button>
-      <button class="room-tab-btn" data-tool="coach"><span class="coach-gold-led">🍯 ${t('toolCoachHoneymoon')}</span></button>
     </div>
     <div class="room-tab-panel active" id="tool-panel-calendar"></div>
     <div class="room-tab-panel" id="tool-panel-notes"></div>
     <div class="room-tab-panel" id="tool-panel-calc"></div>
     <div class="room-tab-panel" id="tool-panel-finance"></div>
-    <div class="room-tab-panel" id="tool-panel-coach"></div>
   `;
   zone.querySelectorAll('#tools-tabs .room-tab-btn').forEach(btn => {
     btn.onclick = () => {
@@ -2935,7 +2939,6 @@ function renderMyTools(m){
   renderToolNotes(m);
   renderToolCalc(m);
   renderToolFinance(m);
-  renderToolCoach(m);
 }
 
 /* ---------------- Calendrier ---------------- */
@@ -3832,7 +3835,6 @@ function coachChatHeaderHtml(subtitle){
       <div class="coach-chat-title">Coach Honeymoon</div>
       <div class="coach-chat-subtitle">${escText(subtitle)}</div>
     </div>
-    <span class="coach-chat-badge">CHAT</span>
   </div>`;
 }
 
