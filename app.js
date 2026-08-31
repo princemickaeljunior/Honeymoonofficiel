@@ -572,7 +572,8 @@ const I18N = {
     memberHomeWelcomeLine: "Follow your favorite creators, chat with them, and find all your purchases here.",
     memberTabSeducerProfile: "Seducer Profile",
     desireProfileThemeLabel: "Current theme",
-    desireProfileComplete: "Your Desire Profile is complete — 100%",
+    desireProfileComplete: "🎉 You're in — your profile will be shown among the first to creators on the site.",
+    desireProgressTeaser: "Complete your profile so creators see it among the first.",
     desireProfilePoints: "points",
     desireProgressLabel: "Profile completed",
     desireQuestionOfDay: "Today's question",
@@ -5823,6 +5824,7 @@ function renderSeducerProfileZone(user, data){
       <div style="height:8px;border-radius:4px;background:var(--bg-elev,#1c1c1c);overflow:hidden;">
         <div style="height:100%;width:${percent}%;background:linear-gradient(90deg,#2f7bff,#e0455a);transition:width .4s;"></div>
       </div>
+      ${!complete ? `<p style="font-size:10.5px;color:var(--text-muted);margin:6px 0 0;">${t('desireProgressTeaser')}</p>` : ''}
     </div>
     ${questionBlockHtml}
     <p style="font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--text-muted);margin:18px 0 4px;">${t('desireThemeScoresTitle')}</p>
@@ -5858,6 +5860,7 @@ async function answerSeducerQuestion(user, data, choiceIdx){
     questionIndex = 0;
     themeIndex += 1;
   }
+  const justCompleted = themeIndex >= DESIRE_THEMES.length && st.themeIndex < DESIRE_THEMES.length;
   const desireProfile = {
     themeIndex, questionIndex, points, themeScores,
     lastAnsweredDate: getTodayDateStr(),
@@ -5865,7 +5868,7 @@ async function answerSeducerQuestion(user, data, choiceIdx){
   try{
     await memberDb.collection('members').doc(user.uid).set({ desireProfile }, { merge: true });
     data.desireProfile = desireProfile;
-    toast(t('desireAnswerSaved'));
+    toast(justCompleted ? t('desireProfileComplete') : t('desireAnswerSaved'));
     renderSeducerProfileZone(user, data);
   }catch(e){ console.error('answerSeducerQuestion error', e); toast(t('memberErrUnknown')); }
 }
