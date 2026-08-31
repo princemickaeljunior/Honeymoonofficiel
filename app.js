@@ -596,11 +596,11 @@ const I18N = {
     desireAnswerSaved: "Answer saved!",
     desireThemeScoresTitle: "Your scores by theme",
     desireThemeNotStarted: "Not started yet",
-    desireTheme_love: "Love",
-    desireTheme_affection: "Affection",
-    desireTheme_listening: "Listening",
-    desireTheme_physicalAttraction: "Physical attraction",
-    desireTheme_personalityAttraction: "Personality attraction",
+    desireTheme_flirt: "Flirt",
+    desireTheme_playful: "Playful",
+    desireTheme_talkative: "Talkative",
+    desireTheme_humor: "Humor",
+    desireTheme_seduction: "Seduction",
     desireTheme_travel: "Travel",
     desireTheme_music: "Music",
     desireTheme_restaurants: "Restaurants",
@@ -2195,7 +2195,7 @@ function renderLevelBarGeneric(containerId, tiers, value, valueLabelKey, descKey
      les questions (étape 2) ne sont pas câblées, l'état par défaut est à 0.
    ================================================================ */
 const DESIRE_THEMES = [
-  'love', 'affection', 'listening', 'physicalAttraction', 'personalityAttraction',
+  'flirt', 'playful', 'talkative', 'seduction', 'humor',
   'travel', 'music', 'restaurants', 'movies', 'food'
 ];
 const DESIRE_QUESTIONS_PER_THEME = 7;
@@ -5726,224 +5726,224 @@ function switchMemberTab(user, data, activeTab){
 // Banque de questions par thème — 70 questions (10 thèmes × 7), en anglais,
 // avec emoji sur chaque question et chaque réponse.
 const DESIRE_QUESTION_BANK = {
-  love: [
-    { q: "💕 What matters most to you in a relationship?", choices: [
-      { label: '🤝 Everyday closeness and complicity', value: 100 },
-      { label: '🔥 Passion and intensity', value: 75 },
-      { label: '🛡️ Stability and trust', value: 50 },
-      { label: '🦋 Independence within the couple', value: 25 },
+  flirt: [
+    { q: "😘 Your flirting style is more:", choices: [
+      { label: '👀 A playful, teasing look', value: 90 },
+      { label: '💬 Witty, flirty texts', value: 100 },
+      { label: '😏 Slow and mysterious', value: 70 },
+      { label: '🔥 Bold and direct', value: 85 },
     ]},
-    { q: "💌 Your favorite way to show affection:", choices: [
-      { label: '💬 Sweet words and messages', value: 40 },
-      { label: '🎁 Small daily gestures', value: 100 },
-      { label: '⏳ Quality time, just the two of you', value: 80 },
-      { label: '🎀 Thoughtful gifts', value: 30 },
+    { q: "💋 A flirty message you'd send first:", choices: [
+      { label: '😉 A cheeky compliment', value: 90 },
+      { label: '❓ A playful question', value: 100 },
+      { label: '📸 A fun selfie', value: 70 },
+      { label: '🎯 Something bold, straight to the point', value: 85 },
     ]},
-    { q: "🌙 An ideal date is more like:", choices: [
-      { label: '🏠 A cozy night in', value: 60 },
-      { label: '🗺️ Something original, off the beaten path', value: 100 },
-      { label: '🍷 Dinner at a nice restaurant', value: 50 },
-      { label: '🏃 An outdoor or sporty activity', value: 40 },
+    { q: "🌶️ Your ideal flirty banter is:", choices: [
+      { label: '😂 Full of jokes and teasing', value: 100 },
+      { label: '🔥 Charged with tension', value: 90 },
+      { label: '🎭 Full of double meanings', value: 80 },
+      { label: '🍯 Sweet and gentle', value: 60 },
     ]},
-    { q: "✨ What makes you fall for someone the most:", choices: [
-      { label: '😄 Their humor and spontaneity', value: 90 },
-      { label: '👂 Their listening and gentleness', value: 100 },
-      { label: '💪 Their self-confidence', value: 60 },
-      { label: '🚀 Their ambition and goals', value: 50 },
+    { q: "😏 When someone flirts back, you:", choices: [
+      { label: '🚀 Go all in immediately', value: 100 },
+      { label: '😌 Keep it cool and let it build', value: 80 },
+      { label: '😅 Get shy but love it', value: 60 },
+      { label: '🔁 Match their energy exactly', value: 90 },
     ]},
-    { q: "⏱️ Your ideal relationship pace:", choices: [
-      { label: '📅 Seeing each other almost every day', value: 100 },
-      { label: '⚖️ A good balance of closeness and independence', value: 80 },
-      { label: '🐢 Taking it slow, no rush', value: 50 },
-      { label: '🌌 Keeping your own space, meeting when it feels right', value: 30 },
+    { q: "💌 Your favorite way to flirt long-distance:", choices: [
+      { label: '📱 Playful texting all day', value: 100 },
+      { label: '🎙️ Voice notes with a teasing tone', value: 90 },
+      { label: '📸 Sending flirty photos', value: 80 },
+      { label: '🎥 Video calls with lots of eye contact', value: 85 },
     ]},
-    { q: "🔍 What you're looking for right now:", choices: [
-      { label: '💞 A real connection, built to last', value: 100 },
-      { label: '🎈 Something light, no pressure', value: 30 },
-      { label: '🌱 Getting to know someone, no rush', value: 70 },
-      { label: '🎯 Living in the moment', value: 50 },
+    { q: "🎯 What makes flirting exciting for you:", choices: [
+      { label: '🎲 The unpredictability', value: 100 },
+      { label: '🔥 The tension building up', value: 95 },
+      { label: '😂 The fun and laughter', value: 85 },
+      { label: '👀 The eye contact', value: 80 },
     ]},
-    { q: "🏆 Your definition of a successful relationship:", choices: [
-      { label: '😂 Making each other laugh, simply', value: 60 },
-      { label: '🔐 Feeling 100% safe together', value: 100 },
-      { label: '🌳 Growing together', value: 90 },
-      { label: '🎭 Always keeping a bit of mystery', value: 40 },
-    ]},
-  ],
-  affection: [
-    { q: "🤗 Your love language is mostly:", choices: [
-      { label: '🗣️ Words of affirmation', value: 100 },
-      { label: '🤲 Physical touch', value: 90 },
-      { label: '🎁 Gifts', value: 60 },
-      { label: '🛠️ Acts of service', value: 80 },
-    ]},
-    { q: "💗 When you care about someone, you:", choices: [
-      { label: '📱 Check in on them often', value: 90 },
-      { label: '🍲 Do little things to make their day easier', value: 100 },
-      { label: '🎧 Just want to be around them', value: 80 },
-      { label: '🎉 Plan surprises for them', value: 70 },
-    ]},
-    { q: "🌸 A small gesture that means the most to you:", choices: [
-      { label: '☕ A coffee brought without asking', value: 90 },
-      { label: '📝 A handwritten note', value: 100 },
-      { label: '🤗 A long hug', value: 95 },
-      { label: '📞 A random "thinking of you" text', value: 80 },
-    ]},
-    { q: "💖 You feel most loved when someone:", choices: [
-      { label: '👀 Really listens to you', value: 100 },
-      { label: '⏰ Makes time for you', value: 95 },
-      { label: '💬 Compliments you', value: 70 },
-      { label: '🎁 Surprises you', value: 80 },
-    ]},
-    { q: "🌊 How you comfort someone you love:", choices: [
-      { label: '🤐 Just being present, no words needed', value: 100 },
-      { label: '💡 Trying to help solve the problem', value: 70 },
-      { label: '😂 Making them laugh', value: 85 },
-      { label: '🫂 A warm hug', value: 95 },
-    ]},
-    { q: "🕰️ Showing affection daily looks like:", choices: [
-      { label: '🌅 Good morning / good night messages', value: 90 },
-      { label: '🍳 Small daily gestures, like cooking for them', value: 100 },
-      { label: '💌 Random sweet notes', value: 80 },
-      { label: '🤝 Physical closeness', value: 85 },
-    ]},
-    { q: "💞 Affection, to you, means mostly:", choices: [
-      { label: '🔐 Feeling safe and secure', value: 100 },
-      { label: '🔥 Feeling desired', value: 85 },
-      { label: '🌷 Feeling appreciated', value: 95 },
-      { label: '🎈 Feeling free to be yourself', value: 80 },
+    { q: "🌙 Late-night flirty texts, you're:", choices: [
+      { label: '🔥 Always up for it', value: 100 },
+      { label: '😏 Depends on the mood', value: 75 },
+      { label: '💤 Rarely, you prefer daytime', value: 40 },
+      { label: '🎭 Love the mystery of it', value: 85 },
     ]},
   ],
-  listening: [
-    { q: "👂 When your partner talks about their day, you:", choices: [
-      { label: '🎯 Listen fully, no distractions', value: 100 },
-      { label: '💡 Try to fix their problems right away', value: 60 },
-      { label: '😊 Nod along and add fun comments', value: 75 },
-      { label: '📱 Half-listen while multitasking', value: 30 },
+  playful: [
+    { q: "🎈 Your playful side comes out mostly when:", choices: [
+      { label: '😄 Teasing someone you like', value: 100 },
+      { label: '🎮 Playing games together', value: 85 },
+      { label: '😂 Making inside jokes', value: 95 },
+      { label: '🤪 Being silly in public', value: 70 },
     ]},
-    { q: "🗣️ In a disagreement, you prefer to:", choices: [
-      { label: '🧊 Cool off first, then talk', value: 80 },
-      { label: '🎤 Talk it out immediately', value: 90 },
-      { label: '👂 Let them speak first', value: 100 },
-      { label: '🚪 Avoid the topic', value: 30 },
+    { q: "🙃 A playful way you show you like someone:", choices: [
+      { label: '😝 Teasing them gently', value: 100 },
+      { label: '🎁 Surprising them with something fun', value: 85 },
+      { label: '💌 Sending silly memes', value: 90 },
+      { label: '🤭 Playful nicknames', value: 95 },
     ]},
-    { q: "💭 A good listener, to you, is someone who:", choices: [
-      { label: '🤫 Doesn\'t interrupt', value: 100 },
-      { label: '🙋 Asks follow-up questions', value: 95 },
-      { label: '🫡 Remembers the small details', value: 90 },
-      { label: '😌 Just nods and agrees', value: 50 },
+    { q: "🎭 During a chat, you love to:", choices: [
+      { label: '😏 Tease and joke around', value: 100 },
+      { label: '🎲 Keep things unpredictable', value: 90 },
+      { label: '😂 Make them laugh out loud', value: 95 },
+      { label: '💬 Talk about anything and everything', value: 70 },
     ]},
-    { q: "📖 When someone shares a problem, you:", choices: [
-      { label: '🛠️ Offer solutions', value: 70 },
-      { label: '🤗 Just listen and support', value: 100 },
-      { label: '🤔 Ask questions to understand more', value: 95 },
-      { label: '😶 Stay quiet, unsure what to say', value: 40 },
+    { q: "🐾 Your playful energy is more:", choices: [
+      { label: '⚡ High and spontaneous', value: 100 },
+      { label: '😌 Chill but mischievous', value: 85 },
+      { label: '🎨 Creative and silly', value: 90 },
+      { label: '🎯 Sharp and witty', value: 80 },
     ]},
-    { q: "🎧 You remember what people tell you:", choices: [
-      { label: '🧠 Almost everything, even small details', value: 100 },
-      { label: '📝 The important stuff', value: 80 },
-      { label: '🌫️ Only if it stands out', value: 50 },
-      { label: '🤷 Not really, honestly', value: 20 },
+    { q: "🎉 A playful date idea for you:", choices: [
+      { label: '🎳 Something competitive and fun', value: 90 },
+      { label: '🎮 Game night', value: 100 },
+      { label: '🎡 An amusement park', value: 85 },
+      { label: '🎲 A silly challenge or dare', value: 95 },
     ]},
-    { q: "💬 During a conversation, you're mostly:", choices: [
-      { label: '👂 Fully present and engaged', value: 100 },
-      { label: '⏳ Patient, letting them finish', value: 90 },
-      { label: '🎭 Waiting for your turn to talk', value: 40 },
-      { label: '📲 A bit distracted', value: 20 },
+    { q: "😜 When you're comfortable with someone, you:", choices: [
+      { label: '🤪 Get goofy and silly', value: 100 },
+      { label: '😏 Tease them nonstop', value: 95 },
+      { label: '🎭 Do impressions and jokes', value: 85 },
+      { label: '🫶 Show your soft playful side', value: 80 },
     ]},
-    { q: "🌟 Being truly heard makes you feel:", choices: [
-      { label: '💛 Valued', value: 100 },
-      { label: '😌 Relaxed', value: 85 },
-      { label: '🔓 Free to open up more', value: 95 },
-      { label: '🎉 Excited to share more', value: 70 },
-    ]},
-  ],
-  physicalAttraction: [
-    { q: "🔥 What draws you in physically first:", choices: [
-      { label: '😊 Their smile', value: 100 },
-      { label: '👀 Their eyes', value: 95 },
-      { label: '💪 Their body language', value: 80 },
-      { label: '👗 Their style', value: 70 },
-    ]},
-    { q: "💃 Confidence is:", choices: [
-      { label: '🔑 The most attractive trait', value: 100 },
-      { label: '😏 A big plus', value: 85 },
-      { label: '🤷 Nice but not essential', value: 50 },
-      { label: '🙈 Not something you notice much', value: 30 },
-    ]},
-    { q: "👋 First physical contact you enjoy:", choices: [
-      { label: '🤝 A confident handshake', value: 60 },
-      { label: '🫂 A warm hug', value: 100 },
-      { label: '😉 A playful touch on the arm', value: 90 },
-      { label: '💋 A kiss on the cheek', value: 95 },
-    ]},
-    { q: "🕶️ Style-wise, you're drawn to:", choices: [
-      { label: '👔 Classic and elegant', value: 90 },
-      { label: '🧥 Casual and effortless', value: 80 },
-      { label: '🎨 Bold and unique', value: 100 },
-      { label: '🏋️ Sporty and fit', value: 85 },
-    ]},
-    { q: "💫 Chemistry, for you, starts with:", choices: [
-      { label: '👁️ Eye contact', value: 100 },
-      { label: '😂 Shared laughter', value: 90 },
-      { label: '🗣️ A great conversation', value: 95 },
-      { label: '🤏 Physical closeness', value: 80 },
-    ]},
-    { q: "🌡️ How important is physical attraction at first:", choices: [
-      { label: '🔥 Very important', value: 100 },
-      { label: '⚖️ Important, but not everything', value: 80 },
-      { label: '🌱 Grows over time for you', value: 60 },
-      { label: '🧠 Personality matters way more', value: 40 },
-    ]},
-    { q: "💋 Your idea of a great kiss:", choices: [
-      { label: '⚡ Spontaneous and electric', value: 100 },
-      { label: '🐌 Slow and tender', value: 95 },
-      { label: '😄 Playful and fun', value: 85 },
-      { label: '🌙 Passionate, under the stars', value: 100 },
+    { q: "🦋 Playfulness in a relationship means:", choices: [
+      { label: '😂 Never taking things too seriously', value: 100 },
+      { label: '🎈 Keeping the spark alive with fun', value: 95 },
+      { label: '🎲 Surprising each other often', value: 90 },
+      { label: '💞 Laughing together every day', value: 100 },
     ]},
   ],
-  personalityAttraction: [
-    { q: "💫 What personality trait attracts you most:", choices: [
-      { label: '😂 Sense of humor', value: 100 },
-      { label: '🧠 Intelligence', value: 95 },
-      { label: '💪 Ambition', value: 85 },
-      { label: '🌸 Kindness', value: 100 },
+  talkative: [
+    { q: "🗨️ In a conversation, you're usually:", choices: [
+      { label: '🎤 The one leading the talk', value: 100 },
+      { label: '😄 Chatty and full of stories', value: 95 },
+      { label: '🔁 Back-and-forth, equal talking', value: 80 },
+      { label: '👂 More of a listener', value: 40 },
     ]},
-    { q: "🎭 You're drawn to people who are:", choices: [
-      { label: '🔥 Confident and bold', value: 90 },
-      { label: '🌊 Calm and grounded', value: 95 },
-      { label: '🎨 Creative and spontaneous', value: 100 },
-      { label: '🧭 Loyal and dependable', value: 95 },
+    { q: "📞 On a call, you tend to:", choices: [
+      { label: '🗣️ Talk non-stop about everything', value: 100 },
+      { label: '😂 Fill silences with jokes', value: 90 },
+      { label: '💬 Keep a steady, easy conversation', value: 80 },
+      { label: '🤫 Let the other person lead', value: 40 },
     ]},
-    { q: "🗝️ A trait you can't live without:", choices: [
-      { label: '🤝 Honesty', value: 100 },
-      { label: '😂 Humor', value: 90 },
-      { label: '🌟 Ambition', value: 80 },
-      { label: '🫶 Empathy', value: 95 },
+    { q: "💬 Texting-wise, you're:", choices: [
+      { label: '⚡ Fast replies, long messages', value: 100 },
+      { label: '🎙️ Prefer voice notes', value: 90 },
+      { label: '😄 Short but frequent messages', value: 85 },
+      { label: '🐢 Slow but thoughtful replies', value: 50 },
     ]},
-    { q: "🌈 Your ideal match's energy is:", choices: [
-      { label: '⚡ High energy, always doing something', value: 85 },
-      { label: '🌙 Calm and easygoing', value: 90 },
-      { label: '🎉 The life of the party', value: 80 },
-      { label: '📚 Thoughtful and deep', value: 100 },
+    { q: "🎉 At a party, you're the one who:", choices: [
+      { label: '🎤 Keeps the conversation going', value: 100 },
+      { label: '😂 Tells all the stories', value: 95 },
+      { label: '🙋 Jumps in with jokes and comments', value: 85 },
+      { label: '👀 Prefers listening in small groups', value: 40 },
     ]},
-    { q: "🧩 What makes someone interesting to you:", choices: [
-      { label: '🌍 Their curiosity about the world', value: 100 },
-      { label: '🎯 Their drive and goals', value: 85 },
-      { label: '🎨 Their creativity', value: 95 },
-      { label: '😄 Their sense of humor', value: 90 },
+    { q: "🌍 Your ideal conversation topic:", choices: [
+      { label: '🎢 Anything, you can talk about everything', value: 100 },
+      { label: '😂 Fun stories and adventures', value: 90 },
+      { label: '💭 Deep, meaningful topics', value: 85 },
+      { label: '🎯 Whatever the other person wants', value: 70 },
     ]},
-    { q: "🪞 You connect fastest with people who:", choices: [
-      { label: '👂 Really listen', value: 100 },
-      { label: '😂 Make you laugh instantly', value: 90 },
-      { label: '🧠 Challenge you intellectually', value: 85 },
-      { label: '🫶 Make you feel comfortable right away', value: 95 },
+    { q: "📱 A typical text exchange with you looks like:", choices: [
+      { label: '💬 Paragraphs and lots of details', value: 100 },
+      { label: '🎭 Playful back-and-forth teasing', value: 90 },
+      { label: '📸 Mixed with photos and voice notes', value: 85 },
+      { label: '✅ Short and to the point', value: 50 },
     ]},
-    { q: "🔑 The trait you value most, long-term:", choices: [
-      { label: '🤝 Trustworthiness', value: 100 },
-      { label: '😂 Humor', value: 75 },
-      { label: '🌱 Growth mindset', value: 90 },
-      { label: '💬 Great communication', value: 100 },
+    { q: "🔊 People would describe you as:", choices: [
+      { label: '🗣️ Talkative and expressive', value: 100 },
+      { label: '😄 Fun to talk to for hours', value: 95 },
+      { label: '💬 Easy to chat with', value: 85 },
+      { label: '🤐 More reserved, quiet', value: 30 },
+    ]},
+  ],
+  humor: [
+    { q: "😂 Your sense of humor is more:", choices: [
+      { label: '🎭 Sarcastic and witty', value: 100 },
+      { label: '🤪 Goofy and silly', value: 90 },
+      { label: '😏 Dry and deadpan', value: 85 },
+      { label: '📖 Storytelling and anecdotes', value: 80 },
+    ]},
+    { q: "🃏 What makes you laugh the most:", choices: [
+      { label: '😂 Clever wordplay', value: 100 },
+      { label: '🤡 Silly, over-the-top jokes', value: 90 },
+      { label: '😏 Sarcasm and teasing', value: 95 },
+      { label: '📹 Funny videos and memes', value: 80 },
+    ]},
+    { q: "🎤 In a group, you're the one who:", choices: [
+      { label: '😂 Makes everyone laugh', value: 100 },
+      { label: '🎭 Delivers the best one-liners', value: 90 },
+      { label: '🤣 Laughs the loudest at others', value: 80 },
+      { label: '😌 Enjoys the humor quietly', value: 60 },
+    ]},
+    { q: "💬 Your texting humor style:", choices: [
+      { label: '😂 Memes and GIFs constantly', value: 100 },
+      { label: '🎭 Witty comebacks', value: 95 },
+      { label: '🤪 Silly voice notes', value: 85 },
+      { label: '😏 Sarcastic one-liners', value: 90 },
+    ]},
+    { q: "🏆 A perfect joke, for you, is:", choices: [
+      { label: '⚡ Quick and unexpected', value: 100 },
+      { label: '🎭 Clever and layered', value: 95 },
+      { label: '🤪 Absurd and ridiculous', value: 90 },
+      { label: '😏 Subtle and dry', value: 85 },
+    ]},
+    { q: "😄 Humor in a relationship should be:", choices: [
+      { label: '💞 A daily thing, non-stop jokes', value: 100 },
+      { label: '🎯 Used to break tension', value: 85 },
+      { label: '🎭 Shared inside jokes', value: 95 },
+      { label: '😏 Light teasing here and there', value: 80 },
+    ]},
+    { q: "🎬 Your go-to way to make someone laugh:", choices: [
+      { label: '🎭 A funny impression', value: 90 },
+      { label: '😂 A well-timed joke', value: 100 },
+      { label: '📸 A ridiculous photo or meme', value: 85 },
+      { label: '🤭 Teasing them playfully', value: 95 },
+    ]},
+  ],
+  seduction: [
+    { q: "🎯 Your seduction style is more:", choices: [
+      { label: '🔥 Bold and straightforward', value: 100 },
+      { label: '🕯️ Subtle and mysterious', value: 90 },
+      { label: '😏 Playful and teasing', value: 95 },
+      { label: '🧠 Slow, through conversation', value: 80 },
+    ]},
+    { q: "✨ What makes you irresistible, you think:", choices: [
+      { label: '👀 Your gaze', value: 100 },
+      { label: '😏 Your confidence', value: 95 },
+      { label: '💬 Your words', value: 90 },
+      { label: '🎭 Your mystery', value: 85 },
+    ]},
+    { q: "🌹 A seductive first move for you:", choices: [
+      { label: '😘 A bold compliment', value: 95 },
+      { label: '👁️ Holding eye contact a beat too long', value: 100 },
+      { label: '🎁 A thoughtful surprise', value: 85 },
+      { label: '🔥 A daring invitation', value: 90 },
+    ]},
+    { q: "💃 You seduce best when you're:", choices: [
+      { label: '😌 Completely relaxed and yourself', value: 100 },
+      { label: '🔥 Fully in the moment', value: 95 },
+      { label: '🎭 A little mysterious', value: 85 },
+      { label: '😂 Making them laugh', value: 90 },
+    ]},
+    { q: "🕯️ Your ideal seductive atmosphere:", choices: [
+      { label: '🍷 Candlelight and low music', value: 100 },
+      { label: '🌃 A rooftop at night', value: 90 },
+      { label: '🛁 Something cozy and intimate', value: 95 },
+      { label: '🎶 Wherever the energy feels right', value: 80 },
+    ]},
+    { q: "😏 When you want someone's attention, you:", choices: [
+      { label: '👗 Dress to impress', value: 90 },
+      { label: '💬 Say something unexpected', value: 100 },
+      { label: '👀 Let your body language speak', value: 95 },
+      { label: '🎯 Go straight for it', value: 85 },
+    ]},
+    { q: "🔑 Real seduction, to you, is mostly about:", choices: [
+      { label: '🧠 Confidence', value: 100 },
+      { label: '🎭 Mystery', value: 90 },
+      { label: '💬 Connection', value: 95 },
+      { label: '🔥 Chemistry', value: 90 },
     ]},
   ],
   travel: [
