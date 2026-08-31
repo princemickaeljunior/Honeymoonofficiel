@@ -668,9 +668,10 @@ const I18N = {
     coachFlirtSectionTitle: "Flirt & relationship",
     toolCoachCreatorWelcome: "Hi, I'm your Coach Honeymoon 💛 This chat is about her side — how a creator works, her behavior, distance, silences, and the budget side of things. What do you want to understand?",
     toolCoachFlirtWelcome: "Hi, I'm your Coach Honeymoon 💘 This chat is about the flirt & relationship side — does she like you, how to talk to her, attraction, dates, moving on. What's on your mind?",
-    coachBackToCategories: "⬅ Back to topics",
+    coachBackToCategories: "Back to topics",
     coachPickCategoryPrompt: "Pick what's on your mind:",
     coachStepOf: "Question {n}/{total}",
+    coachLikeBtn: "Helpful",
     memberTabPurchases: "Collection",
     memberUnverifiedBanner: "Account not confirmed yet — email sent to {email}.",
     memberResendShort: "Resend",
@@ -3708,7 +3709,13 @@ if(!document.getElementById('hm-coach-gold-style')){
     .coach-option-btn{display:flex;align-items:center;gap:11px;width:100%;text-align:left;background:var(--bg-elev);border:1px solid var(--border);border-radius:14px;padding:11px 13px;color:var(--text);font-size:12.5px;line-height:1.4;margin-bottom:8px;cursor:pointer;transition:.15s;}
     .coach-option-btn:hover{border-color:var(--honey);}
     .coach-option-letter{width:26px;height:26px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
-    .coach-option-back{display:block;background:none;border:none;color:var(--text-muted);font-size:11.5px;padding:6px 2px;cursor:pointer;}
+    .coach-option-back{display:inline-flex;align-items:center;gap:6px;background:none;border:none;color:var(--text-muted);font-size:11.5px;padding:6px 2px;cursor:pointer;}
+    .coach-option-back svg{flex-shrink:0;}
+
+    .coach-like-wrap{display:flex;justify-content:flex-end;margin:-4px 0 10px 37px;}
+    .coach-like-btn{display:inline-flex;align-items:center;gap:5px;background:none;border:1px solid var(--border);border-radius:20px;padding:4px 10px;color:var(--text-muted);font-size:10.5px;cursor:pointer;transition:.15s;}
+    .coach-like-btn:hover{border-color:var(--honey);color:var(--text);}
+    .coach-like-btn.liked{background:linear-gradient(90deg,var(--honey),var(--rose));border-color:transparent;color:#1c130a;}
   `;
   document.head.appendChild(st);
 }
@@ -3833,6 +3840,11 @@ function coachRestMs(base){
 // Emoji d'option (remplace les lettres A/B/C) pour numéroter les choix cliquables du chat.
 const COACH_OPTION_EMOJI_BANK = ['💬','💭','✨','💡','🔍','❓','💛','🍯','👉','🗨️'];
 function coachOptionEmoji(i){ return COACH_OPTION_EMOJI_BANK[i % COACH_OPTION_EMOJI_BANK.length]; }
+// Icônes SVG (traits, cohérentes avec le reste du site) réservées aux éléments d'interface
+// du Coach Honeymoon (retour, j'aime la réponse) — les emoji restent uniquement sur les
+// questions/réponses/avatar, comme demandé.
+const COACH_ICON_BACK = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>';
+const COACH_ICON_LIKE = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>';
 // En-tête façon "Mise en situation" : avatar Honeymoon + titre + sous-titre + badge.
 function coachChatHeaderHtml(subtitle){
   return `<div class="coach-chat-header">
@@ -3931,7 +3943,7 @@ function coachOpenCategory(botKey, catId){
   setTimeout(() => typeWriterText(document.getElementById(`coach-cat-intro-${botKey}`), `${cat.title} — ${t('coachPickCategoryPrompt')}`, now), coachRestMs(250));
   const qEl = document.getElementById(`coach-questions-${botKey}`);
   qEl.innerHTML = starterIds.map((id, i) => `<button type="button" class="coach-option-btn" data-node="${id}"><span class="coach-option-letter">${coachOptionEmoji(i)}</span><span>${escText(COACH_NODES[id].q)}</span></button>`).join('')
-    + `<button type="button" class="coach-option-back" data-back="1">${t('coachBackToCategories')}</button>`;
+    + `<button type="button" class="coach-option-back" data-back="1">${COACH_ICON_BACK} ${t('coachBackToCategories')}</button>`;
   qEl.querySelectorAll('[data-node]').forEach(btn => {
     btn.onclick = () => coachAskNode(botKey, btn.dataset.node);
   });
@@ -3949,9 +3961,11 @@ function coachAskNode(botKey, nodeId, labelOverride){
   const now = new Date();
   const label = labelOverride || node.q;
   const bubbleId = `coach-bot-${botKey}-${nodeId}-${Date.now()}`;
+  const likeWrapId = `${bubbleId}-like`;
   chat.insertAdjacentHTML('beforeend', `
     <div class="coach-bubble-row user"><div class="coach-bubble-text chat-user">${escText(label)}<span class="chat-time">${formatChatTime(now)}</span></div></div>
     <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show" id="${bubbleId}"><span class="chat-typing-dots"><span></span><span></span><span></span></span></div></div>
+    <div class="coach-like-wrap" id="${likeWrapId}"></div>
   `);
   const bubble = document.getElementById(bubbleId);
   chat.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -3963,7 +3977,9 @@ function coachAskNode(botKey, nodeId, labelOverride){
   setTimeout(() => {
     typeWriterText(bubble, variedAnswer, now);
     const chips = (node.chips || []).map(c => ({ label: c.label || (COACH_NODES[c.to] && COACH_NODES[c.to].q) || '', to: c.to }));
-    setTimeout(() => coachRenderChips(botKey, chips), coachTypingDelayMs(variedAnswer));
+    const typedDelay = coachTypingDelayMs(variedAnswer);
+    setTimeout(() => coachInsertLikeBtn(likeWrapId), typedDelay);
+    setTimeout(() => coachRenderChips(botKey, chips), typedDelay);
   }, delay);
 }
 
@@ -3976,13 +3992,23 @@ function coachRenderChips(botKey, chips){
   chat.insertAdjacentHTML('beforeend', `<div id="${wrapId}" style="margin-top:8px;"></div>`);
   const wrap = document.getElementById(wrapId);
   wrap.innerHTML = chips.map((c, i) => `<button type="button" class="coach-option-btn" data-node="${c.to}"><span class="coach-option-letter">${coachOptionEmoji(i)}</span><span>🔹 ${escText(c.label)}</span></button>`).join('')
-    + `<button type="button" class="coach-option-back" data-back="1">${t('coachBackToCategories')}</button>`;
+    + `<button type="button" class="coach-option-back" data-back="1">${COACH_ICON_BACK} ${t('coachBackToCategories')}</button>`;
   wrap.querySelectorAll('[data-node]').forEach(btn => {
     const targetNode = COACH_NODES[btn.dataset.node];
     btn.onclick = () => coachAskNode(botKey, btn.dataset.node, targetNode ? undefined : btn.textContent);
   });
   wrap.querySelectorAll('[data-back]').forEach(btn => { btn.onclick = () => coachShowWelcome(botKey); });
   chat.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+/* Insère un petit bouton "j'aime la réponse" (pouce, SVG) sous une réponse du coach,
+   dans le conteneur vide prévu à cet effet (voir coachAskNode / coachShowSilenceDiagnosis).
+   Purement une réaction visuelle côté membre — bascule au clic, pas de persistance. */
+function coachInsertLikeBtn(wrapId){
+  const wrap = document.getElementById(wrapId);
+  if(!wrap || wrap.querySelector('.coach-like-btn')) return;
+  wrap.innerHTML = `<button type="button" class="coach-like-btn">${COACH_ICON_LIKE} ${t('coachLikeBtn')}</button>`;
+  wrap.querySelector('.coach-like-btn').onclick = function(){ this.classList.toggle('liked'); };
 }
 
 /* ---- Mini-diagnostic à étapes pour "Elle ne répond plus" (côté "creator") ----
@@ -4031,7 +4057,7 @@ function renderCoachSilenceStep(botKey, stepNum, state){
   setTimeout(() => typeWriterText(document.getElementById(wrapId + '-q'), `${t('coachStepOf').replace('{n}', stepNum).replace('{total}', COACH_SILENCE_STEPS.length)} — ${step.q}`, now), coachRestMs(delayBase));
   const optsEl = document.getElementById(wrapId + '-opts');
   optsEl.innerHTML = step.options.map((opt, i) => `<button type="button" class="coach-option-btn" data-opt="${escAttr(opt)}"><span class="coach-option-letter">${coachOptionEmoji(i)}</span><span>${escText(opt)}</span></button>`).join('')
-    + `<button type="button" class="coach-option-back" data-back="1">${t('coachBackToCategories')}</button>`;
+    + `<button type="button" class="coach-option-back" data-back="1">${COACH_ICON_BACK} ${t('coachBackToCategories')}</button>`;
   optsEl.querySelectorAll('[data-opt]').forEach(btn => {
     btn.onclick = () => {
       const chat2 = document.getElementById(`coach-chat-${botKey}`);
@@ -4057,7 +4083,8 @@ function coachShowSilenceDiagnosis(botKey, answers){
   ].filter(Boolean).join(' '));
   const now = new Date();
   const bubbleId = `coach-silence-diagnosis-${botKey}`;
-  chat.insertAdjacentHTML('beforeend', `<div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show" id="${bubbleId}"><span class="chat-typing-dots"><span></span><span></span><span></span></span></div></div>`);
+  const likeWrapId = `${bubbleId}-like`;
+  chat.insertAdjacentHTML('beforeend', `<div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show" id="${bubbleId}"><span class="chat-typing-dots"><span></span><span></span><span></span></span></div></div><div class="coach-like-wrap" id="${likeWrapId}"></div>`);
   chat.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   setTimeout(() => {
     typeWriterText(document.getElementById(bubbleId), answer, now);
@@ -4066,7 +4093,9 @@ function coachShowSilenceDiagnosis(botKey, answers){
       { label: COACH_NODES.fu_message.q, to: 'fu_message' },
       { label: COACH_NODES.fu_patience.q, to: 'fu_patience' }
     ];
-    setTimeout(() => coachRenderChips(botKey, chips), coachTypingDelayMs(answer));
+    const typedDelay = coachTypingDelayMs(answer);
+    setTimeout(() => coachInsertLikeBtn(likeWrapId), typedDelay);
+    setTimeout(() => coachRenderChips(botKey, chips), typedDelay);
   }, 500);
 }
 
