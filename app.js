@@ -442,6 +442,16 @@ const I18N = {
     toolFinance: "Finance",
     toolAdvice: "Tips",
     toolMatchClients: "Match with Clients",
+    toolCoachHoneymoon: "Coach Honeymoon",
+    coachCrWelcomeIntro: "Hi, I'm your Coach Honeymoon 💛 Here's how I can help you:",
+    coachCrWelcomeBullet1: "Practical tips to improve your photos, stats, and grow your page",
+    coachCrWelcomeBullet2: "Understand what makes different clients tick, and how to talk to them",
+    coachCrWelcomeBullet3: "Two completely separate topics, so you get the right kind of help",
+    coachCrWelcomeBullet4: "Pick the one that fits what you need right now",
+    coachCrThemeTipsTitle: "Tips & growing your page",
+    coachCrThemeTipsDesc: "Photos, stats, loyalty, files, standing out",
+    coachCrThemeClientsTitle: "Understanding your clients",
+    coachCrThemeClientsDesc: "What different clients respond to, and how to talk to them",
     toolMatchClientsNote: "Tap a theme from a member's profile below — I'll show you exactly how to work it into your chat, tease it, and turn it into a real connection (and a loyal subscriber).",
     toolMatchClientsWelcome: "Hey, I'm Aria — think of me as your business coach here. Every member fills in little details about themselves: what they dream about, what they're into, what makes them laugh. Those aren't small talk, they're your best opening lines. Tap a theme below and I'll break down exactly how to use it 💛",
     toolBanner: "Banner",
@@ -681,9 +691,7 @@ const I18N = {
     coachThemeFlirtDesc: "Real advice on your love life — separate from the site",
     coachTablePrompt: "Tap a question:",
     coachBackToTable: "Back to table",
-    coachSaveBtn: "Save",
     coachEraseBtn: "Erase & back",
-    coachSavedToast: "Conversation saved 💛",
     coachSwitchTheme: "Switch topic",
     coachStatusPrompt: "What's your situation?",
     coachChangeStatus: "Change situation",
@@ -2906,15 +2914,13 @@ function renderMyTools(m){
       <button class="room-tab-btn" data-tool="notes">${ICON_NOTE}${t('toolNotes')}</button>
       <button class="room-tab-btn" data-tool="calc">${ICON_CALC}${t('toolCalc')}</button>
       <button class="room-tab-btn" data-tool="finance">${ICON_COIN}${t('toolFinance')}</button>
-      <button class="room-tab-btn" data-tool="advice">${ICON_CHAT}${t('toolAdvice')}</button>
-      <button class="room-tab-btn" data-tool="matchclients">${AICON.handshake}${t('toolMatchClients')}</button>
+      <button class="room-tab-btn" data-tool="coach"><span class="coach-gold-led">🍯 ${t('toolCoachHoneymoon')}</span></button>
     </div>
     <div class="room-tab-panel active" id="tool-panel-calendar"></div>
     <div class="room-tab-panel" id="tool-panel-notes"></div>
     <div class="room-tab-panel" id="tool-panel-calc"></div>
     <div class="room-tab-panel" id="tool-panel-finance"></div>
-    <div class="room-tab-panel" id="tool-panel-advice"></div>
-    <div class="room-tab-panel" id="tool-panel-matchclients"></div>
+    <div class="room-tab-panel" id="tool-panel-coach"></div>
   `;
   zone.querySelectorAll('#tools-tabs .room-tab-btn').forEach(btn => {
     btn.onclick = () => {
@@ -2929,8 +2935,7 @@ function renderMyTools(m){
   renderToolNotes(m);
   renderToolCalc(m);
   renderToolFinance(m);
-  renderToolAdvice(m);
-  renderToolMatchClients(m);
+  renderToolCoach(m);
 }
 
 /* ---------------- Calendrier ---------------- */
@@ -3266,6 +3271,10 @@ function renderToolFinance(m){
     <div class="tax-notice-box">
       <p style="color:var(--honey);font-size:11.5px;line-height:1.65;">${t('toolTaxNotice')}</p>
     </div>
+    <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border);">
+      <button class="advice-topic-btn advice-estimator-btn" id="advice-estimator-btn">${AICON.price}${t('toolEstimateEarnings')}</button>
+      <div class="advice-chat" id="advice-chat"></div>
+    </div>
   `;
   document.getElementById('fin-currency-select').onchange = (e) => {
     const customInput = document.getElementById('fin-currency-custom');
@@ -3288,6 +3297,7 @@ function renderToolFinance(m){
     }
   });
   document.getElementById('fin-currency-compare-btn').onclick = () => showCurrencyComparison(curCode);
+  document.getElementById('advice-estimator-btn').onclick = () => showEarningsEstimator(m);
   document.getElementById('daily-budget-calc').onclick = () => {
     const days = Math.max(1, parseInt(document.getElementById('daily-budget-days').value, 10) || 30);
     const perDay = Math.floor((balance / days) * 100) / 100;
@@ -3639,57 +3649,8 @@ function renderToolBanner(m){
    La langue du chat suit désormais la langue du site (sélecteur en haut de
    page) — plus de sélecteur séparé ici. ---------------- */
 
-function renderToolAdvice(m){
-  const panel = document.getElementById('tool-panel-advice');
-  panel.innerHTML = `
-    <p style="color:var(--text-muted);font-size:11.5px;margin:0 0 12px;line-height:1.6;">${t('toolAdviceNote')}</p>
-    <div class="advice-topics" id="advice-topics">
-      <button class="advice-topic-btn advice-estimator-btn" id="advice-estimator-btn">${AICON.price}${t('toolEstimateEarnings')}</button>
-    </div>
-    <div class="advice-chat" id="advice-chat"></div>
-  `;
-  const topicsEl = document.getElementById('advice-topics');
-  topicsEl.insertAdjacentHTML('beforeend', ADVICE_TOPICS.map((topic, idx) => `
-    <button class="advice-topic-btn" data-idx="${idx}">${premiumTagIcon(topic.icon)} ${topic.title[LANG] || topic.title.en}</button>
-  `).join(''));
-  topicsEl.querySelectorAll('.advice-topic-btn[data-idx]').forEach(btn => {
-    btn.onclick = () => showAdviceAnswer(ADVICE_TOPICS[parseInt(btn.dataset.idx, 10)]);
-  });
-  document.getElementById('advice-estimator-btn').onclick = () => showEarningsEstimator(m);
-}
-
-/* Couleur de bulle selon la catégorie du sujet (déduite de son émoji) */
-const BUBBLE_COLOR_MAP = {
-  '💡':'#5b9dd6','📐':'#5b9dd6','🖼️':'#5b9dd6','🎨':'#5b9dd6','📱':'#5b9dd6','📸':'#5b9dd6','🌇':'#5b9dd6',
-  '🎬':'#a76bd6','✂️':'#a76bd6','🎵':'#a76bd6','🕺':'#a76bd6','🪞':'#a76bd6',
-  '📅':'#4fc3a1','🏷️':'#4fc3a1','💬':'#4fc3a1','🔁':'#4fc3a1','🧲':'#4fc3a1','📊':'#4fc3a1','🌟':'#4fc3a1','📝':'#4fc3a1',
-  '💰':'#5fd67a','🎁':'#5fd67a','⏰':'#5fd67a','🤝':'#5fd67a',
-  '🔒':'#e06a6a','🕵️':'#e06a6a',
-  '🧘':'#d68bc9','🗂️':'#c9a15a'
-};
-function bubbleColorFor(icon){ return BUBBLE_COLOR_MAP[icon] || 'var(--honey)'; }
-
 let lastChatActionAt = 0; // sert à accélérer le rythme si les clics s'enchaînent vite, comme dans une vraie conversation
-function showAdviceAnswer(topic, userText){
-  const chat = document.getElementById('advice-chat');
-  const title = userText || topic.title[LANG] || topic.title.en;
-  const answer = topic.answer[LANG] || topic.answer.en;
-  const now = new Date();
-  const color = bubbleColorFor(topic.icon);
-  chat.innerHTML = `
-    <div class="chat-bubble chat-user">${escText(title)}<span class="chat-time">${formatChatTime(now)}</span></div>
-    <div class="chat-bubble chat-bot show" id="chat-bot-bubble" style="border-color:${color};"><span class="chat-typing-dots"><span></span><span></span><span></span></span></div>
-  `;
-  chat.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  const bubble = document.getElementById('chat-bot-bubble');
-  const nowMs = Date.now();
-  const sinceLast = lastChatActionAt ? nowMs - lastChatActionAt : 99999;
-  lastChatActionAt = nowMs;
-  const lineCount = Math.ceil(answer.length / 55);
-  let delay = lineCount > 15 ? 2200 : 500 + Math.min(1800, answer.length * 7);
-  if(sinceLast < 4000) delay = Math.round(delay * 0.45); // questions enchaînées rapidement → le bot "suit le rythme"
-  setTimeout(() => typeWriterText(bubble, answer, now), delay);
-}
+
 /* ---------------- Style injecté : libellé "gold LED" (onglet menu) + petite
    animation d'apparition des emoji dans les bulles de chat tapées. ---------------- */
 if(!document.getElementById('hm-coach-gold-style')){
@@ -3788,29 +3749,6 @@ function typeWriterText(el, text, timeDate){
    Même mécanique que le Tips (recherche + sujets tapables + bulles de chat avec effet
    de frappe), mais dédiée à comment aborder les centres d'intérêt d'un membre pour
    engager la conversation, teaser, et convertir en abonnement/vente. */
-function renderToolMatchClients(m){
-  const panel = document.getElementById('tool-panel-matchclients');
-  if(!panel) return;
-  panel.innerHTML = `
-    <p style="color:var(--text-muted);font-size:11.5px;margin:0 0 12px;line-height:1.6;">${t('toolMatchClientsNote')}</p>
-    <div class="advice-topics" id="matchclients-topics"></div>
-    <div class="advice-chat" id="matchclients-chat"></div>
-  `;
-  const topicsEl = document.getElementById('matchclients-topics');
-  topicsEl.innerHTML = CLIENT_MATCH_TOPICS.map((topic, idx) => `
-    <button class="advice-topic-btn" data-idx="${idx}">${premiumTagIcon(topic.icon)} ${topic.title[LANG] || topic.title.en}</button>
-  `).join('');
-  topicsEl.querySelectorAll('.advice-topic-btn[data-idx]').forEach(btn => {
-    btn.onclick = () => showTopicChatAnswer('matchclients-chat', CLIENT_MATCH_TOPICS[parseInt(btn.dataset.idx, 10)]);
-  });
-
-  // Message d'accueil de la persona "Aria", affiché tout de suite à l'ouverture
-  // de l'onglet — donne l'impression d'un vrai assistant déjà en session.
-  const chat = document.getElementById('matchclients-chat');
-  chat.innerHTML = `<div class="chat-bubble chat-bot show" id="matchclients-welcome-bubble"></div>`;
-  setTimeout(() => typeWriterText(document.getElementById('matchclients-welcome-bubble'), t('toolMatchClientsWelcome')), 400);
-}
-
 /* ---------------- "Coach Honeymoon" — chatbot membre (branching Q&A, 2 chats) ----------------
    Coach de séduction/relation pour les membres, séparé en DEUX chats indépendants qui
    partagent exactement le même moteur/process (catégories -> questions -> réponse tapée
@@ -4145,21 +4083,13 @@ function coachRenderActionBar(){
   el.innerHTML = `
     <div class="coach-action-bar">
       <button type="button" class="coach-action-btn" id="coach-act-back">${COACH_ICON_BACK} ${escText(t('coachBackToTable'))}</button>
-      <button type="button" class="coach-action-btn" id="coach-act-save">${ICON_SAVE} ${escText(t('coachSaveBtn'))}</button>
       <button type="button" class="coach-action-btn" id="coach-act-erase">${ICON_TRASH} ${escText(t('coachEraseBtn'))}</button>
     </div>
     ${coachBackBothHtml()}
   `;
   document.getElementById('coach-act-back').onclick = coachRenderTable;
-  document.getElementById('coach-act-save').onclick = coachSaveConversation;
   document.getElementById('coach-act-erase').onclick = coachEraseRetour;
   coachWireBackBoth(el);
-}
-
-function coachSaveConversation(){
-  const key = 'hm_coach_saved_' + (coachUid || 'anon');
-  try{ localStorage.setItem(key, JSON.stringify(coachState.log)); }catch(e){}
-  toast(t('coachSavedToast'));
 }
 
 function coachEraseRetour(){
@@ -4376,31 +4306,228 @@ const COACH_NODES = {
   mv_6: { q: "Should I stay friends with an ex?", a: "Only if you can genuinely do it without hoping for more — otherwise it usually just delays moving on for one or both of you." }
 };
 
+/* ================================================================
+   COACH HONEYMOON — CÔTÉ CRÉATRICE
+   Remplace les anciens onglets "Tips" et "Match with Clients". Bouton,
+   design et process EXACTEMENT identiques au Coach membre (même .coach-frame,
+   mêmes classes, même moteur de frappe/variation) — seul le contenu change :
+   Thème "Tips" (conseils croissance/page, en français) et thème "Clients"
+   (comprendre les clients, en anglais, même mécanique que le chat membre).
+   ================================================================ */
+const BOT_CONFIG_CR = {
+  tips: { categories: [
+    { id: 'photoedit', icon: 'frame', title: "Editing photos without overdoing it" },
+    { id: 'stats', icon: 'chart', title: "Understanding your stats" },
+    { id: 'loyalty_cr', icon: 'handshake', title: "Keeping regular clients loyal" },
+    { id: 'files', icon: 'folder', title: "Organizing your files" },
+    { id: 'standout', icon: 'star', title: "Standing out from competitors" }
+  ] },
+  clients: { categories: [
+    { id: 'adventurous', icon: 'globe', title: "Adventurous & active clients" },
+    { id: 'warm', icon: 'heart', title: "Warm & personal clients" },
+    { id: 'social', icon: 'chat', title: "Fun & social clients" },
+    { id: 'creative', icon: 'palette', title: "Creative & aesthetic clients" },
+    { id: 'business', icon: 'price', title: "Business-minded & loyal clients" }
+  ] }
+};
+const COACH_STARTERS_CR = {
+  photoedit: ['pe_1','pe_2','pe_3'],
+  stats: ['st_1','st_2','st_3'],
+  loyalty_cr: ['lc_1','lc_2','lc_3'],
+  files: ['fl_1','fl_2','fl_3'],
+  standout: ['so_1','so_2','so_3'],
+  adventurous: ['adv_1','adv_2','adv_3'],
+  warm: ['wm_1','wm_2','wm_3'],
+  social: ['sc_1','sc_2','sc_3'],
+  creative: ['cre_1','cre_2','cre_3'],
+  business: ['bz_1','bz_2','bz_3']
+};
+const COACH_NODES_CR = {
+  // -------- Retoucher ses photos sans exagérer --------
+  pe_1: { q: "How do I edit a photo without it looking fake?", a: "Adjust brightness, contrast and color warmth rather than using a heavy filter — it keeps the result natural, not artificial." },
+  pe_2: { q: "How do I make good use of natural light?", a: "Soft morning or late-afternoon light (golden hour) is the most flattering. Face a window rather than having it behind you to avoid harsh shadows." },
+  pe_3: { q: "How do I compose a good photo?", a: "Use the rule of thirds: imagine a 3x3 grid and place the main subject on one of the lines, not dead center. It makes the photo more dynamic." },
 
+  // -------- Comprendre ses statistiques --------
+  st_1: { q: "Which posts perform the best?", a: "Look at which posts get the most engagement (likes, comments, watch time) and create more content similar to what performs best." },
+  st_2: { q: "Do I need new content every single day?", a: "No — a single photo shoot can give you 10 to 15 different posts spread over several weeks. You don't need to constantly create from scratch." },
+  st_3: { q: "How do I build a posting calendar?", a: "Post at consistent times, for example 7-9pm when your audience is online. Consistency matters more than frequency for building loyalty." },
 
-/* Affiche une réponse de sujet façon conversation, dans n'importe quel chat cible
-   (identifié par son id de container) — factorisation de showAdviceAnswer pour les
-   nouveaux chatbots "Match with Clients" / "Match Your Words". */
-function showTopicChatAnswer(chatId, topic, userText){
-  const chat = document.getElementById(chatId);
-  const title = userText || topic.title[LANG] || topic.title.en;
-  const answer = topic.answer[LANG] || topic.answer.en;
-  const now = new Date();
-  const color = bubbleColorFor(topic.icon);
-  chat.innerHTML = `
-    <div class="chat-bubble chat-user">${escText(title)}<span class="chat-time">${formatChatTime(now)}</span></div>
-    <div class="chat-bubble chat-bot show" id="${chatId}-bot-bubble" style="border-color:${color};"><span class="chat-typing-dots"><span></span><span></span><span></span></span></div>
+  // -------- Fidéliser ses clients réguliers --------
+  lc_1: { q: "How do I keep a regular client loyal?", a: "A short personalized note or exclusive content for your most loyal clients strengthens the relationship and makes them want to come back." },
+  lc_2: { q: "How do I create urgency without overdoing it?", a: "An offer \"available for 48h only\" drives faster purchases than a permanent one — use it sparingly to stay credible." },
+  lc_3: { q: "Do bundle offers actually work?", a: "Offer a bundle of several photos/videos at a slightly reduced price compared to buying separately — it increases the average order value." },
+
+  // -------- Organiser ses fichiers --------
+  fl_1: { q: "How do I organize my photo/video folders?", a: "Create one folder per shoot with the date, so you can easily find your best content later and avoid duplicates." },
+  fl_2: { q: "Should I add a watermark?", a: "Yes — a small, discreet name or logo on your photos/videos limits content theft. A free app is enough." },
+  fl_3: { q: "How do I protect my identity online?", a: "Avoid identifiable background details (street, license plate, recognizable façade) and turn off geolocation before posting." },
+
+  // -------- Se démarquer de la concurrence --------
+  so_1: { q: "How do I stand out from the competition?", a: "Find a theme or style that feels like you (colors, setting, personality) and keep it consistent — that's what makes you recognizable." },
+  so_2: { q: "How do I write a caption that grabs attention?", a: "Start with a short, intriguing line before the details. A question or a personal note makes people want to read on and comment." },
+  so_3: { q: "How many hashtags should I use?", a: "Mix broad hashtags with niche ones. 5 to 10 relevant hashtags are enough — no need for 30." },
+
+  // -------- Adventurous & active clients --------
+  adv_1: { q: "He mentions travel, how do I use that?", a: "Ask where he'd take you on a first trip, then tease that you'd need \"the right outfit for the weather\" — playful, personal, and a natural lead into a themed set later." },
+  adv_2: { q: "He's into sport & fitness, what's my angle?", a: "Ask what he trains for — it flatters his effort and gives an easy follow-up. Mention your own routine to open the door to a workout-themed set." },
+  adv_3: { q: "He's into adventure, how do I connect?", a: "Ask about his craziest trip or plan, then tease that you have \"an adventurous side he hasn't seen yet\" — a little unpredictability keeps it exciting." },
+
+  // -------- Warm & personal clients --------
+  wm_1: { q: "He mentions family, how do I respond?", a: "Keep it simple and sincere — \"that's really sweet\" goes further than a flirty line here. These members tend to become your most loyal, long-term supporters." },
+  wm_2: { q: "He mentions a pet, what now?", a: "Ask for a name, a breed, a funny habit — it's low-pressure small talk that builds real rapport fast. Share your own pet story if you have one." },
+  wm_3: { q: "He's romantic and talks about love, how do I engage?", a: "Avoid copy-paste lines here more than anywhere else. Ask a real question about what romance means to him and mirror a little sincerity back." },
+
+  // -------- Fun & social clients --------
+  sc_1: { q: "He's into humor & jokes, how do I keep up?", a: "React with genuine laughter and throw in a light tease of your own. He's testing if you're fun to talk to, not just pretty — prove that first." },
+  sc_2: { q: "He's into nightlife & parties, what tone works?", a: "Match his energy — short, punchy, a little cheeky. Ask what gets the dance floor going for him, then mention your own \"party mood\"." },
+  sc_3: { q: "He's into gaming, how do I chat with him?", a: "Match his rhythm — quick, casual replies rather than long messages. Ask what he's playing lately and react genuinely, even if you don't know the game." },
+
+  // -------- Creative & aesthetic clients --------
+  cre_1: { q: "He's into art & creativity, what should I ask?", a: "Ask what inspired his own work or taste rather than giving a generic compliment. They love being appreciated for their eye, not just their looks." },
+  cre_2: { q: "He's into movies & cinema, how do I bond?", a: "Ask for a favorite movie and actually react to it. A shared genre is a great excuse to describe a themed set \"inspired by\" that mood." },
+  cre_3: { q: "He's into fashion & style, what's a good approach?", a: "Mention a specific detail — color, texture, vibe — rather than a vague compliment. It's your easiest bridge into talking about your own style." },
+
+  // -------- Business-minded & loyal clients --------
+  bz_1: { q: "He's business-minded or ambitious, how do I talk to him?", a: "Acknowledge his hustle before anything else. He'll also respond well to a clear, well-presented offer — it feels respectful of his time, not pushy." },
+  bz_2: { q: "He mentions wine or a nice evening, what's the angle?", a: "This is about atmosphere, not the drink — ask what a perfect evening looks like for him, then describe a cozy mood of your own." },
+  bz_3: { q: "What actually keeps a client coming back long-term?", a: "Referencing something he told you weeks ago costs nothing and shows you actually pay attention — loyalty is built in the small free messages, not just the purchases." }
+};
+
+let coachCrState = { theme: null, view: 'welcome', log: [] };
+
+function renderToolCoach(m){
+  const panel = document.getElementById('tool-panel-coach');
+  if(!panel) return;
+  coachCrState = { theme: null, view: 'welcome', log: [] };
+  panel.innerHTML = `
+    <div class="coach-frame">
+      ${coachChatHeaderHtml(t('coachFrameSubtitle'))}
+      <div id="coach-cr-body"></div>
+    </div>
   `;
-  chat.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  const bubble = document.getElementById(chatId + '-bot-bubble');
+  coachCrShowWelcome();
+}
+
+function coachCrBackBothHtml(){
+  return `<button type="button" class="coach-back-both-btn" data-back-both="1">${escText(t('coachBackBothTopics'))}</button>`;
+}
+function coachCrWireBackBoth(container){
+  const btn = container.querySelector('[data-back-both]');
+  if(btn) btn.onclick = coachCrShowWelcome;
+}
+
+function coachCrShowWelcome(){
+  coachCrState.view = 'welcome';
+  coachCrState.theme = null;
+  const body = document.getElementById('coach-cr-body');
+  if(!body) return;
+  body.innerHTML = `
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show" id="coach-cr-welcome-intro"></div></div>
+    <div id="coach-cr-welcome-bullets"></div>
+    <div id="coach-cr-theme-choice"></div>
+  `;
+  const introEl = document.getElementById('coach-cr-welcome-intro');
+  const now = new Date();
+  const introText = t('coachCrWelcomeIntro');
+  setTimeout(() => {
+    typeWriterText(introEl, introText, now);
+    setTimeout(coachCrShowWelcomeBullets, coachTypingDelayMs(introText));
+  }, coachRestMs(400));
+}
+function coachCrShowWelcomeBullets(){
+  const el = document.getElementById('coach-cr-welcome-bullets');
+  if(!el) return;
+  const bulletKeys = ['coachCrWelcomeBullet1', 'coachCrWelcomeBullet2', 'coachCrWelcomeBullet3', 'coachCrWelcomeBullet4'];
+  el.innerHTML = `<ul class="coach-welcome-list">${bulletKeys.map(k => `<li>${escText(t(k))}</li>`).join('')}</ul>`;
+  setTimeout(coachCrShowThemeChoice, coachRestMs(700));
+}
+function coachCrShowThemeChoice(){
+  const el = document.getElementById('coach-cr-theme-choice');
+  if(!el) return;
+  el.innerHTML = `
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show">${escText(t('coachChooseThemePrompt'))}</div></div>
+    <div class="coach-theme-choice">
+      <button type="button" class="coach-theme-btn" data-theme="tips"><span class="coach-theme-btn-icon">${AICON.frame}</span><span><span class="coach-theme-btn-title">${escText(t('coachCrThemeTipsTitle'))}</span><span class="coach-theme-btn-desc">${escText(t('coachCrThemeTipsDesc'))}</span></span></button>
+      <button type="button" class="coach-theme-btn" data-theme="clients"><span class="coach-theme-btn-icon">${AICON.handshake}</span><span><span class="coach-theme-btn-title">${escText(t('coachCrThemeClientsTitle'))}</span><span class="coach-theme-btn-desc">${escText(t('coachCrThemeClientsDesc'))}</span></span></button>
+    </div>
+  `;
+  el.querySelectorAll('[data-theme]').forEach(btn => { btn.onclick = () => coachCrChooseTheme(btn.dataset.theme); });
+  document.getElementById('coach-cr-body').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+function coachCrChooseTheme(themeKey){
+  coachCrState.theme = themeKey;
+  coachCrState.view = 'table';
+  coachCrRenderTable();
+}
+function coachCrRenderTable(){
+  const body = document.getElementById('coach-cr-body');
+  if(!body) return;
+  coachCrState.view = 'table';
+  const cfg = BOT_CONFIG_CR[coachCrState.theme];
+  if(!cfg) return;
+  const rowsHtml = cfg.categories.map(cat => {
+    const catHead = `<div class="coach-table-cat">${premiumTagIcon(AICON[cat.icon])} ${escText(cat.title)}</div>`;
+    const starterIds = COACH_STARTERS_CR[cat.id] || [];
+    return catHead + starterIds.map(id => `<button type="button" class="coach-table-row" data-node="${id}">${escText(COACH_NODES_CR[id].q)}</button>`).join('');
+  }).join('');
+  body.innerHTML = `
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show">${escText(t('coachTablePrompt'))}</div></div>
+    <div class="coach-table">${rowsHtml}</div>
+    ${coachCrBackBothHtml()}
+  `;
+  body.querySelectorAll('[data-node]').forEach(btn => { btn.onclick = () => coachCrAnswerQuestion(btn.dataset.node); });
+  coachCrWireBackBoth(body);
+}
+function coachCrAnswerQuestion(nodeId){
+  const node = COACH_NODES_CR[nodeId];
+  if(!node) return;
+  const body = document.getElementById('coach-cr-body');
+  if(!body) return;
+  coachCrState.view = 'answer';
+  const now = new Date();
+  const bubbleId = `coach-cr-answer-${Date.now()}`;
+  const likeWrapId = `${bubbleId}-like`;
+  body.innerHTML = `
+    <div class="coach-bubble-row user"><div class="coach-bubble-text chat-user">${escText(node.q)}<span class="chat-time">${formatChatTime(now)}</span></div></div>
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show" id="${bubbleId}"><span class="chat-typing-dots"><span></span><span></span><span></span></span></div></div>
+    <div class="coach-like-wrap" id="${likeWrapId}"></div>
+    <div id="coach-cr-actions"></div>
+  `;
+  body.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   const nowMs = Date.now();
   const sinceLast = lastChatActionAt ? nowMs - lastChatActionAt : 99999;
   lastChatActionAt = nowMs;
-  const lineCount = Math.ceil(answer.length / 55);
-  let delay = lineCount > 15 ? 2200 : 500 + Math.min(1800, answer.length * 7);
-  if(sinceLast < 4000) delay = Math.round(delay * 0.45);
-  setTimeout(() => typeWriterText(bubble, answer, now), delay);
+  const delay = coachRestMs(sinceLast < 4000 ? 350 : 750);
+  const variedAnswer = coachVaryText(node.a);
+  setTimeout(() => {
+    typeWriterText(document.getElementById(bubbleId), variedAnswer, now);
+    coachCrState.log.push({ theme: coachCrState.theme, q: node.q, a: node.a, ts: nowMs });
+    const typedDelay = coachTypingDelayMs(variedAnswer);
+    setTimeout(() => coachInsertLikeBtn(likeWrapId), typedDelay);
+    setTimeout(coachCrRenderActionBar, typedDelay);
+  }, delay);
 }
+function coachCrRenderActionBar(){
+  const el = document.getElementById('coach-cr-actions');
+  if(!el) return;
+  el.innerHTML = `
+    <div class="coach-action-bar">
+      <button type="button" class="coach-action-btn" id="coach-cr-act-back">${COACH_ICON_BACK} ${escText(t('coachBackToTable'))}</button>
+      <button type="button" class="coach-action-btn" id="coach-cr-act-erase">${ICON_TRASH} ${escText(t('coachEraseBtn'))}</button>
+    </div>
+    ${coachCrBackBothHtml()}
+  `;
+  document.getElementById('coach-cr-act-back').onclick = coachCrRenderTable;
+  document.getElementById('coach-cr-act-erase').onclick = coachCrEraseRetour;
+  coachCrWireBackBoth(el);
+}
+function coachCrEraseRetour(){
+  coachCrState.log.pop();
+  coachCrRenderTable();
+}
+
+
 
 /* Estimateur de gains — mini-outil interactif dans le chat */
 function showEarningsEstimator(m){
