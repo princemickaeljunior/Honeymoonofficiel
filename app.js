@@ -3690,6 +3690,25 @@ if(!document.getElementById('hm-coach-gold-style')){
     @keyframes hmGoldLed{0%{background-position:0% center;}100%{background-position:250% center;}}
     .hm-emoji-pop{display:inline-block;animation:hmEmojiPop .4s ease;transform-origin:center;}
     @keyframes hmEmojiPop{0%{transform:scale(.3);opacity:0;}65%{transform:scale(1.3);opacity:1;}100%{transform:scale(1);}}
+
+    .coach-chat-header{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:16px;background:var(--bg-elev);border:1px solid var(--border);margin:0 0 12px;}
+    .coach-chat-avatar{width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,var(--honey),var(--rose));display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;}
+    .coach-chat-headtext{flex:1;min-width:0;}
+    .coach-chat-title{font-weight:700;font-size:14.5px;color:var(--text);}
+    .coach-chat-subtitle{font-size:11.5px;color:var(--text-muted);margin-top:2px;}
+    .coach-chat-badge{font-size:10px;font-weight:700;letter-spacing:.5px;padding:5px 10px;border-radius:20px;background:linear-gradient(90deg,var(--honey),var(--rose));color:#1c130a;flex-shrink:0;}
+
+    .coach-bubble-row{display:flex;align-items:flex-start;gap:9px;margin:10px 0;}
+    .coach-bubble-row.user{flex-direction:row-reverse;}
+    .coach-mini-avatar{width:28px;height:28px;border-radius:10px;background:linear-gradient(135deg,var(--honey),var(--rose));display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+    .coach-bubble-text{background:var(--bg-elev);border:1px solid var(--border);border-radius:16px;padding:12px 14px;color:var(--text);font-size:13px;line-height:1.55;max-width:82%;}
+    .coach-bubble-row.user .coach-bubble-text{background:var(--bg-elev);border-color:var(--honey);}
+    .coach-bubble-text .chat-time{display:block;margin-top:5px;font-size:10px;color:var(--text-muted);text-align:right;}
+
+    .coach-option-btn{display:flex;align-items:center;gap:11px;width:100%;text-align:left;background:var(--bg-elev);border:1px solid var(--border);border-radius:14px;padding:11px 13px;color:var(--text);font-size:12.5px;line-height:1.4;margin-bottom:8px;cursor:pointer;transition:.15s;}
+    .coach-option-btn:hover{border-color:var(--honey);}
+    .coach-option-letter{width:26px;height:26px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+    .coach-option-back{display:block;background:none;border:none;color:var(--text-muted);font-size:11.5px;padding:6px 2px;cursor:pointer;}
   `;
   document.head.appendChild(st);
 }
@@ -3811,6 +3830,21 @@ function coachRestMs(base){
   return Math.max(300, Math.round(base + (Math.random() * 900 - 450)));
 }
 
+// Emoji d'option (remplace les lettres A/B/C) pour numéroter les choix cliquables du chat.
+const COACH_OPTION_EMOJI_BANK = ['💬','💭','✨','💡','🔍','❓','💛','🍯','👉','🗨️'];
+function coachOptionEmoji(i){ return COACH_OPTION_EMOJI_BANK[i % COACH_OPTION_EMOJI_BANK.length]; }
+// En-tête façon "Mise en situation" : avatar Honeymoon + titre + sous-titre + badge.
+function coachChatHeaderHtml(subtitle){
+  return `<div class="coach-chat-header">
+    <div class="coach-chat-avatar">🍯</div>
+    <div class="coach-chat-headtext">
+      <div class="coach-chat-title">Coach Honeymoon</div>
+      <div class="coach-chat-subtitle">${escText(subtitle)}</div>
+    </div>
+    <span class="coach-chat-badge">CHAT</span>
+  </div>`;
+}
+
 const BOT_CONFIG = {
   creator: { categories: [
     { id: 'creator', icon: 'star', title: "Understanding a creator" },
@@ -3832,10 +3866,10 @@ function renderMemberToolMatchWords(container){
   if(!container) return;
   container.innerHTML = `
     <p style="color:var(--text-muted);font-size:11.5px;margin:0 0 14px;line-height:1.6;">${t('toolMatchWordsNote')}</p>
-    <h3 style="color:var(--honey);font-size:14px;margin:0 0 10px;">💛 ${t('coachCreatorSectionTitle')}</h3>
+    ${coachChatHeaderHtml(t('coachCreatorSectionTitle'))}
     <div id="coach-wrap-creator"></div>
     <div style="height:1px;background:var(--border);margin:24px 0;"></div>
-    <h3 style="color:var(--honey);font-size:14px;margin:0 0 10px;">💘 ${t('coachFlirtSectionTitle')}</h3>
+    ${coachChatHeaderHtml(t('coachFlirtSectionTitle'))}
     <div id="coach-wrap-flirt"></div>
   `;
   renderCoachBot('creator', document.getElementById('coach-wrap-creator'));
@@ -3875,7 +3909,7 @@ function coachShowWelcome(botKey){
   if(!chat) return;
   coachState[botKey] = {};
   const id = `coach-welcome-bubble-${botKey}`;
-  chat.innerHTML = `<div class="chat-bubble chat-bot show" id="${id}"></div>`;
+  chat.innerHTML = `<div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show" id="${id}"></div></div>`;
   setTimeout(() => typeWriterText(document.getElementById(id), t(BOT_CONFIG[botKey].welcomeKey)), coachRestMs(400));
 }
 
@@ -3891,13 +3925,13 @@ function coachOpenCategory(botKey, catId){
   const starterIds = COACH_STARTERS[catId] || [];
   const now = new Date();
   chat.innerHTML = `
-    <div class="chat-bubble chat-bot show" id="coach-cat-intro-${botKey}"></div>
-    <div class="advice-topics" id="coach-questions-${botKey}" style="margin-top:10px;"></div>
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show" id="coach-cat-intro-${botKey}"></div></div>
+    <div id="coach-questions-${botKey}" style="margin-top:10px;"></div>
   `;
   setTimeout(() => typeWriterText(document.getElementById(`coach-cat-intro-${botKey}`), `${cat.title} — ${t('coachPickCategoryPrompt')}`, now), coachRestMs(250));
   const qEl = document.getElementById(`coach-questions-${botKey}`);
-  qEl.innerHTML = starterIds.map(id => `<button class="advice-topic-btn" data-node="${id}">${COACH_NODES[id].q}</button>`).join('')
-    + `<button class="advice-topic-btn" data-back="1">${t('coachBackToCategories')}</button>`;
+  qEl.innerHTML = starterIds.map((id, i) => `<button type="button" class="coach-option-btn" data-node="${id}"><span class="coach-option-letter">${coachOptionEmoji(i)}</span><span>${escText(COACH_NODES[id].q)}</span></button>`).join('')
+    + `<button type="button" class="coach-option-back" data-back="1">${t('coachBackToCategories')}</button>`;
   qEl.querySelectorAll('[data-node]').forEach(btn => {
     btn.onclick = () => coachAskNode(botKey, btn.dataset.node);
   });
@@ -3916,8 +3950,8 @@ function coachAskNode(botKey, nodeId, labelOverride){
   const label = labelOverride || node.q;
   const bubbleId = `coach-bot-${botKey}-${nodeId}-${Date.now()}`;
   chat.insertAdjacentHTML('beforeend', `
-    <div class="chat-bubble chat-user">${escText(label)}<span class="chat-time">${formatChatTime(now)}</span></div>
-    <div class="chat-bubble chat-bot show" id="${bubbleId}"><span class="chat-typing-dots"><span></span><span></span><span></span></span></div>
+    <div class="coach-bubble-row user"><div class="coach-bubble-text chat-user">${escText(label)}<span class="chat-time">${formatChatTime(now)}</span></div></div>
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show" id="${bubbleId}"><span class="chat-typing-dots"><span></span><span></span><span></span></span></div></div>
   `);
   const bubble = document.getElementById(bubbleId);
   chat.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -3939,10 +3973,10 @@ function coachRenderChips(botKey, chips){
   const chat = document.getElementById(`coach-chat-${botKey}`);
   if(!chat) return;
   const wrapId = `coach-chips-${botKey}-${Date.now()}`;
-  chat.insertAdjacentHTML('beforeend', `<div class="advice-topics" id="${wrapId}" style="margin-top:8px;"></div>`);
+  chat.insertAdjacentHTML('beforeend', `<div id="${wrapId}" style="margin-top:8px;"></div>`);
   const wrap = document.getElementById(wrapId);
-  wrap.innerHTML = chips.map(c => `<button class="advice-topic-btn" data-node="${c.to}">🔹 ${escText(c.label)}</button>`).join('')
-    + `<button class="advice-topic-btn" data-back="1">${t('coachBackToCategories')}</button>`;
+  wrap.innerHTML = chips.map((c, i) => `<button type="button" class="coach-option-btn" data-node="${c.to}"><span class="coach-option-letter">${coachOptionEmoji(i)}</span><span>🔹 ${escText(c.label)}</span></button>`).join('')
+    + `<button type="button" class="coach-option-back" data-back="1">${t('coachBackToCategories')}</button>`;
   wrap.querySelectorAll('[data-node]').forEach(btn => {
     const targetNode = COACH_NODES[btn.dataset.node];
     btn.onclick = () => coachAskNode(botKey, btn.dataset.node, targetNode ? undefined : btn.textContent);
@@ -3985,23 +4019,23 @@ function renderCoachSilenceStep(botKey, stepNum, state){
   const now = new Date();
   if(stepNum === 1){
     const introId = `coach-silence-intro-${botKey}`;
-    chat.innerHTML = `<div class="chat-bubble chat-bot show" id="${introId}"></div>`;
-    setTimeout(() => typeWriterText(document.getElementById(introId), "Let's figure out what's really going on — a couple of quick questions first.", now), 250);
+    chat.innerHTML = `<div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show" id="${introId}"></div></div>`;
+    setTimeout(() => typeWriterText(document.getElementById(introId), "Let's figure out what's really going on — a couple of quick questions first.", now), coachRestMs(250));
   }
   const wrapId = `coach-silence-step-${botKey}-${stepNum}`;
   chat.insertAdjacentHTML('beforeend', `
-    <div class="chat-bubble chat-bot show" id="${wrapId}-q"></div>
-    <div class="advice-topics" id="${wrapId}-opts" style="margin-top:8px;"></div>
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show" id="${wrapId}-q"></div></div>
+    <div id="${wrapId}-opts" style="margin-top:8px;"></div>
   `);
   const delayBase = stepNum === 1 ? 900 : 250;
-  setTimeout(() => typeWriterText(document.getElementById(wrapId + '-q'), `${t('coachStepOf').replace('{n}', stepNum).replace('{total}', COACH_SILENCE_STEPS.length)} — ${step.q}`, now), delayBase);
+  setTimeout(() => typeWriterText(document.getElementById(wrapId + '-q'), `${t('coachStepOf').replace('{n}', stepNum).replace('{total}', COACH_SILENCE_STEPS.length)} — ${step.q}`, now), coachRestMs(delayBase));
   const optsEl = document.getElementById(wrapId + '-opts');
-  optsEl.innerHTML = step.options.map(opt => `<button class="advice-topic-btn" data-opt="${escAttr(opt)}">${opt}</button>`).join('')
-    + `<button class="advice-topic-btn" data-back="1">${t('coachBackToCategories')}</button>`;
+  optsEl.innerHTML = step.options.map((opt, i) => `<button type="button" class="coach-option-btn" data-opt="${escAttr(opt)}"><span class="coach-option-letter">${coachOptionEmoji(i)}</span><span>${escText(opt)}</span></button>`).join('')
+    + `<button type="button" class="coach-option-back" data-back="1">${t('coachBackToCategories')}</button>`;
   optsEl.querySelectorAll('[data-opt]').forEach(btn => {
     btn.onclick = () => {
       const chat2 = document.getElementById(`coach-chat-${botKey}`);
-      chat2.insertAdjacentHTML('beforeend', `<div class="chat-bubble chat-user">${escText(btn.dataset.opt)}<span class="chat-time">${formatChatTime(new Date())}</span></div>`);
+      chat2.insertAdjacentHTML('beforeend', `<div class="coach-bubble-row user"><div class="coach-bubble-text chat-user">${escText(btn.dataset.opt)}<span class="chat-time">${formatChatTime(new Date())}</span></div></div>`);
       const newAnswers = Object.assign({}, state, { [step.key]: btn.dataset.opt });
       if(stepNum < COACH_SILENCE_STEPS.length){
         setTimeout(() => renderCoachSilenceStep(botKey, stepNum + 1, newAnswers), 500);
@@ -4023,7 +4057,7 @@ function coachShowSilenceDiagnosis(botKey, answers){
   ].filter(Boolean).join(' '));
   const now = new Date();
   const bubbleId = `coach-silence-diagnosis-${botKey}`;
-  chat.insertAdjacentHTML('beforeend', `<div class="chat-bubble chat-bot show" id="${bubbleId}"><span class="chat-typing-dots"><span></span><span></span><span></span></span></div>`);
+  chat.insertAdjacentHTML('beforeend', `<div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show" id="${bubbleId}"><span class="chat-typing-dots"><span></span><span></span><span></span></span></div></div>`);
   chat.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   setTimeout(() => {
     typeWriterText(document.getElementById(bubbleId), answer, now);
@@ -6216,7 +6250,7 @@ function renderMemberHome(user, data, activeTab){
           <button type="button" class="member-tab" id="member-tab-favorites">${ICON_LIKE}${t('memberTabFavorites')}</button>
           <button type="button" class="member-tab" id="member-tab-messages">${ICON_CHAT_SM}${t('memberTabMessages')} <span class="member-tab-badge" id="member-tab-messages-badge" style="display:none;"></span></button>
           <button type="button" class="member-tab" id="member-tab-purchases">${ICON_CART}${t('memberTabPurchases')}</button>
-          <button type="button" class="member-tab" id="member-tab-tools">${ICON_MY_TOOLS}<span class="coach-gold-led">${t('memberTabTools')}</span></button>
+          <button type="button" class="member-tab" id="member-tab-tools">${ICON_MY_TOOLS}<span class="coach-gold-led">🍯 ${t('memberTabTools')}</span></button>
         </div>
       </div>
       <div id="member-tab-body"></div>
