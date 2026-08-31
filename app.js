@@ -660,7 +660,7 @@ const I18N = {
     memberForgotSentBody: "If an account exists with this email, a reset link was just sent. Open it to choose a new password.",
     memberTabDiscover: "Our Creators Honeymoon",
     memberTabProfile: "Profile",
-    memberTabTools: "Tools",
+    memberTabTools: "Coach Honeymoon",
     toolMatchWords: "Coach Honeymoon",
     toolMatchWordsNote: "Your personal dating & flirt coach for everything happening with a creator here — pick what's on your mind below, in either chat.",
     toolMatchWordsWelcome: "Hi, I'm your Coach Honeymoon 💛 I'm here to help you with the flirt, the timing, the silences, the little doubts — everything that comes with getting closer to a creator here. What do you want to understand?",
@@ -3673,12 +3673,38 @@ function showAdviceAnswer(topic, userText){
   if(sinceLast < 4000) delay = Math.round(delay * 0.45); // questions enchaînées rapidement → le bot "suit le rythme"
   setTimeout(() => typeWriterText(bubble, answer, now), delay);
 }
+/* ---------------- Style injecté : libellé "gold LED" (onglet menu) + petite
+   animation d'apparition des emoji dans les bulles de chat tapées. ---------------- */
+if(!document.getElementById('hm-coach-gold-style')){
+  const st = document.createElement('style');
+  st.id = 'hm-coach-gold-style';
+  st.textContent = `
+    .coach-gold-led{
+      background:linear-gradient(90deg,#a9812f,#f6dfa0,#caa14d,#f6dfa0,#a9812f);
+      background-size:250% auto;
+      -webkit-background-clip:text;background-clip:text;color:transparent;
+      animation:hmGoldLed 3.2s linear infinite;
+      text-shadow:0 0 8px rgba(246,223,160,.45);
+      font-weight:600;
+    }
+    @keyframes hmGoldLed{0%{background-position:0% center;}100%{background-position:250% center;}}
+    .hm-emoji-pop{display:inline-block;animation:hmEmojiPop .4s ease;transform-origin:center;}
+    @keyframes hmEmojiPop{0%{transform:scale(.3);opacity:0;}65%{transform:scale(1.3);opacity:1;}100%{transform:scale(1);}}
+  `;
+  document.head.appendChild(st);
+}
+// Détecte les emoji dans un fragment déjà échappé (escText) pour les envelopper
+// dans un span animé, sans jamais toucher au HTML échappé lui-même.
+const HM_EMOJI_REGEX = /([\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2190}-\u{21FF}])/gu;
+function wrapEmojis(html){
+  return html.replace(HM_EMOJI_REGEX, '<span class="hm-emoji-pop">$1</span>');
+}
 function typeWriterText(el, text, timeDate){
   const words = text.split(' ');
   el.innerHTML = '';
   let i = 0;
   const tick = () => {
-    el.innerHTML += (i > 0 ? ' ' : '') + escText(words[i]).replace(/\n/g, '<br>');
+    el.innerHTML += (i > 0 ? ' ' : '') + wrapEmojis(escText(words[i]).replace(/\n/g, '<br>'));
     i++;
     el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     if(i >= words.length){
@@ -3728,6 +3754,63 @@ function renderToolMatchClients(m){
      plaît, comment lui parler, créer de l'attirance, premier rendez-vous, après une rupture).
    Un mini-diagnostic à étapes (côté "creator") pour "Elle ne répond plus" construit un
    profil de situation (durée du silence / régularité avant / qui initie) avant de conclure. */
+/* ---------------- Coach Honeymoon — moteur de variation ----------------
+   Le contenu de base (COACH_NODES) reste la seule source de vérité éditoriale.
+   Ce moteur ne fait que reformuler légèrement le texte AU MOMENT de l'affichage
+   (synonymes piochés au hasard + petite phrase d'ouverture/fin optionnelle),
+   et fait varier aléatoirement les temps de pause avant/pendant la frappe.
+   Résultat : deux passages sur la même question donnent rarement le mot-à-mot
+   identique, sans avoir à écrire des dizaines de versions figées par question. */
+const COACH_OPENER_BANK = [
+  '', '', '', // le plus souvent : rien, pour rester naturel
+  'Honestly, ', 'So, ', "Here's the thing — ", 'Good question — ', 'Okay, so ',
+  "From what I've seen, ", 'Real talk: ', "Let's break it down — ", 'Simple answer: '
+];
+const COACH_CLOSER_BANK = [
+  '', '', '', '',
+  ' 💛', ' 😊', ' 🙂', ' ✨',
+  ' Hope that helps!', ' Makes sense?', " That's usually how it goes.", ' Does that track?'
+];
+const COACH_SYNONYM_BANK = {
+  'usually': ['usually', 'generally', 'more often than not', 'typically'],
+  'really': ['really', 'genuinely', 'truly'],
+  'a lot': ['a lot', 'quite a bit', 'plenty'],
+  'good sign': ['good sign', 'positive sign', 'healthy sign'],
+  'matters': ['matters', 'counts', 'makes the difference'],
+  'important': ['important', 'key', 'worth remembering'],
+  'focus on': ['focus on', 'pay attention to', 'zero in on'],
+  'means': ['means', 'signals', 'points to'],
+  'genuine': ['genuine', 'real', 'authentic'],
+  'consistency': ['consistency', 'steadiness', 'being consistent'],
+  'honestly': ['honestly', 'to be honest', 'truthfully'],
+  'quick': ['quick', 'fast', 'speedy'],
+  'worth': ['worth', 'worthwhile']
+};
+// Reformule légèrement un texte de réponse : synonymes ponctuels + ouverture/fin
+// aléatoires. Appelé à chaque affichage, jamais mis en cache.
+function coachVaryText(text){
+  if(!text) return text;
+  let out = text;
+  Object.keys(COACH_SYNONYM_BANK).forEach(key => {
+    if(Math.random() < 0.4 && out.toLowerCase().includes(key)){
+      const options = COACH_SYNONYM_BANK[key];
+      const pick = options[Math.floor(Math.random() * options.length)];
+      const re = new RegExp(key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
+      out = out.replace(re, pick);
+    }
+  });
+  const opener = COACH_OPENER_BANK[Math.floor(Math.random() * COACH_OPENER_BANK.length)];
+  const closer = COACH_CLOSER_BANK[Math.floor(Math.random() * COACH_CLOSER_BANK.length)];
+  if(opener) out = opener + out.charAt(0).toLowerCase() + out.slice(1);
+  if(closer) out = out + closer;
+  return out;
+}
+// Temps de pause avant/pendant la frappe du coach : jamais deux fois exactement
+// le même rythme, pour éviter l'effet "robot mécanique".
+function coachRestMs(base){
+  return Math.max(300, Math.round(base + (Math.random() * 900 - 450)));
+}
+
 const BOT_CONFIG = {
   creator: { categories: [
     { id: 'creator', icon: 'star', title: "Understanding a creator" },
@@ -3782,7 +3865,8 @@ function renderCoachBot(botKey, container){
    pour savoir quand faire apparaître les puces de suivi une fois le texte "tapé". */
 function coachTypingDelayMs(text){
   const words = text.split(' ').length;
-  return Math.min(4200, 500 + words * 42);
+  const base = Math.min(4200, 500 + words * 42);
+  return coachRestMs(base);
 }
 
 /* Ré-affiche le message d'accueil du coach dans le chat d'un bot donné. */
@@ -3792,7 +3876,7 @@ function coachShowWelcome(botKey){
   coachState[botKey] = {};
   const id = `coach-welcome-bubble-${botKey}`;
   chat.innerHTML = `<div class="chat-bubble chat-bot show" id="${id}"></div>`;
-  setTimeout(() => typeWriterText(document.getElementById(id), t(BOT_CONFIG[botKey].welcomeKey)), 400);
+  setTimeout(() => typeWriterText(document.getElementById(id), t(BOT_CONFIG[botKey].welcomeKey)), coachRestMs(400));
 }
 
 /* Ouvre une catégorie dans le chat d'un bot donné : soit le mini-diagnostic à étapes
@@ -3810,7 +3894,7 @@ function coachOpenCategory(botKey, catId){
     <div class="chat-bubble chat-bot show" id="coach-cat-intro-${botKey}"></div>
     <div class="advice-topics" id="coach-questions-${botKey}" style="margin-top:10px;"></div>
   `;
-  setTimeout(() => typeWriterText(document.getElementById(`coach-cat-intro-${botKey}`), `${cat.title} — ${t('coachPickCategoryPrompt')}`, now), 250);
+  setTimeout(() => typeWriterText(document.getElementById(`coach-cat-intro-${botKey}`), `${cat.title} — ${t('coachPickCategoryPrompt')}`, now), coachRestMs(250));
   const qEl = document.getElementById(`coach-questions-${botKey}`);
   qEl.innerHTML = starterIds.map(id => `<button class="advice-topic-btn" data-node="${id}">${COACH_NODES[id].q}</button>`).join('')
     + `<button class="advice-topic-btn" data-back="1">${t('coachBackToCategories')}</button>`;
@@ -3840,11 +3924,12 @@ function coachAskNode(botKey, nodeId, labelOverride){
   const nowMs = Date.now();
   const sinceLast = lastChatActionAt ? nowMs - lastChatActionAt : 99999;
   lastChatActionAt = nowMs;
-  let delay = sinceLast < 4000 ? 350 : 750;
+  let delay = coachRestMs(sinceLast < 4000 ? 350 : 750);
+  const variedAnswer = coachVaryText(node.a);
   setTimeout(() => {
-    typeWriterText(bubble, node.a, now);
+    typeWriterText(bubble, variedAnswer, now);
     const chips = (node.chips || []).map(c => ({ label: c.label || (COACH_NODES[c.to] && COACH_NODES[c.to].q) || '', to: c.to }));
-    setTimeout(() => coachRenderChips(botKey, chips), coachTypingDelayMs(node.a));
+    setTimeout(() => coachRenderChips(botKey, chips), coachTypingDelayMs(variedAnswer));
   }, delay);
 }
 
@@ -3931,11 +4016,11 @@ function renderCoachSilenceStep(botKey, stepNum, state){
 function coachShowSilenceDiagnosis(botKey, answers){
   const chat = document.getElementById(`coach-chat-${botKey}`);
   if(!chat) return;
-  const answer = [
+  const answer = coachVaryText([
     COACH_SILENCE_DURATION_TXT[answers.duration],
     COACH_SILENCE_NORMAL_TXT[answers.normal],
     COACH_SILENCE_FIRST_TXT[answers.first]
-  ].filter(Boolean).join(' ');
+  ].filter(Boolean).join(' '));
   const now = new Date();
   const bubbleId = `coach-silence-diagnosis-${botKey}`;
   chat.insertAdjacentHTML('beforeend', `<div class="chat-bubble chat-bot show" id="${bubbleId}"><span class="chat-typing-dots"><span></span><span></span><span></span></span></div>`);
@@ -6131,7 +6216,7 @@ function renderMemberHome(user, data, activeTab){
           <button type="button" class="member-tab" id="member-tab-favorites">${ICON_LIKE}${t('memberTabFavorites')}</button>
           <button type="button" class="member-tab" id="member-tab-messages">${ICON_CHAT_SM}${t('memberTabMessages')} <span class="member-tab-badge" id="member-tab-messages-badge" style="display:none;"></span></button>
           <button type="button" class="member-tab" id="member-tab-purchases">${ICON_CART}${t('memberTabPurchases')}</button>
-          <button type="button" class="member-tab" id="member-tab-tools">${ICON_MY_TOOLS}${t('memberTabTools')}</button>
+          <button type="button" class="member-tab" id="member-tab-tools">${ICON_MY_TOOLS}<span class="coach-gold-led">${t('memberTabTools')}</span></button>
         </div>
       </div>
       <div id="member-tab-body"></div>
