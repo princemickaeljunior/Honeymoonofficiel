@@ -2200,9 +2200,17 @@ const DESIRE_THEMES = [
   'flirt', 'playful', 'talkative', 'seduction', 'humor',
   'travel', 'music', 'restaurants', 'movies', 'food'
 ];
-const DESIRE_THEME_EMOJI = {
-  flirt: '😘', playful: '🎈', talkative: '🗨️', seduction: '🌹', humor: '😂',
-  travel: '✈️', music: '🎵', restaurants: '🍽️', movies: '🎬', food: '🍓'
+const DESIRE_THEME_ICON = {
+  flirt: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:2px;"><path d="M3 12c1.5-2.5 4-4 6-4 1.5 0 2.5 1 3 2 .5-1 1.5-2 3-2 2 0 4.5 1.5 6 4-1.5 1-3.5 1.5-6 1.5-1.5 0-2.5-.5-3-1-.5.5-1.5 1-3 1-2.5 0-4.5-.5-6-1.5z"/><path d="M6.5 13.5c1 1.5 3.3 2.5 5.5 2.5s4.5-1 5.5-2.5"/></svg>',
+  playful: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:2px;"><circle cx="12" cy="9" r="6"/><path d="M12 15c-1 1-1 2 0 3s1 2 0 3"/><path d="M10.3 15.3h3.4"/></svg>',
+  talkative: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:2px;"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>',
+  seduction: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:2px;"><path d="M12 2c2.5 2 2.5 6 0 8-2.5-2-2.5-6 0-8z"/><path d="M8.5 6.5c-1 2 0 4.5 2 5.5M15.5 6.5c1 2 0 4.5-2 5.5"/><line x1="12" y1="10" x2="12" y2="22"/><path d="M9 16c1-1.5 2-1.5 3 0M15 19c-1-1.5-2-1.5-3 0"/></svg>',
+  humor: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:2px;"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 3 4 3 4-3 4-3"/><path d="M8.2 9.3c.6-.5 1.4-.5 2 0M13.8 9.3c.6-.5 1.4-.5 2 0"/></svg>',
+  travel: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:2px;"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>',
+  music: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:2px;"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>',
+  restaurants: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:2px;"><path d="M18 2v20"/><path d="M15 2v7a3 3 0 0 0 3 3 3 3 0 0 0 3-3V2"/><path d="M6 2v6a2 2 0 0 0 2 2 2 2 0 0 0 2-2V2"/><path d="M8 10v12"/></svg>',
+  movies: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:2px;"><path d="M20.2 6L3 11l-.9-2.3c-.3-.9.1-1.9 1-2.2l14.5-5.4c.9-.3 1.9.1 2.2 1z"/><path d="M2 11h20v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2z"/><path d="M6 11l2-4M11.5 11l2-4M17 11l2-4"/></svg>',
+  food: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:2px;"><path d="M12 8a6 6 0 0 0-6 6.5c0 3.6 2.7 7.5 6 7.5s6-3.9 6-7.5A6 6 0 0 0 12 8z"/><path d="M12 8c0-2 1-3.5 2.5-4"/><path d="M9 5c1 .5 1.5 1.5 1.5 3"/></svg>'
 };
 
 function desireBioPercentagesHtml(bio){
@@ -2214,7 +2222,7 @@ function desireBioPercentagesHtml(bio){
       ${DESIRE_THEMES.map(key => `
         <div class="desire-pct-row" style="margin-bottom:16px;">
           <label style="display:flex;align-items:center;justify-content:space-between;margin:0 0 6px;text-transform:none;font-weight:600;">
-            <span>${DESIRE_THEME_EMOJI[key]} ${t('desireTheme_' + key)}</span>
+            <span>${DESIRE_THEME_ICON[key]}${t('desireTheme_' + key)}</span>
             <span id="ed-bio-pct-${key}-val" style="color:var(--honey);font-weight:700;">${parseInt(pct[key], 10) || 0}%</span>
           </label>
           <input type="range" min="0" max="100" step="5" id="ed-bio-pct-${key}" value="${parseInt(pct[key], 10) || 0}" style="width:100%;">
@@ -10052,7 +10060,7 @@ function bioNarrativeHtml(m, bio){
       const v = parseInt(desirePct[k], 10) || 0;
       if(!v) return '';
       return `<div class="bio-desire-pct-row" style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;">
-        <span>${DESIRE_THEME_EMOJI[k]} ${t('desireTheme_' + k)}</span>
+        <span>${DESIRE_THEME_ICON[k]}${t('desireTheme_' + k)}</span>
         <span style="color:var(--honey);font-weight:700;">${v}%</span>
       </div>`;
     }).join('');
