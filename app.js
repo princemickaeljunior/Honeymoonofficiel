@@ -1005,6 +1005,7 @@ const I18N = {
     chatDeleteMessage: "Delete this message",
     chatDeleteMessageConfirm: "Permanently delete this message?",
     chatStartBtn: "Send a message",
+    roomChatCta: "Come to talk with her",
     myFamilyContent: "Content",
     myTabsChooseHint: "Pick a tab above to get started.",
     myFamilyMessages: "Messages",
@@ -8114,6 +8115,7 @@ async function openChat(ctx){
   document.getElementById('chat-header-status').textContent = '';
   wireChatModPanel();
   wireChatOccasionPanel(ctx);
+  wireChatSubpackButton(ctx);
   wireChatBot(ctx);
   const cartBtn = document.getElementById('chat-cart-btn');
   const cartHelpBtn = document.getElementById('chat-cart-help-btn');
@@ -8309,9 +8311,7 @@ async function toggleMessageLike(docId){
 function wireChatReactionRail(){
   const rail = document.getElementById('chat-reaction-rail');
   if(!rail) return;
-  const isCreatorView = chatCtx && chatCtx.viewerType === 'creator';
   const reactions = [
-    ...(isCreatorView ? [{ key: 'subpack', icon: ICON_TROPHY_GOLD, title: 'For my subscribers', label: 'For my subscribers' }] : []),
     { key: 'gift', icon: ICON_GIFT, title: 'Cadeau' },
     { key: 'heart', icon: ICON_HEART_SM, title: 'Cœur' },
     { key: 'like', icon: ICON_THUMBSUP, title: "J'aime" },
@@ -8326,10 +8326,6 @@ function wireChatReactionRail(){
     btn.onclick = async () => {
       if(btn.dataset.reaction === 'gift' && chatCtx && chatCtx.viewerType === 'member'){
         openGiftTipPicker();
-        return;
-      }
-      if(btn.dataset.reaction === 'subpack' && chatCtx && chatCtx.viewerType === 'creator'){
-        openSubPackSender();
         return;
       }
       spawnFloatingReaction(btn.dataset.reaction);
@@ -8653,6 +8649,22 @@ function wireChatOccasionPanel(ctx){
       input.setSelectionRange(len, len);
     };
   });
+}
+
+/* ---------------- Bouton "Subscription offer" en haut du chat (créatrice) ----------------
+   Même emplacement / même design que "Tips & rules" et "Occasion phrases" ; ouvre directement
+   l'envoi d'un pack abonné à ce membre (remplace l'ancienne icône "For my subscribers" du rail
+   de réactions, pour n'avoir qu'un seul point d'accès, en haut, sans risque de débordement). */
+function wireChatSubpackButton(ctx){
+  const btn = document.getElementById('chat-subpack-btn');
+  if(!btn) return;
+  if(ctx.viewerType !== 'creator'){
+    btn.style.display = 'none';
+    return;
+  }
+  btn.style.display = 'flex';
+  btn.innerHTML = `${ICON_TROPHY_GOLD}<span>${t('subConfigBtnLabel')}</span>`;
+  btn.onclick = () => openSubPackSender();
 }
 
 let chatBannerTimer = null;
@@ -10957,6 +10969,7 @@ function vitrineCardHtml(m){
         <div class="model-photo empty-slot-photo">
           <span class="logo empty-slot-logo">honeymoon</span>
           <span class="num-badge">${num}</span>
+          <span class="status-led-dot led-red slot-corner-led" title="${escAttr(t('statusOffline'))}"></span>
         </div>
         <div class="model-body">
           <h3 style="font-size:16px;">${t('emptyName')}</h3>
@@ -10976,7 +10989,7 @@ function vitrineCardHtml(m){
         ${m.photoType === 'video' ? `<video src="${m.photo}" muted loop autoplay playsinline></video>` : `<img src="${m.photo}" loading="lazy">`}
         <div class="social-feed-scrim"></div>
         <span class="num-badge">${num}</span>
-        <span class="status">${online ? t('statusOnline') : t('statusOffline')}</span>
+        <span class="status">${online ? t('statusOnline') : t('statusOffline')}<span class="status-led-dot ${online ? 'led-green' : 'led-red'}"></span></span>
       </div>
       <div class="model-body">
         <div class="name-row">
@@ -11267,7 +11280,7 @@ async function openVitrineRoom(id, isBackgroundRefresh){
   body.innerHTML = `
     <div class="vitrine-cover">
       ${m.photoType === 'video' ? `<video src="${m.photo}" controls loop playsinline></video>` : `<img src="${m.photo}" fetchpriority="high" decoding="async">`}
-      <span class="vitrine-status-badge ${online ? 'online' : ''}">${online ? t('statusOnline') : t('statusOffline')}</span>
+      <span class="vitrine-status-badge ${online ? 'online' : ''}">${online ? t('statusOnline') : t('statusOffline')}<span class="status-led-dot ${online ? 'led-green' : 'led-red'}"></span></span>
     </div>
     <h3>${escText(m.name) || t('nameUndefined')} <button type="button" class="room-fav-btn" data-id="${m.id}" title="${escAttr(t('memberFavoriteToggle'))}">${ICON_HEART_OUTLINE}</button></h3>
     <div class="meta" style="color:var(--text-muted);font-size:12px;margin-top:2px;">${escText(m.country || '—')}</div>
@@ -11282,7 +11295,7 @@ async function openVitrineRoom(id, isBackgroundRefresh){
       <p class="sub-discount-note">${t('subDiscountNote')}</p>
       <button type="button" class="sub-config-btn-primary room-subscribe-btn" id="room-subscribe-btn">${t('subscribeBtn')}</button>
     </div>
-    <button type="button" class="room-chat-cta room-chat-btn" data-id="${m.id}">${ICON_CHAT_SM} ${t('chatStartBtn')}</button>
+    <button type="button" class="room-chat-cta room-chat-btn room-chat-cta-gold" data-id="${m.id}">${ICON_CHAT_SM} <span class="room-chat-cta-text">${t('roomChatCta')}</span></button>
     ${(m.eventBanner && m.eventBanner.endAt && Date.now() < m.eventBanner.endAt && Date.now() >= (m.eventBanner.startAt || 0)) ? `
     <div class="room-event-banner">
       <div style="flex:1;">
