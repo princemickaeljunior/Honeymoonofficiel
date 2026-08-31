@@ -580,6 +580,7 @@ const I18N = {
     soonBecomeMemberBody: "This feature is coming soon. Check back soon to find out how to join the Honeymoon community as a member.",
     memberFreeBadge: "100% free account — no sign-up fees",
     memberLoginTitle: "Log in",
+    memberBackToSite: "← Back to site",
     memberSignupTitle: "Create a member account",
     memberSignupLine: "Chat with your favorite creators and unlock their Tip Menu. Free account — you only pay for what you choose to buy.",
     memberHomeWelcomeLine: "Follow your favorite creators, chat with them, and find all your purchases here.",
@@ -5464,6 +5465,7 @@ function wireEyeToggles(root){
 function renderMemberLogin(){
   const body = document.getElementById('member-modal-body');
   body.innerHTML = `
+    <button type="button" id="member-login-back" style="background:none;border:none;color:var(--text-muted);font-size:13px;cursor:pointer;padding:0 0 10px;text-align:left;">${t('memberBackToSite')}</button>
     <span class="member-badge">🔓 ${t('memberFreeBadge')}</span>
     <h3>${t('memberLoginTitle')}</h3>
     <label>${t('memberIdentifierLabel')}</label>
@@ -5477,6 +5479,7 @@ function renderMemberLogin(){
     <div class="member-switch-row">${t('memberNoAccount')} <button type="button" id="member-go-signup">${t('memberCreateOne')}</button></div>
   `;
   wireEyeToggles(body);
+  document.getElementById('member-login-back').onclick = closeMemberModal;
   document.getElementById('member-go-signup').onclick = renderMemberSignup;
   document.getElementById('member-forgot-link').onclick = renderMemberForgot;
   const submit = document.getElementById('member-login-submit');
@@ -5524,6 +5527,7 @@ async function memberLoginSubmit(){
 function renderMemberSignup(){
   const body = document.getElementById('member-modal-body');
   body.innerHTML = `
+    <button type="button" id="member-signup-back" style="background:none;border:none;color:var(--text-muted);font-size:13px;cursor:pointer;padding:0 0 10px;text-align:left;">${t('memberBackToSite')}</button>
     <span class="member-badge">🔓 ${t('memberFreeBadge')}</span>
     <h3>${t('memberSignupTitle')}</h3>
     <p class="member-welcome-line">${t('memberSignupLine')}</p>
@@ -5540,6 +5544,7 @@ function renderMemberSignup(){
     <div class="member-switch-row">${t('memberHaveAccount')} <button type="button" id="member-go-login">${t('memberLoginInstead')}</button></div>
   `;
   wireEyeToggles(body);
+  document.getElementById('member-signup-back').onclick = closeMemberModal;
   document.getElementById('member-go-login').onclick = renderMemberLogin;
   const submit = document.getElementById('member-su-submit');
   submit.onclick = memberSignupSubmit;
@@ -8641,6 +8646,7 @@ function memberLogout(){
 function renderMemberForgot(){
   const body = document.getElementById('member-modal-body');
   body.innerHTML = `
+    <button type="button" id="member-forgot-back-site" style="background:none;border:none;color:var(--text-muted);font-size:13px;cursor:pointer;padding:0 0 10px;text-align:left;">${t('memberBackToSite')}</button>
     <h3>${t('memberForgotTitle')}</h3>
     <p class="member-note">${t('memberForgotBody')}</p>
     <label>${t('memberEmailLabel')}</label>
@@ -8651,6 +8657,7 @@ function renderMemberForgot(){
     </div>
     <button type="button" class="member-forgot-link" id="member-forgot-back">${t('memberBackToLogin')}</button>
   `;
+  document.getElementById('member-forgot-back-site').onclick = closeMemberModal;
   document.getElementById('member-forgot-back').onclick = renderMemberLogin;
   document.getElementById('member-forgot-submit').onclick = memberForgotSubmit;
   document.getElementById('member-forgot-email').addEventListener('keydown', e => { if(e.key === 'Enter') memberForgotSubmit(); });
