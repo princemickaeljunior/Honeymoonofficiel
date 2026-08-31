@@ -274,7 +274,9 @@ let LANG = detectInitialLang();
 const I18N = {
   en: {
     giftTipTitle: "Send a tip",
-    giftTipMessageText: "Sent a {amount}€ tip 🎁",
+    giftTipSubtitle: "Want to put a smile on your favorite creator's face? Pick an amount to send her.",
+    giftTipSendBtn: "Send tip",
+    giftTipMessageText: "Sent a {amount}€ tip {emoji}",
     giftTipSentToast: "Tip sent!",
     gateSub: 'Private access',
     gateEnter: 'Enter',
@@ -8286,34 +8288,75 @@ function wireChatReactionRail(){
     };
   });
 }
+/* Styles injectés pour le nouveau sélecteur de tip à paliers (slider + emoji qui
+   évolue avec le montant) — le popover lui-même (.gift-tip-popover/.gift-tip-title)
+   garde son style existant dans styles.css, seul le contenu interne est nouveau. */
+if(!document.getElementById('hm-gift-tip-style')){
+  const st = document.createElement('style');
+  st.id = 'hm-gift-tip-style';
+  st.textContent = `
+    .gift-tip-subtitle{font-size:12px;color:var(--text-muted);line-height:1.5;margin:0 0 14px;}
+    .gift-tip-emoji-preview{font-size:44px;text-align:center;margin:6px 0 10px;transition:transform .15s;}
+    .gift-tip-amount-readout{text-align:center;font-weight:700;font-size:20px;color:var(--honey);margin-bottom:10px;}
+    .gift-tip-slider{width:100%;accent-color:var(--honey);margin-bottom:14px;}
+    .gift-tip-tiers{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;}
+    .gift-tip-tier-row{display:flex;align-items:center;justify-content:space-between;padding:7px 10px;border-radius:10px;border:1px solid var(--border);font-size:11.5px;color:var(--text-muted);transition:.15s;}
+    .gift-tip-tier-row.active{border-color:var(--honey);color:var(--text);background:var(--bg-elev);}
+    .gift-tip-tier-emoji{font-size:16px;}
+  `;
+  document.head.appendChild(st);
+}
+function giftTipEmojiFor(amount){
+  for(let i = GIFT_TIP_TIERS.length - 1; i >= 0; i--){ if(amount >= GIFT_TIP_TIERS[i].min) return GIFT_TIP_TIERS[i].emoji; }
+  return GIFT_TIP_TIERS[0].emoji;
+}
+const GIFT_TIP_TIERS = [
+  { min: 1, max: 9, emoji: '❤️' },
+  { min: 10, max: 19, emoji: '💋' },
+  { min: 20, max: 59, emoji: '🌹' },
+  { min: 60, max: 89, emoji: '💐' },
+  { min: 90, max: 100, emoji: '🎆' }
+];
 function openGiftTipPicker(){
   if(!chatCtx) return;
   document.querySelectorAll('.gift-tip-popover').forEach(p => p.remove());
-  const amounts = [1, 2, 5, 10, 15, 20, 30, 50, 75, 100];
   const pop = document.createElement('div');
   pop.className = 'gift-tip-popover';
   pop.innerHTML = `
     <div class="gift-tip-title">${ICON_GIFT} ${t('giftTipTitle')}</div>
-    <div class="tabs-slide-row">
-      <div class="tabs-arrows-row">
-        <button type="button" class="level-arrow tabs-arrow-left" data-target="gift-tip-track">‹</button>
-        <button type="button" class="level-arrow tabs-arrow-right" data-target="gift-tip-track">›</button>
-      </div>
-      <div class="gift-tip-track" id="gift-tip-track">
-        ${amounts.map(a => `<button type="button" class="gift-tip-amount-btn" data-amount="${a}">${a}€</button>`).join('')}
-      </div>
+    <p class="gift-tip-subtitle">${escText(t('giftTipSubtitle'))}</p>
+    <div class="gift-tip-emoji-preview" id="gift-tip-emoji-preview">❤️</div>
+    <div class="gift-tip-amount-readout" id="gift-tip-amount-readout">1€</div>
+    <input type="range" min="1" max="100" value="1" step="1" class="gift-tip-slider" id="gift-tip-slider">
+    <div class="gift-tip-tiers" id="gift-tip-tiers">
+      ${GIFT_TIP_TIERS.map(tier => `<div class="gift-tip-tier-row" data-min="${tier.min}"><span>${tier.min}–${tier.max}€</span><span class="gift-tip-tier-emoji">${tier.emoji}</span></div>`).join('')}
     </div>
-    <button type="button" class="btn btn-ghost btn-sm" id="gift-tip-cancel" style="margin-top:10px;width:100%;">${t('memberBioCancelBtn')}</button>
+    <button type="button" class="btn btn-primary btn-sm" id="gift-tip-send" style="width:100%;margin-bottom:8px;">${t('giftTipSendBtn')}</button>
+    <button type="button" class="btn btn-ghost btn-sm" id="gift-tip-cancel" style="width:100%;">${t('memberBioCancelBtn')}</button>
   `;
   document.body.appendChild(pop);
-  wireSlideArrows(pop);
-  pop.querySelectorAll('.gift-tip-amount-btn').forEach(btn => {
-    btn.onclick = () => {
-      const amount = parseInt(btn.dataset.amount, 10);
-      pop.remove();
-      sendGiftTip(amount);
-    };
+  const slider = document.getElementById('gift-tip-slider');
+  const readout = document.getElementById('gift-tip-amount-readout');
+  const preview = document.getElementById('gift-tip-emoji-preview');
+  const tierRows = pop.querySelectorAll('.gift-tip-tier-row');
+  const updatePreview = () => {
+    const amount = parseInt(slider.value, 10);
+    readout.textContent = amount + '€';
+    const emoji = giftTipEmojiFor(amount);
+    preview.textContent = emoji;
+    tierRows.forEach(row => row.classList.toggle('active', emoji === row.querySelector('.gift-tip-tier-emoji').textContent));
+  };
+  slider.addEventListener('input', updatePreview);
+  updatePreview();
+  tierRows.forEach(row => {
+    row.style.cursor = 'pointer';
+    row.onclick = () => { slider.value = row.dataset.min; updatePreview(); };
   });
+  document.getElementById('gift-tip-send').onclick = () => {
+    const amount = parseInt(slider.value, 10);
+    pop.remove();
+    sendGiftTip(amount);
+  };
   document.getElementById('gift-tip-cancel').onclick = () => pop.remove();
   const dismiss = (ev) => { if(!pop.contains(ev.target)){ pop.remove(); document.removeEventListener('click', dismiss); } };
   setTimeout(() => document.addEventListener('click', dismiss), 0);
@@ -8321,7 +8364,8 @@ function openGiftTipPicker(){
 async function sendGiftTip(amount){
   if(!chatCtx) return;
   const ctx = chatCtx;
-  const orderText = t('giftTipMessageText').replace('{amount}', amount);
+  const emoji = giftTipEmojiFor(amount);
+  const orderText = t('giftTipMessageText').replace('{amount}', amount).replace('{emoji}', emoji);
   try{
     const convRef = memberDb.collection('profiles').doc(ctx.profileId).collection('conversations').doc(ctx.memberUid);
     await convRef.collection('messages').add({
@@ -8331,7 +8375,7 @@ async function sendGiftTip(amount){
     });
     await convRef.set({
       memberUid: ctx.memberUid, memberUsername: ctx.memberUsername || '', creatorName: ctx.creatorName || '',
-      lastMessageText: '🎁 ' + orderText, lastMessageAt: firebase.firestore.FieldValue.serverTimestamp(),
+      lastMessageText: emoji + ' ' + orderText, lastMessageAt: firebase.firestore.FieldValue.serverTimestamp(),
       lastSenderType: 'member', creatorUnreadCount: firebase.firestore.FieldValue.increment(1),
       pendingCustomOrderCount: firebase.firestore.FieldValue.increment(1)
     }, { merge: true });
