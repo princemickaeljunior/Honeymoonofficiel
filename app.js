@@ -287,8 +287,14 @@ const I18N = {
     subscribeBackBtn: "Back to profile",
     subscribeMockToast: "Subscribed! (test mode — no payment taken yet)",
     subscriberBadgeTitle: "Subscriber",
+    subDiscountNote: "★ Subscribers get 5% off all paid content",
+    subPackSoldAtNote: "Sold at {discounted}€ to subscribers (5% off {price}€).",
     subConfigBtnLabel: "Subscription offer",
     subConfigTitle: "Your subscription offer",
+    subConfigHowTitle: "How sending a pack works",
+    subConfigHowP1: "1. Prepare your packs here — pick a type, a price, and upload the content.",
+    subConfigHowP2: "2. Open a chat with a subscriber and tap the gold trophy icon above the gift button.",
+    subConfigHowP3: "3. Pick the pack you want — it's sent instantly, already priced with their subscriber discount.",
     subConfigDescLabel: "Description shown to members",
     subConfigNoPacks: "No packs yet — add one below.",
     subConfigAddPack: "Add a pack",
@@ -966,8 +972,10 @@ const I18N = {
     chatLoading: "Loading…",
     chatEmptyNote: "No messages yet. Say hello!",
     chatNoOrdersNote: "No orders in this conversation yet.",
+    chatNoSubPacksNote: "No subscriber packs in this conversation yet.",
     chatTabLibre: "Free chat",
     chatTabOrders: "Orders",
+    chatTabAbonnement: "Subscription",
     chatTopicStarterTemplate: "Shall we talk about {topic}? 😊",
     chatTopic_day: "Your day",
     chatTopic_travel: "Travel",
@@ -1340,6 +1348,7 @@ function applyStaticText(){
   document.getElementById('t-creator-signup-link').textContent = t('creatorSignupLink');
   document.getElementById('t-chat-tab-libre').textContent = t('chatTabLibre');
   document.getElementById('t-chat-tab-orders').textContent = t('chatTabOrders');
+  document.getElementById('t-chat-tab-abonnement').textContent = t('chatTabAbonnement');
   document.getElementById('t-creator-signup-sub').textContent = t('creatorSignupSub');
   document.getElementById('t-creator-signup-note').textContent = t('creatorSignupNote');
   document.getElementById('t-creator-su-submit').textContent = t('creatorSuSubmit');
@@ -1991,7 +2000,7 @@ function renderMyProfile(slotId){
       <h1 class="display" style="font-size:24px;">${t('myProfileHello')}${m.name ? ', ' + escText(m.name) : ''}</h1>
       <p style="color:var(--text-muted);font-size:13px;max-width:420px;margin:10px auto 0;line-height:1.7;">${t('myProfileManageNote')}</p>
       <button class="btn btn-primary" id="my-edit-btn" style="max-width:280px;margin:18px auto 0;">${t('myEditBtn')}</button>
-      <button class="btn btn-primary" id="my-subscription-btn" style="max-width:280px;margin:10px auto 0;">${t('subConfigBtnLabel')}</button>
+      <button class="sub-config-btn-primary" id="my-subscription-btn" style="max-width:280px;margin:10px auto 0;">${t('subConfigBtnLabel')}</button>
     </div>
     <div class="popularity-hero" id="popularity-hero-${m.id}">
       <div class="tiktok-stat"><span class="tiktok-stat-num">${(m.followingMembers || []).length}</span><span class="tiktok-stat-label">${t('followingLabel')}</span></div>
@@ -7903,7 +7912,7 @@ let chatUnsubMessages = null;
 let chatUnsubConv = null;
 let chatTypingIdleTimer = null;
 let chatMyTypingTimer = null;
-let chatActiveTab = 'libre'; // 'libre' (discussion libre) ou 'commandes' (demandes de commande uniquement)
+let chatActiveTab = 'libre'; // 'libre' (discussion libre), 'commandes' (demandes de commande) ou 'abonnement' (packs abonnés)
 let chatLastSnapDocs = [];
 
 // Regroupe le rendu des messages, filtré par onglet actif — appelé à chaque nouveau
@@ -7913,9 +7922,15 @@ function renderChatMessages(ctx, convRef, unreadField){
   const box = document.getElementById('chat-messages');
   if(!box) return;
   const allDocs = chatLastSnapDocs;
-  const docs = allDocs.filter(d => chatActiveTab === 'commandes' ? !!d.data().customOrderRequest : !d.data().customOrderRequest);
+  const docs = allDocs.filter(d => {
+    const dd = d.data();
+    if(chatActiveTab === 'abonnement') return !!dd.customOrderRequest && dd.orderKind === 'subPack';
+    if(chatActiveTab === 'commandes') return !!dd.customOrderRequest && dd.orderKind !== 'subPack';
+    return !dd.customOrderRequest;
+  });
   if(docs.length === 0){
-    box.innerHTML = `<span class="chat-empty-note">${chatActiveTab === 'commandes' ? t('chatNoOrdersNote') : t('chatEmptyNote')}</span>`;
+    const emptyMsg = chatActiveTab === 'commandes' ? t('chatNoOrdersNote') : chatActiveTab === 'abonnement' ? t('chatNoSubPacksNote') : t('chatEmptyNote');
+    box.innerHTML = `<span class="chat-empty-note">${emptyMsg}</span>`;
     return;
   }
   const wasNearBottom = (box.scrollHeight - box.scrollTop - box.clientHeight) < 80;
@@ -8006,11 +8021,17 @@ function renderChatMessages(ctx, convRef, unreadField){
   convRef.set({ [unreadField]: 0 }, { merge: true }).catch(() => {});
 }
 function updateChatTabBadges(){
-  const ordersCount = chatLastSnapDocs.filter(d => d.data().customOrderRequest && d.data().customOrderStatus !== 'delivered').length;
+  const ordersCount = chatLastSnapDocs.filter(d => d.data().customOrderRequest && d.data().orderKind !== 'subPack' && d.data().customOrderStatus !== 'delivered').length;
   const badge = document.getElementById('chat-tab-orders-badge');
   if(badge){
     if(ordersCount > 0){ badge.style.display = 'inline-flex'; badge.textContent = ordersCount > 99 ? '99+' : String(ordersCount); }
     else { badge.style.display = 'none'; }
+  }
+  const subPackCount = chatLastSnapDocs.filter(d => d.data().orderKind === 'subPack').length;
+  const subBadge = document.getElementById('chat-tab-abonnement-badge');
+  if(subBadge){
+    if(subPackCount > 0){ subBadge.style.display = 'inline-flex'; subBadge.textContent = subPackCount > 99 ? '99+' : String(subPackCount); }
+    else { subBadge.style.display = 'none'; }
   }
 }
 function switchChatTab(tab){
@@ -8286,8 +8307,7 @@ async function toggleMessageLike(docId){
 }
 function wireChatReactionRail(){
   const rail = document.getElementById('chat-reaction-rail');
-  if(!rail || rail.dataset.wired) return;
-  rail.dataset.wired = '1';
+  if(!rail) return;
   const isCreatorView = chatCtx && chatCtx.viewerType === 'creator';
   const reactions = [
     ...(isCreatorView ? [{ key: 'subpack', icon: ICON_TROPHY_GOLD, title: 'Mes abonnés', label: 'Abonnés' }] : []),
@@ -8346,6 +8366,29 @@ if(!document.getElementById('hm-subscribe-style')){
     .subscribe-perk{font-size:12px;color:var(--text,#fff);background:var(--bg,#120d16);border:1px solid var(--border,#3a2e40);border-radius:10px;padding:9px 12px;}
     .subscribe-fictif-note{font-size:10px;color:var(--text-muted,#a89bb0);margin:8px 0 16px;font-style:italic;}
     .subscribe-page .subscribe-pay-btn{margin-bottom:8px;}
+
+    /* ---- Page de configuration de l'offre (créatrice) — habillage premium ---- */
+    .sub-config-btn-primary{display:block;width:100%;box-sizing:border-box;padding:14px;border:none;border-radius:14px;background:linear-gradient(90deg,#a9812f,#f6dfa0,#caa14d,#f6dfa0,#a9812f);background-size:300% 100%;animation:subGoldShift 5s linear infinite;color:#1c130a;font-weight:800;font-size:14px;letter-spacing:.2px;cursor:pointer;box-shadow:0 6px 20px rgba(246,223,160,.25);transition:transform .15s,box-shadow .15s;}
+    .sub-config-btn-primary:active{transform:scale(.98);box-shadow:0 3px 10px rgba(246,223,160,.2);}
+    @keyframes subGoldShift{0%{background-position:0% 50%;}100%{background-position:300% 50%;}}
+    .sub-config-btn-ghost{display:block;width:100%;box-sizing:border-box;padding:12px;border-radius:14px;background:rgba(246,223,160,.06);border:1px dashed rgba(246,223,160,.5);color:var(--honey,#f6dfa0);font-weight:700;font-size:12.5px;cursor:pointer;transition:.15s;}
+    .sub-config-btn-ghost:hover{background:rgba(246,223,160,.12);}
+    .sub-config-btn-outline{display:block;width:100%;box-sizing:border-box;padding:12px;border-radius:14px;background:transparent;border:1px solid var(--border,#3a2e40);color:var(--text-muted,#a89bb0);font-weight:600;font-size:12.5px;cursor:pointer;transition:.15s;}
+    .sub-config-btn-outline:hover{border-color:var(--honey,#f6dfa0);color:var(--text,#fff);}
+    .sub-pack-row{position:relative;border:1px solid rgba(246,223,160,.22)!important;border-radius:16px!important;padding:16px!important;background:linear-gradient(160deg,rgba(246,223,160,.06),rgba(28,20,32,0) 60%);box-shadow:0 4px 16px rgba(0,0,0,.25);}
+    .sub-pack-type-toggle{display:inline-flex;background:var(--bg,#120d16);border:1px solid var(--border,#3a2e40);border-radius:12px;padding:3px;gap:2px;}
+    .sub-pack-type-btn{border:none;background:none;color:var(--text-muted,#a89bb0);font-size:11.5px;font-weight:700;padding:7px 12px;border-radius:9px;cursor:pointer;display:flex;align-items:center;gap:5px;transition:.15s;}
+    .sub-pack-type-btn.active{background:linear-gradient(90deg,var(--honey,#f6dfa0),#e0455a);color:#1c130a;box-shadow:0 2px 8px rgba(246,223,160,.3);}
+    .sub-pack-rm-btn{width:28px;height:28px;border-radius:50%;border:1px solid var(--border,#3a2e40);background:var(--bg,#120d16);color:var(--text-muted,#a89bb0);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:.15s;}
+    .sub-pack-rm-btn:hover{border-color:#e0455a;color:#e0455a;}
+    .sub-pack-label{display:block;font-size:10.5px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;color:var(--honey,#f6dfa0);margin:0 0 5px;}
+    .sub-pack-input{display:block;width:100%;box-sizing:border-box;background:var(--bg,#120d16);border:1px solid var(--border,#3a2e40);color:var(--text,#fff);border-radius:10px;padding:10px 12px;font-size:13px;margin-bottom:12px;transition:.15s;}
+    .sub-pack-input:focus{outline:none;border-color:var(--honey,#f6dfa0);box-shadow:0 0 0 3px rgba(246,223,160,.15);}
+    .sub-config-desc-input{display:block;width:100%;box-sizing:border-box;background:var(--bg,#120d16);border:1px solid var(--border,#3a2e40);color:var(--text,#fff);border-radius:12px;padding:12px;font-size:12.5px;line-height:1.5;resize:vertical;}
+    .sub-config-desc-input:focus{outline:none;border-color:var(--honey,#f6dfa0);box-shadow:0 0 0 3px rgba(246,223,160,.15);}
+    .sub-discount-note{color:#f6dfa0;background:rgba(246,223,160,.10);border:1px solid rgba(246,223,160,.3);border-radius:10px;padding:8px 12px;font-size:11.5px;font-weight:700;margin:0 0 10px;}
+    .sub-price-struck{color:var(--text-muted,#a89bb0);text-decoration:line-through;font-weight:400;margin-right:4px;}
+    .sub-pack-sold-note{font-size:10.5px;color:var(--text-muted,#a89bb0);line-height:1.5;margin:-6px 0 12px;padding:6px 10px;background:var(--bg,#120d16);border-radius:8px;border:1px solid var(--border,#3a2e40);}
   `;
   document.head.appendChild(st2);
 }
@@ -8482,7 +8525,7 @@ async function openSubPackSender(){
       return;
     }
     listEl.innerHTML = packs.map((p, idx) => `
-      <button type="button" class="coach-table-row" data-idx="${idx}">${typeIconSvg[p.type || 'photo'] || ''} ${(p.type||'photo')} — ${p.price}€${p.description ? ' · ' + escText(p.description) : ''}</button>
+      <button type="button" class="coach-table-row" data-idx="${idx}">${typeIconSvg[p.type || 'photo'] || ''} ${(p.type||'photo')} — ${Math.max(1, Math.round(p.price * 0.95 * 100) / 100)}€${p.description ? ' · ' + escText(p.description) : ''}</button>
     `).join('');
     listEl.querySelectorAll('[data-idx]').forEach(btn => {
       btn.onclick = () => {
@@ -8499,12 +8542,14 @@ async function openSubPackSender(){
 async function sendSubPack(pack){
   if(!chatCtx || !pack) return;
   const ctx = chatCtx;
-  const orderText = t('subPackMessageText').replace('{price}', pack.price);
+  // Pack "abonnés" = toujours vendu avec la remise abonné de 5% (c'est le principe même de ce bouton).
+  const finalPrice = Math.max(1, Math.round(pack.price * 0.95 * 100) / 100);
+  const orderText = t('subPackMessageText').replace('{price}', finalPrice);
   try{
     const convRef = db.collection('profiles').doc(ctx.profileId).collection('conversations').doc(ctx.memberUid);
     await convRef.collection('messages').add({
       senderType: 'creator', text: orderText, customOrderRequest: true, customOrderStatus: 'delivered',
-      orderKind: 'subPack', tipPrice: pack.price,
+      orderKind: 'subPack', tipPrice: finalPrice, tipPriceBeforeDiscount: pack.price,
       deliveredContentUrl: pack.contentUrl || '', deliveredContentType: pack.type || 'photo',
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
@@ -11189,6 +11234,14 @@ function showPaymentInstructions(o){
 async function openVitrineRoom(id, isBackgroundRefresh){
   const m = roster.find(x => x.id === id);
   if(!m) return;
+  let myIsSubscriber = false;
+  if(memberAuth && memberAuth.currentUser && !memberAuth.currentUser.isAnonymous){
+    try{
+      const subDoc = await memberDb.collection('profiles').doc(m.id).collection('subscribers').doc(memberAuth.currentUser.uid).get();
+      myIsSubscriber = subDoc.exists;
+    }catch(e){ console.error('check subscriber status error', e); }
+  }
+  const discountedPrice = (price) => myIsSubscriber && price ? Math.max(1, Math.round(price * 0.95 * 100) / 100) : price;
   const bio = Object.assign({
     origin:'', nationality:'', age:'', bodyType:'', orientation:'', lookingFor:'',
     passions:'', universe:'', hobbies:'', personality:'', fantasies:'', fetish:'',
@@ -11228,7 +11281,8 @@ async function openVitrineRoom(id, isBackgroundRefresh){
     <div class="room-subscribe-block">
       <div class="room-subscribe-title">${ICON_TROPHY_GOLD} ${t('subscribeSectionTitle')}</div>
       <p class="room-subscribe-desc">${escText(m.subscriptionDesc || t('subscribeDefaultDesc'))}</p>
-      <button type="button" class="btn btn-primary room-subscribe-btn" id="room-subscribe-btn">${t('subscribeBtn')}</button>
+      <p class="sub-discount-note">${t('subDiscountNote')}</p>
+      <button type="button" class="sub-config-btn-primary room-subscribe-btn" id="room-subscribe-btn">${t('subscribeBtn')}</button>
     </div>
     <button type="button" class="room-chat-cta room-chat-btn" data-id="${m.id}">${ICON_CHAT_SM} ${t('chatStartBtn')}</button>
     ${(m.eventBanner && m.eventBanner.endAt && Date.now() < m.eventBanner.endAt && Date.now() >= (m.eventBanner.startAt || 0)) ? `
@@ -11282,6 +11336,7 @@ async function openVitrineRoom(id, isBackgroundRefresh){
         <p>${t('tipMenuHowMemberP1')}</p>
         <p>${t('tipMenuHowMemberP2')}</p>
         <p>${t('tipMenuHowMemberP3')}</p>
+        ${myIsSubscriber ? `<p class="sub-discount-note">${t('subDiscountNote')}</p>` : ''}
       </div>
       <div class="tipmenu-public-list">
         ${m.tipMenu.map((r, idx) => `
@@ -11295,10 +11350,10 @@ async function openVitrineRoom(id, isBackgroundRefresh){
             </div>` : ''}
             <div class="tipmenu-public-head">
               <span class="tipmenu-public-theme">${r.emoji ? r.emoji + ' ' : ''}${escText(r.theme)}</span>
-              <span class="tipmenu-public-prices">${r.type === 'video' ? ICON_VIDEO : (r.type === 'audio' ? ICON_AUDIO : ICON_CAMERA)} ${r.price ? r.price + '€' : ''}</span>
+              <span class="tipmenu-public-prices">${r.type === 'video' ? ICON_VIDEO : (r.type === 'audio' ? ICON_AUDIO : ICON_CAMERA)} ${r.price ? (myIsSubscriber ? `<span class="sub-price-struck">${r.price}€</span> ${discountedPrice(r.price)}€` : r.price + '€') : ''}</span>
             </div>
             ${r.description ? `<p class="tipmenu-public-desc">${escText(r.description)}</p>` : ''}
-            <button type="button" class="tipmenu-order-btn" data-id="${m.id}" data-idx="${idx}" data-theme="${escAttr(r.theme)}" data-price="${r.price || ''}">${ICON_CART} ${t('tipMenuOrderBtn')}</button>
+            <button type="button" class="tipmenu-order-btn" data-id="${m.id}" data-idx="${idx}" data-theme="${escAttr(r.theme)}" data-price="${discountedPrice(r.price) || ''}">${ICON_CART} ${t('tipMenuOrderBtn')}</button>
           </div>`).join('')}
       </div>
       ${m.tipMenuRules ? `<p class="tipmenu-public-rules">${escText(m.tipMenuRules)}</p>` : ''}
@@ -11565,13 +11620,14 @@ function openSubscribePage(m, onSubscribed){
       <h2 class="subscribe-page-title">${escText(t('subscribePageTitle').replace('{name}', m.name || t('nameUndefined')))}</h2>
       <p class="subscribe-page-desc">${escText(m.subscriptionDesc || t('subscribeDefaultDesc'))}</p>
       <div class="subscribe-page-perks">
-        <div class="subscribe-perk">📷 ${t('subscribePerkPhoto')}</div>
-        <div class="subscribe-perk">🎥 ${t('subscribePerkVideo')}</div>
-        <div class="subscribe-perk">🎵 ${t('subscribePerkAudio')}</div>
+        <div class="subscribe-perk">${ICON_CAMERA} ${t('subscribePerkPhoto')}</div>
+        <div class="subscribe-perk">${ICON_VIDEO} ${t('subscribePerkVideo')}</div>
+        <div class="subscribe-perk">${ICON_AUDIO} ${t('subscribePerkAudio')}</div>
+        <div class="subscribe-perk sub-discount-note" style="background:transparent;border:none;padding:2px 0 0;">${t('subDiscountNote')}</div>
       </div>
-      <button type="button" class="btn btn-primary subscribe-pay-btn" id="subscribe-pay-btn">${t('subscribePayBtn')}</button>
+      <button type="button" class="sub-config-btn-primary subscribe-pay-btn" id="subscribe-pay-btn">${t('subscribePayBtn')}</button>
       <p class="subscribe-fictif-note">${t('subscribeFictifNote')}</p>
-      <button type="button" class="btn btn-ghost" id="subscribe-back-btn">${t('subscribeBackBtn')}</button>
+      <button type="button" class="sub-config-btn-outline" id="subscribe-back-btn">${t('subscribeBackBtn')}</button>
     </div>
   `;
   document.body.appendChild(backdrop);
@@ -11614,20 +11670,21 @@ function openSubscriptionConfigPage(m){
   function rowHtml(pack, idx){
     const type = pack.type || 'photo';
     return `
-      <div class="sub-pack-row" data-idx="${idx}" style="border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:10px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-          <div class="tipmenu-type-toggle">
-            <button type="button" class="tipmenu-type-btn ${type==='photo'?'active':''}" data-idx="${idx}" data-type="photo">${ICON_CAMERA} ${t('tipMenuColPhoto')}</button>
-            <button type="button" class="tipmenu-type-btn ${type==='video'?'active':''}" data-idx="${idx}" data-type="video">${ICON_VIDEO} ${t('tipMenuColVideo')}</button>
-            <button type="button" class="tipmenu-type-btn ${type==='audio'?'active':''}" data-idx="${idx}" data-type="audio">${ICON_AUDIO} ${t('tipMenuColAudio')}</button>
+      <div class="sub-pack-row" data-idx="${idx}">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:6px;">
+          <div class="sub-pack-type-toggle">
+            <button type="button" class="sub-pack-type-btn ${type==='photo'?'active':''}" data-idx="${idx}" data-type="photo">${ICON_CAMERA} ${t('tipMenuColPhoto')}</button>
+            <button type="button" class="sub-pack-type-btn ${type==='video'?'active':''}" data-idx="${idx}" data-type="video">${ICON_VIDEO} ${t('tipMenuColVideo')}</button>
+            <button type="button" class="sub-pack-type-btn ${type==='audio'?'active':''}" data-idx="${idx}" data-type="audio">${ICON_AUDIO} ${t('tipMenuColAudio')}</button>
           </div>
-          <button type="button" class="sub-pack-rm" data-idx="${idx}" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:14px;">✕</button>
+          <button type="button" class="sub-pack-rm-btn sub-pack-rm" data-idx="${idx}">✕</button>
         </div>
-        <label>${t('subPackPriceLabel')}</label>
-        <input type="number" class="sub-pack-price" data-idx="${idx}" min="10" max="100" step="1" value="${pack.price||''}" placeholder="10–100€">
-        <label style="margin-top:8px;">${t('subPackDescLabel')}</label>
-        <input type="text" class="sub-pack-desc" data-idx="${idx}" maxlength="60" value="${escAttr(pack.description||'')}" placeholder="${escAttr(t('subPackDescPh'))}">
-        <div style="margin-top:8px;">
+        <label class="sub-pack-label">${t('subPackPriceLabel')}</label>
+        <input type="number" class="sub-pack-input sub-pack-price" data-idx="${idx}" min="10" max="100" step="1" value="${pack.price||''}" placeholder="10–100€">
+        <p class="sub-pack-sold-note" id="sub-pack-sold-${idx}">${subPackSoldNoteText(pack.price)}</p>
+        <label class="sub-pack-label">${t('subPackDescLabel')}</label>
+        <input type="text" class="sub-pack-input sub-pack-desc" data-idx="${idx}" maxlength="60" value="${escAttr(pack.description||'')}" placeholder="${escAttr(t('subPackDescPh'))}">
+        <div>
           ${pack.contentUrl ? `
             <div class="tipmenu-content-preview">
               ${type==='video' ? `<video src="${escAttr(pack.contentUrl)}" controls></video>` : type==='audio' ? `<audio src="${escAttr(pack.contentUrl)}" controls></audio>` : `<img src="${escAttr(pack.contentUrl)}" loading="lazy" decoding="async">`}
@@ -11637,26 +11694,54 @@ function openSubscriptionConfigPage(m){
       </div>`;
   }
 
+  function subPackSoldNoteText(price){
+    if(!price) return '';
+    const discounted = Math.max(1, Math.round(price * 0.95 * 100) / 100);
+    const myCut = Math.round(discounted * 0.6 * 100) / 100;
+    return `${t('subPackSoldAtNote').replace('{price}', price).replace('{discounted}', discounted)}<br>${t('tipMenuEarnNote').replace('{amount}', myCut)}`;
+  }
+
   function render(){
     backdrop.innerHTML = `
       <div class="subscribe-page" style="max-width:520px;text-align:left;">
         <h2 class="subscribe-page-title" style="margin-top:0;">${t('subConfigTitle')}</h2>
-        <label>${t('subConfigDescLabel')}</label>
-        <textarea id="sub-desc-input" rows="3" maxlength="200" placeholder="${escAttr(t('subscribeDefaultDesc'))}" style="width:100%;background:var(--bg-elev);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:8px 10px;">${escText(localDesc)}</textarea>
-        <div id="sub-packs-rows" style="margin-top:14px;">${localPacks.map(rowHtml).join('') || `<p class="member-note">${t('subConfigNoPacks')}</p>`}</div>
-        <button type="button" class="btn btn-ghost btn-sm" id="sub-add-row" style="margin-top:6px;width:100%;">+ ${t('subConfigAddPack')}</button>
-        <div class="modal-actions" style="margin-top:16px;">
-          <button type="button" class="btn btn-primary btn-sm" id="sub-config-save" style="flex:1;">${t('subConfigSaveBtn')}</button>
+        <div class="tipmenu-how-it-works">
+          <h4>${t('subConfigHowTitle')}</h4>
+          <p>${t('subConfigHowP1')}</p>
+          <p>${t('subConfigHowP2')}</p>
+          <p>${t('subConfigHowP3')}</p>
         </div>
-        <button type="button" class="btn btn-ghost" id="sub-config-back" style="margin-top:10px;">${t('subscribeBackBtn')}</button>
+        <label class="sub-pack-label">${t('subConfigDescLabel')}</label>
+        <textarea id="sub-desc-input" rows="3" maxlength="200" class="sub-config-desc-input" placeholder="${escAttr(t('subscribeDefaultDesc'))}">${escText(localDesc)}</textarea>
+        <div id="sub-packs-rows" style="margin-top:16px;display:flex;flex-direction:column;gap:12px;">
+          <p class="sub-discount-note">${t('subDiscountNote')}</p>
+          ${localPacks.map(rowHtml).join('') || `<p class="member-note">${t('subConfigNoPacks')}</p>`}
+        </div>
+        <button type="button" class="sub-config-btn-ghost" id="sub-add-row" style="margin-top:12px;">+ ${t('subConfigAddPack')}</button>
+        <a href="https://www.google.com/search?q=euro+to" target="_blank" rel="noopener" class="sub-config-btn-outline" style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:14px;text-decoration:none;">${ICON_EXTLINK} ${t('tipMenuCurrencyCompareLink')}</a>
+        <button type="button" class="sub-config-btn-primary" id="sub-config-save" style="margin-top:14px;">${t('subConfigSaveBtn')}</button>
+        <button type="button" class="sub-config-btn-outline" id="sub-config-back" style="margin-top:10px;">${t('subscribeBackBtn')}</button>
       </div>
     `;
     document.getElementById('sub-desc-input').oninput = (e) => { localDesc = e.target.value; };
-    backdrop.querySelectorAll('.tipmenu-type-btn').forEach(btn => {
+    backdrop.querySelectorAll('.sub-pack-type-btn').forEach(btn => {
       btn.onclick = () => { localPacks[parseInt(btn.dataset.idx, 10)].type = btn.dataset.type; render(); };
     });
     backdrop.querySelectorAll('.sub-pack-price').forEach(inp => {
-      inp.onchange = () => { localPacks[parseInt(inp.dataset.idx, 10)].price = Math.max(10, Math.min(100, parseInt(inp.value, 10) || 10)); };
+      const idx = parseInt(inp.dataset.idx, 10);
+      const noteEl = document.getElementById('sub-pack-sold-' + idx);
+      inp.oninput = () => {
+        let val = parseInt(inp.value, 10);
+        if(!isNaN(val) && val > 100){ val = 100; inp.value = 100; }
+        localPacks[idx].price = isNaN(val) ? null : Math.max(0, val);
+        if(noteEl) noteEl.innerHTML = subPackSoldNoteText(localPacks[idx].price);
+      };
+      inp.onblur = () => {
+        const clamped = Math.max(10, Math.min(100, parseInt(inp.value, 10) || 10));
+        inp.value = clamped;
+        localPacks[idx].price = clamped;
+        if(noteEl) noteEl.innerHTML = subPackSoldNoteText(clamped);
+      };
     });
     backdrop.querySelectorAll('.sub-pack-desc').forEach(inp => {
       inp.oninput = () => { localPacks[parseInt(inp.dataset.idx, 10)].description = inp.value; };
