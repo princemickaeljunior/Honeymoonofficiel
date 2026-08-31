@@ -672,6 +672,23 @@ const I18N = {
     coachPickCategoryPrompt: "Pick what's on your mind:",
     coachStepOf: "Question {n}/{total}",
     coachLikeBtn: "Helpful",
+    coachFrameSubtitle: "Your dating & flirt coach",
+    coachWelcomeIntro: "Hi, I'm your Coach Honeymoon 💛 Here's how I can help:",
+    coachWelcomeBullet1: "Understand how a creator works — her behavior, distance, silences",
+    coachWelcomeBullet2: "Know if she's really into you and how to talk to her",
+    coachWelcomeBullet3: "Create real attraction and handle first dates",
+    coachWelcomeBullet4: "Get through silences, budget questions, and moving on",
+    coachChooseThemePrompt: "Pick what you'd like to explore:",
+    coachThemeCreatorTitle: "About her (creator side)",
+    coachThemeCreatorDesc: "How she works, her behavior, distance, silences, budget",
+    coachThemeFlirtTitle: "Flirt & relationship",
+    coachThemeFlirtDesc: "Does she like you, how to talk to her, attraction, dates",
+    coachTablePrompt: "Tap a question:",
+    coachBackToTable: "Back to table",
+    coachSaveBtn: "Save",
+    coachEraseBtn: "Erase & back",
+    coachSavedToast: "Conversation saved 💛",
+    coachSwitchTheme: "Switch topic",
     memberTabPurchases: "Collection",
     memberUnverifiedBanner: "Account not confirmed yet — email sent to {email}.",
     memberResendShort: "Resend",
@@ -3716,6 +3733,29 @@ if(!document.getElementById('hm-coach-gold-style')){
     .coach-like-btn{display:inline-flex;align-items:center;gap:5px;background:none;border:1px solid var(--border);border-radius:20px;padding:4px 10px;color:var(--text-muted);font-size:10.5px;cursor:pointer;transition:.15s;}
     .coach-like-btn:hover{border-color:var(--honey);color:var(--text);}
     .coach-like-btn.liked{background:linear-gradient(90deg,var(--honey),var(--rose));border-color:transparent;color:#1c130a;}
+
+    .coach-frame{border:1px solid var(--border);border-radius:18px;padding:14px;background:var(--bg-elev);}
+    .coach-frame .coach-chat-header{background:transparent;border:none;padding:0 0 12px;margin:0;}
+    .coach-welcome-list{margin:0 0 4px 37px;padding:0 0 0 18px;color:var(--text);font-size:12.5px;line-height:1.7;}
+    .coach-welcome-list li{margin-bottom:2px;}
+    .coach-theme-choice{display:flex;flex-direction:column;gap:10px;margin:8px 0 4px 37px;}
+    .coach-theme-btn{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:13px 14px;cursor:pointer;transition:.15s;}
+    .coach-theme-btn:hover{border-color:var(--honey);}
+    .coach-theme-btn-icon{width:34px;height:34px;border-radius:11px;background:linear-gradient(135deg,var(--honey),var(--rose));display:flex;align-items:center;justify-content:center;color:#1c130a;flex-shrink:0;}
+    .coach-theme-btn-title{display:block;font-weight:700;font-size:13px;color:var(--text);}
+    .coach-theme-btn-desc{display:block;font-size:11px;color:var(--text-muted);margin-top:2px;}
+
+    .coach-table{border:1px solid var(--border);border-radius:14px;overflow:hidden;margin:8px 0 4px 37px;}
+    .coach-table-cat{display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--bg);font-size:10.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.4px;border-top:1px solid var(--border);}
+    .coach-table-cat:first-child{border-top:none;}
+    .coach-table-row{display:block;width:100%;text-align:left;background:none;border:none;border-top:1px solid var(--border);padding:11px 14px;font-size:12.5px;color:var(--text);cursor:pointer;transition:.15s;}
+    .coach-table-row:hover{background:var(--bg);color:var(--honey);}
+
+    .coach-action-bar{display:flex;justify-content:flex-end;gap:6px;margin:12px 0 4px 37px;flex-wrap:wrap;}
+    .coach-action-btn{display:inline-flex;align-items:center;gap:5px;background:none;border:1px solid var(--border);border-radius:20px;padding:6px 11px;color:var(--text-muted);font-size:10.5px;cursor:pointer;transition:.15s;}
+    .coach-action-btn:hover{border-color:var(--honey);color:var(--text);}
+    .coach-switch-theme{display:inline-flex;align-items:center;gap:5px;background:none;border:none;color:var(--text-muted);font-size:11px;padding:10px 2px 2px 37px;cursor:pointer;}
+    .coach-switch-theme:hover{color:var(--text);}
   `;
   document.head.appendChild(st);
 }
@@ -3874,135 +3914,164 @@ const BOT_CONFIG = {
   ], welcomeKey: 'toolCoachFlirtWelcome' }
 };
 
-function renderMemberToolMatchWords(container){
+/* Un seul encadré (.coach-frame). Étapes : accueil en puces sans bouton -> choix du
+   thème (2 boutons) -> tableau de toutes les questions du thème -> clic sur une question
+   -> réponse tapée À LA PLACE du tableau, avec une barre d'actions à droite (retour au
+   tableau / sauvegarder toute la conversation en cours / effacer cette réponse et revenir
+   au tableau). coachState.log accumule tous les échanges de la session pour la sauvegarde. */
+let coachState = { theme: null, view: 'welcome', log: [] };
+let coachUid = null;
+
+function renderMemberToolMatchWords(container, uid){
   if(!container) return;
+  coachUid = uid || null;
+  coachState = { theme: null, view: 'welcome', log: [] };
   container.innerHTML = `
     <p style="color:var(--text-muted);font-size:11.5px;margin:0 0 14px;line-height:1.6;">${t('toolMatchWordsNote')}</p>
-    ${coachChatHeaderHtml(t('coachCreatorSectionTitle'))}
-    <div id="coach-wrap-creator"></div>
-    <div style="height:1px;background:var(--border);margin:24px 0;"></div>
-    ${coachChatHeaderHtml(t('coachFlirtSectionTitle'))}
-    <div id="coach-wrap-flirt"></div>
+    <div class="coach-frame">
+      ${coachChatHeaderHtml(t('coachFrameSubtitle'))}
+      <div id="coach-body"></div>
+    </div>
   `;
-  renderCoachBot('creator', document.getElementById('coach-wrap-creator'));
-  renderCoachBot('flirt', document.getElementById('coach-wrap-flirt'));
-}
-
-/* Construit un chat Coach Honeymoon indépendant (catégories + zone de chat), identifié
-   par botKey ('creator' ou 'flirt') — même process pour les deux, seul le contenu change. */
-function renderCoachBot(botKey, container){
-  if(!container) return;
-  const cfg = BOT_CONFIG[botKey];
-  container.innerHTML = `
-    <div class="advice-topics" id="coach-categories-${botKey}"></div>
-    <div class="advice-chat" id="coach-chat-${botKey}"></div>
-  `;
-  const catsEl = document.getElementById(`coach-categories-${botKey}`);
-  catsEl.innerHTML = cfg.categories.map(cat => `
-    <button class="advice-topic-btn" data-cat="${cat.id}">${premiumTagIcon(AICON[cat.icon])} ${cat.title}</button>
-  `).join('');
-  catsEl.querySelectorAll('.advice-topic-btn[data-cat]').forEach(btn => {
-    btn.onclick = () => coachOpenCategory(botKey, btn.dataset.cat);
-  });
-  coachShowWelcome(botKey);
+  coachShowWelcomeUnified();
 }
 
 /* Estimation grossière de la durée de frappe (mêmes constantes que typeWriterText)
-   pour savoir quand faire apparaître les puces de suivi une fois le texte "tapé". */
+   pour savoir quand faire apparaître la suite une fois le texte "tapé". */
 function coachTypingDelayMs(text){
   const words = text.split(' ').length;
   const base = Math.min(4200, 500 + words * 42);
   return coachRestMs(base);
 }
 
-/* Ré-affiche le message d'accueil du coach dans le chat d'un bot donné. */
-function coachShowWelcome(botKey){
-  const chat = document.getElementById(`coach-chat-${botKey}`);
-  if(!chat) return;
-  coachState[botKey] = {};
-  const id = `coach-welcome-bubble-${botKey}`;
-  chat.innerHTML = `<div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show" id="${id}"></div></div>`;
-  setTimeout(() => typeWriterText(document.getElementById(id), t(BOT_CONFIG[botKey].welcomeKey)), coachRestMs(400));
-}
-
-/* Ouvre une catégorie dans le chat d'un bot donné : soit le mini-diagnostic à étapes
-   (silence), soit la liste des questions de départ affichée comme un message du coach
-   avec des boutons dessous. */
-function coachOpenCategory(botKey, catId){
-  const chat = document.getElementById(`coach-chat-${botKey}`);
-  if(!chat) return;
-  coachState[botKey] = { cat: catId };
-  if(catId === 'silence'){ renderCoachSilenceStep(botKey, 1, {}); return; }
-  const cat = BOT_CONFIG[botKey].categories.find(c => c.id === catId);
-  const starterIds = COACH_STARTERS[catId] || [];
-  const now = new Date();
-  chat.innerHTML = `
-    <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show" id="coach-cat-intro-${botKey}"></div></div>
-    <div id="coach-questions-${botKey}" style="margin-top:10px;"></div>
+/* Étape 1 : le coach se présente en texte à puces, sans aucun bouton. */
+function coachShowWelcomeUnified(){
+  coachState.view = 'welcome';
+  coachState.theme = null;
+  const body = document.getElementById('coach-body');
+  if(!body) return;
+  body.innerHTML = `
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show" id="coach-welcome-intro"></div></div>
+    <div id="coach-welcome-bullets"></div>
+    <div id="coach-theme-choice"></div>
   `;
-  setTimeout(() => typeWriterText(document.getElementById(`coach-cat-intro-${botKey}`), `${cat.title} — ${t('coachPickCategoryPrompt')}`, now), coachRestMs(250));
-  const qEl = document.getElementById(`coach-questions-${botKey}`);
-  qEl.innerHTML = starterIds.map((id, i) => `<button type="button" class="coach-option-btn" data-node="${id}"><span class="coach-option-letter">${coachOptionEmoji(i)}</span><span>${escText(COACH_NODES[id].q)}</span></button>`).join('')
-    + `<button type="button" class="coach-option-back" data-back="1">${COACH_ICON_BACK} ${t('coachBackToCategories')}</button>`;
-  qEl.querySelectorAll('[data-node]').forEach(btn => {
-    btn.onclick = () => coachAskNode(botKey, btn.dataset.node);
-  });
-  qEl.querySelectorAll('[data-back]').forEach(btn => { btn.onclick = () => coachShowWelcome(botKey); });
+  const introEl = document.getElementById('coach-welcome-intro');
+  const now = new Date();
+  const introText = t('coachWelcomeIntro');
+  setTimeout(() => {
+    typeWriterText(introEl, introText, now);
+    setTimeout(coachShowWelcomeBullets, coachTypingDelayMs(introText));
+  }, coachRestMs(400));
 }
 
-/* Pose une question du graphe de conversation dans le chat d'un bot donné : bulle
-   utilisateur (le libellé cliqué), puis réponse du coach tapée, puis nouvelles puces
-   de mots-clés pour continuer. */
-function coachAskNode(botKey, nodeId, labelOverride){
+/* Puces affichées après le message d'accueil (toujours sans bouton à ce stade). */
+function coachShowWelcomeBullets(){
+  const el = document.getElementById('coach-welcome-bullets');
+  if(!el) return;
+  const bulletKeys = ['coachWelcomeBullet1', 'coachWelcomeBullet2', 'coachWelcomeBullet3', 'coachWelcomeBullet4'];
+  el.innerHTML = `<ul class="coach-welcome-list">${bulletKeys.map(k => `<li>${escText(t(k))}</li>`).join('')}</ul>`;
+  setTimeout(coachShowThemeChoice, coachRestMs(700));
+}
+
+/* Étape 2 : les 2 boutons de choix de thème apparaissent une fois les puces affichées. */
+function coachShowThemeChoice(){
+  const el = document.getElementById('coach-theme-choice');
+  if(!el) return;
+  el.innerHTML = `
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show">${escText(t('coachChooseThemePrompt'))}</div></div>
+    <div class="coach-theme-choice">
+      <button type="button" class="coach-theme-btn" data-theme="creator"><span class="coach-theme-btn-icon">${AICON.eye}</span><span><span class="coach-theme-btn-title">${escText(t('coachThemeCreatorTitle'))}</span><span class="coach-theme-btn-desc">${escText(t('coachThemeCreatorDesc'))}</span></span></button>
+      <button type="button" class="coach-theme-btn" data-theme="flirt"><span class="coach-theme-btn-icon">${AICON.heart}</span><span><span class="coach-theme-btn-title">${escText(t('coachThemeFlirtTitle'))}</span><span class="coach-theme-btn-desc">${escText(t('coachThemeFlirtDesc'))}</span></span></button>
+    </div>
+  `;
+  el.querySelectorAll('[data-theme]').forEach(btn => { btn.onclick = () => coachChooseTheme(btn.dataset.theme); });
+  document.getElementById('coach-body').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function coachChooseTheme(themeKey){
+  coachState.theme = themeKey;
+  coachState.view = 'table';
+  coachRenderTable();
+}
+
+/* Étape 3/4 : tableau listant toutes les questions du thème choisi, groupées par
+   catégorie. La catégorie "silence" n'a pas de liste de questions (c'est un mini-
+   diagnostic à étapes) : elle apparaît comme une seule ligne cliquable. */
+function coachRenderTable(){
+  const body = document.getElementById('coach-body');
+  if(!body) return;
+  coachState.view = 'table';
+  const cfg = BOT_CONFIG[coachState.theme];
+  if(!cfg) return;
+  const rowsHtml = cfg.categories.map(cat => {
+    const starterIds = COACH_STARTERS[cat.id];
+    if(!starterIds){
+      return `<div class="coach-table-cat">${premiumTagIcon(AICON[cat.icon])} ${escText(cat.title)}</div>`
+        + `<button type="button" class="coach-table-row" data-silence="1">${escText(cat.title)}</button>`;
+    }
+    return `<div class="coach-table-cat">${premiumTagIcon(AICON[cat.icon])} ${escText(cat.title)}</div>`
+      + starterIds.map(id => `<button type="button" class="coach-table-row" data-node="${id}">${escText(COACH_NODES[id].q)}</button>`).join('');
+  }).join('');
+  body.innerHTML = `
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show">${escText(t('coachTablePrompt'))}</div></div>
+    <div class="coach-table">${rowsHtml}</div>
+    <button type="button" class="coach-switch-theme" id="coach-switch-theme">${COACH_ICON_BACK} ${escText(t('coachSwitchTheme'))}</button>
+  `;
+  body.querySelectorAll('[data-node]').forEach(btn => { btn.onclick = () => coachAnswerQuestion(btn.dataset.node); });
+  body.querySelectorAll('[data-silence]').forEach(btn => { btn.onclick = () => renderCoachSilenceStep(1, {}); });
+  const switchBtn = document.getElementById('coach-switch-theme');
+  if(switchBtn) switchBtn.onclick = coachShowWelcomeUnified;
+}
+
+/* Étape 5 : la réponse du coach remplace le tableau (bulle question + bulle réponse
+   tapée), suivie des puces de suivi puis de la barre d'actions à droite. */
+function coachAnswerQuestion(nodeId, labelOverride){
   const node = COACH_NODES[nodeId];
   if(!node) return;
-  const chat = document.getElementById(`coach-chat-${botKey}`);
-  if(!chat) return;
-  const now = new Date();
+  const body = document.getElementById('coach-body');
+  if(!body) return;
+  coachState.view = 'answer';
   const label = labelOverride || node.q;
-  const bubbleId = `coach-bot-${botKey}-${nodeId}-${Date.now()}`;
+  const now = new Date();
+  const bubbleId = `coach-answer-${Date.now()}`;
   const likeWrapId = `${bubbleId}-like`;
-  chat.insertAdjacentHTML('beforeend', `
+  body.innerHTML = `
     <div class="coach-bubble-row user"><div class="coach-bubble-text chat-user">${escText(label)}<span class="chat-time">${formatChatTime(now)}</span></div></div>
     <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show" id="${bubbleId}"><span class="chat-typing-dots"><span></span><span></span><span></span></span></div></div>
     <div class="coach-like-wrap" id="${likeWrapId}"></div>
-  `);
-  const bubble = document.getElementById(bubbleId);
-  chat.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    <div id="coach-chips"></div>
+    <div id="coach-actions"></div>
+  `;
+  body.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   const nowMs = Date.now();
   const sinceLast = lastChatActionAt ? nowMs - lastChatActionAt : 99999;
   lastChatActionAt = nowMs;
-  let delay = coachRestMs(sinceLast < 4000 ? 350 : 750);
+  const delay = coachRestMs(sinceLast < 4000 ? 350 : 750);
   const variedAnswer = coachVaryText(node.a);
   setTimeout(() => {
-    typeWriterText(bubble, variedAnswer, now);
+    typeWriterText(document.getElementById(bubbleId), variedAnswer, now);
+    coachState.log.push({ theme: coachState.theme, q: node.q, a: node.a, ts: nowMs });
     const chips = (node.chips || []).map(c => ({ label: c.label || (COACH_NODES[c.to] && COACH_NODES[c.to].q) || '', to: c.to }));
     const typedDelay = coachTypingDelayMs(variedAnswer);
     setTimeout(() => coachInsertLikeBtn(likeWrapId), typedDelay);
-    setTimeout(() => coachRenderChips(botKey, chips), typedDelay);
+    setTimeout(() => coachRenderChips(chips), typedDelay);
+    setTimeout(coachRenderActionBar, typedDelay);
   }, delay);
 }
 
-/* Affiche les puces de mots-clés cliquables après une réponse, plus un retour rapide
-   aux catégories — c'est ce qui crée l'effet d'arbre conversationnel. Scopé au bot. */
-function coachRenderChips(botKey, chips){
-  const chat = document.getElementById(`coach-chat-${botKey}`);
-  if(!chat) return;
-  const wrapId = `coach-chips-${botKey}-${Date.now()}`;
-  chat.insertAdjacentHTML('beforeend', `<div id="${wrapId}" style="margin-top:8px;"></div>`);
-  const wrap = document.getElementById(wrapId);
-  wrap.innerHTML = chips.map((c, i) => `<button type="button" class="coach-option-btn" data-node="${c.to}"><span class="coach-option-letter">${coachOptionEmoji(i)}</span><span>🔹 ${escText(c.label)}</span></button>`).join('')
-    + `<button type="button" class="coach-option-back" data-back="1">${COACH_ICON_BACK} ${t('coachBackToCategories')}</button>`;
+/* Puces de mots-clés cliquables après une réponse, pour continuer le parcours sans
+   repasser par le tableau (chaque clic rappelle coachAnswerQuestion, qui remplace la vue). */
+function coachRenderChips(chips){
+  const wrap = document.getElementById('coach-chips');
+  if(!wrap) return;
+  wrap.innerHTML = chips.map((c, i) => `<button type="button" class="coach-option-btn" data-node="${c.to}"><span class="coach-option-letter">${coachOptionEmoji(i)}</span><span>🔹 ${escText(c.label)}</span></button>`).join('');
   wrap.querySelectorAll('[data-node]').forEach(btn => {
     const targetNode = COACH_NODES[btn.dataset.node];
-    btn.onclick = () => coachAskNode(botKey, btn.dataset.node, targetNode ? undefined : btn.textContent);
+    btn.onclick = () => coachAnswerQuestion(btn.dataset.node, targetNode ? undefined : btn.textContent);
   });
-  wrap.querySelectorAll('[data-back]').forEach(btn => { btn.onclick = () => coachShowWelcome(botKey); });
-  chat.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
-/* Insère un petit bouton "j'aime la réponse" (pouce, SVG) sous une réponse du coach,
-   dans le conteneur vide prévu à cet effet (voir coachAskNode / coachShowSilenceDiagnosis).
+/* Insère un petit bouton "j'aime la réponse" (pouce, SVG) sous une réponse du coach.
    Purement une réaction visuelle côté membre — bascule au clic, pas de persistance. */
 function coachInsertLikeBtn(wrapId){
   const wrap = document.getElementById(wrapId);
@@ -4011,12 +4080,42 @@ function coachInsertLikeBtn(wrapId){
   wrap.querySelector('.coach-like-btn').onclick = function(){ this.classList.toggle('liked'); };
 }
 
+/* Étape 6 : barre d'actions à droite, valable pour les 2 thèmes.
+   - Retour au tableau : navigue vers le tableau, garde cet échange dans le log.
+   - Sauvegarder : persiste TOUTE la conversation en cours (coachState.log) en local.
+   - Effacer-retour : retire cet échange du log puis revient au tableau. */
+function coachRenderActionBar(){
+  const el = document.getElementById('coach-actions');
+  if(!el) return;
+  el.innerHTML = `
+    <div class="coach-action-bar">
+      <button type="button" class="coach-action-btn" id="coach-act-back">${COACH_ICON_BACK} ${escText(t('coachBackToTable'))}</button>
+      <button type="button" class="coach-action-btn" id="coach-act-save">${ICON_SAVE} ${escText(t('coachSaveBtn'))}</button>
+      <button type="button" class="coach-action-btn" id="coach-act-erase">${ICON_TRASH} ${escText(t('coachEraseBtn'))}</button>
+    </div>
+  `;
+  document.getElementById('coach-act-back').onclick = coachRenderTable;
+  document.getElementById('coach-act-save').onclick = coachSaveConversation;
+  document.getElementById('coach-act-erase').onclick = coachEraseRetour;
+}
+
+function coachSaveConversation(){
+  const key = 'hm_coach_saved_' + (coachUid || 'anon');
+  try{ localStorage.setItem(key, JSON.stringify(coachState.log)); }catch(e){}
+  toast(t('coachSavedToast'));
+}
+
+function coachEraseRetour(){
+  coachState.log.pop();
+  coachRenderTable();
+}
+
 /* ---- Mini-diagnostic à étapes pour "Elle ne répond plus" (côté "creator") ----
    Au lieu d'une réponse unique, on pose 3 petites questions à choix (durée du silence,
    était-elle régulière avant, qui initie habituellement), on construit un état, puis on
    compose une réponse sur-mesure en assemblant des blocs de texte selon les 3 réponses
-   (24 combinaisons possibles) avant de proposer les mots-clés de suivi habituels. */
-let coachState = { creator: {}, flirt: {} };
+   (24 combinaisons possibles) avant de proposer les mots-clés de suivi habituels et la
+   même barre d'actions que pour une question normale. */
 const COACH_SILENCE_STEPS = [
   { key: 'duration', q: "Since when has she stopped replying?", options: ['1 day', '3 days', '1 week', '+1 month'] },
   { key: 'normal', q: "Was she replying normally before that?", options: ['Yes', 'No'] },
@@ -4037,65 +4136,64 @@ const COACH_SILENCE_FIRST_TXT = {
   'Her': "Since she's usually the one who initiates, this pause is more likely about her own availability or mood right now than about losing interest in you.",
   '50/50': "Since you both usually initiate about equally, this one-sided silence stands out a bit more — it's a fair moment to send one light, low-pressure message, and then genuinely wait."
 };
-function renderCoachSilenceStep(botKey, stepNum, state){
-  coachState[botKey] = { cat: 'silence', step: stepNum, answers: state };
-  const chat = document.getElementById(`coach-chat-${botKey}`);
-  if(!chat) return;
+function renderCoachSilenceStep(stepNum, state){
+  const body = document.getElementById('coach-body');
+  if(!body) return;
+  coachState.view = 'silence';
   const step = COACH_SILENCE_STEPS[stepNum - 1];
   const now = new Date();
   if(stepNum === 1){
-    const introId = `coach-silence-intro-${botKey}`;
-    chat.innerHTML = `<div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show" id="${introId}"></div></div>`;
-    setTimeout(() => typeWriterText(document.getElementById(introId), "Let's figure out what's really going on — a couple of quick questions first.", now), coachRestMs(250));
+    body.innerHTML = `<div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show" id="coach-silence-intro"></div></div>`;
+    setTimeout(() => typeWriterText(document.getElementById('coach-silence-intro'), "Let's figure out what's really going on — a couple of quick questions first.", now), coachRestMs(250));
   }
-  const wrapId = `coach-silence-step-${botKey}-${stepNum}`;
-  chat.insertAdjacentHTML('beforeend', `
+  const wrapId = `coach-silence-step-${stepNum}`;
+  body.insertAdjacentHTML('beforeend', `
     <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show" id="${wrapId}-q"></div></div>
     <div id="${wrapId}-opts" style="margin-top:8px;"></div>
   `);
   const delayBase = stepNum === 1 ? 900 : 250;
   setTimeout(() => typeWriterText(document.getElementById(wrapId + '-q'), `${t('coachStepOf').replace('{n}', stepNum).replace('{total}', COACH_SILENCE_STEPS.length)} — ${step.q}`, now), coachRestMs(delayBase));
   const optsEl = document.getElementById(wrapId + '-opts');
-  optsEl.innerHTML = step.options.map((opt, i) => `<button type="button" class="coach-option-btn" data-opt="${escAttr(opt)}"><span class="coach-option-letter">${coachOptionEmoji(i)}</span><span>${escText(opt)}</span></button>`).join('')
-    + `<button type="button" class="coach-option-back" data-back="1">${COACH_ICON_BACK} ${t('coachBackToCategories')}</button>`;
+  optsEl.innerHTML = step.options.map((opt, i) => `<button type="button" class="coach-option-btn" data-opt="${escAttr(opt)}"><span class="coach-option-letter">${coachOptionEmoji(i)}</span><span>${escText(opt)}</span></button>`).join('');
   optsEl.querySelectorAll('[data-opt]').forEach(btn => {
     btn.onclick = () => {
-      const chat2 = document.getElementById(`coach-chat-${botKey}`);
-      chat2.insertAdjacentHTML('beforeend', `<div class="coach-bubble-row user"><div class="coach-bubble-text chat-user">${escText(btn.dataset.opt)}<span class="chat-time">${formatChatTime(new Date())}</span></div></div>`);
+      body.insertAdjacentHTML('beforeend', `<div class="coach-bubble-row user"><div class="coach-bubble-text chat-user">${escText(btn.dataset.opt)}<span class="chat-time">${formatChatTime(new Date())}</span></div></div>`);
       const newAnswers = Object.assign({}, state, { [step.key]: btn.dataset.opt });
       if(stepNum < COACH_SILENCE_STEPS.length){
-        setTimeout(() => renderCoachSilenceStep(botKey, stepNum + 1, newAnswers), 500);
+        setTimeout(() => renderCoachSilenceStep(stepNum + 1, newAnswers), 500);
       } else {
-        setTimeout(() => coachShowSilenceDiagnosis(botKey, newAnswers), 500);
+        setTimeout(() => coachShowSilenceDiagnosis(newAnswers), 500);
       }
     };
   });
-  optsEl.querySelectorAll('[data-back]').forEach(btn => { btn.onclick = () => coachShowWelcome(botKey); });
-  chat.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  body.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
-function coachShowSilenceDiagnosis(botKey, answers){
-  const chat = document.getElementById(`coach-chat-${botKey}`);
-  if(!chat) return;
-  const answer = coachVaryText([
+function coachShowSilenceDiagnosis(answers){
+  const body = document.getElementById('coach-body');
+  if(!body) return;
+  const rawAnswer = [
     COACH_SILENCE_DURATION_TXT[answers.duration],
     COACH_SILENCE_NORMAL_TXT[answers.normal],
     COACH_SILENCE_FIRST_TXT[answers.first]
-  ].filter(Boolean).join(' '));
+  ].filter(Boolean).join(' ');
+  const varied = coachVaryText(rawAnswer);
   const now = new Date();
-  const bubbleId = `coach-silence-diagnosis-${botKey}`;
+  const bubbleId = 'coach-silence-diagnosis';
   const likeWrapId = `${bubbleId}-like`;
-  chat.insertAdjacentHTML('beforeend', `<div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show" id="${bubbleId}"><span class="chat-typing-dots"><span></span><span></span><span></span></span></div></div><div class="coach-like-wrap" id="${likeWrapId}"></div>`);
-  chat.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  body.insertAdjacentHTML('beforeend', `<div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show" id="${bubbleId}"><span class="chat-typing-dots"><span></span><span></span><span></span></span></div></div><div class="coach-like-wrap" id="${likeWrapId}"></div><div id="coach-chips"></div><div id="coach-actions"></div>`);
+  body.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   setTimeout(() => {
-    typeWriterText(document.getElementById(bubbleId), answer, now);
+    typeWriterText(document.getElementById(bubbleId), varied, now);
+    coachState.log.push({ theme: coachState.theme, q: "She's not replying", a: rawAnswer, ts: Date.now() });
     const chips = [
       { label: COACH_NODES.fu_silence.q, to: 'fu_silence' },
       { label: COACH_NODES.fu_message.q, to: 'fu_message' },
       { label: COACH_NODES.fu_patience.q, to: 'fu_patience' }
     ];
-    const typedDelay = coachTypingDelayMs(answer);
+    const typedDelay = coachTypingDelayMs(varied);
     setTimeout(() => coachInsertLikeBtn(likeWrapId), typedDelay);
-    setTimeout(() => coachRenderChips(botKey, chips), typedDelay);
+    setTimeout(() => coachRenderChips(chips), typedDelay);
+    setTimeout(coachRenderActionBar, typedDelay);
   }, 500);
 }
 
@@ -6911,7 +7009,7 @@ async function answerSeducerQuestion(user, data, choiceIdx){
 function renderMemberToolsTab(user, data){
   const el = paintTabBody(`<div id="member-tools-zone"></div>`);
   if(!el) return;
-  renderMemberToolMatchWords(document.getElementById('member-tools-zone'));
+  renderMemberToolMatchWords(document.getElementById('member-tools-zone'), user && user.uid);
 }
 // Affiche le contenu d'un onglet ET (re)joue systématiquement la même animation
 // d'entrée douce, à chaque fois — comportement identique sur tous les onglets,
