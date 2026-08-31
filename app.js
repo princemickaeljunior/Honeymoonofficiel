@@ -275,13 +275,13 @@ const I18N = {
   en: {
     giftTipTitle: "Send a tip",
     subscribeSectionTitle: "Subscriber offer",
-    subscribeDefaultDesc: "Subscribe to unlock exclusive photo, video and audio packs made just for my subscribers.",
+    subscribeDefaultDesc: "Subscribe to unlock cool photo, video and audio packs made just for my subscribers.",
     subscribeBtn: "Subscribe",
     subscribedBtn: "Subscribed",
     subscribePageTitle: "Subscribe to {name}",
-    subscribePerkPhoto: "Exclusive subscriber-only photos",
-    subscribePerkVideo: "Exclusive subscriber-only videos",
-    subscribePerkAudio: "Exclusive subscriber-only audio",
+    subscribePerkPhoto: "Cool subscriber-only photos",
+    subscribePerkVideo: "Cool subscriber-only videos",
+    subscribePerkAudio: "Cool subscriber-only audio",
     subscribePayBtn: "Pay subscription",
     subscribeFictifNote: "Payments aren't live yet — this button will work soon.",
     subscribeBackBtn: "Back to profile",
@@ -11701,8 +11701,8 @@ function openSubscriptionConfigPage(m){
       saveBtn.disabled = false;
     };
   }
-  render();
   document.body.appendChild(backdrop);
+  render();
 }
 document.getElementById('vitrine-backdrop').onclick = closeVitrineRoom;
 document.getElementById('vitrine-room-close').onclick = closeVitrineRoom;
