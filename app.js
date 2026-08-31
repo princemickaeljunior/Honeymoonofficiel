@@ -126,6 +126,19 @@ function isLocalTestEnvironment(){
 }
 const SLOT_COUNT = 150; // capacité totale du roster (nombre d'emplacements possibles) — la vitrine affiche 6 vignettes par page (voir VITRINE_PAGE_SIZE), avec navigation ‹ › entre les pages.
 
+/* ===== Aperçu admin du Seducer Profile (70 questions) : isAdmin() vérifie le compte
+   AGENCE (Firebase séparé), qui n'est jamais connecté en même temps que ton compte
+   MEMBRE (celui utilisé pour voir l'onglet "Seducer Profile"). Sans ça, le tiroir
+   de relecture ne pouvait jamais s'afficher pendant tes tests en tant que membre.
+   On ajoute donc ici l'email de ton compte membre de test : dès que tu es connecté
+   avec CET email côté membre, tu vois le tiroir, même sans être connecté en admin agence. ===== */
+const DESIRE_ADMIN_PREVIEW_EMAILS = [LOCAL_TEST_EMAIL, AGENCY_ACCESS_EMAIL].map(e => e.toLowerCase());
+function canSeeDesireAdminPreview(){
+  if(isAdmin()) return true;
+  const email = memberAuth && memberAuth.currentUser && memberAuth.currentUser.email;
+  return !!(email && DESIRE_ADMIN_PREVIEW_EMAILS.includes(email.toLowerCase()));
+}
+
 // ===== Ancien système (codes fixes par créatrice, comparés côté client) — retiré :
 // ne passait pas à l'échelle au-delà d'une poignée de créatrices, et n'offrait
 // aucune vraie sécurité côté serveur. Remplacé par un vrai compte Firebase Auth
@@ -6200,7 +6213,7 @@ function renderSeducerProfileZone(user, data){
       </div>`;
   }
 
-  const adminPreviewHtml = isAdmin() ? `
+  const adminPreviewHtml = canSeeDesireAdminPreview() ? `
     <div class="seducer-admin-preview" style="margin-top:22px;padding-top:14px;border-top:1px dashed var(--border,#2a2a2a);">
       <p style="font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--text-muted);margin:0 0 6px;">🔒 Admin preview — all 70 questions</p>
       <p style="font-size:11px;color:var(--text-muted);margin:0 0 10px;">This full list is only visible to admin, for proofreading. Members never see it this way: on their side, only ONE question unlocks per day, in order, once they've answered the previous one.</p>
