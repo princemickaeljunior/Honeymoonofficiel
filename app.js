@@ -2201,7 +2201,7 @@ const DESIRE_THEMES = [
   'travel', 'music', 'restaurants', 'movies', 'food'
 ];
 function goldGlowIcon(emoji){
-  return `<span style="display:inline-block;font-size:16px;line-height:1;vertical-align:-3px;margin-right:4px;filter:grayscale(1) sepia(1) hue-rotate(-12deg) saturate(420%) brightness(1.05) drop-shadow(0 0 1px rgba(255,214,120,.28)) drop-shadow(0 0 2px rgba(255,200,90,.15));">${emoji}</span>`;
+  return `<span style="display:inline-block;font-size:16px;line-height:1;vertical-align:-3px;margin-right:4px;filter:drop-shadow(0 0 1px rgba(255,214,120,.4)) drop-shadow(0 0 2px rgba(255,200,90,.2));">${emoji}</span>`;
 }
 const DESIRE_THEME_ICON = {
   flirt: goldGlowIcon('😘'),
