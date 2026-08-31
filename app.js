@@ -570,6 +570,26 @@ const I18N = {
     memberSignupTitle: "Create a member account",
     memberSignupLine: "Chat with your favorite creators and unlock their Tip Menu. Free account — you only pay for what you choose to buy.",
     memberHomeWelcomeLine: "Follow your favorite creators, chat with them, and find all your purchases here.",
+    memberTabSeducerProfile: "Seducer Profile",
+    desireProfileThemeLabel: "Current theme",
+    desireProfileComplete: "Your Desire Profile is complete — 100%",
+    desireProfilePoints: "points",
+    desireProgressLabel: "Profile completed",
+    desireQuestionOfDay: "Today's question",
+    desireAlreadyAnsweredToday: "You've already answered today — come back tomorrow for the next question 🔒",
+    desireAnswerSaved: "Answer saved!",
+    desireThemeScoresTitle: "Your scores by theme",
+    desireThemeNotStarted: "Not started yet",
+    desireTheme_love: "Love",
+    desireTheme_affection: "Affection",
+    desireTheme_listening: "Listening",
+    desireTheme_physicalAttraction: "Physical attraction",
+    desireTheme_personalityAttraction: "Personality attraction",
+    desireTheme_travel: "Travel",
+    desireTheme_music: "Music",
+    desireTheme_restaurants: "Restaurants",
+    desireTheme_movies: "Movies",
+    desireTheme_food: "Food",
     memberDiscoverCreatorsBtn: "Discover creators",
     memberIdentifierLabel: "Username or email",
     memberIdentifierPh: "your_username or you@email.com",
@@ -2141,6 +2161,36 @@ function renderLevelBarGeneric(containerId, tiers, value, valueLabelKey, descKey
     el.addEventListener('mouseenter', () => showTierDesc(parseInt(el.dataset.idx, 10)));
   });
   showTierDesc(tiers.findIndex(tr => tr.key === currentTier.key));
+}
+
+/* ================================================================
+   DESIRE PROFILE — Streak membre (barre LED + bouclier + flamme fusionnés)
+   -------------------------------------------------------------------------
+   Logique validée avec Prince :
+   - 10 thèmes × 7 questions = 70 questions → profil complet à 100%
+   - 1 thème complété (7 questions) = 10% du profil
+   - Barre LED : se remplit bleu → rouge sur les 7 questions du thème en cours
+   - Bouclier : cumule 1 point par question répondue (0 → 70 sur l'ensemble
+     des 10 thèmes), jamais remis à zéro
+   - Flamme : s'allume/s'anime à chaque thème terminé (palier de 7)
+   - La streak ne casse jamais : elle suit juste le rythme réel du membre
+     (1 question/jour, pas de pénalité si un jour est raté)
+   - État lu depuis data.desireProfile (Firestore, members/{uid}) — tant que
+     les questions (étape 2) ne sont pas câblées, l'état par défaut est à 0.
+   ================================================================ */
+const DESIRE_THEMES = [
+  'love', 'affection', 'listening', 'physicalAttraction', 'personalityAttraction',
+  'travel', 'music', 'restaurants', 'movies', 'food'
+];
+const DESIRE_QUESTIONS_PER_THEME = 7;
+const DESIRE_TOTAL_QUESTIONS = DESIRE_THEMES.length * DESIRE_QUESTIONS_PER_THEME; // 70
+
+function getDesireProfileState(data){
+  const dp = (data && data.desireProfile) || {};
+  const themeIndex = Math.min(Math.max(dp.themeIndex || 0, 0), DESIRE_THEMES.length);
+  const questionIndex = Math.min(Math.max(dp.questionIndex || 0, 0), DESIRE_QUESTIONS_PER_THEME);
+  const points = Math.min(Math.max(dp.points || 0, 0), DESIRE_TOTAL_QUESTIONS);
+  return { themeIndex, questionIndex, points, themeScores: dp.themeScores || {} };
 }
 
 function renderLevelBar(m){
@@ -5600,6 +5650,7 @@ function renderMemberHome(user, data, activeTab){
           <button type="button" class="member-tab" id="member-tab-discover">${ICON_DISCOVER_PREMIUM}${t('memberTabDiscover')}</button>
           <button type="button" class="member-tab" id="member-tab-popularity">${ICON_STAR}${t('myFamilyPopularity')}</button>
           <button type="button" class="member-tab" id="member-tab-profile">${ICON_USER}${t('memberTabProfile')}</button>
+          <button type="button" class="member-tab" id="member-tab-seducer">${ICON_HEART_SM}${t('memberTabSeducerProfile')}</button>
           <button type="button" class="member-tab" id="member-tab-favorites">${ICON_LIKE}${t('memberTabFavorites')}</button>
           <button type="button" class="member-tab" id="member-tab-messages">${ICON_CHAT_SM}${t('memberTabMessages')} <span class="member-tab-badge" id="member-tab-messages-badge" style="display:none;"></span></button>
           <button type="button" class="member-tab" id="member-tab-purchases">${ICON_CART}${t('memberTabPurchases')}</button>
@@ -5614,7 +5665,7 @@ function renderMemberHome(user, data, activeTab){
     populateLangSelects();
     syncLangSelects(LANG);
     document.getElementById('member-lang-select').onchange = (e) => setMemberLang(e.target.value, user);
-    ['popularity', 'profile', 'favorites', 'messages', 'purchases', 'tools'].forEach(name => {
+    ['popularity', 'profile', 'seducer', 'favorites', 'messages', 'purchases', 'tools'].forEach(name => {
       document.getElementById('member-tab-' + name).onclick = () => switchMemberTab(user, data, name);
     });
     updateTopbarMemberBadge(data.username);
@@ -5627,7 +5678,7 @@ function renderMemberHome(user, data, activeTab){
 
 function switchMemberTab(user, data, activeTab){
   memberActiveTab = activeTab;
-  ['popularity', 'profile', 'favorites', 'messages', 'purchases', 'tools'].forEach(name => {
+  ['popularity', 'profile', 'seducer', 'favorites', 'messages', 'purchases', 'tools'].forEach(name => {
     const btn = document.getElementById('member-tab-' + name);
     if(btn) btn.classList.toggle('active', name === activeTab);
   });
@@ -5640,7 +5691,183 @@ function switchMemberTab(user, data, activeTab){
   else if(activeTab === 'messages') renderMemberMessagesTab(user, data);
   else if(activeTab === 'popularity') renderMemberPopularityTab(user, data);
   else if(activeTab === 'tools') renderMemberToolsTab(user, data);
+  else if(activeTab === 'seducer') renderMemberSeducerProfileTab(user, data);
   else renderMemberProfileTab(user, data);
+}
+
+/* ================================================================
+   PROFIL SÉDUCTEUR — nouvel onglet membre (menu principal, à côté de "Profile").
+   10 thèmes × 7 questions, 1 question/jour, 4 réponses pondérées en % →
+   résultat = tableau de % par thème (1 thème complété = 10% du profil).
+   Stocké dans data.desireProfile (Firestore members/{uid}), visible plus
+   tard côté créatrice (même 10 thèmes dans sa bio — logique séparée).
+   ================================================================ */
+
+// Banque de questions par thème — seul "love" est rédigé en détail pour
+// l'instant, à titre d'exemple ; les 9 autres thèmes utilisent un texte
+// gabarit "[À rédiger]" en attendant le vrai contenu de Prince.
+function buildPlaceholderDesireQuestions(themeKey){
+  return Array.from({ length: DESIRE_QUESTIONS_PER_THEME }).map((_, i) => ({
+    q: '[À rédiger] Question ' + (i + 1) + ' — thème ' + themeKey,
+    choices: [
+      { label: 'Réponse A', value: 20 },
+      { label: 'Réponse B', value: 45 },
+      { label: 'Réponse C', value: 70 },
+      { label: 'Réponse D', value: 100 },
+    ],
+  }));
+}
+const DESIRE_QUESTION_BANK = {};
+DESIRE_THEMES.forEach(theme => { DESIRE_QUESTION_BANK[theme] = buildPlaceholderDesireQuestions(theme); });
+DESIRE_QUESTION_BANK.love = [
+  { q: "Ce qui compte le plus pour toi dans une relation :", choices: [
+    { label: 'La complicité au quotidien', value: 100 },
+    { label: "La passion et l'intensité", value: 75 },
+    { label: 'La stabilité et la confiance', value: 50 },
+    { label: "L'indépendance dans le couple", value: 25 },
+  ]},
+  { q: "Ta façon préférée de montrer ton affection :", choices: [
+    { label: 'Des mots doux et des messages', value: 40 },
+    { label: 'Des gestes et attentions au quotidien', value: 100 },
+    { label: 'Du temps de qualité, juste tous les deux', value: 80 },
+    { label: 'Des cadeaux qui font plaisir', value: 30 },
+  ]},
+  { q: "Un rendez-vous idéal, c'est plutôt :", choices: [
+    { label: 'Une soirée calme à la maison', value: 60 },
+    { label: 'Une sortie originale, hors des sentiers battus', value: 100 },
+    { label: 'Un dîner dans un bon restaurant', value: 50 },
+    { label: 'Une activité sportive ou en extérieur', value: 40 },
+  ]},
+  { q: "Ce qui te fait le plus craquer chez quelqu'un :", choices: [
+    { label: "Son humour et sa spontanéité", value: 90 },
+    { label: 'Son écoute et sa douceur', value: 100 },
+    { label: 'Sa confiance en elle/lui', value: 60 },
+    { label: 'Son ambition et ses projets', value: 50 },
+  ]},
+  { q: "Dans une relation, ton rythme idéal c'est :", choices: [
+    { label: 'Se voir souvent, presque tous les jours', value: 100 },
+    { label: 'Un bon équilibre entre présence et indépendance', value: 80 },
+    { label: 'Prendre le temps, sans se presser', value: 50 },
+    { label: 'Garder chacun son espace, se retrouver quand c\'est le bon moment', value: 30 },
+  ]},
+  { q: "Ce que tu recherches avant tout en ce moment :", choices: [
+    { label: 'Une vraie connexion, sur la durée', value: 100 },
+    { label: 'Du léger, sans prise de tête', value: 30 },
+    { label: 'Apprendre à connaître quelqu\'un, sans se précipiter', value: 70 },
+    { label: 'Vivre l\'instant présent', value: 50 },
+  ]},
+  { q: "Ta définition d'une relation réussie :", choices: [
+    { label: 'On se fait rire, tout simplement', value: 60 },
+    { label: 'On se sent en confiance à 100%', value: 100 },
+    { label: 'On grandit ensemble', value: 90 },
+    { label: 'On garde toujours un peu de mystère', value: 40 },
+  ]},
+];
+
+function getTodayDateStr(){
+  const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+}
+
+function renderMemberSeducerProfileTab(user, data){
+  const el = paintTabBody(`<div id="seducer-zone"></div>`);
+  if(!el) return;
+  renderSeducerProfileZone(user, data);
+}
+
+function renderSeducerProfileZone(user, data){
+  const zone = document.getElementById('seducer-zone');
+  if(!zone) return;
+  const st = getDesireProfileState(data);
+  const complete = st.themeIndex >= DESIRE_THEMES.length;
+  const percent = complete ? 100 : Math.min(100, Math.round((st.themeIndex * 10) + (st.questionIndex / DESIRE_QUESTIONS_PER_THEME) * 10));
+  const today = getTodayDateStr();
+  const answeredToday = data.desireProfile && data.desireProfile.lastAnsweredDate === today;
+
+  const themeScores = st.themeScores || {};
+  const scoresHtml = DESIRE_THEMES.map((themeKey, idx) => {
+    const done = idx < st.themeIndex || (idx === st.themeIndex && complete);
+    const score = themeScores[themeKey];
+    return `
+      <div class="seducer-theme-row" style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border,#2a2a2a);">
+        <span style="font-size:12px;">${t('desireTheme_' + themeKey)}</span>
+        <span style="font-size:12px;font-weight:700;color:${done ? '#e0455a' : 'var(--text-muted)'};">
+          ${done && score !== undefined ? score + '%' : t('desireThemeNotStarted')}
+        </span>
+      </div>`;
+  }).join('');
+
+  let questionBlockHtml = '';
+  if(complete){
+    questionBlockHtml = `<p style="text-align:center;font-size:12.5px;color:var(--text-muted);margin:14px 0;">${t('desireProfileComplete')}</p>`;
+  } else if(answeredToday){
+    questionBlockHtml = `<p style="text-align:center;font-size:12px;color:var(--text-muted);margin:14px 0;">${t('desireAlreadyAnsweredToday')}</p>`;
+  } else {
+    const question = DESIRE_QUESTION_BANK[DESIRE_THEMES[st.themeIndex]][st.questionIndex];
+    questionBlockHtml = `
+      <div class="seducer-question-card" style="margin:14px 0;padding:14px;border:1px solid var(--border,#2a2a2a);border-radius:12px;">
+        <p style="font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--text-muted);margin:0 0 8px;">${t('desireQuestionOfDay')} — ${t('desireTheme_' + DESIRE_THEMES[st.themeIndex])} (${st.questionIndex + 1}/${DESIRE_QUESTIONS_PER_THEME})</p>
+        <p style="font-size:13.5px;margin:0 0 12px;">${escText(question.q)}</p>
+        <div class="seducer-answers" style="display:flex;flex-direction:column;gap:8px;">
+          ${question.choices.map((c, i) => `<button type="button" class="btn btn-ghost btn-sm seducer-answer-btn" data-idx="${i}" style="text-align:left;">${escText(c.label)}</button>`).join('')}
+        </div>
+      </div>`;
+  }
+
+  zone.innerHTML = `
+    <div class="seducer-progress-wrap" style="margin-bottom:12px;">
+      <div style="display:flex;justify-content:space-between;font-size:10.5px;color:var(--text-muted);margin-bottom:4px;">
+        <span>${t('desireProgressLabel')}</span>
+        <span>${percent}%</span>
+      </div>
+      <div style="height:8px;border-radius:4px;background:var(--bg-elev,#1c1c1c);overflow:hidden;">
+        <div style="height:100%;width:${percent}%;background:linear-gradient(90deg,#2f7bff,#e0455a);transition:width .4s;"></div>
+      </div>
+    </div>
+    ${questionBlockHtml}
+    <p style="font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--text-muted);margin:18px 0 4px;">${t('desireThemeScoresTitle')}</p>
+    <div class="seducer-scores-table">${scoresHtml}</div>
+  `;
+
+  if(!complete && !answeredToday){
+    zone.querySelectorAll('.seducer-answer-btn').forEach(btn => {
+      btn.onclick = () => answerSeducerQuestion(user, data, parseInt(btn.dataset.idx, 10));
+    });
+  }
+}
+
+async function answerSeducerQuestion(user, data, choiceIdx){
+  const st = getDesireProfileState(data);
+  if(st.themeIndex >= DESIRE_THEMES.length) return;
+  const themeKey = DESIRE_THEMES[st.themeIndex];
+  const question = DESIRE_QUESTION_BANK[themeKey][st.questionIndex];
+  const choice = question.choices[choiceIdx];
+  if(!choice) return;
+
+  // Moyenne cumulative du score du thème en cours, au fil des questions répondues.
+  const prevScores = (data.desireProfile && data.desireProfile.themeScores) || {};
+  const answeredSoFar = st.questionIndex; // avant cette réponse
+  const prevAvg = prevScores[themeKey] || 0;
+  const newAvg = Math.round(((prevAvg * answeredSoFar) + choice.value) / (answeredSoFar + 1));
+
+  let { themeIndex, questionIndex, points } = st;
+  points = Math.min(points + 1, DESIRE_TOTAL_QUESTIONS);
+  questionIndex += 1;
+  const themeScores = { ...prevScores, [themeKey]: newAvg };
+  if(questionIndex >= DESIRE_QUESTIONS_PER_THEME){
+    questionIndex = 0;
+    themeIndex += 1;
+  }
+  const desireProfile = {
+    themeIndex, questionIndex, points, themeScores,
+    lastAnsweredDate: getTodayDateStr(),
+  };
+  try{
+    await memberDb.collection('members').doc(user.uid).set({ desireProfile }, { merge: true });
+    data.desireProfile = desireProfile;
+    toast(t('desireAnswerSaved'));
+    renderSeducerProfileZone(user, data);
+  }catch(e){ console.error('answerSeducerQuestion error', e); toast(t('memberErrUnknown')); }
 }
 /* Onglet "Tools" côté membre : pour l'instant, contient uniquement le chatbot
    "Match Your Words" (thèmes des bios des créatrices + conseils de conversation).
