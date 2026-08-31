@@ -273,6 +273,19 @@ let LANG = detectInitialLang();
 
 const I18N = {
   en: {
+    shopBotTitle: "Shopping Assistant",
+    shopBotSubtitle: "Curated shops, picked for creators",
+    shopBotWelcomeIntro: "Hi, I'm your Shopping Assistant 🧡 Here's how I can help:",
+    shopBotWelcomeBullet1: "Curated, trusted shops — organized by category",
+    shopBotWelcomeBullet2: "Tap what you need, I'll show you where to find it",
+    shopBotWelcomeBullet3: "Bundles for common needs, like leveling up your video setup",
+    shopBotWelcomeBullet4: "Every link opens the shop directly, in a new tab",
+    shopBotChooseCatPrompt: "What are you looking for?",
+    shopBotChooseNeedPrompt: "Pick what you need:",
+    shopBotOpenSite: "Visit site",
+    shopBotBackToCats: "← Back to all categories",
+    shopBotBackToNeeds: "← Back",
+    shopBotNote: "These are independent shops — Honeymoon isn't affiliated with them and doesn't handle payment or delivery.",
     giftTipTitle: "Send a tip",
     subscribeSectionTitle: "Subscriber offer",
     subscribeDefaultDesc: "Subscribe to unlock cool photo, video and audio packs made just for my subscribers.",
@@ -3765,6 +3778,44 @@ if(!document.getElementById('hm-coach-gold-style')){
   `;
   document.head.appendChild(st);
 }
+/* ---------------- Style injecté : thème "Shopping Assistant" (Univers Créatrice) —
+   réutilise TOUTE la structure visuelle du Coach Honeymoon (.coach-frame, .coach-theme-btn,
+   .coach-table, etc.) mais en remplaçant le dégradé honey/rose par honey/cacao (or + orange
+   cacao de luxe) via un simple ancêtre .shopbot-theme, sans toucher au thème du Coach membre. ---------------- */
+if(!document.getElementById('hm-shopbot-gold-style')){
+  const st2 = document.createElement('style');
+  st2.id = 'hm-shopbot-gold-style';
+  st2.textContent = `
+    .shopbot-theme .coach-chat-avatar,
+    .shopbot-theme .coach-mini-avatar,
+    .shopbot-theme .coach-theme-btn-icon{background:linear-gradient(135deg,var(--honey),var(--cacao));}
+    .shopbot-theme .coach-chat-badge,
+    .shopbot-theme .coach-like-btn.liked,
+    .shopbot-theme .coach-back-both-btn{background:linear-gradient(90deg,var(--honey),var(--cacao));color:#1c130a;}
+    .shopbot-theme .coach-bubble-row.user .coach-bubble-text{border-color:var(--honey);}
+    .shopbot-theme .coach-theme-btn:hover,
+    .shopbot-theme .coach-table-row:hover,
+    .shopbot-theme .coach-option-btn:hover,
+    .shopbot-theme .coach-like-btn:hover,
+    .shopbot-theme .coach-action-btn:hover{border-color:var(--cacao);}
+    .shopbot-theme .coach-table-row:hover{color:var(--cacao);}
+    .shopbot-theme .coach-gold-led{
+      background:linear-gradient(90deg,var(--cacao-deep),var(--honey),#f6dfa0,var(--honey),var(--cacao-deep));
+      background-size:250% auto;-webkit-background-clip:text;background-clip:text;color:transparent;
+      animation:hmGoldLed 3.2s linear infinite;font-weight:600;
+    }
+    .shopbot-link-card{display:flex;align-items:center;gap:11px;width:100%;text-align:left;background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:11px 13px;color:var(--text);font-size:12.5px;margin-bottom:8px;cursor:pointer;transition:.15s;}
+    .shopbot-link-card:hover{border-color:var(--cacao);}
+    .shopbot-link-icon{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,var(--honey),var(--cacao));display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;color:#1c130a;}
+    .shopbot-link-text{flex:1;min-width:0;}
+    .shopbot-link-name{display:block;font-weight:700;font-size:12.5px;color:var(--text);}
+    .shopbot-link-desc{display:block;font-size:10.5px;color:var(--text-muted);margin-top:1px;}
+    .shopbot-link-arrow{flex-shrink:0;color:var(--cacao);}
+    .shopbot-breadcrumb{font-size:10.5px;color:var(--text-muted);margin:0 0 8px 37px;}
+    .shopbot-breadcrumb b{color:var(--honey);}
+  `;
+  document.head.appendChild(st2);
+}
 // Détecte les emoji dans un fragment déjà échappé (escText) pour les envelopper
 // dans un span animé, sans jamais toucher au HTML échappé lui-même.
 const HM_EMOJI_REGEX = /([\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2190}-\u{21FF}])/gu;
@@ -5993,6 +6044,249 @@ function renderGalleryBody(m){
       };
     });
   }
+}
+
+/* ================================================================
+   UNIVERS CRÉATRICE — SHOPPING ASSISTANT (chatbot, thème gold + cacao)
+   Réutilise l'exact moteur visuel du Coach Honeymoon (.coach-frame, .coach-theme-btn,
+   .coach-table, typeWriterText, coachRestMs...) via le wrapper .shopbot-theme, mais
+   avec son propre état / son propre contenu : un annuaire de boutiques externes
+   organisé par catégorie -> besoin, plutôt qu'un Q&A. Chaque lien ouvre le site
+   du marchand dans un nouvel onglet ; Honeymoon n'est affilié à aucun d'entre eux. ================================================================ */
+const SHOPBOT_CATALOG = {
+  mode: { icon:'bag', title:"Fashion", desc:"Lingerie, clothing, shoes, bags, jewelry",
+    needs: {
+      lingerie: { title:"Lingerie & sensual wear", shops:[
+        { name:"Etam", url:"https://www.etam.com/", desc:"French lingerie, made-in-France craftsmanship" },
+        { name:"Hunkemöller", url:"https://www.hunkemoller.fr/", desc:"Sensual sets, private collection" },
+        { name:"Intimissimi", url:"https://www.intimissimi.com/fr/", desc:"Italian lingerie brand" },
+        { name:"Bluebella", url:"https://www.bluebella.fr/", desc:"Bold, sensual/provocative lingerie" },
+        { name:"Maison Close", url:"https://www.maison-close.fr/", desc:"Parisian sexy lingerie house" },
+        { name:"Lemon Curve", url:"https://lemoncurve.com/", desc:"Multi-brand lingerie department store" }
+      ]},
+      clothing: { title:"Clothing", shops:[
+        { name:"Zara", url:"https://www.zara.com/fr/", desc:"Fast fashion, wide range" },
+        { name:"H&M", url:"https://www2.hm.com/fr_fr/", desc:"Affordable everyday fashion" },
+        { name:"Mango", url:"https://shop.mango.com/fr/", desc:"Mediterranean chic fashion" },
+        { name:"ASOS", url:"https://www.asos.com/fr/", desc:"Huge global fashion marketplace" },
+        { name:"Boohoo", url:"https://fr.boohoo.com/", desc:"Trend-led, budget-friendly" },
+        { name:"PrettyLittleThing", url:"https://www.prettylittlething.fr/", desc:"Glam, body-con styles" }
+      ]},
+      shoes: { title:"Shoes & heels", shops:[
+        { name:"Zalando", url:"https://www.zalando.fr/", desc:"1500+ brands, free returns" },
+        { name:"Sarenza", url:"https://www.sarenza.com/", desc:"Very large shoe catalogue" },
+        { name:"Spartoo", url:"https://www.spartoo.com/", desc:"Shoes for every style & budget" },
+        { name:"Milanoo", url:"https://www.milanoo.com/", desc:"Sexy heels, boots, thigh-highs — trusted since 2008" },
+        { name:"Boutique Spicy", url:"https://boutique-spicy.fr/", desc:"Sexy heels, boots, sandals" }
+      ]},
+      bags: { title:"Bags & accessories", shops:[
+        { name:"Michael Kors", url:"https://www.michaelkors.fr/", desc:"Designer bags & accessories" },
+        { name:"Guess", url:"https://www.guess.eu/fr-fr/", desc:"Bags, accessories, fashion" },
+        { name:"Mango", url:"https://shop.mango.com/fr/", desc:"Bags & accessories line" },
+        { name:"La Redoute", url:"https://www.laredoute.fr/", desc:"Wide accessories catalogue" }
+      ]},
+      jewelry: { title:"Jewelry", shops:[
+        { name:"Pandora", url:"https://fr.pandora.net/", desc:"Charms, rings, bracelets" },
+        { name:"Swarovski", url:"https://www.swarovski.com/fr-FR/", desc:"Crystal jewelry" },
+        { name:"Agatha", url:"https://www.agatha.fr/", desc:"French costume jewelry" },
+        { name:"Calyssandra", url:"https://calyssandra.com/", desc:"800+ fantasy jewelry pieces" },
+        { name:"Etsy", url:"https://www.etsy.com/fr/", desc:"Handmade & independent designers" }
+      ]}
+    }
+  },
+  beauty: { icon:'star', title:"Beauty", desc:"Makeup, skincare, hair",
+    needs: {
+      makeup: { title:"Makeup & skincare", shops:[
+        { name:"Sephora", url:"https://www.sephora.fr/", desc:"Every major makeup & skincare brand" },
+        { name:"Nocibé", url:"https://www.nocibe.fr/", desc:"French beauty retailer" },
+        { name:"Marionnaud", url:"https://www.marionnaud.fr/", desc:"Perfume & beauty chain" },
+        { name:"Lookfantastic", url:"https://www.lookfantastic.fr/", desc:"Curated beauty brands, ships EU-wide" }
+      ]},
+      hair: { title:"Hair, wigs & extensions", shops:[
+        { name:"Bleu Libellule", url:"https://www.bleulibellule.com/", desc:"Wigs & hair extensions" },
+        { name:"Etsy", url:"https://www.etsy.com/fr/", desc:"Handmade & custom hairpieces" },
+        { name:"Beauty Bay", url:"https://www.beautybay.com/", desc:"Haircare & styling tools" }
+      ]}
+    }
+  },
+  content: { icon:'camera', title:"Content creation gear", desc:"Camera, lighting, mic, tripod",
+    needs: {
+      bundlePhotos: { title:"⭐ Level up my photos & videos (full bundle)", shops:[
+        { name:"NEEWER", url:"https://eu.neewer.com/", desc:"Ring lights, softboxes, tripods, mics — all in one catalogue, built for creators" },
+        { name:"Ring Light Ring", url:"https://www.ring-light-ring.fr/", desc:"Boutique dedicated to content creators: lighting, tripods, mics, backdrops" },
+        { name:"Elgato", url:"https://www.elgato.com/fr/fr", desc:"Streaming-grade lights, cams & mics" }
+      ]},
+      camera: { title:"Camera & webcam", shops:[
+        { name:"Fnac", url:"https://www.fnac.com/", desc:"Cameras & webcams, wide selection" },
+        { name:"Materiel.net", url:"https://www.materiel.net/", desc:"Webcams for streaming, HD to 4K" },
+        { name:"Miss Numérique", url:"https://www.missnumerique.com/", desc:"Best value for photo/video gear" },
+        { name:"Darty", url:"https://www.darty.com/", desc:"Cameras & electronics, French retailer" }
+      ]},
+      lighting: { title:"Video lighting / ring light", shops:[
+        { name:"NEEWER", url:"https://eu.neewer.com/", desc:"Pro ring lights, softbox kits, LED panels" },
+        { name:"Ring Light Ring", url:"https://www.ring-light-ring.fr/", desc:"Tested, creator-focused lighting gear" },
+        { name:"Godox", url:"https://www.godox.com/", desc:"Studio-grade lighting brand" }
+      ]},
+      mic: { title:"Microphone / audio", shops:[
+        { name:"RØDE", url:"https://rode.com/", desc:"Reference mic brand for content creators" },
+        { name:"Shure", url:"https://www.shure.com/fr-FR", desc:"Pro-grade microphones" },
+        { name:"Elgato", url:"https://www.elgato.com/fr/fr", desc:"Streaming mics & audio gear" }
+      ]},
+      tripod: { title:"Tripod / phone mount", shops:[
+        { name:"Manfrotto", url:"https://www.manfrotto.com/fr-fr/", desc:"Professional tripods" },
+        { name:"Joby", url:"https://joby.com/fr-fr/", desc:"Flexible tripods & phone mounts" },
+        { name:"NEEWER", url:"https://eu.neewer.com/", desc:"Affordable tripods & phone rigs" }
+      ]}
+    }
+  },
+  business: { icon:'briefcase', title:"Creator business", desc:"Computer, phone, home office",
+    needs: {
+      computer: { title:"Computer / laptop", shops:[
+        { name:"Fnac", url:"https://www.fnac.com/", desc:"Laptops, all budgets" },
+        { name:"LDLC", url:"https://www.ldlc.com/", desc:"PC specialist, build & pre-built" },
+        { name:"Materiel.net", url:"https://www.materiel.net/", desc:"Computer hardware & laptops" },
+        { name:"Darty", url:"https://www.darty.com/", desc:"Laptops & electronics" }
+      ]},
+      phone: { title:"Smartphone & accessories", shops:[
+        { name:"Apple", url:"https://www.apple.com/fr/", desc:"iPhone & accessories" },
+        { name:"Samsung", url:"https://www.samsung.com/fr/", desc:"Galaxy phones & accessories" },
+        { name:"Fnac", url:"https://www.fnac.com/", desc:"All brands, all budgets" }
+      ]}
+    }
+  },
+  africa: { icon:'globe', title:"Africa", desc:"Pan-African marketplaces, every category",
+    needs: {
+      general: { title:"Shop by marketplace", shops:[
+        { name:"Jumia", url:"https://www.jumia.com/", desc:"Biggest pan-African marketplace — 10+ countries, every category" },
+        { name:"Takealot", url:"https://www.takealot.com/", desc:"South Africa's leading online retailer" },
+        { name:"Konga", url:"https://www.konga.com/", desc:"Nigeria — electronics, fashion, home" },
+        { name:"Kilimall", url:"https://www.kilimall.co.ke/", desc:"East Africa (Kenya, Uganda, Ghana) — budget-friendly" },
+        { name:"Zando", url:"https://www.zando.co.za/", desc:"South Africa — fashion specialist" },
+        { name:"Bidorbuy", url:"https://www.bidorbuy.co.za/", desc:"South Africa — new & second-hand, jewelry, fashion, electronics" }
+      ]}
+    }
+  }
+};
+
+let shopBotState = { view:'welcome', catKey:null, needKey:null };
+
+function renderUniverseShoppingAssistant(container){
+  if(!container) return;
+  shopBotState = { view:'welcome', catKey:null, needKey:null };
+  container.innerHTML = `
+    <div class="shopbot-theme">
+      <p style="color:var(--text-muted);font-size:11.5px;margin:0 0 14px;line-height:1.6;">${escText(t('shopBotNote'))}</p>
+      <div class="coach-frame">
+        <div class="coach-chat-header">
+          <div class="coach-chat-avatar">🛍️</div>
+          <div class="coach-chat-headtext">
+            <div class="coach-chat-title">${escText(t('shopBotTitle'))}</div>
+            <div class="coach-chat-subtitle">${escText(t('shopBotSubtitle'))}</div>
+          </div>
+        </div>
+        <div id="shopbot-body"></div>
+      </div>
+    </div>
+  `;
+  shopBotShowWelcome();
+}
+
+function shopBotShowWelcome(){
+  shopBotState = { view:'welcome', catKey:null, needKey:null };
+  const body = document.getElementById('shopbot-body');
+  if(!body) return;
+  body.innerHTML = `
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🛍️</div><div class="coach-bubble-text chat-bot show" id="shopbot-welcome-intro"></div></div>
+    <div id="shopbot-welcome-bullets"></div>
+    <div id="shopbot-cat-choice"></div>
+  `;
+  const introEl = document.getElementById('shopbot-welcome-intro');
+  const now = new Date();
+  const introText = t('shopBotWelcomeIntro');
+  setTimeout(() => {
+    typeWriterText(introEl, introText, now);
+    setTimeout(shopBotShowWelcomeBullets, coachTypingDelayMs(introText));
+  }, coachRestMs(400));
+}
+
+function shopBotShowWelcomeBullets(){
+  const el = document.getElementById('shopbot-welcome-bullets');
+  if(!el) return;
+  const bulletKeys = ['shopBotWelcomeBullet1','shopBotWelcomeBullet2','shopBotWelcomeBullet3','shopBotWelcomeBullet4'];
+  el.innerHTML = `<ul class="coach-welcome-list">${bulletKeys.map(k => `<li>${escText(t(k))}</li>`).join('')}</ul>`;
+  setTimeout(shopBotShowCategories, coachRestMs(700));
+}
+
+function shopBotShowCategories(){
+  shopBotState.view = 'categories';
+  const el = document.getElementById('shopbot-cat-choice');
+  if(!el) return;
+  const catsHtml = Object.keys(SHOPBOT_CATALOG).map(key => {
+    const c = SHOPBOT_CATALOG[key];
+    return `<button type="button" class="coach-theme-btn" data-cat="${key}"><span class="coach-theme-btn-icon">${AICON[c.icon]}</span><span><span class="coach-theme-btn-title">${escText(c.title)}</span><span class="coach-theme-btn-desc">${escText(c.desc)}</span></span></button>`;
+  }).join('');
+  el.innerHTML = `
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🛍️</div><div class="coach-bubble-text chat-bot show">${escText(t('shopBotChooseCatPrompt'))}</div></div>
+    <div class="coach-theme-choice">${catsHtml}</div>
+  `;
+  el.querySelectorAll('[data-cat]').forEach(btn => { btn.onclick = () => shopBotChooseCategory(btn.dataset.cat); });
+  document.getElementById('shopbot-body').scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+
+function shopBotChooseCategory(catKey){
+  shopBotState.catKey = catKey;
+  shopBotState.needKey = null;
+  shopBotState.view = 'needs';
+  shopBotRenderNeeds();
+}
+
+function shopBotRenderNeeds(){
+  const body = document.getElementById('shopbot-body');
+  const cat = SHOPBOT_CATALOG[shopBotState.catKey];
+  if(!body || !cat) return;
+  const rowsHtml = Object.keys(cat.needs).map(needKey => {
+    const n = cat.needs[needKey];
+    return `<button type="button" class="coach-table-row" data-need="${needKey}">${escText(n.title)}</button>`;
+  }).join('');
+  body.innerHTML = `
+    <div class="shopbot-breadcrumb"><b>${escText(cat.title)}</b></div>
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🛍️</div><div class="coach-bubble-text chat-bot show">${escText(t('shopBotChooseNeedPrompt'))}</div></div>
+    <div class="coach-table">${rowsHtml}</div>
+    <button type="button" class="coach-back-both-btn" data-back-cats="1">${escText(t('shopBotBackToCats'))}</button>
+  `;
+  body.querySelectorAll('[data-need]').forEach(btn => { btn.onclick = () => shopBotChooseNeed(btn.dataset.need); });
+  const backBtn = body.querySelector('[data-back-cats]');
+  if(backBtn) backBtn.onclick = shopBotShowWelcome;
+  body.scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+
+function shopBotChooseNeed(needKey){
+  shopBotState.needKey = needKey;
+  shopBotState.view = 'shops';
+  const body = document.getElementById('shopbot-body');
+  const cat = SHOPBOT_CATALOG[shopBotState.catKey];
+  const need = cat && cat.needs[needKey];
+  if(!body || !need) return;
+  const linksHtml = need.shops.map(s => `
+    <a class="shopbot-link-card" href="${escAttr(s.url)}" target="_blank" rel="noopener noreferrer">
+      <span class="shopbot-link-icon">${AICON.bag}</span>
+      <span class="shopbot-link-text"><span class="shopbot-link-name">${escText(s.name)}</span><span class="shopbot-link-desc">${escText(s.desc)}</span></span>
+      <span class="shopbot-link-arrow">${AICON.angle}</span>
+    </a>
+  `).join('');
+  body.innerHTML = `
+    <div class="shopbot-breadcrumb"><b>${escText(cat.title)}</b> · ${escText(need.title)}</div>
+    <div>${linksHtml}</div>
+    <div class="coach-action-bar">
+      <button type="button" class="coach-action-btn" data-back-needs="1">${COACH_ICON_BACK} ${escText(t('shopBotBackToNeeds'))}</button>
+    </div>
+    <button type="button" class="coach-back-both-btn" data-back-cats="1">${escText(t('shopBotBackToCats'))}</button>
+  `;
+  const backNeeds = body.querySelector('[data-back-needs]');
+  if(backNeeds) backNeeds.onclick = shopBotRenderNeeds;
+  const backCats = body.querySelector('[data-back-cats]');
+  if(backCats) backCats.onclick = shopBotShowWelcome;
+  body.scrollIntoView({ behavior:'smooth', block:'nearest' });
 }
 
 /* ================= ZONE D'AJOUT PHOTO/VIDÉO À DOUBLE CHOIX =================
@@ -10569,7 +10863,10 @@ const AICON = {
   target: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>',
   book: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>',
   heart: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>',
-  globe: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>'
+  globe: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
+  bag: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>',
+  briefcase: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>',
+  camera: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>'
 };
 
 /* ---------------- Icônes premium (SVG en badge coloré) pour les tags des 3
@@ -11811,6 +12108,23 @@ function closeVitrineRoom(){
     window.location.hash = 'vitrine';
   }
 }
+
+/* ---------------- Univers Créatrice : ouverture/fermeture du modal Shopping Assistant ---------------- */
+function openShoppingAssistant(){
+  renderUniverseShoppingAssistant(document.getElementById('shopbot-page-body'));
+  document.getElementById('shopbot-backdrop').classList.add('open');
+  document.getElementById('shopbot-modal').classList.add('open');
+}
+function closeShoppingAssistant(){
+  document.getElementById('shopbot-backdrop').classList.remove('open');
+  document.getElementById('shopbot-modal').classList.remove('open');
+}
+const universeCreatorBtn = document.getElementById('universe-creator-btn');
+if(universeCreatorBtn) universeCreatorBtn.onclick = openShoppingAssistant;
+const shopbotBackdrop = document.getElementById('shopbot-backdrop');
+if(shopbotBackdrop) shopbotBackdrop.onclick = closeShoppingAssistant;
+const shopbotCloseBtn = document.getElementById('shopbot-close');
+if(shopbotCloseBtn) shopbotCloseBtn.onclick = closeShoppingAssistant;
 
 /* ---------------- votes (like / dislike) ---------------- */
 const ICON_LIKE = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg>';
