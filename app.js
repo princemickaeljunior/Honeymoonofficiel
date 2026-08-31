@@ -287,8 +287,9 @@ const I18N = {
     subscribeBackBtn: "Back to profile",
     subscribeMockToast: "Subscribed! (test mode — no payment taken yet)",
     subscriberBadgeTitle: "Subscriber",
-    subDiscountNote: "★ Subscribers get 5% off all paid content",
+    subDiscountNote: "★ Subscribers get 5% off subscriber packs",
     subPackSoldAtNote: "Sold at {discounted}€ to subscribers (5% off {price}€).",
+    subPackSoldLivePh: "We'll calculate your % and reduction live once you set a price.",
     subConfigBtnLabel: "Subscription offer",
     subConfigTitle: "Your subscription offer",
     subConfigHowTitle: "How sending a pack works",
@@ -8310,7 +8311,7 @@ function wireChatReactionRail(){
   if(!rail) return;
   const isCreatorView = chatCtx && chatCtx.viewerType === 'creator';
   const reactions = [
-    ...(isCreatorView ? [{ key: 'subpack', icon: ICON_TROPHY_GOLD, title: 'Mes abonnés', label: 'Abonnés' }] : []),
+    ...(isCreatorView ? [{ key: 'subpack', icon: ICON_TROPHY_GOLD, title: 'For my subscribers', label: 'For my subscribers' }] : []),
     { key: 'gift', icon: ICON_GIFT, title: 'Cadeau' },
     { key: 'heart', icon: ICON_HEART_SM, title: 'Cœur' },
     { key: 'like', icon: ICON_THUMBSUP, title: "J'aime" },
@@ -8318,7 +8319,7 @@ function wireChatReactionRail(){
     { key: 'sad', icon: ICON_FROWN, title: 'Pas content' }
   ];
   rail.innerHTML = reactions.map(r => r.label
-    ? `<button type="button" class="chat-reaction-btn" data-reaction="${r.key}" title="${r.title}" style="width:auto;display:flex;align-items:center;gap:5px;padding:0 10px;white-space:nowrap;">${r.icon}<span style="font-size:10px;font-weight:700;color:#f6dfa0;">${r.label}</span></button>`
+    ? `<button type="button" class="chat-reaction-btn" data-reaction="${r.key}" title="${r.title}" style="width:auto;max-width:74px;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 8px;white-space:normal;text-align:center;">${r.icon}<span style="font-size:8.5px;font-weight:700;line-height:1.15;color:#f6dfa0;">${r.label}</span></button>`
     : `<button type="button" class="chat-reaction-btn" data-reaction="${r.key}" title="${r.title}">${r.icon}</button>`
   ).join('');
   rail.querySelectorAll('.chat-reaction-btn').forEach(btn => {
@@ -8388,7 +8389,10 @@ if(!document.getElementById('hm-subscribe-style')){
     .sub-config-desc-input:focus{outline:none;border-color:var(--honey,#f6dfa0);box-shadow:0 0 0 3px rgba(246,223,160,.15);}
     .sub-discount-note{color:#f6dfa0;background:rgba(246,223,160,.10);border:1px solid rgba(246,223,160,.3);border-radius:10px;padding:8px 12px;font-size:11.5px;font-weight:700;margin:0 0 10px;}
     .sub-price-struck{color:var(--text-muted,#a89bb0);text-decoration:line-through;font-weight:400;margin-right:4px;}
-    .sub-pack-sold-note{font-size:10.5px;color:var(--text-muted,#a89bb0);line-height:1.5;margin:-6px 0 12px;padding:6px 10px;background:var(--bg,#120d16);border-radius:8px;border:1px solid var(--border,#3a2e40);}
+    .sub-pack-sold-note{font-size:11.5px;color:var(--honey,#f6dfa0);line-height:1.5;margin:-4px 0 14px;padding:10px 12px;background:rgba(246,223,160,.06);border-radius:10px;border:1px solid rgba(246,223,160,.25);min-height:18px;}
+    .sub-config-how-compact{padding:10px 14px!important;}
+    .sub-config-how-compact h4{font-size:12px!important;margin:0 0 6px!important;}
+    .sub-config-how-compact p{font-size:10.5px!important;line-height:1.4!important;margin:0 0 5px!important;}
   `;
   document.head.appendChild(st2);
 }
@@ -11234,14 +11238,8 @@ function showPaymentInstructions(o){
 async function openVitrineRoom(id, isBackgroundRefresh){
   const m = roster.find(x => x.id === id);
   if(!m) return;
-  let myIsSubscriber = false;
-  if(memberAuth && memberAuth.currentUser && !memberAuth.currentUser.isAnonymous){
-    try{
-      const subDoc = await memberDb.collection('profiles').doc(m.id).collection('subscribers').doc(memberAuth.currentUser.uid).get();
-      myIsSubscriber = subDoc.exists;
-    }catch(e){ console.error('check subscriber status error', e); }
-  }
-  const discountedPrice = (price) => myIsSubscriber && price ? Math.max(1, Math.round(price * 0.95 * 100) / 100) : price;
+  // Règle : la remise abonné de 5% ne s'applique QU'aux packs (bouton coupe dans le chat) —
+  // jamais au Tip Menu ni à aucun autre contenu payant du site. Ne pas réintroduire ici.
   const bio = Object.assign({
     origin:'', nationality:'', age:'', bodyType:'', orientation:'', lookingFor:'',
     passions:'', universe:'', hobbies:'', personality:'', fantasies:'', fetish:'',
@@ -11336,7 +11334,6 @@ async function openVitrineRoom(id, isBackgroundRefresh){
         <p>${t('tipMenuHowMemberP1')}</p>
         <p>${t('tipMenuHowMemberP2')}</p>
         <p>${t('tipMenuHowMemberP3')}</p>
-        ${myIsSubscriber ? `<p class="sub-discount-note">${t('subDiscountNote')}</p>` : ''}
       </div>
       <div class="tipmenu-public-list">
         ${m.tipMenu.map((r, idx) => `
@@ -11350,10 +11347,10 @@ async function openVitrineRoom(id, isBackgroundRefresh){
             </div>` : ''}
             <div class="tipmenu-public-head">
               <span class="tipmenu-public-theme">${r.emoji ? r.emoji + ' ' : ''}${escText(r.theme)}</span>
-              <span class="tipmenu-public-prices">${r.type === 'video' ? ICON_VIDEO : (r.type === 'audio' ? ICON_AUDIO : ICON_CAMERA)} ${r.price ? (myIsSubscriber ? `<span class="sub-price-struck">${r.price}€</span> ${discountedPrice(r.price)}€` : r.price + '€') : ''}</span>
+              <span class="tipmenu-public-prices">${r.type === 'video' ? ICON_VIDEO : (r.type === 'audio' ? ICON_AUDIO : ICON_CAMERA)} ${r.price ? r.price + '€' : ''}</span>
             </div>
             ${r.description ? `<p class="tipmenu-public-desc">${escText(r.description)}</p>` : ''}
-            <button type="button" class="tipmenu-order-btn" data-id="${m.id}" data-idx="${idx}" data-theme="${escAttr(r.theme)}" data-price="${discountedPrice(r.price) || ''}">${ICON_CART} ${t('tipMenuOrderBtn')}</button>
+            <button type="button" class="tipmenu-order-btn" data-id="${m.id}" data-idx="${idx}" data-theme="${escAttr(r.theme)}" data-price="${r.price || ''}">${ICON_CART} ${t('tipMenuOrderBtn')}</button>
           </div>`).join('')}
       </div>
       ${m.tipMenuRules ? `<p class="tipmenu-public-rules">${escText(m.tipMenuRules)}</p>` : ''}
@@ -11695,7 +11692,7 @@ function openSubscriptionConfigPage(m){
   }
 
   function subPackSoldNoteText(price){
-    if(!price) return '';
+    if(!price) return t('subPackSoldLivePh');
     const discounted = Math.max(1, Math.round(price * 0.95 * 100) / 100);
     const myCut = Math.round(discounted * 0.6 * 100) / 100;
     return `${t('subPackSoldAtNote').replace('{price}', price).replace('{discounted}', discounted)}<br>${t('tipMenuEarnNote').replace('{amount}', myCut)}`;
@@ -11705,14 +11702,14 @@ function openSubscriptionConfigPage(m){
     backdrop.innerHTML = `
       <div class="subscribe-page" style="max-width:520px;text-align:left;">
         <h2 class="subscribe-page-title" style="margin-top:0;">${t('subConfigTitle')}</h2>
-        <div class="tipmenu-how-it-works">
+        <div class="tipmenu-how-it-works sub-config-how-compact">
           <h4>${t('subConfigHowTitle')}</h4>
           <p>${t('subConfigHowP1')}</p>
           <p>${t('subConfigHowP2')}</p>
           <p>${t('subConfigHowP3')}</p>
         </div>
         <label class="sub-pack-label">${t('subConfigDescLabel')}</label>
-        <textarea id="sub-desc-input" rows="3" maxlength="200" class="sub-config-desc-input" placeholder="${escAttr(t('subscribeDefaultDesc'))}">${escText(localDesc)}</textarea>
+        <textarea id="sub-desc-input" rows="5" maxlength="200" class="sub-config-desc-input" placeholder="${escAttr(t('subscribeDefaultDesc'))}">${escText(localDesc)}</textarea>
         <div id="sub-packs-rows" style="margin-top:16px;display:flex;flex-direction:column;gap:12px;">
           <p class="sub-discount-note">${t('subDiscountNote')}</p>
           ${localPacks.map(rowHtml).join('') || `<p class="member-note">${t('subConfigNoPacks')}</p>`}
