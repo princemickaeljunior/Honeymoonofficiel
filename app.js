@@ -4290,8 +4290,8 @@ function coachShowSilenceDiagnosis(answers){
 
 /* ---- Liste des questions de départ affichées dans le tableau de chaque catégorie. ---- */
 const COACH_STARTERS = {
-  platform: ['plat_1','plat_2','plat_3','plat_4','plat_5','plat_6'],
-  budget: ['bud_1','bud_2','bud_3','bud_4','bud_5','bud_6'],
+  platform: ['plat_1','plat_2','plat_3','plat_4','plat_5','plat_6','plat_7'],
+  budget: ['bud_1','bud_2','bud_3','bud_4','bud_5','bud_6','bud_7'],
   engaging: ['eng_1','eng_2','eng_3','eng_4','eng_5','eng_6'],
   about: ['abt_1','abt_2','abt_3','abt_4','abt_5','abt_6'],
   communicate: ['comm_1','comm_2','comm_3','comm_4','comm_5','comm_6'],
@@ -4318,6 +4318,7 @@ const COACH_NODES = {
   plat_4: { q: "Can I see what I've already purchased?", a: "Yes — everything you've unlocked lives in your Collection, so you never lose access to content you've already paid for." },
   plat_5: { q: "How do I know a creator's profile is genuine?", a: "Every profile on Honeymoon is verified by the team before it goes live, so you're always chatting with a real, ID-checked creator." },
   plat_6: { q: "Can I follow more than one creator?", a: "Absolutely — add as many creators as you like to your Favorites and switch between conversations whenever you want." },
+  plat_7: { q: "How does subscribing to a creator work?", a: "Subscribe on her profile to unlock her subscriber pricing. Once you're subscribed, she can send you ready-made packs — photos, videos or audio — straight through your chat, already priced at your subscriber discount." },
 
   // -------- Budget, tips & offers --------
   bud_1: { q: "How much should I plan to spend here?", a: "There's no fixed rule — start with what feels comfortable, unlock a piece or two, and adjust as you see which creators and content you enjoy most." },
@@ -4326,6 +4327,7 @@ const COACH_NODES = {
   bud_4: { q: "What counts as a good tip?", a: "Any amount that feels right to you — a tip is simply a way to show appreciation on top of what you've already unlocked, there's no required minimum." },
   bud_5: { q: "Are there perks for regular supporters?", a: "Creators often reward loyal supporters with priority replies or occasional extras — staying a consistent, respectful member tends to pay off over time." },
   bud_6: { q: "Is my payment information safe?", a: "Yes, purchases are processed securely and your payment details are never shared with creators — they only see that a purchase happened." },
+  bud_7: { q: "How do I send a tip to a creator?", a: "Open your chat with her and tap the gift icon to send a tip, anywhere from €1 to €100. The bigger the tip, the warmer her reaction — from a heart for a small one up to fireworks at the top tier." },
 
   // -------- Chatting with creators --------
   eng_1: { q: "What's a good first message to a creator?", a: "Skip generic compliments — react to something specific in her bio or latest post. Specific and genuine beats flattering every time." },
