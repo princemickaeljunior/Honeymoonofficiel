@@ -288,6 +288,45 @@ const I18N = {
     shopBotChooseContinentPrompt: "Which continent are you in?",
     shopBotChooseCountryPrompt: "Which country / region?",
     shopBotBackToContinents: "← Back to continents",
+    universeGuestTitle: "Guest Universe",
+    universeGuestDesc: "Not just a site. An experience to discover.",
+    guTabRoulette: "🎡 Roulette",
+    guTabPresentation: "✨ Presentation",
+    guWelcomeTitle: "Welcome to the Honeymoon universe 🌙",
+    guWelcomeBody: "Not just a site. An experience.",
+    guAskName: "What's your first name?",
+    guNamePlaceholder: "Your first name",
+    guNameSubmit: "Let's go",
+    guWelcomeBack: "Welcome back {name} ✨",
+    guWelcomeBackBody: "You stopped after universe #{count}. Want to keep exploring?",
+    guContinue: "Continue my exploration",
+    guProgressLabel: "{name} 🌙 — you've discovered {count}/{total} universes",
+    guSpin: "🎡 Spin the wheel",
+    guSpinAgain: "🎡 Spin again",
+    guDrawnIntro: "You landed on:",
+    guAccept: "✅ OK, let's go",
+    guAlreadySeen: "🔄 I've already found this one",
+    guRetry: "🎲 Try again",
+    guRetriesLeft: "{n} retry left",
+    guRetriesLeftPlural: "{n} retries left",
+    guRetriesUsedUp: "No retries left — this universe is yours to discover 🌙",
+    guExperienceContinue: "Continue",
+    guRatingPrompt: "Did you like this discovery?",
+    guRatingLoved: "Loved it",
+    guRatingGood: "Not bad",
+    guRatingMeh: "Meh",
+    guRatingNo: "Not for me",
+    guRatingThanks: "Thanks — noted 🌙",
+    guCompleteTitle: "You've explored the whole Honeymoon universe 🌙✨",
+    guCompleteBody: "20 out of 20 universes discovered. You truly know Honeymoon now.",
+    guCompleteCta: "Discover Honeymoon Creator",
+    guPresIntro: "Honeymoon — not just a site. An experience to discover.",
+    guPresBullet1: "A curated roster of creators, each with their own universe",
+    guPresBullet2: "Subscribe to unlock subscriber pricing and exclusive packs",
+    guPresBullet3: "Chat directly with creators and send tips, from €1 to €100",
+    guPresBullet4: "A members' space built around real interaction, not just content",
+    guPresCta: "Join Honeymoon",
+    guPositioning: "Honeymoon — Not just a site. An experience to discover.",
     giftTipTitle: "Send a tip",
     subscribeSectionTitle: "Subscriber offer",
     subscribeDefaultDesc: "Subscribe to unlock cool photo, video and audio packs made just for my subscribers.",
@@ -3822,6 +3861,56 @@ if(!document.getElementById('hm-shopbot-gold-style')){
     .shopbot-theme .coach-table-row:hover{background:linear-gradient(90deg,transparent,color-mix(in srgb, var(--honey) 10%, transparent));padding-left:19px;}
     .shopbot-theme .coach-table-row:hover::after{opacity:1;border-color:var(--honey);}
     .shopbot-theme .coach-table-row:last-child{border-bottom:none;}
+
+    /* ---------------- Thème "Univers Invité" — blanc + orange + rose + cacao,
+       même moteur visuel .coach-frame que le Coach Honeymoon, isolé via .guestuniverse-theme. ---------------- */
+    .guestuniverse-theme .coach-chat-avatar,
+    .guestuniverse-theme .coach-mini-avatar,
+    .guestuniverse-theme .coach-theme-btn-icon{background:linear-gradient(135deg,var(--guest-white),var(--guest-orange));color:#4a2408;}
+    .guestuniverse-theme .coach-chat-badge,
+    .guestuniverse-theme .coach-like-btn.liked,
+    .guestuniverse-theme .coach-back-both-btn{background:linear-gradient(90deg,var(--guest-orange),var(--rose));color:#fff;}
+    .guestuniverse-theme .coach-bubble-row.user .coach-bubble-text{border-color:var(--guest-orange);}
+    .guestuniverse-theme .coach-theme-btn:hover,
+    .guestuniverse-theme .coach-table-row:hover,
+    .guestuniverse-theme .coach-option-btn:hover,
+    .guestuniverse-theme .coach-like-btn:hover,
+    .guestuniverse-theme .coach-action-btn:hover{border-color:var(--rose);}
+    .guestuniverse-theme .coach-table{border-radius:16px;border-color:color-mix(in srgb, var(--guest-orange) 30%, var(--border));background:linear-gradient(180deg,color-mix(in srgb, var(--guest-white) 8%, var(--bg-elev)),var(--bg-elev));box-shadow:0 10px 26px -18px color-mix(in srgb, var(--cacao-deep) 55%, transparent);}
+    .guestuniverse-theme .coach-table-cat{background:color-mix(in srgb, var(--guest-orange) 8%, var(--bg));}
+    .gu-tabs{display:flex;gap:8px;margin:0 0 14px;}
+    .gu-tab-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 8px;border-radius:12px;border:1px solid var(--border);background:var(--bg);color:var(--text-muted);font-weight:700;font-size:12px;cursor:pointer;transition:.15s;}
+    .gu-tab-btn.active{background:linear-gradient(90deg,var(--guest-orange),var(--rose));color:#fff;border-color:transparent;}
+    .gu-progress-wrap{margin:2px 0 14px;}
+    .gu-progress-label{font-size:10.5px;color:var(--text-muted);margin-bottom:5px;}
+    .gu-progress-bar{height:6px;border-radius:999px;background:var(--bg);border:1px solid var(--border);overflow:hidden;}
+    .gu-progress-fill{height:100%;background:linear-gradient(90deg,var(--guest-orange),var(--rose));border-radius:999px;transition:width .5s ease;}
+    .gu-name-input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:11px 13px;color:var(--text);font-size:13px;margin:8px 0;}
+    .gu-name-input:focus{outline:none;border-color:var(--guest-orange);}
+    .gu-reel{display:flex;gap:8px;overflow:hidden;padding:14px 0;margin:6px 0 4px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+    .gu-reel-item{flex-shrink:0;width:46px;height:46px;border-radius:12px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:20px;transition:transform .15s, border-color .15s;}
+    .gu-reel-item.landed{border-color:var(--guest-orange);transform:scale(1.12);box-shadow:0 0 0 3px color-mix(in srgb, var(--guest-orange) 25%, transparent);}
+    .gu-spin-btn{width:100%;padding:13px;border-radius:14px;border:none;background:linear-gradient(90deg,var(--guest-orange),var(--rose));color:#fff;font-weight:800;font-size:13.5px;cursor:pointer;margin-top:10px;letter-spacing:.2px;}
+    .gu-spin-btn:disabled{opacity:.55;cursor:default;}
+    .gu-theme-card{border:1px solid var(--guest-orange);border-radius:16px;padding:16px;text-align:center;margin:10px 0;background:linear-gradient(180deg,color-mix(in srgb, var(--guest-orange) 8%, var(--bg-elev)),var(--bg-elev));}
+    .gu-theme-card-emoji{font-size:34px;margin-bottom:6px;}
+    .gu-theme-card-title{font-weight:800;font-size:14.5px;color:var(--text);}
+    .gu-theme-card-desc{font-size:11.5px;color:var(--text-muted);margin-top:4px;line-height:1.5;}
+    .gu-choice-row{display:flex;flex-direction:column;gap:8px;margin-top:12px;}
+    .gu-choice-btn{width:100%;padding:11px;border-radius:12px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:12.5px;font-weight:700;cursor:pointer;transition:.15s;}
+    .gu-choice-btn.primary{background:linear-gradient(90deg,var(--guest-orange),var(--rose));color:#fff;border-color:transparent;}
+    .gu-choice-btn:disabled{opacity:.4;cursor:default;}
+    .gu-experience{border-radius:16px;padding:22px 16px;text-align:center;margin:8px 0 14px;animation:guExpIn .4s ease;background:linear-gradient(160deg,color-mix(in srgb, var(--guest-orange) 14%, var(--bg-elev)),color-mix(in srgb, var(--rose) 10%, var(--bg-elev)));border:1px solid color-mix(in srgb, var(--guest-orange) 40%, var(--border));}
+    .gu-experience-emoji{font-size:46px;display:block;margin-bottom:10px;animation:guFloat 2.2s ease-in-out infinite;}
+    .gu-experience-title{font-weight:800;font-size:15px;color:var(--text);}
+    .gu-experience-text{font-size:12.5px;color:var(--text-muted);margin-top:8px;line-height:1.6;}
+    @keyframes guExpIn{from{opacity:0;transform:translateY(8px) scale(.97);}to{opacity:1;transform:translateY(0) scale(1);}}
+    @keyframes guFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+    .gu-rating-row{display:flex;gap:8px;justify-content:center;margin-top:12px;}
+    .gu-rating-btn{width:42px;height:42px;border-radius:50%;border:1px solid var(--border);background:var(--bg);font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s;}
+    .gu-rating-btn:hover{border-color:var(--guest-orange);transform:translateY(-2px);}
+    .gu-complete-card{text-align:center;padding:20px 14px;}
+    .gu-complete-emoji{font-size:40px;}
   `;
   document.head.appendChild(st2);
 }
@@ -6501,6 +6590,312 @@ async function handleGalleryAdd(m, files, field, onDone){
   }
   renderRoster();
   if(onDone) onDone();
+}
+
+/* ==================================================================================
+   ---------------- "Univers Invité" (Honeymoon) ----------------
+   Roulette interactive de 20 thèmes configurables (GUEST_THEMES) + onglet Présentation.
+   Réutilise le même moteur visuel que le Coach Honeymoon (.coach-frame, .coach-bubble-row,
+   typeWriterText, coachRestMs) via le wrapper .guestuniverse-theme (blanc/orange/rose/cacao).
+   Progression mémorisée dans Firestore (collection guestJourneys), clé = identifiant
+   visiteur anonyme généré une fois et conservé en localStorage (pas de compte requis).
+   ================================================================================== */
+
+/* Liste des 20 thèmes — configurable : ajouter/retirer/modifier une entrée suffit. */
+const GUEST_THEMES = [
+  { id:'photos',      emoji:'📸', title:'Photos',               text:'Every creator curates her own gallery — new shots added regularly, some free, some just for subscribers.' },
+  { id:'videos',      emoji:'🎬', title:'Videos',                text:'From short clips to longer exclusives — video is where a lot of creators really express their style.' },
+  { id:'audio',       emoji:'🎧', title:'Audio',                 text:'Voice notes, audio content, personal messages — a more intimate way creators connect with their members.' },
+  { id:'subscription',emoji:'💎', title:'Subscriptions',         text:'Subscribe to a creator to unlock her subscriber pricing — she can then send you ready-made packs straight in chat.' },
+  { id:'private',     emoji:'🔐', title:'Private content',       text:'Some content lives behind a paywall — priced individually by each creator, unlocked the moment you buy it.' },
+  { id:'creators',    emoji:'👑', title:'Our creators',          text:'A curated roster — every creator on Honeymoon has her own personality, style and universe to explore.' },
+  { id:'memberspace', emoji:'⭐', title:'Member space',          text:'Favorites, purchases, conversations — everything you need is organized in your own personal space.' },
+  { id:'chat',        emoji:'💬', title:'Chat & interactions',   text:'Direct conversations with creators — free chat, custom requests, and instant delivery of what you order.' },
+  { id:'tips',        emoji:'🎁', title:'Tips',                  text:'Send a tip from €1 to €100 in any chat — the bigger the tip, the warmer the reaction, from a heart up to fireworks.' },
+  { id:'ambiance',    emoji:'🌙', title:'Night ambiance',        text:'Honeymoon has its own mood — soft golden tones, an intimate feel, made for late-night browsing.' },
+  { id:'favorites',   emoji:'❤️', title:'Favorites',             text:'Follow as many creators as you like — add them to your Favorites and jump between conversations easily.' },
+  { id:'packs',       emoji:'🎀', title:'Gift packs',            text:'Creators can prepare ready-made packs — photo, video or audio — priced and sent directly through chat.' },
+  { id:'notifications',emoji:'🔔', title:'Notifications',        text:'Never miss a reply, a new pack, or a message from a creator — you\'re notified the moment something happens.' },
+  { id:'shopping',    emoji:'🛍️', title:'Creator Universe',      text:'A separate space just for creators — curated, trusted shops picked to help them level up their content.' },
+  { id:'privacy',     emoji:'🔒', title:'Privacy & safety',      text:'Your payment details are never shared with creators — they only see that a purchase happened, nothing more.' },
+  { id:'languages',   emoji:'🌍', title:'Multi-language',        text:'Honeymoon speaks your language — the whole experience adapts automatically to what you prefer.' },
+  { id:'discoveries', emoji:'✨', title:'Daily discoveries',      text:'New content, new offers, new faces — there\'s always something new to find when you come back.' },
+  { id:'community',   emoji:'🤝', title:'Community',             text:'Behind every profile is a real person — Honeymoon is built around genuine interaction, not just content.' },
+  { id:'exclusive',   emoji:'🌟', title:'Exclusive offers',      text:'Subscriber discounts, limited packs, special moments — creators reward the members who stay close.' },
+  { id:'experience',  emoji:'🌙', title:'The Honeymoon experience', text:'Not simply a site, but an experience — that\'s the whole idea behind everything you\'ve just discovered.' }
+];
+const GUEST_MAX_RETRIES = 2;
+
+function guestId(){
+  try{
+    let id = localStorage.getItem('hm_guest_id');
+    if(!id){
+      id = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : ('gu-' + Date.now() + '-' + Math.random().toString(16).slice(2));
+      localStorage.setItem('hm_guest_id', id);
+    }
+    return id;
+  }catch(e){ return 'gu-fallback'; }
+}
+
+let guState = { tab:'roulette', view:'loading', firstName:null, discovered:[], ratings:{}, retries:0, pendingId:null, loaded:false };
+
+async function guLoadJourney(){
+  try{
+    const doc = await db.collection('guestJourneys').doc(guestId()).get();
+    if(doc.exists){
+      const d = doc.data();
+      guState.firstName = d.firstName || null;
+      guState.discovered = Array.isArray(d.discovered) ? d.discovered : [];
+      guState.ratings = d.ratings || {};
+    }
+  }catch(e){ console.error('guLoadJourney error', e); }
+  guState.loaded = true;
+}
+
+async function guSaveJourney(patch){
+  try{
+    await db.collection('guestJourneys').doc(guestId()).set(Object.assign({ updatedAt: Date.now() }, patch), { merge:true });
+  }catch(e){ console.error('guSaveJourney error', e); }
+}
+
+function guRemainingThemes(){
+  return GUEST_THEMES.filter(th => !guState.discovered.includes(th.id));
+}
+
+function openGuestUniverse(){
+  guState = { tab:'roulette', view:'loading', firstName:null, discovered:[], ratings:{}, retries:0, pendingId:null, loaded:false };
+  renderGuestUniverse(document.getElementById('guestuniverse-page-body'));
+  document.getElementById('guestuniverse-backdrop').classList.add('open');
+  document.getElementById('guestuniverse-modal').classList.add('open');
+}
+function closeGuestUniverse(){
+  document.getElementById('guestuniverse-backdrop').classList.remove('open');
+  document.getElementById('guestuniverse-modal').classList.remove('open');
+}
+
+async function renderGuestUniverse(container){
+  if(!container) return;
+  container.innerHTML = `
+    <div class="guestuniverse-theme">
+      <div class="gu-tabs">
+        <button type="button" class="gu-tab-btn active" data-gutab="roulette">${escText(t('guTabRoulette'))}</button>
+        <button type="button" class="gu-tab-btn" data-gutab="presentation">${escText(t('guTabPresentation'))}</button>
+      </div>
+      <div class="coach-frame">
+        <div class="coach-chat-header">
+          <div class="coach-chat-avatar">🌙</div>
+          <div class="coach-chat-headtext">
+            <div class="coach-chat-title">${escText(t('universeGuestTitle'))}</div>
+            <div class="coach-chat-subtitle">${escText(t('guPositioning'))}</div>
+          </div>
+        </div>
+        <div id="gu-body"></div>
+      </div>
+    </div>
+  `;
+  container.querySelectorAll('[data-gutab]').forEach(btn => {
+    btn.onclick = () => {
+      guState.tab = btn.dataset.gutab;
+      container.querySelectorAll('[data-gutab]').forEach(b => b.classList.toggle('active', b.dataset.gutab === guState.tab));
+      guState.tab === 'presentation' ? guRenderPresentation() : guRenderRoulette();
+    };
+  });
+  await guLoadJourney();
+  guRenderRoulette();
+}
+
+/* ---------- Onglet Roulette ---------- */
+function guRenderRoulette(){
+  const body = document.getElementById('gu-body');
+  if(!body) return;
+  if(!guState.firstName){ guRenderNameStep(body); return; }
+  if(guState.view === 'loading' || guState.view === 'welcome') { guRenderWelcomeBack(body); return; }
+  if(guState.view === 'wheel') { guRenderWheel(body); return; }
+  if(guState.view === 'drawn') { guRenderDrawn(body); return; }
+  if(guState.view === 'experience') { guRenderExperience(body); return; }
+  if(guState.view === 'complete') { guRenderComplete(body); return; }
+  guRenderWelcomeBack(body);
+}
+
+function guRenderNameStep(body){
+  body.innerHTML = `
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🌙</div><div class="coach-bubble-text chat-bot show">${escText(t('guWelcomeTitle'))}<br><span style="opacity:.75;">${escText(t('guWelcomeBody'))}</span></div></div>
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🌙</div><div class="coach-bubble-text chat-bot show">${escText(t('guAskName'))}</div></div>
+    <input type="text" class="gu-name-input" id="gu-name-input" placeholder="${escText(t('guNamePlaceholder'))}" maxlength="30" />
+    <button type="button" class="gu-spin-btn" id="gu-name-submit">${escText(t('guNameSubmit'))}</button>
+  `;
+  const input = document.getElementById('gu-name-input');
+  const submit = async () => {
+    const name = (input.value || '').trim();
+    if(!name) { input.focus(); return; }
+    guState.firstName = name.slice(0, 30);
+    await guSaveJourney({ firstName: guState.firstName });
+    guState.view = 'wheel';
+    guRenderRoulette();
+  };
+  document.getElementById('gu-name-submit').onclick = submit;
+  input.addEventListener('keydown', e => { if(e.key === 'Enter') submit(); });
+}
+
+function guProgressHtml(){
+  const count = guState.discovered.length, total = GUEST_THEMES.length;
+  const label = t('guProgressLabel').replace('{name}', escText(guState.firstName)).replace('{count}', count).replace('{total}', total);
+  return `<div class="gu-progress-wrap"><div class="gu-progress-label">${label}</div><div class="gu-progress-bar"><div class="gu-progress-fill" style="width:${Math.round((count/total)*100)}%;"></div></div></div>`;
+}
+
+function guRenderWelcomeBack(body){
+  const count = guState.discovered.length;
+  if(count >= GUEST_THEMES.length){ guState.view = 'complete'; guRenderComplete(body); return; }
+  const isFirstVisit = count === 0;
+  const msg = isFirstVisit
+    ? t('guWelcomeTitle')
+    : t('guWelcomeBack').replace('{name}', escText(guState.firstName)) + '<br>' + t('guWelcomeBackBody').replace('{count}', count);
+  body.innerHTML = `
+    ${guProgressHtml()}
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🌙</div><div class="coach-bubble-text chat-bot show">${msg}</div></div>
+    <button type="button" class="gu-spin-btn" id="gu-start-explore">${escText(t('guContinue'))}</button>
+  `;
+  document.getElementById('gu-start-explore').onclick = () => { guState.view = 'wheel'; guRenderRoulette(); };
+}
+
+function guRenderWheel(body){
+  guState.retries = 0;
+  const reelHtml = GUEST_THEMES.map(th => `<div class="gu-reel-item" data-reel="${th.id}">${th.emoji}</div>`).join('');
+  body.innerHTML = `
+    ${guProgressHtml()}
+    <div class="gu-reel" id="gu-reel">${reelHtml}</div>
+    <button type="button" class="gu-spin-btn" id="gu-spin-btn">${escText(t('guSpin'))}</button>
+  `;
+  document.getElementById('gu-spin-btn').onclick = guSpin;
+}
+
+function guSpin(){
+  const spinBtn = document.getElementById('gu-spin-btn');
+  const reel = document.getElementById('gu-reel');
+  if(!reel) return;
+  spinBtn.disabled = true;
+  const pool = guRemainingThemes().length ? guRemainingThemes() : GUEST_THEMES;
+  const items = Array.from(reel.querySelectorAll('.gu-reel-item'));
+  let ticks = 0;
+  const maxTicks = 16 + Math.floor(Math.random() * 6);
+  const interval = setInterval(() => {
+    items.forEach(it => it.classList.remove('landed'));
+    const idx = Math.floor(Math.random() * items.length);
+    items[idx].classList.add('landed');
+    ticks++;
+    if(ticks >= maxTicks){
+      clearInterval(interval);
+      const chosen = pool[Math.floor(Math.random() * pool.length)];
+      items.forEach(it => it.classList.toggle('landed', it.dataset.reel === chosen.id));
+      guState.pendingId = chosen.id;
+      guState.view = 'drawn';
+      setTimeout(() => guRenderRoulette(), 500);
+    }
+  }, 90);
+}
+
+function guRenderDrawn(body){
+  const theme = GUEST_THEMES.find(th => th.id === guState.pendingId);
+  if(!theme){ guState.view = 'wheel'; guRenderRoulette(); return; }
+  const retriesLeft = GUEST_MAX_RETRIES - guState.retries;
+  const retryLabel = retriesLeft > 0
+    ? (retriesLeft === 1 ? t('guRetriesLeft').replace('{n}', retriesLeft) : t('guRetriesLeftPlural').replace('{n}', retriesLeft))
+    : t('guRetriesUsedUp');
+  body.innerHTML = `
+    ${guProgressHtml()}
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🌙</div><div class="coach-bubble-text chat-bot show">${escText(t('guDrawnIntro'))}</div></div>
+    <div class="gu-theme-card">
+      <div class="gu-theme-card-emoji">${theme.emoji}</div>
+      <div class="gu-theme-card-title">${escText(theme.title)}</div>
+    </div>
+    <div class="gu-choice-row">
+      <button type="button" class="gu-choice-btn primary" id="gu-accept">${escText(t('guAccept'))}</button>
+      <button type="button" class="gu-choice-btn" id="gu-already">${escText(t('guAlreadySeen'))}</button>
+      <button type="button" class="gu-choice-btn" id="gu-retry" ${retriesLeft <= 0 ? 'disabled' : ''}>${escText(t('guRetry'))}</button>
+    </div>
+    <div class="gu-progress-label" style="text-align:center;margin-top:8px;">${escText(retryLabel)}</div>
+  `;
+  document.getElementById('gu-accept').onclick = () => { guState.view = 'experience'; guRenderRoulette(); };
+  document.getElementById('gu-already').onclick = () => { guState.view = 'wheel'; guRenderRoulette(); };
+  const retryBtn = document.getElementById('gu-retry');
+  if(retryBtn && retriesLeft > 0){
+    retryBtn.onclick = () => { guState.retries++; guState.view = 'wheel'; guRenderRoulette(); };
+  }
+}
+
+function guRenderExperience(body){
+  const theme = GUEST_THEMES.find(th => th.id === guState.pendingId);
+  if(!theme){ guState.view = 'wheel'; guRenderRoulette(); return; }
+  const alreadyDiscovered = guState.discovered.includes(theme.id);
+  body.innerHTML = `
+    <div class="gu-experience">
+      <span class="gu-experience-emoji">${theme.emoji}</span>
+      <div class="gu-experience-title">${escText(theme.title)}</div>
+      <div class="gu-experience-text">${escText(theme.text)}</div>
+    </div>
+    <div id="gu-rating-zone"></div>
+  `;
+  if(alreadyDiscovered){
+    guFinishExperience(theme.id, null);
+    return;
+  }
+  document.getElementById('gu-rating-zone').innerHTML = `
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🌙</div><div class="coach-bubble-text chat-bot show">${escText(t('guRatingPrompt'))}</div></div>
+    <div class="gu-rating-row">
+      <button type="button" class="gu-rating-btn" data-rate="loved" title="${escText(t('guRatingLoved'))}">❤️</button>
+      <button type="button" class="gu-rating-btn" data-rate="good" title="${escText(t('guRatingGood'))}">🙂</button>
+      <button type="button" class="gu-rating-btn" data-rate="meh" title="${escText(t('guRatingMeh'))}">😐</button>
+      <button type="button" class="gu-rating-btn" data-rate="no" title="${escText(t('guRatingNo'))}">👎</button>
+    </div>
+  `;
+  document.querySelectorAll('[data-rate]').forEach(btn => {
+    btn.onclick = () => guFinishExperience(theme.id, btn.dataset.rate);
+  });
+}
+
+async function guFinishExperience(themeId, rating){
+  if(!guState.discovered.includes(themeId)) guState.discovered.push(themeId);
+  if(rating) guState.ratings[themeId] = rating;
+  await guSaveJourney({ discovered: guState.discovered, ratings: guState.ratings });
+  const zone = document.getElementById('gu-rating-zone');
+  if(zone && rating) zone.innerHTML = `<div class="coach-bubble-row"><div class="coach-mini-avatar">🌙</div><div class="coach-bubble-text chat-bot show">${escText(t('guRatingThanks'))}</div></div>`;
+  setTimeout(() => {
+    guState.view = guState.discovered.length >= GUEST_THEMES.length ? 'complete' : 'wheel';
+    guRenderRoulette();
+  }, 900);
+}
+
+function guRenderComplete(body){
+  body.innerHTML = `
+    <div class="gu-complete-card">
+      <div class="gu-complete-emoji">🌙✨</div>
+      <div class="gu-theme-card-title" style="margin-top:8px;">${escText(t('guCompleteTitle'))}</div>
+      <div class="gu-theme-card-desc" style="margin-top:6px;">${escText(t('guCompleteBody'))}</div>
+      <button type="button" class="gu-spin-btn" id="gu-complete-cta" style="margin-top:16px;">${escText(t('guCompleteCta'))}</button>
+    </div>
+  `;
+  document.getElementById('gu-complete-cta').onclick = () => {
+    guState.tab = 'presentation';
+    document.querySelectorAll('[data-gutab]').forEach(b => b.classList.toggle('active', b.dataset.gutab === 'presentation'));
+    guRenderPresentation();
+  };
+}
+
+/* ---------- Onglet Présentation ---------- */
+function guRenderPresentation(){
+  const body = document.getElementById('gu-body');
+  if(!body) return;
+  body.innerHTML = `
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🌙</div><div class="coach-bubble-text chat-bot show">${escText(t('guPresIntro'))}</div></div>
+    <ul class="coach-welcome-list">
+      <li>${escText(t('guPresBullet1'))}</li>
+      <li>${escText(t('guPresBullet2'))}</li>
+      <li>${escText(t('guPresBullet3'))}</li>
+      <li>${escText(t('guPresBullet4'))}</li>
+    </ul>
+    <button type="button" class="gu-spin-btn" id="gu-pres-cta">${escText(t('guPresCta'))}</button>
+  `;
+  document.getElementById('gu-pres-cta').onclick = () => { closeGuestUniverse(); openMemberModal(); };
 }
 
 /* ---------------- lightbox ---------------- */
@@ -12287,6 +12682,14 @@ const shopbotBackdrop = document.getElementById('shopbot-backdrop');
 if(shopbotBackdrop) shopbotBackdrop.onclick = closeShoppingAssistant;
 const shopbotCloseBtn = document.getElementById('shopbot-close');
 if(shopbotCloseBtn) shopbotCloseBtn.onclick = closeShoppingAssistant;
+
+/* ---------------- Univers Invité : ouverture/fermeture du modal ---------------- */
+const universeGuestBtn = document.getElementById('universe-guest-btn');
+if(universeGuestBtn) universeGuestBtn.onclick = openGuestUniverse;
+const guestuniverseBackdrop = document.getElementById('guestuniverse-backdrop');
+if(guestuniverseBackdrop) guestuniverseBackdrop.onclick = closeGuestUniverse;
+const guestuniverseCloseBtn = document.getElementById('guestuniverse-close');
+if(guestuniverseCloseBtn) guestuniverseCloseBtn.onclick = closeGuestUniverse;
 
 /* ---------------- votes (like / dislike) ---------------- */
 const ICON_LIKE = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg>';
