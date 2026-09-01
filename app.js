@@ -3887,13 +3887,15 @@ if(!document.getElementById('hm-shopbot-gold-style')){
     .gu-progress-fill{height:100%;background:linear-gradient(90deg,var(--guest-orange),var(--rose));border-radius:999px;transition:width .5s ease;}
     .gu-name-input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:11px 13px;color:var(--text);font-size:13px;margin:8px 0;}
     .gu-name-input:focus{outline:none;border-color:var(--guest-orange);}
-    .gu-reel{display:flex;gap:8px;overflow:hidden;padding:14px 0;margin:6px 0 4px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
-    .gu-reel-item{flex-shrink:0;width:46px;height:46px;border-radius:12px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:20px;transition:transform .15s, border-color .15s;}
-    .gu-reel-item.landed{border-color:var(--guest-orange);transform:scale(1.12);box-shadow:0 0 0 3px color-mix(in srgb, var(--guest-orange) 25%, transparent);}
+    /* ---- Roue qui tourne (SVG réel, transform CSS calculée en JS) ---- */
+    .gu-wheel-wrap{position:relative;display:flex;justify-content:center;align-items:center;padding:10px 0 4px;}
+    .gu-wheel-pointer{position:absolute;top:-2px;left:50%;transform:translateX(-50%);z-index:2;color:var(--guest-orange);filter:drop-shadow(0 2px 4px rgba(0,0,0,.4));}
+    .gu-wheel-spin-holder{will-change:transform;}
     .gu-spin-btn{width:100%;padding:13px;border-radius:14px;border:none;background:linear-gradient(90deg,var(--guest-orange),var(--rose));color:#fff;font-weight:800;font-size:13.5px;cursor:pointer;margin-top:10px;letter-spacing:.2px;}
     .gu-spin-btn:disabled{opacity:.55;cursor:default;}
     .gu-theme-card{border:1px solid var(--guest-orange);border-radius:16px;padding:16px;text-align:center;margin:10px 0;background:linear-gradient(180deg,color-mix(in srgb, var(--guest-orange) 8%, var(--bg-elev)),var(--bg-elev));}
-    .gu-theme-card-emoji{font-size:34px;margin-bottom:6px;}
+    .gu-theme-card-sm{padding:12px;margin:4px 0 10px;}
+    .gu-theme-card-icon{display:flex;align-items:center;justify-content:center;margin:0 auto 6px;color:var(--guest-orange);}
     .gu-theme-card-title{font-weight:800;font-size:14.5px;color:var(--text);}
     .gu-theme-card-desc{font-size:11.5px;color:var(--text-muted);margin-top:4px;line-height:1.5;}
     .gu-choice-row{display:flex;flex-direction:column;gap:8px;margin-top:12px;}
@@ -3901,16 +3903,25 @@ if(!document.getElementById('hm-shopbot-gold-style')){
     .gu-choice-btn.primary{background:linear-gradient(90deg,var(--guest-orange),var(--rose));color:#fff;border-color:transparent;}
     .gu-choice-btn:disabled{opacity:.4;cursor:default;}
     .gu-experience{border-radius:16px;padding:22px 16px;text-align:center;margin:8px 0 14px;animation:guExpIn .4s ease;background:linear-gradient(160deg,color-mix(in srgb, var(--guest-orange) 14%, var(--bg-elev)),color-mix(in srgb, var(--rose) 10%, var(--bg-elev)));border:1px solid color-mix(in srgb, var(--guest-orange) 40%, var(--border));}
-    .gu-experience-emoji{font-size:46px;display:block;margin-bottom:10px;animation:guFloat 2.2s ease-in-out infinite;}
+    .gu-experience-icon{display:flex;align-items:center;justify-content:center;margin:0 auto 10px;color:var(--guest-orange);animation:guFloat 2.2s ease-in-out infinite;}
     .gu-experience-title{font-weight:800;font-size:15px;color:var(--text);}
     .gu-experience-text{font-size:12.5px;color:var(--text-muted);margin-top:8px;line-height:1.6;}
     @keyframes guExpIn{from{opacity:0;transform:translateY(8px) scale(.97);}to{opacity:1;transform:translateY(0) scale(1);}}
     @keyframes guFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
     .gu-rating-row{display:flex;gap:8px;justify-content:center;margin-top:12px;}
-    .gu-rating-btn{width:42px;height:42px;border-radius:50%;border:1px solid var(--border);background:var(--bg);font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s;}
-    .gu-rating-btn:hover{border-color:var(--guest-orange);transform:translateY(-2px);}
+    .gu-rating-btn{width:42px;height:42px;border-radius:50%;border:1px solid var(--border);background:var(--bg);color:var(--text-muted);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s;}
+    .gu-rating-btn:hover{border-color:var(--guest-orange);color:var(--guest-orange);transform:translateY(-2px);}
     .gu-complete-card{text-align:center;padding:20px 14px;}
-    .gu-complete-emoji{font-size:40px;}
+    /* ---- Stades chromatiques progressifs : plus la progression avance, plus le fond
+       s'assombrit et se réchauffe (blanc/orange -> rose -> cacao/wine intense),
+       comme un aperçu de l'espace membre. ---- */
+    .guestuniverse-theme.gu-stage-1 .coach-frame{background:linear-gradient(160deg,color-mix(in srgb, var(--rose) 6%, var(--bg-elev)),var(--bg-elev));}
+    .guestuniverse-theme.gu-stage-2 .coach-frame{background:linear-gradient(160deg,color-mix(in srgb, var(--rose) 12%, var(--bg-elev)),var(--bg-elev));box-shadow:0 0 30px -14px color-mix(in srgb, var(--rose) 45%, transparent);}
+    .guestuniverse-theme.gu-stage-3 .coach-frame{background:linear-gradient(160deg,color-mix(in srgb, var(--cacao-deep) 20%, var(--bg-elev)),var(--bg-elev));box-shadow:0 0 34px -12px color-mix(in srgb, var(--cacao-deep) 60%, transparent);animation:guPulseWarm 3.2s ease-in-out infinite;}
+    .guestuniverse-theme.gu-stage-4 .coach-frame{background:linear-gradient(160deg,color-mix(in srgb, var(--wine) 30%, var(--bg-elev)),color-mix(in srgb, var(--cacao-deep) 18%, var(--bg-elev)));box-shadow:0 0 42px -10px color-mix(in srgb, var(--wine) 70%, transparent);animation:guPulseWarm 2.2s ease-in-out infinite;}
+    .guestuniverse-theme.gu-stage-3 .gu-spin-btn,
+    .guestuniverse-theme.gu-stage-4 .gu-spin-btn{background:linear-gradient(90deg,var(--cacao-deep),var(--wine));}
+    @keyframes guPulseWarm{0%,100%{box-shadow:0 0 30px -14px color-mix(in srgb, var(--cacao-deep) 50%, transparent);}50%{box-shadow:0 0 46px -8px color-mix(in srgb, var(--wine) 65%, transparent);}}
   `;
   document.head.appendChild(st2);
 }
@@ -6593,36 +6604,139 @@ async function handleGalleryAdd(m, files, field, onDone){
 }
 
 /* ==================================================================================
-   ---------------- "Univers Invité" (Honeymoon) ----------------
-   Roulette interactive de 20 thèmes configurables (GUEST_THEMES) + onglet Présentation.
-   Réutilise le même moteur visuel que le Coach Honeymoon (.coach-frame, .coach-bubble-row,
-   typeWriterText, coachRestMs) via le wrapper .guestuniverse-theme (blanc/orange/rose/cacao).
-   Progression mémorisée dans Firestore (collection guestJourneys), clé = identifiant
-   visiteur anonyme généré une fois et conservé en localStorage (pas de compte requis).
+   ---------------- "Univers Invité" (Honeymoon) — v2 ----------------
+   Vraie roue qui tourne (SVG, 20 secteurs), icônes 100% SVG premium (traits, pas
+   d'emoji), 10 thèmes "toi, futur membre" + 10 thèmes "produit" mélangés dans la
+   même roue. Chaque thème pose une mini-question (façon puzzle) avant de révéler
+   son contenu comme une histoire. L'ambiance (fond + glow) s'assombrit et se
+   réchauffe progressivement (blanc/orange → rose → cacao/wine intense) à mesure
+   que la progression avance, pour évoquer l'espace membre. Réutilise le moteur
+   visuel du Coach Honeymoon (.coach-frame, .coach-bubble-row) via .guestuniverse-theme.
+   Progression mémorisée dans Firestore (guestJourneys), clé = identifiant visiteur
+   anonyme conservé en localStorage (pas de compte requis).
    ================================================================================== */
 
-/* Liste des 20 thèmes — configurable : ajouter/retirer/modifier une entrée suffit. */
+/* ---------- Icônes SVG premium (traits fins, cohérentes avec le reste du site) ---------- */
+const GU_ICON_PATHS = {
+  camera: '<rect x="3" y="7" width="18" height="13" rx="2.2"/><circle cx="12" cy="13.5" r="3.4"/><path d="M8.3 7L9.7 4.6h4.6L15.7 7"/>',
+  film: '<path d="M3 8.3l14-3 1 4-14 3z"/><rect x="3" y="9.4" width="18" height="10.6" rx="1.4"/>',
+  headphones: '<path d="M4.5 14v-2a7.5 7.5 0 0 1 15 0v2"/><rect x="3.2" y="14" width="4" height="6" rx="1.4"/><rect x="16.8" y="14" width="4" height="6" rx="1.4"/>',
+  gem: '<path d="M6 3h12l3 6-9 12L3 9z"/><path d="M3 9h18M9 3l3 6 3-6M9 15l3 6 3-6"/>',
+  lock: '<rect x="4.2" y="11" width="15.6" height="9" rx="2"/><path d="M8 11V7.2a4 4 0 0 1 8 0V11"/>',
+  crown: '<path d="M3 18h18l-1.4-8.6-4.6 4-3-6.4-3 6.4-4.6-4z"/>',
+  star: '<path d="M12 3l2.5 5.8 6.3.6-4.7 4.2 1.4 6.1L12 16.8 6.5 19.7l1.4-6.1L3.2 9.4l6.3-.6z"/>',
+  chat: '<path d="M4 12a8 8 0 1 1 3.4 6.5L4 20l1.5-3.4A8 8 0 0 1 4 12z"/>',
+  gift: '<rect x="3" y="9.2" width="18" height="11.5" rx="1.4"/><path d="M3 9.2h18M12 9.2v11.5"/><path d="M12 9.2c-2-3.2-6.2-3-6.2.2s4.2.2 6.2-.2zm0 0c2-3.2 6.2-3 6.2.2s-4.2.2-6.2-.2z"/>',
+  moon: '<path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/>',
+  heart: '<path d="M12 20.3S3.6 14.7 3.6 8.9A4.4 4.4 0 0 1 12 6.5a4.4 4.4 0 0 1 8.4 2.4c0 5.8-8.4 11.4-8.4 11.4z"/>',
+  ribbon: '<circle cx="12" cy="8" r="4.4"/><path d="M8.6 12L6.2 21l5.8-3 5.8 3-2.4-9"/>',
+  bell: '<path d="M6 11a6 6 0 0 1 12 0c0 4 1.6 5 1.6 5H4.4S6 15 6 11z"/><path d="M10 20a2 2 0 0 0 4 0"/>',
+  bag: '<path d="M6.2 8h11.6l1 12H5.2z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>',
+  shield: '<path d="M12 3l7 3v6c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6z"/>',
+  globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18z"/>',
+  sparkle: '<path d="M12 3l1.7 5.1L19 10l-5.3 1.9L12 17l-1.7-5.1L5 10l5.3-1.9z"/>',
+  users: '<circle cx="9" cy="8" r="3.1"/><path d="M3.2 20c0-3.4 2.6-5.9 5.8-5.9s5.8 2.5 5.8 5.9"/><circle cx="17" cy="9.2" r="2.5"/><path d="M15.6 14.3a4.9 4.9 0 0 1 5.2 5.2"/>',
+  trophy: '<path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4.2a3 3 0 0 0 3 5M17 6h2.8a3 3 0 0 1-3 5"/><path d="M12 15v3M9 21h6M9.6 18h4.8"/>',
+  flame: '<path d="M12 2.2s5 4.6 5 9.1a5 5 0 0 1-10 0c0-1.5 1-2.5 1-2.5s.5 2 2 2c-1-3.1 2-5.1 2-6.6z"/>',
+  compass: '<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>'
+};
+function guIcon(id, size){
+  const s = size || 20;
+  return `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${GU_ICON_PATHS[id] || GU_ICON_PATHS.sparkle}</svg>`;
+}
+/* Icônes de notation (remplacent les emoji ❤️🙂😐👎 par des traits, pour rester 100% SVG) */
+const GU_RATING_ICONS = {
+  loved: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 20.3S3.6 14.7 3.6 8.9A4.4 4.4 0 0 1 12 6.5a4.4 4.4 0 0 1 8.4 2.4c0 5.8-8.4 11.4-8.4 11.4z"/></svg>',
+  good: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 14.5c1 1.2 2.2 1.8 3.5 1.8s2.5-.6 3.5-1.8"/><path d="M8.5 9.5h.01M15.5 9.5h.01"/></svg>',
+  meh: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 15h7"/><path d="M8.5 9.5h.01M15.5 9.5h.01"/></svg>',
+  no: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 14V4M8 14l-3.4.4a1.6 1.6 0 0 0-1.2 2.3l2.3 4.6A2 2 0 0 0 7.5 22H16a2 2 0 0 0 2-1.7l1-6A2 2 0 0 0 17 12h-4l.7-3.6A1.8 1.8 0 0 0 12 6.2L8 14z"/></svg>'
+};
+
+/* Liste des 20 thèmes — 10 pistes "toi, futur membre" (member) et 10 pistes "produit"
+   (product), mélangées au hasard par la roue. Chaque thème pose une mini-question
+   avant de révéler son contenu, pour une lecture façon histoire/puzzle plutôt qu'une
+   fiche technique. Configurable : ajouter/retirer/modifier une entrée suffit. */
 const GUEST_THEMES = [
-  { id:'photos',      emoji:'📸', title:'Photos',               text:'Every creator curates her own gallery — new shots added regularly, some free, some just for subscribers.' },
-  { id:'videos',      emoji:'🎬', title:'Videos',                text:'From short clips to longer exclusives — video is where a lot of creators really express their style.' },
-  { id:'audio',       emoji:'🎧', title:'Audio',                 text:'Voice notes, audio content, personal messages — a more intimate way creators connect with their members.' },
-  { id:'subscription',emoji:'💎', title:'Subscriptions',         text:'Subscribe to a creator to unlock her subscriber pricing — she can then send you ready-made packs straight in chat.' },
-  { id:'private',     emoji:'🔐', title:'Private content',       text:'Some content lives behind a paywall — priced individually by each creator, unlocked the moment you buy it.' },
-  { id:'creators',    emoji:'👑', title:'Our creators',          text:'A curated roster — every creator on Honeymoon has her own personality, style and universe to explore.' },
-  { id:'memberspace', emoji:'⭐', title:'Member space',          text:'Favorites, purchases, conversations — everything you need is organized in your own personal space.' },
-  { id:'chat',        emoji:'💬', title:'Chat & interactions',   text:'Direct conversations with creators — free chat, custom requests, and instant delivery of what you order.' },
-  { id:'tips',        emoji:'🎁', title:'Tips',                  text:'Send a tip from €1 to €100 in any chat — the bigger the tip, the warmer the reaction, from a heart up to fireworks.' },
-  { id:'ambiance',    emoji:'🌙', title:'Night ambiance',        text:'Honeymoon has its own mood — soft golden tones, an intimate feel, made for late-night browsing.' },
-  { id:'favorites',   emoji:'❤️', title:'Favorites',             text:'Follow as many creators as you like — add them to your Favorites and jump between conversations easily.' },
-  { id:'packs',       emoji:'🎀', title:'Gift packs',            text:'Creators can prepare ready-made packs — photo, video or audio — priced and sent directly through chat.' },
-  { id:'notifications',emoji:'🔔', title:'Notifications',        text:'Never miss a reply, a new pack, or a message from a creator — you\'re notified the moment something happens.' },
-  { id:'shopping',    emoji:'🛍️', title:'Creator Universe',      text:'A separate space just for creators — curated, trusted shops picked to help them level up their content.' },
-  { id:'privacy',     emoji:'🔒', title:'Privacy & safety',      text:'Your payment details are never shared with creators — they only see that a purchase happened, nothing more.' },
-  { id:'languages',   emoji:'🌍', title:'Multi-language',        text:'Honeymoon speaks your language — the whole experience adapts automatically to what you prefer.' },
-  { id:'discoveries', emoji:'✨', title:'Daily discoveries',      text:'New content, new offers, new faces — there\'s always something new to find when you come back.' },
-  { id:'community',   emoji:'🤝', title:'Community',             text:'Behind every profile is a real person — Honeymoon is built around genuine interaction, not just content.' },
-  { id:'exclusive',   emoji:'🌟', title:'Exclusive offers',      text:'Subscriber discounts, limited packs, special moments — creators reward the members who stay close.' },
-  { id:'experience',  emoji:'🌙', title:'The Honeymoon experience', text:'Not simply a site, but an experience — that\'s the whole idea behind everything you\'ve just discovered.' }
+  { id:'memberspace', track:'member', icon:'star', title:'Your space',
+    question:'Right now, are you more the type who browses quietly, or the type who jumps into conversation?',
+    options:['I like to browse first','I go straight to chatting'],
+    reveal:'Either way works here. Your member space keeps everything in one place — favorites, purchases, open conversations — so whichever pace you choose, nothing gets lost along the way.' },
+  { id:'photos', track:'product', icon:'camera', title:'Photos',
+    question:'When you picture a creator\'s gallery, do you imagine something curated and rare, or something that updates all the time?',
+    options:['Curated and rare','Fresh, all the time'],
+    reveal:'A bit of both, actually. Every creator builds her own gallery at her own rhythm — some pieces free to browse, others reserved for the people who stay close.' },
+  { id:'chat', track:'member', icon:'chat', title:'Talking to her',
+    question:'What matters more to you in a first conversation — being understood, or being surprised?',
+    options:['Being understood','Being surprised'],
+    reveal:'That\'s exactly what chat is built for. It\'s not a script — it\'s a real exchange where she learns what you\'re looking for, and you learn who she really is.' },
+  { id:'videos', track:'product', icon:'film', title:'Videos',
+    question:'Do you prefer something short and immediate, or a longer, more personal piece?',
+    options:['Short and immediate','Longer and personal'],
+    reveal:'Both exist here — quick clips that capture a moment, and longer exclusives where a creator really lets you into her world.' },
+  { id:'favorites', track:'member', icon:'heart', title:'Favorites',
+    question:'Do you already have a type of creator in mind, or are you still figuring that out?',
+    options:['I know what I like','Still figuring it out'],
+    reveal:'No rush either way. Add anyone who catches your interest to Favorites — you\'ll build your own shortlist as you go, and switch between conversations whenever you want.' },
+  { id:'audio', track:'product', icon:'headphones', title:'Audio',
+    question:'Is it the voice that draws you in first, or the visuals?',
+    options:['The voice','The visuals'],
+    reveal:'If it\'s the voice — you\'ll want to explore audio. Voice notes and personal recordings are one of the more intimate ways a creator connects with the people around her.' },
+  { id:'community', track:'member', icon:'users', title:'Not alone in this',
+    question:'Do you tend to keep this kind of thing private, or share it with a friend or two?',
+    options:['Keep it private','Share it, a little'],
+    reveal:'Your business, either way — nothing here pushes you to make it public. But behind every profile is a real person, and Honeymoon is built around that genuine back-and-forth, not just content to scroll past.' },
+  { id:'tips', track:'product', icon:'gift', title:'Tips',
+    question:'Would you rather show appreciation with words, or with a gesture?',
+    options:['With words','With a gesture'],
+    reveal:'If it\'s a gesture — tips are how that translates here. From €1 to €100, sent right in the chat, with a reaction that grows warmer the more generous you are.' },
+  { id:'exclusive', track:'member', icon:'trophy', title:'Getting closer',
+    question:'When you like someone\'s work, do you follow from a distance, or do you like being noticed by them too?',
+    options:['From a distance is fine','I\'d like to be noticed'],
+    reveal:'If you\'d like to be noticed — that\'s what happens once you\'re a regular. Subscriber discounts, priority replies, small moments reserved for the people who stayed close.' },
+  { id:'shopping', track:'product', icon:'bag', title:'Creator Universe',
+    question:'Are you here purely as a visitor, or could you see yourself on the other side one day?',
+    options:['Purely a visitor','Maybe, one day'],
+    reveal:'If that second option is true — there\'s a whole separate space for that. A curated set of trusted shops, picked to help creators level up their content, gear, and presence.' },
+  { id:'subscription', track:'member', icon:'gem', title:'Going steady',
+    question:'Do you prefer discovering someone new each time, or building something with one creator over time?',
+    options:['Discovering someone new','Building something over time'],
+    reveal:'If it\'s the second — subscribing is how you do that. It unlocks her subscriber pricing, and she can then send you packs made specifically for the people who follow her closely.' },
+  { id:'privacy', track:'product', icon:'shield', title:'Staying discreet',
+    question:'Before going further, be honest — does discretion matter to you here?',
+    options:['Yes, a lot','Not especially'],
+    reveal:'Either way, it\'s handled. Your payment details are never shared with creators — they only ever see that a purchase happened, nothing more.' },
+  { id:'private', track:'member', icon:'lock', title:'What\'s behind the door',
+    question:'Do you like everything laid out upfront, or do you enjoy a little mystery?',
+    options:['Lay it out upfront','I enjoy the mystery'],
+    reveal:'If it\'s mystery you like — some content here stays behind a door on purpose. Priced individually by each creator, unlocked the moment you decide it\'s worth it.' },
+  { id:'languages', track:'product', icon:'globe', title:'Wherever you\'re from',
+    question:'Would you rather read this in English, or in your own language?',
+    options:['English is fine','My own language'],
+    reveal:'Honeymoon adapts either way — the whole experience switches to the language you\'re most comfortable in, automatically.' },
+  { id:'packs', track:'member', icon:'ribbon', title:'A gift, made for you',
+    question:'When someone thinks of you specifically, does that mean more than something generic — even if smaller?',
+    options:['Yes, specific beats generic','Not particularly'],
+    reveal:'That\'s the idea behind packs. A creator prepares something — photo, video or audio — and sends it straight to you in chat, priced and ready, not a generic drop for everyone.' },
+  { id:'discoveries', track:'product', icon:'sparkle', title:'What\'s new today',
+    question:'Do you like a routine, or do you come back mainly for what\'s changed?',
+    options:['I like routine','I come back for what\'s new'],
+    reveal:'There\'s always something to find either way — new content, new offers, sometimes a new face — so coming back rarely feels the same twice.' },
+  { id:'notifications', track:'member', icon:'bell', title:'Staying in the loop',
+    question:'Would you rather check in on your own schedule, or be told the moment something happens?',
+    options:['On my own schedule','Tell me right away'],
+    reveal:'If it\'s the second — that\'s exactly what happens. A reply, a new pack, a message from a creator: you\'ll know the moment it lands.' },
+  { id:'creators', track:'product', icon:'crown', title:'Who\'s actually here',
+    question:'Do you already know the kind of personality you connect with, or do you like being surprised by who you meet?',
+    options:['I know my type','Surprise me'],
+    reveal:'Good news either way — the roster is curated, not random. Every creator here has her own personality and her own universe, so there\'s room for both a type and a surprise.' },
+  { id:'ambiance', track:'product', icon:'moon', title:'The mood of this place',
+    question:'Does this feel closer to daylight scrolling, or something meant for later at night?',
+    options:['Daylight scrolling','Definitely a night thing'],
+    reveal:'You\'re reading it right. Honeymoon leans into that — softer tones, a more intimate feel, built for the kind of browsing that happens once things go quiet.' },
+  { id:'experience', track:'member', icon:'flame', title:'Where this leads',
+    question:'So — after all this, curiosity or commitment?',
+    options:['Still just curious','I think I\'m ready'],
+    reveal:'Both are a fine place to land. That\'s really the whole point of Honeymoon: not simply a site, but an experience — one you can keep exploring at your own pace, or step fully into whenever you\'re ready.' }
 ];
 const GUEST_MAX_RETRIES = 2;
 
@@ -6637,7 +6751,7 @@ function guestId(){
   }catch(e){ return 'gu-fallback'; }
 }
 
-let guState = { tab:'roulette', view:'loading', firstName:null, discovered:[], ratings:{}, retries:0, pendingId:null, loaded:false };
+let guState = { tab:'roulette', view:'loading', firstName:null, discovered:[], ratings:{}, retries:0, pendingId:null, pendingChoice:null, loaded:false, wheelRotation:0 };
 
 async function guLoadJourney(){
   try{
@@ -6662,8 +6776,24 @@ function guRemainingThemes(){
   return GUEST_THEMES.filter(th => !guState.discovered.includes(th.id));
 }
 
+/* Stade d'intensité chromatique (0 à 4) selon la progression — plus il avance, plus
+   l'ambiance s'assombrit et se réchauffe (blanc/orange → rose → cacao/wine intense). */
+function guStage(){
+  const t = guState.discovered.length / GUEST_THEMES.length;
+  if(t >= 0.8) return 4;
+  if(t >= 0.6) return 3;
+  if(t >= 0.4) return 2;
+  if(t >= 0.2) return 1;
+  return 0;
+}
+function guApplyStage(root){
+  if(!root) return;
+  for(let i=0;i<=4;i++) root.classList.remove('gu-stage-' + i);
+  root.classList.add('gu-stage-' + guStage());
+}
+
 function openGuestUniverse(){
-  guState = { tab:'roulette', view:'loading', firstName:null, discovered:[], ratings:{}, retries:0, pendingId:null, loaded:false };
+  guState = { tab:'roulette', view:'loading', firstName:null, discovered:[], ratings:{}, retries:0, pendingId:null, pendingChoice:null, loaded:false, wheelRotation:0 };
   renderGuestUniverse(document.getElementById('guestuniverse-page-body'));
   document.getElementById('guestuniverse-backdrop').classList.add('open');
   document.getElementById('guestuniverse-modal').classList.add('open');
@@ -6676,14 +6806,14 @@ function closeGuestUniverse(){
 async function renderGuestUniverse(container){
   if(!container) return;
   container.innerHTML = `
-    <div class="guestuniverse-theme">
+    <div class="guestuniverse-theme gu-stage-0" id="gu-theme-root">
       <div class="gu-tabs">
-        <button type="button" class="gu-tab-btn active" data-gutab="roulette">${escText(t('guTabRoulette'))}</button>
-        <button type="button" class="gu-tab-btn" data-gutab="presentation">${escText(t('guTabPresentation'))}</button>
+        <button type="button" class="gu-tab-btn active" data-gutab="roulette">${guIcon('compass',15)} Roulette</button>
+        <button type="button" class="gu-tab-btn" data-gutab="presentation">${guIcon('sparkle',15)} Presentation</button>
       </div>
       <div class="coach-frame">
         <div class="coach-chat-header">
-          <div class="coach-chat-avatar">🌙</div>
+          <div class="coach-chat-avatar">${guIcon('moon',20)}</div>
           <div class="coach-chat-headtext">
             <div class="coach-chat-title">${escText(t('universeGuestTitle'))}</div>
             <div class="coach-chat-subtitle">${escText(t('guPositioning'))}</div>
@@ -6701,6 +6831,7 @@ async function renderGuestUniverse(container){
     };
   });
   await guLoadJourney();
+  guApplyStage(document.getElementById('gu-theme-root'));
   guRenderRoulette();
 }
 
@@ -6708,10 +6839,12 @@ async function renderGuestUniverse(container){
 function guRenderRoulette(){
   const body = document.getElementById('gu-body');
   if(!body) return;
+  guApplyStage(document.getElementById('gu-theme-root'));
   if(!guState.firstName){ guRenderNameStep(body); return; }
   if(guState.view === 'loading' || guState.view === 'welcome') { guRenderWelcomeBack(body); return; }
   if(guState.view === 'wheel') { guRenderWheel(body); return; }
   if(guState.view === 'drawn') { guRenderDrawn(body); return; }
+  if(guState.view === 'puzzle') { guRenderPuzzle(body); return; }
   if(guState.view === 'experience') { guRenderExperience(body); return; }
   if(guState.view === 'complete') { guRenderComplete(body); return; }
   guRenderWelcomeBack(body);
@@ -6719,8 +6852,8 @@ function guRenderRoulette(){
 
 function guRenderNameStep(body){
   body.innerHTML = `
-    <div class="coach-bubble-row"><div class="coach-mini-avatar">🌙</div><div class="coach-bubble-text chat-bot show">${escText(t('guWelcomeTitle'))}<br><span style="opacity:.75;">${escText(t('guWelcomeBody'))}</span></div></div>
-    <div class="coach-bubble-row"><div class="coach-mini-avatar">🌙</div><div class="coach-bubble-text chat-bot show">${escText(t('guAskName'))}</div></div>
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon('moon',16)}</div><div class="coach-bubble-text chat-bot show">${escText(t('guWelcomeTitle'))}<br><span style="opacity:.75;">${escText(t('guWelcomeBody'))}</span></div></div>
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon('moon',16)}</div><div class="coach-bubble-text chat-bot show">${escText(t('guAskName'))}</div></div>
     <input type="text" class="gu-name-input" id="gu-name-input" placeholder="${escText(t('guNamePlaceholder'))}" maxlength="30" />
     <button type="button" class="gu-spin-btn" id="gu-name-submit">${escText(t('guNameSubmit'))}</button>
   `;
@@ -6752,18 +6885,45 @@ function guRenderWelcomeBack(body){
     : t('guWelcomeBack').replace('{name}', escText(guState.firstName)) + '<br>' + t('guWelcomeBackBody').replace('{count}', count);
   body.innerHTML = `
     ${guProgressHtml()}
-    <div class="coach-bubble-row"><div class="coach-mini-avatar">🌙</div><div class="coach-bubble-text chat-bot show">${msg}</div></div>
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon('moon',16)}</div><div class="coach-bubble-text chat-bot show">${msg}</div></div>
     <button type="button" class="gu-spin-btn" id="gu-start-explore">${escText(t('guContinue'))}</button>
   `;
   document.getElementById('gu-start-explore').onclick = () => { guState.view = 'wheel'; guRenderRoulette(); };
 }
 
+/* Roue SVG à 20 secteurs, réellement animée (rotation CSS calculée pour arrêter le
+   pointeur — fixe en haut — sur le secteur tiré). Icônes premium radiales. */
+function guBuildWheelSvg(){
+  const n = GUEST_THEMES.length;
+  const seg = 360 / n;
+  const R = 130, cx = 140, cy = 140;
+  let sectors = '';
+  let icons = '';
+  GUEST_THEMES.forEach((th, i) => {
+    const a0 = i * seg - 90, a1 = (i + 1) * seg - 90;
+    const x0 = cx + R * Math.cos(a0 * Math.PI / 180), y0 = cy + R * Math.sin(a0 * Math.PI / 180);
+    const x1 = cx + R * Math.cos(a1 * Math.PI / 180), y1 = cy + R * Math.sin(a1 * Math.PI / 180);
+    const mid = a0 + seg / 2;
+    const stageColorA = i % 2 === 0 ? 'var(--guest-orange)' : 'var(--rose)';
+    sectors += `<path d="M${cx},${cy} L${x0.toFixed(2)},${y0.toFixed(2)} A${R},${R} 0 0 1 ${x1.toFixed(2)},${y1.toFixed(2)} Z" fill="${stageColorA}" fill-opacity="${th.track === 'member' ? 0.9 : 0.55}" stroke="var(--bg-elev)" stroke-width="1"/>`;
+    const ix = cx + (R * 0.72) * Math.cos(mid * Math.PI / 180), iy = cy + (R * 0.72) * Math.sin(mid * Math.PI / 180);
+    icons += `<g transform="translate(${ix.toFixed(2)},${iy.toFixed(2)}) rotate(${mid + 90})" color="#2a1608">${GU_ICON_PATHS[th.icon] ? `<g transform="translate(-9,-9) scale(0.75)">${GU_ICON_PATHS[th.icon]}</g>` : ''}</g>`;
+  });
+  return `<svg id="gu-wheel-svg" viewBox="0 0 280 280" width="230" height="230" style="fill:none;stroke:#2a1608;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;">
+    <g>${sectors}</g>
+    <g fill="#2a1608" stroke="none">${icons}</g>
+    <circle cx="${cx}" cy="${cy}" r="20" fill="var(--bg-elev)" stroke="var(--guest-orange)" stroke-width="2"/>
+  </svg>`;
+}
+
 function guRenderWheel(body){
   guState.retries = 0;
-  const reelHtml = GUEST_THEMES.map(th => `<div class="gu-reel-item" data-reel="${th.id}">${th.emoji}</div>`).join('');
   body.innerHTML = `
     ${guProgressHtml()}
-    <div class="gu-reel" id="gu-reel">${reelHtml}</div>
+    <div class="gu-wheel-wrap">
+      <div class="gu-wheel-pointer">${guIcon('compass',18)}</div>
+      <div class="gu-wheel-spin-holder" id="gu-wheel-holder" style="transform:rotate(${guState.wheelRotation}deg);">${guBuildWheelSvg()}</div>
+    </div>
     <button type="button" class="gu-spin-btn" id="gu-spin-btn">${escText(t('guSpin'))}</button>
   `;
   document.getElementById('gu-spin-btn').onclick = guSpin;
@@ -6771,27 +6931,26 @@ function guRenderWheel(body){
 
 function guSpin(){
   const spinBtn = document.getElementById('gu-spin-btn');
-  const reel = document.getElementById('gu-reel');
-  if(!reel) return;
+  const holder = document.getElementById('gu-wheel-holder');
+  if(!holder) return;
   spinBtn.disabled = true;
   const pool = guRemainingThemes().length ? guRemainingThemes() : GUEST_THEMES;
-  const items = Array.from(reel.querySelectorAll('.gu-reel-item'));
-  let ticks = 0;
-  const maxTicks = 16 + Math.floor(Math.random() * 6);
-  const interval = setInterval(() => {
-    items.forEach(it => it.classList.remove('landed'));
-    const idx = Math.floor(Math.random() * items.length);
-    items[idx].classList.add('landed');
-    ticks++;
-    if(ticks >= maxTicks){
-      clearInterval(interval);
-      const chosen = pool[Math.floor(Math.random() * pool.length)];
-      items.forEach(it => it.classList.toggle('landed', it.dataset.reel === chosen.id));
-      guState.pendingId = chosen.id;
-      guState.view = 'drawn';
-      setTimeout(() => guRenderRoulette(), 500);
-    }
-  }, 90);
+  const chosen = pool[Math.floor(Math.random() * pool.length)];
+  const chosenIdx = GUEST_THEMES.findIndex(th => th.id === chosen.id);
+  const seg = 360 / GUEST_THEMES.length;
+  // Le pointeur est fixe en haut (0deg). On calcule l'angle final pour que le
+  // centre du secteur tiré arrive sous le pointeur, plus plusieurs tours complets.
+  const targetSegCenter = chosenIdx * seg + seg / 2;
+  const extraTurns = 4 + Math.floor(Math.random() * 2);
+  const finalRotation = guState.wheelRotation + (extraTurns * 360) + (360 - targetSegCenter) - (guState.wheelRotation % 360);
+  holder.style.transition = 'transform 3.2s cubic-bezier(.15,.85,.25,1)';
+  holder.style.transform = `rotate(${finalRotation}deg)`;
+  guState.wheelRotation = finalRotation;
+  setTimeout(() => {
+    guState.pendingId = chosen.id;
+    guState.view = 'drawn';
+    guRenderRoulette();
+  }, 3300);
 }
 
 function guRenderDrawn(body){
@@ -6803,9 +6962,9 @@ function guRenderDrawn(body){
     : t('guRetriesUsedUp');
   body.innerHTML = `
     ${guProgressHtml()}
-    <div class="coach-bubble-row"><div class="coach-mini-avatar">🌙</div><div class="coach-bubble-text chat-bot show">${escText(t('guDrawnIntro'))}</div></div>
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon('moon',16)}</div><div class="coach-bubble-text chat-bot show">${escText(t('guDrawnIntro'))}</div></div>
     <div class="gu-theme-card">
-      <div class="gu-theme-card-emoji">${theme.emoji}</div>
+      <div class="gu-theme-card-icon">${guIcon(theme.icon, 34)}</div>
       <div class="gu-theme-card-title">${escText(theme.title)}</div>
     </div>
     <div class="gu-choice-row">
@@ -6815,12 +6974,33 @@ function guRenderDrawn(body){
     </div>
     <div class="gu-progress-label" style="text-align:center;margin-top:8px;">${escText(retryLabel)}</div>
   `;
-  document.getElementById('gu-accept').onclick = () => { guState.view = 'experience'; guRenderRoulette(); };
+  document.getElementById('gu-accept').onclick = () => { guState.view = 'puzzle'; guRenderRoulette(); };
   document.getElementById('gu-already').onclick = () => { guState.view = 'wheel'; guRenderRoulette(); };
   const retryBtn = document.getElementById('gu-retry');
   if(retryBtn && retriesLeft > 0){
     retryBtn.onclick = () => { guState.retries++; guState.view = 'wheel'; guRenderRoulette(); };
   }
+}
+
+/* Étape "puzzle" : une mini-question avant la révélation, pour une lecture façon
+   histoire plutôt qu'une fiche produit statique. */
+function guRenderPuzzle(body){
+  const theme = GUEST_THEMES.find(th => th.id === guState.pendingId);
+  if(!theme){ guState.view = 'wheel'; guRenderRoulette(); return; }
+  body.innerHTML = `
+    <div class="gu-theme-card gu-theme-card-sm">
+      <div class="gu-theme-card-icon">${guIcon(theme.icon, 26)}</div>
+      <div class="gu-theme-card-title">${escText(theme.title)}</div>
+    </div>
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon('moon',16)}</div><div class="coach-bubble-text chat-bot show">${escText(theme.question)}</div></div>
+    <div class="gu-choice-row">
+      <button type="button" class="gu-choice-btn" data-choice="0">${escText(theme.options[0])}</button>
+      <button type="button" class="gu-choice-btn" data-choice="1">${escText(theme.options[1])}</button>
+    </div>
+  `;
+  body.querySelectorAll('[data-choice]').forEach(btn => {
+    btn.onclick = () => { guState.pendingChoice = btn.dataset.choice; guState.view = 'experience'; guRenderRoulette(); };
+  });
 }
 
 function guRenderExperience(body){
@@ -6829,9 +7009,9 @@ function guRenderExperience(body){
   const alreadyDiscovered = guState.discovered.includes(theme.id);
   body.innerHTML = `
     <div class="gu-experience">
-      <span class="gu-experience-emoji">${theme.emoji}</span>
+      <div class="gu-experience-icon">${guIcon(theme.icon, 40)}</div>
       <div class="gu-experience-title">${escText(theme.title)}</div>
-      <div class="gu-experience-text">${escText(theme.text)}</div>
+      <div class="gu-experience-text">${escText(theme.reveal)}</div>
     </div>
     <div id="gu-rating-zone"></div>
   `;
@@ -6840,12 +7020,12 @@ function guRenderExperience(body){
     return;
   }
   document.getElementById('gu-rating-zone').innerHTML = `
-    <div class="coach-bubble-row"><div class="coach-mini-avatar">🌙</div><div class="coach-bubble-text chat-bot show">${escText(t('guRatingPrompt'))}</div></div>
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon('moon',16)}</div><div class="coach-bubble-text chat-bot show">${escText(t('guRatingPrompt'))}</div></div>
     <div class="gu-rating-row">
-      <button type="button" class="gu-rating-btn" data-rate="loved" title="${escText(t('guRatingLoved'))}">❤️</button>
-      <button type="button" class="gu-rating-btn" data-rate="good" title="${escText(t('guRatingGood'))}">🙂</button>
-      <button type="button" class="gu-rating-btn" data-rate="meh" title="${escText(t('guRatingMeh'))}">😐</button>
-      <button type="button" class="gu-rating-btn" data-rate="no" title="${escText(t('guRatingNo'))}">👎</button>
+      <button type="button" class="gu-rating-btn" data-rate="loved" title="${escText(t('guRatingLoved'))}">${GU_RATING_ICONS.loved}</button>
+      <button type="button" class="gu-rating-btn" data-rate="good" title="${escText(t('guRatingGood'))}">${GU_RATING_ICONS.good}</button>
+      <button type="button" class="gu-rating-btn" data-rate="meh" title="${escText(t('guRatingMeh'))}">${GU_RATING_ICONS.meh}</button>
+      <button type="button" class="gu-rating-btn" data-rate="no" title="${escText(t('guRatingNo'))}">${GU_RATING_ICONS.no}</button>
     </div>
   `;
   document.querySelectorAll('[data-rate]').forEach(btn => {
@@ -6857,8 +7037,9 @@ async function guFinishExperience(themeId, rating){
   if(!guState.discovered.includes(themeId)) guState.discovered.push(themeId);
   if(rating) guState.ratings[themeId] = rating;
   await guSaveJourney({ discovered: guState.discovered, ratings: guState.ratings });
+  guApplyStage(document.getElementById('gu-theme-root'));
   const zone = document.getElementById('gu-rating-zone');
-  if(zone && rating) zone.innerHTML = `<div class="coach-bubble-row"><div class="coach-mini-avatar">🌙</div><div class="coach-bubble-text chat-bot show">${escText(t('guRatingThanks'))}</div></div>`;
+  if(zone && rating) zone.innerHTML = `<div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon('moon',16)}</div><div class="coach-bubble-text chat-bot show">${escText(t('guRatingThanks'))}</div></div>`;
   setTimeout(() => {
     guState.view = guState.discovered.length >= GUEST_THEMES.length ? 'complete' : 'wheel';
     guRenderRoulette();
@@ -6868,7 +7049,7 @@ async function guFinishExperience(themeId, rating){
 function guRenderComplete(body){
   body.innerHTML = `
     <div class="gu-complete-card">
-      <div class="gu-complete-emoji">🌙✨</div>
+      <div class="gu-experience-icon">${guIcon('flame', 40)}</div>
       <div class="gu-theme-card-title" style="margin-top:8px;">${escText(t('guCompleteTitle'))}</div>
       <div class="gu-theme-card-desc" style="margin-top:6px;">${escText(t('guCompleteBody'))}</div>
       <button type="button" class="gu-spin-btn" id="gu-complete-cta" style="margin-top:16px;">${escText(t('guCompleteCta'))}</button>
@@ -6886,7 +7067,7 @@ function guRenderPresentation(){
   const body = document.getElementById('gu-body');
   if(!body) return;
   body.innerHTML = `
-    <div class="coach-bubble-row"><div class="coach-mini-avatar">🌙</div><div class="coach-bubble-text chat-bot show">${escText(t('guPresIntro'))}</div></div>
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon('moon',16)}</div><div class="coach-bubble-text chat-bot show">${escText(t('guPresIntro'))}</div></div>
     <ul class="coach-welcome-list">
       <li>${escText(t('guPresBullet1'))}</li>
       <li>${escText(t('guPresBullet2'))}</li>
