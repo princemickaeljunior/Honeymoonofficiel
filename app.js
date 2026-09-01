@@ -336,6 +336,8 @@ const I18N = {
     guJustPlay: "Just keep playing",
     guMysteryLabel: "???",
     guBack: "Back",
+    guBackToMenu: "Back to menu",
+    guAlreadySeenVideo: "Already watched the presentation video?",
     guSessionPopupTitle: "Before you spin again...",
     guSessionPopupBody: "Everything you've shared so far is exactly what Honeymoon Coach was built around — real guidance, not generic advice.",
     guSessionPopupCta: "Keep going",
@@ -6657,29 +6659,30 @@ async function handleGalleryAdd(m, files, field, onDone){
 
 /* ---------- Icônes SVG premium (traits fins, cohérentes avec le reste du site) ---------- */
 const GU_ICON_PATHS = {
-  camera: '<rect x="3" y="7" width="18" height="13" rx="2.2"/><circle cx="12" cy="13.5" r="3.4"/><path d="M8.3 7L9.7 4.6h4.6L15.7 7"/>',
-  film: '<path d="M3 8.3l14-3 1 4-14 3z"/><rect x="3" y="9.4" width="18" height="10.6" rx="1.4"/>',
+  camera: '<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/>',
+  film: '<path d="M20.2 6L3 11l-.9-2.3c-.3-.9.1-1.9 1-2.2l14.5-5.4c.9-.3 1.9.1 2.2 1z"/><path d="M2 11h20v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2z"/><path d="M6 11l2-4M11.5 11l2-4M17 11l2-4"/>',
   headphones: '<path d="M4.5 14v-2a7.5 7.5 0 0 1 15 0v2"/><rect x="3.2" y="14" width="4.4" height="6.4" rx="1.6"/><rect x="16.4" y="14" width="4.4" height="6.4" rx="1.6"/>',
   gem: '<path d="M4 9.2l8-6.2 8 6.2-8 11.8z"/><path d="M4 9.2h16"/>',
-  lock: '<rect x="4.2" y="11" width="15.6" height="9" rx="2"/><path d="M8 11V7.2a4 4 0 0 1 8 0V11"/>',
+  lock: '<rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
   crown: '<path d="M3 18h18l-1.4-8.6-4.6 4-3-6.4-3 6.4-4.6-4z"/>',
   star: '<path d="M12 3l2.5 5.8 6.3.6-4.7 4.2 1.4 6.1L12 16.8 6.5 19.7l1.4-6.1L3.2 9.4l6.3-.6z"/>',
-  chat: '<path d="M4 5h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H9l-4.2 4v-4H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/>',
+  chat: '<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>',
   gift: '<rect x="3" y="9.2" width="18" height="11.5" rx="1.4"/><path d="M3 9.2h18M12 9.2v11.5"/><path d="M12 9.2c-2-3.2-6.2-3-6.2.2s4.2.2 6.2-.2zm0 0c2-3.2 6.2-3 6.2.2s-4.2.2-6.2-.2z"/>',
   moon: '<path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/>',
-  heart: '<path d="M12 20.3S3.6 14.7 3.6 8.9A4.4 4.4 0 0 1 12 6.5a4.4 4.4 0 0 1 8.4 2.4c0 5.8-8.4 11.4-8.4 11.4z"/>',
+  moonstar: '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/><path d="M19 3v4M17 5h4"/>',
+  heart: '<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/>',
   ribbon: '<circle cx="12" cy="8" r="4.6"/><path d="M8.6 12L6.2 21l5.8-3 5.8 3-2.4-9"/>',
   bell: '<path d="M6 11a6 6 0 0 1 12 0c0 4 1.6 5 1.6 5H4.4S6 15 6 11z"/><path d="M10 20a2 2 0 0 0 4 0"/>',
-  bag: '<path d="M6.2 8h11.6l1 12H5.2z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>',
-  shield: '<path d="M12 3l7 3v6c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6z"/>',
-  globe: '<circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/>',
-  sparkle: '<path d="M12 3l1.7 5.1L19 10l-5.3 1.9L12 17l-1.7-5.1L5 10l5.3-1.9z"/>',
+  rocket: '<path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>',
+  warning: '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+  globe: '<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>',
+  sparkle: '<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6.3 6.3l2.8 2.8M14.9 14.9l2.8 2.8M17.7 6.3l-2.8 2.8M9.1 14.9l-2.8 2.8"/>',
   users: '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>',
-  trophy: '<path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4.2a3 3 0 0 0 3 5M17 6h2.8a3 3 0 0 1-3 5"/><path d="M12 15v3M9 21h6M9.6 18h4.8"/>',
-  flame: '<path d="M12 2.2s5 4.6 5 9.1a5 5 0 0 1-10 0c0-1.5 1-2.5 1-2.5s.5 2 2 2c-1-3.1 2-5.1 2-6.6z"/>',
+  trophy: '<path d="M8 21h8M12 17v4M17 4h3a1 1 0 0 1 1 1v2a4 4 0 0 1-4 4M7 4H4a1 1 0 0 0-1 1v2a4 4 0 0 0 4 4"/><path d="M7 4h10v5a5 5 0 0 1-10 0z"/>',
+  flame: '<path d="M12 2s-6 6-6 12a6 6 0 0 0 12 0c0-2-1-3-1-3s-.5 2-2 2c-2 0-1.5-3-1.5-3s-1.5 1-1.5 3c-3-2-3-6 0-11z"/>',
   compass: '<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>',
   arrow: '<path d="M12 4v13"/><path d="M6 12l6 6 6-6"/>',
-  honeypot: '<path d="M7.5 8.5h9l-1.1 10.6a2 2 0 0 1-2 1.9h-2.8a2 2 0 0 1-2-1.9z"/><path d="M6.5 5.5h11a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1v-1a1 1 0 0 1 1-1z"/><path d="M11.3 2.5c-.6.9-.6 1.6 0 2.4"/>',
+  honeypot: '<path d="M12 2.5c2.4 3.6 4.6 6.6 4.6 9.4a4.6 4.6 0 1 1-9.2 0c0-2.8 2.2-5.8 4.6-9.4z"/><path d="M9.5 14.5h5"/>',
   backArrow: '<path d="M19 12H5"/><path d="M11 18l-6-6 6-6"/>',
   check: '<path d="M20 6L9 17l-5-5"/>',
   refresh: '<path d="M21 12a9 9 0 1 1-2.6-6.3"/><path d="M21 4v5h-5"/>',
@@ -6688,7 +6691,7 @@ const GU_ICON_PATHS = {
 
 function guIcon(id, size){
   const s = size || 20;
-  return `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${GU_ICON_PATHS[id] || GU_ICON_PATHS.sparkle}</svg>`;
+  return `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${GU_ICON_PATHS[id] || GU_ICON_PATHS.sparkle}</svg>`;
 }
 /* Icônes de notation (remplacent les emoji ❤️🙂😐👎 par des traits, 100% SVG) */
 const GU_RATING_ICONS = {
@@ -6779,7 +6782,7 @@ const GUEST_THEMES = [
     ],
     reveal:'Drive and discipline — that comes through clearly in your answers.',
     tip:'Tip: match her energy, don\'t compete with it — enthusiasm reads better than one-upping.' },
-  { id:'mysterious', track:'type', icon:'moon', title:'Mysterious & intense',
+  { id:'mysterious', track:'type', icon:'moonstar', title:'Mysterious & intense',
     questions:[
       { q:'Do you like being fully in the know, or not?', opts:['Fully in the know','A little mystery','Mostly mystery'] },
       { q:'Her energy should feel...', opts:['Calm on the surface','Intense underneath','Hard to read'] },
@@ -6851,7 +6854,7 @@ const GUEST_THEMES = [
     ],
     reveal:'Noted — that\'s not a small ask, and it\'s a fair one.',
     tip:'Tip: being understood starts with being specific — vague feelings are hard for anyone to meet.' },
-  { id:'dating_confidence', track:'need', icon:'shield', title:'Feeling sure of yourself',
+  { id:'dating_confidence', track:'need', icon:'warning', title:'Feeling sure of yourself',
     questions:[
       { q:'Approaching someone new feels...', opts:['Easy','Nerve-wracking','Depends on the day'] },
       { q:'What usually holds you back?', opts:['Fear of rejection','Not knowing what to say','Overthinking it'] },
@@ -6923,7 +6926,7 @@ const GUEST_THEMES = [
     ],
     reveal:'Being seen shouldn\'t be rare. Worth remembering that.',
     tip:'Tip: being seen often starts with showing a little more of yourself first.' },
-  { id:'guidance_approach', track:'need', icon:'bag', title:'Knowing what to say',
+  { id:'guidance_approach', track:'need', icon:'rocket', title:'Knowing what to say',
     questions:[
       { q:'Starting a conversation with someone new feels...', opts:['Easy','Awkward','Fine once it gets going'] },
       { q:'What usually trips you up?', opts:['The first message','Keeping it going','Reading the signs'] },
@@ -7133,8 +7136,32 @@ function guRenderWelcomeBack(body){
     ${guProgressHtml()}
     <div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon('honeypot',16)}</div><div class="coach-bubble-text chat-bot show">${msg}</div></div>
     <button type="button" class="gu-spin-btn" id="gu-start-explore">${escText(t('guContinue'))}</button>
+    ${isFirstVisit && !guState.sawSurprise ? `
+      <div class="gu-progress-label" style="text-align:center;margin-top:10px;">${escText(t('guAlreadySeenVideo'))}</div>
+      <button type="button" class="gu-choice-btn" id="gu-skip-to-play">${guIcon('compass',14)} ${escText(t('guJustPlay'))}</button>
+    ` : ''}
   `;
   document.getElementById('gu-start-explore').onclick = () => { guState.view = 'wheel'; guRenderRoulette(); };
+  const skipBtn = document.getElementById('gu-skip-to-play');
+  if(skipBtn){
+    skipBtn.onclick = () => {
+      guState.infiniteMode = true;
+      guState.sawSurprise = true;
+      guSaveJourney({ sawSurprise: true });
+      guState.view = 'wheel';
+      guRenderRoulette();
+    };
+  }
+}
+
+/* Petit lien "Retour au menu" affiché pendant la roue/le tirage/le quiz — ramène
+   à l'écran d'accueil de la roulette sans fermer tout l'Univers Invité. */
+function guMenuBackHtml(){
+  return `<button type="button" class="gu-back-link" id="gu-menu-back">${guIcon('backArrow',13)} ${escText(t('guBackToMenu'))}</button>`;
+}
+function guWireMenuBack(){
+  const btn = document.getElementById('gu-menu-back');
+  if(btn) btn.onclick = () => { guState.view = 'welcome'; guRenderRoulette(); };
 }
 
 /* Roue SVG à 20 secteurs, réellement animée (rotation CSS calculée pour arrêter le
@@ -7166,13 +7193,13 @@ function guBuildWheelSvg(){
     const sectorColor = i % 2 === 0 ? colorA : colorB;
     sectors += `<path d="M${cx},${cy} L${x0.toFixed(2)},${y0.toFixed(2)} A${R},${R} 0 0 1 ${x1.toFixed(2)},${y1.toFixed(2)} Z" fill="${sectorColor}" fill-opacity="${th.track === 'need' ? 0.92 : 0.6}" stroke="var(--bg-elev)" stroke-width="1"/>`;
     const ix = cx + (R * 0.72) * Math.cos(mid * Math.PI / 180), iy = cy + (R * 0.72) * Math.sin(mid * Math.PI / 180);
-    icons += `<g transform="translate(${ix.toFixed(2)},${iy.toFixed(2)}) rotate(${mid + 90})"><g transform="translate(-10.5,-10.5) scale(0.85)" fill="none" stroke="#241206" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">${GU_ICON_PATHS[th.icon] || ''}</g></g>`;
+    icons += `<g transform="translate(${ix.toFixed(2)},${iy.toFixed(2)}) rotate(${mid + 90})"><g transform="translate(-10.5,-10.5) scale(0.85)" fill="none" stroke="#241206" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${GU_ICON_PATHS[th.icon] || ''}</g></g>`;
   });
   return `<svg id="gu-wheel-svg" viewBox="0 0 280 280" width="230" height="230">
     <g>${sectors}</g>
     <g>${icons}</g>
     <circle cx="${cx}" cy="${cy}" r="22" fill="var(--bg-elev)" stroke="var(--guest-orange)" stroke-width="2"/>
-    <g transform="translate(${cx - 11},${cy - 11})" fill="none" stroke="var(--guest-orange)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${GU_ICON_PATHS.honeypot}</g>
+    <g transform="translate(${cx - 11},${cy - 11})" fill="none" stroke="var(--guest-orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${GU_ICON_PATHS.honeypot}</g>
   </svg>`;
 }
 
@@ -7185,8 +7212,10 @@ function guRenderWheel(body){
       <div class="gu-wheel-spin-holder" id="gu-wheel-holder" style="transform:rotate(${guState.wheelRotation}deg);">${guBuildWheelSvg()}</div>
     </div>
     <button type="button" class="gu-spin-btn" id="gu-spin-btn">${guIcon('compass',16)} ${escText(t('guSpin'))}</button>
+    ${guMenuBackHtml()}
   `;
   document.getElementById('gu-spin-btn').onclick = guSpin;
+  guWireMenuBack();
 }
 
 function guSpin(){
@@ -7231,6 +7260,7 @@ function guRenderDrawn(body){
       <button type="button" class="gu-choice-btn" id="gu-retry" ${retriesLeft <= 0 ? 'disabled' : ''}>${guIcon('dice',14)} ${escText(t('guRetry'))}</button>
     </div>
     <div class="gu-progress-label" style="text-align:center;margin-top:8px;">${escText(retryLabel)}</div>
+    ${guMenuBackHtml()}
   `;
   document.getElementById('gu-accept').onclick = () => {
     guState.activeQuestions = theme.questions.length > 5 ? guSample(theme.questions, 5) : theme.questions.slice();
@@ -7241,6 +7271,7 @@ function guRenderDrawn(body){
   if(retryBtn && retriesLeft > 0){
     retryBtn.onclick = () => { guState.retries++; guState.view = 'wheel'; guRenderRoulette(); };
   }
+  guWireMenuBack();
 }
 
 /* Mini quiz de personnalité : 5 questions successives à 3 choix, piochées au hasard
