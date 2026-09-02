@@ -338,6 +338,14 @@ const I18N = {
     guBack: "Back",
     guBackToMenu: "Back to menu",
     guAlreadySeenVideo: "Already watched the presentation video?",
+    guAskPath: "One last thing before we start, {name} — how do you want to explore?",
+    guPathGameTitle: "Play the full game",
+    guPathGameDesc: "20 mysteries to uncover. The wheel, the questions — different every time you play.",
+    guPathPresTitle: "Watch the presentation",
+    guPathPresDesc: "A short video, then 10 quick questions to wrap things up.",
+    guPresQuizCta: "Continue",
+    guMysteryUnlockedTitle: "Mystery unlocked.",
+    guCoachBridgeTag: "Coach Honeymoon knows this one",
     guSessionPopupTitle: "Before you spin again...",
     guSessionPopupBody: "Everything you've shared so far is exactly what Honeymoon Coach was built around — real guidance, not generic advice.",
     guSessionPopupCta: "Keep going",
@@ -3961,6 +3969,55 @@ if(!document.getElementById('hm-shopbot-gold-style')){
     .guestuniverse-theme.gu-stage-3 .gu-wheel-pointer,
     .guestuniverse-theme.gu-stage-4 .gu-wheel-pointer{color:var(--wine);filter:drop-shadow(0 2px 6px color-mix(in srgb, var(--wine) 70%, transparent));}
     @keyframes guPulseWarm{0%,100%{box-shadow:0 0 34px -14px color-mix(in srgb, var(--cacao-deep) 55%, transparent);}50%{box-shadow:0 0 58px -6px color-mix(in srgb, var(--wine) 80%, transparent);}}
+
+    /* ---- Choix de parcours (jeu complet / présentation) ---- */
+    .gu-path-card{display:block;width:100%;text-align:left;background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:.18s;}
+    .gu-path-card:hover{border-color:var(--guest-orange);transform:translateY(-2px);box-shadow:0 10px 22px -14px color-mix(in srgb, var(--guest-orange) 60%, transparent);}
+    .gu-path-card-icon{color:var(--guest-orange);margin-bottom:6px;}
+    .gu-path-card-title{font-weight:700;font-size:13.5px;color:var(--text);}
+    .gu-path-card-desc{font-size:11.5px;color:var(--text-muted);margin-top:3px;line-height:1.5;}
+    .gu-video-frame{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;height:150px;border-radius:14px;border:1px dashed color-mix(in srgb, var(--guest-orange) 45%, var(--border));color:var(--text-muted);font-size:11.5px;font-weight:600;margin:10px 0;background:linear-gradient(160deg,color-mix(in srgb, var(--guest-orange) 6%, var(--bg-elev)),var(--bg-elev));}
+
+    /* ---- Pause mystère : glow énigmatique + ouverture-cadeau au déblocage ---- */
+    .gu-mystery-glow .gu-theme-card-icon{animation:guMysteryPulse 2.2s ease-in-out infinite;}
+    @keyframes guMysteryPulse{0%,100%{filter:drop-shadow(0 0 3px color-mix(in srgb, var(--rose) 50%, transparent));}50%{filter:drop-shadow(0 0 12px color-mix(in srgb, var(--wine) 85%, transparent));}}
+    .gu-mystery-burst .gu-experience-icon{position:relative;animation:guGiftPop .5s cubic-bezier(.34,1.56,.64,1);}
+    .gu-mystery-burst .gu-experience-icon::before,
+    .gu-mystery-burst .gu-experience-icon::after{content:'';position:absolute;top:50%;left:50%;width:6px;height:6px;border-radius:50%;background:var(--guest-orange);box-shadow:
+      0 0 0 0 var(--guest-orange),
+      22px -18px 0 -1px var(--rose), -24px -14px 0 -1px var(--wine),
+      18px 20px 0 -1px var(--cacao-deep), -20px 22px 0 -1px var(--guest-orange),
+      0 -28px 0 -1px var(--rose), 28px 4px 0 -1px var(--wine), -28px 2px 0 -1px var(--cacao-deep);
+      opacity:0;animation:guConfettiBurst .8s ease-out;}
+    .gu-mystery-burst .gu-experience-icon::after{animation-delay:.05s;transform:rotate(25deg);}
+    @keyframes guGiftPop{0%{transform:scale(.4) rotate(-8deg);opacity:0;}60%{transform:scale(1.15) rotate(4deg);opacity:1;}100%{transform:scale(1) rotate(0);}}
+    @keyframes guConfettiBurst{0%{opacity:1;transform:translate(-50%,-50%) scale(.2);}70%{opacity:1;}100%{opacity:0;transform:translate(-50%,-50%) scale(1.6);}}
+
+    /* ---- 4 variantes d'animation de déblocage, jamais la même 2 fois de suite ---- */
+    .gu-burst-flame .gu-experience-icon{color:var(--wine);animation:guFlameFlicker .9s ease-in-out infinite;}
+    @keyframes guFlameFlicker{0%,100%{transform:scale(1) rotate(0);filter:drop-shadow(0 0 4px color-mix(in srgb, var(--wine) 60%, transparent));}30%{transform:scale(1.08) rotate(-3deg);}60%{transform:scale(.96) rotate(2deg);filter:drop-shadow(0 0 14px color-mix(in srgb, var(--wine) 90%, transparent));}}
+    .gu-burst-spark .gu-experience-icon{position:relative;animation:guGiftPop .5s cubic-bezier(.34,1.56,.64,1);}
+    .gu-burst-spark .gu-experience-icon::before{content:'';position:absolute;inset:-14px;background:
+      radial-gradient(circle at 20% 30%, var(--guest-orange) 0 2px, transparent 3px),
+      radial-gradient(circle at 80% 20%, var(--rose) 0 2px, transparent 3px),
+      radial-gradient(circle at 70% 80%, var(--wine) 0 2px, transparent 3px),
+      radial-gradient(circle at 15% 75%, var(--cacao-deep) 0 2px, transparent 3px);
+      opacity:0;animation:guSparkFade 1s ease-out;}
+    @keyframes guSparkFade{0%{opacity:0;transform:scale(.5) rotate(0);}30%{opacity:1;}100%{opacity:0;transform:scale(1.7) rotate(50deg);}}
+    .gu-burst-heart .gu-experience-icon{color:var(--rose);animation:guHeartBeat 1.1s ease-in-out 2;}
+    @keyframes guHeartBeat{0%,100%{transform:scale(1);}25%{transform:scale(1.22);}40%{transform:scale(1);}55%{transform:scale(1.14);}}
+
+    /* ---- Diaporama final : styles cinématiques cycliques (jamais le même enchaînement) ---- */
+    .gu-slide-style-0 .coach-bubble-text{animation:guSlideFade .6s ease both;}
+    .gu-slide-style-1 .coach-bubble-text{animation:guSlideRise .6s cubic-bezier(.2,.8,.2,1) both;}
+    .gu-slide-style-2 .coach-bubble-text{animation:guSlideZoom .55s ease both;}
+    .gu-slide-style-3 .coach-bubble-text{animation:guSlideDrift .65s ease both;}
+    @keyframes guSlideFade{0%{opacity:0;}100%{opacity:1;}}
+    @keyframes guSlideRise{0%{opacity:0;transform:translateY(14px);}100%{opacity:1;transform:translateY(0);}}
+    @keyframes guSlideZoom{0%{opacity:0;transform:scale(.92);}100%{opacity:1;transform:scale(1);}}
+    @keyframes guSlideDrift{0%{opacity:0;transform:translateX(-10px);}100%{opacity:1;transform:translateX(0);}}
+    .gu-coach-bridge-slide{border-left:2px solid var(--guest-orange);padding-left:10px;}
+    .gu-coach-bridge-tag{font-size:9.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--guest-orange);font-weight:700;display:block;margin-bottom:3px;}
   `;
   document.head.appendChild(st2);
 }
@@ -6953,6 +7010,157 @@ const GUEST_THEMES = [
 ];
 const GUEST_MAX_RETRIES = 2;
 
+/* ================================================================
+   MYSTÈRES — pause énigmatique insérée dans le parcours (jeu 20 questions
+   ET quiz de présentation 10 questions). Ne modifie AUCUNE question/réponse
+   existante : c'est une couche ajoutée par-dessus. Chaque énigme fait
+   référence à un film romantique / une réplique culte / une ville ou un
+   lieu de l'amour / un cadeau — jamais nommée directement, toujours
+   tournée en énigme. La résolution ne "spoile" jamais la réponse : elle
+   pointe vers une vraie catégorie du Coach Honeymoon (COACH_STARTERS),
+   qui reste la seule source qui répond vraiment. Aucune des 3 options
+   n'est "fausse" — comme le reste du jeu, c'est un test, pas un piège. */
+const COACH_TEASE_BANK = [
+  { id:'t_bridge', icon:'gem', category:'signals',
+    riddle:"A city of bridges. Lovers once locked a promise there and threw the key into the river below. What made them so sure it was safe to lock?",
+    opts:['Her eyes said yes first','The silence felt right','He just knew'],
+    unlock:"Locks rust, keys sink — but knowing if she's really into you shouldn't be left to a river. Coach Honeymoon reads the signals for you, one honest answer at a time." },
+  { id:'t_cyrano', icon:'moonstar', category:'confidence',
+    riddle:"A poet, hiding behind another man's face, wrote the words he was too afraid to say himself. What was he really afraid of losing?",
+    opts:['Her laughter','His pride','The chance itself'],
+    unlock:"Borrowed words rarely land. Building the confidence to say things in your own voice — that's exactly what Coach Honeymoon works on with you." },
+  { id:'t_venice', icon:'compass', category:'firstdate',
+    riddle:"A city with no roads, only water — where two strangers once fell for each other in a single night, before the boats even reached the shore. What made that night different from any other?",
+    opts:['They stopped performing','Neither one checked the time','There was nowhere to run to'],
+    unlock:"Some nights just work. Most need a little more than luck — Coach Honeymoon has real answers on making a first date actually go somewhere." },
+  { id:'t_redthread', icon:'heart', category:'spark',
+    riddle:"An old belief: an invisible thread ties two people together long before they ever meet — it can stretch, tangle, even go quiet, but never truly breaks. What's the thread actually made of?",
+    opts:['Timing','Attention','Something neither can name'],
+    unlock:"Whatever the thread is made of, chemistry isn't as random as it feels. Coach Honeymoon breaks down what actually creates a spark — and how to keep it alive." },
+  { id:'t_phoenix', icon:'flame', category:'moveon',
+    riddle:"A bird that must fully burn before it can rise again — no shortcut, no skipping the fire. What does the ash actually leave behind?",
+    opts:['Room for something new','A lesson you didn\'t ask for','Proof you survived it'],
+    unlock:"There's no shortcut through the fire — but there's a right way to walk through it. Coach Honeymoon has real guidance for moving on, without rushing or numbing it." },
+  { id:'t_glance', icon:'chat', category:'communicate',
+    riddle:"A whole conversation once happened across a crowded room — not a single word said, just a glance held a second too long. What did it actually say?",
+    opts:['\"I see you\"','\"Come closer\"','\"Not yet, but soon\"'],
+    unlock:"Words are only half the conversation. Coach Honeymoon can help you read — and send — the half that isn't spoken." },
+  { id:'t_bottle', icon:'ribbon', category:'engaging',
+    riddle:"A message sealed in a bottle, thrown into the sea with no address — meant, somehow, for exactly one person. What made it worth writing if it might never arrive?",
+    opts:['Hope costs nothing','Someone had to write it first','The right person always finds it'],
+    unlock:"A message worth writing gets read — the trick is what you put in the bottle. Coach Honeymoon can help you write the kind of first message that actually lands." },
+  { id:'t_wrapped', icon:'gift', category:'attraction',
+    riddle:"A gift arrives wrapped in something no one can quite name — not paper, not ribbon. The moment it's opened, it stops being interesting. What was it wrapped in?",
+    opts:['Mystery','Anticipation','What you don\'t say yet'],
+    unlock:"Attraction runs on the same rule as that gift — a little held back goes further than everything shown at once. Coach Honeymoon can help you find that balance." },
+  { id:'t_lighthouse', icon:'globe', category:'about',
+    riddle:"A keeper stands watch every night for ships that may never come, in weather no one else would face. Why keep the light on anyway?",
+    opts:['Someone might be out there','It\'s the job, not the odds','Habit becomes devotion'],
+    unlock:"Patience like that isn't given easily — or explained on the surface. Coach Honeymoon can help you understand how a creator's world actually works, distance and all." },
+  { id:'t_rose', icon:'ribbon', category:'budget',
+    riddle:"A rose was once given with no name attached to it — no card, no note. Its value was never on any tag. Where was it, then?",
+    opts:['In the timing','In the risk of giving it','In what it meant to receive it'],
+    unlock:"Value was never about the number on the tag. Coach Honeymoon can help you figure out what's actually worth spending on — and when." },
+  { id:'t_key', icon:'lock', category:'platform',
+    riddle:"A key was left under the mat for someone who hadn't arrived yet — no name, no date, just trust that they eventually would. What made that trust worth it?",
+    opts:['Someone always comes eventually','The door was worth waiting for','Trust doesn\'t need a date'],
+    unlock:"No blind trust required here — Coach Honeymoon can walk you through exactly how everything unlocks, step by step." },
+  { id:'t_lovelock', icon:'lock', category:'signals',
+    riddle:"A wall once stood covered end to end in tiny locks, each one shaped like nothing but somebody's certainty. What made them so sure, before a single word was ever exchanged?",
+    opts:['A look that lingered','A feeling in the room','Something neither could explain'],
+    unlock:"Certainty like that is rare — most of the time, the signs are quieter than a lock on a wall. Coach Honeymoon helps you actually read them." },
+  { id:'t_masquerade', icon:'moonstar', category:'signals',
+    riddle:"At a masked ball, no one could see a single face — yet two people found each other anyway, before the masks ever came off. What gave them away?",
+    opts:['The way they moved','The way they listened','Everything but the face'],
+    unlock:"Faces lie less than words sometimes — but reading it right takes more than instinct. Coach Honeymoon can help with that part." },
+  { id:'t_windowlight', icon:'moon', category:'confidence',
+    riddle:"A single lit window, three floors up, stayed on long after every other one went dark — someone rehearsing words they hadn't sent yet. What finally made them hit send?",
+    opts:['Running out of reasons not to','A version of the message that felt true','Deciding the silence was worse'],
+    unlock:"That window stays lit for a lot of people. Coach Honeymoon can help close the gap between rehearsing and actually sending." },
+  { id:'t_tightrope', icon:'compass', category:'confidence',
+    riddle:"A performer crosses a wire with no net below, arms out, eyes forward — never looking down at what could go wrong. What keeps the fall from being the only outcome?",
+    opts:['Not looking down','Trusting the first step','Having done it before, even badly'],
+    unlock:"Confidence rarely comes from certainty — it comes from moving anyway. Coach Honeymoon can help you build that, one step at a time." },
+  { id:'t_lakehouse', icon:'globe', category:'firstdate',
+    riddle:"Two strangers, decades apart in time, once wrote letters to each other through the same lake house mailbox — never meeting, yet somehow closer than most couples in the same room. What made it work?",
+    opts:['Neither one was performing','They actually answered each other','Distance made the words more honest'],
+    unlock:"Real connection rarely needs the perfect setting — just honest attention. Coach Honeymoon has real answers on making that happen face to face, too." },
+  { id:'t_dancehall', icon:'star', category:'firstdate',
+    riddle:"A crowded dance hall, one song, and somehow only two people in the room stopped noticing anyone else. What made the room disappear?",
+    opts:['They stopped trying to impress','They actually listened to the music together','Neither one checked who was watching'],
+    unlock:"That kind of ease doesn't happen by accident on a first date — it can be built. Coach Honeymoon can show you how." },
+  { id:'t_secondact', icon:'flame', category:'spark',
+    riddle:"Every great love story has a scene where the spark could've quietly died — a silence, a distraction, a routine creeping in. What usually saves it?",
+    opts:['Someone noticing in time','A small, deliberate effort','Refusing to let comfortable become boring'],
+    unlock:"The spark rarely dies loudly — it fades quietly if no one tends to it. Coach Honeymoon has real ways to keep it lit." },
+  { id:'t_orchard', icon:'ribbon', category:'spark',
+    riddle:"An orchard blooms once a year, briefly, before the petals fall — yet the tree spends all year preparing for that one bright week. Was the bloom the point, or the preparation?",
+    opts:['The bloom','The preparation','Neither works without the other'],
+    unlock:"Spark isn't just the bright week — it's what you do the rest of the year. Coach Honeymoon can help with both sides of that." },
+  { id:'t_ashes', icon:'flame', category:'moveon',
+    riddle:"After the fire, the forest floor looks like nothing survived — yet it's often the richest soil for what grows next. What actually makes it fertile?",
+    opts:['Everything the fire cleared away','Time, more than anything','What\'s left underneath, still alive'],
+    unlock:"What's left underneath is usually more intact than it feels. Coach Honeymoon has real guidance for that in-between stretch." },
+  { id:'t_oldletter', icon:'ribbon', category:'moveon',
+    riddle:"A drawer holds a letter never sent, written to someone who's long gone from the picture. Why does closing that drawer matter more than what's written inside?",
+    opts:['Because the words already did their job, unsent','Because carrying it costs more than closing it','Because moving on isn\'t about the letter at all'],
+    unlock:"Closure doesn't always come from someone else — sometimes it's a drawer you get to close yourself. Coach Honeymoon can help with that part." },
+  { id:'t_echo', icon:'headphones', category:'communicate',
+    riddle:"In a canyon, a shout comes back changed — softer, delayed, but unmistakably your own voice. What does the echo actually prove?",
+    opts:['That you were heard','That the space was listening','That some things need saying twice'],
+    unlock:"Being heard is different from being loud. Coach Honeymoon can help you say things in a way that actually lands the first time." },
+  { id:'t_lighthouse2', icon:'bell', category:'communicate',
+    riddle:"A ship's bell rings through fog thick enough to hide the shore completely — not to guide anyone in, just so no one feels entirely alone out there. What's the bell really for?",
+    opts:['Reassurance, not direction','Proof someone else is out there','A signal that doesn\'t need an answer'],
+    unlock:"Sometimes communication isn't about fixing anything — just showing up. Coach Honeymoon can help you find the right way to do that too." },
+  { id:'t_postcard', icon:'camera', category:'engaging',
+    riddle:"A postcard says almost nothing — a few lines, a stamp, a place — yet the person who receives it reads it a dozen times. What makes so little feel like so much?",
+    opts:['That someone thought of them at all','The specific detail they chose to mention','Knowing it took real effort to send'],
+    unlock:"A few honest, specific lines beat a long generic message every time. Coach Honeymoon can help you write the version that actually gets read." },
+  { id:'t_paperplane', icon:'rocket', category:'engaging',
+    riddle:"A paper plane, thrown without much thought, sails farther than anyone expected and lands exactly where someone needed to see it. What actually carried it that far?",
+    opts:['A little bit of luck','More care in the fold than it looked like','The right moment to throw it'],
+    unlock:"Timing and a little care go further than people think. Coach Honeymoon can help you get both right." },
+  { id:'t_perfume', icon:'sparkle', category:'attraction',
+    riddle:"A scent, worn once by someone unforgettable, can stop a stranger in their tracks years later for no reason they can explain. What is memory actually reacting to?",
+    opts:['A feeling it can\'t quite place','Something it never fully let go of','Proof that some things leave a mark'],
+    unlock:"Attraction is built the same way — small, specific things that stick. Coach Honeymoon can help you figure out what actually leaves that mark." },
+  { id:'t_silhouette', icon:'moon', category:'attraction',
+    riddle:"From across a dim room, a silhouette alone can be enough to catch someone's attention before a single detail is clear. What is it responding to, if not the details?",
+    opts:['Presence','Posture','Something instinctive, hard to name'],
+    unlock:"What draws someone in first is rarely the details — it's presence. Coach Honeymoon can help you understand what that actually means in practice." },
+  { id:'t_backstage', icon:'eye', category:'about',
+    riddle:"Behind every performance the audience applauds, there's a version of the performer no one in the seats ever sees — tired, focused, entirely different. Why keep that version hidden?",
+    opts:['Because the show needs the other version','Because not everyone deserves to see it','Because rest looks nothing like the performance'],
+    unlock:"There's always more behind the version people see. Coach Honeymoon can help you understand that world a little better." },
+  { id:'t_tideline', icon:'globe', category:'about',
+    riddle:"The tide comes in and goes out on its own schedule, indifferent to whoever's waiting on the shore for it. Why does the shore keep showing up anyway?",
+    opts:['Because the tide always returns eventually','Because waiting there is its own kind of patience','Because the shore isn\'t really waiting — it just is'],
+    unlock:"Understanding someone's rhythm, without taking it personally, changes everything. Coach Honeymoon can help with exactly that." },
+  { id:'t_goldcoin', icon:'crown', category:'budget',
+    riddle:"An old coin, worn smooth by a hundred hands before it reached its last owner, was spent without a second thought on something that lasted a single evening. Was it wasted?",
+    opts:['No — the evening was the point','It depends what the evening became','Nothing spent on a good moment is wasted'],
+    unlock:"Some spending is about the moment, not the math. Coach Honeymoon can help you tell which is which." },
+  { id:'t_finalgift', icon:'gift', category:'budget',
+    riddle:"The last gift in an old story was the simplest one on the table, yet it's the one everyone still remembers. What made it outlast the expensive ones?",
+    opts:['It actually meant something','It was chosen, not just bought','It said something no price tag could'],
+    unlock:"What outlasts the moment is rarely the most expensive thing. Coach Honeymoon can help you figure out what's actually worth it." },
+  { id:'t_backdoor', icon:'compass', category:'platform',
+    riddle:"An old theater has a door only the regulars know about, unmarked, always unlocked for whoever finds it. Why leave it that simple instead of making an entrance out of it?",
+    opts:['Simple is easier to trust','The regulars never needed a sign','Some things work better unexplained'],
+    unlock:"Nothing here needs to be complicated to find. Coach Honeymoon can walk you through exactly how it all works, plainly." },
+  { id:'t_map', icon:'globe', category:'platform',
+    riddle:"An old map marks a place with no name, just an X and a note: 'worth finding.' What made someone bother marking it at all?",
+    opts:['They wanted someone else to find it too','Some places are worth the vague directions','Not everything needs a name to matter'],
+    unlock:"Consider this the X. Coach Honeymoon can fill in the rest of the map for you." }
+];
+/* Pioche N énigmes non encore vues (fallback : au hasard si tout est vu). */
+function guPickTeases(n, exclude){
+  const seen = exclude || [];
+  const fresh = COACH_TEASE_BANK.filter(x => !seen.includes(x.id));
+  return guSample(fresh.length >= n ? fresh : COACH_TEASE_BANK, n);
+}
+
 function guestId(){
   try{
     let id = localStorage.getItem('hm_guest_id');
@@ -6964,7 +7172,7 @@ function guestId(){
   }catch(e){ return 'gu-fallback'; }
 }
 
-let guState = { tab:'roulette', view:'loading', firstName:null, discoverySource:null, discovered:[], ratings:{}, answers:{}, retries:0, pendingId:null, quizStep:0, quizPicks:[], activeQuestions:[], loaded:false, wheelRotation:0, totalSpins:0, totalQuestionsAnswered:0, sawSurprise:false, infiniteMode:false, sessionSpins:0 };
+let guState = { tab:'roulette', view:'loading', firstName:null, discoverySource:null, path:null, discovered:[], ratings:{}, answers:{}, retries:0, pendingId:null, quizStep:0, quizPicks:[], activeQuestions:[], loaded:false, wheelRotation:0, totalSpins:0, totalQuestionsAnswered:0, sawSurprise:false, infiniteMode:false, sessionSpins:0, mysteryUnlocked:[], mysteryPending:null, mysteryNext:null, currentMystery:null, lastUnlockAnim:null, presQuizPool:[], presQuizStep:0, presWatched:false };
 
 async function guLoadJourney(){
   try{
@@ -6979,6 +7187,8 @@ async function guLoadJourney(){
       guState.totalSpins = d.totalSpins || 0;
       guState.totalQuestionsAnswered = d.totalQuestionsAnswered || 0;
       guState.sawSurprise = !!d.sawSurprise;
+      guState.mysteryUnlocked = Array.isArray(d.mysteryUnlocked) ? d.mysteryUnlocked : [];
+      guState.path = d.path || null;
     }
   }catch(e){ console.error('guLoadJourney error', e); }
   guState.loaded = true;
@@ -7021,7 +7231,7 @@ function guApplyStage(root){
 }
 
 function openGuestUniverse(){
-  guState = { tab:'roulette', view:'loading', firstName:null, discoverySource:null, discovered:[], ratings:{}, answers:{}, retries:0, pendingId:null, quizStep:0, quizPicks:[], activeQuestions:[], loaded:false, wheelRotation:0, totalSpins:0, totalQuestionsAnswered:0, sawSurprise:false, infiniteMode:false, sessionSpins:0 };
+  guState = { tab:'roulette', view:'loading', firstName:null, discoverySource:null, path:null, discovered:[], ratings:{}, answers:{}, retries:0, pendingId:null, quizStep:0, quizPicks:[], activeQuestions:[], loaded:false, wheelRotation:0, totalSpins:0, totalQuestionsAnswered:0, sawSurprise:false, infiniteMode:false, sessionSpins:0, mysteryUnlocked:[], mysteryPending:null, mysteryNext:null, currentMystery:null, lastUnlockAnim:null, presQuizPool:[], presQuizStep:0, presWatched:false };
   renderGuestUniverse(document.getElementById('guestuniverse-page-body'));
   document.getElementById('guestuniverse-backdrop').classList.add('open');
   document.getElementById('guestuniverse-modal').classList.add('open');
@@ -7071,14 +7281,50 @@ function guRenderRoulette(){
   guApplyStage(document.getElementById('gu-theme-root'));
   if(!guState.firstName){ guRenderNameStep(body); return; }
   if(!guState.discoverySource){ guRenderDiscoveryStep(body); return; }
+  if(!guState.path){ guRenderPathChoice(body); return; }
   if(guState.view === 'loading' || guState.view === 'welcome') { guRenderWelcomeBack(body); return; }
   if(guState.view === 'wheel') { guRenderWheel(body); return; }
   if(guState.view === 'drawn') { guRenderDrawn(body); return; }
   if(guState.view === 'quiz') { guRenderQuizStep(body); return; }
   if(guState.view === 'reveal') { guRenderReveal(body); return; }
+  if(guState.view === 'mystery') { guRenderMysteryBreak(body); return; }
   if(guState.view === 'complete') { guRenderComplete(body); return; }
   if(guState.view === 'session-popup') { guRenderSessionPopup(body); return; }
   guRenderWelcomeBack(body);
+}
+
+/* Choix explicite, juste après nom + source : partie complète (20 mystères,
+   déroulé différent à chaque session) ou vidéo de présentation (10 questions
+   à la fin). Les deux mènent au même mécanisme de mystère/coach. */
+function guRenderPathChoice(body){
+  body.innerHTML = `
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon('honeypot',16)}</div><div class="coach-bubble-text chat-bot show">${escText(t('guAskPath').replace('{name}', escText(guState.firstName)))}</div></div>
+    <button type="button" class="gu-path-card" id="gu-path-game">
+      <div class="gu-path-card-icon">${guIcon('dice',22)}</div>
+      <div class="gu-path-card-title">${escText(t('guPathGameTitle'))}</div>
+      <div class="gu-path-card-desc">${escText(t('guPathGameDesc'))}</div>
+    </button>
+    <button type="button" class="gu-path-card" id="gu-path-pres">
+      <div class="gu-path-card-icon">${guIcon('film',22)}</div>
+      <div class="gu-path-card-title">${escText(t('guPathPresTitle'))}</div>
+      <div class="gu-path-card-desc">${escText(t('guPathPresDesc'))}</div>
+    </button>
+  `;
+  document.getElementById('gu-path-game').onclick = async () => {
+    guState.path = 'game';
+    await guSaveJourney({ path: 'game' });
+    guState.view = 'wheel';
+    guRenderRoulette();
+  };
+  document.getElementById('gu-path-pres').onclick = async () => {
+    guState.path = 'presentation';
+    await guSaveJourney({ path: 'presentation' });
+    guState.presQuizStep = 0;
+    guState.presQuizPool = [];
+    guState.tab = 'presentation';
+    document.querySelectorAll('[data-gutab]').forEach(b => b.classList.toggle('active', b.dataset.gutab === 'presentation'));
+    guRenderPresentation();
+  };
 }
 
 function guRenderNameStep(body){
@@ -7178,14 +7424,25 @@ function guWheelColorPair(){
   ];
   return pairs[guStage()];
 }
+/* Ordre des thèmes sur la roue, mélangé une fois par session de jeu (pas par
+   spin) — pour que le dessin de la roue soit différent à chaque partie, sans
+   changer les questions/réponses elles-mêmes. Régénéré aussi à chaque nouvelle
+   session en mode jeu infini (toutes les 15 questions). */
+function guWheelThemes(){
+  if(!guState.wheelOrder || !guState.wheelOrder.length){
+    guState.wheelOrder = guSample(GUEST_THEMES, GUEST_THEMES.length).map(th => th.id);
+  }
+  return guState.wheelOrder.map(id => GUEST_THEMES.find(th => th.id === id)).filter(Boolean);
+}
 function guBuildWheelSvg(){
-  const n = GUEST_THEMES.length;
+  const themesOrdered = guWheelThemes();
+  const n = themesOrdered.length;
   const seg = 360 / n;
   const R = 130, cx = 140, cy = 140;
   const [colorA, colorB] = guWheelColorPair();
   let sectors = '';
   let icons = '';
-  GUEST_THEMES.forEach((th, i) => {
+  themesOrdered.forEach((th, i) => {
     const a0 = i * seg - 90, a1 = (i + 1) * seg - 90;
     const x0 = cx + R * Math.cos(a0 * Math.PI / 180), y0 = cy + R * Math.sin(a0 * Math.PI / 180);
     const x1 = cx + R * Math.cos(a1 * Math.PI / 180), y1 = cy + R * Math.sin(a1 * Math.PI / 180);
@@ -7225,8 +7482,9 @@ function guSpin(){
   spinBtn.disabled = true;
   const pool = guRemainingThemes().length ? guRemainingThemes() : GUEST_THEMES;
   const chosen = pool[Math.floor(Math.random() * pool.length)];
-  const chosenIdx = GUEST_THEMES.findIndex(th => th.id === chosen.id);
-  const seg = 360 / GUEST_THEMES.length;
+  const themesOrdered = guWheelThemes();
+  const chosenIdx = themesOrdered.findIndex(th => th.id === chosen.id);
+  const seg = 360 / themesOrdered.length;
   const targetSegCenter = chosenIdx * seg + seg / 2;
   const extraTurns = 4 + Math.floor(Math.random() * 2);
   const finalRotation = guState.wheelRotation + (extraTurns * 360) + (360 - targetSegCenter) - (guState.wheelRotation % 360);
@@ -7359,27 +7617,157 @@ async function guFinishExperience(themeId, rating){
   const zone = document.getElementById('gu-rating-zone');
   if(zone && rating) zone.innerHTML = `<div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon('honeypot',16)}</div><div class="coach-bubble-text chat-bot show">${escText(t('guRatingThanks'))}</div></div>`;
   setTimeout(() => {
+    let nextView;
     if(!guState.infiniteMode){
       // Chemin "cadeau" : la surprise se déclenche après 10 univers découverts (pas 20).
-      if(guState.discovered.length >= GU_GIFT_TARGET && !guState.sawSurprise){
-        guState.view = 'complete';
-      }else{
-        guState.view = 'wheel';
+      nextView = (guState.discovered.length >= GU_GIFT_TARGET && !guState.sawSurprise) ? 'complete' : 'wheel';
+      // Pause mystère à 3, 6 et 9 univers découverts : l'intensité monte avant le cadeau.
+      if([3,6,9].includes(guState.discovered.length) && guMysteryHasFresh()){
+        guState.mysteryNext = nextView;
+        nextView = 'mystery';
       }
     }else{
       // Mode jeu : ça tourne par sessions de 15 — à chaque fin de session, petit
       // pop-up Honeymoon Coach, puis la bande repart pour une nouvelle session.
       guState.sessionSpins++;
-      if(guState.sessionSpins >= GU_PLAY_SESSION_TARGET){
-        guState.sessionSpins = 0;
-        guState.discovered = [];
-        guState.view = 'session-popup';
-      }else{
-        guState.view = 'wheel';
+      nextView = (guState.sessionSpins >= GU_PLAY_SESSION_TARGET) ? 'session-popup' : 'wheel';
+      if(guState.sessionSpins >= GU_PLAY_SESSION_TARGET){ guState.sessionSpins = 0; guState.discovered = []; guState.wheelOrder = null; }
+      // Mode infini : une pause mystère toutes les 5 questions.
+      else if(guState.totalQuestionsAnswered % 5 === 0 && guMysteryHasFresh()){
+        guState.mysteryNext = nextView;
+        nextView = 'mystery';
       }
     }
+    guState.view = nextView;
     guRenderRoulette();
   }, 900);
+}
+function guMysteryHasFresh(){
+  return COACH_TEASE_BANK.some(x => !guState.mysteryUnlocked.includes(x.id));
+}
+
+/* Pause mystère : une énigme (film romantique / réplique culte / ville ou lieu
+   de l'amour / cadeau), jamais la même deux fois tant qu'il en reste. Toutes les
+   options sont valables (comme le reste du jeu) — le but n'est pas de "réussir"
+   mais de faire monter la curiosité. La résolution ne donne jamais la vraie
+   réponse : elle pointe vers une catégorie réelle du Coach Honeymoon. */
+function guRenderMysteryBreak(body){
+  let riddle = guState.currentMystery;
+  if(!riddle || guState.mysteryUnlocked.includes(riddle.id)){
+    const picks = guPickTeases(1, guState.mysteryUnlocked);
+    riddle = picks[0];
+    guState.currentMystery = riddle;
+  }
+  body.innerHTML = `
+    <div class="gu-theme-card gu-theme-card-sm gu-theme-card-mystery gu-mystery-glow" id="gu-mystery-icon">
+      <div class="gu-theme-card-icon">${guIcon(riddle.icon, 24)}</div>
+      <div class="gu-theme-card-title">${escText(t('guMysteryLabel'))}</div>
+    </div>
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon('honeypot',16)}</div><div class="coach-bubble-text chat-bot show">${escText(riddle.riddle)}</div></div>
+    <div class="gu-choice-row">${riddle.opts.map((opt,i) => `<button type="button" class="gu-choice-btn" data-mystery-pick="${i}">${escText(opt)}</button>`).join('')}</div>
+  `;
+  body.querySelectorAll('[data-mystery-pick]').forEach(btn => {
+    btn.onclick = async () => {
+      guState.mysteryUnlocked.push(riddle.id);
+      guState.currentMystery = null;
+      guState.totalQuestionsAnswered = (guState.totalQuestionsAnswered || 0) + 1;
+      guApplyStage(document.getElementById('gu-theme-root'));
+      await guSaveJourney({ mysteryUnlocked: guState.mysteryUnlocked, totalQuestionsAnswered: guState.totalQuestionsAnswered });
+      guRenderMysteryUnlock(body, riddle);
+    };
+  });
+}
+/* 4 variantes d'animation de déblocage (cadeau, flamme, étincelles, cœur) piochées
+   au hasard à chaque fois — jamais la même animation deux énigmes de suite. */
+const GU_UNLOCK_ANIMS = [
+  { cls:'gu-burst-gift', icon:'gift' },
+  { cls:'gu-burst-flame', icon:'flame' },
+  { cls:'gu-burst-spark', icon:'sparkle' },
+  { cls:'gu-burst-heart', icon:'heart' }
+];
+function guRenderMysteryUnlock(body, riddle, onContinue){
+  const pickPool = GU_UNLOCK_ANIMS.filter(a => a.cls !== guState.lastUnlockAnim);
+  const anim = pickPool[Math.floor(Math.random() * pickPool.length)];
+  guState.lastUnlockAnim = anim.cls;
+  body.innerHTML = `
+    <div class="gu-experience gu-mystery-burst ${anim.cls}">
+      <div class="gu-experience-icon">${guIcon(anim.icon, 40)}</div>
+      <div class="gu-experience-title">${escText(t('guMysteryUnlockedTitle'))}</div>
+      <div class="gu-experience-text">${escText(riddle.unlock)}</div>
+    </div>
+    <button type="button" class="gu-spin-btn" id="gu-mystery-continue">${escText(t('guExperienceContinue'))}</button>
+  `;
+  document.getElementById('gu-mystery-continue').onclick = onContinue || (() => {
+    guState.view = guState.mysteryNext || 'wheel';
+    guState.mysteryNext = null;
+    guRenderRoulette();
+  });
+}
+
+/* ---------- Quiz de 10 questions à la fin de la présentation (chemin B) ----------
+   7 questions "flavor" piochées dans les thèmes existants (inchangées) + 3
+   énigmes mystère, mélangées. Même mécanique de montée en intensité. */
+function guBuildPresQuizPool(){
+  const flavorThemes = guSample(GUEST_THEMES, 7);
+  const flavorItems = flavorThemes.map(th => ({ kind:'flavor', icon: th.icon, q: th.questions[0].q, opts: th.questions[0].opts }));
+  const mysteryItems = guPickTeases(3, guState.mysteryUnlocked).map(r => ({ kind:'mystery', riddle: r }));
+  return guSample(flavorItems.concat(mysteryItems), flavorItems.length + mysteryItems.length);
+}
+function guRenderPresQuizStep(body){
+  guApplyStage(document.getElementById('gu-theme-root'));
+  const pool = guState.presQuizPool;
+  const step = guState.presQuizStep;
+  if(step >= pool.length){ guRenderPresFinal(body); return; }
+  const item = pool[step];
+  if(item.kind === 'mystery'){
+    const riddle = item.riddle;
+    body.innerHTML = `
+      <div class="gu-quiz-step-label" style="text-align:center;">${step + 1} / ${pool.length}</div>
+      <div class="gu-theme-card gu-theme-card-sm gu-theme-card-mystery gu-mystery-glow">
+        <div class="gu-theme-card-icon">${guIcon(riddle.icon, 24)}</div>
+        <div class="gu-theme-card-title">${escText(t('guMysteryLabel'))}</div>
+      </div>
+      <div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon('honeypot',16)}</div><div class="coach-bubble-text chat-bot show">${escText(riddle.riddle)}</div></div>
+      <div class="gu-choice-row">${riddle.opts.map((opt,i) => `<button type="button" class="gu-choice-btn" data-pqpick="${i}">${escText(opt)}</button>`).join('')}</div>
+    `;
+    body.querySelectorAll('[data-pqpick]').forEach(btn => {
+      btn.onclick = async () => {
+        guState.mysteryUnlocked.push(riddle.id);
+        guState.totalQuestionsAnswered = (guState.totalQuestionsAnswered || 0) + 1;
+        guApplyStage(document.getElementById('gu-theme-root'));
+        await guSaveJourney({ mysteryUnlocked: guState.mysteryUnlocked, totalQuestionsAnswered: guState.totalQuestionsAnswered });
+        guRenderMysteryUnlock(body, riddle, () => { guState.presQuizStep++; guRenderPresQuizStep(body); });
+      };
+    });
+    return;
+  }
+  body.innerHTML = `
+    <div class="gu-quiz-step-label" style="text-align:center;">${step + 1} / ${pool.length}</div>
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon(item.icon,16)}</div><div class="coach-bubble-text chat-bot show">${escText(item.q)}</div></div>
+    <div class="gu-choice-row">${item.opts.map((opt,i) => `<button type="button" class="gu-choice-btn" data-pqpick="${i}">${escText(opt)}</button>`).join('')}</div>
+  `;
+  body.querySelectorAll('[data-pqpick]').forEach(btn => {
+    btn.onclick = () => {
+      guState.totalQuestionsAnswered = (guState.totalQuestionsAnswered || 0) + 1;
+      guApplyStage(document.getElementById('gu-theme-root'));
+      guState.presQuizStep++;
+      guRenderPresQuizStep(body);
+    };
+  });
+}
+function guRenderPresFinal(body){
+  body.innerHTML = `
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon('honeypot',16)}</div><div class="coach-bubble-text chat-bot show">${escText(t('guPresIntro'))}</div></div>
+    <ul class="coach-welcome-list">
+      <li>${escText(t('guPresBullet1'))}</li>
+      <li>${escText(t('guPresBullet2'))}</li>
+      <li>${escText(t('guPresBullet3'))}</li>
+      <li>${escText(t('guPresBullet4'))}</li>
+    </ul>
+    <div class="gu-theme-card-desc" style="margin-top:6px;">${escText(t('guCoachPitch'))}</div>
+    <button type="button" class="gu-spin-btn" id="gu-pres-cta">${escText(t('guPresCta'))}</button>
+  `;
+  document.getElementById('gu-pres-cta').onclick = () => { closeGuestUniverse(); openMemberModal(); };
 }
 
 /* Écran final (20/20) : le rideau tombe — relie ce qui vient d'émerger au futur
@@ -7387,14 +7775,58 @@ async function guFinishExperience(themeId, rating){
    (aucune vidéo n'est générée ici). */
 /* Ordre du diaporama : intercale thèmes "type" et "need" pour un rythme naturel
    plutôt que 10 d'un bloc puis 10 de l'autre. */
+/* Chaque besoin ("need") découvert dans le jeu pointe vers une vraie catégorie
+   du Coach Honeymoon (celle qui y répond réellement, côté "flirt/dating"). */
+const GU_NEED_TO_CATEGORY = {
+  loneliness:'communicate', understood:'communicate', dating_confidence:'confidence',
+  spontaneity:'spark', emotional_support:'communicate', after_breakup:'moveon',
+  no_pressure:'attraction', being_heard:'signals', guidance_approach:'engaging', real_connection:'firstdate'
+};
+const GU_COACH_CATEGORY_LABEL = {
+  platform:{ icon:'compass', title:"Making sense of it all" },
+  budget:{ icon:'gift', title:"What's actually worth it" },
+  engaging:{ icon:'chat', title:"The message that gets noticed" },
+  about:{ icon:'globe', title:"Seeing her side of it" },
+  communicate:{ icon:'headphones', title:"Saying what you actually mean" },
+  spark:{ icon:'flame', title:"Keeping the fire lit" },
+  signals:{ icon:'moonstar', title:"Reading what she's really saying" },
+  attraction:{ icon:'heart', title:"What draws people in" },
+  firstdate:{ icon:'star', title:"The night that actually works" },
+  confidence:{ icon:'crown', title:"Walking in sure of yourself" },
+  moveon:{ icon:'sparkle', title:"Closing one chapter, right" }
+};
+/* Reprend les besoins réellement révélés pendant la partie, mappés vers les
+   vraies catégories du Coach — sans jamais donner la réponse elle-même. */
+function guCoachBridgeSlides(){
+  const discoveredNeeds = GUEST_THEMES.filter(th => th.track === 'need' && guState.discovered.includes(th.id));
+  const pool = discoveredNeeds.length ? discoveredNeeds : GUEST_THEMES.filter(th => th.track === 'need');
+  const categories = [];
+  pool.forEach(th => {
+    const cat = GU_NEED_TO_CATEGORY[th.id];
+    if(cat && !categories.includes(cat)) categories.push(cat);
+  });
+  return guSample(categories, Math.min(5, categories.length)).map(cat => ({
+    kind:'coach', icon: GU_COACH_CATEGORY_LABEL[cat].icon, tag: t('guCoachBridgeTag'), title: GU_COACH_CATEGORY_LABEL[cat].title
+  }));
+}
 function guSlideshowOrder(){
   const types = GUEST_THEMES.filter(th => th.track === 'type');
   const needs = GUEST_THEMES.filter(th => th.track === 'need');
-  const order = [];
+  const themeSlides = [];
   for(let i = 0; i < Math.max(types.length, needs.length); i++){
-    if(types[i]) order.push(types[i]);
-    if(needs[i]) order.push(needs[i]);
+    if(types[i]) themeSlides.push({ kind:'theme', icon: types[i].icon, title: types[i].title, text: types[i].reveal });
+    if(needs[i]) themeSlides.push({ kind:'theme', icon: needs[i].icon, title: needs[i].title, text: needs[i].reveal });
   }
+  const bridgeSlides = guCoachBridgeSlides();
+  // Intercale une carte "pont vers le Coach" toutes les 3 cartes de thème environ,
+  // pour que le diaporama reprenne les grands thèmes du Coach au fil de l'écran.
+  const order = [];
+  let bi = 0;
+  themeSlides.forEach((s, i) => {
+    order.push(s);
+    if((i + 1) % 3 === 0 && bi < bridgeSlides.length) order.push(bridgeSlides[bi++]);
+  });
+  while(bi < bridgeSlides.length) order.push(bridgeSlides[bi++]);
   return order;
 }
 let guSlideshowInterval = null;
@@ -7415,15 +7847,19 @@ function guGotoSlide(idx, slides){
 function guRenderSlideshow(){
   const slides = guSlideshowOrder();
   const total = slides.length;
-  const slidesHtml = slides.map((th, i) => {
+  const slidesHtml = slides.map((s, i) => {
     const pct = Math.round((i / (total - 1)) * 100);
-    return `<div class="gu-slide">
+    const styleClass = 'gu-slide-style-' + (i % 4);
+    const body = s.kind === 'coach'
+      ? `<div class="coach-bubble-text chat-bot show gu-coach-bridge-slide"><span class="gu-coach-bridge-tag">${escText(s.tag)}</span><b>${escText(s.title)}</b></div>`
+      : `<div class="coach-bubble-text chat-bot show"><b>${escText(s.title)}</b><br>${escText(s.text)}</div>`;
+    return `<div class="gu-slide ${styleClass}">
       <div class="gu-slide-bubble" style="background:linear-gradient(160deg,color-mix(in srgb, var(--wine) ${pct}%, var(--guest-orange) ${100 - pct}%) 0%,var(--bg-elev) 78%);">
-        <div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon(th.icon,16)}</div><div class="coach-bubble-text chat-bot show"><b>${escText(th.title)}</b><br>${escText(th.reveal)}</div></div>
+        <div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon(s.icon,16)}</div>${body}</div>
       </div>
     </div>`;
   }).join('');
-  const dotsHtml = slides.map((th,i) => `<span class="gu-slide-dot${i===0?' active':''}" data-goto="${i}"></span>`).join('');
+  const dotsHtml = slides.map((s,i) => `<span class="gu-slide-dot${i===0?' active':''}" data-goto="${i}"></span>`).join('');
   return `
     <div class="gu-slideshow" id="gu-slideshow">
       <div class="gu-slideshow-viewport">
@@ -7500,17 +7936,26 @@ function guRenderSessionPopup(body){
 function guRenderPresentation(){
   const body = document.getElementById('gu-body');
   if(!body) return;
-  body.innerHTML = `
-    <div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon('honeypot',16)}</div><div class="coach-bubble-text chat-bot show">${escText(t('guPresIntro'))}</div></div>
-    <ul class="coach-welcome-list">
-      <li>${escText(t('guPresBullet1'))}</li>
-      <li>${escText(t('guPresBullet2'))}</li>
-      <li>${escText(t('guPresBullet3'))}</li>
-      <li>${escText(t('guPresBullet4'))}</li>
-    </ul>
-    <button type="button" class="gu-spin-btn" id="gu-pres-cta">${escText(t('guPresCta'))}</button>
-  `;
-  document.getElementById('gu-pres-cta').onclick = () => { closeGuestUniverse(); openMemberModal(); };
+  guApplyStage(document.getElementById('gu-theme-root'));
+  // Venu du choix de parcours "Presentation" : vidéo, puis 10 questions avant le CTA final.
+  if(guState.path === 'presentation' && !guState.presQuizPool.length && guState.presQuizStep === 0 && !guState.presWatched){
+    body.innerHTML = `
+      <div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon('honeypot',16)}</div><div class="coach-bubble-text chat-bot show">${escText(t('guPresIntro'))}</div></div>
+      <div class="gu-video-frame">${guIcon('film',26)}<span>${escText(t('guVideoPlaceholder'))}</span></div>
+      <button type="button" class="gu-spin-btn" id="gu-pres-start-quiz">${escText(t('guPresQuizCta'))}</button>
+    `;
+    document.getElementById('gu-pres-start-quiz').onclick = () => {
+      guState.presWatched = true;
+      guState.presQuizPool = guBuildPresQuizPool();
+      guState.presQuizStep = 0;
+      guRenderPresQuizStep(body);
+    };
+    return;
+  }
+  if(guState.path === 'presentation' && guState.presQuizPool.length && guState.presQuizStep < guState.presQuizPool.length){
+    guRenderPresQuizStep(body); return;
+  }
+  guRenderPresFinal(body);
 }
 
 /* ---------------- lightbox ---------------- */
