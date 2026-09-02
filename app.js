@@ -110,6 +110,12 @@ const STORAGE_KEY = 'hm_catalogue_v3';
    et le code de ton choix comme mot de passe. Change-le à tout moment depuis
    Firebase sans jamais toucher au code du site. ===== */
 const AGENCY_ACCESS_EMAIL = 'princeprojet@outlook.com';
+/* ===== Email autorisé pour la porte "Accès administrateur" (verrou d'édition).
+   IMPORTANT : contrairement au gate agence ci-dessus, cet email n'était PAS
+   vérifié après connexion — n'importe quel compte Firebase valide (y compris
+   un compte membre créé librement via "Sign up") passait la porte. Corrigé :
+   on exige maintenant explicitement CET email précis. ===== */
+const ADMIN_ACCESS_EMAIL = 'jellyjolly@outlook.com';
 /* ===== Code de test LOCAL UNIQUEMENT (pour tes essais avant hébergement).
    Ne fonctionne JAMAIS une fois le site réellement hébergé (vercel.app) —
    uniquement quand le fichier est ouvert directement (content://, file://).
@@ -372,6 +378,15 @@ const I18N = {
     subscribeFictifNote: "Payments aren't live yet — this button will work soon.",
     subscribeBackBtn: "Back to profile",
     subscribeMockToast: "Subscribed! (test mode — no payment taken yet)",
+    subscribeManageTitle: "Your subscription to {name}",
+    subscribeManageBody: "You're currently subscribed. You can cancel anytime — no questions asked.",
+    subscribeKeepBtn: "Keep my subscription",
+    subscribeCancelBtn: "Cancel subscription",
+    subscribeCancelConfirmTitle: "Cancel your subscription?",
+    subscribeCancelConfirmBody: "You'll lose access to {name}'s subscriber pricing and packs. This can't be undone from here — you'd need to subscribe again.",
+    subscribeCancelConfirmYes: "Yes, cancel it",
+    subscribeCancelConfirmNo: "No, keep it",
+    subscribeCancelledToast: "Subscription cancelled.",
     subscriberBadgeTitle: "Subscriber",
     subDiscountNote: "★ Subscribers get 5% off subscriber packs",
     subPackSoldAtNote: "Sold at {discounted}€ to subscribers (5% off {price}€).",
@@ -1648,6 +1663,17 @@ document.getElementById('gate-submit').onclick = () => {
     if(typeof updateBottomNavVisibility === 'function') updateBottomNavVisibility();
     return;
   }
+  // Anti-brute-force minimal côté client (même principe que la porte admin) —
+  // Firebase Auth bloque déjà nativement après trop d'échecs sur ce compte
+  // (auth/too-many-requests), ceci ajoute juste un frein local en plus.
+  const attemptsKey = 'hm_gate_attempts';
+  const attempts = Number(sessionStorage.getItem(attemptsKey) || 0);
+  if(attempts >= 5){
+    document.getElementById('gate-err').textContent = LANG==='fr'
+      ? 'Trop de tentatives — recharge la page et réessaie plus tard.'
+      : 'Too many attempts — reload the page and try again later.';
+    return;
+  }
   if(!auth){
     document.getElementById('gate-err').textContent = LANG==='fr'
       ? 'Connexion à Firebase indisponible — recharge la page et réessaie.'
@@ -1658,6 +1684,7 @@ document.getElementById('gate-submit').onclick = () => {
   btn.disabled = true;
   auth.signInWithEmailAndPassword(AGENCY_ACCESS_EMAIL, code)
     .then(() => {
+      sessionStorage.removeItem(attemptsKey);
       document.getElementById('gate-pass').value = '';
       document.getElementById('gate').style.display = 'none';
       document.getElementById('app-shell').style.display = 'block';
@@ -1667,6 +1694,7 @@ document.getElementById('gate-submit').onclick = () => {
     })
     .catch((err) => {
       console.error('agency code login error', err);
+      sessionStorage.setItem(attemptsKey, String(attempts + 1));
       document.getElementById('gate-err').textContent = t('gateErr') + ' (' + (err.code || err.message) + ')';
     })
     .finally(() => { btn.disabled = false; });
@@ -1701,6 +1729,26 @@ document.getElementById('admin-submit').onclick = () => {
     if(action) action();
     return;
   }
+  // Anti-brute-force minimal côté client : ralentit les essais répétés. Ce
+  // n'est PAS une vraie protection serveur (contournable en vidant le
+  // sessionStorage) — juste un frein de base tant que les règles Firestore
+  // et un vrai rate-limiting côté backend ne sont pas en place.
+  const attemptsKey = 'hm_admin_attempts';
+  const attempts = Number(sessionStorage.getItem(attemptsKey) || 0);
+  if(attempts >= 5){
+    document.getElementById('admin-err').textContent = LANG==='fr'
+      ? 'Trop de tentatives — recharge la page et réessaie plus tard.'
+      : 'Too many attempts — reload the page and try again later.';
+    return;
+  }
+  // Vérification AVANT tout appel Firebase : seul l'email admin désigné est
+  // accepté. Corrige la faille où n'importe quel compte Firebase valide (ex.
+  // un compte membre créé librement) passait la porte admin.
+  if(email.toLowerCase() !== ADMIN_ACCESS_EMAIL.toLowerCase()){
+    sessionStorage.setItem(attemptsKey, String(attempts + 1));
+    document.getElementById('admin-err').textContent = t('adminErr');
+    return;
+  }
   if(!auth){
     document.getElementById('admin-err').textContent = LANG==='fr'
       ? 'Connexion à Firebase indisponible — recharge la page et réessaie.'
@@ -1709,6 +1757,17 @@ document.getElementById('admin-submit').onclick = () => {
   }
   auth.signInWithEmailAndPassword(email, pass)
     .then(() => {
+      // Double vérification après connexion (défense en profondeur) : même si
+      // l'email tapé a passé le contrôle ci-dessus, on revérifie l'email
+      // réellement authentifié par Firebase avant d'accorder l'accès admin.
+      const authedEmail = (auth.currentUser && auth.currentUser.email || '').toLowerCase();
+      if(authedEmail !== ADMIN_ACCESS_EMAIL.toLowerCase()){
+        auth.signOut().catch(()=>{});
+        sessionStorage.setItem(attemptsKey, String(attempts + 1));
+        document.getElementById('admin-err').textContent = t('adminErr');
+        return;
+      }
+      sessionStorage.removeItem(attemptsKey);
       signedInAsAdmin = true;
       document.getElementById('admin-gate').style.display = 'none';
       const action = pendingAdminAction;
@@ -1717,6 +1776,7 @@ document.getElementById('admin-submit').onclick = () => {
     })
     .catch((err) => {
       console.error('admin login error', err);
+      sessionStorage.setItem(attemptsKey, String(attempts + 1));
       document.getElementById('admin-err').textContent = t('adminErr') + ' (' + (err.code || err.message) + ')';
     });
 };
@@ -14092,8 +14152,58 @@ async function wireRoomSubscribeButton(m){
   setState(isSubscribed);
   btn.onclick = () => {
     if(!memberAuth || !memberAuth.currentUser || memberAuth.currentUser.isAnonymous){ promptSignupForMembersOnly('favorite'); return; }
-    if(isSubscribed) return;
+    if(isSubscribed){ openManageSubscriptionPage(m, () => { isSubscribed = false; setState(false); }); return; }
     openSubscribePage(m, () => { isSubscribed = true; setState(true); });
+  };
+}
+/* ---------------- Annulation d'abonnement (libre-service) ----------------
+   Exigé par Segpay/les réseaux de carte pour tout abonnement récurrent : le
+   membre doit pouvoir annuler seul, sans email. Supprime le miroir
+   profiles/{creatorId}/subscribers/{memberUid} — le même document que
+   openSubscribePage crée. Une fois Segpay branché, ce bouton devra AUSSI
+   déclencher une vraie annulation côté Segpay (via le backend) et pas
+   seulement retirer ce miroir local — TODO à ce moment-là. */
+function openManageSubscriptionPage(m, onCancelled){
+  document.querySelectorAll('.subscribe-page-backdrop').forEach(p => p.remove());
+  const backdrop = document.createElement('div');
+  backdrop.className = 'subscribe-page-backdrop';
+  backdrop.innerHTML = `
+    <div class="subscribe-page">
+      <div class="subscribe-page-hero">${ICON_TROPHY_GOLD}</div>
+      <h2 class="subscribe-page-title">${escText(t('subscribeManageTitle').replace('{name}', m.name || t('nameUndefined')))}</h2>
+      <p class="subscribe-page-desc">${escText(t('subscribeManageBody'))}</p>
+      <button type="button" class="sub-config-btn-outline" id="subscribe-keep-btn">${t('subscribeKeepBtn')}</button>
+      <button type="button" class="sub-config-btn-primary" id="subscribe-open-cancel-btn" style="background:linear-gradient(90deg,#c0394f,#8a2540);margin-top:8px;">${t('subscribeCancelBtn')}</button>
+      <button type="button" class="sub-config-btn-outline" id="subscribe-back-btn" style="margin-top:8px;">${t('subscribeBackBtn')}</button>
+    </div>
+  `;
+  document.body.appendChild(backdrop);
+  document.getElementById('subscribe-keep-btn').onclick = () => backdrop.remove();
+  document.getElementById('subscribe-back-btn').onclick = () => backdrop.remove();
+  document.getElementById('subscribe-open-cancel-btn').onclick = () => {
+    renderCancelSubscriptionConfirm(backdrop, m, onCancelled);
+  };
+}
+function renderCancelSubscriptionConfirm(backdrop, m, onCancelled){
+  backdrop.querySelector('.subscribe-page').innerHTML = `
+    <div class="subscribe-page-hero">${ICON_TROPHY_GOLD}</div>
+    <h2 class="subscribe-page-title">${escText(t('subscribeCancelConfirmTitle'))}</h2>
+    <p class="subscribe-page-desc">${escText(t('subscribeCancelConfirmBody').replace('{name}', m.name || t('nameUndefined')))}</p>
+    <button type="button" class="sub-config-btn-primary" id="subscribe-cancel-yes-btn" style="background:linear-gradient(90deg,#c0394f,#8a2540);">${t('subscribeCancelConfirmYes')}</button>
+    <button type="button" class="sub-config-btn-outline" id="subscribe-cancel-no-btn" style="margin-top:8px;">${t('subscribeCancelConfirmNo')}</button>
+  `;
+  document.getElementById('subscribe-cancel-no-btn').onclick = () => backdrop.remove();
+  document.getElementById('subscribe-cancel-yes-btn').onclick = async () => {
+    const yesBtn = document.getElementById('subscribe-cancel-yes-btn');
+    yesBtn.disabled = true;
+    try{
+      const user = memberAuth.currentUser;
+      if(!user) return;
+      await memberDb.collection('profiles').doc(m.id).collection('subscribers').doc(user.uid).delete();
+      toast(t('subscribeCancelledToast'));
+      backdrop.remove();
+      if(onCancelled) onCancelled();
+    }catch(e){ console.error('cancel subscription error', e); toast(t('memberErrUnknown')); yesBtn.disabled = false; }
   };
 }
 function openSubscribePage(m, onSubscribed){
