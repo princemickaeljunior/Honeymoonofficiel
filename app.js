@@ -7233,7 +7233,7 @@ function guestId(){
   }catch(e){ return 'gu-fallback'; }
 }
 
-let guState = { tab:'roulette', view:'loading', firstName:null, discoverySource:null, path:null, discovered:[], ratings:{}, answers:{}, retries:0, pendingId:null, quizStep:0, quizPicks:[], activeQuestions:[], loaded:false, wheelRotation:0, totalSpins:0, totalQuestionsAnswered:0, sawSurprise:false, infiniteMode:false, sessionSpins:0, mysteryUnlocked:[], mysteryPending:null, mysteryNext:null, currentMystery:null, lastUnlockAnim:null, presQuizPool:[], presQuizStep:0, presWatched:false, diceView:'dice', diceFace:1, dicePendingId:null, diceQuizStep:0, diceQuizPicks:[], diceDiscovered:[], diceSawComplete:false, wheelTried:false, diceTried:false, roundQuestionsAnswered:0 };
+let guState = { tab:'roulette', view:'loading', firstName:null, discoverySource:null, path:null, discovered:[], ratings:{}, answers:{}, retries:0, pendingId:null, quizStep:0, quizPicks:[], activeQuestions:[], loaded:false, wheelRotation:0, totalSpins:0, totalQuestionsAnswered:0, sawSurprise:false, infiniteMode:false, sessionSpins:0, mysteryUnlocked:[], mysteryPending:null, mysteryNext:null, currentMystery:null, lastUnlockAnim:null, presQuizPool:[], presQuizStep:0, presWatched:false, diceView:'dice', diceFace:1, dicePendingId:null, diceQuizStep:0, diceQuizPicks:[], diceDiscovered:[], diceSawComplete:false, wheelTried:false, diceTried:false, roundQuestionsAnswered:0, roundsPlayed:0, diceActiveQuestions:[] };
 
 async function guLoadJourney(){
   try{
@@ -7299,7 +7299,7 @@ function guApplyStage(root){
 }
 
 function openGuestUniverse(){
-  guState = { tab:'roulette', view:'loading', firstName:null, discoverySource:null, path:null, discovered:[], ratings:{}, answers:{}, retries:0, pendingId:null, quizStep:0, quizPicks:[], activeQuestions:[], loaded:false, wheelRotation:0, totalSpins:0, totalQuestionsAnswered:0, sawSurprise:false, infiniteMode:false, sessionSpins:0, mysteryUnlocked:[], mysteryPending:null, mysteryNext:null, currentMystery:null, lastUnlockAnim:null, presQuizPool:[], presQuizStep:0, presWatched:false, diceView:'dice', diceFace:1, dicePendingId:null, diceQuizStep:0, diceQuizPicks:[], diceDiscovered:[], diceSawComplete:false, wheelTried:false, diceTried:false, roundQuestionsAnswered:0 };
+  guState = { tab:'roulette', view:'loading', firstName:null, discoverySource:null, path:null, discovered:[], ratings:{}, answers:{}, retries:0, pendingId:null, quizStep:0, quizPicks:[], activeQuestions:[], loaded:false, wheelRotation:0, totalSpins:0, totalQuestionsAnswered:0, sawSurprise:false, infiniteMode:false, sessionSpins:0, mysteryUnlocked:[], mysteryPending:null, mysteryNext:null, currentMystery:null, lastUnlockAnim:null, presQuizPool:[], presQuizStep:0, presWatched:false, diceView:'dice', diceFace:1, dicePendingId:null, diceQuizStep:0, diceQuizPicks:[], diceDiscovered:[], diceSawComplete:false, wheelTried:false, diceTried:false, roundQuestionsAnswered:0, roundsPlayed:0, diceActiveQuestions:[] };
   renderGuestUniverse(document.getElementById('guestuniverse-page-body'));
   document.getElementById('guestuniverse-backdrop').classList.add('open');
   document.getElementById('guestuniverse-modal').classList.add('open');
@@ -7373,6 +7373,7 @@ function guRenderPathChoice(body){
   document.getElementById('gu-path-game').onclick = async () => {
     guState.path = 'game';
     guState.roundQuestionsAnswered = 0;
+    guState.roundsPlayed = 0;
     await guSaveJourney({ path: 'game' });
     guState.view = 'wheel';
     guRenderRoulette();
@@ -7380,6 +7381,7 @@ function guRenderPathChoice(body){
   document.getElementById('gu-path-dice').onclick = async () => {
     guState.path = 'dice';
     guState.roundQuestionsAnswered = 0;
+    guState.roundsPlayed = 0;
     await guSaveJourney({ path: 'dice' });
     guState.diceView = 'dice';
     guRenderRoulette();
@@ -7425,7 +7427,7 @@ function guProgressHtml(){
     const label = t('guProgressLabelInfinite').replace('{name}', escText(guState.firstName)).replace('{n}', guState.totalSpins);
     return `<div class="gu-progress-wrap"><div class="gu-progress-label">${label}</div><div class="gu-progress-bar"><div class="gu-progress-fill" style="width:100%;"></div></div></div>`;
   }
-  const count = guState.roundQuestionsAnswered || 0, total = 7;
+  const count = guState.roundsPlayed || 0, total = 7;
   const label = t('guProgressLabel').replace('{name}', escText(guState.firstName)).replace('{count}', count).replace('{total}', total);
   const pct = Math.round((count/total)*100);
   const lit = count >= total;
@@ -7629,7 +7631,7 @@ function guRenderDrawn(body){
       guState.view = 'mysteryquiz';
       guRenderRoulette();
     }else{
-      guState.activeQuestions = slice.questions.slice();
+      guState.activeQuestions = guSample(slice.questions, 5);
       guState.quizStep = 0; guState.quizPicks = []; guState.view = 'quiz'; guRenderRoulette();
     }
   };
@@ -7731,9 +7733,10 @@ async function guFinishExperience(themeId, rating){
   setTimeout(() => {
     let nextView;
     if(!guState.infiniteMode){
-      // Le round s'arrête à 7 questions répondues (au lieu d'exiger un nombre
-      // d'univers précis) — parties plus courtes, pour les deux jeux.
-      nextView = (guState.roundQuestionsAnswered >= 7 && !guState.sawSurprise) ? 'complete' : 'wheel';
+      // Le round s'arrête à 7 TOURS joués (spins), pas à 7 questions — un tour
+      // compte quel que soit le nombre de questions posées pendant ce tour.
+      guState.roundsPlayed = (guState.roundsPlayed || 0) + 1;
+      nextView = (guState.roundsPlayed >= 7 && !guState.sawSurprise) ? 'complete' : 'wheel';
     }else{
       // Mode jeu : ça tourne par sessions de 15 — à chaque fin de session, petit
       // pop-up Honeymoon Coach, puis la bande repart pour une nouvelle session.
@@ -7779,10 +7782,11 @@ function guRenderMysteryQuiz(body){
       guState.totalSpins++;
       guApplyStage(document.getElementById('gu-theme-root'));
       await guSaveJourney({ mysteryUnlocked: guState.mysteryUnlocked, totalQuestionsAnswered: guState.totalQuestionsAnswered, totalSpins: guState.totalSpins });
-      // Une énigme compte aussi dans les 7 questions du round : si le total est
-      // atteint ici, le round se termine au lieu de renvoyer systématiquement
-      // à la roue pour un nouveau spin.
-      const capped = !guState.infiniteMode && guState.roundQuestionsAnswered >= 7;
+      // Une énigme compte aussi comme un tour : si les 7 tours sont atteints
+      // ici, le round se termine au lieu de renvoyer systématiquement à la
+      // roue pour un nouveau spin.
+      guState.roundsPlayed = (guState.roundsPlayed || 0) + 1;
+      const capped = !guState.infiniteMode && guState.roundsPlayed >= 7;
       guRenderMysteryUnlock(body, riddle, () => {
         guState.view = capped ? 'complete' : 'wheel';
         guRenderRoulette();
@@ -8082,6 +8086,7 @@ function guRenderComplete(body){
       guStopSlideshow();
       guState.path = 'dice';
       guState.roundQuestionsAnswered = 0;
+      guState.roundsPlayed = 0;
       await guSaveJourney({ path: 'dice' });
       guState.diceView = 'dice';
       guRenderRoulette();
@@ -8092,6 +8097,7 @@ function guRenderComplete(body){
     guState.infiniteMode = true;
     guState.discovered = [];
     guState.roundQuestionsAnswered = 0;
+    guState.roundsPlayed = 0;
     guState.view = 'wheel';
     guRenderRoulette();
   };
@@ -8140,16 +8146,15 @@ function guSetCubeRotation(cube, face, extraSpins){
   cube.style.transform = `rotateX(${r.x + spinX}deg) rotateY(${r.y + spinY}deg)`;
 }
 function guDiceProgressHtml(){
-  const count = guState.roundQuestionsAnswered || 0, total = 7;
+  const count = guState.roundsPlayed || 0, total = 7;
   const label = t('guProgressLabel').replace('{name}', escText(guState.firstName)).replace('{count}', count).replace('{total}', total);
   const pct = Math.round((count / total) * 100);
   const lit = count >= total;
   return `<div class="gu-progress-wrap"><div class="gu-progress-label">${label}</div><div class="gu-progress-bar"><div class="gu-progress-fill" style="width:${pct}%;"></div><span class="gu-progress-flame${lit ? ' lit' : ''}">${guIcon('flame', 14)}</span></div></div>`;
 }
 function guRenderDiceRoulette(body){
-  // S'arrête à 7 questions répondues, ou quand les 5 facettes ont été vues —
-  // ce qui arrive en premier.
-  const capped = guState.roundQuestionsAnswered >= 7 || guState.diceDiscovered.length >= SITE_DICE_THEMES.length;
+  // S'arrête à 7 TOURS joués (lancers de dé), pas à 7 questions.
+  const capped = guState.roundsPlayed >= 7;
   if(capped && guState.diceView !== 'reveal' && guState.diceView !== 'complete'){
     guState.diceView = 'complete';
   }
@@ -8230,6 +8235,7 @@ function guRenderDiceMysteryQuiz(body){
       guState.currentMystery = null;
       guState.totalQuestionsAnswered = (guState.totalQuestionsAnswered || 0) + 1;
       guState.roundQuestionsAnswered = (guState.roundQuestionsAnswered || 0) + 1;
+      guState.roundsPlayed = (guState.roundsPlayed || 0) + 1;
       guApplyStage(document.getElementById('gu-theme-root'));
       await guSaveJourney({ mysteryUnlocked: guState.mysteryUnlocked, totalQuestionsAnswered: guState.totalQuestionsAnswered });
       guRenderMysteryUnlock(body, riddle, () => { guState.diceView = 'dice'; guRenderRoulette(); });
@@ -8252,6 +8258,7 @@ function guRenderDiceDrawn(body){
   document.getElementById('gu-dice-accept').onclick = () => {
     guState.diceQuizStep = 0;
     guState.diceQuizPicks = [];
+    guState.diceActiveQuestions = guSample(theme.questions, 5);
     guState.diceView = 'quiz';
     guRenderRoulette();
   };
@@ -8260,7 +8267,7 @@ function guRenderDiceQuizStep(body){
   const theme = SITE_DICE_THEMES.find(th => th.id === guState.dicePendingId);
   if(!theme){ guState.diceView = 'dice'; guRenderRoulette(); return; }
   const step = guState.diceQuizStep;
-  const pool = theme.questions;
+  const pool = (guState.diceActiveQuestions && guState.diceActiveQuestions.length) ? guState.diceActiveQuestions : theme.questions;
   if(step >= pool.length){ guState.diceView = 'reveal'; guRenderRoulette(); return; }
   const qa = pool[step];
   body.innerHTML = `
@@ -8309,7 +8316,8 @@ function guRenderDiceReveal(body){
       guState.diceDiscovered.push(theme.id);
       await guSaveJourney({ diceDiscovered: guState.diceDiscovered });
     }
-    const capped = guState.roundQuestionsAnswered >= 7 || guState.diceDiscovered.length >= SITE_DICE_THEMES.length;
+    guState.roundsPlayed = (guState.roundsPlayed || 0) + 1;
+    const capped = guState.roundsPlayed >= 7;
     guState.diceView = capped ? 'complete' : 'dice';
     guRenderRoulette();
   };
@@ -8345,6 +8353,7 @@ function guRenderDiceComplete(body){
     document.getElementById('gu-dice-complete-try-other').onclick = async () => {
       guState.path = 'game';
       guState.roundQuestionsAnswered = 0;
+      guState.roundsPlayed = 0;
       await guSaveJourney({ path: 'game' });
       guState.view = 'wheel';
       guRenderRoulette();
