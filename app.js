@@ -353,6 +353,7 @@ const I18N = {
     guPresQuizCta: "Continue",
     guMysteryUnlockedTitle: "Congratulations — mystery solved!",
     guMysteryMissTitle: "Not quite — here's the real read:",
+    guMysteryMissEncourage: "You can do better, but Honeymoon Coach will be here to help you understand this topic — let's keep going, champion 🏆",
     guMysteryUnderstandMsg: "You understand the Honeymoon universe a little better now.",
     guCoachBridgeTag: "Coach Honeymoon knows this one",
     guSessionPopupTitle: "Before you spin again...",
@@ -3887,9 +3888,9 @@ if(!document.getElementById('hm-shopbot-gold-style')){
     .shopbot-breadcrumb b{color:var(--honey);}
     .shopbot-theme .coach-table{border-radius:16px;border-color:color-mix(in srgb, var(--honey) 30%, var(--border));background:linear-gradient(180deg,color-mix(in srgb, var(--honey) 5%, var(--bg-elev)),var(--bg-elev));box-shadow:0 10px 26px -18px color-mix(in srgb, var(--cacao) 55%, transparent);}
     .shopbot-theme .coach-table-cat{background:color-mix(in srgb, var(--honey) 8%, var(--bg));}
-    .shopbot-theme .coach-table-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 16px;font-weight:600;letter-spacing:.1px;background:linear-gradient(90deg,color-mix(in srgb, var(--honey) 16%, transparent),color-mix(in srgb, var(--cacao) 16%, transparent));box-shadow:inset 0 0 10px -6px color-mix(in srgb, var(--honey) 55%, transparent);}
+    .shopbot-theme .coach-table-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 16px;font-weight:600;letter-spacing:.1px;background:transparent;}
     .shopbot-theme .coach-table-row::after{content:'';width:7px;height:7px;flex-shrink:0;border-right:2px solid var(--cacao);border-bottom:2px solid var(--cacao);transform:rotate(-45deg);opacity:.7;transition:.15s;}
-    .shopbot-theme .coach-table-row:hover{background:linear-gradient(90deg,color-mix(in srgb, var(--honey) 32%, transparent),color-mix(in srgb, var(--cacao) 32%, transparent));box-shadow:0 0 14px -2px color-mix(in srgb, var(--honey) 55%, transparent),inset 0 0 10px -4px color-mix(in srgb, var(--honey) 55%, transparent);padding-left:19px;}
+    .shopbot-theme .coach-table-row:hover{background:color-mix(in srgb, var(--honey) 10%, transparent);padding-left:19px;}
     .shopbot-theme .coach-table-row:hover::after{opacity:1;border-color:var(--honey);}
     .shopbot-theme .coach-table-row:last-child{border-bottom:none;}
 
@@ -4032,13 +4033,13 @@ if(!document.getElementById('hm-shopbot-gold-style')){
     @keyframes guPulseWarm{0%,100%{box-shadow:0 0 34px -14px color-mix(in srgb, var(--gu-c2) 55%, transparent);}50%{box-shadow:0 0 58px -6px color-mix(in srgb, var(--gu-c4) 80%, transparent);}}
 
     /* ---- Choix de parcours (jeu complet / présentation) ---- */
-    .gu-path-card{display:block;width:100%;text-align:left;background:linear-gradient(120deg,var(--guest-orange),var(--rose));border:1px solid transparent;border-radius:16px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:.18s;}
-    .gu-path-card:hover{transform:translateY(-2px);box-shadow:0 10px 24px -14px color-mix(in srgb, var(--guest-orange) 60%, transparent);}
+    .gu-path-card{display:block;width:100%;text-align:left;background:linear-gradient(120deg,var(--cacao-deep),var(--cacao));border:1px solid transparent;border-radius:16px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:.18s;}
+    .gu-path-card:hover{transform:translateY(-2px);box-shadow:0 10px 24px -14px color-mix(in srgb, var(--cacao) 60%, transparent);}
     .gu-path-card-icon{color:#fff;margin-bottom:6px;}
     .gu-path-card-title{font-weight:700;font-size:13.5px;color:#fff;}
     .gu-path-card-desc{font-size:11.5px;color:rgba(255,255,255,.85);margin-top:3px;line-height:1.5;}
-    .gu-gradient-btn{background:linear-gradient(120deg,var(--guest-orange),var(--rose)) !important;border-color:transparent !important;color:#fff !important;}
-    .gu-gradient-btn:hover{transform:translateY(-2px);box-shadow:0 10px 22px -14px color-mix(in srgb, var(--guest-orange) 60%, transparent);}
+    .gu-gradient-btn{background:linear-gradient(120deg,var(--cacao-deep),var(--cacao)) !important;border-color:transparent !important;color:#fff !important;}
+    .gu-gradient-btn:hover{transform:translateY(-2px);box-shadow:0 10px 22px -14px color-mix(in srgb, var(--cacao) 60%, transparent);}
     .gu-video-frame{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;height:150px;border-radius:14px;border:1px dashed color-mix(in srgb, var(--guest-orange) 45%, var(--border));color:var(--text-muted);font-size:11.5px;font-weight:600;margin:10px 0;background:linear-gradient(160deg,color-mix(in srgb, var(--guest-orange) 6%, var(--bg-elev)),var(--bg-elev));}
 
     /* ---- Pause mystère : glow énigmatique + ouverture-cadeau au déblocage ---- */
@@ -7152,135 +7153,135 @@ const SITE_DICE_THEMES = [
 const COACH_TEASE_BANK = [
   { id:'t_bridge', icon:'gem', category:'signals', correct:0,
     riddle:"A creator hasn't replied in two days. What's the most likely reason?",
-    opts:['She\'s just busy','She\'s waiting for you to text again','She\'s not that interested'],
+    opts:['She\'s just busy','She\'s waiting for you to text again','She\'s not that interested','Overanalyze it for hours'],
     unlock:"Reading signals right isn't about guessing — Coach Honeymoon can help you tell the difference." },
   { id:'t_cyrano', icon:'moonstar', category:'confidence', correct:1,
     riddle:"You've written and deleted the same message three times. What's really going on?",
-    opts:['You\'re scared she won\'t like it','You\'re overthinking it','You just want it to sound right'],
+    opts:['You\'re scared she won\'t like it','You\'re overthinking it','You just want it to sound right','Wait for the fear to disappear first'],
     unlock:"That hesitation is more common than it feels. Coach Honeymoon can help you build real confidence, not borrowed words." },
   { id:'t_venice', icon:'compass', category:'firstdate', correct:2,
     riddle:"A first date is going well but feels a bit stiff. What usually fixes that?",
-    opts:['Relaxing and being yourself','A funny story','Just more time'],
+    opts:['Relaxing and being yourself','A funny story','Just more time','Rehearse a script beforehand'],
     unlock:"A good first date isn't luck — Coach Honeymoon has real tips to make it feel natural." },
   { id:'t_redthread', icon:'heart', category:'spark', correct:0,
     riddle:"What actually creates a spark between two people?",
-    opts:['Good timing','Real attention','Something you can\'t quite explain'],
+    opts:['Good timing','Real attention','Something you can\'t quite explain','Force it to happen'],
     unlock:"Chemistry isn't as random as it feels. Coach Honeymoon breaks down what actually creates a spark — and how to keep it alive." },
   { id:'t_phoenix', icon:'flame', category:'moveon', correct:1,
     riddle:"After a breakup, what actually helps you move forward?",
-    opts:['Time','Talking it through','Staying busy'],
+    opts:['Time','Talking it through','Staying busy','Pretend it didn\'t happen'],
     unlock:"There's no shortcut, but there's a right way through it. Coach Honeymoon has real guidance for moving on." },
   { id:'t_glance', icon:'chat', category:'communicate', correct:2,
     riddle:"You and a creator keep messaging without really saying much. What's missing?",
-    opts:['A real question','More time','Nothing, it\'s fine'],
+    opts:['A real question','More time','Nothing, it\'s fine','Say nothing and hope they notice'],
     unlock:"Words are only half the conversation. Coach Honeymoon can help you say what you actually mean." },
   { id:'t_bottle', icon:'ribbon', category:'engaging', correct:0,
     riddle:"What makes a first message actually get a reply?",
-    opts:['Being specific','Being funny','Being short'],
+    opts:['Being specific','Being funny','Being short','Send ten follow-up messages'],
     unlock:"A message worth writing gets read. Coach Honeymoon can help you write the kind that actually lands." },
   { id:'t_wrapped', icon:'gift', category:'attraction', correct:1,
     riddle:"What usually makes someone more interesting, not less?",
-    opts:['Sharing everything right away','Holding a little back','Being available all the time'],
+    opts:['Sharing everything right away','Holding a little back','Being available all the time','Try to impress with everything at once'],
     unlock:"Attraction works on a simple rule — a little held back goes further. Coach Honeymoon can help you find that balance." },
   { id:'t_lighthouse', icon:'globe', category:'about', correct:2,
     riddle:"A creator hasn't posted in a while. What's most likely true?",
-    opts:['She\'s just living her life','Something\'s wrong','She\'s testing you'],
+    opts:['She\'s just living her life','Something\'s wrong','She\'s testing you','Assume the worst'],
     unlock:"Coach Honeymoon can help you understand how a creator's world actually works." },
   { id:'t_rose', icon:'ribbon', category:'budget', correct:0,
     riddle:"What actually makes a gift feel meaningful?",
-    opts:['The price','The timing','The thought behind it'],
+    opts:['The price','The timing','The thought behind it','Spend more than you\'re comfortable with'],
     unlock:"Value was never about the price tag. Coach Honeymoon can help you figure out what's actually worth spending on." },
   { id:'t_key', icon:'lock', category:'platform', correct:1,
     riddle:"What would make you trust a new site like this faster?",
-    opts:['Clear rules','Real people using it','Just time'],
+    opts:['Clear rules','Real people using it','Just time','Overthink every click'],
     unlock:"Nothing here needs to stay a mystery — Coach Honeymoon can walk you through exactly how it all works." },
   { id:'t_lovelock', icon:'lock', category:'signals', correct:2,
     riddle:"Before she even says it, how can you tell a creator likes talking to you?",
-    opts:['She replies fast','She asks questions back','She remembers what you said'],
+    opts:['She replies fast','She asks questions back','She remembers what you said','Overanalyze it for hours'],
     unlock:"The real signs are usually quieter than people expect. Coach Honeymoon helps you actually read them." },
   { id:'t_masquerade', icon:'moonstar', category:'signals', correct:0,
     riddle:"What tells you more about someone than their photos do?",
-    opts:['How they write','How they listen','How they answer questions'],
+    opts:['How they write','How they listen','How they answer questions','Overanalyze it for hours'],
     unlock:"Reading it right takes more than instinct. Coach Honeymoon can help with that part." },
   { id:'t_windowlight', icon:'moon', category:'confidence', correct:1,
     riddle:"What finally gets someone to hit send on a message they've been avoiding?",
-    opts:['Running out of excuses','A version that feels honest','Deciding silence is worse'],
+    opts:['Running out of excuses','A version that feels honest','Deciding silence is worse','Wait for the fear to disappear first'],
     unlock:"That hesitation is common. Coach Honeymoon can help close the gap between thinking about it and actually sending." },
   { id:'t_tightrope', icon:'compass', category:'confidence', correct:2,
     riddle:"What actually builds confidence with someone new?",
-    opts:['Feeling ready first','Doing it anyway','Waiting for the perfect moment'],
+    opts:['Feeling ready first','Doing it anyway','Waiting for the perfect moment','Wait for the fear to disappear first'],
     unlock:"Confidence rarely comes from feeling ready — it comes from doing it anyway. Coach Honeymoon can help you build that." },
   { id:'t_lakehouse', icon:'globe', category:'firstdate', correct:0,
     riddle:"What makes two people feel close, even far apart?",
-    opts:['Honest messages','Talking every day','Long calls'],
+    opts:['Honest messages','Talking every day','Long calls','Rehearse a script beforehand'],
     unlock:"Real connection doesn't need the perfect setting — just honest attention. Coach Honeymoon has real answers here too." },
   { id:'t_dancehall', icon:'star', category:'firstdate', correct:1,
     riddle:"What actually makes a date feel easy, not awkward?",
-    opts:['Not trying too hard','A good location','Having a plan'],
+    opts:['Not trying too hard','A good location','Having a plan','Rehearse a script beforehand'],
     unlock:"That kind of ease doesn't happen by accident — it can be built. Coach Honeymoon can show you how." },
   { id:'t_secondact', icon:'flame', category:'spark', correct:2,
     riddle:"What usually keeps a connection interesting over time?",
-    opts:['Small effort, often','Big surprises sometimes','Just staying consistent'],
+    opts:['Small effort, often','Big surprises sometimes','Just staying consistent','Force it to happen'],
     unlock:"The spark rarely dies loudly — it fades if no one tends to it. Coach Honeymoon has real ways to keep it lit." },
   { id:'t_orchard', icon:'ribbon', category:'spark', correct:0,
     riddle:"Is chemistry something that just happens, or something you build?",
-    opts:['It just happens','You build it','A bit of both'],
+    opts:['It just happens','You build it','A bit of both','Force it to happen'],
     unlock:"Spark isn't just luck — it's also what you do the rest of the time. Coach Honeymoon can help with both sides of that." },
   { id:'t_ashes', icon:'flame', category:'moveon', correct:1,
     riddle:"After something ends, what's usually still worth keeping?",
-    opts:['What you learned','A few good memories','Nothing, it\'s better to let go'],
+    opts:['What you learned','A few good memories','Nothing, it\'s better to let go','Pretend it didn\'t happen'],
     unlock:"What's left is usually more useful than it feels. Coach Honeymoon has real guidance for that in-between stretch." },
   { id:'t_oldletter', icon:'ribbon', category:'moveon', correct:2,
     riddle:"What actually helps you close the door on someone, for real?",
-    opts:['Saying it out loud, even to yourself','Time','Cutting contact completely'],
+    opts:['Saying it out loud, even to yourself','Time','Cutting contact completely','Pretend it didn\'t happen'],
     unlock:"Closure doesn't always come from someone else. Coach Honeymoon can help with that part." },
   { id:'t_echo', icon:'headphones', category:'communicate', correct:0,
     riddle:"What's the difference between being heard and just being loud?",
-    opts:['Being specific','Being calm','Being patient'],
+    opts:['Being specific','Being calm','Being patient','Say nothing and hope they notice'],
     unlock:"Being heard is different from being loud. Coach Honeymoon can help you say things in a way that actually lands." },
   { id:'t_lighthouse2', icon:'bell', category:'communicate', correct:1,
     riddle:"Sometimes a short 'still here' message means more than a long one. Why?",
-    opts:['It shows up without asking for anything','It\'s honest','It\'s simple'],
+    opts:['It shows up without asking for anything','It\'s honest','It\'s simple','Say nothing and hope they notice'],
     unlock:"Sometimes communication isn't about fixing anything — just showing up. Coach Honeymoon can help you find the right way to do that too." },
   { id:'t_postcard', icon:'camera', category:'engaging', correct:2,
     riddle:"Why does a short, specific message often work better than a long one?",
-    opts:['It\'s easier to reply to','It shows real effort','It feels more personal'],
+    opts:['It\'s easier to reply to','It shows real effort','It feels more personal','Send ten follow-up messages'],
     unlock:"A few honest, specific lines beat a long generic message. Coach Honeymoon can help you write the version that actually gets read." },
   { id:'t_paperplane', icon:'rocket', category:'engaging', correct:0,
     riddle:"What matters more when reaching out — timing, or the message itself?",
-    opts:['Timing','The message','Both, about equally'],
+    opts:['Timing','The message','Both, about equally','Send ten follow-up messages'],
     unlock:"Timing and a little care go further than people think. Coach Honeymoon can help you get both right." },
   { id:'t_perfume', icon:'sparkle', category:'attraction', correct:1,
     riddle:"What usually leaves a lasting impression on someone?",
-    opts:['A specific detail, not a whole show','Confidence','Being memorable on purpose'],
+    opts:['A specific detail, not a whole show','Confidence','Being memorable on purpose','Try to impress with everything at once'],
     unlock:"Attraction is built from small, specific things that stick. Coach Honeymoon can help you figure out what actually leaves a mark." },
   { id:'t_silhouette', icon:'moon', category:'attraction', correct:2,
     riddle:"What draws someone in first, before they know any details about you?",
-    opts:['How you carry yourself','How you talk to them','Just a feeling'],
+    opts:['How you carry yourself','How you talk to them','Just a feeling','Try to impress with everything at once'],
     unlock:"What draws someone in first is rarely the details — it's presence. Coach Honeymoon can help you understand what that means." },
   { id:'t_backstage', icon:'eye', category:'about', correct:0,
     riddle:"What don't most visitors realize about a creator's daily life?",
-    opts:['It\'s a lot of work','It\'s not always glamorous','She\'s still just a person'],
+    opts:['It\'s a lot of work','It\'s not always glamorous','She\'s still just a person','Assume the worst'],
     unlock:"There's always more behind the version people see. Coach Honeymoon can help you understand that world a little better." },
   { id:'t_tideline', icon:'globe', category:'about', correct:1,
     riddle:"A creator replies less some days than others. What's the best way to react?",
-    opts:['Not take it personally','Ask if everything\'s okay','Wait it out'],
+    opts:['Not take it personally','Ask if everything\'s okay','Wait it out','Assume the worst'],
     unlock:"Understanding someone's rhythm, without taking it personally, changes everything. Coach Honeymoon can help with exactly that." },
   { id:'t_goldcoin', icon:'crown', category:'budget', correct:2,
     riddle:"Is spending on a good moment ever really 'wasted'?",
-    opts:['No, if it felt worth it','Sometimes','Depends on the amount'],
+    opts:['No, if it felt worth it','Sometimes','Depends on the amount','Spend more than you\'re comfortable with'],
     unlock:"Some spending is about the moment, not the math. Coach Honeymoon can help you tell which is which." },
   { id:'t_finalgift', icon:'gift', category:'budget', correct:0,
     riddle:"What usually makes a gift memorable — the price, or the thought?",
-    opts:['The thought','The price','Both, but thought matters more'],
+    opts:['The thought','The price','Both, but thought matters more','Spend more than you\'re comfortable with'],
     unlock:"What lasts is rarely the most expensive thing. Coach Honeymoon can help you figure out what's actually worth it." },
   { id:'t_backdoor', icon:'compass', category:'platform', correct:1,
     riddle:"What actually makes a new platform feel easy to use?",
-    opts:['Clear, simple steps','A short tutorial','Just trying it'],
+    opts:['Clear, simple steps','A short tutorial','Just trying it','Overthink every click'],
     unlock:"Nothing here needs to be complicated. Coach Honeymoon can walk you through exactly how it all works, plainly." },
   { id:'t_map', icon:'globe', category:'platform', correct:2,
     riddle:"What's usually the fastest way to actually understand how a site works?",
-    opts:['Just asking someone','Trying it yourself','Reading a quick guide'],
+    opts:['Just asking someone','Trying it yourself','Reading a quick guide','Overthink every click'],
     unlock:"Coach Honeymoon can fill in the rest of the map for you — just ask." }
 ];
 /* Pioche N énigmes non encore vues (fallback : au hasard si tout est vu). */
@@ -7927,15 +7928,19 @@ function guRenderMysteryUnlock(body, riddle, onContinue, wasCorrect){
   const anim = pickPool[Math.floor(Math.random() * pickPool.length)];
   guState.lastUnlockAnim = anim.cls;
   // wasCorrect === false -> le visiteur n'est pas tombé sur la réponse que
-  // Coach Honeymoon avait en tête : titre différent, même insight ensuite
+  // Coach Honeymoon avait en tête : titre différent, icône emoji triste, et un
+  // message d'encouragement à la place du tip habituel — même insight ensuite
   // (le jeu reste bienveillant, pas de pénalité, juste moins prévisible).
-  const titleKey = (wasCorrect === false) ? 'guMysteryMissTitle' : 'guMysteryUnlockedTitle';
+  const isMiss = wasCorrect === false;
+  const titleKey = isMiss ? 'guMysteryMissTitle' : 'guMysteryUnlockedTitle';
+  const iconHtml = isMiss ? '<span style="font-size:40px;line-height:1;">😥</span>' : guIcon(anim.icon, 40);
+  const tipHtml = isMiss ? escText(t('guMysteryMissEncourage')) : `${guIcon('sparkle',14)} ${escText(t('guMysteryUnderstandMsg'))}`;
   body.innerHTML = `
-    <div class="gu-experience gu-mystery-burst ${anim.cls}">
-      <div class="gu-experience-icon">${guIcon(anim.icon, 40)}</div>
+    <div class="gu-experience gu-mystery-burst ${isMiss ? '' : anim.cls}">
+      <div class="gu-experience-icon">${iconHtml}</div>
       <div class="gu-experience-title">${escText(t(titleKey))}</div>
       <div class="gu-experience-text">${escText(riddle.unlock)}</div>
-      <div class="gu-experience-tip">${guIcon('sparkle',14)} ${escText(t('guMysteryUnderstandMsg'))}</div>
+      <div class="gu-experience-tip">${tipHtml}</div>
     </div>
     <button type="button" class="gu-spin-btn" id="gu-mystery-continue">${escText(t('guExperienceContinue'))}</button>
   `;
