@@ -341,7 +341,7 @@ const I18N = {
     guAlreadySeenVideo: "Already watched the presentation video?",
     guAskPath: "One last thing before we start, {name} — how do you want to explore?",
     guPathGameTitle: "Play the full game",
-    guPathGameDesc: "15 mysteries to uncover, straight from the world of Honeymoon's creators. The wheel, the questions — different every time you play.",
+    guPathGameDesc: "10 mysteries to uncover, straight from the world of Honeymoon's creators. The wheel, the questions — different every time you play.",
     guPathPresTitle: "Roll the dice",
     guPathPresDesc: "6 sides, one quick round — a peek behind how Honeymoon actually works.",
     guDiceRoll: "Roll the dice",
@@ -3914,7 +3914,7 @@ if(!document.getElementById('hm-shopbot-gold-style')){
     /* ---- Palette d'ambiance à 5 teintes (remplace le dégradé chaud seul) : la case 0
        est orange, puis la teinte glisse vers rouge, bleu, violet, jaune au fil de la
        progression (guStage() 0→4). Définie ici pour rester isolée au jeu Invité. ---- */
-    .guestuniverse-theme{--gu-c0:#ff8a3d;--gu-c1:#ff4040;--gu-c2:#3d7dff;--gu-c3:#9a3dff;--gu-c4:#ffd23d;}
+    .guestuniverse-theme{--gu-c0:#ffb35c;--gu-c1:#ff8a3d;--gu-c2:#ff5a3d;--gu-c3:#e63946;--gu-c4:#ffd23d;}
     .gu-progress-wrap{margin:2px 0 14px;}
     .gu-progress-label{font-size:10.5px;color:var(--text-muted);margin-bottom:5px;}
     .gu-progress-bar{height:7px;border-radius:999px;background:var(--bg);border:1px solid var(--border);overflow:visible;display:flex;align-items:center;gap:6px;}
@@ -4002,10 +4002,12 @@ if(!document.getElementById('hm-shopbot-gold-style')){
     .gu-rating-btn{width:42px;height:42px;border-radius:50%;border:1px solid var(--border);background:var(--bg);color:var(--text-muted);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s;}
     .gu-rating-btn:hover{border-color:var(--guest-orange);color:var(--guest-orange);transform:translateY(-2px);}
     .gu-complete-card{text-align:center;padding:20px 14px;}
-    /* ---- Stades chromatiques progressifs, intensité renforcée : plus la progression
-       avance, plus le fond s'assombrit et se réchauffe franchement (blanc/orange ->
-       rose vif -> cacao brûlé -> wine profond, avec glow pulsé de plus en plus fort),
-       comme une plongée réelle vers l'ambiance de l'espace membre. ---- */
+    /* ---- Stades chromatiques progressifs, intensité renforcée : dès le départ (stade
+       0) une légère chaleur est déjà présente, puis plus la progression avance, plus
+       le fond s'assombrit et se réchauffe franchement — orange doux -> orange -> rouge
+       corail -> rouge profond -> or, TOUJOURS dans les tons chauds (jamais de bleu/violet
+       au passage), avec un glow pulsé de plus en plus fort. ---- */
+    .guestuniverse-theme.gu-stage-0 .coach-frame{background:linear-gradient(160deg,color-mix(in srgb, var(--gu-c0) 8%, var(--bg-elev)),var(--bg-elev));border-color:color-mix(in srgb, var(--gu-c0) 16%, var(--border));}
     .guestuniverse-theme.gu-stage-1 .coach-frame{background:linear-gradient(160deg,color-mix(in srgb, var(--gu-c1) 16%, var(--bg-elev)),var(--bg-elev));box-shadow:0 0 20px -14px color-mix(in srgb, var(--gu-c1) 45%, transparent);border-color:color-mix(in srgb, var(--gu-c1) 28%, var(--border));}
     .guestuniverse-theme.gu-stage-2 .coach-frame{background:linear-gradient(160deg,color-mix(in srgb, var(--gu-c1) 20%, var(--bg-elev)),color-mix(in srgb, var(--gu-c2) 18%, var(--bg-elev)));box-shadow:0 0 36px -12px color-mix(in srgb, var(--gu-c2) 55%, transparent);border-color:color-mix(in srgb, var(--gu-c2) 40%, var(--border));animation:guPulseWarm 3.6s ease-in-out infinite;}
     .guestuniverse-theme.gu-stage-3 .coach-frame{background:linear-gradient(160deg,color-mix(in srgb, var(--gu-c2) 28%, var(--bg-elev)),color-mix(in srgb, var(--gu-c3) 30%, var(--bg-elev)));box-shadow:0 0 44px -10px color-mix(in srgb, var(--gu-c3) 65%, transparent);border-color:color-mix(in srgb, var(--gu-c3) 50%, var(--border));animation:guPulseWarm 2.6s ease-in-out infinite;}
@@ -6818,158 +6820,110 @@ const GU_DISCOVERY_OPTIONS = ['A friend told me about it', 'Social media', 'Just
    pendant le jeu). Chaque thème = 5 mini-questions à 3 choix, façon test de
    personnalité — dans le même esprit que le Coach Honeymoon. Configurable :
    ajouter/retirer/modifier une entrée suffit. */
-/* 15 thèmes (7 "type" côté créatrice + 8 "need" côté visiteur) — chaque énigme
+/* 10 thèmes (5 "type" côté créatrice + 5 "need" côté visiteur) — chaque énigme
    met en scène soit une créatrice de la plateforme, soit le visiteur lui-même,
    toujours dans l'esprit du Coach Honeymoon (jamais nommé comme un produit
-   pendant le jeu, juste préparé). 5 mini-questions à 3 choix par thème. */
+   pendant le jeu, juste préparé). 5 mini-questions à 3 choix par thème,
+   écrites dans un registre volontairement émotionnel (le ressenti avant le
+   fait), pas des questions froides/techniques. */
 const GUEST_THEMES = [
   { id:'elegant', track:'type', icon:'gem', title:'Elegant & refined',
     short:'Elegant',    questions:[
-      { q:'A creator walks into the room — what do you notice first?', opts:['Her smile','Her style','Her poise'] },
-      { q:'Her voice, on a first message, should sound...', opts:['Soft','Playful','Confident'] },
-      { q:'What would make you open her profile twice?', opts:['Her look','Her personality','The mystery around her'] },
-      { q:'What keeps you coming back to a creator\'s page?', opts:['Consistency','Her personality','Her presence'] },
-      { q:'A compliment she\'d actually enjoy reading?', opts:['On her taste','On her presence','Something unexpected'] }
+      { q:'She walks in and the whole room shifts — what gets you first?', opts:['That smile','The way she carries herself','Something you can\'t quite name'] },
+      { q:'Her first message lands — what tone makes your heart skip?', opts:['Soft and warm','Playful and light','Quietly confident'] },
+      { q:'What would make you stop scrolling and stare at her profile?', opts:['Her look','Who she really is underneath','The mystery she leaves open'] },
+      { q:'What keeps pulling you back to her page, again and again?', opts:['That steady presence','Her personality','A feeling you can\'t shake'] },
+      { q:'A compliment that would genuinely make her day?', opts:['On her taste','On her presence','Something no one else notices'] }
     ],
     reveal:'Refined and self-assured, noted — that\'s exactly the kind of creator energy the roster is built around. Coach Honeymoon can help you find her faster, once you\'re in.',
     tip:'Tip: confidence reads faster than polish — a calm, direct opener beats an over-formal one every time.' },
   { id:'playful', track:'type', icon:'sparkle', title:'Playful & fun',
     short:'Playful',    questions:[
-      { q:'A creator\'s sense of humor should be...', opts:['Sharp and witty','Goofy and warm','Dry and sarcastic'] },
-      { q:'Ideal vibe when you\'re chatting with her?', opts:['Nonstop banter','Easy small talk','Flirty back-and-forth'] },
-      { q:'What makes you actually smile at your screen?', opts:['A good joke','Being teased','Random spontaneity'] },
-      { q:'Text or voice message from her?', opts:['Text, always','Voice, for the tone','Whatever fits the moment'] },
-      { q:'Best way for a fun exchange to end?', opts:['On a joke','On a cliffhanger','Just naturally'] }
+      { q:'What makes your chest actually loosen up when you\'re talking to her?', opts:['A sharp, witty line','Warm, goofy energy','A little teasing back and forth'] },
+      { q:'You catch yourself smiling at your phone — what just happened?', opts:['A good joke landed','She teased you first','Something totally random and sweet'] },
+      { q:'What makes talking to her feel effortless, like no one\'s watching?', opts:['Nonstop banter','Easy, unforced small talk','Flirty back-and-forth'] },
+      { q:'Her voice message pops up — what do you feel before you even press play?', opts:['Curiosity','A little flutter','Pure excitement'] },
+      { q:'A conversation with her ends and you\'re left feeling...', opts:['Lighter','Wanting more','Grinning like an idiot'] }
     ],
     reveal:'Playful it is. That kind of energy is hard to fake — Coach Honeymoon can help you spot it in a creator\'s profile before you even say hello.',
     tip:'Tip: humor lands best when it\'s specific — react to something she actually said, not a generic joke.' },
   { id:'confident', track:'type', icon:'crown', title:'Bold & confident',
     short:'Confident',    questions:[
-      { q:'In chat, you like when a creator is...', opts:['Direct','Teasing','In control'] },
-      { q:'What wins you over first, on her profile?', opts:['She makes the first move','She holds her frame','She says what she means'] },
-      { q:'What draws you in most about her?', opts:['Her presence','Her words','Her certainty'] },
-      { q:'She disagrees with you in chat — then what?', opts:['I like the challenge','I\'d want to hear her out','Depends on the topic'] },
-      { q:'What tips the scale in her favor?', opts:['She owns the room','She owns her opinions','She owns the moment'] }
+      { q:'She says exactly what she means, no hedging — what does that stir in you?', opts:['Respect','Attraction','A little intimidation, honestly'] },
+      { q:'What wins you over the instant you see her profile?', opts:['She makes the first move','She owns the room','She says what she means'] },
+      { q:'She pushes back on something you said — how does that actually feel?', opts:['Exciting, I like the challenge','I want to hear her out','It stings a little, but I respect it'] },
+      { q:'What draws you in when she\'s fully, unapologetically herself?', opts:['Her presence','Her certainty','The fact she doesn\'t need you to agree'] },
+      { q:'What tips you completely over the edge?', opts:['She owns the room','She owns her opinions','She owns the moment, every time'] }
     ],
     reveal:'Confidence over comfort, got it. That kind of presence is hard to teach — Coach Honeymoon can help you match with creators who actually have it.',
     tip:'Tip: bold doesn\'t mean loud — one clear, direct sentence beats three uncertain ones.' },
   { id:'sweet', track:'type', icon:'heart', title:'Sweet & gentle',
     short:'Sweet',    questions:[
-      { q:'Her tone, replying to you, should feel...', opts:['Warm','Caring','Reassuring'] },
-      { q:'What matters most in a creator\'s energy?', opts:['Kindness','Patience','Genuine interest'] },
-      { q:'What would you remember most about her?', opts:['How she made you feel','What she said','How she listened'] },
-      { q:'A small gesture from her that would matter?', opts:['Checking in first','Remembering a detail','Just being present'] },
-      { q:'What tone wins you over fastest?', opts:['Gentle honesty','Quiet reassurance','Genuine warmth'] }
+      { q:'She replies and something in you just... relaxes. What did she say?', opts:['Something warm','Something caring','Something that made you feel safe'] },
+      { q:'What would genuinely melt you, coming from her?', opts:['Real kindness','Quiet patience','That she actually meant it'] },
+      { q:'Months from now, what would you still remember about her?', opts:['How she made you feel','What she said','The way she really listened'] },
+      { q:'A small gesture from her that would catch you off guard, in a good way?', opts:['She checked in first','She remembered a tiny detail','She was just... there'] },
+      { q:'What tone from her would disarm you completely?', opts:['Gentle honesty','Quiet reassurance','Warmth with no strings attached'] }
     ],
     reveal:'Gentle and genuine — that\'s a real thread through a lot of what visitors ask for. Coach Honeymoon can help you find creators who lead with exactly that.',
     tip:'Tip: warmth is contagious — ask one genuine question and actually wait for the answer.' },
   { id:'mysterious', track:'type', icon:'moonstar', title:'Mysterious & intense',
     short:'Mysterious',    questions:[
-      { q:'With a creator, do you like being fully in the know, or not?', opts:['Fully in the know','A little mystery','Mostly mystery'] },
-      { q:'Her energy, from her photos and bio, should feel...', opts:['Calm on the surface','Intense underneath','Hard to read'] },
-      { q:'What keeps you scrolling her profile?', opts:['What she doesn\'t say','What she reveals slowly','Both'] },
-      { q:'What draws you in most about her?', opts:['Her depth','Her restraint','Her intensity'] },
-      { q:'Silence between her messages feels...', opts:['Comfortable','Intriguing','A little tense'] }
+      { q:'She stays a little out of reach — does that pull you in, or push you away?', opts:['Pulls me in, hard','A little of both','Honestly, pushes me away'] },
+      { q:'Her energy feels deep and unreadable — what does that stir in you?', opts:['Fascination','A quiet ache to understand her','A little unease'] },
+      { q:'What keeps you up wondering about her, long after the chat ends?', opts:['What she\'s not saying','What she\'d reveal if she trusted me','Both, honestly'] },
+      { q:'A silence between her messages — how does it actually feel?', opts:['Comfortable','Charged, almost electric','A little tense'] },
+      { q:'What draws you in when there\'s clearly more beneath the surface?', opts:['Her depth','Her restraint','The intensity she\'s holding back'] }
     ],
     reveal:'Depth over small talk, clearly. That kind of intensity is rare on a creator\'s page — Coach Honeymoon can help you recognize it, and know what to do with it.',
     tip:'Tip: patience wins here — let a conversation breathe instead of filling every silence.' },
-  { id:'glam', track:'type', icon:'star', title:'Glamorous & luxe',
-    short:'Glamorous',    questions:[
-      { q:'What catches your eye first on her profile?', opts:['Her look','Her lifestyle','Her confidence'] },
-      { q:'Her presence in chat should feel...', opts:['Polished','Effortless','Larger than life'] },
-      { q:'What draws you in most, really?', opts:['The image','What\'s behind it','Both'] },
-      { q:'What matters behind the image, for you?', opts:['Ambition','Kindness','Self-awareness'] },
-      { q:'What would surprise you about her, in a good way?', opts:['If she\'s down to earth','If she\'s funnier than expected','If she notices you back'] }
-    ],
-    reveal:'Polish with substance behind it — noted. Coach Honeymoon can help you tell the two apart before you invest any time.',
-    tip:'Tip: notice the details, not just the whole picture — specific compliments land, generic ones don\'t.' },
-  { id:'nurturing', track:'type', icon:'ribbon', title:'Warm & attentive',
-    short:'Attentive',    questions:[
-      { q:'Her attention, when she replies, should feel...', opts:['Full and present','Steady over time','Natural, not forced'] },
-      { q:'What would you notice first about how she talks to you?', opts:['How she listens','How she remembers details','How she makes time'] },
-      { q:'What would you value most from her, long term?', opts:['Consistency','Warmth','Real interest'] },
-      { q:'What builds your trust in a creator fastest?', opts:['Consistency','Honesty','Patience'] },
-      { q:'What would you want her to notice about you?', opts:['My effort','My honesty','Just me, really'] }
-    ],
-    reveal:'Someone who actually pays attention — a fair ask. Coach Honeymoon can help you figure out how to tell, before the first real conversation.',
-    tip:'Tip: remembering small details said days ago goes further than any big gesture.' },
   { id:'loneliness', track:'need', icon:'users', title:'More than scrolling',
     short:'Not alone',    questions:[
-      { q:'Lately, your evenings feel...', opts:['Quiet','Busy but empty','Fine, honestly'] },
-      { q:'What are you missing most, honestly?', opts:['Someone to talk to','Someone who gets it','Just company'] },
-      { q:'Do you usually reach out first?', opts:['Rarely','Sometimes','Almost always'] },
-      { q:'What would actually help, tonight?', opts:['A real conversation','Less pressure','Just being seen'] },
-      { q:'If tonight went well, what would that feel like?', opts:['Less alone','Understood','Excited again'] }
+      { q:'Be honest — what does the silence in your evenings actually feel like?', opts:['Peaceful, mostly','Heavier than I let on','Like something\'s missing'] },
+      { q:'What are you really craving, underneath everything else?', opts:['Someone to talk to','Someone who actually gets it','Just not feeling so alone'] },
+      { q:'If tonight went right, what would that ache turn into?', opts:['Relief','Being understood','That spark again'] },
+      { q:'What stops you from reaching out first, even when you want to?', opts:['Fear of being brushed off','Not knowing what to say','Just... tired of trying'] },
+      { q:'What would it actually mean to feel truly seen tonight?', opts:['Everything','More than I\'d admit','A first step'] }
     ],
     reveal:'That\'s worth naming, not brushing off. Coach Honeymoon can help you find a creator worth actually talking to — not just scrolling past.',
     tip:'Tip: reaching out first, even briefly, breaks the cycle faster than waiting to feel ready.' },
   { id:'understood', track:'need', icon:'headphones', title:'Being heard',
     short:'Being heard',    questions:[
-      { q:'Do people usually get you right away?', opts:['Rarely','Eventually','Depends who'] },
-      { q:'What frustrates you most in conversations?', opts:['Being misread','Surface-level talk','Not being asked back'] },
-      { q:'What do you actually want from a creator you talk to?', opts:['To be listened to','To be challenged','To be surprised'] },
-      { q:'Do you open up easily, even in chat?', opts:['Not really','Once I trust someone','Pretty quickly'] },
-      { q:'What would "being understood" feel like right now?', opts:['A relief','Rare','Overdue'] }
+      { q:'How does it feel when someone finally gets you, right away?', opts:['Like a weight lifting','Rare, and precious','Almost unfamiliar'] },
+      { q:'What hurts most when a conversation stays surface-level?', opts:['Feeling invisible','Feeling misread','Feeling like it doesn\'t matter'] },
+      { q:'What are you really hoping for from someone new?', opts:['To finally be listened to','To be challenged, gently','To be surprised by how well they get me'] },
+      { q:'When you do open up, what does it cost you?', opts:['Almost nothing, once I trust them','A lot, honestly','I rarely let myself'] },
+      { q:'What would "being understood" feel like, right now, tonight?', opts:['A relief','Overdue','Almost too much to hope for'] }
     ],
     reveal:'Noted — that\'s not a small ask, and it\'s a fair one. Coach Honeymoon can help you actually get it, whether that\'s from a creator or from real dating advice.',
     tip:'Tip: being understood starts with being specific — vague feelings are hard for anyone to meet.' },
   { id:'dating_confidence', track:'need', icon:'warning', title:'Feeling sure of yourself',
     short:'Feeling sure',    questions:[
-      { q:'Messaging a creator first feels...', opts:['Easy','Nerve-wracking','Depends on the day'] },
-      { q:'What usually holds you back?', opts:['Fear of rejection','Not knowing what to say','Overthinking it'] },
-      { q:'How do you feel after a message goes unanswered?', opts:['Shake it off','Replay it for days','Somewhere between'] },
-      { q:'What would help most, honestly?', opts:['More practice','More confidence','Less pressure'] },
-      { q:'Before sending a message, you usually...', opts:['Overthink it','Just send it','Talk yourself into it'] }
+      { q:'Your thumb hovers over "send" — what\'s actually racing through you?', opts:['Excitement','Straight-up fear','A mix I can\'t untangle'] },
+      { q:'What\'s really underneath the hesitation, if you\'re honest?', opts:['Fear of rejection','Not wanting to say the wrong thing','Just being tired of overthinking'] },
+      { q:'A message goes unanswered — what does that quiet actually do to you?', opts:['Barely touches me','Sits with me for a while','Replays in my head for days'] },
+      { q:'What would it feel like to finally not care so much?', opts:['Freeing','Like myself again','Almost unimaginable'] },
+      { q:'Before you send anything, what\'s the voice in your head saying?', opts:['"Just say it"','"What if this is wrong"','Both, at the same time'] }
     ],
     reveal:'That hesitation is more common than it feels like in the moment. Coach Honeymoon can help you get past it, one honest message at a time.',
     tip:'Tip: confidence is built by small reps, not by waiting to feel ready first.' },
-  { id:'spontaneity', track:'need', icon:'compass', title:'Craving something different',
-    short:'Something new',    questions:[
-      { q:'Your evenings lately feel...', opts:['Predictable','Fine','Stale'] },
-      { q:'What would shake things up tonight?', opts:['A new conversation','A surprise','Just something different'] },
-      { q:'Do you take chances easily online?', opts:['Rarely','When it matters','Often'] },
-      { q:'What\'s missing from your routine, really?', opts:['Excitement','Connection','Both'] },
-      { q:'If a creator surprised you tonight?', opts:['I\'d welcome it','I\'d be cautious','I\'d take the leap'] }
-    ],
-    reveal:'Nothing wrong with wanting things to feel less routine. Coach Honeymoon can help you find a creator\'s world worth actually discovering.',
-    tip:'Tip: one small unplanned move a week can shift a routine more than a big overhaul.' },
   { id:'after_breakup', track:'need', icon:'lock', title:'Starting somewhere new',
     short:'Starting fresh',    questions:[
-      { q:'Where are you, really, after the last one?', opts:['Still healing','Mostly okay','Ready, but cautious'] },
-      { q:'What are you protecting yourself from?', opts:['Getting hurt again','Rushing in','Overthinking it'] },
-      { q:'What would feel safe, starting to talk to someone again?', opts:['No pressure','No expectations','Just going slow'] },
-      { q:'Are you looking to move on, or just breathe?', opts:['Move on','Just breathe','A little of both'] },
-      { q:'What would "ready" actually feel like?', opts:['Lighter','Curious again','Less guarded'] }
+      { q:'Underneath it all, where are you really, after the last one?', opts:['Still aching a little','Mostly okay, but cautious','Genuinely ready'] },
+      { q:'What are you quietly protecting yourself from this time?', opts:['Getting hurt like that again','Rushing and regretting it','Losing myself again'] },
+      { q:'What would actually make you feel safe enough to try again?', opts:['No pressure at all','Someone patient with my pace','Just permission to go slow'] },
+      { q:'Is it hope you\'re chasing right now, or just relief?', opts:['Hope','Relief','Honestly, both'] },
+      { q:'What would "ready" actually feel like, in your chest?', opts:['Lighter','Curious again','Less guarded, finally'] }
     ],
     reveal:'There\'s no timeline that\'s wrong here. Coach Honeymoon can help you go at your own pace — no pressure, ever.',
     tip:'Tip: \'ready\' isn\'t a feeling you wait for — it shows up gradually, in small low-stakes moments.' },
-  { id:'no_pressure', track:'need', icon:'globe', title:'No strings, no rush',
-    short:'No rush',    questions:[
-      { q:'Does "no pressure" actually feel possible to you?', opts:['Rarely','Sometimes','Yes, with the right person'] },
-      { q:'What usually adds pressure to a new connection?', opts:['Expectations','Timing','Other people\'s opinions'] },
-      { q:'What would ease that, with a creator you like?', opts:['Going at my own pace','Clear boundaries','Just less noise'] },
-      { q:'Slow build-up or quick connection?', opts:['Slow build-up','Quick connection','Whatever feels right'] },
-      { q:'What matters most, honestly?', opts:['Feeling in control','Feeling comfortable','Feeling free'] }
-    ],
-    reveal:'Fair — pace matters more than people admit. Coach Honeymoon can help you find creators who actually respect it too.',
-    tip:'Tip: naming your own pace out loud early on removes most of the pressure by default.' },
-  { id:'guidance_approach', track:'need', icon:'rocket', title:'Knowing what to say',
-    short:'What to say',    questions:[
-      { q:'Starting a conversation with a creator feels...', opts:['Easy','Awkward','Fine once it gets going'] },
-      { q:'What usually trips you up?', opts:['The first message','Keeping it going','Reading the signs'] },
-      { q:'Do you overthink your replies?', opts:['Constantly','Sometimes','Not really'] },
-      { q:'What would help most, right now?', opts:['Knowing what works','More confidence','Just practice'] },
-      { q:'What would make your first message easier to send?', opts:['A clear opener','Less self-judgment','Just doing it more often'] }
-    ],
-    reveal:'That\'s a more common struggle than people let on. Coach Honeymoon is exactly built for that — real guidance on what to actually say.',
-    tip:'Tip: a short, specific opener beats a clever one — specificity is what gets replies.' },
   { id:'real_connection', track:'need', icon:'trophy', title:'Something that actually lasts',
     short:'Something real',    questions:[
-      { q:'With a creator you like, are you after something casual, or something real?', opts:['Casual','Real','Not sure yet'] },
-      { q:'What\'s been missing in past connections?', opts:['Depth','Consistency','Honesty'] },
-      { q:'What would "real" look like for you, even here?', opts:['Someone who stays curious','Someone who shows up','Someone who gets it'] },
-      { q:'Do you believe that\'s still findable?', opts:['Yes, definitely','Hopeful','Not sure anymore'] },
-      { q:'What\'s usually the dealbreaker for you?', opts:['Inconsistency','Dishonesty','Lack of curiosity'] }
+      { q:'Deep down, are you here for something light, or something that could actually matter?', opts:['Light, for now','Something real','Honestly not sure yet'] },
+      { q:'What\'s the ache that keeps showing up in every almost-connection?', opts:['A lack of depth','Inconsistency','Something just never felt honest'] },
+      { q:'If you found something real, even here, what would that feel like?', opts:['Like finally exhaling','Like being chosen','Like hope, actually paying off'] },
+      { q:'Do you still let yourself believe that\'s findable?', opts:['Yes, stubbornly','I want to','Some days, barely'] },
+      { q:'What would break your heart fastest, if it happened again?', opts:['Being ghosted','Being lied to','Realizing they never really saw me'] }
     ],
     reveal:'That hope is worth holding onto — even on the days it feels far off. Coach Honeymoon is exactly built to help you find something that lasts.',
     tip:'Tip: consistency beats intensity — small, steady effort outlasts a big first impression.' }
@@ -7621,7 +7575,15 @@ function guRenderQuizStep(body){
       guState.roundQuestionsAnswered = (guState.roundQuestionsAnswered || 0) + 1;
       guApplyStage(document.getElementById('gu-theme-root'));
       guState.quizStep++;
-      guRenderQuizStep(body);
+      // Coupe pile à 7 questions sur le round : on termine la question posée,
+      // puis on saute directement à la révélation de CE thème, même s'il lui
+      // restait des questions — pas d'attente jusqu'à la fin du thème entier.
+      if(!guState.infiniteMode && guState.roundQuestionsAnswered >= 7){
+        guState.view = 'reveal';
+        guRenderRoulette();
+      }else{
+        guRenderQuizStep(body);
+      }
     };
   });
   const backBtn = document.getElementById('gu-quiz-back');
@@ -8226,7 +8188,14 @@ function guRenderDiceQuizStep(body){
       guState.roundQuestionsAnswered = (guState.roundQuestionsAnswered || 0) + 1;
       guApplyStage(document.getElementById('gu-theme-root'));
       guState.diceQuizStep++;
-      guRenderDiceQuizStep(body);
+      // Même coupe précise à 7 questions côté dé : termine la question posée,
+      // saute directement à la révélation de cette facette.
+      if(guState.roundQuestionsAnswered >= 7){
+        guState.diceView = 'reveal';
+        guRenderRoulette();
+      }else{
+        guRenderDiceQuizStep(body);
+      }
     };
   });
   const backBtn = document.getElementById('gu-dice-quiz-back');
@@ -8255,7 +8224,8 @@ function guRenderDiceReveal(body){
       guState.diceDiscovered.push(theme.id);
       await guSaveJourney({ diceDiscovered: guState.diceDiscovered });
     }
-    guState.diceView = guState.diceDiscovered.length >= SITE_DICE_THEMES.length ? 'complete' : 'dice';
+    const capped = guState.roundQuestionsAnswered >= 7 || guState.diceDiscovered.length >= SITE_DICE_THEMES.length;
+    guState.diceView = capped ? 'complete' : 'dice';
     guRenderRoulette();
   };
 }
