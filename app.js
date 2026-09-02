@@ -3886,10 +3886,10 @@ if(!document.getElementById('hm-shopbot-gold-style')){
     .shopbot-breadcrumb b{color:var(--honey);}
     .shopbot-theme .coach-table{border-radius:16px;border-color:color-mix(in srgb, var(--honey) 30%, var(--border));background:linear-gradient(180deg,color-mix(in srgb, var(--honey) 5%, var(--bg-elev)),var(--bg-elev));box-shadow:0 10px 26px -18px color-mix(in srgb, var(--cacao) 55%, transparent);}
     .shopbot-theme .coach-table-cat{background:color-mix(in srgb, var(--honey) 8%, var(--bg));}
-    .shopbot-theme .coach-table-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 16px;font-weight:600;letter-spacing:.1px;}
-    .shopbot-theme .coach-table-row::after{content:'';width:7px;height:7px;flex-shrink:0;border-right:2px solid var(--cacao);border-bottom:2px solid var(--cacao);transform:rotate(-45deg);opacity:.65;transition:.15s;}
-    .shopbot-theme .coach-table-row:hover{background:linear-gradient(90deg,transparent,color-mix(in srgb, var(--honey) 10%, transparent));padding-left:19px;}
-    .shopbot-theme .coach-table-row:hover::after{opacity:1;border-color:var(--honey);}
+    .shopbot-theme .coach-table-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 16px;font-weight:600;letter-spacing:.1px;background:linear-gradient(90deg,rgba(255,209,102,.14),rgba(139,92,246,.14),rgba(255,122,60,.14));box-shadow:inset 0 0 10px -6px rgba(139,92,246,.5);}
+    .shopbot-theme .coach-table-row::after{content:'';width:7px;height:7px;flex-shrink:0;border-right:2px solid #8b5cf6;border-bottom:2px solid #8b5cf6;transform:rotate(-45deg);opacity:.7;transition:.15s;}
+    .shopbot-theme .coach-table-row:hover{background:linear-gradient(90deg,rgba(255,209,102,.3),rgba(139,92,246,.3),rgba(255,122,60,.3));box-shadow:0 0 14px -2px rgba(139,92,246,.6),inset 0 0 10px -4px rgba(255,209,102,.55);padding-left:19px;}
+    .shopbot-theme .coach-table-row:hover::after{opacity:1;border-color:#ffd166;}
     .shopbot-theme .coach-table-row:last-child{border-bottom:none;}
 
     /* ---------------- Thème "Univers Invité" — blanc + orange + rose + cacao,
@@ -4001,6 +4001,12 @@ if(!document.getElementById('hm-shopbot-gold-style')){
     .gu-rating-row{display:flex;gap:8px;justify-content:center;margin-top:12px;}
     .gu-rating-btn{width:42px;height:42px;border-radius:50%;border:1px solid var(--border);background:var(--bg);color:var(--text-muted);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s;}
     .gu-rating-btn:hover{border-color:var(--guest-orange);color:var(--guest-orange);transform:translateY(-2px);}
+    .gu-rating-rise{animation:guRatingRise .75s ease-out forwards;}
+    @keyframes guRatingRise{
+      0%{transform:translateY(0) scale(1);opacity:1;}
+      60%{opacity:.9;}
+      100%{transform:translateY(-48px) scale(1.5);opacity:0;}
+    }
     .gu-complete-card{text-align:center;padding:20px 14px;}
     /* ---- Stades chromatiques progressifs, intensité renforcée : dès le départ (stade
        0) une légère chaleur est déjà présente, puis plus la progression avance, plus
@@ -4025,11 +4031,13 @@ if(!document.getElementById('hm-shopbot-gold-style')){
     @keyframes guPulseWarm{0%,100%{box-shadow:0 0 34px -14px color-mix(in srgb, var(--gu-c2) 55%, transparent);}50%{box-shadow:0 0 58px -6px color-mix(in srgb, var(--gu-c4) 80%, transparent);}}
 
     /* ---- Choix de parcours (jeu complet / présentation) ---- */
-    .gu-path-card{display:block;width:100%;text-align:left;background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:.18s;}
-    .gu-path-card:hover{border-color:var(--guest-orange);transform:translateY(-2px);box-shadow:0 10px 22px -14px color-mix(in srgb, var(--guest-orange) 60%, transparent);}
-    .gu-path-card-icon{color:var(--guest-orange);margin-bottom:6px;}
-    .gu-path-card-title{font-weight:700;font-size:13.5px;color:var(--text);}
-    .gu-path-card-desc{font-size:11.5px;color:var(--text-muted);margin-top:3px;line-height:1.5;}
+    .gu-path-card{display:block;width:100%;text-align:left;background:linear-gradient(120deg,#ff7a3c,#8b5cf6,#ffd166);border:1px solid transparent;border-radius:16px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:.18s;}
+    .gu-path-card:hover{transform:translateY(-2px);box-shadow:0 10px 24px -14px rgba(139,92,246,.55);}
+    .gu-path-card-icon{color:#fff;margin-bottom:6px;}
+    .gu-path-card-title{font-weight:700;font-size:13.5px;color:#fff;}
+    .gu-path-card-desc{font-size:11.5px;color:rgba(255,255,255,.85);margin-top:3px;line-height:1.5;}
+    .gu-gradient-btn{background:linear-gradient(120deg,#ff7a3c,#8b5cf6,#ffd166) !important;border-color:transparent !important;color:#fff !important;}
+    .gu-gradient-btn:hover{transform:translateY(-2px);box-shadow:0 10px 22px -14px rgba(139,92,246,.55);}
     .gu-video-frame{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;height:150px;border-radius:14px;border:1px dashed color-mix(in srgb, var(--guest-orange) 45%, var(--border));color:var(--text-muted);font-size:11.5px;font-weight:600;margin:10px 0;background:linear-gradient(160deg,color-mix(in srgb, var(--guest-orange) 6%, var(--bg-elev)),var(--bg-elev));}
 
     /* ---- Pause mystère : glow énigmatique + ouverture-cadeau au déblocage ---- */
@@ -7410,7 +7418,7 @@ function guRenderNameStep(body){
 function guRenderDiscoveryStep(body){
   body.innerHTML = `
     <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show">${escText(t('guAskDiscovery').replace('{name}', escText(guState.firstName)))}</div></div>
-    <div class="gu-choice-row">${GU_DISCOVERY_OPTIONS.map((opt,i) => `<button type="button" class="gu-choice-btn" data-disc="${i}">${escText(opt)}</button>`).join('')}</div>
+    <div class="gu-choice-row">${GU_DISCOVERY_OPTIONS.map((opt,i) => `<button type="button" class="gu-choice-btn gu-gradient-btn" data-disc="${i}">${escText(opt)}</button>`).join('')}</div>
   `;
   body.querySelectorAll('[data-disc]').forEach(btn => {
     btn.onclick = async () => {
@@ -7613,10 +7621,6 @@ function guSpin(){
 function guRenderDrawn(body){
   const slice = guSliceById(guState.pendingId);
   if(!slice){ guState.view = 'wheel'; guRenderRoulette(); return; }
-  const retriesLeft = GUEST_MAX_RETRIES - guState.retries;
-  const retryLabel = retriesLeft > 0
-    ? (retriesLeft === 1 ? t('guRetriesLeft').replace('{n}', retriesLeft) : t('guRetriesLeftPlural').replace('{n}', retriesLeft))
-    : t('guRetriesUsedUp');
   body.innerHTML = `
     ${guProgressHtml()}
     <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show">${escText(guVary('drawnIntro'))}</div></div>
@@ -7626,10 +7630,7 @@ function guRenderDrawn(body){
     </div>
     <div class="gu-choice-row">
       <button type="button" class="gu-choice-btn primary" id="gu-accept">${guIcon('check',14)} ${escText(t('guAccept'))}</button>
-      <button type="button" class="gu-choice-btn" id="gu-already">${guIcon('refresh',14)} ${escText(t('guAlreadySeen'))}</button>
-      <button type="button" class="gu-choice-btn" id="gu-retry" ${retriesLeft <= 0 ? 'disabled' : ''}>${guIcon('dice',14)} ${escText(t('guRetry'))}</button>
     </div>
-    <div class="gu-progress-label" style="text-align:center;margin-top:8px;">${escText(retryLabel)}</div>
     ${guMenuBackHtml()}
   `;
   document.getElementById('gu-accept').onclick = () => {
@@ -7642,11 +7643,6 @@ function guRenderDrawn(body){
       guState.quizStep = 0; guState.quizPicks = []; guState.view = 'quiz'; guRenderRoulette();
     }
   };
-  document.getElementById('gu-already').onclick = () => { guState.view = 'wheel'; guRenderRoulette(); };
-  const retryBtn = document.getElementById('gu-retry');
-  if(retryBtn && retriesLeft > 0){
-    retryBtn.onclick = () => { guState.retries++; guState.view = 'wheel'; guRenderRoulette(); };
-  }
   guWireMenuBack();
 }
 
@@ -7721,8 +7717,32 @@ function guRenderReveal(body){
     </div>
   `;
   document.querySelectorAll('[data-rate]').forEach(btn => {
-    btn.onclick = () => guFinishExperience(theme.id, btn.dataset.rate);
+    btn.onclick = () => {
+      guRatingRiseAnim(btn);
+      guFinishExperience(theme.id, btn.dataset.rate);
+    };
   });
+}
+
+/* Petite animation "élévation" : au clic sur une icône de notation, une copie
+   de l'icône s'élève au-dessus du bouton en s'estompant — simple, légère,
+   sans dépendance externe. */
+function guRatingRiseAnim(btn){
+  const icon = btn.querySelector('svg');
+  if(!icon) return;
+  const rect = btn.getBoundingClientRect();
+  const clone = icon.cloneNode(true);
+  clone.classList.add('gu-rating-rise');
+  clone.style.position = 'fixed';
+  clone.style.left = (rect.left + rect.width / 2 - 11) + 'px';
+  clone.style.top = (rect.top + rect.height / 2 - 11) + 'px';
+  clone.style.width = '22px';
+  clone.style.height = '22px';
+  clone.style.color = 'var(--guest-orange)';
+  clone.style.pointerEvents = 'none';
+  clone.style.zIndex = '9999';
+  document.body.appendChild(clone);
+  setTimeout(() => clone.remove(), 750);
 }
 
 const GU_GIFT_TARGET = 10;
@@ -7742,8 +7762,11 @@ async function guFinishExperience(themeId, rating){
     if(!guState.infiniteMode){
       // Le round s'arrête à 7 TOURS joués (spins), pas à 7 questions — un tour
       // compte quel que soit le nombre de questions posées pendant ce tour.
+      // Le round doit s'arrêter à 7 à CHAQUE partie, pas seulement la première
+      // fois (sinon un visiteur qui a déjà vu l'écran de fin ne s'arrête plus
+      // jamais et la roue tourne à l'infini).
       guState.roundsPlayed = (guState.roundsPlayed || 0) + 1;
-      nextView = (guState.roundsPlayed >= 7 && !guState.sawSurprise) ? 'complete' : 'wheel';
+      nextView = (guState.roundsPlayed >= 7) ? 'complete' : 'wheel';
     }else{
       // Mode jeu : ça tourne par sessions de 15 — à chaque fin de session, petit
       // pop-up Honeymoon Coach, puis la bande repart pour une nouvelle session.
