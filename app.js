@@ -3903,10 +3903,18 @@ if(!document.getElementById('hm-shopbot-gold-style')){
     .gu-tabs{display:flex;gap:8px;margin:0 0 14px;}
     .gu-tab-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 8px;border-radius:12px;border:1px solid var(--border);background:var(--bg);color:var(--text-muted);font-weight:700;font-size:12px;cursor:pointer;transition:.15s;}
     .gu-tab-btn.active{background:linear-gradient(90deg,var(--guest-orange),var(--rose));color:#fff;border-color:transparent;}
+    /* ---- Palette d'ambiance à 5 teintes (remplace le dégradé chaud seul) : la case 0
+       est orange, puis la teinte glisse vers rouge, bleu, violet, jaune au fil de la
+       progression (guStage() 0→4). Définie ici pour rester isolée au jeu Invité. ---- */
+    .guestuniverse-theme{--gu-c0:#ff8a3d;--gu-c1:#ff4040;--gu-c2:#3d7dff;--gu-c3:#9a3dff;--gu-c4:#ffd23d;}
     .gu-progress-wrap{margin:2px 0 14px;}
     .gu-progress-label{font-size:10.5px;color:var(--text-muted);margin-bottom:5px;}
-    .gu-progress-bar{height:6px;border-radius:999px;background:var(--bg);border:1px solid var(--border);overflow:hidden;}
-    .gu-progress-fill{height:100%;background:linear-gradient(90deg,var(--guest-orange),var(--rose));border-radius:999px;transition:width .5s ease;}
+    .gu-progress-bar{height:6px;border-radius:999px;background:var(--bg);border:1px solid var(--border);overflow:visible;display:flex;align-items:center;gap:6px;}
+    .gu-progress-fill{height:100%;background:linear-gradient(90deg,var(--gu-c0),var(--gu-c1),var(--gu-c2),var(--gu-c3),var(--gu-c4));border-radius:999px;transition:width .5s ease;flex:0 0 auto;}
+    /* ---- Flamme en bout de barre : grise/éteinte tant que le jeu n'est pas terminé,
+       s'allume (couleur + flicker) une fois les 20 univers découverts. ---- */
+    .gu-progress-flame{flex:0 0 auto;display:flex;color:var(--border);opacity:.35;transition:.4s;}
+    .gu-progress-flame.lit{color:var(--gu-c1);opacity:1;animation:guFlameFlicker .9s ease-in-out infinite;filter:drop-shadow(0 0 6px color-mix(in srgb, var(--gu-c4) 70%, transparent));}
     .gu-name-input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:11px 13px;color:var(--text);font-size:13px;margin:8px 0;}
     .gu-name-input:focus{outline:none;border-color:var(--guest-orange);}
     /* ---- Roue qui tourne (SVG réel, transform CSS calculée en JS) ---- */
@@ -3959,16 +3967,19 @@ if(!document.getElementById('hm-shopbot-gold-style')){
        avance, plus le fond s'assombrit et se réchauffe franchement (blanc/orange ->
        rose vif -> cacao brûlé -> wine profond, avec glow pulsé de plus en plus fort),
        comme une plongée réelle vers l'ambiance de l'espace membre. ---- */
-    .guestuniverse-theme.gu-stage-1 .coach-frame{background:linear-gradient(160deg,color-mix(in srgb, var(--rose) 14%, var(--bg-elev)),var(--bg-elev));box-shadow:0 0 20px -14px color-mix(in srgb, var(--rose) 40%, transparent);border-color:color-mix(in srgb, var(--rose) 25%, var(--border));}
-    .guestuniverse-theme.gu-stage-2 .coach-frame{background:linear-gradient(160deg,color-mix(in srgb, var(--rose) 26%, var(--bg-elev)),color-mix(in srgb, var(--cacao-deep) 10%, var(--bg-elev)));box-shadow:0 0 36px -12px color-mix(in srgb, var(--rose) 60%, transparent);border-color:color-mix(in srgb, var(--rose) 45%, var(--border));animation:guPulseWarm 3.6s ease-in-out infinite;}
-    .guestuniverse-theme.gu-stage-3 .coach-frame{background:linear-gradient(160deg,color-mix(in srgb, var(--cacao-deep) 40%, var(--bg-elev)),color-mix(in srgb, var(--wine) 14%, var(--bg-elev)));box-shadow:0 0 44px -10px color-mix(in srgb, var(--cacao-deep) 78%, transparent);border-color:color-mix(in srgb, var(--cacao-deep) 55%, var(--border));animation:guPulseWarm 2.6s ease-in-out infinite;}
-    .guestuniverse-theme.gu-stage-4 .coach-frame{background:linear-gradient(160deg,color-mix(in srgb, var(--wine) 55%, var(--bg-elev)),color-mix(in srgb, var(--cacao-deep) 32%, var(--bg-elev)));box-shadow:0 0 56px -6px color-mix(in srgb, var(--wine) 90%, transparent);border-color:color-mix(in srgb, var(--wine) 65%, var(--border));animation:guPulseWarm 1.8s ease-in-out infinite;}
-    .guestuniverse-theme.gu-stage-2 .gu-spin-btn{background:linear-gradient(90deg,var(--rose),var(--cacao-deep));}
-    .guestuniverse-theme.gu-stage-3 .gu-spin-btn,
-    .guestuniverse-theme.gu-stage-4 .gu-spin-btn{background:linear-gradient(90deg,var(--cacao-deep),var(--wine));}
-    .guestuniverse-theme.gu-stage-3 .gu-wheel-pointer,
-    .guestuniverse-theme.gu-stage-4 .gu-wheel-pointer{color:var(--wine);filter:drop-shadow(0 2px 6px color-mix(in srgb, var(--wine) 70%, transparent));}
-    @keyframes guPulseWarm{0%,100%{box-shadow:0 0 34px -14px color-mix(in srgb, var(--cacao-deep) 55%, transparent);}50%{box-shadow:0 0 58px -6px color-mix(in srgb, var(--wine) 80%, transparent);}}
+    .guestuniverse-theme.gu-stage-1 .coach-frame{background:linear-gradient(160deg,color-mix(in srgb, var(--gu-c1) 16%, var(--bg-elev)),var(--bg-elev));box-shadow:0 0 20px -14px color-mix(in srgb, var(--gu-c1) 45%, transparent);border-color:color-mix(in srgb, var(--gu-c1) 28%, var(--border));}
+    .guestuniverse-theme.gu-stage-2 .coach-frame{background:linear-gradient(160deg,color-mix(in srgb, var(--gu-c1) 20%, var(--bg-elev)),color-mix(in srgb, var(--gu-c2) 18%, var(--bg-elev)));box-shadow:0 0 36px -12px color-mix(in srgb, var(--gu-c2) 55%, transparent);border-color:color-mix(in srgb, var(--gu-c2) 40%, var(--border));animation:guPulseWarm 3.6s ease-in-out infinite;}
+    .guestuniverse-theme.gu-stage-3 .coach-frame{background:linear-gradient(160deg,color-mix(in srgb, var(--gu-c2) 28%, var(--bg-elev)),color-mix(in srgb, var(--gu-c3) 30%, var(--bg-elev)));box-shadow:0 0 44px -10px color-mix(in srgb, var(--gu-c3) 65%, transparent);border-color:color-mix(in srgb, var(--gu-c3) 50%, var(--border));animation:guPulseWarm 2.6s ease-in-out infinite;}
+    .guestuniverse-theme.gu-stage-4 .coach-frame{background:linear-gradient(160deg,color-mix(in srgb, var(--gu-c3) 38%, var(--bg-elev)),color-mix(in srgb, var(--gu-c4) 34%, var(--bg-elev)));box-shadow:0 0 56px -6px color-mix(in srgb, var(--gu-c4) 75%, transparent);border-color:color-mix(in srgb, var(--gu-c4) 55%, var(--border));animation:guPulseWarm 1.8s ease-in-out infinite;}
+    .guestuniverse-theme.gu-stage-1 .gu-spin-btn{background:linear-gradient(90deg,var(--gu-c0),var(--gu-c1));}
+    .guestuniverse-theme.gu-stage-2 .gu-spin-btn{background:linear-gradient(90deg,var(--gu-c1),var(--gu-c2));}
+    .guestuniverse-theme.gu-stage-3 .gu-spin-btn{background:linear-gradient(90deg,var(--gu-c2),var(--gu-c3));}
+    .guestuniverse-theme.gu-stage-4 .gu-spin-btn{background:linear-gradient(90deg,var(--gu-c3),var(--gu-c4));}
+    .guestuniverse-theme.gu-stage-1 .gu-wheel-pointer{color:var(--gu-c1);}
+    .guestuniverse-theme.gu-stage-2 .gu-wheel-pointer{color:var(--gu-c2);filter:drop-shadow(0 2px 6px color-mix(in srgb, var(--gu-c2) 70%, transparent));}
+    .guestuniverse-theme.gu-stage-3 .gu-wheel-pointer{color:var(--gu-c3);filter:drop-shadow(0 2px 6px color-mix(in srgb, var(--gu-c3) 70%, transparent));}
+    .guestuniverse-theme.gu-stage-4 .gu-wheel-pointer{color:var(--gu-c4);filter:drop-shadow(0 2px 6px color-mix(in srgb, var(--gu-c4) 70%, transparent));}
+    @keyframes guPulseWarm{0%,100%{box-shadow:0 0 34px -14px color-mix(in srgb, var(--gu-c2) 55%, transparent);}50%{box-shadow:0 0 58px -6px color-mix(in srgb, var(--gu-c4) 80%, transparent);}}
 
     /* ---- Choix de parcours (jeu complet / présentation) ---- */
     .gu-path-card{display:block;width:100%;text-align:left;background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:.18s;}
@@ -7246,10 +7257,6 @@ async function renderGuestUniverse(container){
   if(!container) return;
   container.innerHTML = `
     <div class="guestuniverse-theme gu-stage-0" id="gu-theme-root">
-      <div class="gu-tabs">
-        <button type="button" class="gu-tab-btn active" data-gutab="roulette">${guIcon('compass',15)} Roulette</button>
-        <button type="button" class="gu-tab-btn" data-gutab="presentation">${guIcon('sparkle',15)} Presentation</button>
-      </div>
       <div class="coach-frame">
         <div class="coach-chat-header">
           <div class="coach-chat-avatar">${guIcon('honeypot',20)}</div>
@@ -7262,13 +7269,6 @@ async function renderGuestUniverse(container){
       </div>
     </div>
   `;
-  container.querySelectorAll('[data-gutab]').forEach(btn => {
-    btn.onclick = () => {
-      guState.tab = btn.dataset.gutab;
-      container.querySelectorAll('[data-gutab]').forEach(b => b.classList.toggle('active', b.dataset.gutab === guState.tab));
-      guState.tab === 'presentation' ? (guStopSlideshow(), guRenderPresentation()) : guRenderRoulette();
-    };
-  });
   await guLoadJourney();
   guApplyStage(document.getElementById('gu-theme-root'));
   guRenderRoulette();
@@ -7281,11 +7281,16 @@ function guRenderRoulette(){
   guApplyStage(document.getElementById('gu-theme-root'));
   if(!guState.firstName){ guRenderNameStep(body); return; }
   if(!guState.discoverySource){ guRenderDiscoveryStep(body); return; }
-  if(!guState.path){ guRenderPathChoice(body); return; }
+  if(!guState.path){
+    guState.path = 'game';
+    guSaveJourney({ path: 'game' });
+    guState.view = 'wheel';
+  }
   if(guState.view === 'loading' || guState.view === 'welcome') { guRenderWelcomeBack(body); return; }
   if(guState.view === 'wheel') { guRenderWheel(body); return; }
   if(guState.view === 'drawn') { guRenderDrawn(body); return; }
   if(guState.view === 'quiz') { guRenderQuizStep(body); return; }
+  if(guState.view === 'mysteryquiz') { guRenderMysteryQuiz(body); return; }
   if(guState.view === 'reveal') { guRenderReveal(body); return; }
   if(guState.view === 'mystery') { guRenderMysteryBreak(body); return; }
   if(guState.view === 'complete') { guRenderComplete(body); return; }
@@ -7368,7 +7373,9 @@ function guProgressHtml(){
   }
   const count = guState.discovered.length, total = GUEST_THEMES.length;
   const label = t('guProgressLabel').replace('{name}', escText(guState.firstName)).replace('{count}', count).replace('{total}', total);
-  return `<div class="gu-progress-wrap"><div class="gu-progress-label">${label}</div><div class="gu-progress-bar"><div class="gu-progress-fill" style="width:${Math.round((count/total)*100)}%;"></div></div></div>`;
+  const pct = Math.round((count/total)*100);
+  const lit = count >= total;
+  return `<div class="gu-progress-wrap"><div class="gu-progress-label">${label}</div><div class="gu-progress-bar"><div class="gu-progress-fill" style="width:${pct}%;"></div><span class="gu-progress-flame${lit ? ' lit' : ''}">${guIcon('flame', 14)}</span></div></div>`;
 }
 
 function guRenderWelcomeBack(body){
@@ -7415,12 +7422,14 @@ function guWireMenuBack(){
 /* Paire de couleurs des secteurs selon le stade de progression — se réchauffe et
    s'assombrit au fil du jeu, comme le fond du chat (voir guStage()). */
 function guWheelColorPair(){
+  // 5 teintes qui glissent : orange -> rouge -> bleu -> violet -> jaune, au même
+  // rythme que le reste de l'ambiance (guStage() 0 à 4).
   const pairs = [
-    ['var(--guest-orange)', 'var(--rose)'],
-    ['var(--rose)', 'color-mix(in srgb, var(--cacao-deep) 55%, var(--rose))'],
-    ['color-mix(in srgb, var(--cacao-deep) 65%, var(--rose))', 'var(--cacao-deep)'],
-    ['var(--cacao-deep)', 'color-mix(in srgb, var(--wine) 65%, var(--cacao-deep))'],
-    ['color-mix(in srgb, var(--wine) 80%, var(--cacao-deep))', 'var(--wine)']
+    ['var(--gu-c0)', 'var(--gu-c1)'],
+    ['var(--gu-c1)', 'color-mix(in srgb, var(--gu-c2) 55%, var(--gu-c1))'],
+    ['color-mix(in srgb, var(--gu-c2) 65%, var(--gu-c1))', 'var(--gu-c2)'],
+    ['var(--gu-c2)', 'color-mix(in srgb, var(--gu-c3) 65%, var(--gu-c2))'],
+    ['color-mix(in srgb, var(--gu-c4) 55%, var(--gu-c3))', 'var(--gu-c4)']
   ];
   return pairs[guStage()];
 }
@@ -7428,11 +7437,47 @@ function guWheelColorPair(){
    spin) — pour que le dessin de la roue soit différent à chaque partie, sans
    changer les questions/réponses elles-mêmes. Régénéré aussi à chaque nouvelle
    session en mode jeu infini (toutes les 15 questions). */
+/* Résout un id de case de roue : soit un thème normal (id direct), soit une
+   case mystère (préfixe "myst:" + id d'énigme de COACH_TEASE_BANK). */
+function guSliceById(id){
+  if(!id) return null;
+  if(id.indexOf('myst:') === 0){
+    const riddle = COACH_TEASE_BANK.find(r => r.id === id.slice(5));
+    if(!riddle) return null;
+    return { type:'mystery', id: id, riddleId: riddle.id, icon: riddle.icon, title: t('guMysteryLabel') };
+  }
+  const th = GUEST_THEMES.find(x => x.id === id);
+  return th ? Object.assign({ type:'theme' }, th) : null;
+}
 function guWheelThemes(){
   if(!guState.wheelOrder || !guState.wheelOrder.length){
-    guState.wheelOrder = guSample(GUEST_THEMES, GUEST_THEMES.length).map(th => th.id);
+    const themeIds = guSample(GUEST_THEMES, GUEST_THEMES.length).map(th => th.id);
+    const mysteryCount = Math.min(5, COACH_TEASE_BANK.length);
+    const mysteryIds = guSample(COACH_TEASE_BANK, mysteryCount).map(r => 'myst:' + r.id);
+    // Répartit les 5 énigmes mystère à intervalles réguliers parmi les 20 thèmes,
+    // pour qu'elles apparaissent dispersées sur la roue plutôt que côte à côte.
+    const merged = [];
+    const step = Math.max(1, Math.floor(themeIds.length / mysteryCount));
+    let mi = 0;
+    themeIds.forEach((id, i) => {
+      merged.push(id);
+      if(mi < mysteryCount && (i + 1) % step === 0){ merged.push(mysteryIds[mi]); mi++; }
+    });
+    while(mi < mysteryCount){ merged.push(mysteryIds[mi]); mi++; }
+    guState.wheelOrder = merged;
   }
-  return guState.wheelOrder.map(id => GUEST_THEMES.find(th => th.id === id)).filter(Boolean);
+  return guState.wheelOrder.map(guSliceById).filter(Boolean);
+}
+/* Cases encore "fraîches" : thèmes non découverts + énigmes mystère non déverrouillées. */
+function guRemainingSlices(){
+  return guWheelThemes().filter(s => s.type === 'theme' ? !guState.discovered.includes(s.id) : !guState.mysteryUnlocked.includes(s.riddleId));
+}
+/* Raccourcit un libellé de thème pour qu'il tienne sur une case de roue
+   (garde le premier segment avant "&"/"," si trop long). */
+function guWheelLabel(title){
+  let s = (title || '').split('&')[0].split(',')[0].trim();
+  if(s.length > 14) s = s.slice(0, 13).trim() + '…';
+  return s;
 }
 function guBuildWheelSvg(){
   const themesOrdered = guWheelThemes();
@@ -7441,20 +7486,25 @@ function guBuildWheelSvg(){
   const R = 130, cx = 140, cy = 140;
   const [colorA, colorB] = guWheelColorPair();
   let sectors = '';
-  let icons = '';
+  let labels = '';
   themesOrdered.forEach((th, i) => {
     const a0 = i * seg - 90, a1 = (i + 1) * seg - 90;
     const x0 = cx + R * Math.cos(a0 * Math.PI / 180), y0 = cy + R * Math.sin(a0 * Math.PI / 180);
     const x1 = cx + R * Math.cos(a1 * Math.PI / 180), y1 = cy + R * Math.sin(a1 * Math.PI / 180);
     const mid = a0 + seg / 2;
-    const sectorColor = i % 2 === 0 ? colorA : colorB;
-    sectors += `<path d="M${cx},${cy} L${x0.toFixed(2)},${y0.toFixed(2)} A${R},${R} 0 0 1 ${x1.toFixed(2)},${y1.toFixed(2)} Z" fill="${sectorColor}" fill-opacity="${th.track === 'need' ? 0.92 : 0.6}" stroke="var(--bg-elev)" stroke-width="1"/>`;
-    const ix = cx + (R * 0.72) * Math.cos(mid * Math.PI / 180), iy = cy + (R * 0.72) * Math.sin(mid * Math.PI / 180);
-    icons += `<g transform="translate(${ix.toFixed(2)},${iy.toFixed(2)}) rotate(${mid + 90})"><g transform="translate(-10.5,-10.5) scale(0.85)" fill="none" stroke="#241206" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${GU_ICON_PATHS[th.icon] || ''}</g></g>`;
+    const sectorColor = th.type === 'mystery' ? 'var(--gu-c4)' : (i % 2 === 0 ? colorA : colorB);
+    sectors += `<path d="M${cx},${cy} L${x0.toFixed(2)},${y0.toFixed(2)} A${R},${R} 0 0 1 ${x1.toFixed(2)},${y1.toFixed(2)} Z" fill="${sectorColor}" fill-opacity="${th.type === 'mystery' ? 0.5 : (th.track === 'need' ? 0.92 : 0.6)}" stroke="var(--bg-elev)" stroke-width="1"/>`;
+    // Le texte suit le rayon (lisible de l'extérieur vers le centre), et bascule
+    // à l'endroit selon le côté de la roue pour ne jamais être à l'envers.
+    const tx = cx + (R * 0.78) * Math.cos(mid * Math.PI / 180), ty = cy + (R * 0.78) * Math.sin(mid * Math.PI / 180);
+    let rot = mid + 90;
+    if(rot > 90 && rot < 270) rot += 180;
+    const label = th.type === 'mystery' ? '?' : guWheelLabel(th.title);
+    labels += `<text x="${tx.toFixed(2)}" y="${ty.toFixed(2)}" transform="rotate(${rot.toFixed(2)},${tx.toFixed(2)},${ty.toFixed(2)})" text-anchor="middle" dominant-baseline="middle" font-size="${th.type === 'mystery' ? 15 : 8.5}" font-weight="800" fill="#241206" font-family="inherit">${escText(label)}</text>`;
   });
   return `<svg id="gu-wheel-svg" viewBox="0 0 280 280" width="230" height="230">
     <g>${sectors}</g>
-    <g>${icons}</g>
+    <g>${labels}</g>
     <circle cx="${cx}" cy="${cy}" r="22" fill="var(--bg-elev)" stroke="var(--guest-orange)" stroke-width="2"/>
     <g transform="translate(${cx - 11},${cy - 11})" fill="none" stroke="var(--guest-orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${GU_ICON_PATHS.honeypot}</g>
   </svg>`;
@@ -7480,9 +7530,9 @@ function guSpin(){
   const holder = document.getElementById('gu-wheel-holder');
   if(!holder) return;
   spinBtn.disabled = true;
-  const pool = guRemainingThemes().length ? guRemainingThemes() : GUEST_THEMES;
-  const chosen = pool[Math.floor(Math.random() * pool.length)];
   const themesOrdered = guWheelThemes();
+  const pool = guRemainingSlices().length ? guRemainingSlices() : themesOrdered;
+  const chosen = pool[Math.floor(Math.random() * pool.length)];
   const chosenIdx = themesOrdered.findIndex(th => th.id === chosen.id);
   const seg = 360 / themesOrdered.length;
   const targetSegCenter = chosenIdx * seg + seg / 2;
@@ -7499,8 +7549,8 @@ function guSpin(){
 }
 
 function guRenderDrawn(body){
-  const theme = GUEST_THEMES.find(th => th.id === guState.pendingId);
-  if(!theme){ guState.view = 'wheel'; guRenderRoulette(); return; }
+  const slice = guSliceById(guState.pendingId);
+  if(!slice){ guState.view = 'wheel'; guRenderRoulette(); return; }
   const retriesLeft = GUEST_MAX_RETRIES - guState.retries;
   const retryLabel = retriesLeft > 0
     ? (retriesLeft === 1 ? t('guRetriesLeft').replace('{n}', retriesLeft) : t('guRetriesLeftPlural').replace('{n}', retriesLeft))
@@ -7509,7 +7559,7 @@ function guRenderDrawn(body){
     ${guProgressHtml()}
     <div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon('honeypot',16)}</div><div class="coach-bubble-text chat-bot show">${escText(t('guDrawnIntro'))}</div></div>
     <div class="gu-theme-card gu-theme-card-mystery">
-      <div class="gu-theme-card-icon">${guIcon(theme.icon, 34)}</div>
+      <div class="gu-theme-card-icon">${guIcon(slice.icon, 34)}</div>
       <div class="gu-theme-card-title">${escText(t('guMysteryLabel'))}</div>
     </div>
     <div class="gu-choice-row">
@@ -7521,8 +7571,14 @@ function guRenderDrawn(body){
     ${guMenuBackHtml()}
   `;
   document.getElementById('gu-accept').onclick = () => {
-    guState.activeQuestions = theme.questions.length > 5 ? guSample(theme.questions, 5) : theme.questions.slice();
-    guState.quizStep = 0; guState.quizPicks = []; guState.view = 'quiz'; guRenderRoulette();
+    if(slice.type === 'mystery'){
+      guState.currentMystery = COACH_TEASE_BANK.find(r => r.id === slice.riddleId);
+      guState.view = 'mysteryquiz';
+      guRenderRoulette();
+    }else{
+      guState.activeQuestions = slice.questions.length > 5 ? guSample(slice.questions, 5) : slice.questions.slice();
+      guState.quizStep = 0; guState.quizPicks = []; guState.view = 'quiz'; guRenderRoulette();
+    }
   };
   document.getElementById('gu-already').onclick = () => { guState.view = 'wheel'; guRenderRoulette(); };
   const retryBtn = document.getElementById('gu-retry');
@@ -7553,6 +7609,7 @@ function guRenderQuizStep(body){
     <div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon('honeypot',16)}</div><div class="coach-bubble-text chat-bot show">${escText(qa.q)}</div></div>
     <div class="gu-choice-row">${qa.opts.map((opt,i) => `<button type="button" class="gu-choice-btn" data-pick="${i}">${escText(opt)}</button>`).join('')}</div>
     ${step > 0 ? `<button type="button" class="gu-back-link" id="gu-quiz-back">${guIcon('backArrow',13)} ${escText(t('guBack'))}</button>` : ''}
+    ${guMenuBackHtml()}
   `;
   body.querySelectorAll('[data-pick]').forEach(btn => {
     btn.onclick = () => {
@@ -7571,6 +7628,7 @@ function guRenderQuizStep(body){
       guRenderQuizStep(body);
     };
   }
+  guWireMenuBack();
 }
 
 function guRenderReveal(body){
@@ -7651,6 +7709,35 @@ function guMysteryHasFresh(){
    options sont valables (comme le reste du jeu) — le but n'est pas de "réussir"
    mais de faire monter la curiosité. La résolution ne donne jamais la vraie
    réponse : elle pointe vers une catégorie réelle du Coach Honeymoon. */
+/* Énigme tirée directement d'une case mystère de la roue (contrairement à la
+   pause mystère automatique ci-dessous, celle-ci vient d'un spin). Même
+   mécanique de résolution/déblocage, retour direct à la roue ensuite. */
+function guRenderMysteryQuiz(body){
+  const riddle = guState.currentMystery;
+  if(!riddle){ guState.view = 'wheel'; guRenderRoulette(); return; }
+  body.innerHTML = `
+    ${guProgressHtml()}
+    <div class="gu-theme-card gu-theme-card-sm gu-theme-card-mystery gu-mystery-glow">
+      <div class="gu-theme-card-icon">${guIcon(riddle.icon, 24)}</div>
+      <div class="gu-theme-card-title">${escText(t('guMysteryLabel'))}</div>
+    </div>
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon('honeypot',16)}</div><div class="coach-bubble-text chat-bot show">${escText(riddle.riddle)}</div></div>
+    <div class="gu-choice-row">${riddle.opts.map((opt,i) => `<button type="button" class="gu-choice-btn" data-mystery-pick="${i}">${escText(opt)}</button>`).join('')}</div>
+    ${guMenuBackHtml()}
+  `;
+  body.querySelectorAll('[data-mystery-pick]').forEach(btn => {
+    btn.onclick = async () => {
+      if(!guState.mysteryUnlocked.includes(riddle.id)) guState.mysteryUnlocked.push(riddle.id);
+      guState.currentMystery = null;
+      guState.totalQuestionsAnswered = (guState.totalQuestionsAnswered || 0) + 1;
+      guState.totalSpins++;
+      guApplyStage(document.getElementById('gu-theme-root'));
+      await guSaveJourney({ mysteryUnlocked: guState.mysteryUnlocked, totalQuestionsAnswered: guState.totalQuestionsAnswered, totalSpins: guState.totalSpins });
+      guRenderMysteryUnlock(body, riddle, () => { guState.view = 'wheel'; guRenderRoulette(); });
+    };
+  });
+  guWireMenuBack();
+}
 function guRenderMysteryBreak(body){
   let riddle = guState.currentMystery;
   if(!riddle || guState.mysteryUnlocked.includes(riddle.id)){
@@ -7882,6 +7969,20 @@ function guWireSlideshow(){
   guSlideshowInterval = setInterval(() => guGotoSlide(guSlideshowIdx + 1, slides), 3800);
 }
 
+/* À la fin du jeu, le visiteur passe du jeu à la vraie discussion avec Coach
+   Honeymoon (le même outil que les membres, thèmes "Honeymoon & créatrices"
+   / "Flirt, dating & relationship") — il découvre sa vraie personnalité, plus
+   seulement des énigmes à son sujet. Un petit lien permet de revenir au jeu. */
+function guOpenRealCoach(){
+  const gubody = document.getElementById('gu-body');
+  if(!gubody) return;
+  gubody.innerHTML = `<div id="gu-real-coach"></div><button type="button" class="gu-back-link" id="gu-coach-back-to-game">${guIcon('backArrow',13)} ${escText(t('guBackToMenu'))}</button>`;
+  renderMemberToolMatchWords(document.getElementById('gu-real-coach'), null);
+  document.getElementById('gu-coach-back-to-game').onclick = () => {
+    guState.view = 'wheel';
+    guRenderRoulette();
+  };
+}
 function guRenderComplete(body){
   guStopSlideshow();
   const isReplay = guState.sawSurprise;
@@ -7901,9 +8002,7 @@ function guRenderComplete(body){
   if(!guState.sawSurprise){ guState.sawSurprise = true; guSaveJourney({ sawSurprise: true }); }
   document.getElementById('gu-complete-cta').onclick = () => {
     guStopSlideshow();
-    guState.tab = 'presentation';
-    document.querySelectorAll('[data-gutab]').forEach(b => b.classList.toggle('active', b.dataset.gutab === 'presentation'));
-    guRenderPresentation();
+    guOpenRealCoach();
   };
   document.getElementById('gu-just-play-btn').onclick = () => {
     guStopSlideshow();
