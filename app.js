@@ -346,6 +346,9 @@ const I18N = {
     guDiceRoll: "Roll the dice",
     guDiceCompleteTitle: "You've rolled through every side of Honeymoon.",
     guDiceCompleteBody: "5 out of 5 explored. You now know how Honeymoon — and its creators — really work.",
+    guBonusMention: "Bonus for both games: build your Seducer Profile from the menu, then enjoy being among the first to meet our creators.",
+    guTryDiceCta: "Roll the dice too — 5 more sides of Honeymoon",
+    guTryWheelCta: "Try the wheel too — 15 more mysteries",
     guPresQuizCta: "Continue",
     guMysteryUnlockedTitle: "Congratulations — mystery solved!",
     guMysteryUnderstandMsg: "You understand the Honeymoon universe a little better now.",
@@ -3925,7 +3928,11 @@ if(!document.getElementById('hm-shopbot-gold-style')){
     .gu-progress-flame.lit{color:#ff4040;opacity:1;animation:guFlameFlicker .9s ease-in-out infinite, guFlameLed 1.3s ease-in-out infinite;filter:drop-shadow(0 0 6px color-mix(in srgb, #ffd23d 75%, transparent));}
     @keyframes guFlameLed{0%,100%{filter:drop-shadow(0 0 4px color-mix(in srgb, #ff8a3d 70%, transparent));}50%{filter:drop-shadow(0 0 10px color-mix(in srgb, #ffd23d 90%, transparent));}}
     /* Icône premium accompagnant le titre de chaque question posée (thème ou dé). */
-    .gu-q-icon{background:linear-gradient(135deg,var(--guest-white),var(--guest-orange));color:#4a2408;box-shadow:0 0 0 1px color-mix(in srgb, var(--guest-orange) 35%, transparent);}
+    /* Icône premium accompagnant le titre de chaque question posée (thème ou dé) :
+       halo doux qui respire + léger scale, pour un rendu "animé" pro sans être
+       distrayant (pas de rotation qui donnerait un mauvais sens à une flèche). */
+    .gu-q-icon{background:linear-gradient(135deg,var(--guest-white),var(--guest-orange));color:#4a2408;box-shadow:0 0 0 1px color-mix(in srgb, var(--guest-orange) 35%, transparent);animation:guQIconBreathe 2.6s ease-in-out infinite;}
+    @keyframes guQIconBreathe{0%,100%{box-shadow:0 0 0 1px color-mix(in srgb, var(--guest-orange) 35%, transparent),0 0 0px transparent;transform:scale(1);}50%{box-shadow:0 0 0 1px color-mix(in srgb, var(--guest-orange) 45%, transparent),0 0 10px 1px color-mix(in srgb, var(--guest-orange) 55%, transparent);transform:scale(1.06);}}
     .gu-name-input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:11px 13px;color:var(--text);font-size:13px;margin:8px 0;}
     .gu-name-input:focus{outline:none;border-color:var(--guest-orange);}
     /* ---- Roue qui tourne (SVG réel, transform CSS calculée en JS) ---- */
@@ -3933,16 +3940,24 @@ if(!document.getElementById('hm-shopbot-gold-style')){
     .gu-wheel-wrap::before{content:'';position:absolute;inset:6px;border-radius:50%;background:radial-gradient(circle, color-mix(in srgb, #7c3aed 35%, transparent), transparent 72%);z-index:0;}
     .gu-wheel-pointer{position:absolute;top:-2px;left:50%;transform:translateX(-50%);z-index:2;color:#c084fc;filter:drop-shadow(0 2px 4px rgba(0,0,0,.4));}
     .gu-wheel-spin-holder{will-change:transform;position:relative;z-index:1;}
-    /* ---- Dé à 6 faces (2e parcours) : même esprit que la roue, plus rapide. ---- */
-    .gu-dice-wrap{position:relative;display:flex;justify-content:center;align-items:center;padding:14px 0 8px;perspective:700px;}
-    .gu-dice-holder{will-change:transform;filter:drop-shadow(0 8px 16px rgba(0,0,0,.4));transform-style:preserve-3d;}
-    /* Culbute sur plusieurs axes à la fois (X + Y + Z), comme un vrai dé lancé,
-       pas juste un wobble à plat. */
-    .gu-dice-holder.gu-dice-rolling{animation:guDiceRoll .55s linear infinite;}
-    @keyframes guDiceRoll{0%{transform:rotateX(0) rotateY(0) rotateZ(0);}100%{transform:rotateX(360deg) rotateY(300deg) rotateZ(220deg);}}
+    /* ---- Dé à 6 faces en VRAI 3D (2e parcours) : un cube CSS (preserve-3d),
+       pas un carré plat — il tourne sur ses 3 axes et se pose sur une face
+       réelle, exactement comme un dé qu'on lance. ---- */
+    .gu-dice-wrap{position:relative;display:flex;justify-content:center;align-items:center;padding:20px 0 14px;perspective:700px;}
+    .gu-dice-cube{position:relative;width:96px;height:96px;transform-style:preserve-3d;transition:transform 1.15s cubic-bezier(.22,.85,.25,1);filter:drop-shadow(0 10px 18px rgba(0,0,0,.45));}
+    .gu-dice-cube.gu-dice-rolling{transition:transform 1.15s cubic-bezier(.22,.85,.25,1);}
+    .gu-dice-face{position:absolute;inset:0;width:96px;height:96px;background:linear-gradient(135deg,#ffffff,#e9e3f8);border:3px solid #c4b5fd;border-radius:16px;display:flex;align-items:center;justify-content:center;backface-visibility:hidden;}
+    .gu-dice-f1{transform:translateZ(48px);}
+    .gu-dice-f2{transform:rotateY(90deg) translateZ(48px);}
+    .gu-dice-f3{transform:rotateX(-90deg) translateZ(48px);}
+    .gu-dice-f4{transform:rotateX(90deg) translateZ(48px);}
+    .gu-dice-f5{transform:rotateY(-90deg) translateZ(48px);}
+    .gu-dice-f6{transform:rotateY(180deg) translateZ(48px);}
     /* Bouton "Roll the dice" : même forme que le spin, dégradé orange -> violet
        (au lieu de orange -> rose) pour matcher la teinte du dé. */
     .gu-dice-btn{background:linear-gradient(90deg,var(--guest-orange),#7c3aed) !important;}
+    /* Bouton "Spin the wheel" : même traitement, la roue est violette aussi. */
+    .gu-wheel-btn{background:linear-gradient(90deg,var(--guest-orange),#7c3aed) !important;}
     .gu-spin-btn{width:100%;padding:13px;border-radius:14px;border:none;background:linear-gradient(90deg,var(--guest-orange),var(--rose));color:#fff;font-weight:800;font-size:13.5px;cursor:pointer;margin-top:10px;letter-spacing:.2px;display:flex;align-items:center;justify-content:center;gap:7px;}
     .gu-spin-btn:disabled{opacity:.55;cursor:default;}
     .gu-theme-card{border:1px solid var(--guest-orange);border-radius:16px;padding:16px;text-align:center;margin:10px 0;background:linear-gradient(180deg,color-mix(in srgb, var(--guest-orange) 8%, var(--bg-elev)),var(--bg-elev));}
@@ -6814,7 +6829,7 @@ const GUEST_THEMES = [
       { q:'What keeps you coming back to a creator\'s page?', opts:['Consistency','Her personality','Her presence'] },
       { q:'A compliment she\'d actually enjoy reading?', opts:['On her taste','On her presence','Something unexpected'] }
     ],
-    reveal:'Refined and self-assured, noted — the roster being built on Honeymoon leans exactly this way, and answers like yours shape who joins first.',
+    reveal:'Refined and self-assured, noted — that\'s exactly the kind of creator energy the roster is built around. Coach Honeymoon can help you find her faster, once you\'re in.',
     tip:'Tip: confidence reads faster than polish — a calm, direct opener beats an over-formal one every time.' },
   { id:'playful', track:'type', icon:'sparkle', title:'Playful & fun',
     short:'Playful',    questions:[
@@ -6824,7 +6839,7 @@ const GUEST_THEMES = [
       { q:'Text or voice message from her?', opts:['Text, always','Voice, for the tone','Whatever fits the moment'] },
       { q:'Best way for a fun exchange to end?', opts:['On a joke','On a cliffhanger','Just naturally'] }
     ],
-    reveal:'Playful it is. That kind of energy is hard to fake — and exactly the kind of creator personality we\'re prioritizing early on.',
+    reveal:'Playful it is. That kind of energy is hard to fake — Coach Honeymoon can help you spot it in a creator\'s profile before you even say hello.',
     tip:'Tip: humor lands best when it\'s specific — react to something she actually said, not a generic joke.' },
   { id:'confident', track:'type', icon:'crown', title:'Bold & confident',
     short:'Confident',    questions:[
@@ -6834,7 +6849,7 @@ const GUEST_THEMES = [
       { q:'She disagrees with you in chat — then what?', opts:['I like the challenge','I\'d want to hear her out','Depends on the topic'] },
       { q:'What tips the scale in her favor?', opts:['She owns the room','She owns her opinions','She owns the moment'] }
     ],
-    reveal:'Confidence over comfort, got it. That kind of presence is hard to teach — Honeymoon is actively looking for it in the creators we bring on.',
+    reveal:'Confidence over comfort, got it. That kind of presence is hard to teach — Coach Honeymoon can help you match with creators who actually have it.',
     tip:'Tip: bold doesn\'t mean loud — one clear, direct sentence beats three uncertain ones.' },
   { id:'sweet', track:'type', icon:'heart', title:'Sweet & gentle',
     short:'Sweet',    questions:[
@@ -6844,7 +6859,7 @@ const GUEST_THEMES = [
       { q:'A small gesture from her that would matter?', opts:['Checking in first','Remembering a detail','Just being present'] },
       { q:'What tone wins you over fastest?', opts:['Gentle honesty','Quiet reassurance','Genuine warmth'] }
     ],
-    reveal:'Gentle and genuine — that\'s a real thread through a lot of what visitors ask for on Honeymoon. Good to know.',
+    reveal:'Gentle and genuine — that\'s a real thread through a lot of what visitors ask for. Coach Honeymoon can help you find creators who lead with exactly that.',
     tip:'Tip: warmth is contagious — ask one genuine question and actually wait for the answer.' },
   { id:'mysterious', track:'type', icon:'moonstar', title:'Mysterious & intense',
     short:'Mysterious',    questions:[
@@ -6854,7 +6869,7 @@ const GUEST_THEMES = [
       { q:'What draws you in most about her?', opts:['Her depth','Her restraint','Her intensity'] },
       { q:'Silence between her messages feels...', opts:['Comfortable','Intriguing','A little tense'] }
     ],
-    reveal:'Depth over small talk, clearly. That kind of intensity isn\'t common on a creator\'s page — worth remembering.',
+    reveal:'Depth over small talk, clearly. That kind of intensity is rare on a creator\'s page — Coach Honeymoon can help you recognize it, and know what to do with it.',
     tip:'Tip: patience wins here — let a conversation breathe instead of filling every silence.' },
   { id:'glam', track:'type', icon:'star', title:'Glamorous & luxe',
     short:'Glamorous',    questions:[
@@ -6864,7 +6879,7 @@ const GUEST_THEMES = [
       { q:'What matters behind the image, for you?', opts:['Ambition','Kindness','Self-awareness'] },
       { q:'What would surprise you about her, in a good way?', opts:['If she\'s down to earth','If she\'s funnier than expected','If she notices you back'] }
     ],
-    reveal:'Polish with substance behind it — noted, and that combination is exactly what stands out among Honeymoon creators.',
+    reveal:'Polish with substance behind it — noted. Coach Honeymoon can help you tell the two apart before you invest any time.',
     tip:'Tip: notice the details, not just the whole picture — specific compliments land, generic ones don\'t.' },
   { id:'nurturing', track:'type', icon:'ribbon', title:'Warm & attentive',
     short:'Attentive',    questions:[
@@ -6874,7 +6889,7 @@ const GUEST_THEMES = [
       { q:'What builds your trust in a creator fastest?', opts:['Consistency','Honesty','Patience'] },
       { q:'What would you want her to notice about you?', opts:['My effort','My honesty','Just me, really'] }
     ],
-    reveal:'Someone who actually pays attention — that\'s a preference the creators on Honeymoon take seriously too.',
+    reveal:'Someone who actually pays attention — a fair ask. Coach Honeymoon can help you figure out how to tell, before the first real conversation.',
     tip:'Tip: remembering small details said days ago goes further than any big gesture.' },
   { id:'loneliness', track:'need', icon:'users', title:'More than scrolling',
     short:'Not alone',    questions:[
@@ -6884,7 +6899,7 @@ const GUEST_THEMES = [
       { q:'What would actually help, tonight?', opts:['A real conversation','Less pressure','Just being seen'] },
       { q:'If tonight went well, what would that feel like?', opts:['Less alone','Understood','Excited again'] }
     ],
-    reveal:'That\'s worth naming, not brushing off. A lot of visitors carry that quietly before they find a creator worth talking to.',
+    reveal:'That\'s worth naming, not brushing off. Coach Honeymoon can help you find a creator worth actually talking to — not just scrolling past.',
     tip:'Tip: reaching out first, even briefly, breaks the cycle faster than waiting to feel ready.' },
   { id:'understood', track:'need', icon:'headphones', title:'Being heard',
     short:'Being heard',    questions:[
@@ -6894,7 +6909,7 @@ const GUEST_THEMES = [
       { q:'Do you open up easily, even in chat?', opts:['Not really','Once I trust someone','Pretty quickly'] },
       { q:'What would "being understood" feel like right now?', opts:['A relief','Rare','Overdue'] }
     ],
-    reveal:'Noted — that\'s not a small ask, and it\'s a fair one, whether it\'s a creator or a real conversation you\'re after.',
+    reveal:'Noted — that\'s not a small ask, and it\'s a fair one. Coach Honeymoon can help you actually get it, whether that\'s from a creator or from real dating advice.',
     tip:'Tip: being understood starts with being specific — vague feelings are hard for anyone to meet.' },
   { id:'dating_confidence', track:'need', icon:'warning', title:'Feeling sure of yourself',
     short:'Feeling sure',    questions:[
@@ -6904,7 +6919,7 @@ const GUEST_THEMES = [
       { q:'What would help most, honestly?', opts:['More practice','More confidence','Less pressure'] },
       { q:'Before sending a message, you usually...', opts:['Overthink it','Just send it','Talk yourself into it'] }
     ],
-    reveal:'That hesitation is more common than it feels like in the moment — creators see it every day too.',
+    reveal:'That hesitation is more common than it feels like in the moment. Coach Honeymoon can help you get past it, one honest message at a time.',
     tip:'Tip: confidence is built by small reps, not by waiting to feel ready first.' },
   { id:'spontaneity', track:'need', icon:'compass', title:'Craving something different',
     short:'Something new',    questions:[
@@ -6914,7 +6929,7 @@ const GUEST_THEMES = [
       { q:'What\'s missing from your routine, really?', opts:['Excitement','Connection','Both'] },
       { q:'If a creator surprised you tonight?', opts:['I\'d welcome it','I\'d be cautious','I\'d take the leap'] }
     ],
-    reveal:'Nothing wrong with wanting things to feel less routine — that\'s exactly what discovering a creator\'s world is for.',
+    reveal:'Nothing wrong with wanting things to feel less routine. Coach Honeymoon can help you find a creator\'s world worth actually discovering.',
     tip:'Tip: one small unplanned move a week can shift a routine more than a big overhaul.' },
   { id:'after_breakup', track:'need', icon:'lock', title:'Starting somewhere new',
     short:'Starting fresh',    questions:[
@@ -6924,7 +6939,7 @@ const GUEST_THEMES = [
       { q:'Are you looking to move on, or just breathe?', opts:['Move on','Just breathe','A little of both'] },
       { q:'What would "ready" actually feel like?', opts:['Lighter','Curious again','Less guarded'] }
     ],
-    reveal:'There\'s no timeline that\'s wrong here. Wherever you are is fair — no pressure, on Honeymoon or anywhere else.',
+    reveal:'There\'s no timeline that\'s wrong here. Coach Honeymoon can help you go at your own pace — no pressure, ever.',
     tip:'Tip: \'ready\' isn\'t a feeling you wait for — it shows up gradually, in small low-stakes moments.' },
   { id:'no_pressure', track:'need', icon:'globe', title:'No strings, no rush',
     short:'No rush',    questions:[
@@ -6934,7 +6949,7 @@ const GUEST_THEMES = [
       { q:'Slow build-up or quick connection?', opts:['Slow build-up','Quick connection','Whatever feels right'] },
       { q:'What matters most, honestly?', opts:['Feeling in control','Feeling comfortable','Feeling free'] }
     ],
-    reveal:'Fair — pace matters more than people admit, and it\'s something every creator on Honeymoon respects too.',
+    reveal:'Fair — pace matters more than people admit. Coach Honeymoon can help you find creators who actually respect it too.',
     tip:'Tip: naming your own pace out loud early on removes most of the pressure by default.' },
   { id:'guidance_approach', track:'need', icon:'rocket', title:'Knowing what to say',
     short:'What to say',    questions:[
@@ -6944,7 +6959,7 @@ const GUEST_THEMES = [
       { q:'What would help most, right now?', opts:['Knowing what works','More confidence','Just practice'] },
       { q:'What would make your first message easier to send?', opts:['A clear opener','Less self-judgment','Just doing it more often'] }
     ],
-    reveal:'That\'s a more common struggle than people let on — and it\'s exactly the kind of thing worth getting real guidance on.',
+    reveal:'That\'s a more common struggle than people let on. Coach Honeymoon is exactly built for that — real guidance on what to actually say.',
     tip:'Tip: a short, specific opener beats a clever one — specificity is what gets replies.' },
   { id:'real_connection', track:'need', icon:'trophy', title:'Something that actually lasts',
     short:'Something real',    questions:[
@@ -6954,7 +6969,7 @@ const GUEST_THEMES = [
       { q:'Do you believe that\'s still findable?', opts:['Yes, definitely','Hopeful','Not sure anymore'] },
       { q:'What\'s usually the dealbreaker for you?', opts:['Inconsistency','Dishonesty','Lack of curiosity'] }
     ],
-    reveal:'That hope is worth holding onto — even on the days it feels far off. It\'s exactly what Honeymoon is built to help you find.',
+    reveal:'That hope is worth holding onto — even on the days it feels far off. Coach Honeymoon is exactly built to help you find something that lasts.',
     tip:'Tip: consistency beats intensity — small, steady effort outlasts a big first impression.' }
 ];
 const GUEST_MAX_RETRIES = 2;
@@ -7170,7 +7185,7 @@ function guestId(){
   }catch(e){ return 'gu-fallback'; }
 }
 
-let guState = { tab:'roulette', view:'loading', firstName:null, discoverySource:null, path:null, discovered:[], ratings:{}, answers:{}, retries:0, pendingId:null, quizStep:0, quizPicks:[], activeQuestions:[], loaded:false, wheelRotation:0, totalSpins:0, totalQuestionsAnswered:0, sawSurprise:false, infiniteMode:false, sessionSpins:0, mysteryUnlocked:[], mysteryPending:null, mysteryNext:null, currentMystery:null, lastUnlockAnim:null, presQuizPool:[], presQuizStep:0, presWatched:false, diceView:'dice', diceFace:1, dicePendingId:null, diceQuizStep:0, diceQuizPicks:[], diceDiscovered:[], diceSawComplete:false };
+let guState = { tab:'roulette', view:'loading', firstName:null, discoverySource:null, path:null, discovered:[], ratings:{}, answers:{}, retries:0, pendingId:null, quizStep:0, quizPicks:[], activeQuestions:[], loaded:false, wheelRotation:0, totalSpins:0, totalQuestionsAnswered:0, sawSurprise:false, infiniteMode:false, sessionSpins:0, mysteryUnlocked:[], mysteryPending:null, mysteryNext:null, currentMystery:null, lastUnlockAnim:null, presQuizPool:[], presQuizStep:0, presWatched:false, diceView:'dice', diceFace:1, dicePendingId:null, diceQuizStep:0, diceQuizPicks:[], diceDiscovered:[], diceSawComplete:false, wheelTried:false, diceTried:false };
 
 async function guLoadJourney(){
   try{
@@ -7188,6 +7203,8 @@ async function guLoadJourney(){
       guState.mysteryUnlocked = Array.isArray(d.mysteryUnlocked) ? d.mysteryUnlocked : [];
       guState.path = d.path || null;
       guState.diceDiscovered = Array.isArray(d.diceDiscovered) ? d.diceDiscovered : [];
+      guState.wheelTried = !!d.wheelTried;
+      guState.diceTried = !!d.diceTried;
     }
   }catch(e){ console.error('guLoadJourney error', e); }
   guState.loaded = true;
@@ -7230,7 +7247,7 @@ function guApplyStage(root){
 }
 
 function openGuestUniverse(){
-  guState = { tab:'roulette', view:'loading', firstName:null, discoverySource:null, path:null, discovered:[], ratings:{}, answers:{}, retries:0, pendingId:null, quizStep:0, quizPicks:[], activeQuestions:[], loaded:false, wheelRotation:0, totalSpins:0, totalQuestionsAnswered:0, sawSurprise:false, infiniteMode:false, sessionSpins:0, mysteryUnlocked:[], mysteryPending:null, mysteryNext:null, currentMystery:null, lastUnlockAnim:null, presQuizPool:[], presQuizStep:0, presWatched:false, diceView:'dice', diceFace:1, dicePendingId:null, diceQuizStep:0, diceQuizPicks:[], diceDiscovered:[], diceSawComplete:false };
+  guState = { tab:'roulette', view:'loading', firstName:null, discoverySource:null, path:null, discovered:[], ratings:{}, answers:{}, retries:0, pendingId:null, quizStep:0, quizPicks:[], activeQuestions:[], loaded:false, wheelRotation:0, totalSpins:0, totalQuestionsAnswered:0, sawSurprise:false, infiniteMode:false, sessionSpins:0, mysteryUnlocked:[], mysteryPending:null, mysteryNext:null, currentMystery:null, lastUnlockAnim:null, presQuizPool:[], presQuizStep:0, presWatched:false, diceView:'dice', diceFace:1, dicePendingId:null, diceQuizStep:0, diceQuizPicks:[], diceDiscovered:[], diceSawComplete:false, wheelTried:false, diceTried:false };
   renderGuestUniverse(document.getElementById('guestuniverse-page-body'));
   document.getElementById('guestuniverse-backdrop').classList.add('open');
   document.getElementById('guestuniverse-modal').classList.add('open');
@@ -7457,11 +7474,6 @@ function guBuildWheelSvg(restingDeg){
   const seg = 360 / n;
   const R = 130, cx = 140, cy = 140;
   const [colorA, colorB] = guWheelColorPair();
-  // Contre-rotation appliquée au groupe de textes : annule la rotation CSS du
-  // disque (transform:rotate appliqué par guRenderWheel/guSpin) pour que les
-  // titres restent toujours à l'endroit à l'écran, quel que soit l'angle où
-  // la roue s'arrête.
-  const counter = -(((restingDeg || 0) % 360) + 360) % 360;
   let sectors = '';
   let labels = '';
   themesOrdered.forEach((th, i) => {
@@ -7471,12 +7483,18 @@ function guBuildWheelSvg(restingDeg){
     const mid = a0 + seg / 2;
     const sectorColor = th.type === 'mystery' ? '#c084fc' : (i % 2 === 0 ? colorA : colorB);
     sectors += `<path d="M${cx},${cy} L${x0.toFixed(2)},${y0.toFixed(2)} A${R},${R} 0 0 1 ${x1.toFixed(2)},${y1.toFixed(2)} Z" fill="${sectorColor}" fill-opacity="${th.type === 'mystery' ? 0.7 : (th.track === 'need' ? 0.95 : 0.82)}" stroke="#2e1065" stroke-width="1.2"/>`;
-    const tx = cx + (R * 0.66) * Math.cos(mid * Math.PI / 180), ty = cy + (R * 0.66) * Math.sin(mid * Math.PI / 180);
+    // Le texte suit le rayon de sa propre case (comme une roue de foire classique) :
+    // ça garde chaque titre strictement dans sa part, sans jamais empiéter sur la
+    // case voisine. Bascule à l'endroit sur la moitié basse pour limiter le texte
+    // à l'envers — un peu moins lisible à certains angles, mais jamais chevauché.
+    const tx = cx + (R * 0.68) * Math.cos(mid * Math.PI / 180), ty = cy + (R * 0.68) * Math.sin(mid * Math.PI / 180);
+    let rot = mid + 90;
+    if(rot > 90 && rot < 270) rot += 180;
     if(th.type === 'mystery'){
-      labels += `<text x="${tx.toFixed(2)}" y="${ty.toFixed(2)}" transform="rotate(${counter.toFixed(2)},${tx.toFixed(2)},${ty.toFixed(2)})" text-anchor="middle" dominant-baseline="middle" font-size="16" font-weight="800" fill="#fff" font-family="inherit">?</text>`;
+      labels += `<text x="${tx.toFixed(2)}" y="${ty.toFixed(2)}" transform="rotate(${rot.toFixed(2)},${tx.toFixed(2)},${ty.toFixed(2)})" text-anchor="middle" dominant-baseline="middle" font-size="15" font-weight="800" fill="#fff" font-family="inherit">?</text>`;
     }else{
       const label = guWheelLabel(th);
-      labels += `<text x="${tx.toFixed(2)}" y="${ty.toFixed(2)}" transform="rotate(${counter.toFixed(2)},${tx.toFixed(2)},${ty.toFixed(2)})" text-anchor="middle" dominant-baseline="middle" font-size="10.5" font-weight="800" fill="#fff" font-family="inherit" style="paint-order:stroke;stroke:#2e1065;stroke-width:2.2px;stroke-linejoin:round;">${escText(label)}</text>`;
+      labels += `<text x="${tx.toFixed(2)}" y="${ty.toFixed(2)}" transform="rotate(${rot.toFixed(2)},${tx.toFixed(2)},${ty.toFixed(2)})" text-anchor="middle" dominant-baseline="middle" font-size="9.5" font-weight="800" fill="#fff" font-family="inherit" style="paint-order:stroke;stroke:#2e1065;stroke-width:2px;stroke-linejoin:round;">${escText(label)}</text>`;
     }
   });
   return `<svg id="gu-wheel-svg" viewBox="0 0 280 280" width="230" height="230">
@@ -7484,19 +7502,20 @@ function guBuildWheelSvg(restingDeg){
     <g>${sectors}</g>
     <g>${labels}</g>
     <circle cx="${cx}" cy="${cy}" r="22" fill="var(--bg-elev)" stroke="#c084fc" stroke-width="2"/>
-    <text x="${cx}" y="${cy + 1}" text-anchor="middle" dominant-baseline="central" font-size="20" transform="rotate(${counter.toFixed(2)},${cx},${cy})">🍯</text>
+    <text x="${cx}" y="${cy + 1}" text-anchor="middle" dominant-baseline="central" font-size="20">🍯</text>
   </svg>`;
 }
 
 function guRenderWheel(body){
   guState.retries = 0;
+  if(!guState.wheelTried){ guState.wheelTried = true; guSaveJourney({ wheelTried: true }); }
   body.innerHTML = `
     ${guProgressHtml()}
     <div class="gu-wheel-wrap">
       <div class="gu-wheel-pointer">${guIcon('arrow',18)}</div>
       <div class="gu-wheel-spin-holder" id="gu-wheel-holder" style="transform:rotate(${guState.wheelRotation}deg);">${guBuildWheelSvg(guState.wheelRotation)}</div>
     </div>
-    <button type="button" class="gu-spin-btn" id="gu-spin-btn">${guIcon('compass',16)} ${escText(t('guSpin'))}</button>
+    <button type="button" class="gu-spin-btn gu-wheel-btn" id="gu-spin-btn">${guIcon('compass',16)} ${escText(t('guSpin'))}</button>
     ${guMenuBackHtml()}
   `;
   document.getElementById('gu-spin-btn').onclick = guSpin;
@@ -7868,8 +7887,12 @@ function guCoachBridgeSlides(){
   }));
 }
 function guSlideshowOrder(){
-  const types = GUEST_THEMES.filter(th => th.track === 'type');
-  const needs = GUEST_THEMES.filter(th => th.track === 'need');
+  // Recap personnalisé : uniquement les univers que CE visiteur a réellement
+  // découverts pendant sa partie (pas la liste complète des 15).
+  const discoveredThemes = GUEST_THEMES.filter(th => guState.discovered.includes(th.id));
+  const pool = discoveredThemes.length ? discoveredThemes : GUEST_THEMES;
+  const types = pool.filter(th => th.track === 'type');
+  const needs = pool.filter(th => th.track === 'need');
   const themeSlides = [];
   for(let i = 0; i < Math.max(types.length, needs.length); i++){
     if(types[i]) themeSlides.push({ kind:'theme', icon: types[i].icon, title: types[i].title, text: types[i].reveal });
@@ -7957,6 +7980,7 @@ function guOpenRealCoach(){
 function guRenderComplete(body){
   guStopSlideshow();
   const isReplay = guState.sawSurprise;
+  const showDiceCta = !guState.diceTried;
   body.innerHTML = `
     <div class="gu-complete-card">
       <div class="gu-experience-icon">${guIcon('flame', 40)}</div>
@@ -7964,17 +7988,30 @@ function guRenderComplete(body){
       <div class="gu-theme-card-desc" style="margin-top:6px;">${escText(t('guCompleteBody'))}</div>
       ${guRenderSlideshow()}
       <div class="gu-theme-card-desc" style="margin-top:10px;">${escText(t('guCoachPitch'))}</div>
-      <button type="button" class="gu-spin-btn" id="gu-complete-cta" style="margin-top:16px;">${escText(t('guCompleteCta'))}</button>
+      <div class="gu-theme-card-desc" style="margin-top:10px;">${escText(t('guBonusMention'))}</div>
+      ${showDiceCta
+        ? `<button type="button" class="gu-spin-btn gu-dice-btn" id="gu-complete-try-other" style="margin-top:16px;">${guIcon('dice',16)} ${escText(t('guTryDiceCta'))}</button>`
+        : `<button type="button" class="gu-spin-btn" id="gu-complete-cta" style="margin-top:16px;">${escText(t('guCompleteCta'))}</button>`}
       <div class="gu-progress-label" style="text-align:center;margin-top:6px;">${escText(t('guAlreadySeenSurprise'))}</div>
       <button type="button" class="gu-choice-btn" id="gu-just-play-btn" style="margin-top:6px;">${guIcon('compass',14)} ${escText(t('guJustPlay'))}</button>
     </div>
   `;
   guWireSlideshow();
   if(!guState.sawSurprise){ guState.sawSurprise = true; guSaveJourney({ sawSurprise: true }); }
-  document.getElementById('gu-complete-cta').onclick = () => {
-    guStopSlideshow();
-    guOpenRealCoach();
-  };
+  if(showDiceCta){
+    document.getElementById('gu-complete-try-other').onclick = async () => {
+      guStopSlideshow();
+      guState.path = 'dice';
+      await guSaveJourney({ path: 'dice' });
+      guState.diceView = 'dice';
+      guRenderRoulette();
+    };
+  }else{
+    document.getElementById('gu-complete-cta').onclick = () => {
+      guStopSlideshow();
+      guOpenRealCoach();
+    };
+  }
   document.getElementById('gu-just-play-btn').onclick = () => {
     guStopSlideshow();
     guState.infiniteMode = true;
@@ -7997,27 +8034,34 @@ const GU_DICE_PIPS = {
   4:[[0,0],[0,2],[2,0],[2,2]],
   5:[[0,0],[0,2],[1,1],[2,0],[2,2]]
 };
-function guBuildDiceSvg(face, size){
-  const isMystery = face === 6;
-  const pipsColor = '#5b21b6';
-  let inner;
-  if(isMystery){
-    inner = `<text x="50" y="58" text-anchor="middle" dominant-baseline="middle" font-size="46" font-weight="800" fill="#7c3aed" font-family="inherit">?</text>`;
-  }else{
-    const pts = GU_DICE_PIPS[face] || GU_DICE_PIPS[1];
-    inner = pts.map(([r,c]) => `<circle cx="${22 + c*28}" cy="${22 + r*28}" r="7.5" fill="${pipsColor}"/>`).join('');
+/* Rotation à appliquer au cube pour amener chaque face vers le joueur —
+   correspond exactement à la position de chaque face dans le CSS (.gu-dice-f1
+   à .gu-dice-f6 ci-dessus). Standard : faces opposées 1-6, 2-5, 3-4. */
+const GU_DICE_FACE_ROTATION = {
+  1:{x:0,y:0}, 2:{x:0,y:-90}, 3:{x:90,y:0}, 4:{x:-90,y:0}, 5:{x:0,y:90}, 6:{x:0,y:180}
+};
+function guDiceFaceInner(face){
+  if(face === 6){
+    return `<span style="font-size:38px;font-weight:800;color:#7c3aed;line-height:1;">?</span>`;
   }
-  return `<svg viewBox="0 0 100 100" width="${size}" height="${size}">
-    <defs>
-      <linearGradient id="gu-dice-grad" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="#ffffff"/>
-        <stop offset="100%" stop-color="#eae5f7"/>
-      </linearGradient>
-    </defs>
-    <rect x="4" y="4" width="92" height="92" rx="18" fill="url(#gu-dice-grad)" stroke="#c4b5fd" stroke-width="3"/>
-    <rect x="10" y="9" width="80" height="26" rx="12" fill="#ffffff" opacity=".6"/>
-    ${inner}
-  </svg>`;
+  const pts = GU_DICE_PIPS[face] || GU_DICE_PIPS[1];
+  const dots = pts.map(([r,c]) => `<circle cx="${18 + c*30}" cy="${18 + r*30}" r="8" fill="#5b21b6"/>`).join('');
+  return `<svg viewBox="0 0 90 90" width="72" height="72">${dots}</svg>`;
+}
+function guBuildDiceCube(){
+  return `<div class="gu-dice-cube" id="gu-dice-cube">
+    <div class="gu-dice-face gu-dice-f1">${guDiceFaceInner(1)}</div>
+    <div class="gu-dice-face gu-dice-f2">${guDiceFaceInner(2)}</div>
+    <div class="gu-dice-face gu-dice-f3">${guDiceFaceInner(3)}</div>
+    <div class="gu-dice-face gu-dice-f4">${guDiceFaceInner(4)}</div>
+    <div class="gu-dice-face gu-dice-f5">${guDiceFaceInner(5)}</div>
+    <div class="gu-dice-face gu-dice-f6">${guDiceFaceInner(6)}</div>
+  </div>`;
+}
+function guSetCubeRotation(cube, face, extraSpins){
+  const r = GU_DICE_FACE_ROTATION[face] || GU_DICE_FACE_ROTATION[1];
+  const spinX = (extraSpins || 0) * 360, spinY = (extraSpins || 0) * 360;
+  cube.style.transform = `rotateX(${r.x + spinX}deg) rotateY(${r.y + spinY}deg)`;
 }
 function guDiceProgressHtml(){
   const count = guState.diceDiscovered.length, total = SITE_DICE_THEMES.length;
@@ -8038,13 +8082,16 @@ function guRenderDiceRoulette(body){
   guRenderDiceStage(body);
 }
 function guRenderDiceStage(body){
+  if(!guState.diceTried){ guState.diceTried = true; guSaveJourney({ diceTried: true }); }
   body.innerHTML = `
     ${guDiceProgressHtml()}
     <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show">${escText(t('guDrawnIntro'))}</div></div>
-    <div class="gu-dice-wrap"><div class="gu-dice-holder" id="gu-dice-holder">${guBuildDiceSvg(guState.diceFace || 1, 120)}</div></div>
+    <div class="gu-dice-wrap">${guBuildDiceCube()}</div>
     <button type="button" class="gu-spin-btn gu-dice-btn" id="gu-dice-roll-btn">${guIcon('dice',16)} ${escText(t('guDiceRoll'))}</button>
     <button type="button" class="gu-back-link" id="gu-dice-menu-back">${guIcon('backArrow',13)} ${escText(t('guBackToMenu'))}</button>
   `;
+  const cube = document.getElementById('gu-dice-cube');
+  if(cube) guSetCubeRotation(cube, guState.diceFace || 1, 0);
   document.getElementById('gu-dice-roll-btn').onclick = guRollDice;
   document.getElementById('gu-dice-menu-back').onclick = async () => {
     guState.path = null;
@@ -8054,8 +8101,8 @@ function guRenderDiceStage(body){
 }
 function guRollDice(){
   const btn = document.getElementById('gu-dice-roll-btn');
-  const holder = document.getElementById('gu-dice-holder');
-  if(!holder) return;
+  const cube = document.getElementById('gu-dice-cube');
+  if(!cube) return;
   if(btn) btn.disabled = true;
   // Construit les faces possibles : 1-5 = thèmes du site (priorité à ceux pas
   // encore vus), 6 = énigme mystère — seulement si une énigme fraîche existe,
@@ -8066,30 +8113,23 @@ function guRollDice(){
   const facePool = themePool.map(th => ({ face: SITE_DICE_THEMES.indexOf(th) + 1, theme: th }));
   if(guMysteryHasFresh()) facePool.push({ face: 6, theme: null });
   const chosen = facePool[Math.floor(Math.random() * facePool.length)];
-  holder.classList.add('gu-dice-rolling');
-  let ticks = 0;
-  const iv = setInterval(() => {
-    const randFace = 1 + Math.floor(Math.random() * 6);
-    holder.innerHTML = guBuildDiceSvg(randFace, 120);
-    ticks++;
-    if(ticks > 13){
-      clearInterval(iv);
-      guState.diceFace = chosen.face;
-      holder.innerHTML = guBuildDiceSvg(chosen.face, 120);
-      holder.classList.remove('gu-dice-rolling');
-      setTimeout(() => {
-        if(chosen.face === 6){
-          const picks = guPickTeases(1, guState.mysteryUnlocked);
-          guState.currentMystery = picks[0];
-          guState.diceView = 'mystery';
-        }else{
-          guState.dicePendingId = chosen.theme.id;
-          guState.diceView = 'drawn';
-        }
-        guRenderRoulette();
-      }, 450);
-    }
-  }, 85);
+  // Vrai lancer 3D : le cube tourne sur ses 3 axes (via des tours complets en
+  // plus de la rotation finale) puis se pose précisément sur la face tirée.
+  guSetCubeRotation(cube, chosen.face, 2);
+  setTimeout(() => {
+    guState.diceFace = chosen.face;
+    setTimeout(() => {
+      if(chosen.face === 6){
+        const picks = guPickTeases(1, guState.mysteryUnlocked);
+        guState.currentMystery = picks[0];
+        guState.diceView = 'mystery';
+      }else{
+        guState.dicePendingId = chosen.theme.id;
+        guState.diceView = 'drawn';
+      }
+      guRenderRoulette();
+    }, 400);
+  }, 1150);
 }
 /* Énigme tirée de la face "?" du dé — même mécanique de résolution que celle
    de la roue (guRenderMysteryQuiz), juste un point de retour différent. */
@@ -8193,16 +8233,38 @@ function guRenderDiceReveal(body){
   };
 }
 function guRenderDiceComplete(body){
+  // Récap perso : les 5 facettes du site que ce visiteur a réellement tirées,
+  // chacune reliée à ce que Honeymoon (et Coach Honeymoon) en fait concrètement.
+  const recapItems = SITE_DICE_THEMES.filter(th => guState.diceDiscovered.includes(th.id));
+  const recapHtml = recapItems.map(th => `
+    <div class="coach-bubble-row" style="margin-top:8px;">
+      <div class="coach-mini-avatar gu-q-icon">${guIcon(th.icon,16)}</div>
+      <div class="coach-bubble-text chat-bot show"><b>${escText(th.title)}</b><br>${escText(th.reveal)}</div>
+    </div>`).join('');
+  const showWheelCta = !guState.wheelTried;
   body.innerHTML = `
     <div class="gu-complete-card">
       <div class="gu-experience-icon">${guIcon('flame', 40)}</div>
       <div class="gu-theme-card-title" style="margin-top:8px;">${escText(t('guDiceCompleteTitle'))}</div>
       <div class="gu-theme-card-desc" style="margin-top:6px;">${escText(t('guDiceCompleteBody'))}</div>
+      ${recapHtml}
       <div class="gu-theme-card-desc" style="margin-top:10px;">${escText(t('guCoachPitch'))}</div>
-      <button type="button" class="gu-spin-btn" id="gu-dice-complete-cta" style="margin-top:16px;">${escText(t('guCompleteCta'))}</button>
+      <div class="gu-theme-card-desc" style="margin-top:10px;">${escText(t('guBonusMention'))}</div>
+      ${showWheelCta
+        ? `<button type="button" class="gu-spin-btn gu-wheel-btn" id="gu-dice-complete-try-other" style="margin-top:16px;">${guIcon('compass',16)} ${escText(t('guTryWheelCta'))}</button>`
+        : `<button type="button" class="gu-spin-btn" id="gu-dice-complete-cta" style="margin-top:16px;">${escText(t('guCompleteCta'))}</button>`}
     </div>
   `;
-  document.getElementById('gu-dice-complete-cta').onclick = () => { guOpenRealCoach(); };
+  if(showWheelCta){
+    document.getElementById('gu-dice-complete-try-other').onclick = async () => {
+      guState.path = 'game';
+      await guSaveJourney({ path: 'game' });
+      guState.view = 'wheel';
+      guRenderRoulette();
+    };
+  }else{
+    document.getElementById('gu-dice-complete-cta').onclick = () => { guOpenRealCoach(); };
+  }
 }
 
 /* Petit pop-up "Honeymoon Coach" en fin de chaque session de jeu (mode infini,
