@@ -7470,7 +7470,14 @@ function guMenuBackHtml(){
 }
 function guWireMenuBack(){
   const btn = document.getElementById('gu-menu-back');
-  if(btn) btn.onclick = () => { guState.view = 'welcome'; guRenderRoulette(); };
+  if(btn) btn.onclick = async () => {
+    // Retour à l'écran des deux options (roue / dé) — même comportement que le
+    // lien équivalent côté dé, plutôt qu'un simple retour à l'écran d'accueil
+    // de la roue.
+    guState.path = null;
+    await guSaveJourney({ path: null });
+    guRenderRoulette();
+  };
 }
 
 /* Roue SVG à 15 secteurs, réellement animée (rotation CSS calculée pour arrêter le
@@ -8053,6 +8060,10 @@ function guOpenRealCoach(){
    bascule sur l'espace membre, directement sur le formulaire d'inscription. */
 function guGoToSignup(){
   if(typeof openMemberModal !== 'function') return;
+  // Il faut fermer la fenêtre Guest Universe AVANT d'ouvrir l'espace membre,
+  // sinon elle reste affichée par-dessus et cache la page d'inscription tant
+  // que le visiteur ne clique pas manuellement sur la flèche de fermeture.
+  closeGuestUniverse();
   openMemberModal();
   if(typeof renderMemberSignup === 'function') renderMemberSignup();
 }
@@ -8279,6 +8290,7 @@ function guRenderDiceQuizStep(body){
     <div class="coach-bubble-row"><div class="coach-mini-avatar gu-q-icon">${guIcon(theme.icon,16)}</div><div class="coach-bubble-text chat-bot show">${escText(qa.q)}</div></div>
     <div class="gu-choice-row">${qa.opts.map((opt,i) => `<button type="button" class="gu-choice-btn" data-dpick="${i}">${escText(opt)}</button>`).join('')}</div>
     ${step > 0 ? `<button type="button" class="gu-back-link" id="gu-dice-quiz-back">${guIcon('backArrow',13)} ${escText(t('guBack'))}</button>` : ''}
+    <button type="button" class="gu-back-link" id="gu-dice-quiz-menu-back">${guIcon('backArrow',13)} ${escText(t('guBackToMenu'))}</button>
   `;
   body.querySelectorAll('[data-dpick]').forEach(btn => {
     btn.onclick = () => {
@@ -8298,6 +8310,13 @@ function guRenderDiceQuizStep(body){
       guRenderDiceQuizStep(body);
     };
   }
+  // Retour direct à l'écran des deux options (roue / dé), même comportement
+  // que le lien équivalent sur l'écran de lancer du dé.
+  document.getElementById('gu-dice-quiz-menu-back').onclick = async () => {
+    guState.path = null;
+    await guSaveJourney({ path: null });
+    guRenderRoulette();
+  };
 }
 function guRenderDiceReveal(body){
   const theme = SITE_DICE_THEMES.find(th => th.id === guState.dicePendingId);
@@ -8758,7 +8777,7 @@ async function memberLoginSubmit(){
 function renderMemberSignup(){
   const body = document.getElementById('member-modal-body');
   body.innerHTML = `
-    <button type="button" id="member-signup-back" style="background:none;border:none;color:var(--text-muted);font-size:13px;cursor:pointer;padding:0 0 10px;text-align:left;">${t('memberBackToSite')}</button>
+    <button type="button" id="member-signup-back" style="background:none;border:none;color:var(--text-muted);font-size:13px;cursor:pointer;padding:0 0 10px;text-align:left;display:flex;align-items:center;gap:6px;">${guIcon('backArrow',14)} ${t('memberBackToSite').replace('← ', '')}</button>
     <span class="member-badge">🔓 ${t('memberFreeBadge')}</span>
     <h3>${t('memberSignupTitle')}</h3>
     <p class="member-welcome-line">${t('memberSignupLine')}</p>
