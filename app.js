@@ -345,9 +345,10 @@ const I18N = {
     guPathPresDesc: "6 sides, one quick round — a peek behind how Honeymoon actually works.",
     guDiceRoll: "Roll the dice",
     guDiceCompleteTitle: "You've rolled through every side of Honeymoon.",
-    guDiceCompleteBody: "6 out of 6 explored. You now know how Honeymoon — and its creators — really work.",
+    guDiceCompleteBody: "5 out of 5 explored. You now know how Honeymoon — and its creators — really work.",
     guPresQuizCta: "Continue",
-    guMysteryUnlockedTitle: "Mystery unlocked.",
+    guMysteryUnlockedTitle: "Congratulations — mystery solved!",
+    guMysteryUnderstandMsg: "You understand the Honeymoon universe a little better now.",
     guCoachBridgeTag: "Coach Honeymoon knows this one",
     guSessionPopupTitle: "Before you spin again...",
     guSessionPopupBody: "Everything you've shared so far is exactly what Honeymoon Coach was built around — real guidance, not generic advice.",
@@ -3933,10 +3934,15 @@ if(!document.getElementById('hm-shopbot-gold-style')){
     .gu-wheel-pointer{position:absolute;top:-2px;left:50%;transform:translateX(-50%);z-index:2;color:#c084fc;filter:drop-shadow(0 2px 4px rgba(0,0,0,.4));}
     .gu-wheel-spin-holder{will-change:transform;position:relative;z-index:1;}
     /* ---- Dé à 6 faces (2e parcours) : même esprit que la roue, plus rapide. ---- */
-    .gu-dice-wrap{position:relative;display:flex;justify-content:center;align-items:center;padding:14px 0 8px;perspective:600px;}
-    .gu-dice-holder{will-change:transform;filter:drop-shadow(0 6px 14px rgba(0,0,0,.35));}
-    .gu-dice-holder.gu-dice-rolling{animation:guDiceRoll .09s linear infinite;}
-    @keyframes guDiceRoll{0%{transform:rotate(-8deg) scale(.96);}50%{transform:rotate(8deg) scale(1.04);}100%{transform:rotate(-8deg) scale(.96);}}
+    .gu-dice-wrap{position:relative;display:flex;justify-content:center;align-items:center;padding:14px 0 8px;perspective:700px;}
+    .gu-dice-holder{will-change:transform;filter:drop-shadow(0 8px 16px rgba(0,0,0,.4));transform-style:preserve-3d;}
+    /* Culbute sur plusieurs axes à la fois (X + Y + Z), comme un vrai dé lancé,
+       pas juste un wobble à plat. */
+    .gu-dice-holder.gu-dice-rolling{animation:guDiceRoll .55s linear infinite;}
+    @keyframes guDiceRoll{0%{transform:rotateX(0) rotateY(0) rotateZ(0);}100%{transform:rotateX(360deg) rotateY(300deg) rotateZ(220deg);}}
+    /* Bouton "Roll the dice" : même forme que le spin, dégradé orange -> violet
+       (au lieu de orange -> rose) pour matcher la teinte du dé. */
+    .gu-dice-btn{background:linear-gradient(90deg,var(--guest-orange),#7c3aed) !important;}
     .gu-spin-btn{width:100%;padding:13px;border-radius:14px;border:none;background:linear-gradient(90deg,var(--guest-orange),var(--rose));color:#fff;font-weight:800;font-size:13.5px;cursor:pointer;margin-top:10px;letter-spacing:.2px;display:flex;align-items:center;justify-content:center;gap:7px;}
     .gu-spin-btn:disabled{opacity:.55;cursor:default;}
     .gu-theme-card{border:1px solid var(--guest-orange);border-radius:16px;padding:16px;text-align:center;margin:10px 0;background:linear-gradient(180deg,color-mix(in srgb, var(--guest-orange) 8%, var(--bg-elev)),var(--bg-elev));}
@@ -6801,7 +6807,7 @@ const GU_DISCOVERY_OPTIONS = ['A friend told me about it', 'Social media', 'Just
    pendant le jeu, juste préparé). 5 mini-questions à 3 choix par thème. */
 const GUEST_THEMES = [
   { id:'elegant', track:'type', icon:'gem', title:'Elegant & refined',
-    questions:[
+    short:'Elegant',    questions:[
       { q:'A creator walks into the room — what do you notice first?', opts:['Her smile','Her style','Her poise'] },
       { q:'Her voice, on a first message, should sound...', opts:['Soft','Playful','Confident'] },
       { q:'What would make you open her profile twice?', opts:['Her look','Her personality','The mystery around her'] },
@@ -6811,7 +6817,7 @@ const GUEST_THEMES = [
     reveal:'Refined and self-assured, noted — the roster being built on Honeymoon leans exactly this way, and answers like yours shape who joins first.',
     tip:'Tip: confidence reads faster than polish — a calm, direct opener beats an over-formal one every time.' },
   { id:'playful', track:'type', icon:'sparkle', title:'Playful & fun',
-    questions:[
+    short:'Playful',    questions:[
       { q:'A creator\'s sense of humor should be...', opts:['Sharp and witty','Goofy and warm','Dry and sarcastic'] },
       { q:'Ideal vibe when you\'re chatting with her?', opts:['Nonstop banter','Easy small talk','Flirty back-and-forth'] },
       { q:'What makes you actually smile at your screen?', opts:['A good joke','Being teased','Random spontaneity'] },
@@ -6821,7 +6827,7 @@ const GUEST_THEMES = [
     reveal:'Playful it is. That kind of energy is hard to fake — and exactly the kind of creator personality we\'re prioritizing early on.',
     tip:'Tip: humor lands best when it\'s specific — react to something she actually said, not a generic joke.' },
   { id:'confident', track:'type', icon:'crown', title:'Bold & confident',
-    questions:[
+    short:'Confident',    questions:[
       { q:'In chat, you like when a creator is...', opts:['Direct','Teasing','In control'] },
       { q:'What wins you over first, on her profile?', opts:['She makes the first move','She holds her frame','She says what she means'] },
       { q:'What draws you in most about her?', opts:['Her presence','Her words','Her certainty'] },
@@ -6831,7 +6837,7 @@ const GUEST_THEMES = [
     reveal:'Confidence over comfort, got it. That kind of presence is hard to teach — Honeymoon is actively looking for it in the creators we bring on.',
     tip:'Tip: bold doesn\'t mean loud — one clear, direct sentence beats three uncertain ones.' },
   { id:'sweet', track:'type', icon:'heart', title:'Sweet & gentle',
-    questions:[
+    short:'Sweet',    questions:[
       { q:'Her tone, replying to you, should feel...', opts:['Warm','Caring','Reassuring'] },
       { q:'What matters most in a creator\'s energy?', opts:['Kindness','Patience','Genuine interest'] },
       { q:'What would you remember most about her?', opts:['How she made you feel','What she said','How she listened'] },
@@ -6841,7 +6847,7 @@ const GUEST_THEMES = [
     reveal:'Gentle and genuine — that\'s a real thread through a lot of what visitors ask for on Honeymoon. Good to know.',
     tip:'Tip: warmth is contagious — ask one genuine question and actually wait for the answer.' },
   { id:'mysterious', track:'type', icon:'moonstar', title:'Mysterious & intense',
-    questions:[
+    short:'Mysterious',    questions:[
       { q:'With a creator, do you like being fully in the know, or not?', opts:['Fully in the know','A little mystery','Mostly mystery'] },
       { q:'Her energy, from her photos and bio, should feel...', opts:['Calm on the surface','Intense underneath','Hard to read'] },
       { q:'What keeps you scrolling her profile?', opts:['What she doesn\'t say','What she reveals slowly','Both'] },
@@ -6851,7 +6857,7 @@ const GUEST_THEMES = [
     reveal:'Depth over small talk, clearly. That kind of intensity isn\'t common on a creator\'s page — worth remembering.',
     tip:'Tip: patience wins here — let a conversation breathe instead of filling every silence.' },
   { id:'glam', track:'type', icon:'star', title:'Glamorous & luxe',
-    questions:[
+    short:'Glamorous',    questions:[
       { q:'What catches your eye first on her profile?', opts:['Her look','Her lifestyle','Her confidence'] },
       { q:'Her presence in chat should feel...', opts:['Polished','Effortless','Larger than life'] },
       { q:'What draws you in most, really?', opts:['The image','What\'s behind it','Both'] },
@@ -6861,7 +6867,7 @@ const GUEST_THEMES = [
     reveal:'Polish with substance behind it — noted, and that combination is exactly what stands out among Honeymoon creators.',
     tip:'Tip: notice the details, not just the whole picture — specific compliments land, generic ones don\'t.' },
   { id:'nurturing', track:'type', icon:'ribbon', title:'Warm & attentive',
-    questions:[
+    short:'Attentive',    questions:[
       { q:'Her attention, when she replies, should feel...', opts:['Full and present','Steady over time','Natural, not forced'] },
       { q:'What would you notice first about how she talks to you?', opts:['How she listens','How she remembers details','How she makes time'] },
       { q:'What would you value most from her, long term?', opts:['Consistency','Warmth','Real interest'] },
@@ -6871,7 +6877,7 @@ const GUEST_THEMES = [
     reveal:'Someone who actually pays attention — that\'s a preference the creators on Honeymoon take seriously too.',
     tip:'Tip: remembering small details said days ago goes further than any big gesture.' },
   { id:'loneliness', track:'need', icon:'users', title:'More than scrolling',
-    questions:[
+    short:'Not alone',    questions:[
       { q:'Lately, your evenings feel...', opts:['Quiet','Busy but empty','Fine, honestly'] },
       { q:'What are you missing most, honestly?', opts:['Someone to talk to','Someone who gets it','Just company'] },
       { q:'Do you usually reach out first?', opts:['Rarely','Sometimes','Almost always'] },
@@ -6881,7 +6887,7 @@ const GUEST_THEMES = [
     reveal:'That\'s worth naming, not brushing off. A lot of visitors carry that quietly before they find a creator worth talking to.',
     tip:'Tip: reaching out first, even briefly, breaks the cycle faster than waiting to feel ready.' },
   { id:'understood', track:'need', icon:'headphones', title:'Being heard',
-    questions:[
+    short:'Being heard',    questions:[
       { q:'Do people usually get you right away?', opts:['Rarely','Eventually','Depends who'] },
       { q:'What frustrates you most in conversations?', opts:['Being misread','Surface-level talk','Not being asked back'] },
       { q:'What do you actually want from a creator you talk to?', opts:['To be listened to','To be challenged','To be surprised'] },
@@ -6891,7 +6897,7 @@ const GUEST_THEMES = [
     reveal:'Noted — that\'s not a small ask, and it\'s a fair one, whether it\'s a creator or a real conversation you\'re after.',
     tip:'Tip: being understood starts with being specific — vague feelings are hard for anyone to meet.' },
   { id:'dating_confidence', track:'need', icon:'warning', title:'Feeling sure of yourself',
-    questions:[
+    short:'Feeling sure',    questions:[
       { q:'Messaging a creator first feels...', opts:['Easy','Nerve-wracking','Depends on the day'] },
       { q:'What usually holds you back?', opts:['Fear of rejection','Not knowing what to say','Overthinking it'] },
       { q:'How do you feel after a message goes unanswered?', opts:['Shake it off','Replay it for days','Somewhere between'] },
@@ -6901,7 +6907,7 @@ const GUEST_THEMES = [
     reveal:'That hesitation is more common than it feels like in the moment — creators see it every day too.',
     tip:'Tip: confidence is built by small reps, not by waiting to feel ready first.' },
   { id:'spontaneity', track:'need', icon:'compass', title:'Craving something different',
-    questions:[
+    short:'Something new',    questions:[
       { q:'Your evenings lately feel...', opts:['Predictable','Fine','Stale'] },
       { q:'What would shake things up tonight?', opts:['A new conversation','A surprise','Just something different'] },
       { q:'Do you take chances easily online?', opts:['Rarely','When it matters','Often'] },
@@ -6911,7 +6917,7 @@ const GUEST_THEMES = [
     reveal:'Nothing wrong with wanting things to feel less routine — that\'s exactly what discovering a creator\'s world is for.',
     tip:'Tip: one small unplanned move a week can shift a routine more than a big overhaul.' },
   { id:'after_breakup', track:'need', icon:'lock', title:'Starting somewhere new',
-    questions:[
+    short:'Starting fresh',    questions:[
       { q:'Where are you, really, after the last one?', opts:['Still healing','Mostly okay','Ready, but cautious'] },
       { q:'What are you protecting yourself from?', opts:['Getting hurt again','Rushing in','Overthinking it'] },
       { q:'What would feel safe, starting to talk to someone again?', opts:['No pressure','No expectations','Just going slow'] },
@@ -6921,7 +6927,7 @@ const GUEST_THEMES = [
     reveal:'There\'s no timeline that\'s wrong here. Wherever you are is fair — no pressure, on Honeymoon or anywhere else.',
     tip:'Tip: \'ready\' isn\'t a feeling you wait for — it shows up gradually, in small low-stakes moments.' },
   { id:'no_pressure', track:'need', icon:'globe', title:'No strings, no rush',
-    questions:[
+    short:'No rush',    questions:[
       { q:'Does "no pressure" actually feel possible to you?', opts:['Rarely','Sometimes','Yes, with the right person'] },
       { q:'What usually adds pressure to a new connection?', opts:['Expectations','Timing','Other people\'s opinions'] },
       { q:'What would ease that, with a creator you like?', opts:['Going at my own pace','Clear boundaries','Just less noise'] },
@@ -6931,7 +6937,7 @@ const GUEST_THEMES = [
     reveal:'Fair — pace matters more than people admit, and it\'s something every creator on Honeymoon respects too.',
     tip:'Tip: naming your own pace out loud early on removes most of the pressure by default.' },
   { id:'guidance_approach', track:'need', icon:'rocket', title:'Knowing what to say',
-    questions:[
+    short:'What to say',    questions:[
       { q:'Starting a conversation with a creator feels...', opts:['Easy','Awkward','Fine once it gets going'] },
       { q:'What usually trips you up?', opts:['The first message','Keeping it going','Reading the signs'] },
       { q:'Do you overthink your replies?', opts:['Constantly','Sometimes','Not really'] },
@@ -6941,7 +6947,7 @@ const GUEST_THEMES = [
     reveal:'That\'s a more common struggle than people let on — and it\'s exactly the kind of thing worth getting real guidance on.',
     tip:'Tip: a short, specific opener beats a clever one — specificity is what gets replies.' },
   { id:'real_connection', track:'need', icon:'trophy', title:'Something that actually lasts',
-    questions:[
+    short:'Something real',    questions:[
       { q:'With a creator you like, are you after something casual, or something real?', opts:['Casual','Real','Not sure yet'] },
       { q:'What\'s been missing in past connections?', opts:['Depth','Consistency','Honesty'] },
       { q:'What would "real" look like for you, even here?', opts:['Someone who stays curious','Someone who shows up','Someone who gets it'] },
@@ -6992,14 +6998,6 @@ const SITE_DICE_THEMES = [
     ],
     reveal:'Privacy isn\'t an afterthought on Honeymoon — it\'s part of how the whole site is built. Coach Honeymoon can walk you through exactly what that means for you.',
     tip:'Tip: you\'re always in control of what you share — pace yourself, there\'s no rush.' },
-  { id:'d_gifts', icon:'trophy', title:'Tips, gifts & recognition',
-    questions:[
-      { q:'Would sending a small gift feel natural to you?', opts:['Yes, when it\'s deserved','Only if we\'re close','Not really my thing'] },
-      { q:'What would you want in return for a gift?', opts:['A genuine thank you','Nothing, really','A little extra attention'] },
-      { q:'What makes a gesture feel meaningful to you?', opts:['The timing','The thought behind it','That it wasn\'t expected'] }
-    ],
-    reveal:'A gift here is less about the price tag and more about being noticed — on both sides. Coach Honeymoon can help you figure out when and how it actually lands well.',
-    tip:'Tip: a small gift at the right moment means more than a big one sent at random.' },
   { id:'d_coach', icon:'moonstar', title:'What Coach Honeymoon actually does',
     questions:[
       { q:'If you\'re stuck on what to say, what would help most?', opts:['A clear opener','Someone to ask','Practice'] },
@@ -7022,137 +7020,137 @@ const SITE_DICE_THEMES = [
    n'est "fausse" — comme le reste du jeu, c'est un test, pas un piège. */
 const COACH_TEASE_BANK = [
   { id:'t_bridge', icon:'gem', category:'signals',
-    riddle:"A city of bridges. Lovers once locked a promise there and threw the key into the river below. What made them so sure it was safe to lock?",
-    opts:['Her eyes said yes first','The silence felt right','He just knew'],
-    unlock:"Locks rust, keys sink — but knowing if she's really into you shouldn't be left to a river. Coach Honeymoon reads the signals for you, one honest answer at a time." },
+    riddle:"A creator hasn't replied in two days. What's the most likely reason?",
+    opts:['She\'s just busy','She\'s waiting for you to text again','She\'s not that interested'],
+    unlock:"Reading signals right isn't about guessing — Coach Honeymoon can help you tell the difference." },
   { id:'t_cyrano', icon:'moonstar', category:'confidence',
-    riddle:"A poet, hiding behind another man's face, wrote the words he was too afraid to say himself. What was he really afraid of losing?",
-    opts:['Her laughter','His pride','The chance itself'],
-    unlock:"Borrowed words rarely land. Building the confidence to say things in your own voice — that's exactly what Coach Honeymoon works on with you." },
+    riddle:"You've written and deleted the same message three times. What's really going on?",
+    opts:['You\'re scared she won\'t like it','You\'re overthinking it','You just want it to sound right'],
+    unlock:"That hesitation is more common than it feels. Coach Honeymoon can help you build real confidence, not borrowed words." },
   { id:'t_venice', icon:'compass', category:'firstdate',
-    riddle:"A city with no roads, only water — where two strangers once fell for each other in a single night, before the boats even reached the shore. What made that night different from any other?",
-    opts:['They stopped performing','Neither one checked the time','There was nowhere to run to'],
-    unlock:"Some nights just work. Most need a little more than luck — Coach Honeymoon has real answers on making a first date actually go somewhere." },
+    riddle:"A first date is going well but feels a bit stiff. What usually fixes that?",
+    opts:['Relaxing and being yourself','A funny story','Just more time'],
+    unlock:"A good first date isn't luck — Coach Honeymoon has real tips to make it feel natural." },
   { id:'t_redthread', icon:'heart', category:'spark',
-    riddle:"An old belief: an invisible thread ties two people together long before they ever meet — it can stretch, tangle, even go quiet, but never truly breaks. What's the thread actually made of?",
-    opts:['Timing','Attention','Something neither can name'],
-    unlock:"Whatever the thread is made of, chemistry isn't as random as it feels. Coach Honeymoon breaks down what actually creates a spark — and how to keep it alive." },
+    riddle:"What actually creates a spark between two people?",
+    opts:['Good timing','Real attention','Something you can\'t quite explain'],
+    unlock:"Chemistry isn't as random as it feels. Coach Honeymoon breaks down what actually creates a spark — and how to keep it alive." },
   { id:'t_phoenix', icon:'flame', category:'moveon',
-    riddle:"A bird that must fully burn before it can rise again — no shortcut, no skipping the fire. What does the ash actually leave behind?",
-    opts:['Room for something new','A lesson you didn\'t ask for','Proof you survived it'],
-    unlock:"There's no shortcut through the fire — but there's a right way to walk through it. Coach Honeymoon has real guidance for moving on, without rushing or numbing it." },
+    riddle:"After a breakup, what actually helps you move forward?",
+    opts:['Time','Talking it through','Staying busy'],
+    unlock:"There's no shortcut, but there's a right way through it. Coach Honeymoon has real guidance for moving on." },
   { id:'t_glance', icon:'chat', category:'communicate',
-    riddle:"A whole conversation once happened across a crowded room — not a single word said, just a glance held a second too long. What did it actually say?",
-    opts:['\"I see you\"','\"Come closer\"','\"Not yet, but soon\"'],
-    unlock:"Words are only half the conversation. Coach Honeymoon can help you read — and send — the half that isn't spoken." },
+    riddle:"You and a creator keep messaging without really saying much. What's missing?",
+    opts:['A real question','More time','Nothing, it\'s fine'],
+    unlock:"Words are only half the conversation. Coach Honeymoon can help you say what you actually mean." },
   { id:'t_bottle', icon:'ribbon', category:'engaging',
-    riddle:"A message sealed in a bottle, thrown into the sea with no address — meant, somehow, for exactly one person. What made it worth writing if it might never arrive?",
-    opts:['Hope costs nothing','Someone had to write it first','The right person always finds it'],
-    unlock:"A message worth writing gets read — the trick is what you put in the bottle. Coach Honeymoon can help you write the kind of first message that actually lands." },
+    riddle:"What makes a first message actually get a reply?",
+    opts:['Being specific','Being funny','Being short'],
+    unlock:"A message worth writing gets read. Coach Honeymoon can help you write the kind that actually lands." },
   { id:'t_wrapped', icon:'gift', category:'attraction',
-    riddle:"A gift arrives wrapped in something no one can quite name — not paper, not ribbon. The moment it's opened, it stops being interesting. What was it wrapped in?",
-    opts:['Mystery','Anticipation','What you don\'t say yet'],
-    unlock:"Attraction runs on the same rule as that gift — a little held back goes further than everything shown at once. Coach Honeymoon can help you find that balance." },
+    riddle:"What usually makes someone more interesting, not less?",
+    opts:['Sharing everything right away','Holding a little back','Being available all the time'],
+    unlock:"Attraction works on a simple rule — a little held back goes further. Coach Honeymoon can help you find that balance." },
   { id:'t_lighthouse', icon:'globe', category:'about',
-    riddle:"A keeper stands watch every night for ships that may never come, in weather no one else would face. Why keep the light on anyway?",
-    opts:['Someone might be out there','It\'s the job, not the odds','Habit becomes devotion'],
-    unlock:"Patience like that isn't given easily — or explained on the surface. Coach Honeymoon can help you understand how a creator's world actually works, distance and all." },
+    riddle:"A creator hasn't posted in a while. What's most likely true?",
+    opts:['She\'s just living her life','Something\'s wrong','She\'s testing you'],
+    unlock:"Coach Honeymoon can help you understand how a creator's world actually works." },
   { id:'t_rose', icon:'ribbon', category:'budget',
-    riddle:"A rose was once given with no name attached to it — no card, no note. Its value was never on any tag. Where was it, then?",
-    opts:['In the timing','In the risk of giving it','In what it meant to receive it'],
-    unlock:"Value was never about the number on the tag. Coach Honeymoon can help you figure out what's actually worth spending on — and when." },
+    riddle:"What actually makes a gift feel meaningful?",
+    opts:['The price','The timing','The thought behind it'],
+    unlock:"Value was never about the price tag. Coach Honeymoon can help you figure out what's actually worth spending on." },
   { id:'t_key', icon:'lock', category:'platform',
-    riddle:"A key was left under the mat for someone who hadn't arrived yet — no name, no date, just trust that they eventually would. What made that trust worth it?",
-    opts:['Someone always comes eventually','The door was worth waiting for','Trust doesn\'t need a date'],
-    unlock:"No blind trust required here — Coach Honeymoon can walk you through exactly how everything unlocks, step by step." },
+    riddle:"What would make you trust a new site like this faster?",
+    opts:['Clear rules','Real people using it','Just time'],
+    unlock:"Nothing here needs to stay a mystery — Coach Honeymoon can walk you through exactly how it all works." },
   { id:'t_lovelock', icon:'lock', category:'signals',
-    riddle:"A wall once stood covered end to end in tiny locks, each one shaped like nothing but somebody's certainty. What made them so sure, before a single word was ever exchanged?",
-    opts:['A look that lingered','A feeling in the room','Something neither could explain'],
-    unlock:"Certainty like that is rare — most of the time, the signs are quieter than a lock on a wall. Coach Honeymoon helps you actually read them." },
+    riddle:"Before she even says it, how can you tell a creator likes talking to you?",
+    opts:['She replies fast','She asks questions back','She remembers what you said'],
+    unlock:"The real signs are usually quieter than people expect. Coach Honeymoon helps you actually read them." },
   { id:'t_masquerade', icon:'moonstar', category:'signals',
-    riddle:"At a masked ball, no one could see a single face — yet two people found each other anyway, before the masks ever came off. What gave them away?",
-    opts:['The way they moved','The way they listened','Everything but the face'],
-    unlock:"Faces lie less than words sometimes — but reading it right takes more than instinct. Coach Honeymoon can help with that part." },
+    riddle:"What tells you more about someone than their photos do?",
+    opts:['How they write','How they listen','How they answer questions'],
+    unlock:"Reading it right takes more than instinct. Coach Honeymoon can help with that part." },
   { id:'t_windowlight', icon:'moon', category:'confidence',
-    riddle:"A single lit window, three floors up, stayed on long after every other one went dark — someone rehearsing words they hadn't sent yet. What finally made them hit send?",
-    opts:['Running out of reasons not to','A version of the message that felt true','Deciding the silence was worse'],
-    unlock:"That window stays lit for a lot of people. Coach Honeymoon can help close the gap between rehearsing and actually sending." },
+    riddle:"What finally gets someone to hit send on a message they've been avoiding?",
+    opts:['Running out of excuses','A version that feels honest','Deciding silence is worse'],
+    unlock:"That hesitation is common. Coach Honeymoon can help close the gap between thinking about it and actually sending." },
   { id:'t_tightrope', icon:'compass', category:'confidence',
-    riddle:"A performer crosses a wire with no net below, arms out, eyes forward — never looking down at what could go wrong. What keeps the fall from being the only outcome?",
-    opts:['Not looking down','Trusting the first step','Having done it before, even badly'],
-    unlock:"Confidence rarely comes from certainty — it comes from moving anyway. Coach Honeymoon can help you build that, one step at a time." },
+    riddle:"What actually builds confidence with someone new?",
+    opts:['Feeling ready first','Doing it anyway','Waiting for the perfect moment'],
+    unlock:"Confidence rarely comes from feeling ready — it comes from doing it anyway. Coach Honeymoon can help you build that." },
   { id:'t_lakehouse', icon:'globe', category:'firstdate',
-    riddle:"Two strangers, decades apart in time, once wrote letters to each other through the same lake house mailbox — never meeting, yet somehow closer than most couples in the same room. What made it work?",
-    opts:['Neither one was performing','They actually answered each other','Distance made the words more honest'],
-    unlock:"Real connection rarely needs the perfect setting — just honest attention. Coach Honeymoon has real answers on making that happen face to face, too." },
+    riddle:"What makes two people feel close, even far apart?",
+    opts:['Honest messages','Talking every day','Long calls'],
+    unlock:"Real connection doesn't need the perfect setting — just honest attention. Coach Honeymoon has real answers here too." },
   { id:'t_dancehall', icon:'star', category:'firstdate',
-    riddle:"A crowded dance hall, one song, and somehow only two people in the room stopped noticing anyone else. What made the room disappear?",
-    opts:['They stopped trying to impress','They actually listened to the music together','Neither one checked who was watching'],
-    unlock:"That kind of ease doesn't happen by accident on a first date — it can be built. Coach Honeymoon can show you how." },
+    riddle:"What actually makes a date feel easy, not awkward?",
+    opts:['Not trying too hard','A good location','Having a plan'],
+    unlock:"That kind of ease doesn't happen by accident — it can be built. Coach Honeymoon can show you how." },
   { id:'t_secondact', icon:'flame', category:'spark',
-    riddle:"Every great love story has a scene where the spark could've quietly died — a silence, a distraction, a routine creeping in. What usually saves it?",
-    opts:['Someone noticing in time','A small, deliberate effort','Refusing to let comfortable become boring'],
-    unlock:"The spark rarely dies loudly — it fades quietly if no one tends to it. Coach Honeymoon has real ways to keep it lit." },
+    riddle:"What usually keeps a connection interesting over time?",
+    opts:['Small effort, often','Big surprises sometimes','Just staying consistent'],
+    unlock:"The spark rarely dies loudly — it fades if no one tends to it. Coach Honeymoon has real ways to keep it lit." },
   { id:'t_orchard', icon:'ribbon', category:'spark',
-    riddle:"An orchard blooms once a year, briefly, before the petals fall — yet the tree spends all year preparing for that one bright week. Was the bloom the point, or the preparation?",
-    opts:['The bloom','The preparation','Neither works without the other'],
-    unlock:"Spark isn't just the bright week — it's what you do the rest of the year. Coach Honeymoon can help with both sides of that." },
+    riddle:"Is chemistry something that just happens, or something you build?",
+    opts:['It just happens','You build it','A bit of both'],
+    unlock:"Spark isn't just luck — it's also what you do the rest of the time. Coach Honeymoon can help with both sides of that." },
   { id:'t_ashes', icon:'flame', category:'moveon',
-    riddle:"After the fire, the forest floor looks like nothing survived — yet it's often the richest soil for what grows next. What actually makes it fertile?",
-    opts:['Everything the fire cleared away','Time, more than anything','What\'s left underneath, still alive'],
-    unlock:"What's left underneath is usually more intact than it feels. Coach Honeymoon has real guidance for that in-between stretch." },
+    riddle:"After something ends, what's usually still worth keeping?",
+    opts:['What you learned','A few good memories','Nothing, it\'s better to let go'],
+    unlock:"What's left is usually more useful than it feels. Coach Honeymoon has real guidance for that in-between stretch." },
   { id:'t_oldletter', icon:'ribbon', category:'moveon',
-    riddle:"A drawer holds a letter never sent, written to someone who's long gone from the picture. Why does closing that drawer matter more than what's written inside?",
-    opts:['Because the words already did their job, unsent','Because carrying it costs more than closing it','Because moving on isn\'t about the letter at all'],
-    unlock:"Closure doesn't always come from someone else — sometimes it's a drawer you get to close yourself. Coach Honeymoon can help with that part." },
+    riddle:"What actually helps you close the door on someone, for real?",
+    opts:['Saying it out loud, even to yourself','Time','Cutting contact completely'],
+    unlock:"Closure doesn't always come from someone else. Coach Honeymoon can help with that part." },
   { id:'t_echo', icon:'headphones', category:'communicate',
-    riddle:"In a canyon, a shout comes back changed — softer, delayed, but unmistakably your own voice. What does the echo actually prove?",
-    opts:['That you were heard','That the space was listening','That some things need saying twice'],
-    unlock:"Being heard is different from being loud. Coach Honeymoon can help you say things in a way that actually lands the first time." },
+    riddle:"What's the difference between being heard and just being loud?",
+    opts:['Being specific','Being calm','Being patient'],
+    unlock:"Being heard is different from being loud. Coach Honeymoon can help you say things in a way that actually lands." },
   { id:'t_lighthouse2', icon:'bell', category:'communicate',
-    riddle:"A ship's bell rings through fog thick enough to hide the shore completely — not to guide anyone in, just so no one feels entirely alone out there. What's the bell really for?",
-    opts:['Reassurance, not direction','Proof someone else is out there','A signal that doesn\'t need an answer'],
+    riddle:"Sometimes a short 'still here' message means more than a long one. Why?",
+    opts:['It shows up without asking for anything','It\'s honest','It\'s simple'],
     unlock:"Sometimes communication isn't about fixing anything — just showing up. Coach Honeymoon can help you find the right way to do that too." },
   { id:'t_postcard', icon:'camera', category:'engaging',
-    riddle:"A postcard says almost nothing — a few lines, a stamp, a place — yet the person who receives it reads it a dozen times. What makes so little feel like so much?",
-    opts:['That someone thought of them at all','The specific detail they chose to mention','Knowing it took real effort to send'],
-    unlock:"A few honest, specific lines beat a long generic message every time. Coach Honeymoon can help you write the version that actually gets read." },
+    riddle:"Why does a short, specific message often work better than a long one?",
+    opts:['It\'s easier to reply to','It shows real effort','It feels more personal'],
+    unlock:"A few honest, specific lines beat a long generic message. Coach Honeymoon can help you write the version that actually gets read." },
   { id:'t_paperplane', icon:'rocket', category:'engaging',
-    riddle:"A paper plane, thrown without much thought, sails farther than anyone expected and lands exactly where someone needed to see it. What actually carried it that far?",
-    opts:['A little bit of luck','More care in the fold than it looked like','The right moment to throw it'],
+    riddle:"What matters more when reaching out — timing, or the message itself?",
+    opts:['Timing','The message','Both, about equally'],
     unlock:"Timing and a little care go further than people think. Coach Honeymoon can help you get both right." },
   { id:'t_perfume', icon:'sparkle', category:'attraction',
-    riddle:"A scent, worn once by someone unforgettable, can stop a stranger in their tracks years later for no reason they can explain. What is memory actually reacting to?",
-    opts:['A feeling it can\'t quite place','Something it never fully let go of','Proof that some things leave a mark'],
-    unlock:"Attraction is built the same way — small, specific things that stick. Coach Honeymoon can help you figure out what actually leaves that mark." },
+    riddle:"What usually leaves a lasting impression on someone?",
+    opts:['A specific detail, not a whole show','Confidence','Being memorable on purpose'],
+    unlock:"Attraction is built from small, specific things that stick. Coach Honeymoon can help you figure out what actually leaves a mark." },
   { id:'t_silhouette', icon:'moon', category:'attraction',
-    riddle:"From across a dim room, a silhouette alone can be enough to catch someone's attention before a single detail is clear. What is it responding to, if not the details?",
-    opts:['Presence','Posture','Something instinctive, hard to name'],
-    unlock:"What draws someone in first is rarely the details — it's presence. Coach Honeymoon can help you understand what that actually means in practice." },
+    riddle:"What draws someone in first, before they know any details about you?",
+    opts:['How you carry yourself','How you talk to them','Just a feeling'],
+    unlock:"What draws someone in first is rarely the details — it's presence. Coach Honeymoon can help you understand what that means." },
   { id:'t_backstage', icon:'eye', category:'about',
-    riddle:"Behind every performance the audience applauds, there's a version of the performer no one in the seats ever sees — tired, focused, entirely different. Why keep that version hidden?",
-    opts:['Because the show needs the other version','Because not everyone deserves to see it','Because rest looks nothing like the performance'],
+    riddle:"What don't most visitors realize about a creator's daily life?",
+    opts:['It\'s a lot of work','It\'s not always glamorous','She\'s still just a person'],
     unlock:"There's always more behind the version people see. Coach Honeymoon can help you understand that world a little better." },
   { id:'t_tideline', icon:'globe', category:'about',
-    riddle:"The tide comes in and goes out on its own schedule, indifferent to whoever's waiting on the shore for it. Why does the shore keep showing up anyway?",
-    opts:['Because the tide always returns eventually','Because waiting there is its own kind of patience','Because the shore isn\'t really waiting — it just is'],
+    riddle:"A creator replies less some days than others. What's the best way to react?",
+    opts:['Not take it personally','Ask if everything\'s okay','Wait it out'],
     unlock:"Understanding someone's rhythm, without taking it personally, changes everything. Coach Honeymoon can help with exactly that." },
   { id:'t_goldcoin', icon:'crown', category:'budget',
-    riddle:"An old coin, worn smooth by a hundred hands before it reached its last owner, was spent without a second thought on something that lasted a single evening. Was it wasted?",
-    opts:['No — the evening was the point','It depends what the evening became','Nothing spent on a good moment is wasted'],
+    riddle:"Is spending on a good moment ever really 'wasted'?",
+    opts:['No, if it felt worth it','Sometimes','Depends on the amount'],
     unlock:"Some spending is about the moment, not the math. Coach Honeymoon can help you tell which is which." },
   { id:'t_finalgift', icon:'gift', category:'budget',
-    riddle:"The last gift in an old story was the simplest one on the table, yet it's the one everyone still remembers. What made it outlast the expensive ones?",
-    opts:['It actually meant something','It was chosen, not just bought','It said something no price tag could'],
-    unlock:"What outlasts the moment is rarely the most expensive thing. Coach Honeymoon can help you figure out what's actually worth it." },
+    riddle:"What usually makes a gift memorable — the price, or the thought?",
+    opts:['The thought','The price','Both, but thought matters more'],
+    unlock:"What lasts is rarely the most expensive thing. Coach Honeymoon can help you figure out what's actually worth it." },
   { id:'t_backdoor', icon:'compass', category:'platform',
-    riddle:"An old theater has a door only the regulars know about, unmarked, always unlocked for whoever finds it. Why leave it that simple instead of making an entrance out of it?",
-    opts:['Simple is easier to trust','The regulars never needed a sign','Some things work better unexplained'],
-    unlock:"Nothing here needs to be complicated to find. Coach Honeymoon can walk you through exactly how it all works, plainly." },
+    riddle:"What actually makes a new platform feel easy to use?",
+    opts:['Clear, simple steps','A short tutorial','Just trying it'],
+    unlock:"Nothing here needs to be complicated. Coach Honeymoon can walk you through exactly how it all works, plainly." },
   { id:'t_map', icon:'globe', category:'platform',
-    riddle:"An old map marks a place with no name, just an X and a note: 'worth finding.' What made someone bother marking it at all?",
-    opts:['They wanted someone else to find it too','Some places are worth the vague directions','Not everything needs a name to matter'],
-    unlock:"Consider this the X. Coach Honeymoon can fill in the rest of the map for you." }
+    riddle:"What's usually the fastest way to actually understand how a site works?",
+    opts:['Just asking someone','Trying it yourself','Reading a quick guide'],
+    unlock:"Coach Honeymoon can fill in the rest of the map for you — just ask." }
 ];
 /* Pioche N énigmes non encore vues (fallback : au hasard si tout est vu). */
 function guPickTeases(n, exclude){
@@ -7249,7 +7247,7 @@ async function renderGuestUniverse(container){
     <div class="guestuniverse-theme gu-stage-0" id="gu-theme-root">
       <div class="coach-frame">
         <div class="coach-chat-header">
-          <div class="coach-chat-avatar">${guIcon('honeypot',20)}</div>
+          <div class="coach-chat-avatar">🍯</div>
           <div class="coach-chat-headtext">
             <div class="coach-chat-title">${escText(t('universeGuestTitle'))}</div>
             <div class="coach-chat-subtitle">${escText(t('guPositioning'))}</div>
@@ -7448,22 +7446,22 @@ function guWheelThemes(){
 function guRemainingSlices(){
   return guWheelThemes().filter(s => s.type === 'theme' ? !guState.discovered.includes(s.id) : !guState.mysteryUnlocked.includes(s.riddleId));
 }
-/* Découpe un libellé de thème sur 1 ou 2 lignes courtes, pour qu'il tienne
-   bien à plat dans sa case (plus de rotation radiale illisible). */
-function guWheelLabelLines(title){
-  const words = (title || '').replace('&', '').split(/\s+/).filter(Boolean);
-  if(words.length <= 1) return [words[0] || ''];
-  const mid = Math.ceil(words.length / 2);
-  let l1 = words.slice(0, mid).join(' '), l2 = words.slice(mid).join(' ');
-  const trim = s => s.length > 12 ? s.slice(0, 11).trim() + '…' : s;
-  return [trim(l1), trim(l2)];
+/* Libellé court (1-2 mots, défini à la main par thème) pour tenir en une seule
+   ligne, toujours lisible, sans troncature moche. */
+function guWheelLabel(th){
+  return th.short || (th.title || '').split('&')[0].trim();
 }
-function guBuildWheelSvg(){
+function guBuildWheelSvg(restingDeg){
   const themesOrdered = guWheelThemes();
   const n = themesOrdered.length;
   const seg = 360 / n;
   const R = 130, cx = 140, cy = 140;
   const [colorA, colorB] = guWheelColorPair();
+  // Contre-rotation appliquée au groupe de textes : annule la rotation CSS du
+  // disque (transform:rotate appliqué par guRenderWheel/guSpin) pour que les
+  // titres restent toujours à l'endroit à l'écran, quel que soit l'angle où
+  // la roue s'arrête.
+  const counter = -(((restingDeg || 0) % 360) + 360) % 360;
   let sectors = '';
   let labels = '';
   themesOrdered.forEach((th, i) => {
@@ -7473,17 +7471,12 @@ function guBuildWheelSvg(){
     const mid = a0 + seg / 2;
     const sectorColor = th.type === 'mystery' ? '#c084fc' : (i % 2 === 0 ? colorA : colorB);
     sectors += `<path d="M${cx},${cy} L${x0.toFixed(2)},${y0.toFixed(2)} A${R},${R} 0 0 1 ${x1.toFixed(2)},${y1.toFixed(2)} Z" fill="${sectorColor}" fill-opacity="${th.type === 'mystery' ? 0.7 : (th.track === 'need' ? 0.95 : 0.82)}" stroke="#2e1065" stroke-width="1.2"/>`;
-    // Texte toujours à plat (aucune rotation radiale) : reste lisible normalement
-    // quelle que soit la position de la case sur la roue, comme demandé.
     const tx = cx + (R * 0.66) * Math.cos(mid * Math.PI / 180), ty = cy + (R * 0.66) * Math.sin(mid * Math.PI / 180);
     if(th.type === 'mystery'){
-      labels += `<text x="${tx.toFixed(2)}" y="${ty.toFixed(2)}" text-anchor="middle" dominant-baseline="middle" font-size="16" font-weight="800" fill="#fff" font-family="inherit">?</text>`;
+      labels += `<text x="${tx.toFixed(2)}" y="${ty.toFixed(2)}" transform="rotate(${counter.toFixed(2)},${tx.toFixed(2)},${ty.toFixed(2)})" text-anchor="middle" dominant-baseline="middle" font-size="16" font-weight="800" fill="#fff" font-family="inherit">?</text>`;
     }else{
-      const lines = guWheelLabelLines(th.title);
-      const lineH = 10;
-      const startY = ty - ((lines.length - 1) * lineH) / 2;
-      const tspans = lines.map((ln, li) => `<tspan x="${tx.toFixed(2)}" y="${(startY + li * lineH).toFixed(2)}">${escText(ln)}</tspan>`).join('');
-      labels += `<text text-anchor="middle" dominant-baseline="middle" font-size="9" font-weight="800" fill="#fff" font-family="inherit" style="paint-order:stroke;stroke:#2e1065;stroke-width:2.2px;stroke-linejoin:round;">${tspans}</text>`;
+      const label = guWheelLabel(th);
+      labels += `<text x="${tx.toFixed(2)}" y="${ty.toFixed(2)}" transform="rotate(${counter.toFixed(2)},${tx.toFixed(2)},${ty.toFixed(2)})" text-anchor="middle" dominant-baseline="middle" font-size="10.5" font-weight="800" fill="#fff" font-family="inherit" style="paint-order:stroke;stroke:#2e1065;stroke-width:2.2px;stroke-linejoin:round;">${escText(label)}</text>`;
     }
   });
   return `<svg id="gu-wheel-svg" viewBox="0 0 280 280" width="230" height="230">
@@ -7491,7 +7484,7 @@ function guBuildWheelSvg(){
     <g>${sectors}</g>
     <g>${labels}</g>
     <circle cx="${cx}" cy="${cy}" r="22" fill="var(--bg-elev)" stroke="#c084fc" stroke-width="2"/>
-    <g transform="translate(${cx - 11},${cy - 11})" fill="none" stroke="#c084fc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${GU_ICON_PATHS.honeypot}</g>
+    <text x="${cx}" y="${cy + 1}" text-anchor="middle" dominant-baseline="central" font-size="20" transform="rotate(${counter.toFixed(2)},${cx},${cy})">🍯</text>
   </svg>`;
 }
 
@@ -7501,7 +7494,7 @@ function guRenderWheel(body){
     ${guProgressHtml()}
     <div class="gu-wheel-wrap">
       <div class="gu-wheel-pointer">${guIcon('arrow',18)}</div>
-      <div class="gu-wheel-spin-holder" id="gu-wheel-holder" style="transform:rotate(${guState.wheelRotation}deg);">${guBuildWheelSvg()}</div>
+      <div class="gu-wheel-spin-holder" id="gu-wheel-holder" style="transform:rotate(${guState.wheelRotation}deg);">${guBuildWheelSvg(guState.wheelRotation)}</div>
     </div>
     <button type="button" class="gu-spin-btn" id="gu-spin-btn">${guIcon('compass',16)} ${escText(t('guSpin'))}</button>
     ${guMenuBackHtml()}
@@ -7663,23 +7656,15 @@ async function guFinishExperience(themeId, rating){
     let nextView;
     if(!guState.infiniteMode){
       // Chemin "cadeau" : la surprise se déclenche après 10 univers découverts (pas 20).
+      // (Plus de pause mystère automatique ici : les énigmes ne se déclenchent
+      // désormais QUE quand la roue tombe elle-même sur une case "?".)
       nextView = (guState.discovered.length >= GU_GIFT_TARGET && !guState.sawSurprise) ? 'complete' : 'wheel';
-      // Pause mystère à 3, 6 et 9 univers découverts : l'intensité monte avant le cadeau.
-      if([3,6,9].includes(guState.discovered.length) && guMysteryHasFresh()){
-        guState.mysteryNext = nextView;
-        nextView = 'mystery';
-      }
     }else{
       // Mode jeu : ça tourne par sessions de 15 — à chaque fin de session, petit
       // pop-up Honeymoon Coach, puis la bande repart pour une nouvelle session.
       guState.sessionSpins++;
       nextView = (guState.sessionSpins >= GU_PLAY_SESSION_TARGET) ? 'session-popup' : 'wheel';
       if(guState.sessionSpins >= GU_PLAY_SESSION_TARGET){ guState.sessionSpins = 0; guState.discovered = []; guState.wheelOrder = null; }
-      // Mode infini : une pause mystère toutes les 5 questions.
-      else if(guState.totalQuestionsAnswered % 5 === 0 && guMysteryHasFresh()){
-        guState.mysteryNext = nextView;
-        nextView = 'mystery';
-      }
     }
     guState.view = nextView;
     guRenderRoulette();
@@ -7766,6 +7751,7 @@ function guRenderMysteryUnlock(body, riddle, onContinue){
       <div class="gu-experience-icon">${guIcon(anim.icon, 40)}</div>
       <div class="gu-experience-title">${escText(t('guMysteryUnlockedTitle'))}</div>
       <div class="gu-experience-text">${escText(riddle.unlock)}</div>
+      <div class="gu-experience-tip">${guIcon('sparkle',14)} ${escText(t('guMysteryUnderstandMsg'))}</div>
     </div>
     <button type="button" class="gu-spin-btn" id="gu-mystery-continue">${escText(t('guExperienceContinue'))}</button>
   `;
@@ -8000,23 +7986,37 @@ function guRenderComplete(body){
 
 /* ================================================================
    MOTEUR DU DÉ — deuxième parcours, même concept que la roue (mystère ->
-   questions -> révélation -> récap) mais avec un dé à 6 faces réel (pips
-   SVG, animation de lancer) et un contenu tourné vers le fonctionnement
-   du site, toujours amené par Coach Honeymoon. ================================================================== */
+   questions -> révélation -> récap) mais avec un dé à 6 faces réel, blanc,
+   look 3D (dégradé + reflet), qui culbute sur plusieurs axes comme un vrai
+   dé. La face 6 n'a plus de pips : c'est un "?" — elle déclenche une vraie
+   énigme (même banque que la roue), jamais au hasard ailleurs. ================================================================== */
 const GU_DICE_PIPS = {
   1:[[1,1]],
   2:[[0,0],[2,2]],
   3:[[0,0],[1,1],[2,2]],
   4:[[0,0],[0,2],[2,0],[2,2]],
-  5:[[0,0],[0,2],[1,1],[2,0],[2,2]],
-  6:[[0,0],[0,2],[1,0],[1,2],[2,0],[2,2]]
+  5:[[0,0],[0,2],[1,1],[2,0],[2,2]]
 };
 function guBuildDiceSvg(face, size){
-  const pts = GU_DICE_PIPS[face] || GU_DICE_PIPS[1];
-  const dots = pts.map(([r,c]) => `<circle cx="${22 + c*28}" cy="${22 + r*28}" r="7.5" fill="#fff"/>`).join('');
+  const isMystery = face === 6;
+  const pipsColor = '#5b21b6';
+  let inner;
+  if(isMystery){
+    inner = `<text x="50" y="58" text-anchor="middle" dominant-baseline="middle" font-size="46" font-weight="800" fill="#7c3aed" font-family="inherit">?</text>`;
+  }else{
+    const pts = GU_DICE_PIPS[face] || GU_DICE_PIPS[1];
+    inner = pts.map(([r,c]) => `<circle cx="${22 + c*28}" cy="${22 + r*28}" r="7.5" fill="${pipsColor}"/>`).join('');
+  }
   return `<svg viewBox="0 0 100 100" width="${size}" height="${size}">
-    <rect x="4" y="4" width="92" height="92" rx="18" fill="#7c3aed" stroke="#2e1065" stroke-width="3"/>
-    ${dots}
+    <defs>
+      <linearGradient id="gu-dice-grad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#ffffff"/>
+        <stop offset="100%" stop-color="#eae5f7"/>
+      </linearGradient>
+    </defs>
+    <rect x="4" y="4" width="92" height="92" rx="18" fill="url(#gu-dice-grad)" stroke="#c4b5fd" stroke-width="3"/>
+    <rect x="10" y="9" width="80" height="26" rx="12" fill="#ffffff" opacity=".6"/>
+    ${inner}
   </svg>`;
 }
 function guDiceProgressHtml(){
@@ -8032,6 +8032,7 @@ function guRenderDiceRoulette(body){
   }
   if(guState.diceView === 'drawn'){ guRenderDiceDrawn(body); return; }
   if(guState.diceView === 'quiz'){ guRenderDiceQuizStep(body); return; }
+  if(guState.diceView === 'mystery'){ guRenderDiceMysteryQuiz(body); return; }
   if(guState.diceView === 'reveal'){ guRenderDiceReveal(body); return; }
   if(guState.diceView === 'complete'){ guRenderDiceComplete(body); return; }
   guRenderDiceStage(body);
@@ -8039,9 +8040,9 @@ function guRenderDiceRoulette(body){
 function guRenderDiceStage(body){
   body.innerHTML = `
     ${guDiceProgressHtml()}
-    <div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon('honeypot',16)}</div><div class="coach-bubble-text chat-bot show">${escText(t('guDrawnIntro'))}</div></div>
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show">${escText(t('guDrawnIntro'))}</div></div>
     <div class="gu-dice-wrap"><div class="gu-dice-holder" id="gu-dice-holder">${guBuildDiceSvg(guState.diceFace || 1, 120)}</div></div>
-    <button type="button" class="gu-spin-btn" id="gu-dice-roll-btn">${guIcon('dice',16)} ${escText(t('guDiceRoll'))}</button>
+    <button type="button" class="gu-spin-btn gu-dice-btn" id="gu-dice-roll-btn">${guIcon('dice',16)} ${escText(t('guDiceRoll'))}</button>
     <button type="button" class="gu-back-link" id="gu-dice-menu-back">${guIcon('backArrow',13)} ${escText(t('guBackToMenu'))}</button>
   `;
   document.getElementById('gu-dice-roll-btn').onclick = guRollDice;
@@ -8056,28 +8057,64 @@ function guRollDice(){
   const holder = document.getElementById('gu-dice-holder');
   if(!holder) return;
   if(btn) btn.disabled = true;
-  const remaining = SITE_DICE_THEMES.filter(th => !guState.diceDiscovered.includes(th.id));
-  const pool = remaining.length ? remaining : SITE_DICE_THEMES;
-  const chosen = pool[Math.floor(Math.random() * pool.length)];
-  const chosenFace = SITE_DICE_THEMES.findIndex(th => th.id === chosen.id) + 1;
+  // Construit les faces possibles : 1-5 = thèmes du site (priorité à ceux pas
+  // encore vus), 6 = énigme mystère — seulement si une énigme fraîche existe,
+  // jamais ajoutée "juste au cas où". C'est la SEULE façon de déclencher une
+  // énigme dans ce parcours (comme sur la roue).
+  const remainingThemes = SITE_DICE_THEMES.filter(th => !guState.diceDiscovered.includes(th.id));
+  const themePool = remainingThemes.length ? remainingThemes : SITE_DICE_THEMES;
+  const facePool = themePool.map(th => ({ face: SITE_DICE_THEMES.indexOf(th) + 1, theme: th }));
+  if(guMysteryHasFresh()) facePool.push({ face: 6, theme: null });
+  const chosen = facePool[Math.floor(Math.random() * facePool.length)];
   holder.classList.add('gu-dice-rolling');
   let ticks = 0;
   const iv = setInterval(() => {
     const randFace = 1 + Math.floor(Math.random() * 6);
     holder.innerHTML = guBuildDiceSvg(randFace, 120);
     ticks++;
-    if(ticks > 10){
+    if(ticks > 13){
       clearInterval(iv);
-      guState.diceFace = chosenFace;
-      holder.innerHTML = guBuildDiceSvg(chosenFace, 120);
+      guState.diceFace = chosen.face;
+      holder.innerHTML = guBuildDiceSvg(chosen.face, 120);
       holder.classList.remove('gu-dice-rolling');
       setTimeout(() => {
-        guState.dicePendingId = chosen.id;
-        guState.diceView = 'drawn';
+        if(chosen.face === 6){
+          const picks = guPickTeases(1, guState.mysteryUnlocked);
+          guState.currentMystery = picks[0];
+          guState.diceView = 'mystery';
+        }else{
+          guState.dicePendingId = chosen.theme.id;
+          guState.diceView = 'drawn';
+        }
         guRenderRoulette();
       }, 450);
     }
-  }, 90);
+  }, 85);
+}
+/* Énigme tirée de la face "?" du dé — même mécanique de résolution que celle
+   de la roue (guRenderMysteryQuiz), juste un point de retour différent. */
+function guRenderDiceMysteryQuiz(body){
+  const riddle = guState.currentMystery;
+  if(!riddle){ guState.diceView = 'dice'; guRenderRoulette(); return; }
+  body.innerHTML = `
+    ${guDiceProgressHtml()}
+    <div class="gu-theme-card gu-theme-card-sm gu-theme-card-mystery gu-mystery-glow">
+      <div class="gu-theme-card-icon">${guIcon(riddle.icon, 24)}</div>
+      <div class="gu-theme-card-title">${escText(t('guMysteryLabel'))}</div>
+    </div>
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show">${escText(riddle.riddle)}</div></div>
+    <div class="gu-choice-row">${riddle.opts.map((opt,i) => `<button type="button" class="gu-choice-btn" data-dmpick="${i}">${escText(opt)}</button>`).join('')}</div>
+  `;
+  body.querySelectorAll('[data-dmpick]').forEach(btn => {
+    btn.onclick = async () => {
+      if(!guState.mysteryUnlocked.includes(riddle.id)) guState.mysteryUnlocked.push(riddle.id);
+      guState.currentMystery = null;
+      guState.totalQuestionsAnswered = (guState.totalQuestionsAnswered || 0) + 1;
+      guApplyStage(document.getElementById('gu-theme-root'));
+      await guSaveJourney({ mysteryUnlocked: guState.mysteryUnlocked, totalQuestionsAnswered: guState.totalQuestionsAnswered });
+      guRenderMysteryUnlock(body, riddle, () => { guState.diceView = 'dice'; guRenderRoulette(); });
+    };
+  });
 }
 function guRenderDiceDrawn(body){
   const theme = SITE_DICE_THEMES.find(th => th.id === guState.dicePendingId);
