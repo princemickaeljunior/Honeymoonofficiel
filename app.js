@@ -318,8 +318,9 @@ const I18N = {
     guRatingNo: "Not for me",
     guRatingThanks: "Thanks — noted.",
     guCompleteTitle: "You've explored the whole Honeymoon universe.",
-    guCompleteBody: "15 out of 15 universes discovered. You truly know Honeymoon — and its creators — now.",
+    guCompleteBody: "{count} universes discovered this round. You're already getting a feel for Honeymoon — and its creators.",
     guCompleteCta: "Discover Honeymoon Creator",
+    guSignupCta: "Sign up free — join Honeymoon",
     guPresIntro: "Honeymoon — not just a site. An experience to discover.",
     guPresBullet1: "A curated roster of creators, each with their own universe",
     guPresBullet2: "Subscribe to unlock subscriber pricing and exclusive packs",
@@ -345,7 +346,7 @@ const I18N = {
     guPathPresDesc: "6 sides, one quick round — a peek behind how Honeymoon actually works.",
     guDiceRoll: "Roll the dice",
     guDiceCompleteTitle: "You've rolled through every side of Honeymoon.",
-    guDiceCompleteBody: "5 out of 5 explored. You now know how Honeymoon — and its creators — really work.",
+    guDiceCompleteBody: "{count} sides explored this round. You're already getting a feel for how Honeymoon — and its creators — really work.",
     guBonusMention: "Bonus for both games: build your Seducer Profile from the menu, then enjoy being among the first to meet our creators.",
     guTryDiceCta: "Roll the dice too — 5 more sides of Honeymoon",
     guTryWheelCta: "Try the wheel too — 15 more mysteries",
@@ -3944,9 +3945,10 @@ if(!document.getElementById('hm-shopbot-gold-style')){
        pas un carré plat — il tourne sur ses 3 axes et se pose sur une face
        réelle, exactement comme un dé qu'on lance. ---- */
     .gu-dice-wrap{position:relative;display:flex;justify-content:center;align-items:center;padding:20px 0 14px;perspective:700px;}
-    .gu-dice-cube{position:relative;width:96px;height:96px;transform-style:preserve-3d;transition:transform 1.15s cubic-bezier(.22,.85,.25,1);filter:drop-shadow(0 10px 18px rgba(0,0,0,.45));}
+    .gu-dice-wrap{position:relative;display:flex;justify-content:center;align-items:center;padding:20px 0 14px;perspective:700px;-webkit-perspective:700px;}
+    .gu-dice-cube{position:relative;width:96px;height:96px;transform-style:preserve-3d;-webkit-transform-style:preserve-3d;transition:transform 1.15s cubic-bezier(.22,.85,.25,1);}
     .gu-dice-cube.gu-dice-rolling{transition:transform 1.15s cubic-bezier(.22,.85,.25,1);}
-    .gu-dice-face{position:absolute;inset:0;width:96px;height:96px;background:linear-gradient(135deg,#ffffff,#e9e3f8);border:3px solid #c4b5fd;border-radius:16px;display:flex;align-items:center;justify-content:center;backface-visibility:hidden;}
+    .gu-dice-face{position:absolute;inset:0;width:96px;height:96px;background:linear-gradient(135deg,#ffffff,#e9e3f8);border:3px solid #c4b5fd;border-radius:16px;display:flex;align-items:center;justify-content:center;backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:0 8px 14px rgba(0,0,0,.35);}
     .gu-dice-f1{transform:translateZ(48px);}
     .gu-dice-f2{transform:rotateY(90deg) translateZ(48px);}
     .gu-dice-f3{transform:rotateX(-90deg) translateZ(48px);}
@@ -7185,7 +7187,7 @@ function guestId(){
   }catch(e){ return 'gu-fallback'; }
 }
 
-let guState = { tab:'roulette', view:'loading', firstName:null, discoverySource:null, path:null, discovered:[], ratings:{}, answers:{}, retries:0, pendingId:null, quizStep:0, quizPicks:[], activeQuestions:[], loaded:false, wheelRotation:0, totalSpins:0, totalQuestionsAnswered:0, sawSurprise:false, infiniteMode:false, sessionSpins:0, mysteryUnlocked:[], mysteryPending:null, mysteryNext:null, currentMystery:null, lastUnlockAnim:null, presQuizPool:[], presQuizStep:0, presWatched:false, diceView:'dice', diceFace:1, dicePendingId:null, diceQuizStep:0, diceQuizPicks:[], diceDiscovered:[], diceSawComplete:false, wheelTried:false, diceTried:false };
+let guState = { tab:'roulette', view:'loading', firstName:null, discoverySource:null, path:null, discovered:[], ratings:{}, answers:{}, retries:0, pendingId:null, quizStep:0, quizPicks:[], activeQuestions:[], loaded:false, wheelRotation:0, totalSpins:0, totalQuestionsAnswered:0, sawSurprise:false, infiniteMode:false, sessionSpins:0, mysteryUnlocked:[], mysteryPending:null, mysteryNext:null, currentMystery:null, lastUnlockAnim:null, presQuizPool:[], presQuizStep:0, presWatched:false, diceView:'dice', diceFace:1, dicePendingId:null, diceQuizStep:0, diceQuizPicks:[], diceDiscovered:[], diceSawComplete:false, wheelTried:false, diceTried:false, roundQuestionsAnswered:0 };
 
 async function guLoadJourney(){
   try{
@@ -7247,7 +7249,7 @@ function guApplyStage(root){
 }
 
 function openGuestUniverse(){
-  guState = { tab:'roulette', view:'loading', firstName:null, discoverySource:null, path:null, discovered:[], ratings:{}, answers:{}, retries:0, pendingId:null, quizStep:0, quizPicks:[], activeQuestions:[], loaded:false, wheelRotation:0, totalSpins:0, totalQuestionsAnswered:0, sawSurprise:false, infiniteMode:false, sessionSpins:0, mysteryUnlocked:[], mysteryPending:null, mysteryNext:null, currentMystery:null, lastUnlockAnim:null, presQuizPool:[], presQuizStep:0, presWatched:false, diceView:'dice', diceFace:1, dicePendingId:null, diceQuizStep:0, diceQuizPicks:[], diceDiscovered:[], diceSawComplete:false, wheelTried:false, diceTried:false };
+  guState = { tab:'roulette', view:'loading', firstName:null, discoverySource:null, path:null, discovered:[], ratings:{}, answers:{}, retries:0, pendingId:null, quizStep:0, quizPicks:[], activeQuestions:[], loaded:false, wheelRotation:0, totalSpins:0, totalQuestionsAnswered:0, sawSurprise:false, infiniteMode:false, sessionSpins:0, mysteryUnlocked:[], mysteryPending:null, mysteryNext:null, currentMystery:null, lastUnlockAnim:null, presQuizPool:[], presQuizStep:0, presWatched:false, diceView:'dice', diceFace:1, dicePendingId:null, diceQuizStep:0, diceQuizPicks:[], diceDiscovered:[], diceSawComplete:false, wheelTried:false, diceTried:false, roundQuestionsAnswered:0 };
   renderGuestUniverse(document.getElementById('guestuniverse-page-body'));
   document.getElementById('guestuniverse-backdrop').classList.add('open');
   document.getElementById('guestuniverse-modal').classList.add('open');
@@ -7306,7 +7308,7 @@ function guRenderRoulette(){
    mènent au même mécanisme de mystère/coach à la fin. */
 function guRenderPathChoice(body){
   body.innerHTML = `
-    <div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon('honeypot',16)}</div><div class="coach-bubble-text chat-bot show">${escText(t('guAskPath').replace('{name}', escText(guState.firstName)))}</div></div>
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show">${escText(t('guAskPath').replace('{name}', escText(guState.firstName)))}</div></div>
     <button type="button" class="gu-path-card" id="gu-path-game">
       <div class="gu-path-card-icon">${guIcon('compass',22)}</div>
       <div class="gu-path-card-title">${escText(t('guPathGameTitle'))}</div>
@@ -7320,12 +7322,14 @@ function guRenderPathChoice(body){
   `;
   document.getElementById('gu-path-game').onclick = async () => {
     guState.path = 'game';
+    guState.roundQuestionsAnswered = 0;
     await guSaveJourney({ path: 'game' });
     guState.view = 'wheel';
     guRenderRoulette();
   };
   document.getElementById('gu-path-dice').onclick = async () => {
     guState.path = 'dice';
+    guState.roundQuestionsAnswered = 0;
     await guSaveJourney({ path: 'dice' });
     guState.diceView = 'dice';
     guRenderRoulette();
@@ -7334,8 +7338,8 @@ function guRenderPathChoice(body){
 
 function guRenderNameStep(body){
   body.innerHTML = `
-    <div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon('honeypot',16)}</div><div class="coach-bubble-text chat-bot show">${escText(t('guWelcomeTitle'))}<br><span style="opacity:.75;">${escText(t('guWelcomeBody'))}</span></div></div>
-    <div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon('honeypot',16)}</div><div class="coach-bubble-text chat-bot show">${escText(t('guAskName'))}</div></div>
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show">${escText(t('guWelcomeTitle'))}<br><span style="opacity:.75;">${escText(t('guWelcomeBody'))}</span></div></div>
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show">${escText(t('guAskName'))}</div></div>
     <input type="text" class="gu-name-input" id="gu-name-input" placeholder="${escText(t('guNamePlaceholder'))}" maxlength="30" />
     <button type="button" class="gu-spin-btn" id="gu-name-submit">${escText(t('guNameSubmit'))}</button>
   `;
@@ -7353,7 +7357,7 @@ function guRenderNameStep(body){
 
 function guRenderDiscoveryStep(body){
   body.innerHTML = `
-    <div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon('honeypot',16)}</div><div class="coach-bubble-text chat-bot show">${escText(t('guAskDiscovery').replace('{name}', escText(guState.firstName)))}</div></div>
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show">${escText(t('guAskDiscovery').replace('{name}', escText(guState.firstName)))}</div></div>
     <div class="gu-choice-row">${GU_DISCOVERY_OPTIONS.map((opt,i) => `<button type="button" class="gu-choice-btn" data-disc="${i}">${escText(opt)}</button>`).join('')}</div>
   `;
   body.querySelectorAll('[data-disc]').forEach(btn => {
@@ -7387,7 +7391,7 @@ function guRenderWelcomeBack(body){
     : t('guWelcomeBack').replace('{name}', escText(guState.firstName)) + '<br>' + t('guWelcomeBackBody').replace('{count}', count);
   body.innerHTML = `
     ${guProgressHtml()}
-    <div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon('honeypot',16)}</div><div class="coach-bubble-text chat-bot show">${msg}</div></div>
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show">${msg}</div></div>
     <button type="button" class="gu-spin-btn" id="gu-start-explore">${escText(t('guContinue'))}</button>
     ${isFirstVisit && !guState.sawSurprise ? `
       <div class="gu-progress-label" style="text-align:center;margin-top:10px;">${escText(t('guAlreadySeenVideo'))}</div>
@@ -7465,8 +7469,8 @@ function guRemainingSlices(){
 }
 /* Libellé court (1-2 mots, défini à la main par thème) pour tenir en une seule
    ligne, toujours lisible, sans troncature moche. */
-function guWheelLabel(th){
-  return th.short || (th.title || '').split('&')[0].trim();
+function guWheelLabel(th, idx){
+  return String(idx + 1);
 }
 function guBuildWheelSvg(restingDeg){
   const themesOrdered = guWheelThemes();
@@ -7476,6 +7480,7 @@ function guBuildWheelSvg(restingDeg){
   const [colorA, colorB] = guWheelColorPair();
   let sectors = '';
   let labels = '';
+  let themeIdx = 0;
   themesOrdered.forEach((th, i) => {
     const a0 = i * seg - 90, a1 = (i + 1) * seg - 90;
     const x0 = cx + R * Math.cos(a0 * Math.PI / 180), y0 = cy + R * Math.sin(a0 * Math.PI / 180);
@@ -7483,18 +7488,19 @@ function guBuildWheelSvg(restingDeg){
     const mid = a0 + seg / 2;
     const sectorColor = th.type === 'mystery' ? '#c084fc' : (i % 2 === 0 ? colorA : colorB);
     sectors += `<path d="M${cx},${cy} L${x0.toFixed(2)},${y0.toFixed(2)} A${R},${R} 0 0 1 ${x1.toFixed(2)},${y1.toFixed(2)} Z" fill="${sectorColor}" fill-opacity="${th.type === 'mystery' ? 0.7 : (th.track === 'need' ? 0.95 : 0.82)}" stroke="#2e1065" stroke-width="1.2"/>`;
-    // Le texte suit le rayon de sa propre case (comme une roue de foire classique) :
-    // ça garde chaque titre strictement dans sa part, sans jamais empiéter sur la
-    // case voisine. Bascule à l'endroit sur la moitié basse pour limiter le texte
-    // à l'envers — un peu moins lisible à certains angles, mais jamais chevauché.
+    // Cases numérotées (1-15) plutôt que le titre en toutes lettres : plus de
+    // risque de chevauchement entre cases voisines, quel que soit l'angle. Le
+    // vrai titre + son icône n'apparaissent qu'une fois la question posée
+    // (guRenderQuizStep) — c'est là qu'il y a la place pour être lisible.
     const tx = cx + (R * 0.68) * Math.cos(mid * Math.PI / 180), ty = cy + (R * 0.68) * Math.sin(mid * Math.PI / 180);
     let rot = mid + 90;
     if(rot > 90 && rot < 270) rot += 180;
     if(th.type === 'mystery'){
-      labels += `<text x="${tx.toFixed(2)}" y="${ty.toFixed(2)}" transform="rotate(${rot.toFixed(2)},${tx.toFixed(2)},${ty.toFixed(2)})" text-anchor="middle" dominant-baseline="middle" font-size="15" font-weight="800" fill="#fff" font-family="inherit">?</text>`;
+      labels += `<text x="${tx.toFixed(2)}" y="${ty.toFixed(2)}" transform="rotate(${rot.toFixed(2)},${tx.toFixed(2)},${ty.toFixed(2)})" text-anchor="middle" dominant-baseline="middle" font-size="16" font-weight="800" fill="#fff" font-family="inherit">?</text>`;
     }else{
-      const label = guWheelLabel(th);
-      labels += `<text x="${tx.toFixed(2)}" y="${ty.toFixed(2)}" transform="rotate(${rot.toFixed(2)},${tx.toFixed(2)},${ty.toFixed(2)})" text-anchor="middle" dominant-baseline="middle" font-size="9.5" font-weight="800" fill="#fff" font-family="inherit" style="paint-order:stroke;stroke:#2e1065;stroke-width:2px;stroke-linejoin:round;">${escText(label)}</text>`;
+      const label = guWheelLabel(th, themeIdx);
+      themeIdx++;
+      labels += `<text x="${tx.toFixed(2)}" y="${ty.toFixed(2)}" transform="rotate(${rot.toFixed(2)},${tx.toFixed(2)},${ty.toFixed(2)})" text-anchor="middle" dominant-baseline="middle" font-size="14" font-weight="800" fill="#fff" font-family="inherit" style="paint-order:stroke;stroke:#2e1065;stroke-width:2px;stroke-linejoin:round;">${label}</text>`;
     }
   });
   return `<svg id="gu-wheel-svg" viewBox="0 0 280 280" width="230" height="230">
@@ -7554,7 +7560,7 @@ function guRenderDrawn(body){
     : t('guRetriesUsedUp');
   body.innerHTML = `
     ${guProgressHtml()}
-    <div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon('honeypot',16)}</div><div class="coach-bubble-text chat-bot show">${escText(t('guDrawnIntro'))}</div></div>
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show">${escText(t('guDrawnIntro'))}</div></div>
     <div class="gu-theme-card gu-theme-card-mystery">
       <div class="gu-theme-card-icon">${guIcon(slice.icon, 34)}</div>
       <div class="gu-theme-card-title">${escText(t('guMysteryLabel'))}</div>
@@ -7598,9 +7604,9 @@ function guRenderQuizStep(body){
   if(step >= pool.length){ guState.view = 'reveal'; guRenderRoulette(); return; }
   const qa = pool[step];
   body.innerHTML = `
-    <div class="gu-theme-card gu-theme-card-sm gu-theme-card-mystery">
+    <div class="gu-theme-card gu-theme-card-sm">
       <div class="gu-theme-card-icon">${guIcon(theme.icon, 24)}</div>
-      <div class="gu-theme-card-title">${escText(t('guMysteryLabel'))}</div>
+      <div class="gu-theme-card-title">${escText(theme.title)}</div>
       <div class="gu-quiz-step-label">${step + 1} / ${pool.length}</div>
     </div>
     <div class="coach-bubble-row"><div class="coach-mini-avatar gu-q-icon">${guIcon(theme.icon,16)}</div><div class="coach-bubble-text chat-bot show">${escText(qa.q)}</div></div>
@@ -7612,6 +7618,7 @@ function guRenderQuizStep(body){
     btn.onclick = () => {
       guState.quizPicks.push(Number(btn.dataset.pick));
       guState.totalQuestionsAnswered = (guState.totalQuestionsAnswered || 0) + 1;
+      guState.roundQuestionsAnswered = (guState.roundQuestionsAnswered || 0) + 1;
       guApplyStage(document.getElementById('gu-theme-root'));
       guState.quizStep++;
       guRenderQuizStep(body);
@@ -7646,7 +7653,7 @@ function guRenderReveal(body){
     return;
   }
   document.getElementById('gu-rating-zone').innerHTML = `
-    <div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon('honeypot',16)}</div><div class="coach-bubble-text chat-bot show">${escText(t('guRatingPrompt'))}</div></div>
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show">${escText(t('guRatingPrompt'))}</div></div>
     <div class="gu-rating-row">
       <button type="button" class="gu-rating-btn" data-rate="loved" title="${escText(t('guRatingLoved'))}">${GU_RATING_ICONS.loved}</button>
       <button type="button" class="gu-rating-btn" data-rate="good" title="${escText(t('guRatingGood'))}">${GU_RATING_ICONS.good}</button>
@@ -7670,14 +7677,13 @@ async function guFinishExperience(themeId, rating){
   await guSaveJourney({ discovered: guState.discovered, ratings: guState.ratings, answers: guState.answers, totalSpins: guState.totalSpins, totalQuestionsAnswered: guState.totalQuestionsAnswered });
   guApplyStage(document.getElementById('gu-theme-root'));
   const zone = document.getElementById('gu-rating-zone');
-  if(zone && rating) zone.innerHTML = `<div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon('honeypot',16)}</div><div class="coach-bubble-text chat-bot show">${escText(t('guRatingThanks'))}</div></div>`;
+  if(zone && rating) zone.innerHTML = `<div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show">${escText(t('guRatingThanks'))}</div></div>`;
   setTimeout(() => {
     let nextView;
     if(!guState.infiniteMode){
-      // Chemin "cadeau" : la surprise se déclenche après 10 univers découverts (pas 20).
-      // (Plus de pause mystère automatique ici : les énigmes ne se déclenchent
-      // désormais QUE quand la roue tombe elle-même sur une case "?".)
-      nextView = (guState.discovered.length >= GU_GIFT_TARGET && !guState.sawSurprise) ? 'complete' : 'wheel';
+      // Le round s'arrête à 7 questions répondues (au lieu d'exiger un nombre
+      // d'univers précis) — parties plus courtes, pour les deux jeux.
+      nextView = (guState.roundQuestionsAnswered >= 7 && !guState.sawSurprise) ? 'complete' : 'wheel';
     }else{
       // Mode jeu : ça tourne par sessions de 15 — à chaque fin de session, petit
       // pop-up Honeymoon Coach, puis la bande repart pour une nouvelle session.
@@ -7710,7 +7716,7 @@ function guRenderMysteryQuiz(body){
       <div class="gu-theme-card-icon">${guIcon(riddle.icon, 24)}</div>
       <div class="gu-theme-card-title">${escText(t('guMysteryLabel'))}</div>
     </div>
-    <div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon('honeypot',16)}</div><div class="coach-bubble-text chat-bot show">${escText(riddle.riddle)}</div></div>
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show">${escText(riddle.riddle)}</div></div>
     <div class="gu-choice-row">${riddle.opts.map((opt,i) => `<button type="button" class="gu-choice-btn" data-mystery-pick="${i}">${escText(opt)}</button>`).join('')}</div>
     ${guMenuBackHtml()}
   `;
@@ -7719,6 +7725,7 @@ function guRenderMysteryQuiz(body){
       if(!guState.mysteryUnlocked.includes(riddle.id)) guState.mysteryUnlocked.push(riddle.id);
       guState.currentMystery = null;
       guState.totalQuestionsAnswered = (guState.totalQuestionsAnswered || 0) + 1;
+      guState.roundQuestionsAnswered = (guState.roundQuestionsAnswered || 0) + 1;
       guState.totalSpins++;
       guApplyStage(document.getElementById('gu-theme-root'));
       await guSaveJourney({ mysteryUnlocked: guState.mysteryUnlocked, totalQuestionsAnswered: guState.totalQuestionsAnswered, totalSpins: guState.totalSpins });
@@ -7739,7 +7746,7 @@ function guRenderMysteryBreak(body){
       <div class="gu-theme-card-icon">${guIcon(riddle.icon, 24)}</div>
       <div class="gu-theme-card-title">${escText(t('guMysteryLabel'))}</div>
     </div>
-    <div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon('honeypot',16)}</div><div class="coach-bubble-text chat-bot show">${escText(riddle.riddle)}</div></div>
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show">${escText(riddle.riddle)}</div></div>
     <div class="gu-choice-row">${riddle.opts.map((opt,i) => `<button type="button" class="gu-choice-btn" data-mystery-pick="${i}">${escText(opt)}</button>`).join('')}</div>
   `;
   body.querySelectorAll('[data-mystery-pick]').forEach(btn => {
@@ -7747,6 +7754,7 @@ function guRenderMysteryBreak(body){
       guState.mysteryUnlocked.push(riddle.id);
       guState.currentMystery = null;
       guState.totalQuestionsAnswered = (guState.totalQuestionsAnswered || 0) + 1;
+      guState.roundQuestionsAnswered = (guState.roundQuestionsAnswered || 0) + 1;
       guApplyStage(document.getElementById('gu-theme-root'));
       await guSaveJourney({ mysteryUnlocked: guState.mysteryUnlocked, totalQuestionsAnswered: guState.totalQuestionsAnswered });
       guRenderMysteryUnlock(body, riddle);
@@ -7804,13 +7812,14 @@ function guRenderPresQuizStep(body){
         <div class="gu-theme-card-icon">${guIcon(riddle.icon, 24)}</div>
         <div class="gu-theme-card-title">${escText(t('guMysteryLabel'))}</div>
       </div>
-      <div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon('honeypot',16)}</div><div class="coach-bubble-text chat-bot show">${escText(riddle.riddle)}</div></div>
+      <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show">${escText(riddle.riddle)}</div></div>
       <div class="gu-choice-row">${riddle.opts.map((opt,i) => `<button type="button" class="gu-choice-btn" data-pqpick="${i}">${escText(opt)}</button>`).join('')}</div>
     `;
     body.querySelectorAll('[data-pqpick]').forEach(btn => {
       btn.onclick = async () => {
         guState.mysteryUnlocked.push(riddle.id);
         guState.totalQuestionsAnswered = (guState.totalQuestionsAnswered || 0) + 1;
+      guState.roundQuestionsAnswered = (guState.roundQuestionsAnswered || 0) + 1;
         guApplyStage(document.getElementById('gu-theme-root'));
         await guSaveJourney({ mysteryUnlocked: guState.mysteryUnlocked, totalQuestionsAnswered: guState.totalQuestionsAnswered });
         guRenderMysteryUnlock(body, riddle, () => { guState.presQuizStep++; guRenderPresQuizStep(body); });
@@ -7826,6 +7835,7 @@ function guRenderPresQuizStep(body){
   body.querySelectorAll('[data-pqpick]').forEach(btn => {
     btn.onclick = () => {
       guState.totalQuestionsAnswered = (guState.totalQuestionsAnswered || 0) + 1;
+      guState.roundQuestionsAnswered = (guState.roundQuestionsAnswered || 0) + 1;
       guApplyStage(document.getElementById('gu-theme-root'));
       guState.presQuizStep++;
       guRenderPresQuizStep(body);
@@ -7834,7 +7844,7 @@ function guRenderPresQuizStep(body){
 }
 function guRenderPresFinal(body){
   body.innerHTML = `
-    <div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon('honeypot',16)}</div><div class="coach-bubble-text chat-bot show">${escText(t('guPresIntro'))}</div></div>
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show">${escText(t('guPresIntro'))}</div></div>
     <ul class="coach-welcome-list">
       <li>${escText(t('guPresBullet1'))}</li>
       <li>${escText(t('guPresBullet2'))}</li>
@@ -7977,6 +7987,14 @@ function guOpenRealCoach(){
     guRenderRoulette();
   };
 }
+/* Accès direct à la vraie page d'inscription (le même formulaire que le reste
+   du site) depuis les écrans de fin de Guest Universe — quitte le mini-jeu et
+   bascule sur l'espace membre, directement sur le formulaire d'inscription. */
+function guGoToSignup(){
+  if(typeof openMemberModal !== 'function') return;
+  openMemberModal();
+  if(typeof renderMemberSignup === 'function') renderMemberSignup();
+}
 function guRenderComplete(body){
   guStopSlideshow();
   const isReplay = guState.sawSurprise;
@@ -7985,23 +8003,26 @@ function guRenderComplete(body){
     <div class="gu-complete-card">
       <div class="gu-experience-icon">${guIcon('flame', 40)}</div>
       <div class="gu-theme-card-title" style="margin-top:8px;">${escText(isReplay ? t('guCompleteTitleAgain') : t('guCompleteTitle'))}</div>
-      <div class="gu-theme-card-desc" style="margin-top:6px;">${escText(t('guCompleteBody'))}</div>
+      <div class="gu-theme-card-desc" style="margin-top:6px;">${escText(t('guCompleteBody').replace('{count}', guState.discovered.length))}</div>
       ${guRenderSlideshow()}
       <div class="gu-theme-card-desc" style="margin-top:10px;">${escText(t('guCoachPitch'))}</div>
       <div class="gu-theme-card-desc" style="margin-top:10px;">${escText(t('guBonusMention'))}</div>
       ${showDiceCta
         ? `<button type="button" class="gu-spin-btn gu-dice-btn" id="gu-complete-try-other" style="margin-top:16px;">${guIcon('dice',16)} ${escText(t('guTryDiceCta'))}</button>`
         : `<button type="button" class="gu-spin-btn" id="gu-complete-cta" style="margin-top:16px;">${escText(t('guCompleteCta'))}</button>`}
+      <button type="button" class="gu-choice-btn" id="gu-complete-signup" style="margin-top:10px;">${guIcon('heart',14)} ${escText(t('guSignupCta'))}</button>
       <div class="gu-progress-label" style="text-align:center;margin-top:6px;">${escText(t('guAlreadySeenSurprise'))}</div>
       <button type="button" class="gu-choice-btn" id="gu-just-play-btn" style="margin-top:6px;">${guIcon('compass',14)} ${escText(t('guJustPlay'))}</button>
     </div>
   `;
   guWireSlideshow();
   if(!guState.sawSurprise){ guState.sawSurprise = true; guSaveJourney({ sawSurprise: true }); }
+  document.getElementById('gu-complete-signup').onclick = () => { guStopSlideshow(); guGoToSignup(); };
   if(showDiceCta){
     document.getElementById('gu-complete-try-other').onclick = async () => {
       guStopSlideshow();
       guState.path = 'dice';
+      guState.roundQuestionsAnswered = 0;
       await guSaveJourney({ path: 'dice' });
       guState.diceView = 'dice';
       guRenderRoulette();
@@ -8016,6 +8037,7 @@ function guRenderComplete(body){
     guStopSlideshow();
     guState.infiniteMode = true;
     guState.discovered = [];
+    guState.roundQuestionsAnswered = 0;
     guState.view = 'wheel';
     guRenderRoulette();
   };
@@ -8071,7 +8093,10 @@ function guDiceProgressHtml(){
   return `<div class="gu-progress-wrap"><div class="gu-progress-label">${label}</div><div class="gu-progress-bar"><div class="gu-progress-fill" style="width:${pct}%;"></div><span class="gu-progress-flame${lit ? ' lit' : ''}">${guIcon('flame', 14)}</span></div></div>`;
 }
 function guRenderDiceRoulette(body){
-  if(guState.diceDiscovered.length >= SITE_DICE_THEMES.length && guState.diceView !== 'reveal' && guState.diceView !== 'complete'){
+  // S'arrête à 7 questions répondues, ou quand les 5 facettes ont été vues —
+  // ce qui arrive en premier.
+  const capped = guState.roundQuestionsAnswered >= 7 || guState.diceDiscovered.length >= SITE_DICE_THEMES.length;
+  if(capped && guState.diceView !== 'reveal' && guState.diceView !== 'complete'){
     guState.diceView = 'complete';
   }
   if(guState.diceView === 'drawn'){ guRenderDiceDrawn(body); return; }
@@ -8150,6 +8175,7 @@ function guRenderDiceMysteryQuiz(body){
       if(!guState.mysteryUnlocked.includes(riddle.id)) guState.mysteryUnlocked.push(riddle.id);
       guState.currentMystery = null;
       guState.totalQuestionsAnswered = (guState.totalQuestionsAnswered || 0) + 1;
+      guState.roundQuestionsAnswered = (guState.roundQuestionsAnswered || 0) + 1;
       guApplyStage(document.getElementById('gu-theme-root'));
       await guSaveJourney({ mysteryUnlocked: guState.mysteryUnlocked, totalQuestionsAnswered: guState.totalQuestionsAnswered });
       guRenderMysteryUnlock(body, riddle, () => { guState.diceView = 'dice'; guRenderRoulette(); });
@@ -8184,9 +8210,9 @@ function guRenderDiceQuizStep(body){
   if(step >= pool.length){ guState.diceView = 'reveal'; guRenderRoulette(); return; }
   const qa = pool[step];
   body.innerHTML = `
-    <div class="gu-theme-card gu-theme-card-sm gu-theme-card-mystery">
+    <div class="gu-theme-card gu-theme-card-sm">
       <div class="gu-theme-card-icon">${guIcon(theme.icon, 24)}</div>
-      <div class="gu-theme-card-title">${escText(t('guMysteryLabel'))}</div>
+      <div class="gu-theme-card-title">${escText(theme.title)}</div>
       <div class="gu-quiz-step-label">${step + 1} / ${pool.length}</div>
     </div>
     <div class="coach-bubble-row"><div class="coach-mini-avatar gu-q-icon">${guIcon(theme.icon,16)}</div><div class="coach-bubble-text chat-bot show">${escText(qa.q)}</div></div>
@@ -8197,6 +8223,7 @@ function guRenderDiceQuizStep(body){
     btn.onclick = () => {
       guState.diceQuizPicks.push(Number(btn.dataset.dpick));
       guState.totalQuestionsAnswered = (guState.totalQuestionsAnswered || 0) + 1;
+      guState.roundQuestionsAnswered = (guState.roundQuestionsAnswered || 0) + 1;
       guApplyStage(document.getElementById('gu-theme-root'));
       guState.diceQuizStep++;
       guRenderDiceQuizStep(body);
@@ -8246,18 +8273,21 @@ function guRenderDiceComplete(body){
     <div class="gu-complete-card">
       <div class="gu-experience-icon">${guIcon('flame', 40)}</div>
       <div class="gu-theme-card-title" style="margin-top:8px;">${escText(t('guDiceCompleteTitle'))}</div>
-      <div class="gu-theme-card-desc" style="margin-top:6px;">${escText(t('guDiceCompleteBody'))}</div>
+      <div class="gu-theme-card-desc" style="margin-top:6px;">${escText(t('guDiceCompleteBody').replace('{count}', guState.diceDiscovered.length))}</div>
       ${recapHtml}
       <div class="gu-theme-card-desc" style="margin-top:10px;">${escText(t('guCoachPitch'))}</div>
       <div class="gu-theme-card-desc" style="margin-top:10px;">${escText(t('guBonusMention'))}</div>
       ${showWheelCta
         ? `<button type="button" class="gu-spin-btn gu-wheel-btn" id="gu-dice-complete-try-other" style="margin-top:16px;">${guIcon('compass',16)} ${escText(t('guTryWheelCta'))}</button>`
         : `<button type="button" class="gu-spin-btn" id="gu-dice-complete-cta" style="margin-top:16px;">${escText(t('guCompleteCta'))}</button>`}
+      <button type="button" class="gu-choice-btn" id="gu-dice-complete-signup" style="margin-top:10px;">${guIcon('heart',14)} ${escText(t('guSignupCta'))}</button>
     </div>
   `;
+  document.getElementById('gu-dice-complete-signup').onclick = () => { guGoToSignup(); };
   if(showWheelCta){
     document.getElementById('gu-dice-complete-try-other').onclick = async () => {
       guState.path = 'game';
+      guState.roundQuestionsAnswered = 0;
       await guSaveJourney({ path: 'game' });
       guState.view = 'wheel';
       guRenderRoulette();
@@ -8273,7 +8303,7 @@ function guRenderDiceComplete(body){
 function guRenderSessionPopup(body){
   body.innerHTML = `
     <div class="gu-session-popup">
-      <div class="gu-experience-icon">${guIcon('honeypot', 36)}</div>
+      <div class="gu-experience-icon">🍯</div>
       <div class="gu-theme-card-title">${escText(t('guSessionPopupTitle'))}</div>
       <div class="gu-theme-card-desc" style="margin-top:6px;">${escText(t('guSessionPopupBody'))}</div>
       <button type="button" class="gu-spin-btn" id="gu-session-continue" style="margin-top:14px;">${guIcon('compass',14)} ${escText(t('guSessionPopupCta'))}</button>
@@ -8293,7 +8323,7 @@ function guRenderPresentation(){
   // Venu du choix de parcours "Presentation" : vidéo, puis 10 questions avant le CTA final.
   if(guState.path === 'presentation' && !guState.presQuizPool.length && guState.presQuizStep === 0 && !guState.presWatched){
     body.innerHTML = `
-      <div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon('honeypot',16)}</div><div class="coach-bubble-text chat-bot show">${escText(t('guPresIntro'))}</div></div>
+      <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show">${escText(t('guPresIntro'))}</div></div>
       <div class="gu-video-frame">${guIcon('film',26)}<span>${escText(t('guVideoPlaceholder'))}</span></div>
       <button type="button" class="gu-spin-btn" id="gu-pres-start-quiz">${escText(t('guPresQuizCta'))}</button>
     `;
