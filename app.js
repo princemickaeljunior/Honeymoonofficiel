@@ -6833,9 +6833,7 @@ const GUEST_THEMES = [
       { q:'Her first message lands — what tone makes your heart skip?', opts:['Soft and warm','Playful and light','Quietly confident'] },
       { q:'What would make you stop scrolling and stare at her profile?', opts:['Her look','Who she really is underneath','The mystery she leaves open'] },
       { q:'What keeps pulling you back to her page, again and again?', opts:['That steady presence','Her personality','A feeling you can\'t shake'] },
-      { q:'A compliment that would genuinely make her day?', opts:['On her taste','On her presence','Something no one else notices'] },
-      { q:'If she looked you dead in the eye and smiled, what would you feel?', opts:['My stomach drop','Completely disarmed','Like I need to sit down'] },
-      { q:'What would break the spell instantly, no matter how elegant she is?', opts:['Feeling ignored','Feeling like a number','Feeling like the mystery was fake'] }
+      { q:'A compliment that would genuinely make her day?', opts:['On her taste','On her presence','Something no one else notices'] }
     ],
     reveal:'Refined and self-assured, noted — that\'s exactly the kind of creator energy the roster is built around. Coach Honeymoon can help you find her faster, once you\'re in.',
     tip:'Tip: confidence reads faster than polish — a calm, direct opener beats an over-formal one every time.' },
@@ -6845,9 +6843,7 @@ const GUEST_THEMES = [
       { q:'You catch yourself smiling at your phone — what just happened?', opts:['A good joke landed','She teased you first','Something totally random and sweet'] },
       { q:'What makes talking to her feel effortless, like no one\'s watching?', opts:['Nonstop banter','Easy, unforced small talk','Flirty back-and-forth'] },
       { q:'Her voice message pops up — what do you feel before you even press play?', opts:['Curiosity','A little flutter','Pure excitement'] },
-      { q:'A conversation with her ends and you\'re left feeling...', opts:['Lighter','Wanting more','Grinning like an idiot'] },
-      { q:'What would make you laugh so hard you forget to be nervous?', opts:['A perfectly timed joke','Her laughing at herself first','Pure, chaotic honesty'] },
-      { q:'What would you miss most if the fun suddenly stopped?', opts:['The banter','Being teased','Just feeling light around her'] }
+      { q:'A conversation with her ends and you\'re left feeling...', opts:['Lighter','Wanting more','Grinning like an idiot'] }
     ],
     reveal:'Playful it is. That kind of energy is hard to fake — Coach Honeymoon can help you spot it in a creator\'s profile before you even say hello.',
     tip:'Tip: humor lands best when it\'s specific — react to something she actually said, not a generic joke.' },
@@ -6857,9 +6853,7 @@ const GUEST_THEMES = [
       { q:'What wins you over the instant you see her profile?', opts:['She makes the first move','She owns the room','She says what she means'] },
       { q:'She pushes back on something you said — how does that actually feel?', opts:['Exciting, I like the challenge','I want to hear her out','It stings a little, but I respect it'] },
       { q:'What draws you in when she\'s fully, unapologetically herself?', opts:['Her presence','Her certainty','The fact she doesn\'t need you to agree'] },
-      { q:'What tips you completely over the edge?', opts:['She owns the room','She owns her opinions','She owns the moment, every time'] },
-      { q:'What would make your pulse actually pick up around her?', opts:['Her certainty','Her boldness','The fact she\'s never seeking approval'] },
-      { q:'If she called you out on something, honestly, how would that land?', opts:['I\'d respect it instantly','It would sting, but I\'d lean in','I\'d want to prove myself'] }
+      { q:'What tips you completely over the edge?', opts:['She owns the room','She owns her opinions','She owns the moment, every time'] }
     ],
     reveal:'Confidence over comfort, got it. That kind of presence is hard to teach — Coach Honeymoon can help you match with creators who actually have it.',
     tip:'Tip: bold doesn\'t mean loud — one clear, direct sentence beats three uncertain ones.' },
@@ -6869,9 +6863,7 @@ const GUEST_THEMES = [
       { q:'What would genuinely melt you, coming from her?', opts:['Real kindness','Quiet patience','That she actually meant it'] },
       { q:'Months from now, what would you still remember about her?', opts:['How she made you feel','What she said','The way she really listened'] },
       { q:'A small gesture from her that would catch you off guard, in a good way?', opts:['She checked in first','She remembered a tiny detail','She was just... there'] },
-      { q:'What tone from her would disarm you completely?', opts:['Gentle honesty','Quiet reassurance','Warmth with no strings attached'] },
-      { q:'What would make you trust her almost instantly?', opts:['She\'s consistent','She\'s honest, even when it\'s hard','She never makes me feel small'] },
-      { q:'What would genuinely touch you, coming from her out of nowhere?', opts:['"I was thinking of you"','"You matter to me"','Just her showing up, unprompted'] }
+      { q:'What tone from her would disarm you completely?', opts:['Gentle honesty','Quiet reassurance','Warmth with no strings attached'] }
     ],
     reveal:'Gentle and genuine — that\'s a real thread through a lot of what visitors ask for. Coach Honeymoon can help you find creators who lead with exactly that.',
     tip:'Tip: warmth is contagious — ask one genuine question and actually wait for the answer.' },
@@ -6881,9 +6873,7 @@ const GUEST_THEMES = [
       { q:'Her energy feels deep and unreadable — what does that stir in you?', opts:['Fascination','A quiet ache to understand her','A little unease'] },
       { q:'What keeps you up wondering about her, long after the chat ends?', opts:['What she\'s not saying','What she\'d reveal if she trusted me','Both, honestly'] },
       { q:'A silence between her messages — how does it actually feel?', opts:['Comfortable','Charged, almost electric','A little tense'] },
-      { q:'What draws you in when there\'s clearly more beneath the surface?', opts:['Her depth','Her restraint','The intensity she\'s holding back'] },
-      { q:'If she finally let her guard down with you, what would that feel like?', opts:['Earned','Terrifying, in a good way','Like winning something rare'] },
-      { q:'What would you risk to find out what she\'s really hiding?', opts:['My pride','Time','Nothing — the mystery is the point'] }
+      { q:'What draws you in when there\'s clearly more beneath the surface?', opts:['Her depth','Her restraint','The intensity she\'s holding back'] }
     ],
     reveal:'Depth over small talk, clearly. That kind of intensity is rare on a creator\'s page — Coach Honeymoon can help you recognize it, and know what to do with it.',
     tip:'Tip: patience wins here — let a conversation breathe instead of filling every silence.' },
@@ -6893,9 +6883,7 @@ const GUEST_THEMES = [
       { q:'What are you really craving, underneath everything else?', opts:['Someone to talk to','Someone who actually gets it','Just not feeling so alone'] },
       { q:'If tonight went right, what would that ache turn into?', opts:['Relief','Being understood','That spark again'] },
       { q:'What stops you from reaching out first, even when you want to?', opts:['Fear of being brushed off','Not knowing what to say','Just... tired of trying'] },
-      { q:'What would it actually mean to feel truly seen tonight?', opts:['Everything','More than I\'d admit','A first step'] },
-      { q:'What\'s the thing you wish someone would just ask you right now?', opts:['"How are you, really?"','"What do you need?"','"Can I just sit with you?"'] },
-      { q:'If the loneliness lifted tonight, even a little, what would that feel like?', opts:['A deep breath, finally','Hope, cautiously','Like remembering who I am'] }
+      { q:'What would it actually mean to feel truly seen tonight?', opts:['Everything','More than I\'d admit','A first step'] }
     ],
     reveal:'That\'s worth naming, not brushing off. Coach Honeymoon can help you find a creator worth actually talking to — not just scrolling past.',
     tip:'Tip: reaching out first, even briefly, breaks the cycle faster than waiting to feel ready.' },
@@ -6905,9 +6893,7 @@ const GUEST_THEMES = [
       { q:'What hurts most when a conversation stays surface-level?', opts:['Feeling invisible','Feeling misread','Feeling like it doesn\'t matter'] },
       { q:'What are you really hoping for from someone new?', opts:['To finally be listened to','To be challenged, gently','To be surprised by how well they get me'] },
       { q:'When you do open up, what does it cost you?', opts:['Almost nothing, once I trust them','A lot, honestly','I rarely let myself'] },
-      { q:'What would "being understood" feel like, right now, tonight?', opts:['A relief','Overdue','Almost too much to hope for'] },
-      { q:'What\'s the feeling you never quite manage to explain to anyone?', opts:['How much I actually feel things','Why I go quiet sometimes','What I\'m actually afraid of'] },
-      { q:'If someone finally understood you completely, what would change?', opts:['I\'d relax, finally','I\'d stop performing','I\'d let them closer'] }
+      { q:'What would "being understood" feel like, right now, tonight?', opts:['A relief','Overdue','Almost too much to hope for'] }
     ],
     reveal:'Noted — that\'s not a small ask, and it\'s a fair one. Coach Honeymoon can help you actually get it, whether that\'s from a creator or from real dating advice.',
     tip:'Tip: being understood starts with being specific — vague feelings are hard for anyone to meet.' },
@@ -6917,9 +6903,7 @@ const GUEST_THEMES = [
       { q:'What\'s really underneath the hesitation, if you\'re honest?', opts:['Fear of rejection','Not wanting to say the wrong thing','Just being tired of overthinking'] },
       { q:'A message goes unanswered — what does that quiet actually do to you?', opts:['Barely touches me','Sits with me for a while','Replays in my head for days'] },
       { q:'What would it feel like to finally not care so much?', opts:['Freeing','Like myself again','Almost unimaginable'] },
-      { q:'Before you send anything, what\'s the voice in your head saying?', opts:['"Just say it"','"What if this is wrong"','Both, at the same time'] },
-      { q:'What would it take for that inner voice to finally quiet down?', opts:['One good result','Someone patient with me','Just deciding to stop listening to it'] },
-      { q:'If you sent the message and it actually went well, what would you feel?', opts:['Relief, mostly','Proud of myself','Like maybe I can do this'] }
+      { q:'Before you send anything, what\'s the voice in your head saying?', opts:['"Just say it"','"What if this is wrong"','Both, at the same time'] }
     ],
     reveal:'That hesitation is more common than it feels like in the moment. Coach Honeymoon can help you get past it, one honest message at a time.',
     tip:'Tip: confidence is built by small reps, not by waiting to feel ready first.' },
@@ -6929,9 +6913,7 @@ const GUEST_THEMES = [
       { q:'What are you quietly protecting yourself from this time?', opts:['Getting hurt like that again','Rushing and regretting it','Losing myself again'] },
       { q:'What would actually make you feel safe enough to try again?', opts:['No pressure at all','Someone patient with my pace','Just permission to go slow'] },
       { q:'Is it hope you\'re chasing right now, or just relief?', opts:['Hope','Relief','Honestly, both'] },
-      { q:'What would "ready" actually feel like, in your chest?', opts:['Lighter','Curious again','Less guarded, finally'] },
-      { q:'What\'s the one thing you\'re quietly hoping this time will be different?', opts:['That it lasts','That I stay myself','That I don\'t brace for it to end'] },
-      { q:'If you let yourself hope again, even a little, what would that cost you?', opts:['Nothing, honestly','My guard, a bit','Everything, if it goes wrong'] }
+      { q:'What would "ready" actually feel like, in your chest?', opts:['Lighter','Curious again','Less guarded, finally'] }
     ],
     reveal:'There\'s no timeline that\'s wrong here. Coach Honeymoon can help you go at your own pace — no pressure, ever.',
     tip:'Tip: \'ready\' isn\'t a feeling you wait for — it shows up gradually, in small low-stakes moments.' },
@@ -6941,66 +6923,12 @@ const GUEST_THEMES = [
       { q:'What\'s the ache that keeps showing up in every almost-connection?', opts:['A lack of depth','Inconsistency','Something just never felt honest'] },
       { q:'If you found something real, even here, what would that feel like?', opts:['Like finally exhaling','Like being chosen','Like hope, actually paying off'] },
       { q:'Do you still let yourself believe that\'s findable?', opts:['Yes, stubbornly','I want to','Some days, barely'] },
-      { q:'What would break your heart fastest, if it happened again?', opts:['Being ghosted','Being lied to','Realizing they never really saw me'] },
-      { q:'What\'s the quiet fear underneath wanting something real?', opts:['That I\'ll be too much','That it won\'t last','That I don\'t deserve it'] },
-      { q:'If you finally found it, what would you finally let yourself feel?', opts:['Safe','Chosen','Like I can stop bracing'] }
+      { q:'What would break your heart fastest, if it happened again?', opts:['Being ghosted','Being lied to','Realizing they never really saw me'] }
     ],
     reveal:'That hope is worth holding onto — even on the days it feels far off. Coach Honeymoon is exactly built to help you find something that lasts.',
     tip:'Tip: consistency beats intensity — small, steady effort outlasts a big first impression.' }
 ];
 const GUEST_MAX_RETRIES = 2;
-
-/* ================================================================
-   VARIATION DE PHRASES — pour que l'intro et les lignes qui reviennent à
-   chaque tour (roue ou dé) ne redisent jamais mot pour mot la même chose,
-   même en rejouant plusieurs fois. Technique : une petite banque de
-   formulations différentes par ligne (même sens, mots différents), tirée au
-   hasard à chaque affichage, avec un anti-répétition (jamais deux fois de
-   suite la même) — donne l'impression d'un contenu quasi infini sans avoir à
-   écrire des dizaines de milliers de lignes. */
-const GU_PHRASE_BANKS = {
-  drawnIntro: [
-    "You landed on:",
-    "Here's where you landed:",
-    "Look what came up:",
-    "Your pick this round:",
-    "Here's what's waiting for you:",
-    "This is what you drew:",
-    "Let's see what this is about:",
-    "Here's your mystery this time:"
-  ],
-  ratingPrompt: [
-    "Did you like this discovery?",
-    "So, did that one land?",
-    "How did that one feel?",
-    "Worth the spin?",
-    "Did that one hit close to home?",
-    "What did you think of that one?"
-  ],
-  ratingThanks: [
-    "Thanks — noted.",
-    "Got it, thank you.",
-    "Noted, appreciate that.",
-    "Thanks for sharing that.",
-    "Good to know, thank you."
-  ],
-  welcomeBody: [
-    "Not just a site. An experience — answer freely, and there's something waiting for you once you've explored enough of it. Come back and play again anytime — it's rich enough that no two rounds ever feel the same.",
-    "Not just a site — an experience. Answer honestly, there's something waiting for you once you've explored enough. You can replay this as many times as you like — there's plenty of content, it never runs the same twice.",
-    "Not just a site. An experience — be honest with your answers, and something's waiting once you've explored enough of it. Feel free to come back and play again — it's built with enough content to stay different every time.",
-    "Not just a site — a real experience. Answer freely, there's something waiting once you've gone deep enough. And you can always come back for another round — there's more than enough here to keep it fresh."
-  ]
-};
-let guLastPhrase = {};
-function guVary(key){
-  const bank = GU_PHRASE_BANKS[key];
-  if(!bank || !bank.length) return '';
-  if(bank.length === 1) return bank[0];
-  let pick;
-  do{ pick = bank[Math.floor(Math.random() * bank.length)]; }while(pick === guLastPhrase[key]);
-  guLastPhrase[key] = pick;
-  return pick;
-}
 
 /* ================================================================
    DÉ — deuxième parcours, choisi dès le départ à la place de la roue.
@@ -7013,11 +6941,7 @@ const SITE_DICE_THEMES = [
     questions:[
       { q:'What do you think matters most when a creator joins Honeymoon?', opts:['Her personality','Her consistency','How she treats visitors'] },
       { q:'Would you want to know a creator before subscribing to her?', opts:['Definitely','A little','Not really'] },
-      { q:'What would make you trust a creator\'s profile?', opts:['Real photos','Real answers in chat','Both'] },
-      { q:'If a creator felt genuinely present in chat, how would that change things for you?', opts:['I\'d open up more','I\'d stick around longer','I\'d actually look forward to it'] },
-      { q:'What would make you feel like you picked the right creator to follow?', opts:['She feels real','She\'s consistent','She actually notices me'] },
-      { q:'What matters more to you, long term — her look, or how she makes you feel?', opts:['Her look, honestly','How she makes me feel','Both, but feeling wins'] },
-      { q:'What would disappoint you most in a creator?', opts:['Feeling like a number','Inconsistency','Not being genuine'] }
+      { q:'What would make you trust a creator\'s profile?', opts:['Real photos','Real answers in chat','Both'] }
     ],
     reveal:'Every creator on Honeymoon is picked, not just listed — that\'s exactly the kind of thing Coach Honeymoon can walk you through in more detail.',
     tip:'Tip: a creator\'s bio and her actual replies usually tell you more than her photos do.' },
@@ -7025,11 +6949,7 @@ const SITE_DICE_THEMES = [
     questions:[
       { q:'When you message a creator, what matters most to you?', opts:['A real answer','A fast answer','A warm one'] },
       { q:'Do you prefer free chat or a more private space?', opts:['Free chat first','Straight to private','Depends on the creator'] },
-      { q:'What would make a first message feel less awkward?', opts:['Knowing what to say','Knowing she\'ll actually read it','Just going for it'] },
-      { q:'What would make you feel like a conversation actually mattered to her?', opts:['She remembered details','She asked follow-up questions','She stayed present, not distracted'] },
-      { q:'How would it feel to send a message and get a genuine, thoughtful reply?', opts:['Reassuring','Exciting','Like it was worth the nerve'] },
-      { q:'What would make you want to keep a conversation going?', opts:['Real curiosity from her','Feeling like myself','A little tension, in a good way'] },
-      { q:'What would make chat feel worth coming back to, every day?', opts:['Consistency','Honesty','That spark, however small'] }
+      { q:'What would make a first message feel less awkward?', opts:['Knowing what to say','Knowing she\'ll actually read it','Just going for it'] }
     ],
     reveal:'Chat on Honeymoon is built to feel like an actual conversation, not a queue. Coach Honeymoon can help you make the most of it.',
     tip:'Tip: a short, specific first message gets read — and answered — far more often than a generic one.' },
@@ -7037,11 +6957,7 @@ const SITE_DICE_THEMES = [
     questions:[
       { q:'What matters most in a subscription for you?', opts:['What\'s included','The price','How often she posts'] },
       { q:'Would you rather subscribe, or send a one-off tip?', opts:['Subscribe','Tip when it feels right','Both, depending'] },
-      { q:'What would make a pack feel worth it?', opts:['Exclusivity','Personal touch','Just quality'] },
-      { q:'What would make you feel good about subscribing, not just curious?', opts:['Knowing exactly what I\'m getting','A personal note from her','Trusting she\'ll deliver'] },
-      { q:'What would make you regret a purchase?', opts:['Feeling misled','No real connection behind it','Nothing personal about it at all'] },
-      { q:'What would make you want to subscribe again next month?', opts:['Consistency','Feeling appreciated','Genuine excitement for more'] },
-      { q:'What matters more when spending on a creator — the content, or the connection?', opts:['The content','The connection','Honestly, both equally'] }
+      { q:'What would make a pack feel worth it?', opts:['Exclusivity','Personal touch','Just quality'] }
     ],
     reveal:'Every creator sets her own offers — packs, subscriptions, tips — so nothing here is one-size-fits-all. Coach Honeymoon can help you figure out what\'s actually worth it.',
     tip:'Tip: read what\'s actually included before subscribing — the details vary a lot from one creator to the next.' },
@@ -7049,11 +6965,7 @@ const SITE_DICE_THEMES = [
     questions:[
       { q:'What matters most to you about privacy here?', opts:['Staying anonymous', 'Knowing my data is safe','Both, equally'] },
       { q:'Would you feel comfortable being fully yourself in chat?', opts:['Yes, easily','With time','Not sure yet'] },
-      { q:'What would make you feel safest on a platform like this?', opts:['Clear rules','Real moderation','Control over what I share'] },
-      { q:'What would make you feel truly free to be yourself here?', opts:['Knowing no one\'s judging','Anonymity, if I want it','Just trusting the space'] },
-      { q:'What would worry you most about a platform like this?', opts:['Data leaking somewhere','Being recognized','Losing control over what I share'] },
-      { q:'How would it feel to know your privacy was genuinely respected?', opts:['A huge relief','Like I could finally relax','Like trust, earned'] },
-      { q:'What matters more to you — total anonymity, or a space that just feels safe?', opts:['Total anonymity','A space that feels safe','Honestly, both'] }
+      { q:'What would make you feel safest on a platform like this?', opts:['Clear rules','Real moderation','Control over what I share'] }
     ],
     reveal:'Privacy isn\'t an afterthought on Honeymoon — it\'s part of how the whole site is built. Coach Honeymoon can walk you through exactly what that means for you.',
     tip:'Tip: you\'re always in control of what you share — pace yourself, there\'s no rush.' },
@@ -7061,11 +6973,7 @@ const SITE_DICE_THEMES = [
     questions:[
       { q:'If you\'re stuck on what to say, what would help most?', opts:['A clear opener','Someone to ask','Practice'] },
       { q:'Would you want real guidance, or just to figure it out yourself?', opts:['Real guidance','Mostly myself','A bit of both'] },
-      { q:'What would you actually want help with first?', opts:['Confidence','Reading signals','Making a real connection'] },
-      { q:'If real guidance actually worked for you, what would change first?', opts:['I\'d stop overthinking','I\'d finally reach out','I\'d feel like myself again'] },
-      { q:'What\'s the moment you\'d most want someone in your corner for?', opts:['The first message','After a silence','Right before giving up'] },
-      { q:'What would it feel like to finally understand what you\'ve been doing wrong?', opts:['Relief','A little embarrassing, but freeing','Like a weight lifting'] },
-      { q:'What would real, honest guidance actually be worth to you right now?', opts:['A lot, honestly','More than I\'d admit','Everything, if it worked'] }
+      { q:'What would you actually want help with first?', opts:['Confidence','Reading signals','Making a real connection'] }
     ],
     reveal:'That\'s exactly the job — Coach Honeymoon gives real, specific answers on all of this: creators, chat, pace, confidence. Not generic advice.',
     tip:'Tip: the more specific your question, the more useful the answer — vague questions get vague answers.' }
@@ -7281,15 +7189,11 @@ function guSample(arr, n){
    seulement chaque thème terminé) — l'ambiance se réchauffe visiblement à chaque
    question, et l'intensité ne redémarre jamais à zéro, même en mode jeu infini. */
 function guStage(){
-  // Basé sur le round EN COURS (remis à zéro à chaque nouvelle partie), pas sur
-  // le cumul de toute la session — sinon la couleur n'a plus le temps de
-  // progresser visiblement sur un round de 7 questions, et repart déjà "à fond"
-  // dès le 2e round. Calé pour parcourir les 5 stades sur les 7 questions.
-  const n = guState.roundQuestionsAnswered || 0;
-  if(n >= 7) return 4;
-  if(n >= 5) return 3;
-  if(n >= 3) return 2;
-  if(n >= 1) return 1;
+  const n = guState.totalQuestionsAnswered;
+  if(n >= 60) return 4;
+  if(n >= 40) return 3;
+  if(n >= 20) return 2;
+  if(n >= 8) return 1;
   return 0;
 }
 function guApplyStage(root){
@@ -7388,7 +7292,7 @@ function guRenderPathChoice(body){
 
 function guRenderNameStep(body){
   body.innerHTML = `
-    <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show">${escText(t('guWelcomeTitle'))}<br><span style="opacity:.75;">${escText(guVary('welcomeBody'))}</span></div></div>
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show">${escText(t('guWelcomeTitle'))}<br><span style="opacity:.75;">${escText(t('guWelcomeBody'))}</span></div></div>
     <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show">${escText(t('guAskName'))}</div></div>
     <input type="text" class="gu-name-input" id="gu-name-input" placeholder="${escText(t('guNamePlaceholder'))}" maxlength="30" />
     <button type="button" class="gu-spin-btn" id="gu-name-submit">${escText(t('guNameSubmit'))}</button>
@@ -7610,7 +7514,7 @@ function guRenderDrawn(body){
     : t('guRetriesUsedUp');
   body.innerHTML = `
     ${guProgressHtml()}
-    <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show">${escText(guVary('drawnIntro'))}</div></div>
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show">${escText(t('guDrawnIntro'))}</div></div>
     <div class="gu-theme-card gu-theme-card-mystery">
       <div class="gu-theme-card-icon">${guIcon(slice.icon, 34)}</div>
       <div class="gu-theme-card-title">${escText(t('guMysteryLabel'))}</div>
@@ -7629,7 +7533,7 @@ function guRenderDrawn(body){
       guState.view = 'mysteryquiz';
       guRenderRoulette();
     }else{
-      guState.activeQuestions = slice.questions.slice();
+      guState.activeQuestions = slice.questions.length > 5 ? guSample(slice.questions, 5) : slice.questions.slice();
       guState.quizStep = 0; guState.quizPicks = []; guState.view = 'quiz'; guRenderRoulette();
     }
   };
@@ -7671,7 +7575,15 @@ function guRenderQuizStep(body){
       guState.roundQuestionsAnswered = (guState.roundQuestionsAnswered || 0) + 1;
       guApplyStage(document.getElementById('gu-theme-root'));
       guState.quizStep++;
-      guRenderQuizStep(body);
+      // Coupe pile à 7 questions sur le round : on termine la question posée,
+      // puis on saute directement à la révélation de CE thème, même s'il lui
+      // restait des questions — pas d'attente jusqu'à la fin du thème entier.
+      if(!guState.infiniteMode && guState.roundQuestionsAnswered >= 7){
+        guState.view = 'reveal';
+        guRenderRoulette();
+      }else{
+        guRenderQuizStep(body);
+      }
     };
   });
   const backBtn = document.getElementById('gu-quiz-back');
@@ -7703,7 +7615,7 @@ function guRenderReveal(body){
     return;
   }
   document.getElementById('gu-rating-zone').innerHTML = `
-    <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show">${escText(guVary('ratingPrompt'))}</div></div>
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show">${escText(t('guRatingPrompt'))}</div></div>
     <div class="gu-rating-row">
       <button type="button" class="gu-rating-btn" data-rate="loved" title="${escText(t('guRatingLoved'))}">${GU_RATING_ICONS.loved}</button>
       <button type="button" class="gu-rating-btn" data-rate="good" title="${escText(t('guRatingGood'))}">${GU_RATING_ICONS.good}</button>
@@ -7727,7 +7639,7 @@ async function guFinishExperience(themeId, rating){
   await guSaveJourney({ discovered: guState.discovered, ratings: guState.ratings, answers: guState.answers, totalSpins: guState.totalSpins, totalQuestionsAnswered: guState.totalQuestionsAnswered });
   guApplyStage(document.getElementById('gu-theme-root'));
   const zone = document.getElementById('gu-rating-zone');
-  if(zone && rating) zone.innerHTML = `<div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show">${escText(guVary('ratingThanks'))}</div></div>`;
+  if(zone && rating) zone.innerHTML = `<div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show">${escText(t('guRatingThanks'))}</div></div>`;
   setTimeout(() => {
     let nextView;
     if(!guState.infiniteMode){
@@ -8058,17 +7970,15 @@ function guRenderComplete(body){
       <div class="gu-theme-card-desc" style="margin-top:10px;">${escText(t('guCoachPitch'))}</div>
       <div class="gu-theme-card-desc" style="margin-top:10px;">${escText(t('guBonusMention'))}</div>
       ${showDiceCta
-        ? `<button type="button" class="gu-spin-btn gu-dice-btn" id="gu-complete-try-other" style="margin-top:16px;">${guIcon('dice',16)} ${escText(t('guTryDiceCta'))}</button>
-           <button type="button" class="gu-choice-btn" id="gu-complete-signup" style="margin-top:10px;">${guIcon('heart',14)} ${escText(t('guSignupCta'))}</button>`
-        : `<button type="button" class="gu-spin-btn" id="gu-complete-signup" style="margin-top:16px;">${guIcon('heart',16)} ${escText(t('guSignupCta'))}</button>`}
+        ? `<button type="button" class="gu-spin-btn gu-dice-btn" id="gu-complete-try-other" style="margin-top:16px;">${guIcon('dice',16)} ${escText(t('guTryDiceCta'))}</button>`
+        : `<button type="button" class="gu-spin-btn" id="gu-complete-cta" style="margin-top:16px;">${escText(t('guCompleteCta'))}</button>`}
+      <button type="button" class="gu-choice-btn" id="gu-complete-signup" style="margin-top:10px;">${guIcon('heart',14)} ${escText(t('guSignupCta'))}</button>
       <div class="gu-progress-label" style="text-align:center;margin-top:6px;">${escText(t('guAlreadySeenSurprise'))}</div>
       <button type="button" class="gu-choice-btn" id="gu-just-play-btn" style="margin-top:6px;">${guIcon('compass',14)} ${escText(t('guJustPlay'))}</button>
     </div>
   `;
   guWireSlideshow();
   if(!guState.sawSurprise){ guState.sawSurprise = true; guSaveJourney({ sawSurprise: true }); }
-  // Le seul objectif ici, une fois les deux jeux essayés, est l'inscription —
-  // plus d'accès direct à Coach Honeymoon depuis cet écran (il faut être membre).
   document.getElementById('gu-complete-signup').onclick = () => { guStopSlideshow(); guGoToSignup(); };
   if(showDiceCta){
     document.getElementById('gu-complete-try-other').onclick = async () => {
@@ -8078,6 +7988,11 @@ function guRenderComplete(body){
       await guSaveJourney({ path: 'dice' });
       guState.diceView = 'dice';
       guRenderRoulette();
+    };
+  }else{
+    document.getElementById('gu-complete-cta').onclick = () => {
+      guStopSlideshow();
+      guOpenRealCoach();
     };
   }
   document.getElementById('gu-just-play-btn').onclick = () => {
@@ -8157,7 +8072,7 @@ function guRenderDiceStage(body){
   if(!guState.diceTried){ guState.diceTried = true; guSaveJourney({ diceTried: true }); }
   body.innerHTML = `
     ${guDiceProgressHtml()}
-    <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show">${escText(guVary('drawnIntro'))}</div></div>
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">🍯</div><div class="coach-bubble-text chat-bot show">${escText(t('guDrawnIntro'))}</div></div>
     <div class="gu-dice-wrap">${guBuildDiceCube()}</div>
     <button type="button" class="gu-spin-btn gu-dice-btn" id="gu-dice-roll-btn">${guIcon('dice',16)} ${escText(t('guDiceRoll'))}</button>
     <button type="button" class="gu-back-link" id="gu-dice-menu-back">${guIcon('backArrow',13)} ${escText(t('guBackToMenu'))}</button>
@@ -8273,7 +8188,14 @@ function guRenderDiceQuizStep(body){
       guState.roundQuestionsAnswered = (guState.roundQuestionsAnswered || 0) + 1;
       guApplyStage(document.getElementById('gu-theme-root'));
       guState.diceQuizStep++;
-      guRenderDiceQuizStep(body);
+      // Même coupe précise à 7 questions côté dé : termine la question posée,
+      // saute directement à la révélation de cette facette.
+      if(guState.roundQuestionsAnswered >= 7){
+        guState.diceView = 'reveal';
+        guRenderRoulette();
+      }else{
+        guRenderDiceQuizStep(body);
+      }
     };
   });
   const backBtn = document.getElementById('gu-dice-quiz-back');
@@ -8326,13 +8248,11 @@ function guRenderDiceComplete(body){
       <div class="gu-theme-card-desc" style="margin-top:10px;">${escText(t('guCoachPitch'))}</div>
       <div class="gu-theme-card-desc" style="margin-top:10px;">${escText(t('guBonusMention'))}</div>
       ${showWheelCta
-        ? `<button type="button" class="gu-spin-btn gu-wheel-btn" id="gu-dice-complete-try-other" style="margin-top:16px;">${guIcon('compass',16)} ${escText(t('guTryWheelCta'))}</button>
-           <button type="button" class="gu-choice-btn" id="gu-dice-complete-signup" style="margin-top:10px;">${guIcon('heart',14)} ${escText(t('guSignupCta'))}</button>`
-        : `<button type="button" class="gu-spin-btn" id="gu-dice-complete-signup" style="margin-top:16px;">${guIcon('heart',16)} ${escText(t('guSignupCta'))}</button>`}
+        ? `<button type="button" class="gu-spin-btn gu-wheel-btn" id="gu-dice-complete-try-other" style="margin-top:16px;">${guIcon('compass',16)} ${escText(t('guTryWheelCta'))}</button>`
+        : `<button type="button" class="gu-spin-btn" id="gu-dice-complete-cta" style="margin-top:16px;">${escText(t('guCompleteCta'))}</button>`}
+      <button type="button" class="gu-choice-btn" id="gu-dice-complete-signup" style="margin-top:10px;">${guIcon('heart',14)} ${escText(t('guSignupCta'))}</button>
     </div>
   `;
-  // Même règle ici : plus de lien direct vers Coach Honeymoon depuis cet écran
-  // une fois les deux jeux essayés — seulement l'inscription.
   document.getElementById('gu-dice-complete-signup').onclick = () => { guGoToSignup(); };
   if(showWheelCta){
     document.getElementById('gu-dice-complete-try-other').onclick = async () => {
@@ -8342,6 +8262,8 @@ function guRenderDiceComplete(body){
       guState.view = 'wheel';
       guRenderRoulette();
     };
+  }else{
+    document.getElementById('gu-dice-complete-cta').onclick = () => { guOpenRealCoach(); };
   }
 }
 
