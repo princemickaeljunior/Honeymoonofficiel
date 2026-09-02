@@ -318,7 +318,7 @@ const I18N = {
     guRatingNo: "Not for me",
     guRatingThanks: "Thanks — noted.",
     guCompleteTitle: "You've explored the whole Honeymoon universe.",
-    guCompleteBody: "20 out of 20 universes discovered. You truly know Honeymoon now.",
+    guCompleteBody: "15 out of 15 universes discovered. You truly know Honeymoon — and its creators — now.",
     guCompleteCta: "Discover Honeymoon Creator",
     guPresIntro: "Honeymoon — not just a site. An experience to discover.",
     guPresBullet1: "A curated roster of creators, each with their own universe",
@@ -340,9 +340,12 @@ const I18N = {
     guAlreadySeenVideo: "Already watched the presentation video?",
     guAskPath: "One last thing before we start, {name} — how do you want to explore?",
     guPathGameTitle: "Play the full game",
-    guPathGameDesc: "20 mysteries to uncover. The wheel, the questions — different every time you play.",
-    guPathPresTitle: "Watch the presentation",
-    guPathPresDesc: "A short video, then 10 quick questions to wrap things up.",
+    guPathGameDesc: "15 mysteries to uncover, straight from the world of Honeymoon's creators. The wheel, the questions — different every time you play.",
+    guPathPresTitle: "Roll the dice",
+    guPathPresDesc: "6 sides, one quick round — a peek behind how Honeymoon actually works.",
+    guDiceRoll: "Roll the dice",
+    guDiceCompleteTitle: "You've rolled through every side of Honeymoon.",
+    guDiceCompleteBody: "6 out of 6 explored. You now know how Honeymoon — and its creators — really work.",
     guPresQuizCta: "Continue",
     guMysteryUnlockedTitle: "Mystery unlocked.",
     guCoachBridgeTag: "Coach Honeymoon knows this one",
@@ -3909,18 +3912,31 @@ if(!document.getElementById('hm-shopbot-gold-style')){
     .guestuniverse-theme{--gu-c0:#ff8a3d;--gu-c1:#ff4040;--gu-c2:#3d7dff;--gu-c3:#9a3dff;--gu-c4:#ffd23d;}
     .gu-progress-wrap{margin:2px 0 14px;}
     .gu-progress-label{font-size:10.5px;color:var(--text-muted);margin-bottom:5px;}
-    .gu-progress-bar{height:6px;border-radius:999px;background:var(--bg);border:1px solid var(--border);overflow:visible;display:flex;align-items:center;gap:6px;}
-    .gu-progress-fill{height:100%;background:linear-gradient(90deg,var(--gu-c0),var(--gu-c1),var(--gu-c2),var(--gu-c3),var(--gu-c4));border-radius:999px;transition:width .5s ease;flex:0 0 auto;}
+    .gu-progress-bar{height:7px;border-radius:999px;background:var(--bg);border:1px solid var(--border);overflow:visible;display:flex;align-items:center;gap:6px;}
+    /* ---- Barre : jaune -> orange -> rouge uniquement (jamais multicolore), avec
+       un léger effet LED (halo qui pulse doucement) qui s'intensifie au fil du
+       remplissage. ---- */
+    .gu-progress-fill{height:100%;background:linear-gradient(90deg,#ffd23d,#ff8a3d,#ff4040);border-radius:999px;transition:width .5s ease, box-shadow .5s ease;flex:0 0 auto;box-shadow:0 0 6px 0 color-mix(in srgb, #ff8a3d 55%, transparent);animation:guBarLed 2.4s ease-in-out infinite;}
+    @keyframes guBarLed{0%,100%{filter:brightness(1);}50%{filter:brightness(1.25);}}
     /* ---- Flamme en bout de barre : grise/éteinte tant que le jeu n'est pas terminé,
-       s'allume (couleur + flicker) une fois les 20 univers découverts. ---- */
+       s'allume (couleur + flicker LED) une fois les 15 univers découverts. ---- */
     .gu-progress-flame{flex:0 0 auto;display:flex;color:var(--border);opacity:.35;transition:.4s;}
-    .gu-progress-flame.lit{color:var(--gu-c1);opacity:1;animation:guFlameFlicker .9s ease-in-out infinite;filter:drop-shadow(0 0 6px color-mix(in srgb, var(--gu-c4) 70%, transparent));}
+    .gu-progress-flame.lit{color:#ff4040;opacity:1;animation:guFlameFlicker .9s ease-in-out infinite, guFlameLed 1.3s ease-in-out infinite;filter:drop-shadow(0 0 6px color-mix(in srgb, #ffd23d 75%, transparent));}
+    @keyframes guFlameLed{0%,100%{filter:drop-shadow(0 0 4px color-mix(in srgb, #ff8a3d 70%, transparent));}50%{filter:drop-shadow(0 0 10px color-mix(in srgb, #ffd23d 90%, transparent));}}
+    /* Icône premium accompagnant le titre de chaque question posée (thème ou dé). */
+    .gu-q-icon{background:linear-gradient(135deg,var(--guest-white),var(--guest-orange));color:#4a2408;box-shadow:0 0 0 1px color-mix(in srgb, var(--guest-orange) 35%, transparent);}
     .gu-name-input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:11px 13px;color:var(--text);font-size:13px;margin:8px 0;}
     .gu-name-input:focus{outline:none;border-color:var(--guest-orange);}
     /* ---- Roue qui tourne (SVG réel, transform CSS calculée en JS) ---- */
     .gu-wheel-wrap{position:relative;display:flex;justify-content:center;align-items:center;padding:10px 0 4px;}
-    .gu-wheel-pointer{position:absolute;top:-2px;left:50%;transform:translateX(-50%);z-index:2;color:var(--guest-orange);filter:drop-shadow(0 2px 4px rgba(0,0,0,.4));}
-    .gu-wheel-spin-holder{will-change:transform;}
+    .gu-wheel-wrap::before{content:'';position:absolute;inset:6px;border-radius:50%;background:radial-gradient(circle, color-mix(in srgb, #7c3aed 35%, transparent), transparent 72%);z-index:0;}
+    .gu-wheel-pointer{position:absolute;top:-2px;left:50%;transform:translateX(-50%);z-index:2;color:#c084fc;filter:drop-shadow(0 2px 4px rgba(0,0,0,.4));}
+    .gu-wheel-spin-holder{will-change:transform;position:relative;z-index:1;}
+    /* ---- Dé à 6 faces (2e parcours) : même esprit que la roue, plus rapide. ---- */
+    .gu-dice-wrap{position:relative;display:flex;justify-content:center;align-items:center;padding:14px 0 8px;perspective:600px;}
+    .gu-dice-holder{will-change:transform;filter:drop-shadow(0 6px 14px rgba(0,0,0,.35));}
+    .gu-dice-holder.gu-dice-rolling{animation:guDiceRoll .09s linear infinite;}
+    @keyframes guDiceRoll{0%{transform:rotate(-8deg) scale(.96);}50%{transform:rotate(8deg) scale(1.04);}100%{transform:rotate(-8deg) scale(.96);}}
     .gu-spin-btn{width:100%;padding:13px;border-radius:14px;border:none;background:linear-gradient(90deg,var(--guest-orange),var(--rose));color:#fff;font-weight:800;font-size:13.5px;cursor:pointer;margin-top:10px;letter-spacing:.2px;display:flex;align-items:center;justify-content:center;gap:7px;}
     .gu-spin-btn:disabled{opacity:.55;cursor:default;}
     .gu-theme-card{border:1px solid var(--guest-orange);border-radius:16px;padding:16px;text-align:center;margin:10px 0;background:linear-gradient(180deg,color-mix(in srgb, var(--guest-orange) 8%, var(--bg-elev)),var(--bg-elev));}
@@ -3975,10 +3991,12 @@ if(!document.getElementById('hm-shopbot-gold-style')){
     .guestuniverse-theme.gu-stage-2 .gu-spin-btn{background:linear-gradient(90deg,var(--gu-c1),var(--gu-c2));}
     .guestuniverse-theme.gu-stage-3 .gu-spin-btn{background:linear-gradient(90deg,var(--gu-c2),var(--gu-c3));}
     .guestuniverse-theme.gu-stage-4 .gu-spin-btn{background:linear-gradient(90deg,var(--gu-c3),var(--gu-c4));}
-    .guestuniverse-theme.gu-stage-1 .gu-wheel-pointer{color:var(--gu-c1);}
-    .guestuniverse-theme.gu-stage-2 .gu-wheel-pointer{color:var(--gu-c2);filter:drop-shadow(0 2px 6px color-mix(in srgb, var(--gu-c2) 70%, transparent));}
-    .guestuniverse-theme.gu-stage-3 .gu-wheel-pointer{color:var(--gu-c3);filter:drop-shadow(0 2px 6px color-mix(in srgb, var(--gu-c3) 70%, transparent));}
-    .guestuniverse-theme.gu-stage-4 .gu-wheel-pointer{color:var(--gu-c4);filter:drop-shadow(0 2px 6px color-mix(in srgb, var(--gu-c4) 70%, transparent));}
+    /* Le pointeur de roue reste violet à tous les stades — la roue ne suit plus
+       la teinte du chat (voir guWheelColorPair()). */
+    .guestuniverse-theme.gu-stage-1 .gu-wheel-pointer,
+    .guestuniverse-theme.gu-stage-2 .gu-wheel-pointer,
+    .guestuniverse-theme.gu-stage-3 .gu-wheel-pointer,
+    .guestuniverse-theme.gu-stage-4 .gu-wheel-pointer{color:#c084fc;filter:drop-shadow(0 2px 6px color-mix(in srgb, #7c3aed 70%, transparent));}
     @keyframes guPulseWarm{0%,100%{box-shadow:0 0 34px -14px color-mix(in srgb, var(--gu-c2) 55%, transparent);}50%{box-shadow:0 0 58px -6px color-mix(in srgb, var(--gu-c4) 80%, transparent);}}
 
     /* ---- Choix de parcours (jeu complet / présentation) ---- */
@@ -6777,249 +6795,220 @@ const GU_DISCOVERY_OPTIONS = ['A friend told me about it', 'Social media', 'Just
    pendant le jeu). Chaque thème = 5 mini-questions à 3 choix, façon test de
    personnalité — dans le même esprit que le Coach Honeymoon. Configurable :
    ajouter/retirer/modifier une entrée suffit. */
+/* 15 thèmes (7 "type" côté créatrice + 8 "need" côté visiteur) — chaque énigme
+   met en scène soit une créatrice de la plateforme, soit le visiteur lui-même,
+   toujours dans l'esprit du Coach Honeymoon (jamais nommé comme un produit
+   pendant le jeu, juste préparé). 5 mini-questions à 3 choix par thème. */
 const GUEST_THEMES = [
   { id:'elegant', track:'type', icon:'gem', title:'Elegant & refined',
     questions:[
-      { q:'First thing you notice?', opts:['Her smile','Her style','Her poise'] },
-      { q:'Natural or glam?', opts:['Natural','Glam','A mix of both'] },
-      { q:'Her voice should sound...', opts:['Soft','Playful','Confident'] },
-      { q:'Her ideal first message?', opts:['A warm hello','A little tease','Something unexpected'] },
-      { q:'What keeps you curious?', opts:['Her look','Her personality','The mystery'] },
-      { q:'What matters when she\'s dressed down?', opts:['She\'s still put together','Comfort over style','I don\'t really notice'] },
-      { q:'A compliment she\'d actually enjoy?', opts:['On her taste','On her presence','Something unexpected'] }
+      { q:'A creator walks into the room — what do you notice first?', opts:['Her smile','Her style','Her poise'] },
+      { q:'Her voice, on a first message, should sound...', opts:['Soft','Playful','Confident'] },
+      { q:'What would make you open her profile twice?', opts:['Her look','Her personality','The mystery around her'] },
+      { q:'What keeps you coming back to a creator\'s page?', opts:['Consistency','Her personality','Her presence'] },
+      { q:'A compliment she\'d actually enjoy reading?', opts:['On her taste','On her presence','Something unexpected'] }
     ],
-    reveal:'Noted — refined and self-assured is your language. The roster being built leans exactly this way, and answers like yours are shaping who joins first.',
+    reveal:'Refined and self-assured, noted — the roster being built on Honeymoon leans exactly this way, and answers like yours shape who joins first.',
     tip:'Tip: confidence reads faster than polish — a calm, direct opener beats an over-formal one every time.' },
   { id:'playful', track:'type', icon:'sparkle', title:'Playful & fun',
     questions:[
-      { q:'Serious or silly first?', opts:['Silly wins','Serious first','Depends on the day'] },
-      { q:'Her sense of humor?', opts:['Sharp and witty','Goofy and warm','Dry and sarcastic'] },
-      { q:'Ideal vibe in chat?', opts:['Nonstop banter','Easy small talk','Flirty back-and-forth'] },
-      { q:'What makes you smile?', opts:['A good joke','Being teased','Random spontaneity'] },
-      { q:'Energy you\'re drawn to?', opts:['High energy','Chill and easy','A little chaotic'] },
-      { q:'Text or voice message?', opts:['Text, always','Voice, for the tone','Whatever fits the moment'] },
-      { q:'Best way to end a fun exchange?', opts:['On a joke','On a cliffhanger','Just naturally'] }
+      { q:'A creator\'s sense of humor should be...', opts:['Sharp and witty','Goofy and warm','Dry and sarcastic'] },
+      { q:'Ideal vibe when you\'re chatting with her?', opts:['Nonstop banter','Easy small talk','Flirty back-and-forth'] },
+      { q:'What makes you actually smile at your screen?', opts:['A good joke','Being teased','Random spontaneity'] },
+      { q:'Text or voice message from her?', opts:['Text, always','Voice, for the tone','Whatever fits the moment'] },
+      { q:'Best way for a fun exchange to end?', opts:['On a joke','On a cliffhanger','Just naturally'] }
     ],
-    reveal:'Playful it is. That kind of energy is hard to fake — and exactly the kind of personality we\'re prioritizing early on.',
+    reveal:'Playful it is. That kind of energy is hard to fake — and exactly the kind of creator personality we\'re prioritizing early on.',
     tip:'Tip: humor lands best when it\'s specific — react to something she actually said, not a generic joke.' },
   { id:'confident', track:'type', icon:'crown', title:'Bold & confident',
     questions:[
-      { q:'Do you like being led, or leading?', opts:['Led','Leading','A bit of both'] },
-      { q:'Confidence that\'s...', opts:['Loud and proud','Quietly certain','A little intimidating'] },
-      { q:'What wins you over first?', opts:['She makes the first move','She holds eye contact','She says what she means'] },
-      { q:'In chat, you like when she\'s...', opts:['Direct','Teasing','In control'] },
-      { q:'What draws you in most?', opts:['Her presence','Her words','Her certainty'] },
-      { q:'She disagrees with you — then what?', opts:['I like the challenge','I\'d want to hear her out','Depends on the topic'] },
+      { q:'In chat, you like when a creator is...', opts:['Direct','Teasing','In control'] },
+      { q:'What wins you over first, on her profile?', opts:['She makes the first move','She holds her frame','She says what she means'] },
+      { q:'What draws you in most about her?', opts:['Her presence','Her words','Her certainty'] },
+      { q:'She disagrees with you in chat — then what?', opts:['I like the challenge','I\'d want to hear her out','Depends on the topic'] },
       { q:'What tips the scale in her favor?', opts:['She owns the room','She owns her opinions','She owns the moment'] }
     ],
-    reveal:'Confidence over comfort, got it. That kind of presence is hard to teach — we\'re actively looking for it.',
+    reveal:'Confidence over comfort, got it. That kind of presence is hard to teach — Honeymoon is actively looking for it in the creators we bring on.',
     tip:'Tip: bold doesn\'t mean loud — one clear, direct sentence beats three uncertain ones.' },
   { id:'sweet', track:'type', icon:'heart', title:'Sweet & gentle',
     questions:[
-      { q:'Softness or spark?', opts:['Softness','Spark','A bit of both'] },
-      { q:'Her tone should feel...', opts:['Warm','Caring','Reassuring'] },
-      { q:'What matters most in her energy?', opts:['Kindness','Patience','Genuine interest'] },
-      { q:'Ideal first exchange?', opts:['A gentle hello','Getting to know you','Comfortable silence'] },
-      { q:'What would you remember most?', opts:['How she made you feel','What she said','How she listened'] },
-      { q:'A small gesture that would matter?', opts:['Checking in first','Remembering a detail','Just being present'] },
+      { q:'Her tone, replying to you, should feel...', opts:['Warm','Caring','Reassuring'] },
+      { q:'What matters most in a creator\'s energy?', opts:['Kindness','Patience','Genuine interest'] },
+      { q:'What would you remember most about her?', opts:['How she made you feel','What she said','How she listened'] },
+      { q:'A small gesture from her that would matter?', opts:['Checking in first','Remembering a detail','Just being present'] },
       { q:'What tone wins you over fastest?', opts:['Gentle honesty','Quiet reassurance','Genuine warmth'] }
     ],
-    reveal:'Gentle and genuine — that\'s a real thread through a lot of what members ask for. Good to know.',
+    reveal:'Gentle and genuine — that\'s a real thread through a lot of what visitors ask for on Honeymoon. Good to know.',
     tip:'Tip: warmth is contagious — ask one genuine question and actually wait for the answer.' },
-  { id:'artistic', track:'type', icon:'film', title:'Artistic & creative',
-    questions:[
-      { q:'What draws you — her taste, or her ideas?', opts:['Her taste','Her ideas','Both'] },
-      { q:'She should feel...', opts:['Original','Dreamy','A little unpredictable'] },
-      { q:'What she creates matters...', opts:['A lot','Some','Not really'] },
-      { q:'Conversation style you\'d enjoy?', opts:['Deep and reflective','Playful and imaginative','Whatever flows'] },
-      { q:'What would impress you?', opts:['A strong point of view','Genuine passion','Doing her own thing'] },
-      { q:'What would you ask about first?', opts:['Her process','Her inspiration','Her latest project'] },
-      { q:'What feels most attractive?', opts:['Having a vision','Following her own rules','Making something real'] }
-    ],
-    reveal:'Someone with a real point of view — noted. That kind of creative energy stands out fast.',
-    tip:'Tip: curiosity is the best compliment — ask about the \'why\' behind what she makes.' },
-  { id:'athletic', track:'type', icon:'flame', title:'Energetic & athletic',
-    questions:[
-      { q:'Her energy should feel...', opts:['Disciplined','Bold','Effortless'] },
-      { q:'What draws you first?', opts:['Her drive','Her confidence','Her lifestyle'] },
-      { q:'Conversation you\'d enjoy?', opts:['Direct and honest','Motivating','Light and easy'] },
-      { q:'What impresses you?', opts:['Consistency','Ambition','Self-discipline'] },
-      { q:'Ideal vibe overall?', opts:['Active and alive','Focused and driven','Fun and free'] },
-      { q:'What would you admire most?', opts:['Her discipline','Her results','Her mindset'] },
-      { q:'Ideal shared activity?', opts:['Something active','Something competitive','Something relaxed after'] }
-    ],
-    reveal:'Drive and discipline — that comes through clearly in your answers.',
-    tip:'Tip: match her energy, don\'t compete with it — enthusiasm reads better than one-upping.' },
   { id:'mysterious', track:'type', icon:'moonstar', title:'Mysterious & intense',
     questions:[
-      { q:'Do you like being fully in the know, or not?', opts:['Fully in the know','A little mystery','Mostly mystery'] },
-      { q:'Her energy should feel...', opts:['Calm on the surface','Intense underneath','Hard to read'] },
-      { q:'What keeps you interested?', opts:['What she doesn\'t say','What she reveals slowly','Both'] },
-      { q:'Ideal first exchange?', opts:['Guarded but honest','Slowly opening up','Straight to depth'] },
-      { q:'What draws you in most?', opts:['Her depth','Her restraint','Her intensity'] },
-      { q:'What would you want to figure out first?', opts:['What she\'s not saying','What she really wants','What makes her laugh'] },
-      { q:'Silence in conversation feels...', opts:['Comfortable','Intriguing','A little tense'] }
+      { q:'With a creator, do you like being fully in the know, or not?', opts:['Fully in the know','A little mystery','Mostly mystery'] },
+      { q:'Her energy, from her photos and bio, should feel...', opts:['Calm on the surface','Intense underneath','Hard to read'] },
+      { q:'What keeps you scrolling her profile?', opts:['What she doesn\'t say','What she reveals slowly','Both'] },
+      { q:'What draws you in most about her?', opts:['Her depth','Her restraint','Her intensity'] },
+      { q:'Silence between her messages feels...', opts:['Comfortable','Intriguing','A little tense'] }
     ],
-    reveal:'Depth over small talk, clearly. That kind of intensity isn\'t common — worth remembering.',
+    reveal:'Depth over small talk, clearly. That kind of intensity isn\'t common on a creator\'s page — worth remembering.',
     tip:'Tip: patience wins here — let a conversation breathe instead of filling every silence.' },
-  { id:'witty', track:'type', icon:'chat', title:'Sharp & witty',
-    questions:[
-      { q:'What matters more — looks or wit?', opts:['Looks first','Wit first','Both, equally'] },
-      { q:'Her comebacks should be...', opts:['Fast','Clever','A little savage'] },
-      { q:'Conversation you\'d enjoy?', opts:['Constant banter','Debate and teasing','Sharp one-liners'] },
-      { q:'What wins you over?', opts:['Being outsmarted a little','Making her laugh','Keeping up with her'] },
-      { q:'What would disappoint you?', opts:['A flat conversation','No pushback, ever','Taking things too seriously'] },
-      { q:'Who should get the last word?', opts:['Her, usually','Me, occasionally','Whoever earns it'] },
-      { q:'What would actually impress you?', opts:['A clever comeback','A well-timed joke','Keeping a straight face'] }
-    ],
-    reveal:'A real back-and-forth — not just pretty replies. Fair, and pretty rare.',
-    tip:'Tip: banter works both ways — let her win a round or two, it keeps things fun.' },
   { id:'glam', track:'type', icon:'star', title:'Glamorous & luxe',
     questions:[
-      { q:'What catches your eye first?', opts:['Her look','Her lifestyle','Her confidence'] },
-      { q:'Her presence should feel...', opts:['Polished','Effortless','Larger than life'] },
-      { q:'What impresses you?', opts:['High standards','Self-assurance','Ambition'] },
-      { q:'Ideal vibe in chat?', opts:['A little exclusive','Warm despite the glam','Straight to the point'] },
-      { q:'What draws you in most?', opts:['The image','What\'s behind it','Both'] },
-      { q:'What matters behind the image?', opts:['Ambition','Kindness','Self-awareness'] },
-      { q:'What would surprise you, in a good way?', opts:['If she\'s down to earth','If she\'s funnier than expected','If she notices you back'] }
+      { q:'What catches your eye first on her profile?', opts:['Her look','Her lifestyle','Her confidence'] },
+      { q:'Her presence in chat should feel...', opts:['Polished','Effortless','Larger than life'] },
+      { q:'What draws you in most, really?', opts:['The image','What\'s behind it','Both'] },
+      { q:'What matters behind the image, for you?', opts:['Ambition','Kindness','Self-awareness'] },
+      { q:'What would surprise you about her, in a good way?', opts:['If she\'s down to earth','If she\'s funnier than expected','If she notices you back'] }
     ],
-    reveal:'Polish with substance behind it — noted, and that combination is exactly what stands out.',
+    reveal:'Polish with substance behind it — noted, and that combination is exactly what stands out among Honeymoon creators.',
     tip:'Tip: notice the details, not just the whole picture — specific compliments land, generic ones don\'t.' },
   { id:'nurturing', track:'type', icon:'ribbon', title:'Warm & attentive',
     questions:[
-      { q:'What matters most to you?', opts:['Feeling cared for','Feeling seen','Feeling relaxed'] },
-      { q:'Her attention should feel...', opts:['Full and present','Steady over time','Natural, not forced'] },
-      { q:'What would you notice first?', opts:['How she listens','How she remembers details','How she makes time'] },
-      { q:'Ideal conversation style?', opts:['Checking in genuinely','Asking real questions','Just being present'] },
-      { q:'What would you value most, long term?', opts:['Consistency','Warmth','Real interest'] },
-      { q:'What builds trust fastest?', opts:['Consistency','Honesty','Patience'] },
+      { q:'Her attention, when she replies, should feel...', opts:['Full and present','Steady over time','Natural, not forced'] },
+      { q:'What would you notice first about how she talks to you?', opts:['How she listens','How she remembers details','How she makes time'] },
+      { q:'What would you value most from her, long term?', opts:['Consistency','Warmth','Real interest'] },
+      { q:'What builds your trust in a creator fastest?', opts:['Consistency','Honesty','Patience'] },
       { q:'What would you want her to notice about you?', opts:['My effort','My honesty','Just me, really'] }
     ],
-    reveal:'Someone who actually pays attention — that\'s a preference worth taking seriously.',
+    reveal:'Someone who actually pays attention — that\'s a preference the creators on Honeymoon take seriously too.',
     tip:'Tip: remembering small details said days ago goes further than any big gesture.' },
   { id:'loneliness', track:'need', icon:'users', title:'More than scrolling',
     questions:[
-      { q:'Lately, evenings feel...', opts:['Quiet','Busy but empty','Fine, honestly'] },
-      { q:'What are you missing most?', opts:['Someone to talk to','Someone who gets it','Just company'] },
+      { q:'Lately, your evenings feel...', opts:['Quiet','Busy but empty','Fine, honestly'] },
+      { q:'What are you missing most, honestly?', opts:['Someone to talk to','Someone who gets it','Just company'] },
       { q:'Do you usually reach out first?', opts:['Rarely','Sometimes','Almost always'] },
-      { q:'What would actually help?', opts:['A real conversation','Less pressure','Just being seen'] },
-      { q:'If tonight went well, what would that feel like?', opts:['Less alone','Understood','Excited again'] },
-      { q:'What do weekends usually look like?', opts:['Quiet, by choice','Quiet, not really by choice','Busy but still lonely'] },
-      { q:'When it\'s quiet, what do you feel?', opts:['Peace, mostly','Restlessness','A mix of both'] }
+      { q:'What would actually help, tonight?', opts:['A real conversation','Less pressure','Just being seen'] },
+      { q:'If tonight went well, what would that feel like?', opts:['Less alone','Understood','Excited again'] }
     ],
-    reveal:'That\'s worth naming, not brushing off. A lot of people carry that quietly.',
+    reveal:'That\'s worth naming, not brushing off. A lot of visitors carry that quietly before they find a creator worth talking to.',
     tip:'Tip: reaching out first, even briefly, breaks the cycle faster than waiting to feel ready.' },
   { id:'understood', track:'need', icon:'headphones', title:'Being heard',
     questions:[
       { q:'Do people usually get you right away?', opts:['Rarely','Eventually','Depends who'] },
       { q:'What frustrates you most in conversations?', opts:['Being misread','Surface-level talk','Not being asked back'] },
-      { q:'What do you actually want from someone new?', opts:['To be listened to','To be challenged','To be surprised'] },
-      { q:'Do you open up easily?', opts:['Not really','Once I trust someone','Pretty quickly'] },
-      { q:'What would "being understood" feel like?', opts:['A relief','Rare','Overdue'] },
-      { q:'When misunderstood, you usually...', opts:['Explain again','Let it go','Feel it for a while'] },
-      { q:'What would help someone get you faster?', opts:['Asking better questions','Giving it time','Just paying attention'] }
+      { q:'What do you actually want from a creator you talk to?', opts:['To be listened to','To be challenged','To be surprised'] },
+      { q:'Do you open up easily, even in chat?', opts:['Not really','Once I trust someone','Pretty quickly'] },
+      { q:'What would "being understood" feel like right now?', opts:['A relief','Rare','Overdue'] }
     ],
-    reveal:'Noted — that\'s not a small ask, and it\'s a fair one.',
+    reveal:'Noted — that\'s not a small ask, and it\'s a fair one, whether it\'s a creator or a real conversation you\'re after.',
     tip:'Tip: being understood starts with being specific — vague feelings are hard for anyone to meet.' },
   { id:'dating_confidence', track:'need', icon:'warning', title:'Feeling sure of yourself',
     questions:[
-      { q:'Approaching someone new feels...', opts:['Easy','Nerve-wracking','Depends on the day'] },
+      { q:'Messaging a creator first feels...', opts:['Easy','Nerve-wracking','Depends on the day'] },
       { q:'What usually holds you back?', opts:['Fear of rejection','Not knowing what to say','Overthinking it'] },
-      { q:'How do you feel after a bad exchange?', opts:['Shake it off','Replay it for days','Somewhere between'] },
-      { q:'What would help most?', opts:['More practice','More confidence','Less pressure'] },
-      { q:'If you felt fully at ease, what would change?', opts:['I\'d reach out more','I\'d relax completely','I\'d say what I mean'] },
-      { q:'Before reaching out, you usually...', opts:['Overthink the message','Just send it','Talk yourself into it'] },
-      { q:'What would rejection actually mean to you?', opts:['Not much, honestly','It stings for a bit','It stays with me'] }
+      { q:'How do you feel after a message goes unanswered?', opts:['Shake it off','Replay it for days','Somewhere between'] },
+      { q:'What would help most, honestly?', opts:['More practice','More confidence','Less pressure'] },
+      { q:'Before sending a message, you usually...', opts:['Overthink it','Just send it','Talk yourself into it'] }
     ],
-    reveal:'That hesitation is more common than it feels like in the moment.',
+    reveal:'That hesitation is more common than it feels like in the moment — creators see it every day too.',
     tip:'Tip: confidence is built by small reps, not by waiting to feel ready first.' },
   { id:'spontaneity', track:'need', icon:'compass', title:'Craving something different',
     questions:[
-      { q:'Your routine lately feels...', opts:['Predictable','Fine','Stale'] },
-      { q:'What would shake things up?', opts:['A new conversation','A surprise','Just something different'] },
-      { q:'Do you take chances easily?', opts:['Rarely','When it matters','Often'] },
-      { q:'What\'s missing from your evenings?', opts:['Excitement','Connection','Both'] },
-      { q:'If something unexpected happened tonight?', opts:['I\'d welcome it','I\'d be cautious','I\'d take the leap'] },
-      { q:'Last time you did something impulsive?', opts:['Recently','A while ago','Can\'t really recall'] },
-      { q:'What stops you from taking chances?', opts:['Fear of the outcome','Not enough time','Habit, mostly'] }
+      { q:'Your evenings lately feel...', opts:['Predictable','Fine','Stale'] },
+      { q:'What would shake things up tonight?', opts:['A new conversation','A surprise','Just something different'] },
+      { q:'Do you take chances easily online?', opts:['Rarely','When it matters','Often'] },
+      { q:'What\'s missing from your routine, really?', opts:['Excitement','Connection','Both'] },
+      { q:'If a creator surprised you tonight?', opts:['I\'d welcome it','I\'d be cautious','I\'d take the leap'] }
     ],
-    reveal:'Nothing wrong with wanting things to feel less routine.',
+    reveal:'Nothing wrong with wanting things to feel less routine — that\'s exactly what discovering a creator\'s world is for.',
     tip:'Tip: one small unplanned move a week can shift a routine more than a big overhaul.' },
-  { id:'emotional_support', track:'need', icon:'bell', title:'Someone in your corner',
-    questions:[
-      { q:'When things are heavy, do you talk about it?', opts:['Rarely','With the right person','Yes, easily'] },
-      { q:'What do you wish people asked more?', opts:['How I\'m really doing','What I need','Nothing — I\'d rather they noticed'] },
-      { q:'Who do you usually lean on?', opts:['No one, really','A close few','Whoever\'s around'] },
-      { q:'What would help right now?', opts:['Someone patient','Someone who listens','Someone who just gets it'] },
-      { q:'If someone checked in tonight?', opts:['Genuinely appreciated','A little overdue','Honestly, needed'] },
-      { q:'When you\'re struggling, you tend to...', opts:['Go quiet','Reach out selectively','Push through alone'] },
-      { q:'What kind of support helps most?', opts:['Someone who listens without fixing','Someone who checks in','Someone who just shows up'] }
-    ],
-    reveal:'That\'s not a small thing to want. It\'s a fair one.',
-    tip:'Tip: it\'s fair to name what you need out loud instead of hoping someone guesses.' },
   { id:'after_breakup', track:'need', icon:'lock', title:'Starting somewhere new',
     questions:[
       { q:'Where are you, really, after the last one?', opts:['Still healing','Mostly okay','Ready, but cautious'] },
       { q:'What are you protecting yourself from?', opts:['Getting hurt again','Rushing in','Overthinking it'] },
-      { q:'What would feel safe right now?', opts:['No pressure','No expectations','Just going slow'] },
+      { q:'What would feel safe, starting to talk to someone again?', opts:['No pressure','No expectations','Just going slow'] },
       { q:'Are you looking to move on, or just breathe?', opts:['Move on','Just breathe','A little of both'] },
-      { q:'What would "ready" actually feel like?', opts:['Lighter','Curious again','Less guarded'] },
-      { q:'What still lingers from the last one?', opts:['Trust issues','Comparison','Not much, honestly'] },
-      { q:'What would starting over feel like?', opts:['Scary but exciting','Just scary','Mostly a relief'] }
+      { q:'What would "ready" actually feel like?', opts:['Lighter','Curious again','Less guarded'] }
     ],
-    reveal:'There\'s no timeline that\'s wrong here. Wherever you are is fair.',
+    reveal:'There\'s no timeline that\'s wrong here. Wherever you are is fair — no pressure, on Honeymoon or anywhere else.',
     tip:'Tip: \'ready\' isn\'t a feeling you wait for — it shows up gradually, in small low-stakes moments.' },
   { id:'no_pressure', track:'need', icon:'globe', title:'No strings, no rush',
     questions:[
       { q:'Does "no pressure" actually feel possible to you?', opts:['Rarely','Sometimes','Yes, with the right person'] },
-      { q:'What usually adds pressure?', opts:['Expectations','Timing','Other people\'s opinions'] },
-      { q:'What would ease that?', opts:['Going at my own pace','Clear boundaries','Just less noise'] },
+      { q:'What usually adds pressure to a new connection?', opts:['Expectations','Timing','Other people\'s opinions'] },
+      { q:'What would ease that, with a creator you like?', opts:['Going at my own pace','Clear boundaries','Just less noise'] },
       { q:'Slow build-up or quick connection?', opts:['Slow build-up','Quick connection','Whatever feels right'] },
-      { q:'What matters most, honestly?', opts:['Feeling in control','Feeling comfortable','Feeling free'] },
-      { q:'What does "taking it slow" mean to you?', opts:['No labels yet','No assumptions yet','Just no rush'] },
-      { q:'What would make you feel rushed?', opts:['Quick declarations','Fast timelines','Other people\'s expectations'] }
+      { q:'What matters most, honestly?', opts:['Feeling in control','Feeling comfortable','Feeling free'] }
     ],
-    reveal:'Fair — pace matters more than people admit.',
+    reveal:'Fair — pace matters more than people admit, and it\'s something every creator on Honeymoon respects too.',
     tip:'Tip: naming your own pace out loud early on removes most of the pressure by default.' },
-  { id:'being_heard', track:'need', icon:'camera', title:'Actually being seen',
-    questions:[
-      { q:'Do you feel noticed, day to day?', opts:['Not really','Sometimes','Depends who\'s around'] },
-      { q:'What do you wish stood out about you?', opts:['My personality','My effort','Something people miss'] },
-      { q:'When did you last feel truly seen?', opts:['Can\'t remember','A while ago','Recently, actually'] },
-      { q:'What would that feel like now?', opts:['A relief','Overdue','Exciting'] },
-      { q:'If someone paid real attention tonight?', opts:['I\'d open up','I\'d be surprised','I\'d finally relax'] },
-      { q:'When do you feel most invisible?', opts:['In groups','In routine, day to day','Rarely, honestly'] },
-      { q:'What would change if someone really noticed you?', opts:['I\'d feel lighter','I\'d open up more','I\'d finally relax'] }
-    ],
-    reveal:'Being seen shouldn\'t be rare. Worth remembering that.',
-    tip:'Tip: being seen often starts with showing a little more of yourself first.' },
   { id:'guidance_approach', track:'need', icon:'rocket', title:'Knowing what to say',
     questions:[
-      { q:'Starting a conversation with someone new feels...', opts:['Easy','Awkward','Fine once it gets going'] },
+      { q:'Starting a conversation with a creator feels...', opts:['Easy','Awkward','Fine once it gets going'] },
       { q:'What usually trips you up?', opts:['The first message','Keeping it going','Reading the signs'] },
       { q:'Do you overthink your replies?', opts:['Constantly','Sometimes','Not really'] },
-      { q:'What would help most?', opts:['Knowing what works','More confidence','Just practice'] },
-      { q:'If it clicked instantly for once?', opts:['Relief','Pure excitement','I wouldn\'t believe it'] },
-      { q:'Your biggest hesitation, honestly?', opts:['Saying the wrong thing','Being ignored','Not knowing when to stop'] },
-      { q:'What would make the first message easier?', opts:['A clear opener','Less self-judgment','Just doing it more often'] }
+      { q:'What would help most, right now?', opts:['Knowing what works','More confidence','Just practice'] },
+      { q:'What would make your first message easier to send?', opts:['A clear opener','Less self-judgment','Just doing it more often'] }
     ],
-    reveal:'That\'s a more common struggle than people let on.',
+    reveal:'That\'s a more common struggle than people let on — and it\'s exactly the kind of thing worth getting real guidance on.',
     tip:'Tip: a short, specific opener beats a clever one — specificity is what gets replies.' },
   { id:'real_connection', track:'need', icon:'trophy', title:'Something that actually lasts',
     questions:[
-      { q:'Chasing something casual, or something real?', opts:['Casual','Real','Not sure yet'] },
+      { q:'With a creator you like, are you after something casual, or something real?', opts:['Casual','Real','Not sure yet'] },
       { q:'What\'s been missing in past connections?', opts:['Depth','Consistency','Honesty'] },
-      { q:'What would "real" look like for you?', opts:['Someone who stays curious','Someone who shows up','Someone who gets it'] },
+      { q:'What would "real" look like for you, even here?', opts:['Someone who stays curious','Someone who shows up','Someone who gets it'] },
       { q:'Do you believe that\'s still findable?', opts:['Yes, definitely','Hopeful','Not sure anymore'] },
-      { q:'If you found it, what would change?', opts:['Everything','A lot','Just enough'] },
-      { q:'What\'s usually the dealbreaker?', opts:['Inconsistency','Dishonesty','Lack of curiosity'] },
-      { q:'What would "worth it" look like?', opts:['Feeling chosen','Feeling safe','Feeling excited, still'] }
+      { q:'What\'s usually the dealbreaker for you?', opts:['Inconsistency','Dishonesty','Lack of curiosity'] }
     ],
-    reveal:'That hope is worth holding onto — even on the days it feels far off.',
+    reveal:'That hope is worth holding onto — even on the days it feels far off. It\'s exactly what Honeymoon is built to help you find.',
     tip:'Tip: consistency beats intensity — small, steady effort outlasts a big first impression.' }
 ];
 const GUEST_MAX_RETRIES = 2;
+
+/* ================================================================
+   DÉ — deuxième parcours, choisi dès le départ à la place de la roue.
+   Même concept que la roue (mystère -> questions -> révélation), mais
+   6 faces au lieu de 20 cases, et un thème unique : comment Honeymoon
+   fonctionne réellement — toujours amené par Coach Honeymoon, qui est
+   justement la personne qui explique aussi le site aux visiteurs. */
+const SITE_DICE_THEMES = [
+  { id:'d_creators', icon:'gem', title:'How creators get chosen',
+    questions:[
+      { q:'What do you think matters most when a creator joins Honeymoon?', opts:['Her personality','Her consistency','How she treats visitors'] },
+      { q:'Would you want to know a creator before subscribing to her?', opts:['Definitely','A little','Not really'] },
+      { q:'What would make you trust a creator\'s profile?', opts:['Real photos','Real answers in chat','Both'] }
+    ],
+    reveal:'Every creator on Honeymoon is picked, not just listed — that\'s exactly the kind of thing Coach Honeymoon can walk you through in more detail.',
+    tip:'Tip: a creator\'s bio and her actual replies usually tell you more than her photos do.' },
+  { id:'d_chat', icon:'chat', title:'How the chat really works',
+    questions:[
+      { q:'When you message a creator, what matters most to you?', opts:['A real answer','A fast answer','A warm one'] },
+      { q:'Do you prefer free chat or a more private space?', opts:['Free chat first','Straight to private','Depends on the creator'] },
+      { q:'What would make a first message feel less awkward?', opts:['Knowing what to say','Knowing she\'ll actually read it','Just going for it'] }
+    ],
+    reveal:'Chat on Honeymoon is built to feel like an actual conversation, not a queue. Coach Honeymoon can help you make the most of it.',
+    tip:'Tip: a short, specific first message gets read — and answered — far more often than a generic one.' },
+  { id:'d_subs', icon:'gift', title:'Subscriptions & content packs',
+    questions:[
+      { q:'What matters most in a subscription for you?', opts:['What\'s included','The price','How often she posts'] },
+      { q:'Would you rather subscribe, or send a one-off tip?', opts:['Subscribe','Tip when it feels right','Both, depending'] },
+      { q:'What would make a pack feel worth it?', opts:['Exclusivity','Personal touch','Just quality'] }
+    ],
+    reveal:'Every creator sets her own offers — packs, subscriptions, tips — so nothing here is one-size-fits-all. Coach Honeymoon can help you figure out what\'s actually worth it.',
+    tip:'Tip: read what\'s actually included before subscribing — the details vary a lot from one creator to the next.' },
+  { id:'d_privacy', icon:'lock', title:'Privacy & safety',
+    questions:[
+      { q:'What matters most to you about privacy here?', opts:['Staying anonymous', 'Knowing my data is safe','Both, equally'] },
+      { q:'Would you feel comfortable being fully yourself in chat?', opts:['Yes, easily','With time','Not sure yet'] },
+      { q:'What would make you feel safest on a platform like this?', opts:['Clear rules','Real moderation','Control over what I share'] }
+    ],
+    reveal:'Privacy isn\'t an afterthought on Honeymoon — it\'s part of how the whole site is built. Coach Honeymoon can walk you through exactly what that means for you.',
+    tip:'Tip: you\'re always in control of what you share — pace yourself, there\'s no rush.' },
+  { id:'d_gifts', icon:'trophy', title:'Tips, gifts & recognition',
+    questions:[
+      { q:'Would sending a small gift feel natural to you?', opts:['Yes, when it\'s deserved','Only if we\'re close','Not really my thing'] },
+      { q:'What would you want in return for a gift?', opts:['A genuine thank you','Nothing, really','A little extra attention'] },
+      { q:'What makes a gesture feel meaningful to you?', opts:['The timing','The thought behind it','That it wasn\'t expected'] }
+    ],
+    reveal:'A gift here is less about the price tag and more about being noticed — on both sides. Coach Honeymoon can help you figure out when and how it actually lands well.',
+    tip:'Tip: a small gift at the right moment means more than a big one sent at random.' },
+  { id:'d_coach', icon:'moonstar', title:'What Coach Honeymoon actually does',
+    questions:[
+      { q:'If you\'re stuck on what to say, what would help most?', opts:['A clear opener','Someone to ask','Practice'] },
+      { q:'Would you want real guidance, or just to figure it out yourself?', opts:['Real guidance','Mostly myself','A bit of both'] },
+      { q:'What would you actually want help with first?', opts:['Confidence','Reading signals','Making a real connection'] }
+    ],
+    reveal:'That\'s exactly the job — Coach Honeymoon gives real, specific answers on all of this: creators, chat, pace, confidence. Not generic advice.',
+    tip:'Tip: the more specific your question, the more useful the answer — vague questions get vague answers.' }
+];
 
 /* ================================================================
    MYSTÈRES — pause énigmatique insérée dans le parcours (jeu 20 questions
@@ -7183,7 +7172,7 @@ function guestId(){
   }catch(e){ return 'gu-fallback'; }
 }
 
-let guState = { tab:'roulette', view:'loading', firstName:null, discoverySource:null, path:null, discovered:[], ratings:{}, answers:{}, retries:0, pendingId:null, quizStep:0, quizPicks:[], activeQuestions:[], loaded:false, wheelRotation:0, totalSpins:0, totalQuestionsAnswered:0, sawSurprise:false, infiniteMode:false, sessionSpins:0, mysteryUnlocked:[], mysteryPending:null, mysteryNext:null, currentMystery:null, lastUnlockAnim:null, presQuizPool:[], presQuizStep:0, presWatched:false };
+let guState = { tab:'roulette', view:'loading', firstName:null, discoverySource:null, path:null, discovered:[], ratings:{}, answers:{}, retries:0, pendingId:null, quizStep:0, quizPicks:[], activeQuestions:[], loaded:false, wheelRotation:0, totalSpins:0, totalQuestionsAnswered:0, sawSurprise:false, infiniteMode:false, sessionSpins:0, mysteryUnlocked:[], mysteryPending:null, mysteryNext:null, currentMystery:null, lastUnlockAnim:null, presQuizPool:[], presQuizStep:0, presWatched:false, diceView:'dice', diceFace:1, dicePendingId:null, diceQuizStep:0, diceQuizPicks:[], diceDiscovered:[], diceSawComplete:false };
 
 async function guLoadJourney(){
   try{
@@ -7200,6 +7189,7 @@ async function guLoadJourney(){
       guState.sawSurprise = !!d.sawSurprise;
       guState.mysteryUnlocked = Array.isArray(d.mysteryUnlocked) ? d.mysteryUnlocked : [];
       guState.path = d.path || null;
+      guState.diceDiscovered = Array.isArray(d.diceDiscovered) ? d.diceDiscovered : [];
     }
   }catch(e){ console.error('guLoadJourney error', e); }
   guState.loaded = true;
@@ -7242,7 +7232,7 @@ function guApplyStage(root){
 }
 
 function openGuestUniverse(){
-  guState = { tab:'roulette', view:'loading', firstName:null, discoverySource:null, path:null, discovered:[], ratings:{}, answers:{}, retries:0, pendingId:null, quizStep:0, quizPicks:[], activeQuestions:[], loaded:false, wheelRotation:0, totalSpins:0, totalQuestionsAnswered:0, sawSurprise:false, infiniteMode:false, sessionSpins:0, mysteryUnlocked:[], mysteryPending:null, mysteryNext:null, currentMystery:null, lastUnlockAnim:null, presQuizPool:[], presQuizStep:0, presWatched:false };
+  guState = { tab:'roulette', view:'loading', firstName:null, discoverySource:null, path:null, discovered:[], ratings:{}, answers:{}, retries:0, pendingId:null, quizStep:0, quizPicks:[], activeQuestions:[], loaded:false, wheelRotation:0, totalSpins:0, totalQuestionsAnswered:0, sawSurprise:false, infiniteMode:false, sessionSpins:0, mysteryUnlocked:[], mysteryPending:null, mysteryNext:null, currentMystery:null, lastUnlockAnim:null, presQuizPool:[], presQuizStep:0, presWatched:false, diceView:'dice', diceFace:1, dicePendingId:null, diceQuizStep:0, diceQuizPicks:[], diceDiscovered:[], diceSawComplete:false };
   renderGuestUniverse(document.getElementById('guestuniverse-page-body'));
   document.getElementById('guestuniverse-backdrop').classList.add('open');
   document.getElementById('guestuniverse-modal').classList.add('open');
@@ -7281,11 +7271,8 @@ function guRenderRoulette(){
   guApplyStage(document.getElementById('gu-theme-root'));
   if(!guState.firstName){ guRenderNameStep(body); return; }
   if(!guState.discoverySource){ guRenderDiscoveryStep(body); return; }
-  if(!guState.path){
-    guState.path = 'game';
-    guSaveJourney({ path: 'game' });
-    guState.view = 'wheel';
-  }
+  if(!guState.path){ guRenderPathChoice(body); return; }
+  if(guState.path === 'dice'){ guRenderDiceRoulette(body); return; }
   if(guState.view === 'loading' || guState.view === 'welcome') { guRenderWelcomeBack(body); return; }
   if(guState.view === 'wheel') { guRenderWheel(body); return; }
   if(guState.view === 'drawn') { guRenderDrawn(body); return; }
@@ -7298,19 +7285,20 @@ function guRenderRoulette(){
   guRenderWelcomeBack(body);
 }
 
-/* Choix explicite, juste après nom + source : partie complète (20 mystères,
-   déroulé différent à chaque session) ou vidéo de présentation (10 questions
-   à la fin). Les deux mènent au même mécanisme de mystère/coach. */
+/* Choix explicite, juste après nom + source : partie complète à la roue (15
+   mystères côté créatrices/visiteurs) ou partie courte au dé à 6 faces
+   (fonctionnement du site, tournée elle aussi vers Coach Honeymoon). Les deux
+   mènent au même mécanisme de mystère/coach à la fin. */
 function guRenderPathChoice(body){
   body.innerHTML = `
     <div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon('honeypot',16)}</div><div class="coach-bubble-text chat-bot show">${escText(t('guAskPath').replace('{name}', escText(guState.firstName)))}</div></div>
     <button type="button" class="gu-path-card" id="gu-path-game">
-      <div class="gu-path-card-icon">${guIcon('dice',22)}</div>
+      <div class="gu-path-card-icon">${guIcon('compass',22)}</div>
       <div class="gu-path-card-title">${escText(t('guPathGameTitle'))}</div>
       <div class="gu-path-card-desc">${escText(t('guPathGameDesc'))}</div>
     </button>
-    <button type="button" class="gu-path-card" id="gu-path-pres">
-      <div class="gu-path-card-icon">${guIcon('film',22)}</div>
+    <button type="button" class="gu-path-card" id="gu-path-dice">
+      <div class="gu-path-card-icon">${guIcon('dice',22)}</div>
       <div class="gu-path-card-title">${escText(t('guPathPresTitle'))}</div>
       <div class="gu-path-card-desc">${escText(t('guPathPresDesc'))}</div>
     </button>
@@ -7321,14 +7309,11 @@ function guRenderPathChoice(body){
     guState.view = 'wheel';
     guRenderRoulette();
   };
-  document.getElementById('gu-path-pres').onclick = async () => {
-    guState.path = 'presentation';
-    await guSaveJourney({ path: 'presentation' });
-    guState.presQuizStep = 0;
-    guState.presQuizPool = [];
-    guState.tab = 'presentation';
-    document.querySelectorAll('[data-gutab]').forEach(b => b.classList.toggle('active', b.dataset.gutab === 'presentation'));
-    guRenderPresentation();
+  document.getElementById('gu-path-dice').onclick = async () => {
+    guState.path = 'dice';
+    await guSaveJourney({ path: 'dice' });
+    guState.diceView = 'dice';
+    guRenderRoulette();
   };
 }
 
@@ -7417,21 +7402,12 @@ function guWireMenuBack(){
   if(btn) btn.onclick = () => { guState.view = 'welcome'; guRenderRoulette(); };
 }
 
-/* Roue SVG à 20 secteurs, réellement animée (rotation CSS calculée pour arrêter le
+/* Roue SVG à 15 secteurs, réellement animée (rotation CSS calculée pour arrêter le
    pointeur — fixe en haut — sur le secteur tiré). Icônes premium radiales en traits. */
-/* Paire de couleurs des secteurs selon le stade de progression — se réchauffe et
-   s'assombrit au fil du jeu, comme le fond du chat (voir guStage()). */
+/* Paire de couleurs des secteurs : toujours sur des tons violets (demande explicite),
+   la roue ne suit plus la progression chromatique du reste du chat. */
 function guWheelColorPair(){
-  // 5 teintes qui glissent : orange -> rouge -> bleu -> violet -> jaune, au même
-  // rythme que le reste de l'ambiance (guStage() 0 à 4).
-  const pairs = [
-    ['var(--gu-c0)', 'var(--gu-c1)'],
-    ['var(--gu-c1)', 'color-mix(in srgb, var(--gu-c2) 55%, var(--gu-c1))'],
-    ['color-mix(in srgb, var(--gu-c2) 65%, var(--gu-c1))', 'var(--gu-c2)'],
-    ['var(--gu-c2)', 'color-mix(in srgb, var(--gu-c3) 65%, var(--gu-c2))'],
-    ['color-mix(in srgb, var(--gu-c4) 55%, var(--gu-c3))', 'var(--gu-c4)']
-  ];
-  return pairs[guStage()];
+  return ['#7c3aed', '#4c1d95'];
 }
 /* Ordre des thèmes sur la roue, mélangé une fois par session de jeu (pas par
    spin) — pour que le dessin de la roue soit différent à chaque partie, sans
@@ -7472,12 +7448,15 @@ function guWheelThemes(){
 function guRemainingSlices(){
   return guWheelThemes().filter(s => s.type === 'theme' ? !guState.discovered.includes(s.id) : !guState.mysteryUnlocked.includes(s.riddleId));
 }
-/* Raccourcit un libellé de thème pour qu'il tienne sur une case de roue
-   (garde le premier segment avant "&"/"," si trop long). */
-function guWheelLabel(title){
-  let s = (title || '').split('&')[0].split(',')[0].trim();
-  if(s.length > 14) s = s.slice(0, 13).trim() + '…';
-  return s;
+/* Découpe un libellé de thème sur 1 ou 2 lignes courtes, pour qu'il tienne
+   bien à plat dans sa case (plus de rotation radiale illisible). */
+function guWheelLabelLines(title){
+  const words = (title || '').replace('&', '').split(/\s+/).filter(Boolean);
+  if(words.length <= 1) return [words[0] || ''];
+  const mid = Math.ceil(words.length / 2);
+  let l1 = words.slice(0, mid).join(' '), l2 = words.slice(mid).join(' ');
+  const trim = s => s.length > 12 ? s.slice(0, 11).trim() + '…' : s;
+  return [trim(l1), trim(l2)];
 }
 function guBuildWheelSvg(){
   const themesOrdered = guWheelThemes();
@@ -7492,21 +7471,27 @@ function guBuildWheelSvg(){
     const x0 = cx + R * Math.cos(a0 * Math.PI / 180), y0 = cy + R * Math.sin(a0 * Math.PI / 180);
     const x1 = cx + R * Math.cos(a1 * Math.PI / 180), y1 = cy + R * Math.sin(a1 * Math.PI / 180);
     const mid = a0 + seg / 2;
-    const sectorColor = th.type === 'mystery' ? 'var(--gu-c4)' : (i % 2 === 0 ? colorA : colorB);
-    sectors += `<path d="M${cx},${cy} L${x0.toFixed(2)},${y0.toFixed(2)} A${R},${R} 0 0 1 ${x1.toFixed(2)},${y1.toFixed(2)} Z" fill="${sectorColor}" fill-opacity="${th.type === 'mystery' ? 0.5 : (th.track === 'need' ? 0.92 : 0.6)}" stroke="var(--bg-elev)" stroke-width="1"/>`;
-    // Le texte suit le rayon (lisible de l'extérieur vers le centre), et bascule
-    // à l'endroit selon le côté de la roue pour ne jamais être à l'envers.
-    const tx = cx + (R * 0.78) * Math.cos(mid * Math.PI / 180), ty = cy + (R * 0.78) * Math.sin(mid * Math.PI / 180);
-    let rot = mid + 90;
-    if(rot > 90 && rot < 270) rot += 180;
-    const label = th.type === 'mystery' ? '?' : guWheelLabel(th.title);
-    labels += `<text x="${tx.toFixed(2)}" y="${ty.toFixed(2)}" transform="rotate(${rot.toFixed(2)},${tx.toFixed(2)},${ty.toFixed(2)})" text-anchor="middle" dominant-baseline="middle" font-size="${th.type === 'mystery' ? 15 : 8.5}" font-weight="800" fill="#241206" font-family="inherit">${escText(label)}</text>`;
+    const sectorColor = th.type === 'mystery' ? '#c084fc' : (i % 2 === 0 ? colorA : colorB);
+    sectors += `<path d="M${cx},${cy} L${x0.toFixed(2)},${y0.toFixed(2)} A${R},${R} 0 0 1 ${x1.toFixed(2)},${y1.toFixed(2)} Z" fill="${sectorColor}" fill-opacity="${th.type === 'mystery' ? 0.7 : (th.track === 'need' ? 0.95 : 0.82)}" stroke="#2e1065" stroke-width="1.2"/>`;
+    // Texte toujours à plat (aucune rotation radiale) : reste lisible normalement
+    // quelle que soit la position de la case sur la roue, comme demandé.
+    const tx = cx + (R * 0.66) * Math.cos(mid * Math.PI / 180), ty = cy + (R * 0.66) * Math.sin(mid * Math.PI / 180);
+    if(th.type === 'mystery'){
+      labels += `<text x="${tx.toFixed(2)}" y="${ty.toFixed(2)}" text-anchor="middle" dominant-baseline="middle" font-size="16" font-weight="800" fill="#fff" font-family="inherit">?</text>`;
+    }else{
+      const lines = guWheelLabelLines(th.title);
+      const lineH = 10;
+      const startY = ty - ((lines.length - 1) * lineH) / 2;
+      const tspans = lines.map((ln, li) => `<tspan x="${tx.toFixed(2)}" y="${(startY + li * lineH).toFixed(2)}">${escText(ln)}</tspan>`).join('');
+      labels += `<text text-anchor="middle" dominant-baseline="middle" font-size="9" font-weight="800" fill="#fff" font-family="inherit" style="paint-order:stroke;stroke:#2e1065;stroke-width:2.2px;stroke-linejoin:round;">${tspans}</text>`;
+    }
   });
   return `<svg id="gu-wheel-svg" viewBox="0 0 280 280" width="230" height="230">
+    <circle cx="${cx}" cy="${cy}" r="${R + 6}" fill="#2e1065"/>
     <g>${sectors}</g>
     <g>${labels}</g>
-    <circle cx="${cx}" cy="${cy}" r="22" fill="var(--bg-elev)" stroke="var(--guest-orange)" stroke-width="2"/>
-    <g transform="translate(${cx - 11},${cy - 11})" fill="none" stroke="var(--guest-orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${GU_ICON_PATHS.honeypot}</g>
+    <circle cx="${cx}" cy="${cy}" r="22" fill="var(--bg-elev)" stroke="#c084fc" stroke-width="2"/>
+    <g transform="translate(${cx - 11},${cy - 11})" fill="none" stroke="#c084fc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${GU_ICON_PATHS.honeypot}</g>
   </svg>`;
 }
 
@@ -7606,7 +7591,7 @@ function guRenderQuizStep(body){
       <div class="gu-theme-card-title">${escText(t('guMysteryLabel'))}</div>
       <div class="gu-quiz-step-label">${step + 1} / ${pool.length}</div>
     </div>
-    <div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon('honeypot',16)}</div><div class="coach-bubble-text chat-bot show">${escText(qa.q)}</div></div>
+    <div class="coach-bubble-row"><div class="coach-mini-avatar gu-q-icon">${guIcon(theme.icon,16)}</div><div class="coach-bubble-text chat-bot show">${escText(qa.q)}</div></div>
     <div class="gu-choice-row">${qa.opts.map((opt,i) => `<button type="button" class="gu-choice-btn" data-pick="${i}">${escText(opt)}</button>`).join('')}</div>
     ${step > 0 ? `<button type="button" class="gu-back-link" id="gu-quiz-back">${guIcon('backArrow',13)} ${escText(t('guBack'))}</button>` : ''}
     ${guMenuBackHtml()}
@@ -7979,7 +7964,7 @@ function guOpenRealCoach(){
   gubody.innerHTML = `<div id="gu-real-coach"></div><button type="button" class="gu-back-link" id="gu-coach-back-to-game">${guIcon('backArrow',13)} ${escText(t('guBackToMenu'))}</button>`;
   renderMemberToolMatchWords(document.getElementById('gu-real-coach'), null);
   document.getElementById('gu-coach-back-to-game').onclick = () => {
-    guState.view = 'wheel';
+    if(guState.path === 'dice'){ guState.diceView = 'dice'; } else { guState.view = 'wheel'; }
     guRenderRoulette();
   };
 }
@@ -8011,6 +7996,176 @@ function guRenderComplete(body){
     guState.view = 'wheel';
     guRenderRoulette();
   };
+}
+
+/* ================================================================
+   MOTEUR DU DÉ — deuxième parcours, même concept que la roue (mystère ->
+   questions -> révélation -> récap) mais avec un dé à 6 faces réel (pips
+   SVG, animation de lancer) et un contenu tourné vers le fonctionnement
+   du site, toujours amené par Coach Honeymoon. ================================================================== */
+const GU_DICE_PIPS = {
+  1:[[1,1]],
+  2:[[0,0],[2,2]],
+  3:[[0,0],[1,1],[2,2]],
+  4:[[0,0],[0,2],[2,0],[2,2]],
+  5:[[0,0],[0,2],[1,1],[2,0],[2,2]],
+  6:[[0,0],[0,2],[1,0],[1,2],[2,0],[2,2]]
+};
+function guBuildDiceSvg(face, size){
+  const pts = GU_DICE_PIPS[face] || GU_DICE_PIPS[1];
+  const dots = pts.map(([r,c]) => `<circle cx="${22 + c*28}" cy="${22 + r*28}" r="7.5" fill="#fff"/>`).join('');
+  return `<svg viewBox="0 0 100 100" width="${size}" height="${size}">
+    <rect x="4" y="4" width="92" height="92" rx="18" fill="#7c3aed" stroke="#2e1065" stroke-width="3"/>
+    ${dots}
+  </svg>`;
+}
+function guDiceProgressHtml(){
+  const count = guState.diceDiscovered.length, total = SITE_DICE_THEMES.length;
+  const label = t('guProgressLabel').replace('{name}', escText(guState.firstName)).replace('{count}', count).replace('{total}', total);
+  const pct = Math.round((count / total) * 100);
+  const lit = count >= total;
+  return `<div class="gu-progress-wrap"><div class="gu-progress-label">${label}</div><div class="gu-progress-bar"><div class="gu-progress-fill" style="width:${pct}%;"></div><span class="gu-progress-flame${lit ? ' lit' : ''}">${guIcon('flame', 14)}</span></div></div>`;
+}
+function guRenderDiceRoulette(body){
+  if(guState.diceDiscovered.length >= SITE_DICE_THEMES.length && guState.diceView !== 'reveal' && guState.diceView !== 'complete'){
+    guState.diceView = 'complete';
+  }
+  if(guState.diceView === 'drawn'){ guRenderDiceDrawn(body); return; }
+  if(guState.diceView === 'quiz'){ guRenderDiceQuizStep(body); return; }
+  if(guState.diceView === 'reveal'){ guRenderDiceReveal(body); return; }
+  if(guState.diceView === 'complete'){ guRenderDiceComplete(body); return; }
+  guRenderDiceStage(body);
+}
+function guRenderDiceStage(body){
+  body.innerHTML = `
+    ${guDiceProgressHtml()}
+    <div class="coach-bubble-row"><div class="coach-mini-avatar">${guIcon('honeypot',16)}</div><div class="coach-bubble-text chat-bot show">${escText(t('guDrawnIntro'))}</div></div>
+    <div class="gu-dice-wrap"><div class="gu-dice-holder" id="gu-dice-holder">${guBuildDiceSvg(guState.diceFace || 1, 120)}</div></div>
+    <button type="button" class="gu-spin-btn" id="gu-dice-roll-btn">${guIcon('dice',16)} ${escText(t('guDiceRoll'))}</button>
+    <button type="button" class="gu-back-link" id="gu-dice-menu-back">${guIcon('backArrow',13)} ${escText(t('guBackToMenu'))}</button>
+  `;
+  document.getElementById('gu-dice-roll-btn').onclick = guRollDice;
+  document.getElementById('gu-dice-menu-back').onclick = async () => {
+    guState.path = null;
+    await guSaveJourney({ path: null });
+    guRenderRoulette();
+  };
+}
+function guRollDice(){
+  const btn = document.getElementById('gu-dice-roll-btn');
+  const holder = document.getElementById('gu-dice-holder');
+  if(!holder) return;
+  if(btn) btn.disabled = true;
+  const remaining = SITE_DICE_THEMES.filter(th => !guState.diceDiscovered.includes(th.id));
+  const pool = remaining.length ? remaining : SITE_DICE_THEMES;
+  const chosen = pool[Math.floor(Math.random() * pool.length)];
+  const chosenFace = SITE_DICE_THEMES.findIndex(th => th.id === chosen.id) + 1;
+  holder.classList.add('gu-dice-rolling');
+  let ticks = 0;
+  const iv = setInterval(() => {
+    const randFace = 1 + Math.floor(Math.random() * 6);
+    holder.innerHTML = guBuildDiceSvg(randFace, 120);
+    ticks++;
+    if(ticks > 10){
+      clearInterval(iv);
+      guState.diceFace = chosenFace;
+      holder.innerHTML = guBuildDiceSvg(chosenFace, 120);
+      holder.classList.remove('gu-dice-rolling');
+      setTimeout(() => {
+        guState.dicePendingId = chosen.id;
+        guState.diceView = 'drawn';
+        guRenderRoulette();
+      }, 450);
+    }
+  }, 90);
+}
+function guRenderDiceDrawn(body){
+  const theme = SITE_DICE_THEMES.find(th => th.id === guState.dicePendingId);
+  if(!theme){ guState.diceView = 'dice'; guRenderRoulette(); return; }
+  body.innerHTML = `
+    ${guDiceProgressHtml()}
+    <div class="gu-theme-card gu-theme-card-mystery">
+      <div class="gu-theme-card-icon">${guIcon(theme.icon, 34)}</div>
+      <div class="gu-theme-card-title">${escText(t('guMysteryLabel'))}</div>
+    </div>
+    <div class="gu-choice-row">
+      <button type="button" class="gu-choice-btn primary" id="gu-dice-accept">${guIcon('check',14)} ${escText(t('guAccept'))}</button>
+    </div>
+  `;
+  document.getElementById('gu-dice-accept').onclick = () => {
+    guState.diceQuizStep = 0;
+    guState.diceQuizPicks = [];
+    guState.diceView = 'quiz';
+    guRenderRoulette();
+  };
+}
+function guRenderDiceQuizStep(body){
+  const theme = SITE_DICE_THEMES.find(th => th.id === guState.dicePendingId);
+  if(!theme){ guState.diceView = 'dice'; guRenderRoulette(); return; }
+  const step = guState.diceQuizStep;
+  const pool = theme.questions;
+  if(step >= pool.length){ guState.diceView = 'reveal'; guRenderRoulette(); return; }
+  const qa = pool[step];
+  body.innerHTML = `
+    <div class="gu-theme-card gu-theme-card-sm gu-theme-card-mystery">
+      <div class="gu-theme-card-icon">${guIcon(theme.icon, 24)}</div>
+      <div class="gu-theme-card-title">${escText(t('guMysteryLabel'))}</div>
+      <div class="gu-quiz-step-label">${step + 1} / ${pool.length}</div>
+    </div>
+    <div class="coach-bubble-row"><div class="coach-mini-avatar gu-q-icon">${guIcon(theme.icon,16)}</div><div class="coach-bubble-text chat-bot show">${escText(qa.q)}</div></div>
+    <div class="gu-choice-row">${qa.opts.map((opt,i) => `<button type="button" class="gu-choice-btn" data-dpick="${i}">${escText(opt)}</button>`).join('')}</div>
+    ${step > 0 ? `<button type="button" class="gu-back-link" id="gu-dice-quiz-back">${guIcon('backArrow',13)} ${escText(t('guBack'))}</button>` : ''}
+  `;
+  body.querySelectorAll('[data-dpick]').forEach(btn => {
+    btn.onclick = () => {
+      guState.diceQuizPicks.push(Number(btn.dataset.dpick));
+      guState.totalQuestionsAnswered = (guState.totalQuestionsAnswered || 0) + 1;
+      guApplyStage(document.getElementById('gu-theme-root'));
+      guState.diceQuizStep++;
+      guRenderDiceQuizStep(body);
+    };
+  });
+  const backBtn = document.getElementById('gu-dice-quiz-back');
+  if(backBtn){
+    backBtn.onclick = () => {
+      guState.diceQuizStep--;
+      guState.diceQuizPicks.pop();
+      guRenderDiceQuizStep(body);
+    };
+  }
+}
+function guRenderDiceReveal(body){
+  const theme = SITE_DICE_THEMES.find(th => th.id === guState.dicePendingId);
+  if(!theme){ guState.diceView = 'dice'; guRenderRoulette(); return; }
+  body.innerHTML = `
+    <div class="gu-experience">
+      <div class="gu-experience-icon">${guIcon(theme.icon, 40)}</div>
+      <div class="gu-experience-title">${escText(theme.title)}</div>
+      <div class="gu-experience-text">${escText(theme.reveal)}</div>
+      <div class="gu-experience-tip">${guIcon('sparkle',14)} ${escText(theme.tip)}</div>
+    </div>
+    <button type="button" class="gu-spin-btn" id="gu-dice-continue" style="margin-top:14px;">${escText(t('guContinue'))}</button>
+  `;
+  document.getElementById('gu-dice-continue').onclick = async () => {
+    if(!guState.diceDiscovered.includes(theme.id)){
+      guState.diceDiscovered.push(theme.id);
+      await guSaveJourney({ diceDiscovered: guState.diceDiscovered });
+    }
+    guState.diceView = guState.diceDiscovered.length >= SITE_DICE_THEMES.length ? 'complete' : 'dice';
+    guRenderRoulette();
+  };
+}
+function guRenderDiceComplete(body){
+  body.innerHTML = `
+    <div class="gu-complete-card">
+      <div class="gu-experience-icon">${guIcon('flame', 40)}</div>
+      <div class="gu-theme-card-title" style="margin-top:8px;">${escText(t('guDiceCompleteTitle'))}</div>
+      <div class="gu-theme-card-desc" style="margin-top:6px;">${escText(t('guDiceCompleteBody'))}</div>
+      <div class="gu-theme-card-desc" style="margin-top:10px;">${escText(t('guCoachPitch'))}</div>
+      <button type="button" class="gu-spin-btn" id="gu-dice-complete-cta" style="margin-top:16px;">${escText(t('guCompleteCta'))}</button>
+    </div>
+  `;
+  document.getElementById('gu-dice-complete-cta').onclick = () => { guOpenRealCoach(); };
 }
 
 /* Petit pop-up "Honeymoon Coach" en fin de chaque session de jeu (mode infini,
